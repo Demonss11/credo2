@@ -3,9 +3,8 @@
 Каталог содержит функциональные требования к CREDO (прототип `credo2`) в формате
 **Gherkin** (`# language: ru`), разложенные **по одному файлу на фичу**.
 
-Источник: [`../features.md`](../features.md) — исходный документ, где все фичи были
-собраны в одном файле. Здесь они разделены, а расхождения и коллизии имён
-зафиксированы ниже.
+Требования разделены на две части: **backend** CREDO и **frontend** (UI DAR
+Notebook). Расхождения и коллизии имён зафиксированы в конце документа.
 
 ## Как читать
 
@@ -75,6 +74,24 @@
 | [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 4 | ✅ | `check.publish/deprecate/rebuild_manifest/list_published` |
 | [`testing.feature`](testing.feature) | Тестирование | 3 | ✅ | Юнит- и интеграционные тесты, CI |
 
+### Интерфейс DAR Notebook (frontend, план)
+
+> Эти требования описывают **UI-часть** продукта (DAR Notebook) и пока не
+> реализованы в `credo2` — все помечены ⬜. Они работают поверх backend-фич
+> (`check.*`, REST, манифест) через MCP-сервер.
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | Трёхколоночный layout, открытие/создание workspace, командная палитра |
+| [`editor.feature`](editor.feature) | Редактор `.dar` | 7 | ⬜ | Подсветка, автодополнение, диагностика, табы, сохранение |
+| [`inline_execution.feature`](inline_execution.feature) | Инлайн-исполнение | 7 | ⬜ | Кнопка «Выполнить», ввод JSON, блоки результатов, несколько тестов |
+| [`git_integration.feature`](git_integration.feature) | Git в UI | 6 | ⬜ | Статус, визуальный diff, commit, публикация, история версий |
+| [`agent_minimal.feature`](agent_minimal.feature) | Чат с агентом | 7 | ⬜ | MCP через stdio, `check.create/test/publish`, отображение вызовов |
+| [`file_management.feature`](file_management.feature) | Управление файлами | 6 | ⬜ | Создание/переименование/удаление, drag-and-drop, поиск |
+| [`graph_view.feature`](graph_view.feature) | Граф связей | 4 | ⬜ | Визуализация зависимостей правил конвейера |
+| [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | Initialize, диагностика, completion, hover, definition, formatting, токены |
+| [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 6 | ⬜ | Sidecar-процесс, диагностика/completion в CodeMirror, перезапуск |
+
 ### Аналитика и интеграции (план / вау)
 
 | Файл | Категория | Сценариев | Статус | Что покрывает |
@@ -91,7 +108,8 @@
 |---|---|---:|---|---|
 | [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
 
-**Итого: 27 файлов, 122 сценария.**
+**Итого: 36 файлов, 185 сценариев** (backend — 27 файлов / 122 сценария,
+frontend DAR Notebook — 9 файлов / 63 сценария).
 
 ## Соответствие коду
 
@@ -106,10 +124,11 @@
 
 ## Известные расхождения и заметки
 
-1. **Коллизия имени `explain.feature`.** В `features.md` было два файла с этим
-   именем. Первый (языковой, «Движок объясняет каждое решение») сохранён как
-   [`explain.feature`](explain.feature), второй («Полное объяснение каждого
-   решения») переименован в [`explain_full.feature`](explain_full.feature).
+1. **Коллизия имени `explain.feature`.** Изначально было два разных раздела
+   объяснимости с одинаковым именем файла. Первый (языковой, «Движок объясняет
+   каждое решение») сохранён как [`explain.feature`](explain.feature), второй
+   («Полное объяснение каждого решения») переименован в
+   [`explain_full.feature`](explain_full.feature).
 2. **Аутентификация.** `rest_auth.feature` упоминает `CREDO_API_KEY` и заголовок
    `x-api-key`; сценарии `evaluate.feature` говорят про `Authorization`. Реализация
    (`rest.rs`) использует **`x-api-key`**.
@@ -128,3 +147,12 @@
    лексикографическое сравнение; в `core.rs` уже реализовано **числовое** сравнение
    идентификаторов (`compare_pre`), а пример `rc2 < rc10` некорректен по спеке
    (это буквенно-цифровые идентификаторы). См. `core::tests::prerelease_numeric_ordering`.
+8. **Разделение LSP.** LSP описано базовым разделом [`lsp.feature`](lsp.feature)
+   (15 сценариев) плюс отдельным блоком «уточнения» про интеграцию с Notebook.
+   Чтобы сохранить конвенцию «один файл — одна `Функция`», уточнения вынесены в
+   [`lsp_notebook.feature`](lsp_notebook.feature) (6 сценариев).
+9. **Счётчик сценариев `editor.feature`.** Ранее у него указывалось 8 сценариев,
+   фактически их 7. Учтено как 7.
+10. **Синтаксис `Приоритет`.** Сценарии `editor.feature`/`lsp.feature` используют
+    `Приоритет: 100;`, который текущий парсер `credo2` не поддерживает (см. врезку
+    в разделе «Язык DAR» выше) — это целевое состояние DAR.
