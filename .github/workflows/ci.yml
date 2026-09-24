@@ -9,4 +9,7 @@ jobs:
         with: { components: rustfmt, clippy }
       - run: cargo fmt --check
       - run: cargo clippy --all-targets -- -D warnings
+      # Q40: .feature — документация, не исполняемая спецификация.
+      # cargo test включает features_inventory (сверка фич с README).
+      # cucumber-rs — план v0.2.
       - run: cargo test --all

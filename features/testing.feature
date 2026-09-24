@@ -27,3 +27,18 @@
     И выполняется "cargo clippy -- -D warnings"
     И выполняется "cargo test"
     И если любой шаг падает, merge блокируется
+
+  Сценарий: Фичи используются как документация и чек-листы (MVP)
+    Дано фичи "features/*.feature" описывают требования CREDO
+    Тогда в MVP они не исполняются cucumber-раннером
+    И DoD = "cargo fmt --check", "cargo clippy -- -D warnings", "cargo test"
+    И для UI-сценариев выполняется ручной прогон
+    И внедрение cucumber-rs запланировано на v0.2
+
+  Сценарий: Инвентаризация фич синхронизирована с README
+    Тогда существуют тесты:
+      | имя                                  |
+      | feature_files_are_valid_documents    |
+      | feature_files_match_readme_inventory |
+      | scenario_counts_match_readme         |
+      | readme_totals_match_files            |
