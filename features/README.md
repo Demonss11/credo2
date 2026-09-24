@@ -45,6 +45,15 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 > полноценный AST — целевое состояние v0.2 (`lexer.feature`, сценарии AST в
 > `parser.feature`); LSP поверх стабильного API `parse_rule` без ожидания
 > AST (GRAMMAR.md §3).
+>
+> **Решение Q4 (2026-09-24):** `Приоритет` вне MVP — сценарии с
+> `Приоритет: 100;` в `parser.feature`, `execution.feature`,
+> `explain.feature`, `editor.feature`, `lsp.feature`,
+> `client_explanation.feature` относятся к целевому состоянию v0.2.
+>
+> **Решения Q36/Q38 (2026-09-24):** конвейеры/скоринги/таблицы — вне MVP;
+> LSP — в MVP в составе diagnostics + completion + hover + symbols +
+> semanticTokens (SPEC §3.3), formatting/definition/references — v0.2.
 
 ### Черновики, публикация, версионирование
 
