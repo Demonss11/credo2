@@ -1,0 +1,68 @@
+{
+  "drafts": {
+    "CreditAgeMin": {
+      "name": "CreditAgeMin",
+      "rule": {
+        "name": "CreditAgeMin",
+        "condition": {
+          "field": "Клиент.Возраст",
+          "op": "<",
+          "value": 21.0
+        },
+        "action": {
+          "decision": "Отказ",
+          "reason": "Клиент младше 21"
+        }
+      },
+      "contract": {
+        "name": "CreditAgeMin",
+        "version": "0.0.0",
+        "description": "Если Клиент.Возраст < 21 → Отказ",
+        "inputs": [
+          {
+            "name": "Клиент.Возраст",
+            "type": "number"
+          }
+        ],
+        "decisions": [
+          "Отказ",
+          "Pass"
+        ]
+      },
+      "created_at": "2026-09-24T07:19:45.147705900+00:00",
+      "updated_at": "2026-09-24T08:05:20.891356400+00:00"
+    },
+    "LoanMaxAmount": {
+      "name": "LoanMaxAmount",
+      "rule": {
+        "name": "LoanMaxAmount",
+        "condition": {
+          "field": "Сумма.Кредита",
+          "op": ">",
+          "value": 1000000.0
+        },
+        "action": {
+          "decision": "Отказ",
+          "reason": "Слишком большая сумма"
+        }
+      },
+      "contract": {
+        "name": "LoanMaxAmount",
+        "version": "0.0.0",
+        "description": "Если Сумма.Кредита > 1000000 → Отказ",
+        "inputs": [
+          {
+            "name": "Сумма.Кредита",
+            "type": "number"
+          }
+        ],
+        "decisions": [
+          "Отказ",
+          "Pass"
+        ]
+      },
+      "created_at": "2026-09-24T08:38:47.905969100+00:00",
+      "updated_at": "2026-09-24T08:38:47.905969100+00:00"
+    }
+  }
+}
