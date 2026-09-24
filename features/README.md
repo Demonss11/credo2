@@ -4,7 +4,8 @@
 **Gherkin** (`# language: ru`), разложенные **по одному файлу на фичу**.
 
 Требования разделены на две части: **backend** CREDO и **frontend** (UI DAR
-Notebook). Расхождения и коллизии имён зафиксированы в конце документа.
+Notebook). Открытые расхождения с `SPECIFICATION.md` и кодом сведены в
+[`../OPEN_QUESTIONS.md`](../OPEN_QUESTIONS.md).
 
 ## Как читать
 
@@ -122,37 +123,4 @@ frontend DAR Notebook — 9 файлов / 63 сценария).
 | CLI | [`../src/main.rs`](../src/main.rs) |
 | Интеграционные тесты публикации | [`../tests/publish.rs`](../tests/publish.rs) |
 
-## Известные расхождения и заметки
 
-1. **Коллизия имени `explain.feature`.** Изначально было два разных раздела
-   объяснимости с одинаковым именем файла. Первый (языковой, «Движок объясняет
-   каждое решение») сохранён как [`explain.feature`](explain.feature), второй
-   («Полное объяснение каждого решения») переименован в
-   [`explain_full.feature`](explain_full.feature).
-2. **Аутентификация.** `rest_auth.feature` упоминает `CREDO_API_KEY` и заголовок
-   `x-api-key`; сценарии `evaluate.feature` говорят про `Authorization`. Реализация
-   (`rest.rs`) использует **`x-api-key`**.
-3. **Поля манифеста.** `dashboard.feature`/`evaluate.feature` говорят про
-   `kind`/`versions`/`latest`; фактический `ManifestEntry` содержит
-   `name`/`active`/`supported`/`deprecated`.
-4. **Отсутствующее поле.** `errors.feature`/`test_draft.feature` ожидают ошибку
-   «Неизвестное поле», но `evaluate_rule` трактует отсутствующее поле как `0`
-   (см. `AGENTS.md`).
-5. **Формат ветки публикации.** `publish.feature` ожидает ветку
-   `checks/{name}/{version}`; фактически создаётся `publish/{name}-{version}`.
-6. **Иммутабельность.** `immutability.feature` описывает защиту через
-   `create_dir_all`/`AlreadyExists`; в `credo2` хранилище — **bare git**, защита
-   обеспечивается проверкой дубликата версии и атомарным `create_ref`.
-7. **Числовая сортировка prerelease.** В `deferred.feature` зафиксировано как
-   лексикографическое сравнение; в `core.rs` уже реализовано **числовое** сравнение
-   идентификаторов (`compare_pre`), а пример `rc2 < rc10` некорректен по спеке
-   (это буквенно-цифровые идентификаторы). См. `core::tests::prerelease_numeric_ordering`.
-8. **Разделение LSP.** LSP описано базовым разделом [`lsp.feature`](lsp.feature)
-   (15 сценариев) плюс отдельным блоком «уточнения» про интеграцию с Notebook.
-   Чтобы сохранить конвенцию «один файл — одна `Функция`», уточнения вынесены в
-   [`lsp_notebook.feature`](lsp_notebook.feature) (6 сценариев).
-9. **Счётчик сценариев `editor.feature`.** Ранее у него указывалось 8 сценариев,
-   фактически их 7. Учтено как 7.
-10. **Синтаксис `Приоритет`.** Сценарии `editor.feature`/`lsp.feature` используют
-    `Приоритет: 100;`, который текущий парсер `credo2` не поддерживает (см. врезку
-    в разделе «Язык DAR» выше) — это целевое состояние DAR.
