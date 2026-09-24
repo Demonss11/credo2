@@ -1,6 +1,6 @@
 use anyhow::Result;
 use clap::Parser;
-use credo2::{mcp, publish, rest, service, store::AppState};
+use credo2::{AppState, ServiceCache, ensure_repo, mcp, rest};
 use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -9,7 +9,11 @@ use std::time::Duration;
 const DEFAULT_REST_ADDR: &str = "127.0.0.1:8080";
 
 #[derive(Parser, Debug)]
-#[command(name = "credo2", version, about = "CREDO: MCP-сервер с опциональным REST")]
+#[command(
+    name = "credo2",
+    version,
+    about = "CREDO: MCP-сервер с опциональным REST"
+)]
 struct Cli {
     /// Поднять REST (адрес по умолчанию 127.0.0.1:8080)
     #[arg(long)]
@@ -61,9 +65,9 @@ async fn main() -> Result<()> {
     };
 
     let state = Arc::new(AppState::new(workspace, cli.api_key)?);
-    publish::ensure_repo(state.published_repo())?;
+    ensure_repo(state.published_repo())?;
 
-    let cache = service::ServiceCache::load(state.published_repo().to_path_buf())?;
+    let cache = ServiceCache::load(state.published_repo().to_path_buf())?;
     cache.start_watcher(Duration::from_secs(2));
 
     tracing::info!(sandbox = %state.sandbox_path().display(), "sandbox");

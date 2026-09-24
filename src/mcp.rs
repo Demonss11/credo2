@@ -1,9 +1,5 @@
-use crate::core::{Value, contract_from_rule, evaluate_rule};
-use crate::dsl::parse_rule;
-use crate::publish;
-use crate::semver::Semver;
-use crate::service::ServiceCache;
-use crate::store::AppState;
+use crate::core::{Value, contract_from_rule, evaluate_rule, parse_rule};
+use crate::{AppState, ServiceCache};
 use rmcp::{
     handler::server::ServerHandler,
     model::{
@@ -145,22 +141,21 @@ impl McpServer {
 
         let repo = self.state.published_repo().to_path_buf();
         let rule = d.rule.clone();
-        let mut contract = contract_from_rule(&rule, version_raw);
-
-        // Нормализуем версию в контракте
-        let sem = Semver::parse(version_raw).map_err(|e| format!("невалидная версия: {e}"))?;
-        contract.version = sem.to_string();
+        // `publish` сам нормализует contract.version — не дублируем.
+        let contract = contract_from_rule(&rule, version_raw);
 
         let version_s = version_raw.to_string();
         let by_s = by.to_string();
 
         let outcome = tokio::task::spawn_blocking(move || {
-            publish::publish(&repo, &rule, &contract, &version_s, &by_s)
+            crate::publish(&repo, &rule, &contract, &version_s, &by_s)
         })
         .await
         .map_err(|e| format!("join: {e}"))?
         .map_err(|e| format!("{e}"))?;
 
+        let branch = outcome.branch.clone();
+        let repo_display = self.state.published_repo().display().to_string();
         Ok(json!({
             "status": "published",
             "name": outcome.name,
@@ -169,9 +164,10 @@ impl McpServer {
             "path": outcome.path,
             "commit_msg": outcome.commit_msg,
             "next_step": format!(
-                "Откройте PR из '{}' в 'main' репозитория {}. \
-                 После мержа вызовите check.rebuild_manifest.",
-                outcome.branch, self.state.published_repo().display()
+                "Ветка '{branch}' создана в {repo}. Смержить: \
+                 `git -C {repo} update-ref refs/heads/main $(git -C {repo} rev-parse {branch})`. \
+                 REST подхватит автоматически в течение 2 с.",
+                repo = repo_display,
             ),
         }))
     }
@@ -193,7 +189,7 @@ impl McpServer {
         let reason_s = reason.to_string();
 
         tokio::task::spawn_blocking(move || {
-            publish::deprecate(&repo, &name_s, &version_s, &reason_s)
+            crate::deprecate(&repo, &name_s, &version_s, &reason_s)
         })
         .await
         .map_err(|e| format!("join: {e}"))?
@@ -227,20 +223,22 @@ impl McpServer {
     }
 
     async fn rebuild_manifest(&self) -> Result<JsonValue, String> {
-        let h = self
+        let (h, written) = self
             .rebuild_manifest_inner()
             .await
             .map_err(|e| format!("{e}"))?;
-        Ok(json!({ "status": "ok", "service_hash": h }))
+        Ok(json!({ "status": "ok", "service_hash": h, "written": written }))
     }
 
-    async fn rebuild_manifest_inner(&self) -> anyhow::Result<String> {
+    async fn rebuild_manifest_inner(&self) -> anyhow::Result<(String, bool)> {
         self.cache.reload().await?;
         let manifest = self.cache.manifest().await;
         let repo = self.state.published_repo().to_path_buf();
         let m = manifest.clone();
-        tokio::task::spawn_blocking(move || publish::write_manifest_to_main(&repo, &m)).await??;
-        Ok(manifest.service_hash)
+        let written = tokio::task::spawn_blocking(move || crate::write_manifest_to_main(&repo, &m))
+            .await??
+            .is_some();
+        Ok((manifest.service_hash, written))
     }
 }
 

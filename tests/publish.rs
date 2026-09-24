@@ -1,6 +1,5 @@
-use credo2::core::{Rule, contract_from_rule};
-use credo2::dsl::parse_rule;
-use credo2::publish::{
+use credo2::core::{Rule, contract_from_rule, parse_rule};
+use credo2::{
     commit_tree, ensure_repo, list_from_ref, publish, rev_parse, update_ref,
     write_index_with_parent,
 };
@@ -61,11 +60,25 @@ fn rejects_contract_change_without_major() {
 fn allows_major_bump_with_contract_change() {
     let t = tmp_repo();
     let r1 = rule_with("Клиент.Возраст");
-    publish(t.path(), &r1, &contract_from_rule(&r1, "1.0.0"), "1.0.0", "test").unwrap();
+    publish(
+        t.path(),
+        &r1,
+        &contract_from_rule(&r1, "1.0.0"),
+        "1.0.0",
+        "test",
+    )
+    .unwrap();
     merge_branch_to_main(t.path(), "publish/CreditAgeMin-1.0.0");
 
     let r2 = rule_with("Клиент.Доход");
-    publish(t.path(), &r2, &contract_from_rule(&r2, "2.0.0"), "2.0.0", "test").unwrap();
+    publish(
+        t.path(),
+        &r2,
+        &contract_from_rule(&r2, "2.0.0"),
+        "2.0.0",
+        "test",
+    )
+    .unwrap();
 
     let list = list_from_ref(t.path(), "publish/CreditAgeMin-2.0.0").unwrap();
     assert!(list.iter().any(|c| c.version == "2.0.0"));
@@ -130,9 +143,88 @@ fn manifest_hash_is_deterministic() {
     merge_branch_to_main(t.path(), "publish/CreditAgeMin-1.0.0");
 
     let c = list_from_ref(t.path(), "main").unwrap();
-    let m1 = credo2::service::build_manifest(&c);
-    let m2 = credo2::service::build_manifest(&c);
+    let m1 = credo2::build_manifest(&c);
+    let m2 = credo2::build_manifest(&c);
     assert_eq!(m1.service_hash, m2.service_hash);
+}
+
+#[test]
+fn publish_normalizes_contract_version() {
+    let t = tmp_repo();
+    let r = rule_with("Клиент.Возраст");
+    let raw = contract_from_rule(&r, "v1.0.0"); // сырой, с префиксом
+    publish(t.path(), &r, &raw, "v1.0.0", "test").unwrap();
+    merge_branch_to_main(t.path(), "publish/CreditAgeMin-1.0.0");
+
+    let checks = list_from_ref(t.path(), "main").unwrap();
+    assert_eq!(checks.len(), 1);
+    assert_eq!(checks[0].contract.version, "1.0.0");
+    assert_eq!(checks[0].version, "1.0.0");
+    assert_eq!(checks[0].meta.version, "1.0.0");
+}
+
+#[test]
+fn build_metadata_excluded_from_path() {
+    let t = tmp_repo();
+    let r = rule_with("Клиент.Возраст");
+    publish(
+        t.path(),
+        &r,
+        &contract_from_rule(&r, "1.2.3+build.7"),
+        "1.2.3+build.7",
+        "test",
+    )
+    .unwrap();
+    merge_branch_to_main(t.path(), "publish/CreditAgeMin-1.2.3");
+
+    let checks = list_from_ref(t.path(), "main").unwrap();
+    assert_eq!(checks.len(), 1);
+    assert_eq!(checks[0].version, "1.2.3");
+    assert_eq!(checks[0].contract.version, "1.2.3");
+}
+
+#[test]
+fn merge_preserves_other_checks() {
+    let t = tmp_repo();
+    let r1 = rule_with("Клиент.Возраст");
+    publish(
+        t.path(),
+        &r1,
+        &contract_from_rule(&r1, "1.0.0"),
+        "1.0.0",
+        "test",
+    )
+    .unwrap();
+    merge_branch_to_main(t.path(), "publish/CreditAgeMin-1.0.0");
+
+    let r2 = parse_rule(
+        "Правило OtherCheck { Если (Сумма < 100) { Решение = Отказ; Причина = \"x\"; } }",
+    )
+    .unwrap();
+    publish(
+        t.path(),
+        &r2,
+        &contract_from_rule(&r2, "1.0.0"),
+        "1.0.0",
+        "test",
+    )
+    .unwrap();
+    merge_branch_to_main(t.path(), "publish/OtherCheck-1.0.0");
+
+    let checks = list_from_ref(t.path(), "main").unwrap();
+    assert_eq!(checks.len(), 2); // ловит squash-merge
+}
+
+#[test]
+fn create_ref_prevents_double_publish() {
+    let t = tmp_repo();
+    let r = rule_with("Клиент.Возраст");
+    let c = contract_from_rule(&r, "1.0.0");
+    publish(t.path(), &r, &c, "1.0.0", "test").unwrap();
+    // main не обновляем: ранняя проверка дубликата не срабатывает,
+    // падать должен именно create_ref на уже существующей ветке.
+    let err = publish(t.path(), &r, &c, "1.0.0", "test").unwrap_err();
+    assert!(err.to_string().contains("ветка"), "err = {err}");
 }
 
 // merge_branch_to_main — тестовый хелпер, эмулирует merge PR.

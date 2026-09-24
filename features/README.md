@@ -1,0 +1,130 @@
+# features — сводка функциональных требований CREDO
+
+Каталог содержит функциональные требования к CREDO (прототип `credo2`) в формате
+**Gherkin** (`# language: ru`), разложенные **по одному файлу на фичу**.
+
+Источник: [`../features.md`](../features.md) — исходный документ, где все фичи были
+собраны в одном файле. Здесь они разделены, а расхождения и коллизии имён
+зафиксированы ниже.
+
+## Как читать
+
+- Один `*.feature` — одна функция (в Gherkin — `Функция:`).
+- Языковые конструкции: `Функция` (Feature), `Контекст` (Background),
+  `Сценарий` (Scenario), `Структура сценария` (Scenario Outline) с `Примеры`.
+- Каждый сценарий — кандидат в автотест (`Дано/Когда/Тогда/И`).
+
+## Статус
+
+| Метка | Значение |
+|---|---|
+| ✅ | Поведение реализовано в `credo2` (возможны отличия в деталях) |
+| 🟡 | Реализовано ядро, но формулировки сценариев расходятся с текущим кодом |
+| ⬜ | Не реализовано — план |
+| ⏸ | Явно отложено (вне текущего объёма) |
+
+## Сводная таблица
+
+### Язык DAR (лексер, парсер, исполнение)
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`lexer.feature`](lexer.feature) | Лексер | 6 | ⬜ | Токены: ключевые слова, идентификаторы, числа, строки, комментарии, операторы |
+| [`parser.feature`](parser.feature) | Парсер | 5 | 🟡 | Дерево правила, `Приоритет`, причина, ошибки синтаксиса |
+| [`execution.feature`](execution.feature) | Исполнение | 3 | 🟡 | Срабатывание/несрабатывание, операторы сравнения |
+| [`explain.feature`](explain.feature) | Объяснимость | 4 | 🟡 | Поля объяснения: правило, приоритет, условие, значение |
+| [`errors.feature`](errors.feature) | Ошибки | 3 | 🟡 | Понятные сообщения для риск-технолога |
+
+> `credo2` использует минимальный DSL на регулярных выражениях (`core::parse_rule`):
+> только одно сравнение, без `Приоритет`, без типизированных ошибок. Поэтому
+> языковые фичи — это целевое состояние DAR, а не текущая реализация.
+
+### Черновики, публикация, версионирование
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`draft.feature`](draft.feature) | Управление черновиками | 6 | 🟡 | `check.create/list_drafts/get_draft/delete_draft`, перезапись |
+| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 4 | 🟡 | `check.test` на конкретных данных |
+| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | `check.publish`, метаданные, deprecated, запрет дублей |
+| [`publish_rules.feature`](publish_rules.feature) | Правила публикации | 6 | ✅ | Ветка вместо main, downgrade, MAJOR bump при смене контракта |
+| [`immutability.feature`](immutability.feature) | Иммутабельность | 2 | ✅ | Повторная публикация версии отклоняется |
+| [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 4 | ✅ | Версия = путь `checks/{name}/{version}/`, `meta.json` |
+
+### REST API
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`evaluate.feature`](evaluate.feature) | REST-исполнение | 7 | 🟡 | `POST .../evaluate`, ключ, 404, манифест, Swagger |
+| [`rest_api.feature`](rest_api.feature) | REST API | 10 | ✅ | `/version`, `/checks`, версии, active/evaluate, OpenAPI, кэш |
+| [`rest_auth.feature`](rest_auth.feature) | Аутентификация REST | 5 | ✅ | API-key, 401, `/health` и `/docs` без ключа |
+
+### Манифест и жизненный цикл
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`manifest.feature`](manifest.feature) | Манифест сервиса | 5 | ✅ | active/supported/deprecated, `service_hash`, `manifest.json` |
+| [`manifest_sync.feature`](manifest_sync.feature) | Синхронизация манифеста | 5 | ✅ | Watcher, перечитывание при изменении main, ошибки |
+| [`deprecation.feature`](deprecation.feature) | Deprecation версии | 3 | ✅ | `check.deprecate`, пересборка манифеста, сохранность данных |
+| [`semver.feature`](semver.feature) | Строгий semver | 4 | ✅ | Парсинг/нормализация, сравнение, pre-release |
+
+### Объяснимость, MCP, качество
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`explain_full.feature`](explain_full.feature) | Объяснимость | 3 | 🟡 | `rule_name`, `condition`, `actual_value`, `matched`, `decision`, `reason`, `priority` |
+| [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 4 | ✅ | `check.publish/deprecate/rebuild_manifest/list_published` |
+| [`testing.feature`](testing.feature) | Тестирование | 3 | ✅ | Юнит- и интеграционные тесты, CI |
+
+### Аналитика и интеграции (план / вау)
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`dashboard.feature`](dashboard.feature) | Обзор проверок | 3 | 🟡 | Активные/deprecated, история версий, `latest` |
+| [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⬜ | Прогон набора заявок, агрегация, частичные ошибки |
+| [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⬜ | Человекочитаемый текст отказа/одобрения |
+| [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⬜ | Экспорт версии/черновика, импорт файла |
+| [`wasm.feature`](wasm.feature) | WASM в браузере | 4 | ⬜ | Локальное исполнение правил в браузере |
+
+### Отложено
+
+| Файл | Категория | Сценариев | Статус | Что покрывает |
+|---|---|---:|---|---|
+| [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
+
+**Итого: 27 файлов, 122 сценария.**
+
+## Соответствие коду
+
+| Зона | Где в коде |
+|---|---|
+| Домен, DSL, semver | [`../src/core.rs`](../src/core.rs) |
+| Git-хранилище, публикация, манифест, состояние | [`../src/lib.rs`](../src/lib.rs) |
+| MCP-инструменты | [`../src/mcp.rs`](../src/mcp.rs) |
+| REST + OpenAPI + аутентификация | [`../src/rest.rs`](../src/rest.rs) |
+| CLI | [`../src/main.rs`](../src/main.rs) |
+| Интеграционные тесты публикации | [`../tests/publish.rs`](../tests/publish.rs) |
+
+## Известные расхождения и заметки
+
+1. **Коллизия имени `explain.feature`.** В `features.md` было два файла с этим
+   именем. Первый (языковой, «Движок объясняет каждое решение») сохранён как
+   [`explain.feature`](explain.feature), второй («Полное объяснение каждого
+   решения») переименован в [`explain_full.feature`](explain_full.feature).
+2. **Аутентификация.** `rest_auth.feature` упоминает `CREDO_API_KEY` и заголовок
+   `x-api-key`; сценарии `evaluate.feature` говорят про `Authorization`. Реализация
+   (`rest.rs`) использует **`x-api-key`**.
+3. **Поля манифеста.** `dashboard.feature`/`evaluate.feature` говорят про
+   `kind`/`versions`/`latest`; фактический `ManifestEntry` содержит
+   `name`/`active`/`supported`/`deprecated`.
+4. **Отсутствующее поле.** `errors.feature`/`test_draft.feature` ожидают ошибку
+   «Неизвестное поле», но `evaluate_rule` трактует отсутствующее поле как `0`
+   (см. `AGENTS.md`).
+5. **Формат ветки публикации.** `publish.feature` ожидает ветку
+   `checks/{name}/{version}`; фактически создаётся `publish/{name}-{version}`.
+6. **Иммутабельность.** `immutability.feature` описывает защиту через
+   `create_dir_all`/`AlreadyExists`; в `credo2` хранилище — **bare git**, защита
+   обеспечивается проверкой дубликата версии и атомарным `create_ref`.
+7. **Числовая сортировка prerelease.** В `deferred.feature` зафиксировано как
+   лексикографическое сравнение; в `core.rs` уже реализовано **числовое** сравнение
+   идентификаторов (`compare_pre`), а пример `rc2 < rc10` некорректен по спеке
+   (это буквенно-цифровые идентификаторы). См. `core::tests::prerelease_numeric_ordering`.
