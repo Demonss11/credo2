@@ -89,31 +89,93 @@ pub struct StoredCheck {
     pub meta: CheckMeta,
 }
 
+/// Ошибки исполнения правила (Q8, Q9).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum EvalError {
+    /// Поле из условия отсутствует во входе — строгая ошибка (Q8).
+    /// Разделение «нет параметра» и «есть параметр, но пустой» — вне MVP.
+    UnknownField(String),
+    /// Сравнение значений разных типов (Q9). Строгая статическая
+    /// типизация плановая (v0.2), в MVP — проверка на исполнении.
+    TypeMismatch {
+        field: String,
+        actual: &'static str,
+        expected: &'static str,
+    },
+}
+
+impl fmt::Display for EvalError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            // Текст согласован с errors.feature / inline_execution.feature
+            // (Q11: русские сообщения).
+            EvalError::UnknownField(field) => {
+                write!(f, "Неизвестное поле: {field}")
+            }
+            EvalError::TypeMismatch {
+                field,
+                actual,
+                expected,
+            } => write!(
+                f,
+                "Несовместимые типы: поле {field} имеет тип {actual}, \
+                 ожидался {expected} в сравнении"
+            ),
+        }
+    }
+}
+
+impl std::error::Error for EvalError {}
+
+/// Канон объяснения решения (Q42): ключи латиницей (snake_case), тексты
+/// (`decision`, `reason`) — русские. `condition` — исходное условие правила
+/// в канонической записи `<поле> <оператор> <значение>`; `priority` в v0.1
+/// отсутствует (Q4). Ошибка исполнения возвращается отдельно (Ok/Err),
+/// поэтому здесь всегда есть фактическое значение.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Explanation {
     pub rule_name: String,
+    pub condition: String,
     pub decision: String,
     pub reason: String,
     pub actual_value: Value,
     pub matched: bool,
 }
 
-pub fn evaluate_rule(rule: &Rule, input: &HashMap<String, Value>) -> Explanation {
+/// Условие правила в канонической строковой форме (для поля `condition`).
+pub fn condition_to_string(c: &Condition) -> String {
+    format!("{} {} {}", c.field, c.op, c.value.display())
+}
+
+/// Исполнение правила (Q8, Q9):
+/// - отсутствующее поле — строгая ошибка `UnknownField` (не `0`);
+/// - сравнение разных типов — ошибка `TypeMismatch` (не молчаливый `false`).
+pub fn evaluate_rule(rule: &Rule, input: &HashMap<String, Value>) -> Result<Explanation, EvalError> {
     let actual = input
         .get(&rule.condition.field)
         .cloned()
-        .unwrap_or(Value::Number(0.0));
+        .ok_or_else(|| EvalError::UnknownField(rule.condition.field.clone()))?;
     let matched = match (&actual, rule.condition.op.as_str(), &rule.condition.value) {
-        (Value::Number(a), "<", Value::Number(b)) => a < b,
-        (Value::Number(a), ">", Value::Number(b)) => a > b,
-        (Value::Number(a), "==", Value::Number(b)) => a == b,
-        (Value::Number(a), "!=", Value::Number(b)) => a != b,
+        (Value::Number(a), op, Value::Number(b)) => match op {
+            "<" => a < b,
+            ">" => a > b,
+            "==" => a == b,
+            "!=" => a != b,
+            _ => unreachable!("оператор ограничен парсером: <, >, ==, !="),
+        },
+        // строки сравниваются только на равенство; `<`/`>` для строк —
+        // ошибка типов (Q9)
         (Value::Str(a), "==", Value::Str(b)) => a == b,
         (Value::Str(a), "!=", Value::Str(b)) => a != b,
-        _ => false,
+        _ => Err(EvalError::TypeMismatch {
+            field: rule.condition.field.clone(),
+            actual: actual.type_name(),
+            expected: rule.condition.value.type_name(),
+        })?,
     };
-    Explanation {
+    Ok(Explanation {
         rule_name: rule.name.clone(),
+        condition: condition_to_string(&rule.condition),
         decision: if matched {
             rule.action.decision.clone()
         } else {
@@ -126,9 +188,13 @@ pub fn evaluate_rule(rule: &Rule, input: &HashMap<String, Value>) -> Explanation
         },
         actual_value: actual,
         matched,
-    }
+    })
 }
 
+/// Словарь решений не фиксируется ядром (Q10): в каждом банке он свой.
+/// В контракт попадают только решения, реально используемые в правилах;
+/// «правило не сработало» — `decision`/`reason` пустые строки в ядре и
+/// `null` на границах JSON (не отдельное решение вида «Pass»).
 pub fn contract_from_rule(rule: &Rule, version: &str) -> CheckContract {
     CheckContract {
         name: rule.name.clone(),
@@ -145,7 +211,7 @@ pub fn contract_from_rule(rule: &Rule, version: &str) -> CheckContract {
             type_: rule.condition.value.type_name().into(),
             description: None,
         }],
-        decisions: vec![rule.action.decision.clone(), "Pass".into()],
+        decisions: vec![rule.action.decision.clone()],
     }
 }
 
@@ -395,6 +461,107 @@ mod tests {
 
     fn ok(s: &str) -> String {
         Semver::parse(s).unwrap().to_string()
+    }
+
+    // ---------- Q8/Q9/Q42: исполнение правила ----------
+
+    fn rule(src: &str) -> Rule {
+        parse_rule(src).unwrap()
+    }
+
+    fn input(pairs: &[(&str, Value)]) -> HashMap<String, Value> {
+        pairs
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.clone()))
+            .collect()
+    }
+
+    const MIN_AGE: &str = "\
+Правило МинимальныйВозраст {
+  Если (Клиент.Возраст < 21) {
+    Решение = Отказ;
+    Причина = \"Возраст меньше 21\";
+  }
+}";
+
+    #[test]
+    fn missing_field_is_strict_error_q8() {
+        let r = rule(MIN_AGE);
+        let err = evaluate_rule(
+            &r,
+            &input(&[("Клиент.НесуществующееПоле", Value::Number(25.0))]),
+        )
+        .err()
+        .expect("ожидалась ошибка при отсутствии поля");
+        assert_eq!(
+            err,
+            EvalError::UnknownField("Клиент.Возраст".into())
+        );
+        assert!(err.to_string().contains("Неизвестное поле"));
+        assert!(err.to_string().contains("Клиент.Возраст"));
+    }
+
+    #[test]
+    fn missing_field_does_not_trigger_false_positive_q8() {
+        // Раньше отсутствующее поле подставляло 0.0 и условие < 21
+        // срабатывало ложно. Теперь — ошибка, никакого решения.
+        let r = rule(MIN_AGE);
+        assert!(evaluate_rule(&r, &input(&[])).is_err());
+    }
+
+    #[test]
+    fn type_mismatch_is_error_q9() {
+        let r = rule("\
+Правило Проверка {
+  Если (Клиент.Возраст < \"двадцать\") {
+    Решение = Отказ;
+  }
+}");
+        let err = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(25.0))]))
+            .err()
+            .expect("ожидалась ошибка типов");
+        match &err {
+            EvalError::TypeMismatch { field, actual, expected } => {
+                assert_eq!(field, "Клиент.Возраст");
+                assert_eq!(*actual, "number");
+                assert_eq!(*expected, "string");
+            }
+            other => panic!("неожиданная ошибка: {other:?}"),
+        }
+        assert!(err.to_string().contains("Несовместимые типы"));
+    }
+
+    #[test]
+    fn explanation_has_latin_keys_and_condition_q42() {
+        let r = rule(MIN_AGE);
+        let e = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(19.0))])).unwrap();
+        assert_eq!(e.rule_name, "МинимальныйВозраст");
+        assert_eq!(e.condition, "Клиент.Возраст < 21");
+        assert!(e.matched);
+        assert_eq!(e.decision, "Отказ");
+        assert_eq!(e.reason, "Возраст меньше 21");
+        let json = serde_json::to_value(&e).unwrap();
+        for key in ["rule_name", "condition", "actual_value", "matched", "decision", "reason"] {
+            assert!(json.get(key).is_some(), "нет поля {key}");
+        }
+        assert!(json.get("priority").is_none(), "priority вне MVP (Q4)");
+    }
+
+    #[test]
+    fn unmatched_rule_has_empty_decision_q10() {
+        let r = rule(MIN_AGE);
+        let e = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(25.0))])).unwrap();
+        assert!(!e.matched);
+        assert_eq!(e.decision, "");
+        assert_eq!(e.reason, "");
+    }
+
+    #[test]
+    fn contract_decisions_follow_rule_vocabulary_q10() {
+        let r = rule(MIN_AGE);
+        let c = contract_from_rule(&r, "1.0.0");
+        // «Pass» больше не добавляется: словарь решений задаёт банк (Q10)
+        assert_eq!(c.decisions, vec!["Отказ".to_string()]);
     }
 
     #[test]

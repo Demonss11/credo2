@@ -144,7 +144,10 @@ async fn eval_inner(
         .get(name, version)
         .await
         .ok_or_else(|| err(StatusCode::NOT_FOUND, format!("{name}@{version} not found")))?;
-    let result = crate::core::evaluate_rule(&c.rule, &input);
+    // Q8/Q9: отсутствующее поле или несовместимые типы — 422, а не
+    // молчаливое matched = false.
+    let result = crate::core::evaluate_rule(&c.rule, &input)
+        .map_err(|e| err(StatusCode::UNPROCESSABLE_ENTITY, e.to_string()))?;
     let deprecated = c.meta.deprecated_at.is_some();
     Ok(Json(json!({
         "check": name,

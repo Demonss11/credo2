@@ -103,7 +103,10 @@ impl McpServer {
             .get_draft(name)
             .await
             .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
-        Ok(serde_json::to_value(evaluate_rule(&d.rule, &input)).unwrap())
+        // Q8/Q9: ошибка исполнения (отсутствующее поле, несовместимые
+        // типы) возвращается как ошибка инструмента MCP.
+        let e = evaluate_rule(&d.rule, &input).map_err(|e| e.to_string())?;
+        Ok(serde_json::to_value(e).unwrap())
     }
 
     async fn delete_draft(&self, args: JsonValue) -> Result<JsonValue, String> {
