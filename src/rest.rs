@@ -1,5 +1,5 @@
 use crate::core::Value;
-use crate::{AppState, ServiceCache};
+use crate::{AppState, Manifest, ServiceCache};
 use axum::{
     Router,
     extract::{Path, Request, State},
@@ -74,13 +74,21 @@ async fn version(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
     Json(serde_json::to_value(&m).unwrap())
 }
 
-async fn list_checks(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
-    let m = cache.manifest().await;
-    Json(json!({
+/// Канон Q21: `{schema_version, count, service_hash, checks}` — без
+/// `generated_at` (он остаётся в `GET /version`). Чистая функция, чтобы
+/// проверяться unit-тестом без HTTP.
+fn manifest_response(m: &Manifest) -> JsonValue {
+    json!({
+        "schema_version": m.schema_version,
         "count": m.checks.len(),
         "service_hash": m.service_hash,
         "checks": m.checks,
-    }))
+    })
+}
+
+async fn list_checks(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
+    let m = cache.manifest().await;
+    Json(manifest_response(&m))
 }
 
 async fn list_versions(
@@ -284,3 +292,43 @@ const SWAGGER_HTML: &str = r#"<!DOCTYPE html><html lang="ru"><head><meta charset
 <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js" crossorigin></script>
 <script>window.onload=()=>{window.ui=SwaggerUIBundle({url:'/openapi.json',dom_id:'#swagger-ui',deepLinking:true,presets:[SwaggerUIBundle.presets.apis]});};</script>
 </body></html>"#;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::ManifestEntry;
+
+    fn entry(name: &str) -> ManifestEntry {
+        ManifestEntry {
+            name: name.into(),
+            active: "1.0.1".into(),
+            supported: vec!["1.0.1".into(), "1.0.0".into()],
+            deprecated: vec![],
+        }
+    }
+
+    #[test]
+    fn manifest_response_has_canonical_keys_q21() {
+        let m = Manifest {
+            schema_version: 1,
+            generated_at: "2026-09-25T00:00:00Z".into(),
+            service_hash: "sha256:x".into(),
+            checks: vec![entry("CreditAgeMin")],
+        };
+        let v = manifest_response(&m);
+        let obj = v.as_object().unwrap();
+
+        // Верхний уровень — ровно канон Q21, без generated_at.
+        let mut keys: Vec<&str> = obj.keys().map(|k| k.as_str()).collect();
+        keys.sort_unstable();
+        assert_eq!(keys, ["checks", "count", "schema_version", "service_hash"]);
+        assert_eq!(obj["schema_version"], json!(1));
+        assert_eq!(obj["count"], json!(1));
+
+        // Элемент checks — ровно name/active/supported/deprecated.
+        let first = obj["checks"][0].as_object().unwrap();
+        let mut fields: Vec<&str> = first.keys().map(|k| k.as_str()).collect();
+        fields.sort_unstable();
+        assert_eq!(fields, ["active", "deprecated", "name", "supported"]);
+    }
+}

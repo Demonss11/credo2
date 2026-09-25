@@ -96,7 +96,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 |---|---|---:|---|---|---|
 | [`evaluate.feature`](evaluate.feature) | REST-исполнение | 7 | 🟡 | 🔴 | `POST .../versions/{version}/evaluate`, ключ, 404, манифест (Q21), отказ deprecated, Swagger |
 | [`rest_api.feature`](rest_api.feature) | REST API | 11 | 🟡 | 🔴 | `/version`, `/checks`, версии, active/evaluate, отказ deprecated (410), «активация недоступна» (409), OpenAPI, кэш |
-| [`rest_auth.feature`](rest_auth.feature) | Аутентификация REST | 5 | ✅ | 🔴 | API-key, 401, `/health` и `/docs` без ключа |
+| [`rest_auth.feature`](rest_auth.feature) | Аутентификация REST | 6 | ✅ | 🔴 | API-key, 401 (текст Q22), `/health`, `/docs`, `/openapi.json` без ключа, режим демо |
 
 > **Решения Q11/Q20/Q21 (2026-09-25):** канон пути —
 > `/checks/{name}/versions/{version}/...`. MVP-минимум REST:
@@ -160,7 +160,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
 | [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⏸ | ⏳ | Экспорт версии/черновика, импорт файла — пост-MVP (Q26) |
 
-**Итого: 36 файлов, 192 сценария** (backend — 27 файлов / 128 сценариев,
+**Итого: 36 файлов, 193 сценария** (backend — 27 файлов / 129 сценариев,
 frontend DAR Notebook — 9 файлов / 64 сценария).
 
 ## Соответствие коду

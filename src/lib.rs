@@ -461,6 +461,8 @@ pub fn build_manifest(checks: &[StoredCheck]) -> Manifest {
             }
         });
 
+        // Q21: hash_input собирается по возрастанию версий (порядок
+        // хэширования не меняется); списки в JSON — по убыванию.
         let mut supported = Vec::new();
         let mut deprecated = Vec::new();
         for v in &versions {
@@ -469,22 +471,22 @@ pub fn build_manifest(checks: &[StoredCheck]) -> Manifest {
             } else {
                 "supported"
             };
+            hash_input.push_str(&format!(
+                "{}|{}|{}|{}\n",
+                name, v.version, status, v.meta.checksum
+            ));
             if v.meta.deprecated_at.is_some() {
                 deprecated.push(v.version.clone());
             } else {
                 supported.push(v.version.clone());
             }
-            hash_input.push_str(&format!(
-                "{}|{}|{}|{}\n",
-                name, v.version, status, v.meta.checksum
-            ));
         }
+        supported.reverse();
+        deprecated.reverse();
 
-        let active = supported
-            .last()
-            .or_else(|| deprecated.last())
-            .cloned()
-            .unwrap_or_default();
+        // Q21: active — первая supported; если все версии deprecated —
+        // пустая строка (конвенция «нет значения = пустая строка»).
+        let active = supported.first().cloned().unwrap_or_default();
 
         entries.push(ManifestEntry {
             name,
@@ -733,9 +735,9 @@ mod tests {
     use super::*;
     use crate::core::{Action, Condition, Value};
 
-    fn stored(deprecated_at: Option<String>) -> StoredCheck {
+    fn stored_v(name: &str, version: &str, deprecated: bool) -> StoredCheck {
         let rule = Rule {
-            name: "A".into(),
+            name: name.into(),
             condition: Condition {
                 field: "x".into(),
                 op: "<".into(),
@@ -746,22 +748,26 @@ mod tests {
                 reason: "test".into(),
             },
         };
-        let contract = crate::core::contract_from_rule(&rule, "1.0.0");
+        let contract = crate::core::contract_from_rule(&rule, version);
         StoredCheck {
-            name: "A".into(),
-            version: "1.0.0".into(),
+            name: name.into(),
+            version: version.into(),
             rule,
             contract,
             meta: CheckMeta {
-                name: "A".into(),
-                version: "1.0.0".into(),
+                name: name.into(),
+                version: version.into(),
                 published_at: "2026-09-24T00:00:00Z".into(),
                 published_by: "test".into(),
-                checksum: "sha256:x".into(),
-                deprecated_at,
+                checksum: format!("sha256:{name}-{version}"),
+                deprecated_at: deprecated.then(|| "2026-09-24T00:00:00Z".into()),
                 deprecation_reason: None,
             },
         }
+    }
+
+    fn stored(deprecated_at: Option<String>) -> StoredCheck {
+        stored_v("A", "1.0.0", deprecated_at.is_some())
     }
 
     #[test]
@@ -769,5 +775,53 @@ mod tests {
         let h1 = build_manifest(&[stored(None)]).service_hash;
         let h2 = build_manifest(&[stored(Some("2026-09-24T00:00:00Z".into()))]).service_hash;
         assert_ne!(h1, h2);
+    }
+
+    #[test]
+    fn supported_is_descending_q21() {
+        let m = build_manifest(&[
+            stored_v("A", "1.0.0", false),
+            stored_v("A", "1.0.1", false),
+            stored_v("A", "1.1.0", true),
+        ]);
+        assert_eq!(m.checks[0].supported, vec!["1.0.1", "1.0.0"]);
+        assert_eq!(m.checks[0].deprecated, vec!["1.1.0"]);
+    }
+
+    #[test]
+    fn active_is_first_supported_q21() {
+        let m = build_manifest(&[stored_v("A", "1.0.0", false), stored_v("A", "1.0.1", false)]);
+        assert_eq!(m.checks[0].active, "1.0.1");
+        assert_eq!(m.checks[0].active, m.checks[0].supported[0]);
+    }
+
+    #[test]
+    fn active_is_empty_when_all_deprecated_q21() {
+        let m = build_manifest(&[stored_v("A", "1.0.0", true), stored_v("A", "1.0.1", true)]);
+        assert_eq!(m.checks[0].active, "");
+        assert!(m.checks[0].supported.is_empty());
+        assert_eq!(m.checks[0].deprecated, vec!["1.0.1", "1.0.0"]);
+    }
+
+    #[test]
+    fn every_version_in_exactly_one_list_q21() {
+        let checks = [
+            stored_v("A", "1.0.0", false),
+            stored_v("A", "1.0.1", true),
+            stored_v("B", "0.1.0", false),
+        ];
+        let m = build_manifest(&checks);
+        let mut listed = 0;
+        for e in &m.checks {
+            for v in e.supported.iter().chain(e.deprecated.iter()) {
+                let hits = checks
+                    .iter()
+                    .filter(|c| c.name == e.name && &c.version == v)
+                    .count();
+                assert_eq!(hits, 1, "{}@{}", e.name, v);
+                listed += 1;
+            }
+        }
+        assert_eq!(listed, checks.len());
     }
 }

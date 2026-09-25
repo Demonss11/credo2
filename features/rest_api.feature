@@ -4,6 +4,9 @@
 # /openapi.json. Сценарии с active-evaluate и GET-деталями описывают
 # эндпоинты вне MVP-минимума (реализованы в прототипе, судьба — пост-MVP).
 # Q11: тексты ошибок — русские, статусы 409/410 (401 фиксируется в Q22).
+# Q23 (решено 2026-09-25): конверт ошибки — {"error": {"code", "message"}};
+# коды: check_not_found, version_not_found, version_deprecated,
+# activation_unavailable, evaluation_failed, unauthorized.
 Функция: REST API
   Как потребитель сервиса
   Я хочу читать версии и выполнять конкретные версии проверок
@@ -40,6 +43,7 @@
   Сценарий: GET несуществующей версии
     Когда клиент вызывает GET /checks/CreditAgeMin/versions/9.9.9
     Тогда ответ 404
+    И тело содержит "error.code" равный "version_not_found" (конверт Q23)
 
   Сценарий: POST /checks/:name/evaluate использует active-версию
     Дано "CreditAgeMin" active "1.0.1"
@@ -61,12 +65,14 @@
     Когда клиент вызывает POST /checks/CreditAgeMin/versions/1.1.0/evaluate
     Тогда ответ 410
     И тело содержит "версия выведена из эксплуатации: CreditAgeMin@1.1.0"
+    И поле "error.code" равно "version_deprecated"
 
   Сценарий: Нет active-версии — активация недоступна
     Дано все версии "CreditAgeMin" помечены deprecated
     Когда клиент вызывает POST /checks/CreditAgeMin/evaluate
     Тогда ответ 409
     И тело содержит "активация недоступна: CreditAgeMin"
+    И поле "error.code" равно "activation_unavailable"
 
   Сценарий: OpenAPI отражает все версии
     Дано манифест содержит "CreditAgeMin" с версиями ["1.0.1","1.0.0"]
