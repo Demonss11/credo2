@@ -83,12 +83,36 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`draft.feature`](draft.feature) | Управление черновиками | 9 | 🟡 | 🔴 | `check.create/list_drafts/get_draft/delete_draft`, перезапись; производные от `.dar`, `stale` по `source_hash` |
-| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 5 | 🟡 | 🔴 | `check.test` на конкретных данных, включая устаревшие черновики |
-| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | 🔴 | `check.publish`: ветка `publish/{name}-{version}`, артефакт `checks/{name}/{version}/`, метаданные, deprecated, запрет дублей |
-| [`publish_rules.feature`](publish_rules.feature) | Правила публикации | 6 | ✅ | 🔴 | Ветка вместо main, downgrade, MAJOR bump при смене контракта |
-| [`immutability.feature`](immutability.feature) | Иммутабельность | 2 | ✅ | 🟡 | Повторная публикация версии отклоняется |
-| [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 4 | ✅ | 🔴 | Версия = путь `checks/{name}/{version}/` (`rule.json`, `contract.json`, `meta.json`) |
+| [`draft.feature`](draft.feature) | Управление черновиками | 10 | 🟡 | 🔴 | `check.create` (`{name, source}`, «сохранить = обновить», Q28), `list_drafts/get_draft/delete_draft`; производные от `.dar`, `stale` по `source_hash`; draft-first из буфера (Q33) |
+| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 6 | 🟡 | 🔴 | `check.test` на конкретных данных, включая устаревшие черновики; метка тестирования `last_test_checksum`/`tested_at` (Q16/Q34) |
+| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | 🔴 | `check.publish`: ветка `publish/{name}-{version}`, артефакт `checks/{name}/{X}/{Y}/{Z}/`, метаданные, deprecated, запрет дублей; гейт теста (`last_test_checksum`, Q16/Q34) |
+| [`publish_rules.feature`](publish_rules.feature) | Правила публикации | 6 | 🟡 | 🔴 | Ветка вместо main, downgrade, MAJOR bump при смене контракта; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
+| [`immutability.feature`](immutability.feature) | Иммутабельность | 2 | 🟡 | 🟡 | Повторная публикация версии отклоняется; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
+| [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 5 | 🟡 | 🔴 | Версия = путь `checks/{name}/{X}/{Y}/{Z}/` (`rule.json`, `contract.json`, `meta.json`); раскладка semver (Q32) |
+
+> **Решение Q32 (2026-09-26):** структура реестра публикаций —
+> `checks/{name}/{X}/{Y}/{Z}/` (X = major, Y = minor, Z = patch).
+> Публичный REST сохраняет канон Q20
+> (`/checks/{name}/versions/{version}/evaluate`); сервер внутренне маппит
+> `{version}` → `{X}/{Y}/{Z}`. Pre-release — вне MVP (Q18). Код (`lib.rs`)
+> пока строит плоский путь `checks/{name}/{version}` — расхождение
+> зафиксировано в Q32, затронутые backend-фичи отмечены 🟡.
+
+> **Решение Q33 (2026-09-26):** draft-first — «Создать черновик» вызывает
+> `check.create` с текстом буфера; файл `rules/{name}.dar` не создаётся и
+> материализуется при публикации (Q12).
+
+> **Решение Q28 (2026-09-26):** контракт `check.create` — `{name, source}`
+> (оба обязательны); имя — из заголовка `Правило {name}`; `source`
+> парсится и валидируется; повторный вызов с тем же `name` перезаписывает
+> черновик («сохранить = обновить»), флага перезаписи нет; ответ
+> `{status: "ok", name}`; `expected_kind`/`contract` не используются.
+
+> **Решение Q34 (2026-09-26):** в MVP тесты — только локальный кэш
+> `.dar-notebook/results-cache.json` («быстрые прогоны» — черновики тестов;
+> вне git, `.dar-notebook/` в `.gitignore`). Готовность к публикации —
+> успешный `check.test` (`last_test_checksum`/`tested_at`, Q16), а не файл
+> теста. `tests/*.тест` (code=doc) — вне MVP (v0.2).
 
 ### REST API
 
@@ -115,7 +139,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 |---|---|---:|---|---|---|
 | [`manifest.feature`](manifest.feature) | Манифест сервиса | 5 | ✅ | 🔴 | active/supported/deprecated, `service_hash`, `manifest.json` |
 | [`manifest_sync.feature`](manifest_sync.feature) | Синхронизация манифеста | 5 | ✅ | 🟡 | Watcher, перечитывание при изменении main, ошибки |
-| [`deprecation.feature`](deprecation.feature) | Deprecation версии | 3 | ✅ | 🟡 | `check.deprecate`, пересборка манифеста, сохранность данных |
+| [`deprecation.feature`](deprecation.feature) | Deprecation версии | 3 | 🟡 | 🟡 | `check.deprecate`, пересборка манифеста, сохранность данных; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`semver.feature`](semver.feature) | Строгий semver | 4 | ✅ | 🔴 | Парсинг/нормализация, сравнение, pre-release |
 
 ### Объяснимость, MCP, качество
@@ -123,7 +147,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
 | [`explain_full.feature`](explain_full.feature) | Объяснимость | 3 | ✅ | 🔴 | Полная схема: `rule_name`, `condition`, `actual_value`, `matched`, `decision`, `reason`; ошибка при отсутствии поля |
-| [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 4 | ✅ | 🔴 | `check.publish/deprecate/rebuild_manifest/list_published` |
+| [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 5 | 🟡 | 🔴 | `check.publish/deprecate/rebuild_manifest/list_published`; `check.run` — ожидает реализации (Q33); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`testing.feature`](testing.feature) | Тестирование | 5 | ✅ | 🔴 | Юнит- и интеграционные тесты, CI, инвентаризация фич |
 
 ### Интерфейс DAR Notebook (frontend, план)
@@ -134,15 +158,56 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | 🔴 | Трёхколоночный layout, открытие/создание workspace, командная палитра |
+| [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | 🔴 | Трёхколоночный layout (чат: resize/toggle, Q31), открытие/создание workspace (без `tests/`/`tables/`, `.gitignore`, Q34/Q37), командная палитра |
 | [`editor.feature`](editor.feature) | Редактор `.dar` | 7 | ⬜ | 🔴 | Подсветка, автодополнение, диагностика, табы, сохранение |
-| [`inline_execution.feature`](inline_execution.feature) | Инлайн-исполнение | 7 | ⬜ | 🔴 | Кнопка «Выполнить», ввод JSON, блоки результатов, несколько тестов |
-| [`git_integration.feature`](git_integration.feature) | Git в UI | 7 | ⬜ | 🔴 | Статус, визуальный diff, commit, публикация, слияние `credo merge`, история версий |
-| [`agent_minimal.feature`](agent_minimal.feature) | Чат с агентом | 7 | ⬜ | 🔴 | MCP через stdio, `check.create/test/publish`, отображение вызовов |
+| [`inline_execution.feature`](inline_execution.feature) | Инлайн-исполнение | 10 | ⬜ | 🔴 | Кнопка «Выполнить», ввод JSON, блоки результатов, несколько тестов; кнопка только при черновике, исполнение через `check.test` (Q33), кэш «быстрых прогонов» (Q34), подсветка сработавшего условия (Q31) |
+| [`git_integration.feature`](git_integration.feature) | Git в UI | 11 | ⬜ | 🔴 | Статус, визуальный diff, commit, публикация, слияние `credo merge`, история версий; workspace-only панель, read-only «Версии», переключатель версий, хотфикс-линия (Q32) |
+| [`agent_minimal.feature`](agent_minimal.feature) | Чат с агентом | 9 | ⬜ | 🔴 | MCP через stdio, `check.create/test/publish`, отображение вызовов; автозапуск sidecar (Q30), тест через черновик (Q33), контракт `check.create` (Q28); контекст активного правила, инлайн-результаты (Q31) |
 | [`file_management.feature`](file_management.feature) | Управление файлами | 6 | ⬜ | 🟡 | Создание/переименование/удаление, drag-and-drop, поиск |
 | [`graph_view.feature`](graph_view.feature) | Граф связей | 4 | ⬜ | ⏳ | Визуализация зависимостей правил конвейера |
-| [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | 🔴 | Initialize, диагностика, completion, hover, definition, formatting, токены |
+| [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | 🔴 | Initialize, диагностика, completion, hover, definition, formatting, токены; автодополнение: ключевые слова + слова с точкой, без типов (Q37) |
 | [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 6 | ⬜ | 🔴 | Sidecar-процесс, диагностика/completion в CodeMirror, перезапуск |
+
+> **Решение Q30 (2026-09-26):** Notebook спавнит `credo-server` как
+> локальный sidecar через stdio (JSON-RPC 2.0) и запускает его
+> автоматически при старте (скрыто от пользователя); сервер работает в
+> режиме «только MCP» (Q27). `published-repo` локален; HTTP+SSE и внешний
+> сервер — вне MVP (v0.2+, multi-user).
+
+> **Решение Q32 (2026-09-26):** git-панель Notebook работает только с
+> workspace-репозиторием; репозиторий публикаций — внутренняя деталь
+> сервера, виден read-only в панели «Версии» (манифест /
+> `check.list_published`). Переключение версий — выпадающий список в
+> тулбаре редактора с группировкой по major.minor; workspace при
+> переключении не затирается; сопровождение старых линий (хотфикс 1.0.x) —
+> `git_integration.feature`. Агент исполняет через `check.test` на
+> черновике, созданном из буфера (Q33); публикация — файл на диске
+> (`agent_minimal.feature`).
+
+> **Решение Q33 (2026-09-26):** исполнение из редактора и агентом —
+> единый механизм через MCP `check.test` на черновике; локального
+> исполнения через Tauri `dar-core` нет. Кнопка «Выполнить» активна
+> только при наличии черновика (`inline_execution.feature`,
+> `agent_minimal.feature`). Опубликованная версия — `check.run`
+> (в `credo2` ещё не реализован, `mcp_tools.feature`).
+
+> **Решение Q34 (2026-09-26):** «быстрые прогоны» из редактора —
+> черновики тестов в `.dar-notebook/results-cache.json` (вне git);
+> канонические `tests/*.тест` — v0.2 (`inline_execution.feature`).
+
+> **Решение Q31 (2026-09-26):** чат с агентом — правая панель основного
+> окна (третья колонка; видима по умолчанию, resize/toggle); чат общий
+> для workspace, агент получает контекст активного правила; результаты
+> `check.test` — инлайн в редакторе (подсветка условия + блок результата),
+> в чате — рассуждения и свёрнутые вызовы без JSON; отдельное окно
+> (Slack) — вне MVP.
+
+> **Решение Q37 (2026-09-26):** каталог `tables/` исключён (схема полей и
+> словари — из БД; в MVP — `HashMap`/демо-конфиг, без явной схемы).
+> Автодополнение — ключевые слова языка + слова с точкой из открытых
+> файлов; типы полей не подсказываются (v0.2); словарь решений —
+> демо-конфиг системной таблицы банка (не хардкод); векторная БД и
+> абстракция источника — после MVP.
 
 ### Аналитика и интеграции (план / вау)
 
@@ -160,13 +225,14 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
 | [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⏸ | ⏳ | Экспорт версии/черновика, импорт файла — пост-MVP (Q26) |
 
-**Итого: 36 файлов, 193 сценария** (backend — 27 файлов / 129 сценариев,
-frontend DAR Notebook — 9 файлов / 64 сценария).
+**Итого: 36 файлов, 206 сценариев** (backend — 27 файлов / 133 сценария,
+frontend DAR Notebook — 9 файлов / 73 сценария).
 
 ## Соответствие коду
 
-> **Q13 (решено 2026-09-25):** артефакт публикации — каталог
-> `checks/{name}/{version}/` (`rule.json`, `contract.json`, `meta.json`);
+> **Q13 (решено 2026-09-25), уточнено Q32 (2026-09-26):** артефакт
+> публикации — каталог `checks/{name}/{X}/{Y}/{Z}/` (X = major, Y = minor,
+> Z = patch; `rule.json`, `contract.json`, `meta.json`);
 > `name` — машиночитаемый латинский идентификатор (например, `CreditAgeMin`),
 > человекочитаемое имя — `display_name` в `meta.json`. Исходный `.dar` в
 > реестр не попадает, связь — через `source_hash`.

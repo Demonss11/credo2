@@ -37,7 +37,7 @@
     Дано в main есть "CreditAgeMin" версии "1.0.0"
     Когда публикуется "CreditAgeMin" версии "2.0.0" с новым входом
     Тогда публикация успешна
-    И в ветке "publish/CreditAgeMin-2.0.0" есть путь "checks/CreditAgeMin/2.0.0/"
+    И в ветке "publish/CreditAgeMin-2.0.0" есть путь "checks/CreditAgeMin/2/0/0/"
 
   Сценарий: Патч без изменения контракта разрешён
     Дано в main есть "CreditAgeMin" версии "1.0.0"

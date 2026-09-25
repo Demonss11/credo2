@@ -21,5 +21,5 @@
 
   Сценарий: Данные deprecated-версии сохраняются
     Дано "CreditAgeMin" версии "1.0.0" помечена deprecated
-    Тогда путь "checks/CreditAgeMin/1.0.0/" всё ещё существует в main
+    Тогда путь "checks/CreditAgeMin/1/0/0/" всё ещё существует в main
     И файлы внутри доступны через GET /checks/CreditAgeMin/versions/1.0.0
