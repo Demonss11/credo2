@@ -37,7 +37,7 @@ impl McpServer {
             "check.deprecate" => self.deprecate(args).await,
             "check.list_published" => self.list_published().await,
             "check.rebuild_manifest" => self.rebuild_manifest().await,
-            _ => Err(format!("unknown tool: {name}")),
+            _ => Err(format!("неизвестный инструмент: {name}")),
         }
     }
 

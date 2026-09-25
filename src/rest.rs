@@ -57,7 +57,7 @@ async fn auth(State(state): State<Arc<AppState>>, req: Request, next: Next) -> R
         if provided != Some(expected.as_str()) {
             return (
                 StatusCode::UNAUTHORIZED,
-                Json(json!({ "error": "missing or invalid x-api-key" })),
+                Json(json!({ "error": "ошибка аутентификации: неверный или отсутствующий x-api-key" })),
             )
                 .into_response();
         }
@@ -87,10 +87,12 @@ async fn list_versions(
     State((_, cache)): State<Ctx>,
     Path(name): Path<String>,
 ) -> Result<Json<JsonValue>, ApiErr> {
-    let e = cache
-        .versions(&name)
-        .await
-        .ok_or_else(|| err(StatusCode::NOT_FOUND, format!("check '{name}' not found")))?;
+    let e = cache.versions(&name).await.ok_or_else(|| {
+        err(
+            StatusCode::NOT_FOUND,
+            format!("проверка '{name}' не найдена"),
+        )
+    })?;
     Ok(Json(serde_json::to_value(e).unwrap()))
 }
 
@@ -98,10 +100,12 @@ async fn get_version(
     State((_, cache)): State<Ctx>,
     Path((name, version)): Path<(String, String)>,
 ) -> Result<Json<JsonValue>, ApiErr> {
-    let c = cache
-        .get(&name, &version)
-        .await
-        .ok_or_else(|| err(StatusCode::NOT_FOUND, format!("{name}@{version} not found")))?;
+    let c = cache.get(&name, &version).await.ok_or_else(|| {
+        err(
+            StatusCode::NOT_FOUND,
+            format!("версия не найдена: {name}@{version}"),
+        )
+    })?;
     Ok(Json(json!({
         "name": c.name, "version": c.version,
         "rule": c.rule, "contract": c.contract,
@@ -118,10 +122,12 @@ async fn eval_active(
     Path(name): Path<String>,
     Json(input): Json<HashMap<String, Value>>,
 ) -> Result<Json<JsonValue>, ApiErr> {
-    let active = cache
-        .active_version(&name)
-        .await
-        .ok_or_else(|| err(StatusCode::NOT_FOUND, format!("check '{name}' not found")))?;
+    let active = cache.active_version(&name).await.ok_or_else(|| {
+        err(
+            StatusCode::NOT_FOUND,
+            format!("проверка '{name}' не найдена"),
+        )
+    })?;
     eval_inner(&cache, &name, &active, input, true).await
 }
 
@@ -140,10 +146,12 @@ async fn eval_inner(
     input: HashMap<String, Value>,
     is_active: bool,
 ) -> Result<Json<JsonValue>, ApiErr> {
-    let c = cache
-        .get(name, version)
-        .await
-        .ok_or_else(|| err(StatusCode::NOT_FOUND, format!("{name}@{version} not found")))?;
+    let c = cache.get(name, version).await.ok_or_else(|| {
+        err(
+            StatusCode::NOT_FOUND,
+            format!("версия не найдена: {name}@{version}"),
+        )
+    })?;
     // Q8/Q9: отсутствующее поле или несовместимые типы — 422, а не
     // молчаливое matched = false.
     let result = crate::core::evaluate_rule(&c.rule, &input)

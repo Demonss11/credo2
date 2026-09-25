@@ -18,7 +18,7 @@
     Дано "CREDO_API_KEY=secret"
     Когда клиент вызывает GET /checks с "x-api-key: wrong"
     Тогда ответ 401
-    И тело содержит "missing or invalid x-api-key"
+    И тело содержит "ошибка аутентификации: неверный или отсутствующий x-api-key"
 
   Сценарий: /health и /docs доступны без ключа
     Дано "CREDO_API_KEY=secret"

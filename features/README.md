@@ -61,8 +61,8 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`lexer.feature`](lexer.feature) | Лексер | 6 | ⬜ | ⏳ | Токены: ключевые слова, идентификаторы, числа, строки, комментарии, операторы |
 | [`parser.feature`](parser.feature) | Парсер | 5 | 🟡 | 🔴 | Дерево правила, `Приоритет`, причина, ошибки синтаксиса |
 | [`execution.feature`](execution.feature) | Исполнение | 3 | 🟡 | 🔴 | Срабатывание/несрабатывание, операторы сравнения |
-| [`explain.feature`](explain.feature) | Объяснимость | 4 | 🟡 | 🔴 | Поля объяснения: правило, приоритет, условие, значение |
-| [`errors.feature`](errors.feature) | Ошибки | 3 | 🟡 | 🔴 | Понятные сообщения для риск-технолога |
+| [`explain.feature`](explain.feature) | Объяснимость | 3 | ✅ | 🔴 | Поля объяснения: `rule_name`, `condition`, `actual_value` (латиница, Q42) |
+| [`errors.feature`](errors.feature) | Ошибки | 3 | 🟡 | 🔴 | «Неизвестное поле» и «Несовместимые типы» на исполнении (Q8/Q9); «Файл пуст» и ошибки типов на парсере — v0.2 |
 
 > **Решение Q3 (2026-09-24):** MVP использует regex-минимум — это и есть
 > язык v0.1, канонизированный в [`../GRAMMAR.md`](../GRAMMAR.md). Лексер и
@@ -83,12 +83,12 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`draft.feature`](draft.feature) | Управление черновиками | 6 | 🟡 | 🔴 | `check.create/list_drafts/get_draft/delete_draft`, перезапись |
-| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 4 | 🟡 | 🔴 | `check.test` на конкретных данных |
-| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | 🔴 | `check.publish`, метаданные, deprecated, запрет дублей |
+| [`draft.feature`](draft.feature) | Управление черновиками | 9 | 🟡 | 🔴 | `check.create/list_drafts/get_draft/delete_draft`, перезапись; производные от `.dar`, `stale` по `source_hash` |
+| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 5 | 🟡 | 🔴 | `check.test` на конкретных данных, включая устаревшие черновики |
+| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | 🔴 | `check.publish`: ветка `publish/{name}-{version}`, артефакт `checks/{name}/{version}/`, метаданные, deprecated, запрет дублей |
 | [`publish_rules.feature`](publish_rules.feature) | Правила публикации | 6 | ✅ | 🔴 | Ветка вместо main, downgrade, MAJOR bump при смене контракта |
 | [`immutability.feature`](immutability.feature) | Иммутабельность | 2 | ✅ | 🟡 | Повторная публикация версии отклоняется |
-| [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 4 | ✅ | 🔴 | Версия = путь `checks/{name}/{version}/`, `meta.json` |
+| [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 4 | ✅ | 🔴 | Версия = путь `checks/{name}/{version}/` (`rule.json`, `contract.json`, `meta.json`) |
 
 ### REST API
 
@@ -111,7 +111,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`explain_full.feature`](explain_full.feature) | Объяснимость | 3 | 🟡 | 🔴 | `rule_name`, `condition`, `actual_value`, `matched`, `decision`, `reason`, `priority` |
+| [`explain_full.feature`](explain_full.feature) | Объяснимость | 3 | ✅ | 🔴 | Полная схема: `rule_name`, `condition`, `actual_value`, `matched`, `decision`, `reason`; ошибка при отсутствии поля |
 | [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 4 | ✅ | 🔴 | `check.publish/deprecate/rebuild_manifest/list_published` |
 | [`testing.feature`](testing.feature) | Тестирование | 5 | ✅ | 🔴 | Юнит- и интеграционные тесты, CI, инвентаризация фич |
 
@@ -126,7 +126,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | 🔴 | Трёхколоночный layout, открытие/создание workspace, командная палитра |
 | [`editor.feature`](editor.feature) | Редактор `.dar` | 7 | ⬜ | 🔴 | Подсветка, автодополнение, диагностика, табы, сохранение |
 | [`inline_execution.feature`](inline_execution.feature) | Инлайн-исполнение | 7 | ⬜ | 🔴 | Кнопка «Выполнить», ввод JSON, блоки результатов, несколько тестов |
-| [`git_integration.feature`](git_integration.feature) | Git в UI | 6 | ⬜ | 🔴 | Статус, визуальный diff, commit, публикация, история версий |
+| [`git_integration.feature`](git_integration.feature) | Git в UI | 7 | ⬜ | 🔴 | Статус, визуальный diff, commit, публикация, слияние `credo merge`, история версий |
 | [`agent_minimal.feature`](agent_minimal.feature) | Чат с агентом | 7 | ⬜ | 🔴 | MCP через stdio, `check.create/test/publish`, отображение вызовов |
 | [`file_management.feature`](file_management.feature) | Управление файлами | 6 | ⬜ | 🟡 | Создание/переименование/удаление, drag-and-drop, поиск |
 | [`graph_view.feature`](graph_view.feature) | Граф связей | 4 | ⬜ | ⏳ | Визуализация зависимостей правил конвейера |
@@ -149,10 +149,16 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 |---|---|---:|---|---|---|
 | [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
 
-**Итого: 36 файлов, 187 сценариев** (backend — 27 файлов / 124 сценария,
-frontend DAR Notebook — 9 файлов / 63 сценария).
+**Итого: 36 файлов, 191 сценарий** (backend — 27 файлов / 127 сценариев,
+frontend DAR Notebook — 9 файлов / 64 сценария).
 
 ## Соответствие коду
+
+> **Q13 (решено 2026-09-25):** артефакт публикации — каталог
+> `checks/{name}/{version}/` (`rule.json`, `contract.json`, `meta.json`);
+> `name` — машиночитаемый латинский идентификатор (например, `CreditAgeMin`),
+> человекочитаемое имя — `display_name` в `meta.json`. Исходный `.dar` в
+> реестр не попадает, связь — через `source_hash`.
 
 | Зона | Где в коде | Тесты / проверка |
 |---|---|---|

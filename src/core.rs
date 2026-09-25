@@ -150,7 +150,10 @@ pub fn condition_to_string(c: &Condition) -> String {
 /// Исполнение правила (Q8, Q9):
 /// - отсутствующее поле — строгая ошибка `UnknownField` (не `0`);
 /// - сравнение разных типов — ошибка `TypeMismatch` (не молчаливый `false`).
-pub fn evaluate_rule(rule: &Rule, input: &HashMap<String, Value>) -> Result<Explanation, EvalError> {
+pub fn evaluate_rule(
+    rule: &Rule,
+    input: &HashMap<String, Value>,
+) -> Result<Explanation, EvalError> {
     let actual = input
         .get(&rule.condition.field)
         .cloned()
@@ -491,12 +494,8 @@ mod tests {
             &r,
             &input(&[("Клиент.НесуществующееПоле", Value::Number(25.0))]),
         )
-        .err()
-        .expect("ожидалась ошибка при отсутствии поля");
-        assert_eq!(
-            err,
-            EvalError::UnknownField("Клиент.Возраст".into())
-        );
+        .expect_err("ожидалась ошибка при отсутствии поля");
+        assert_eq!(err, EvalError::UnknownField("Клиент.Возраст".into()));
         assert!(err.to_string().contains("Неизвестное поле"));
         assert!(err.to_string().contains("Клиент.Возраст"));
     }
@@ -511,17 +510,22 @@ mod tests {
 
     #[test]
     fn type_mismatch_is_error_q9() {
-        let r = rule("\
+        let r = rule(
+            "\
 Правило Проверка {
   Если (Клиент.Возраст < \"двадцать\") {
     Решение = Отказ;
   }
-}");
+}",
+        );
         let err = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(25.0))]))
-            .err()
-            .expect("ожидалась ошибка типов");
+            .expect_err("ожидалась ошибка типов");
         match &err {
-            EvalError::TypeMismatch { field, actual, expected } => {
+            EvalError::TypeMismatch {
+                field,
+                actual,
+                expected,
+            } => {
                 assert_eq!(field, "Клиент.Возраст");
                 assert_eq!(*actual, "number");
                 assert_eq!(*expected, "string");
@@ -541,7 +545,14 @@ mod tests {
         assert_eq!(e.decision, "Отказ");
         assert_eq!(e.reason, "Возраст меньше 21");
         let json = serde_json::to_value(&e).unwrap();
-        for key in ["rule_name", "condition", "actual_value", "matched", "decision", "reason"] {
+        for key in [
+            "rule_name",
+            "condition",
+            "actual_value",
+            "matched",
+            "decision",
+            "reason",
+        ] {
             assert!(json.get(key).is_some(), "нет поля {key}");
         }
         assert!(json.get("priority").is_none(), "priority вне MVP (Q4)");
