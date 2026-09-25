@@ -1,4 +1,9 @@
 # language: ru
+# Q20 (решено 2026-09-25): канон пути — /checks/{name}/versions/{version}/...;
+# MVP-минимум REST: versioned evaluate, GET /checks (Q21), /health, /version,
+# /openapi.json. Сценарии с active-evaluate и GET-деталями описывают
+# эндпоинты вне MVP-минимума (реализованы в прототипе, судьба — пост-MVP).
+# Q11: тексты ошибок — русские, статусы 409/410 (401 фиксируется в Q22).
 Функция: REST API
   Как потребитель сервиса
   Я хочу читать версии и выполнять конкретные версии проверок
@@ -16,7 +21,7 @@
   Сценарий: GET /checks возвращает манифест
     Когда клиент вызывает GET /checks
     Тогда ответ 200
-    И тело содержит "count", "service_hash", "checks"
+    И тело содержит "schema_version", "count", "service_hash", "checks"
 
   Сценарий: GET /checks/:name/versions перечисляет версии
     Дано "CreditAgeMin" имеет supported ["1.0.1","1.0.0"] и deprecated ["1.1.0"]
@@ -51,12 +56,17 @@
     Тогда ответ 200
     И поле "version" равно "1.0.0"
 
-  Сценарий: Выполнение deprecated-версии помечается
+  Сценарий: Выполнение deprecated-версии отклоняется
     Дано "CreditAgeMin" версии "1.1.0" помечена deprecated
     Когда клиент вызывает POST /checks/CreditAgeMin/versions/1.1.0/evaluate
-    Тогда ответ 200
-    И поле "deprecated" равно true
-    И поле "deprecation_reason" присутствует
+    Тогда ответ 410
+    И тело содержит "версия выведена из эксплуатации: CreditAgeMin@1.1.0"
+
+  Сценарий: Нет active-версии — активация недоступна
+    Дано все версии "CreditAgeMin" помечены deprecated
+    Когда клиент вызывает POST /checks/CreditAgeMin/evaluate
+    Тогда ответ 409
+    И тело содержит "активация недоступна: CreditAgeMin"
 
   Сценарий: OpenAPI отражает все версии
     Дано манифест содержит "CreditAgeMin" с версиями ["1.0.1","1.0.0"]

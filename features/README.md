@@ -94,9 +94,20 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`evaluate.feature`](evaluate.feature) | REST-исполнение | 7 | 🟡 | 🔴 | `POST .../evaluate`, ключ, 404, манифест, Swagger |
-| [`rest_api.feature`](rest_api.feature) | REST API | 10 | ✅ | 🔴 | `/version`, `/checks`, версии, active/evaluate, OpenAPI, кэш |
+| [`evaluate.feature`](evaluate.feature) | REST-исполнение | 7 | 🟡 | 🔴 | `POST .../versions/{version}/evaluate`, ключ, 404, манифест (Q21), отказ deprecated, Swagger |
+| [`rest_api.feature`](rest_api.feature) | REST API | 11 | 🟡 | 🔴 | `/version`, `/checks`, версии, active/evaluate, отказ deprecated (410), «активация недоступна» (409), OpenAPI, кэш |
 | [`rest_auth.feature`](rest_auth.feature) | Аутентификация REST | 5 | ✅ | 🔴 | API-key, 401, `/health` и `/docs` без ключа |
+
+> **Решения Q11/Q20/Q21 (2026-09-25):** канон пути —
+> `/checks/{name}/versions/{version}/...`. MVP-минимум REST:
+> `POST /checks/{name}/versions/{version}/evaluate`, `GET /checks`
+> (манифест: `schema_version`, `count`, `service_hash`, `checks[]` с
+> `name`/`active`/`supported`/`deprecated`) и инфраструктурные
+> `GET /health`, `GET /version`, `GET /openapi.json`. Тексты ошибок —
+> русские: 404 «проверка не найдена: {name}», 410 «версия выведена из
+> эксплуатации», 409 «активация недоступна» (401 — Q22). Эндпоинты
+> active-evaluate и GET-детали — вне MVP-минимума (реализованы в
+> прототипе; судьба — пост-MVP, в MVP не удаляются и не развиваются).
 
 ### Манифест и жизненный цикл
 
@@ -137,10 +148,9 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`dashboard.feature`](dashboard.feature) | Обзор проверок | 3 | 🟡 | 🟡 | Активные/deprecated, история версий, `latest` |
+| [`dashboard.feature`](dashboard.feature) | Обзор проверок | 3 | 🟡 | 🟡 | Активные/deprecated и состав версий из манифеста (`active`/`supported`/`deprecated`) |
 | [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⬜ | 🟡 | Прогон набора заявок, агрегация, частичные ошибки |
 | [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⬜ | 🟢 | Человекочитаемый текст отказа/одобрения |
-| [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⬜ | 🟢 | Экспорт версии/черновика, импорт файла |
 | [`wasm.feature`](wasm.feature) | WASM в браузере | 4 | ⬜ | 🟢 | Локальное исполнение правил в браузере |
 
 ### Отложено
@@ -148,8 +158,9 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
 | [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
+| [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⏸ | ⏳ | Экспорт версии/черновика, импорт файла — пост-MVP (Q26) |
 
-**Итого: 36 файлов, 191 сценарий** (backend — 27 файлов / 127 сценариев,
+**Итого: 36 файлов, 192 сценария** (backend — 27 файлов / 128 сценариев,
 frontend DAR Notebook — 9 файлов / 64 сценария).
 
 ## Соответствие коду
