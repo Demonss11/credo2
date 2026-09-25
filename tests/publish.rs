@@ -216,6 +216,32 @@ fn merge_preserves_other_checks() {
 }
 
 #[test]
+fn cyrillic_check_name_is_listed() {
+    let t = tmp_repo();
+    let src = "Правило МинимальныйВозраст { Если (Клиент.Возраст < 21) { Решение = Отказ; Причина = \"x\"; } }";
+    let r = parse_rule(src).unwrap();
+    publish(
+        t.path(),
+        &r,
+        &contract_from_rule(&r, "1.0.0"),
+        "1.0.0",
+        "test",
+    )
+    .unwrap();
+    merge_branch_to_main(t.path(), "publish/МинимальныйВозраст-1.0.0");
+
+    // git ls-tree экранирует кириллицу, если не запросить `-z` (регрессия).
+    let checks = list_from_ref(t.path(), "main").unwrap();
+    assert_eq!(checks.len(), 1);
+    assert_eq!(checks[0].name, "МинимальныйВозраст");
+    assert_eq!(checks[0].version, "1.0.0");
+
+    let m = credo2::build_manifest(&checks);
+    assert_eq!(m.checks.len(), 1);
+    assert_eq!(m.checks[0].active, "1.0.0");
+}
+
+#[test]
 fn create_ref_prevents_double_publish() {
     let t = tmp_repo();
     let r = rule_with("Клиент.Возраст");

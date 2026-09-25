@@ -13,12 +13,10 @@ use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
 
-pub async fn serve(
-    state: Arc<AppState>,
-    cache: Arc<ServiceCache>,
-    addr: SocketAddr,
-) -> anyhow::Result<()> {
-    let app = Router::new()
+/// Собирает приложение REST. Выделено из `serve`, чтобы интеграционные
+/// тесты могли вызывать маршруты через `tower::ServiceExt::oneshot`.
+pub fn app(state: Arc<AppState>, cache: Arc<ServiceCache>) -> Router {
+    Router::new()
         .route("/health", get(health))
         .route("/docs", get(docs))
         .route("/openapi.json", get(openapi))
@@ -32,19 +30,30 @@ pub async fn serve(
             post(eval_version),
         )
         .layer(middleware::from_fn_with_state(state.clone(), auth))
-        .with_state((state, cache));
+        .with_state((state, cache))
+}
 
+pub async fn serve(
+    state: Arc<AppState>,
+    cache: Arc<ServiceCache>,
+    addr: SocketAddr,
+) -> anyhow::Result<()> {
     let listener = tokio::net::TcpListener::bind(addr).await?;
     tracing::info!("REST on http://{addr}  Swagger: http://{addr}/docs");
-    axum::serve(listener, app).await?;
+    axum::serve(listener, app(state, cache)).await?;
     Ok(())
 }
 
 type Ctx = (Arc<AppState>, Arc<ServiceCache>);
 type ApiErr = (StatusCode, Json<JsonValue>);
 
-fn err(code: StatusCode, msg: impl Into<String>) -> ApiErr {
-    (code, Json(json!({ "error": msg.into() })))
+/// Конверт ошибки Q23: `{"error": {"code", "message"}}`.
+/// `code` — стабильный `snake_case` (латиница); `message` — русский текст Q11.
+fn err(code: &'static str, status: StatusCode, msg: impl Into<String>) -> ApiErr {
+    (
+        status,
+        Json(json!({ "error": { "code": code, "message": msg.into() } })),
+    )
 }
 
 async fn auth(State(state): State<Arc<AppState>>, req: Request, next: Next) -> Response {
@@ -55,11 +64,12 @@ async fn auth(State(state): State<Arc<AppState>>, req: Request, next: Next) -> R
     if let Some(expected) = state.api_key() {
         let provided = req.headers().get("x-api-key").and_then(|v| v.to_str().ok());
         if provided != Some(expected.as_str()) {
-            return (
+            return err(
+                "unauthorized",
                 StatusCode::UNAUTHORIZED,
-                Json(json!({ "error": "ошибка аутентификации: неверный или отсутствующий x-api-key" })),
+                "ошибка аутентификации: неверный или отсутствующий x-api-key",
             )
-                .into_response();
+            .into_response();
         }
     }
     next.run(req).await
@@ -97,8 +107,9 @@ async fn list_versions(
 ) -> Result<Json<JsonValue>, ApiErr> {
     let e = cache.versions(&name).await.ok_or_else(|| {
         err(
+            "check_not_found",
             StatusCode::NOT_FOUND,
-            format!("проверка '{name}' не найдена"),
+            format!("проверка не найдена: {name}"),
         )
     })?;
     Ok(Json(serde_json::to_value(e).unwrap()))
@@ -110,6 +121,7 @@ async fn get_version(
 ) -> Result<Json<JsonValue>, ApiErr> {
     let c = cache.get(&name, &version).await.ok_or_else(|| {
         err(
+            "version_not_found",
             StatusCode::NOT_FOUND,
             format!("версия не найдена: {name}@{version}"),
         )
@@ -130,13 +142,22 @@ async fn eval_active(
     Path(name): Path<String>,
     Json(input): Json<HashMap<String, Value>>,
 ) -> Result<Json<JsonValue>, ApiErr> {
-    let active = cache.active_version(&name).await.ok_or_else(|| {
+    let entry = cache.versions(&name).await.ok_or_else(|| {
         err(
+            "check_not_found",
             StatusCode::NOT_FOUND,
-            format!("проверка '{name}' не найдена"),
+            format!("проверка не найдена: {name}"),
         )
     })?;
-    eval_inner(&cache, &name, &active, input, true).await
+    // Q21/Q11: все версии deprecated — active пуст, активация недоступна.
+    if entry.active.is_empty() {
+        return Err(err(
+            "activation_unavailable",
+            StatusCode::CONFLICT,
+            format!("активация недоступна: {name}"),
+        ));
+    }
+    eval_inner(&cache, &name, &entry.active, input, true).await
 }
 
 async fn eval_version(
@@ -156,14 +177,28 @@ async fn eval_inner(
 ) -> Result<Json<JsonValue>, ApiErr> {
     let c = cache.get(name, version).await.ok_or_else(|| {
         err(
+            "version_not_found",
             StatusCode::NOT_FOUND,
             format!("версия не найдена: {name}@{version}"),
         )
     })?;
+    // Q11: deprecated-версия не исполняется — 410 Gone.
+    if c.meta.deprecated_at.is_some() {
+        return Err(err(
+            "version_deprecated",
+            StatusCode::GONE,
+            format!("версия выведена из эксплуатации: {name}@{version}"),
+        ));
+    }
     // Q8/Q9: отсутствующее поле или несовместимые типы — 422, а не
     // молчаливое matched = false.
-    let result = crate::core::evaluate_rule(&c.rule, &input)
-        .map_err(|e| err(StatusCode::UNPROCESSABLE_ENTITY, e.to_string()))?;
+    let result = crate::core::evaluate_rule(&c.rule, &input).map_err(|e| {
+        err(
+            "evaluation_failed",
+            StatusCode::UNPROCESSABLE_ENTITY,
+            e.to_string(),
+        )
+    })?;
     let deprecated = c.meta.deprecated_at.is_some();
     Ok(Json(json!({
         "check": name,
@@ -175,18 +210,45 @@ async fn eval_inner(
     })))
 }
 
+/// Ответ-ошибка для OpenAPI: ссылка на общий конверт Q23/`ErrorResponse`.
+fn error_response(description: &str) -> JsonValue {
+    json!({
+        "description": description,
+        "content": {
+            "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            }
+        }
+    })
+}
+
 async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
     let m = cache.manifest().await;
     let checks = cache.checks().await;
 
     let mut paths = serde_json::Map::new();
-    paths.insert("/version".into(), json!({
-        "get": { "summary": "Отпечаток состояния", "responses": { "200": { "description": "OK" } } }
-    }));
+    paths.insert(
+        "/version".into(),
+        json!({
+            "get": {
+                "summary": "Отпечаток состояния",
+                "responses": {
+                    "200": { "description": "OK" },
+                    "401": error_response("Не авторизован")
+                }
+            }
+        }),
+    );
     paths.insert(
         "/checks".into(),
         json!({
-            "get": { "summary": "Манифест", "responses": { "200": { "description": "OK" } } }
+            "get": {
+                "summary": "Манифест",
+                "responses": {
+                    "200": { "description": "OK" },
+                    "401": error_response("Не авторизован")
+                }
+            }
         }),
     );
 
@@ -195,8 +257,14 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
         paths.insert(
             format!("/checks/{name}/versions"),
             json!({
-                "get": { "summary": format!("Версии {name}"),
-                         "responses": { "200": { "description": "OK" } } }
+                "get": {
+                    "summary": format!("Версии {name}"),
+                    "responses": {
+                        "200": { "description": "OK" },
+                        "404": error_response("Проверка не найдена"),
+                        "401": error_response("Не авторизован")
+                    }
+                }
             }),
         );
 
@@ -214,31 +282,45 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
 
             let summary = format!("{name}@{v}");
             let deprecated = c.meta.deprecated_at.is_some();
-            let mut ops = json!({
-                "get": { "summary": format!("Контракт {summary}"),
-                         "responses": { "200": { "description": "OK" }, "404": { "description": "Not found" } } },
-                "post": {
-                    "summary": format!("Выполнить {summary}"),
-                    "description": c.contract.description,
-                    "requestBody": {
-                        "required": true,
-                        "content": { "application/json": {
-                            "schema": { "type": "object", "properties": props, "additionalProperties": true }
-                        }}
-                    },
-                    "responses": { "200": { "description": "OK" }, "404": { "description": "Not found" } }
-                }
+            let mut post_responses = json!({
+                "200": { "description": "OK" },
+                "404": error_response("Версия не найдена"),
+                "422": error_response("Ошибка исполнения"),
+                "401": error_response("Не авторизован")
             });
             if deprecated {
-                ops["post"]["deprecated"] = json!(true);
+                post_responses["410"] = error_response("Версия выведена из эксплуатации");
+            }
+            let mut post = json!({
+                "summary": format!("Выполнить {summary}"),
+                "description": c.contract.description,
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": {
+                        "schema": { "type": "object", "properties": props, "additionalProperties": true }
+                    }}
+                },
+                "responses": post_responses
+            });
+            if deprecated {
+                post["deprecated"] = json!(true);
             }
             paths.insert(
                 format!("/checks/{name}/versions/{v}/evaluate"),
-                json!({ "post": ops["post"].clone() }),
+                json!({ "post": post }),
             );
             paths.insert(
                 format!("/checks/{name}/versions/{v}"),
-                json!({ "get": ops["get"].clone() }),
+                json!({
+                    "get": {
+                        "summary": format!("Контракт {summary}"),
+                        "responses": {
+                            "200": { "description": "OK" },
+                            "404": error_response("Версия не найдена"),
+                            "401": error_response("Не авторизован")
+                        }
+                    }
+                }),
             );
         }
 
@@ -253,19 +335,28 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
                 .iter()
                 .map(|f| (f.name.clone(), json!({ "type": f.type_ })))
                 .collect();
-            paths.insert(format!("/checks/{name}/evaluate"), json!({
-                "post": {
-                    "summary": format!("Выполнить {name}@{active_version} (active)",
-                        active_version = e.active),
-                    "requestBody": {
-                        "required": true,
-                        "content": { "application/json": {
-                            "schema": { "type": "object", "properties": props, "additionalProperties": true }
-                        }}
-                    },
-                    "responses": { "200": { "description": "OK" }, "404": { "description": "Not found" } }
-                }
-            }));
+            paths.insert(
+                format!("/checks/{name}/evaluate"),
+                json!({
+                    "post": {
+                        "summary": format!("Выполнить {name}@{active_version} (active)",
+                            active_version = e.active),
+                        "requestBody": {
+                            "required": true,
+                            "content": { "application/json": {
+                                "schema": { "type": "object", "properties": props, "additionalProperties": true }
+                            }}
+                        },
+                        "responses": {
+                            "200": { "description": "OK" },
+                            "404": error_response("Проверка не найдена"),
+                            "409": error_response("Активация недоступна: все версии выведены из эксплуатации"),
+                            "422": error_response("Ошибка исполнения"),
+                            "401": error_response("Не авторизован")
+                        }
+                    }
+                }),
+            );
         }
     }
 
@@ -276,7 +367,25 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
             "version": m.service_hash,
             "description": "Только main. service_hash = info.version."
         },
-        "paths": paths
+        "paths": paths,
+        "components": {
+            "schemas": {
+                "ErrorResponse": {
+                    "type": "object",
+                    "required": ["error"],
+                    "properties": {
+                        "error": {
+                            "type": "object",
+                            "required": ["code", "message"],
+                            "properties": {
+                                "code": { "type": "string" },
+                                "message": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }))
 }
 

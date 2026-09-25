@@ -370,3 +370,25 @@ impl ServerHandler for McpServer {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// «Сторож» Q26 (Задача 6 плана): импорт/экспорт `.dar` — вне MVP,
+    /// инструментов `check.import`/`check.export*` в `list_tools` быть не должно.
+    #[test]
+    fn no_import_export_tools_q26() {
+        let names: Vec<String> = tool_specs().iter().map(|t| t.name.to_string()).collect();
+
+        assert!(!names.is_empty(), "list_tools пуст");
+        for name in &names {
+            assert!(
+                !name.contains("import") && !name.contains("export"),
+                "появился import/export инструмент (Q26): {name}"
+            );
+        }
+        // Санитарная проверка: список читается и содержит канонические имена.
+        assert!(names.contains(&"check.publish".to_string()), "names = {names:?}");
+    }
+}

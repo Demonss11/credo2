@@ -180,8 +180,14 @@ fn show_file(repo: &Path, refname: &str, path: &str) -> Result<Vec<u8>> {
 }
 
 fn list_tree(repo: &Path, refname: &str) -> Result<Vec<String>> {
-    let out = git_run(repo, &["ls-tree", "-r", "--name-only", refname])?;
-    Ok(out.lines().map(String::from).collect())
+    // `-z`: пути без кавычек и octal-escape. Без него git экранирует
+    // не-ASCII пути (кириллицу), и разбор `checks/...` их теряет.
+    let out = git_run(repo, &["ls-tree", "-r", "-z", "--name-only", refname])?;
+    Ok(out
+        .split('\0')
+        .filter(|p| !p.is_empty())
+        .map(String::from)
+        .collect())
 }
 
 // ---------- репозиторий ----------
