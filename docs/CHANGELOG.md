@@ -42,6 +42,10 @@
   правки без изменения поведения); у `coder` и `tester` skill `rust-skills`
   отключён; маршрут кода — `coder` → `rust-expert` → `tester` → `validator` →
   `docs-writer` → `git`.
+- **Primary-агент `auditor`** (2026-09-26): аудит системы агентов и
+  мета-документации (дубли, противоречия, пробелы, ясность, экономия токенов);
+  правит `AGENTS.md`, `.opencode/agents/**`, `.opencode/rules/**`; вне маршрутов
+  команды, запускается владельцем отдельной сессией.
 - **Корень проекта** — `prototypes/credo2` (`AGENTS.md`, `opencode.json`);
   MCP `credo` работает с рабочей директорией репозитория, данные — `.credo/` (вне git).
 
