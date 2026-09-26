@@ -5,6 +5,15 @@
 > Прототип до релиза API v0.1: перечисленные изменения — намеренные,
 > потребителей в проде нет.
 
+### Документация
+
+- **Документация перенесена в `docs/`**: `SPECIFICATION.md`, `GRAMMAR.md`,
+  `CHANGELOG.md`, `OPEN_QUESTIONS.md`, `features/`, `tasks/`; относительные
+  ссылки и `tests/features_inventory.rs` обновлены.
+- **Введён журнал вопросов и решений**: `docs/questions/Qn.md`,
+  `docs/decisions/Dn-<слаг>.md` (Dn = номер решения в SPEC §10), сводка связей —
+  `docs/TRACEABILITY.md`, процесс — `docs/BRIEF.md`. Пилот миграции — Q1 → D15.
+
 ### Исправлено
 
 - **Кириллические имена проверок не попадали в кэш.** `git ls-tree`

@@ -3,7 +3,8 @@
 Каталог содержит функциональные требования к CREDO (прототип `credo2`) в формате
 **Gherkin** (`# language: ru`), разложенные **по одному файлу на фичу**.
 
-> **Стратегия реализации (Q1, решено 2026-09-24):** требования верифицируются
+> **Стратегия реализации ([Q1](../questions/Q1.md), решено 2026-09-24;
+> решение — [D15](../decisions/D15-evolution-credo2.md)):** требования верифицируются
 > на эволюционирующем `credo2`, а не на отдельном greenfield-проекте. Целевая
 > структура монорепозитория — `SPECIFICATION.md` §5; первым шагом является
 > рефакторинг `credo2` в workspace без изменения поведения (Фаза 0).
@@ -14,7 +15,7 @@
 > спецификация: DoD — `cargo fmt --check`, `cargo clippy -- -D warnings`,
 > `cargo test` + ручной прогон UI-сценариев; cucumber-rs — план v0.2.
 > Инвентаризация (структура файлов, счётчики) проверяется тестом
-> [`../tests/features_inventory.rs`](../tests/features_inventory.rs).
+> [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs).
 
 Требования разделены на две части: **backend** CREDO и **frontend** (UI DAR
 Notebook). Открытые расхождения с `SPECIFICATION.md` и кодом сведены в
@@ -278,9 +279,9 @@ frontend DAR Notebook — 9 файлов / 75 сценариев).
 
 | Зона | Где в коде | Тесты / проверка |
 |---|---|---|
-| Домен, DSL, semver | [`../src/core.rs`](../src/core.rs) | юнит-тесты в `core.rs` |
-| Git-хранилище, публикация, манифест, состояние | [`../src/lib.rs`](../src/lib.rs) | юнит-тесты в `lib.rs`, [`../tests/publish.rs`](../tests/publish.rs) |
-| MCP-инструменты | [`../src/mcp.rs`](../src/mcp.rs) | ручной прогон |
-| REST + OpenAPI + аутентификация | [`../src/rest.rs`](../src/rest.rs) | ручной прогон |
-| CLI | [`../src/main.rs`](../src/main.rs) | — |
-| Инвентаризация фич | [`README.md`](README.md) и `features/*.feature` | [`../tests/features_inventory.rs`](../tests/features_inventory.rs) |
+| Домен, DSL, semver | [`../../src/core.rs`](../../src/core.rs) | юнит-тесты в `core.rs` |
+| Git-хранилище, публикация, манифест, состояние | [`../../src/lib.rs`](../../src/lib.rs) | юнит-тесты в `lib.rs`, [`../../tests/publish.rs`](../../tests/publish.rs) |
+| MCP-инструменты | [`../../src/mcp.rs`](../../src/mcp.rs) | ручной прогон |
+| REST + OpenAPI + аутентификация | [`../../src/rest.rs`](../../src/rest.rs) | ручной прогон |
+| CLI | [`../../src/main.rs`](../../src/main.rs) | — |
+| Инвентаризация фич | [`README.md`](README.md) и `features/*.feature` | [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs) |

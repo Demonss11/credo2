@@ -1,8 +1,8 @@
-//! Q40: инвентаризация Gherkin-фич (`features/*.feature`).
+//! Q40: инвентаризация Gherkin-фич (`docs/features/*.feature`).
 //!
 //! Фичи — документация, а не исполняемая спецификация, поэтому тест не
 //! исполняет сценарии, а проверяет целостность документации: структуру
-//! файлов, полноту перечня и счётчики, совпадающие с `features/README.md`.
+//! файлов, полноту перечня и счётчики, совпадающие с `docs/features/README.md`.
 
 use std::collections::BTreeMap;
 use std::fs;
@@ -15,8 +15,11 @@ struct FeatureFile {
     scenarios: usize,
 }
 
+/// Каталог фич: документация перенесена в `docs/features` (2026-09-26).
 fn features_dir() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("features")
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("docs")
+        .join("features")
 }
 
 fn read(path: &Path) -> String {
@@ -62,7 +65,7 @@ fn collect_features() -> Vec<FeatureFile> {
     files.sort_by(|a, b| a.name.cmp(&b.name));
     assert!(
         !files.is_empty(),
-        "в features/ нет ни одного .feature файла"
+        "в docs/features/ нет ни одного .feature файла"
     );
     files
 }
@@ -96,7 +99,7 @@ fn readme_counts(text: &str) -> BTreeMap<String, usize> {
     }
     assert!(
         !counts.is_empty(),
-        "в features/README.md не найдено ни одной строки таблицы"
+        "в docs/features/README.md не найдено ни одной строки таблицы"
     );
     counts
 }
@@ -123,7 +126,7 @@ fn feature_files_match_readme_inventory() {
     for file in &files {
         assert!(
             counts.contains_key(&file.name),
-            "{}: файл есть, но не указан в features/README.md",
+            "{}: файл есть, но не указан в docs/features/README.md",
             file.name
         );
     }
