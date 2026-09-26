@@ -6,12 +6,4 @@
 
 ## Чекпойнты
 
-- **2026-09-26 · service-git-flow.** Пакет подтверждён (`lead`, лента
-  `service-git-flow.md`). HEAD до коммита `5b6f978`; периметр: 11 modified +
-  4 untracked (лента `service-git-flow.md`, 3 отчёта ревью). Шаги: отчёт в ленту
-  и этот чекпойнт (входят в коммит) → `git add` 16 точных путей → `git commit`
-  (`chore: git-flow с ветками задач и модели ролей на flash`) → `git push` →
-  `git switch -c develop` → `git push -u origin develop`. Хеш коммита и
-  результат — в ответе `lead`.
-- Правила роли: одна команда за вызов; идемпотентность (`git status`/`git log -1`
-  перед шагом); push с таймаутом ≥ 5 мин; после push в ленту не писать.
+- Чекпойнтов ещё не было.
