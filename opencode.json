@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "shell": "pwsh",
+  // Инструкции проекта (корень — prototypes/credo2)
+  "instructions": ["AGENTS.md"],
+  // Сессия стартует с оркестратора рабочей группы
+  "default_agent": "lead",
+
+  // Провайдер моделей
+  "provider": {
+    "routerai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "router ai",
+      "options": {
+        "baseURL": "https://routerai.ru/api/v1"
+      },
+      "models": {
+        "~deepseek/deepseek-v4-flash-latest": {
+          "name": "~deepseek/deepseek-v4-flash-latest"
+        },
+        "~deepseek/deepseek-v4-pro-latest": {
+          "name": "~deepseek/deepseek-v4-pro-latest"
+        },
+        "deepseek/deepseek-v3.2": {
+          "name": "deepseek/deepseek-v3.2"
+        },
+        "qwen/qwen3-coder-plus": {
+          "name": "qwen/qwen3-coder-plus"
+        }
+      }
+    },
+    "opencode-go": {
+      // Оставляем только эти модели, остальные скрываются из /models
+      "whitelist": ["deepseek-v4.1-flash", "deepseek-v4-pro"]
+    }
+  },
+
+  // MCP-серверы проекта (формат OpenCode V2: mcp.servers)
+  "mcp": {
+    "servers": {
+      "rust-analyzer": {
+        "type": "local",
+        "command": ["rust-analyzer-mcp", "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2"],
+        "environment": {
+          "RUST_BACKTRACE": "1"
+        }
+      },
+      "credo": {
+        "type": "local",
+        "command": [
+          "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2/target/release/credo2.exe",
+          "--workspace",
+          "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2"
+        ],
+        "environment": {
+          "RUST_BACKTRACE": "1",
+          "RUST_LOG": "info"
+        }
+      }
+    }
+  }
+}
