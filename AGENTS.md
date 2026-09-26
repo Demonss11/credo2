@@ -37,12 +37,14 @@
 | `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG, `AGENTS.md`; закрытие статусов задач | `docs/**` (кроме журнала), `AGENTS.md` |
 | `coder` | задача кода `T-XX`: правки `src/`, юнит-тесты, DoD | `src/**`, `tests/**`, `Cargo.toml` |
 | `tester` | независимая проверка задачи: DoD, тесты, сценарии `features/` | `tests/**` |
-| `validator` | приёмка: DoD, трассируемость, канон Q41; read-only | — |
+| `validator` | приёмка: DoD, трассируемость, канон Q41; read-only для чужого | `docs/reviews/**` (свои отчёты приёмки) |
+| `researcher` | внешние аналоги и стандарты; вне кода, журнала и приёмки | `docs/research/**` |
 | `git` | git-операции и коммиты (изменяющие — с подтверждением) | — |
 
 Маршруты: журнал (`Qx` — перенос или новая запись) → `migrator` → `validator`;
 доработка `T-XX` → `coder` → `tester` → `validator` → `docs-writer` (закрытие
-статусов задачи) → `git`; документы → `docs-writer` → `validator`.
+статусов задачи) → `git`; документы → `docs-writer` → `validator`; исследование →
+`researcher` → `lead` (обзоры не канон).
 `.opencode/**` и `opencode.json` — служебная зона: её меняет владелец, роли туда
 не пишут.
 Процесс ведения журнала — `docs/BRIEF.md`; реестр задач — `docs/tasks/README.md`.

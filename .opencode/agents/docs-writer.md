@@ -7,8 +7,8 @@ permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: "docs/**", effect: allow }
   - { action: edit, resource: "AGENTS.md", effect: allow }
-  # Внешние пути канонизируются — правило проверить на пилоте.
-  - { action: edit, resource: "../../DECISIONS.md", effect: allow }
+  # Внешний ADR — абсолютный канонический путь (машинно-зависимо).
+  - { action: edit, resource: "D:/pyTechNotes/dar/dar7/dar/dar/DECISIONS.md", effect: allow }
   # Порядок важен: в V2 действует последнее совпавшее правило — журнал ниже.
   - { action: edit, resource: "docs/questions/**", effect: deny }
   - { action: edit, resource: "docs/decisions/**", effect: deny }
@@ -55,7 +55,8 @@ SPEC, GRAMMAR, BRIEF, README, CHANGELOG, `AGENTS.md`, карточки зада�
 Отдельный шаг — **закрытие статусов задачи** после приёмки (`lead` вызывает тебя
 после `validator`): карточка `docs/tasks/T-XX-*/README.md`, сводка
 `docs/tasks/README.md`, при необходимости требование в `docs/features/README.md`
-(порядок — `docs/tasks/README.md`).
+(порядок — `docs/tasks/README.md`). Если есть отчёт приёмки (`docs/reviews/`),
+поставь ссылку на него из карточки.
 
 ## Как оформлять
 

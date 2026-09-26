@@ -5,6 +5,7 @@ model: opencode-go/deepseek-v4-pro
 color: "#ff922b"
 permissions:
   - { action: edit, resource: "*", effect: deny }
+  - { action: edit, resource: "docs/reviews/**", effect: allow }
   - { action: read, resource: "**/target/**", effect: deny }
   - { action: read, resource: ".git/**", effect: deny }
   - { action: read, resource: "**/node_modules/**", effect: deny }
@@ -58,6 +59,13 @@ permissions:
 - относительные ссылки живые (путь существует);
 - нет дублей канона (политика Q41) и пустых заглушек;
 - счётчики `docs/features/README.md` согласованы с тестом `features_inventory`.
+
+## Отчёт приёмки
+
+По запросу `lead` сохраняй отчёт в `docs/reviews/<тип>-<id>-<дата>.md`
+(формат — `.opencode/rules/review.md`, раздел «Хранение отчётов»). Это твоя
+единственная зона записи; всё остальное — read-only. Если сохранение не
+запрошено — отчёт остаётся в ответе.
 
 ## Правила находок
 

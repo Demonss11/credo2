@@ -20,6 +20,7 @@ permissions:
   - { action: subagent, resource: "coder", effect: allow }
   - { action: subagent, resource: "tester", effect: allow }
   - { action: subagent, resource: "validator", effect: allow }
+  - { action: subagent, resource: "researcher", effect: allow }
   - { action: subagent, resource: "git", effect: allow }
   - { action: question, resource: "*", effect: allow }
 ---
@@ -73,6 +74,8 @@ checks:
 - Для кода в `acceptance` всегда включай DoD: `cargo fmt --check`,
   `cargo clippy --all-targets -- -D warnings`, `cargo test --all`.
 - Для переноса в `acceptance` включай «чек-лист `docs/BRIEF.md` §5.7 выполнен».
+- Для крупной приёмки (код, перенос) проси `validator` сохранить отчёт
+  в `docs/reviews/`.
 - Бриф — отдельный вызов subagent'а, не часть ответа пользователю.
 - Одна задача — один вызов; не дублируй уже идущие или сделанные задачи.
 
@@ -84,6 +87,7 @@ checks:
 - `@validator` — прими T-01 по чек-листу кода (`docs/BRIEF.md` §5.7)
 - `@docs-writer` — закрой T-01: статусы в карточке, сводке и требованиях
 - `@git` — коммит `docs(Q2): перенос в журнал` (с подтверждением)
+- `@researcher` — собери внешние аналоги по <теме> в `docs/research/`
 
 ## Чего ты не делаешь
 
