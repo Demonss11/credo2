@@ -40,7 +40,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-03](T-03-check-create/README.md) | `check.create`: `{name, source}` и ответ `{status, name}` | Q28 | P1 | — | ⬜ |
 | [T-04](T-04-mcp-errors/README.md) | MCP-ошибки: конверт и 10 стабильных кодов (§4.5) | Q29, Q11 | P1 | — | ⬜ |
 | [T-05](T-05-mcp-success-schemas/README.md) | MCP-схемы успеха инструментов (§4.5) | Q29 | P1 | T-01, T-02 | ⬜ |
-| [T-11](T-11-agent-cycle/README.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта ролей | решение владельца 2026-09-26 (журнал — через `migrator`) | P1 | — | ⬜ |
+| [T-11](T-11-agent-cycle/README.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта ролей | [D38](../decisions/D38-agent-cycle.md) (Q43) | P1 | — | 🚧 |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |
@@ -49,7 +49,9 @@ P2 — реестр и артефакты (до демо, если успеем)
 ## DoD для любой задачи
 
 `cargo fmt --check` + `cargo clippy --all-targets -- -D warnings` +
-`cargo test --all` (все зелёные); соответствующие сценарии фич не
-противоречат поведению. При закрытии задачи: обновить статус в карточке и в
-сводке, а также статус требования в `../features/README.md`, если оно стало
+`cargo test --all` (все зелёные); полный прогон `cargo test --all` выполняет
+только `validator`, а роли, работающие с кодом, ограничиваются компиляцией
+(`fmt`/`check`/`clippy`). Соответствующие сценарии фич не противоречат
+поведению. При закрытии задачи: обновить статус в карточке и в сводке, а
+также статус требования в `../features/README.md`, если оно стало
 выполняться.

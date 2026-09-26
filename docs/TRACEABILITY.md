@@ -6,6 +6,7 @@
 | Q | D | Feature | Задачи | Статус |
 |---|---|---|---|---|
 | [Q1](questions/Q1.md) — SPEC: план «с нуля» или доработка `credo2`? | [D15](decisions/D15-evolution-credo2.md) — эволюция `credo2`, не greenfield | [`features/README.md`](features/README.md) (шапка) | [T-10](tasks/T-10-workspace-phase-0/README.md) | resolved |
+| [Q43](questions/Q43.md) — каким должен быть цикл работы команды агентов? | [D38](decisions/D38-agent-cycle.md) — Agile-петля, единый тестировщик, память и почта | [`agents-cycle.feature`](features/agents-cycle.feature) и др. `agents-*.feature` | [T-11](tasks/T-11-agent-cycle/README.md) | resolved |
 
 Легенда статусов: `open` — ждёт решения · `resolved by Dn` — закрыт решением ·
 `dropped` — снят без решения. В колонке «Задачи» — `T-XX` из
