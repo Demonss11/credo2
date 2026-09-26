@@ -83,11 +83,11 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`draft.feature`](draft.feature) | Управление черновиками | 10 | 🟡 | 🔴 | `check.create` (`{name, source}`, «сохранить = обновить», Q28), `list_drafts/get_draft/delete_draft`; производные от `.dar`, `stale` по `source_hash`; draft-first из буфера (Q33) |
-| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 6 | 🟡 | 🔴 | `check.test` на конкретных данных, включая устаревшие черновики; метка тестирования `last_test_checksum`/`tested_at` (Q16/Q34) |
-| [`publish.feature`](publish.feature) | Публикация и версии | 6 | 🟡 | 🔴 | `check.publish`: ветка `publish/{name}-{version}`, артефакт `checks/{name}/{X}/{Y}/{Z}/`, метаданные, deprecated, запрет дублей; гейт теста (`last_test_checksum`, Q16/Q34) |
+| [`draft.feature`](draft.feature) | Управление черновиками | 12 | 🟡 | 🔴 | `check.create` (`{name, source}`, «сохранить = обновить», Q28), `list_drafts/get_draft/delete_draft` по §4.5 (без `size`/`format`, идемпотентное удаление); производные от `.dar`, `stale`/`test_valid`; draft-first из буфера (Q33) |
+| [`test_draft.feature`](test_draft.feature) | Тестирование черновиков | 6 | 🟡 | 🔴 | `check.test` на конкретных данных, включая устаревшие черновики; ответ §4.5 (`source_hash`/`tested_at`/`last_test_checksum`); метка тестирования (Q16/Q34/Q29) |
+| [`publish.feature`](publish.feature) | Публикация и версии | 7 | 🟡 | 🔴 | `check.publish`: ветка `publish/{name}-{version}`, артефакт `checks/{name}/{X}/{Y}/{Z}/`, метаданные (`display_name`/`source_hash`/`compiler_version` ожидают кода — Q13), запрет дублей; ответ §4.5, отказы `publish_failed`; гейт теста (Q16/Q34/Q29) |
 | [`publish_rules.feature`](publish_rules.feature) | Правила публикации | 6 | 🟡 | 🔴 | Ветка вместо main, downgrade, MAJOR bump при смене контракта; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
-| [`immutability.feature`](immutability.feature) | Иммутабельность | 2 | 🟡 | 🟡 | Повторная публикация версии отклоняется; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
+| [`immutability.feature`](immutability.feature) | Иммутабельность | 4 | 🟡 | 🟡 | Повторная публикация той же версии (`publish_failed`) и при существующей ветке (`create_ref` без перезаписи); параллельная публикация — один победитель; новая версия не изменяет старые артефакты (Q17); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 5 | 🟡 | 🔴 | Версия = путь `checks/{name}/{X}/{Y}/{Z}/` (`rule.json`, `contract.json`, `meta.json`); раскладка semver (Q32) |
 
 > **Решение Q32 (2026-09-26):** структура реестра публикаций —
@@ -108,11 +108,34 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 > черновик («сохранить = обновить»), флага перезаписи нет; ответ
 > `{status: "ok", name}`; `expected_kind`/`contract` не используются.
 
+> **Решение Q29 (2026-09-26):** JSON-контракты MCP-инструментов — единый
+> источник истины по взаимодействию агента с сервером
+> (`SPECIFICATION.md` §4.5). Успешный ответ — объект с `status`
+> (`ok`/`published`/`deprecated`), ошибки — конверт
+> `{"error": {"code", "message"}}` со стабильными кодами
+> (`validation_failed`, `draft_not_found`, `evaluation_failed`,
+> `publish_failed`, `version_not_found`, `version_deprecated`,
+> `deprecation_conflict`, `manifest_error`, `unknown_tool`,
+> `internal_error`). Ключи — `snake_case` латиницей, текстовые значения
+> (`decision`, `reason`, `message`) — русские; каноническое имя входных
+> данных — `input`; черновик не раскрывает внутренний `Rule`, поля
+> `size`/`format` не вводятся, `stale`/`test_valid` — вычисляемые. Полные
+> схемы — Q29 (`../OPEN_QUESTIONS.md`).
+
 > **Решение Q34 (2026-09-26):** в MVP тесты — только локальный кэш
 > `.dar-notebook/results-cache.json` («быстрые прогоны» — черновики тестов;
-> вне git, `.dar-notebook/` в `.gitignore`). Готовность к публикации —
+> вне git, `.credo/` и `.dar-notebook/` в `.gitignore`, Q19). Готовность к публикации —
 > успешный `check.test` (`last_test_checksum`/`tested_at`, Q16), а не файл
 > теста. `tests/*.тест` (code=doc) — вне MVP (v0.2).
+
+> **Решение Q17 (2026-09-26):** иммутабельность — bare-git, без отдельного
+> механизма версионирования: единица иммутабельности — каталог версии
+> `checks/{name}/{X}/{Y}/{Z}/` в `main`; отказ при повторной публикации —
+> `publish_failed` (§4.5, не HTTP 409), ветка создаётся атомарно
+> (`create_ref` без перезаписи); слияние — CAS через `credo merge` (Q15).
+> Иммутабельность — основа банковского аудита: действовавшая версия не
+> может быть перезаписана или подменена задним числом. Статус фичи — 🟡:
+> плоский путь `checks/{name}/{version}` в коде ожидает правки Q32.
 
 ### REST API
 
@@ -139,15 +162,23 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 |---|---|---:|---|---|---|
 | [`manifest.feature`](manifest.feature) | Манифест сервиса | 5 | ✅ | 🔴 | active/supported/deprecated, `service_hash`, `manifest.json` |
 | [`manifest_sync.feature`](manifest_sync.feature) | Синхронизация манифеста | 5 | ✅ | 🟡 | Watcher, перечитывание при изменении main, ошибки |
-| [`deprecation.feature`](deprecation.feature) | Deprecation версии | 3 | 🟡 | 🟡 | `check.deprecate`, пересборка манифеста, сохранность данных; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
-| [`semver.feature`](semver.feature) | Строгий semver | 4 | ✅ | 🔴 | Парсинг/нормализация, сравнение, pre-release |
+| [`deprecation.feature`](deprecation.feature) | Deprecation версии | 5 | 🟡 | 🟡 | `check.deprecate` (§4.5: `reason` обязателен, ответ `deprecated`), пересборка манифеста, `deprecation_conflict`, сохранность данных; путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
+| [`semver.feature`](semver.feature) | Строгий semver | 8 | ✅ | 🔴 | Парсинг/нормализация; сравнение по семантике semver (числовое pre-release); build не влияет на идентичность и отбрасывается при записи (Q18) |
+
+> **Решение Q18 (2026-09-26):** сравнение версий — по семантике semver
+> (числовые идентификаторы pre-release — численно); build-метаданные не
+> влияют на идентичность (`1.0.0+a == 1.0.0+b`) и отбрасываются при записи
+> в реестр (`as_storage`); повторная публикация базы с другим build —
+> `publish_failed` («версия уже существует»); публикация pre-release —
+> вне MVP (Q32 п. 8). Устаревший сценарий лексикографического сравнения
+> удалён из `deferred.feature` (6 → 5).
 
 ### Объяснимость, MCP, качество
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
 | [`explain_full.feature`](explain_full.feature) | Объяснимость | 3 | ✅ | 🔴 | Полная схема: `rule_name`, `condition`, `actual_value`, `matched`, `decision`, `reason`; ошибка при отсутствии поля |
-| [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 5 | 🟡 | 🔴 | `check.publish/deprecate/rebuild_manifest/list_published`; `check.run` — ожидает реализации (Q33); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
+| [`mcp_tools.feature`](mcp_tools.feature) | MCP инструменты | 10 | 🟡 | 🔴 | Контракты §4.5: `check.publish/deprecate/rebuild_manifest/list_published/run`; сортировка semver (Q18); `check.run` — ожидает реализации (Q33); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`testing.feature`](testing.feature) | Тестирование | 5 | ✅ | 🔴 | Юнит- и интеграционные тесты, CI, инвентаризация фич |
 
 ### Интерфейс DAR Notebook (frontend, план)
@@ -158,15 +189,15 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | 🔴 | Трёхколоночный layout (чат: resize/toggle, Q31), открытие/создание workspace (без `tests/`/`tables/`, `.gitignore`, Q34/Q37), командная палитра |
+| [`notebook_ui.feature`](notebook_ui.feature) | Основной интерфейс | 5 | ⬜ | 🔴 | Трёхколоночный layout (чат: resize/toggle, Q31), открытие/создание workspace (`rules/Пример.dar`, README, без `tests/`/`tables/`, `.gitignore`: `.credo/`, `.dar-notebook/`; Q19/Q34/Q35/Q37), командная палитра |
 | [`editor.feature`](editor.feature) | Редактор `.dar` | 7 | ⬜ | 🔴 | Подсветка, автодополнение, диагностика, табы, сохранение |
 | [`inline_execution.feature`](inline_execution.feature) | Инлайн-исполнение | 10 | ⬜ | 🔴 | Кнопка «Выполнить», ввод JSON, блоки результатов, несколько тестов; кнопка только при черновике, исполнение через `check.test` (Q33), кэш «быстрых прогонов» (Q34), подсветка сработавшего условия (Q31) |
 | [`git_integration.feature`](git_integration.feature) | Git в UI | 11 | ⬜ | 🔴 | Статус, визуальный diff, commit, публикация, слияние `credo merge`, история версий; workspace-only панель, read-only «Версии», переключатель версий, хотфикс-линия (Q32) |
 | [`agent_minimal.feature`](agent_minimal.feature) | Чат с агентом | 9 | ⬜ | 🔴 | MCP через stdio, `check.create/test/publish`, отображение вызовов; автозапуск sidecar (Q30), тест через черновик (Q33), контракт `check.create` (Q28); контекст активного правила, инлайн-результаты (Q31) |
-| [`file_management.feature`](file_management.feature) | Управление файлами | 6 | ⬜ | 🟡 | Создание/переименование/удаление, drag-and-drop, поиск |
+| [`file_management.feature`](file_management.feature) | Управление файлами | 6 | ⬜ | 🟡 | Создание/переименование/удаление, drag-and-drop, поиск; шаблон нового правила (Q35) |
 | [`graph_view.feature`](graph_view.feature) | Граф связей | 4 | ⬜ | ⏳ | Визуализация зависимостей правил конвейера |
 | [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | 🔴 | Initialize, диагностика, completion, hover, definition, formatting, токены; автодополнение: ключевые слова + слова с точкой, без типов (Q37) |
-| [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 6 | ⬜ | 🔴 | Sidecar-процесс, диагностика/completion в CodeMirror, перезапуск |
+| [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 8 | ⬜ | 🔴 | Sidecar-процесс, диагностика/completion в CodeMirror; падение: автоперезапуск с лимитом, повторный `didOpen`, деградация без LSP (Q39) |
 
 > **Решение Q30 (2026-09-26):** Notebook спавнит `credo-server` как
 > локальный sidecar через stdio (JSON-RPC 2.0) и запускает его
@@ -209,24 +240,32 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 > демо-конфиг системной таблицы банка (не хардкод); векторная БД и
 > абстракция источника — после MVP.
 
+> **Решение Q39 (2026-09-26):** падение LSP: fallback нет — при
+> недоступности sidecar функции LSP недоступны, редактор работает как
+> текстовый (`dar-core` только через LSP, Q33). Автоперезапуск ограничен
+> тремя попытками подряд, далее — уведомление «Сервер языка недоступен» и
+> ручной перезапуск. После перезапуска — `initialize` + повторный
+> `didOpen` открытых документов с текущим текстом (включая несохранённые
+> правки) и перевычисление диагностики; буферы/курсор/undo не теряются.
+
 ### Аналитика и интеграции (план / вау)
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
 | [`dashboard.feature`](dashboard.feature) | Обзор проверок | 3 | 🟡 | 🟡 | Активные/deprecated и состав версий из манифеста (`active`/`supported`/`deprecated`) |
-| [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⬜ | 🟡 | Прогон набора заявок, агрегация, частичные ошибки |
-| [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⬜ | 🟢 | Человекочитаемый текст отказа/одобрения |
 | [`wasm.feature`](wasm.feature) | WASM в браузере | 4 | ⬜ | 🟢 | Локальное исполнение правил в браузере |
 
 ### Отложено
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`deferred.feature`](deferred.feature) | Явно отложенные требования | 6 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
+| [`deferred.feature`](deferred.feature) | Явно отложенные требования | 5 | ⏸ | ⏳ | PR через GitHub API, внешний кэш, OAuth/mTLS, multi-tenant/region |
 | [`import_export.feature`](import_export.feature) | Импорт/экспорт `.dar` | 5 | ⏸ | ⏳ | Экспорт версии/черновика, импорт файла — пост-MVP (Q26) |
+| [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⏸ | ⏳ | Прогон набора заявок, агрегация, частичные ошибки — пост-MVP (Q24) |
+| [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⏸ | ⏳ | Человекочитаемый текст отказа/одобрения — пост-MVP (Q25) |
 
-**Итого: 36 файлов, 206 сценариев** (backend — 27 файлов / 133 сценария,
-frontend DAR Notebook — 9 файлов / 73 сценария).
+**Итого: 36 файлов, 223 сценария** (backend — 27 файлов / 148 сценариев,
+frontend DAR Notebook — 9 файлов / 75 сценариев).
 
 ## Соответствие коду
 
