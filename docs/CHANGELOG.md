@@ -48,6 +48,19 @@
   команды, запускается владельцем отдельной сессией.
 - **Корень проекта** — `prototypes/credo2` (`AGENTS.md`, `opencode.json`);
   MCP `credo` работает с рабочей директорией репозитория, данные — `.credo/` (вне git).
+- **Цикл агентов v2** (T-11, 2026-09-26): Agile-петля с размерными маршрутами
+  S/M/L (`coder → rust-expert → tester → validator → docs-writer → git`);
+  `validator` — единственная роль с `cargo test` (полный DoD-прогон), роли,
+  работающие с кодом, ограничиваются компиляцией (`fmt`/`check`/`clippy`).
+  Память роли — `.opencode/memory/<роль>.md`, лента задачи —
+  `.opencode/mail/T-XX.md` (рабочие данные в git, не канон, Q41); чекпойнт
+  до/после тяжёлых операций, лимиты `steps` и продолжение по `sessionID`;
+  git — пакетное подтверждение после приёмки и идемпотентность при обрыве;
+  канон агентов правит `auditor` (`mode: all`), до коммита — аудит
+  «инструкция ↔ права». Целевые сценарии — `features/agents-*.feature`
+  (6 файлов / 27 сценариев; статусы — [`features/README.md`](features/README.md)),
+  задача — [T-11](tasks/T-11-agent-cycle/README.md), решение —
+  [D38](decisions/D38-agent-cycle.md) (Q43).
 
 ### Добавлено
 

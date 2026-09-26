@@ -17,8 +17,9 @@
 > Инвентаризация (структура файлов, счётчики) проверяется тестом
 > [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs).
 
-Требования разделены на две части: **backend** CREDO и **frontend** (UI DAR
-Notebook). Открытые расхождения с `SPECIFICATION.md` и кодом сведены в
+Требования разделены на три части: **backend** CREDO, **frontend** (UI DAR
+Notebook) и **процесс агентов** (канон и роли команды). Открытые расхождения
+с `SPECIFICATION.md` и кодом сведены в
 [`../OPEN_QUESTIONS.md`](../OPEN_QUESTIONS.md).
 
 ## Как читать
@@ -265,8 +266,24 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⏸ | ⏳ | Прогон набора заявок, агрегация, частичные ошибки — пост-MVP (Q24) |
 | [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⏸ | ⏳ | Человекочитаемый текст отказа/одобрения — пост-MVP (Q25) |
 
-**Итого: 36 файлов, 223 сценария** (backend — 27 файлов / 148 сценариев,
-frontend DAR Notebook — 9 файлов / 75 сценариев).
+### Процесс агентов
+
+> Канон — `../../AGENTS.md` §Рабочая группа агентов; методика —
+> `../../.opencode/rules/`. Проверяются ревью, аудитом и пилотом;
+> автоматического раннера нет (Q40).
+
+| Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
+|---|---|---:|---|---|---|
+| [`agents-cycle.feature`](agents-cycle.feature) | Цикл задачи | 6 | ✅ | 🔴 | Agile-петля `coder → rust-expert → tester → validator → docs-writer → git`; R2 (тесты — только `validator`); чекпойнт до тяжёлой операции; `steps` |
+| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; повторная валидация `-rN`; правки после приёмки; возврат на реальном P1/P2 — предстоит |
+| [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 6 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID` |
+| [`agents-git-approval.feature`](agents-git-approval.feature) | Git-подтверждение | 3 | ✅ | 🔴 | Пакетное подтверждение после приёмки, идемпотентность при обрыве, push ≥ 5 минут |
+| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 4 | ✅ | 🟡 | Класс S/M/L по объёму и риску, фиксация класса в ленте |
+| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 5 | ✅ | 🔴 | Правки канона вносит `auditor`; сверка «инструкция ↔ права», целостность памяти/почты, headless `--model` |
+
+**Итого: 42 файла, 250 сценариев** (backend — 27 файлов / 148 сценариев,
+frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 6 файлов /
+27 сценариев).
 
 ## Соответствие коду
 

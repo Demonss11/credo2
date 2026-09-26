@@ -49,7 +49,7 @@ docs/
 | Понять, что и как реализовано | [`features/README.md`](features/README.md) |
 | Взять задачу по коду | [`tasks/README.md`](tasks/README.md) |
 | Понять, кто из команды агентов что делает | [`../AGENTS.md`](../AGENTS.md) §Рабочая группа агентов |
-| Проверить требования тестом | `cargo test --all` в `prototypes/credo2` |
+| Проверить требования тестом | `cargo test --all` в `prototypes/credo2`; прогон выполняет `validator` |
 
 ## Состояние миграции
 
