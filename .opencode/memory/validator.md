@@ -35,3 +35,31 @@
   - `git status --porcelain -- src tests Cargo.toml Cargo.lock` — пусто; DoD
     полный не запускался (обоснованно: счётчики сценариев не менялись, r1 — 78/78).
   - Отчёт: `docs/reviews/T-11-2026-09-26-r2.md`; итог — в ленту.
+
+## Чекпойнт · T-11 v2.1 · r3 · ДО прогона
+
+- База: HEAD `2901001`; незакоммиченное дерево = 17 путей (13 файлов периметра
+  + `mail/T-11.md`, `memory/git.md`). `git status --porcelain -- src tests
+  Cargo.toml Cargo.lock` — пусто (код не менялся с r1).
+- Машинно (`opencode debug agents`): 17 агентов (10 ролей со `steps`); `cargo
+  test *` — только validator (1 вхождение ресурса); `opencode debug agents` —
+  validator + auditor; edit у auditor — только своя память; у lead `question`
+  есть, у git `question` нет (осталось `ask`).
+- Находки-кандидаты (см. отчёт): P1 — схема A не синхронизирована с журналом
+  (D38 §6, SPEC §10 №38, Q43: «вносит auditor» vs «сервисная сессия»);
+  P3 — CHANGELOG «Primary-агент», agents-rework «полный повторный прогон» для
+  канона/прав, agents-memory-mail «периодический чекпойнт K≈steps/3» без
+  предписания в каноне/ролях.
+- Запускаю (адресно): `cargo fmt --check`, `cargo test --test features_inventory`.
+  Полный DoD не гоняю: src/tests не менялись с r1 (78/78).
+
+## Чекпойнт · T-11 v2.1 · r3 · ПОСЛЕ прогона — вердикт **принято**
+
+- P1/P2/P3 закрыты: журнал под схему A (D38 §6, SPEC §10 №38, Q43 — «сервисная
+  сессия», пометка «уточнено 2026-09-26: схема A»); порог H5 в
+  `agents-rework.feature` — три уровня, как в `review.md`; CHANGELOG «Primary-агент»
+  помечен «пересмотрено»; `AGENTS.md` — периодический чекпойнт `K ≈ steps/3` ≤ 8 и
+  headless `--auto`.
+- `cargo fmt --check` — чисто; `cargo test --test features_inventory` — 4/4
+  (42/253, процесс 6/30). Полный DoD не запускался (src/tests не менялись с r1).
+- Отчёт: `docs/reviews/T-11-2026-09-26-r3.md`; итог — в ленту (append).

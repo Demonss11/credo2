@@ -278,12 +278,12 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; повторная валидация `-rN`; правки после приёмки; возврат на реальном P1/P2 — предстоит |
 | [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 6 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID` |
 | [`agents-git-approval.feature`](agents-git-approval.feature) | Git-подтверждение | 3 | ✅ | 🔴 | Пакетное подтверждение после приёмки, идемпотентность при обрыве, push ≥ 5 минут |
-| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 4 | ✅ | 🟡 | Класс S/M/L по объёму и риску, фиксация класса в ленте |
-| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 5 | ✅ | 🔴 | Правки канона вносит `auditor`; сверка «инструкция ↔ права», целостность памяти/почты, headless `--model` |
+| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск); S/M/L, guard «сценарии `features/` → не ниже M», переопределение владельцем, фиксация в ленте |
+| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 6 | ✅ | 🔴 | Авторство канона — сервисная сессия, `auditor` — независимая приёмка; сверка «инструкция ↔ права» и подтверждений git, целостность памяти/почты, headless `--model --auto` |
 
-**Итого: 42 файла, 250 сценариев** (backend — 27 файлов / 148 сценариев,
+**Итого: 42 файла, 253 сценария** (backend — 27 файлов / 148 сценариев,
 frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 6 файлов /
-27 сценариев).
+30 сценариев).
 
 ## Соответствие коду
 

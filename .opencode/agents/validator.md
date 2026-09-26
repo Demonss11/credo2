@@ -17,6 +17,7 @@ permissions:
   - { action: shell, resource: "cargo fmt *", effect: allow }
   - { action: shell, resource: "cargo clippy *", effect: allow }
   - { action: shell, resource: "cargo test *", effect: allow }
+  - { action: shell, resource: "opencode debug agents", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "git status *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }
@@ -97,8 +98,8 @@ permissions:
   потеря токенов на практике; **P3** — стиль (сообщай, только если правка — одна
   строка и очевидна).
 - Фиксируй версию артефакта (git-хеш или дата снимка) в отчёте: приёмка
-  привязана к проверенному состоянию. Любые правки после приёмки — новая версия
-  и повторная проверка.
+  привязана к проверенному состоянию. Правки после приёмки — по порогу
+  существенности (`.opencode/rules/review.md`, «Возврат на доработку»).
 - Фиксируй находку, только если можешь назвать её последствие; иначе — это не находка.
 - Не больше 2 находок на пункт и не больше 5 находок за проверку.
 - Если P1/P2 нет — скажи «критичных проблем нет», не выдумывай.
