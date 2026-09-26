@@ -49,6 +49,17 @@
 - **Корень проекта** — `prototypes/credo2` (`AGENTS.md`, `opencode.json`);
   MCP `credo` работает с рабочей директорией репозитория, данные — `.credo/` (вне git).
 
+### Добавлено
+
+- **Черновик хранит исходник (T-01).** `Draft` (`src/lib.rs`) хранит `source`
+  и `source_hash` (sha256 текста), а не только разобранное правило;
+  `check.get_draft`/`check.list_drafts` отдают рендеренные строки, внутренний
+  `Rule` не публикуется. Введены вычисляемые `stale` и `test_valid` (Q29,
+  инварианты 2–5 §4.5); `check.test` фиксирует `last_test_checksum`/`tested_at`.
+  Карточка задачи — [`tasks/T-01-draft-source-hash/README.md`](tasks/T-01-draft-source-hash/README.md),
+  отчёт приёмки — [`reviews/T-01-2026-09-26.md`](reviews/T-01-2026-09-26.md);
+  автотесты — [`../tests/mcp_draft.rs`](../tests/mcp_draft.rs) (реальный stdio-MCP).
+
 ### Исправлено
 
 - **Кириллические имена проверок не попадали в кэш.** `git ls-tree`
@@ -59,6 +70,10 @@
 
 ### Ломающие изменения
 
+- **Ответ `check.create` (T-01).** Формат ответа изменён на `{status: "ok", name}`
+  (канон Q28, `SPECIFICATION.md` §4.5) — ломающее для MCP-клиентов, читавших
+  прежний ответ. Остаток T-03 (обязательный `name`, сверка с заголовком) не
+  входит в это изменение.
 - **Тело ошибок REST (Q23).** Все ответы с ненулевым статусом переведены на
   единый конверт `{"error": {"code", "message"}}` (было `{"error": "<строка>"}`).
   Коды: `check_not_found`, `version_not_found`, `version_deprecated`,

@@ -281,7 +281,7 @@ frontend DAR Notebook — 9 файлов / 75 сценариев).
 |---|---|---|
 | Домен, DSL, semver | [`../../src/core.rs`](../../src/core.rs) | юнит-тесты в `core.rs` |
 | Git-хранилище, публикация, манифест, состояние | [`../../src/lib.rs`](../../src/lib.rs) | юнит-тесты в `lib.rs`, [`../../tests/publish.rs`](../../tests/publish.rs) |
-| MCP-инструменты | [`../../src/mcp.rs`](../../src/mcp.rs) | ручной прогон |
+| MCP-инструменты | [`../../src/mcp.rs`](../../src/mcp.rs) | черновики — [`../../tests/mcp_draft.rs`](../../tests/mcp_draft.rs) (реальный stdio); остальное — ручной прогон |
 | REST + OpenAPI + аутентификация | [`../../src/rest.rs`](../../src/rest.rs) | ручной прогон |
 | CLI | [`../../src/main.rs`](../../src/main.rs) | — |
 | Инвентаризация фич | [`README.md`](README.md) и `features/*.feature` | [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs) |

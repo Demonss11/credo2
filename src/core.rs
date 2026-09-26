@@ -230,6 +230,19 @@ pub fn same_inputs(a: &CheckContract, b: &CheckContract) -> bool {
     x == y
 }
 
+/// sha256 произвольных байт в формате `sha256:<hex>` (канон Q29).
+pub fn sha256_of(bytes: &[u8]) -> String {
+    use sha2::{Digest, Sha256};
+    let mut h = Sha256::new();
+    h.update(bytes);
+    format!("sha256:{}", hex::encode(h.finalize()))
+}
+
+/// Хэш исходного текста правила — `source_hash` черновика (Q12/Q29).
+pub fn source_hash(source: &str) -> String {
+    sha256_of(source.as_bytes())
+}
+
 pub fn checksum_of(rule: &Rule, contract: &CheckContract) -> anyhow::Result<String> {
     use sha2::{Digest, Sha256};
     let mut h = Sha256::new();

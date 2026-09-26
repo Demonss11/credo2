@@ -2,7 +2,9 @@ pub mod core;
 pub mod mcp;
 pub mod rest;
 
-use crate::core::{CheckContract, CheckMeta, Rule, Semver, StoredCheck, checksum_of};
+use crate::core::{
+    CheckContract, CheckMeta, Rule, Semver, StoredCheck, checksum_of, sha256_of, source_hash,
+};
 use anyhow::{Context, Result, anyhow, bail};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
@@ -638,9 +640,22 @@ fn read_state(repo: &Path) -> Result<(String, Vec<StoredCheck>)> {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Draft {
     pub name: String,
+    /// Исходный текст правила — рендерится как `source` (Q12/Q29).
+    #[serde(default)]
+    pub source: String,
+    /// `sha256:<hex>` исходного текста (Q12/Q29); с ним сверяется `.dar`.
+    #[serde(default)]
+    pub source_hash: String,
+    /// Внутреннее представление ядра; в MCP-ответах не публикуется
+    /// (Q29, инвариант 2).
     pub rule: Rule,
     pub created_at: String,
     pub updated_at: String,
+    /// Метки последнего успешного `check.test` (Q16/Q34).
+    #[serde(default)]
+    pub last_test_checksum: Option<String>,
+    #[serde(default)]
+    pub tested_at: Option<String>,
 }
 
 #[derive(Default, Serialize, Deserialize)]
@@ -665,7 +680,7 @@ impl Sandbox {
 }
 
 pub struct AppState {
-    _workspace: PathBuf,
+    workspace: PathBuf,
     sandbox_path: PathBuf,
     published_repo: PathBuf,
     sandbox: RwLock<Sandbox>,
@@ -680,7 +695,7 @@ impl AppState {
         let published_repo = credo_dir.join("published-repo");
         let sandbox = Sandbox::load(&sandbox_path);
         Ok(Self {
-            _workspace: workspace,
+            workspace,
             sandbox_path,
             published_repo,
             sandbox: RwLock::new(sandbox),
@@ -688,6 +703,9 @@ impl AppState {
         })
     }
 
+    pub fn workspace(&self) -> &Path {
+        &self.workspace
+    }
     pub fn sandbox_path(&self) -> &Path {
         &self.sandbox_path
     }
@@ -696,6 +714,19 @@ impl AppState {
     }
     pub fn api_key(&self) -> Option<&String> {
         self.api_key.as_ref()
+    }
+
+    /// `stale` черновика (Q29, инвариант 3): файла `rules/{name}.dar` нет →
+    /// `false`; хэши совпадают → `false`; различаются → `true`.
+    pub fn is_stale(&self, draft: &Draft) -> bool {
+        let path = self
+            .workspace
+            .join("rules")
+            .join(format!("{}.dar", draft.name));
+        match std::fs::read(&path) {
+            Ok(bytes) => sha256_of(&bytes) != draft.source_hash,
+            Err(_) => false,
+        }
     }
 
     pub async fn upsert_draft(&self, d: Draft) -> Result<()> {
@@ -723,15 +754,23 @@ impl AppState {
         self.sandbox.read().await.save(&self.sandbox_path)
     }
 
-    pub fn make_draft(&self, rule: Rule, existing: Option<&Draft>) -> Draft {
+    /// Собирает черновик из текста и разобранного правила. Повторная запись
+    /// сохраняет `created_at` и метки теста: `test_valid` сам станет ложным,
+    /// если текст изменился (Q29, инвариант 4).
+    pub fn make_draft(&self, source: String, rule: Rule, existing: Option<&Draft>) -> Draft {
         let now = chrono::Utc::now().to_rfc3339();
+        let hash = source_hash(&source);
         Draft {
             name: rule.name.clone(),
+            source,
+            source_hash: hash,
             rule,
             created_at: existing
                 .map(|d| d.created_at.clone())
                 .unwrap_or_else(|| now.clone()),
             updated_at: now,
+            last_test_checksum: existing.and_then(|d| d.last_test_checksum.clone()),
+            tested_at: existing.and_then(|d| d.tested_at.clone()),
         }
     }
 }
@@ -739,7 +778,7 @@ impl AppState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::{Action, Condition, Value};
+    use crate::core::{Action, Condition, Value, parse_rule};
 
     fn stored_v(name: &str, version: &str, deprecated: bool) -> StoredCheck {
         let rule = Rule {
@@ -829,5 +868,93 @@ mod tests {
             }
         }
         assert_eq!(listed, checks.len());
+    }
+
+    // ---------- T-01: черновик, source_hash и stale ----------
+
+    const DRAFT_SRC: &str = "\
+Правило МинимальныйВозраст {
+  Если (Клиент.Возраст < 21) {
+    Решение = Отказ;
+    Причина = \"Возраст меньше 21\";
+  }
+}";
+
+    fn draft_of(source: &str) -> Draft {
+        let rule = crate::core::parse_rule(source).unwrap();
+        Draft {
+            name: rule.name.clone(),
+            source: source.into(),
+            source_hash: source_hash(source),
+            rule,
+            created_at: "2026-09-26T00:00:00Z".into(),
+            updated_at: "2026-09-26T00:00:00Z".into(),
+            last_test_checksum: None,
+            tested_at: None,
+        }
+    }
+
+    /// Обратная совместимость не требуется, но старый `sandbox.json`
+    /// (записи без новых полей) не должен ронять загрузку.
+    #[test]
+    fn old_sandbox_entry_without_new_fields_loads() {
+        let t = tempfile::tempdir().unwrap();
+        let p = t.path().join("sandbox.json");
+        let old = r#"{"drafts":{"A":{"name":"A",
+            "rule":{"name":"A","condition":{"field":"x","op":"<","value":21.0},
+                    "action":{"decision":"Отказ","reason":"r"}},
+            "created_at":"t0","updated_at":"t0"}}}"#;
+        std::fs::write(&p, old).unwrap();
+
+        let sandbox = Sandbox::load(&p);
+        let d = sandbox
+            .drafts
+            .get("A")
+            .expect("старая запись должна загрузиться");
+        assert_eq!(d.source, "");
+        assert_eq!(d.source_hash, "");
+        assert!(d.last_test_checksum.is_none());
+        assert!(d.tested_at.is_none());
+    }
+
+    #[test]
+    fn make_draft_hashes_source_and_preserves_created_at() {
+        let t = tempfile::tempdir().unwrap();
+        let state = AppState::new(t.path().to_path_buf(), None).unwrap();
+
+        let first = state.make_draft(DRAFT_SRC.into(), parse_rule(DRAFT_SRC).unwrap(), None);
+        assert_eq!(first.source, DRAFT_SRC);
+        assert_eq!(first.source_hash, source_hash(DRAFT_SRC));
+        assert!(first.last_test_checksum.is_none());
+
+        let second = state.make_draft(
+            DRAFT_SRC.into(),
+            parse_rule(DRAFT_SRC).unwrap(),
+            Some(&first),
+        );
+        assert_eq!(second.created_at, first.created_at);
+        assert_eq!(second.name, "МинимальныйВозраст");
+    }
+
+    #[test]
+    fn stale_follows_hash_invariant_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let state = AppState::new(t.path().to_path_buf(), None).unwrap();
+        let d = draft_of(DRAFT_SRC);
+
+        // Файла нет → stale = false.
+        assert!(!state.is_stale(&d));
+
+        let rules = t.path().join("rules");
+        std::fs::create_dir_all(&rules).unwrap();
+        let file = rules.join("МинимальныйВозраст.dar");
+
+        // Хэши совпадают → stale = false.
+        std::fs::write(&file, DRAFT_SRC).unwrap();
+        assert!(!state.is_stale(&d));
+
+        // Хэши различаются → stale = true.
+        std::fs::write(&file, "другой текст").unwrap();
+        assert!(state.is_stale(&d));
     }
 }

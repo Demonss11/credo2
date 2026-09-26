@@ -1,5 +1,5 @@
-use crate::core::{Value, contract_from_rule, evaluate_rule, parse_rule};
-use crate::{AppState, ServiceCache};
+use crate::core::{Value, condition_to_string, contract_from_rule, evaluate_rule, parse_rule};
+use crate::{AppState, Draft, ServiceCache};
 use rmcp::{
     handler::server::ServerHandler,
     model::{
@@ -48,31 +48,28 @@ impl McpServer {
             .ok_or("Нужен параметр 'source'")?;
         let rule = parse_rule(source)?;
         let existing = self.state.get_draft(&rule.name).await;
-        let draft = self.state.make_draft(rule, existing.as_ref());
+        let draft = self
+            .state
+            .make_draft(source.to_string(), rule, existing.as_ref());
         let name = draft.name.clone();
-        let overwritten = existing.is_some();
         self.state
             .upsert_draft(draft)
             .await
             .map_err(|e| e.to_string())?;
-        Ok(json!({
-            "status": "ok",
-            "draft": name,
-            "overwritten": overwritten,
-            "sandbox_file": self.state.sandbox_path().display().to_string(),
-        }))
+        Ok(json!({ "status": "ok", "name": name }))
     }
 
     async fn list_drafts(&self) -> Result<JsonValue, String> {
         let ds = self.state.list_drafts().await;
         Ok(json!({
+            "status": "ok",
             "count": ds.len(),
             "drafts": ds.iter().map(|d| json!({
-                "name": d.name, "updated_at": d.updated_at,
-                "condition": format!("{} {} {}",
-                    d.rule.condition.field, d.rule.condition.op,
-                    d.rule.condition.value.display()),
+                "name": d.name,
+                "updated_at": d.updated_at,
+                "condition": condition_to_string(&d.rule.condition),
                 "decision": d.rule.action.decision,
+                "stale": self.state.is_stale(d),
             })).collect::<Vec<_>>(),
         }))
     }
@@ -87,7 +84,7 @@ impl McpServer {
             .get_draft(name)
             .await
             .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
-        serde_json::to_value(&d).map_err(|e| e.to_string())
+        Ok(json!({ "status": "ok", "draft": draft_json(&self.state, &d) }))
     }
 
     async fn test(&self, args: JsonValue) -> Result<JsonValue, String> {
@@ -105,8 +102,33 @@ impl McpServer {
             .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
         // Q8/Q9: ошибка исполнения (отсутствующее поле, несовместимые
         // типы) возвращается как ошибка инструмента MCP.
+        // Q29: `stale` не блокирует `check.test`.
         let e = evaluate_rule(&d.rule, &input).map_err(|e| e.to_string())?;
-        Ok(serde_json::to_value(e).unwrap())
+
+        // Q16/Q34/Q29: успешный тест фиксирует метку `last_test_checksum`
+        // (= `source_hash` на момент теста) и `tested_at`.
+        let tested_at = chrono::Utc::now().to_rfc3339();
+        let checksum = d.source_hash.clone();
+        let mut updated = d.clone();
+        updated.last_test_checksum = Some(checksum.clone());
+        updated.tested_at = Some(tested_at.clone());
+        self.state
+            .upsert_draft(updated)
+            .await
+            .map_err(|e| e.to_string())?;
+
+        Ok(json!({
+            "status": "ok",
+            "rule_name": e.rule_name,
+            "condition": e.condition,
+            "actual_value": e.actual_value,
+            "matched": e.matched,
+            "decision": e.decision,
+            "reason": e.reason,
+            "source_hash": d.source_hash,
+            "tested_at": tested_at,
+            "last_test_checksum": checksum,
+        }))
     }
 
     async fn delete_draft(&self, args: JsonValue) -> Result<JsonValue, String> {
@@ -245,6 +267,27 @@ impl McpServer {
     }
 }
 
+/// Канонический объект черновика для `check.get_draft` (Q29, §4.5):
+/// только рендеренные строки, внутренний `Rule` не публикуется; `stale`
+/// и `test_valid` — вычисляемые.
+fn draft_json(state: &AppState, d: &Draft) -> JsonValue {
+    let test_valid = d.last_test_checksum.as_deref() == Some(d.source_hash.as_str());
+    json!({
+        "name": d.name,
+        "source": d.source,
+        "source_hash": d.source_hash,
+        "condition": condition_to_string(&d.rule.condition),
+        "decision": d.rule.action.decision,
+        "reason": d.rule.action.reason,
+        "created_at": d.created_at,
+        "updated_at": d.updated_at,
+        "last_test_checksum": d.last_test_checksum,
+        "tested_at": d.tested_at,
+        "test_valid": test_valid,
+        "stale": state.is_stale(d),
+    })
+}
+
 fn make_tool(name: &str, description: &str, properties: JsonValue, required: Vec<&str>) -> Tool {
     serde_json::from_value(json!({
         "name": name, "description": description,
@@ -374,6 +417,7 @@ impl ServerHandler for McpServer {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::core::source_hash;
 
     /// «Сторож» Q26 (Задача 6 плана): импорт/экспорт `.dar` — вне MVP,
     /// инструментов `check.import`/`check.export*` в `list_tools` быть не должно.
@@ -389,6 +433,200 @@ mod tests {
             );
         }
         // Санитарная проверка: список читается и содержит канонические имена.
-        assert!(names.contains(&"check.publish".to_string()), "names = {names:?}");
+        assert!(
+            names.contains(&"check.publish".to_string()),
+            "names = {names:?}"
+        );
+    }
+
+    // ---------- T-01: source/source_hash/stale/test_valid ----------
+
+    const SRC: &str = "Правило МинимальныйВозраст { Если (Клиент.Возраст < 21) { \
+                       Решение = Отказ; Причина = \"Возраст меньше 21\"; } }";
+
+    fn new_server(dir: &std::path::Path) -> McpServer {
+        let state = Arc::new(AppState::new(dir.to_path_buf(), None).unwrap());
+        let cache = ServiceCache::load(state.published_repo().to_path_buf()).unwrap();
+        McpServer { state, cache }
+    }
+
+    async fn create(srv: &McpServer, source: &str) -> JsonValue {
+        srv.dispatch(
+            "check.create",
+            json!({ "name": "МинимальныйВозраст", "source": source }),
+        )
+        .await
+        .unwrap()
+    }
+
+    async fn get_draft(srv: &McpServer) -> JsonValue {
+        srv.dispatch("check.get_draft", json!({ "name": "МинимальныйВозраст" }))
+            .await
+            .unwrap()
+    }
+
+    #[tokio::test]
+    async fn create_stores_source_and_hash_q12() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let created = create(&srv, SRC).await;
+        assert_eq!(created["status"], "ok");
+        assert_eq!(created["name"], "МинимальныйВозраст");
+
+        let got = get_draft(&srv).await;
+        assert_eq!(got["status"], "ok");
+        let d = &got["draft"];
+        // Текст хранится без изменений; есть хэш и рендеренные строки.
+        assert_eq!(d["source"], SRC);
+        assert_eq!(d["source_hash"], source_hash(SRC));
+        assert_eq!(d["condition"], "Клиент.Возраст < 21");
+        assert_eq!(d["decision"], "Отказ");
+        assert_eq!(d["reason"], "Возраст меньше 21");
+        // Инвариант 2: внутренний `Rule` не публикуется.
+        assert!(d.get("rule").is_none(), "rule не должен публиковаться: {d}");
+        // Инвариант 5: `size`/`format` не вводятся.
+        assert!(d.get("size").is_none() && d.get("format").is_none());
+        assert!(d["created_at"].is_string() && d["updated_at"].is_string());
+        assert!(d["last_test_checksum"].is_null() && d["tested_at"].is_null());
+        assert_eq!(d["test_valid"], json!(false));
+        assert_eq!(d["stale"], json!(false));
+    }
+
+    #[tokio::test]
+    async fn list_drafts_has_canonical_fields_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        let resp = srv.dispatch("check.list_drafts", json!({})).await.unwrap();
+        assert_eq!(resp["status"], "ok");
+        assert_eq!(resp["count"], json!(1));
+        let item = &resp["drafts"][0];
+        for key in ["name", "updated_at", "condition", "decision", "stale"] {
+            assert!(item.get(key).is_some(), "нет поля {key}: {item}");
+        }
+        assert_eq!(item["condition"], "Клиент.Возраст < 21");
+        assert_eq!(item["decision"], "Отказ");
+        assert_eq!(item["stale"], json!(false));
+        assert!(
+            item.get("size").is_none() && item.get("format").is_none(),
+            "size/format не вводятся: {item}"
+        );
+    }
+
+    #[tokio::test]
+    async fn stale_false_without_dar_file_q29_inv3() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        // rules/МинимальныйВозраст.dar не создаётся (draft-first, Q33).
+        assert!(!t.path().join("rules/МинимальныйВозраст.dar").exists());
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["stale"], json!(false));
+    }
+
+    #[tokio::test]
+    async fn stale_false_when_dar_hash_matches_q29_inv3() {
+        let t = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(t.path().join("rules")).unwrap();
+        let file = t.path().join("rules/МинимальныйВозраст.dar");
+        std::fs::write(&file, SRC).unwrap();
+
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["stale"], json!(false));
+        // Исходный файл не изменяется (Q12).
+        assert_eq!(std::fs::read_to_string(&file).unwrap(), SRC);
+    }
+
+    #[tokio::test]
+    async fn stale_true_when_dar_hash_differs_q29_inv3() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        // Файл изменён после создания черновика (Q12).
+        std::fs::create_dir_all(t.path().join("rules")).unwrap();
+        std::fs::write(
+            t.path().join("rules/МинимальныйВозраст.dar"),
+            "Правило МинимальныйВозраст { Если (Клиент.Возраст < 18) { \
+             Решение = Отказ; Причина = \"Возраст меньше 18\"; } }",
+        )
+        .unwrap();
+
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["stale"], json!(true));
+
+        // Инвариант 3: `stale` не блокирует `check.test`.
+        let tested = srv
+            .dispatch(
+                "check.test",
+                json!({ "name": "МинимальныйВозраст", "input": { "Клиент.Возраст": 19 } }),
+            )
+            .await
+            .unwrap();
+        assert_eq!(tested["status"], "ok");
+    }
+
+    #[tokio::test]
+    async fn successful_test_records_checksum_and_reason_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        let tested = srv
+            .dispatch(
+                "check.test",
+                json!({ "name": "МинимальныйВозраст", "input": { "Клиент.Возраст": 19 } }),
+            )
+            .await
+            .unwrap();
+        assert_eq!(tested["status"], "ok");
+        assert_eq!(tested["rule_name"], "МинимальныйВозраст");
+        assert_eq!(tested["condition"], "Клиент.Возраст < 21");
+        // `actual_value` — это `Value::Number(f64)`, поэтому 19 сериализуется как 19.0.
+        assert_eq!(tested["actual_value"], json!(19.0));
+        assert_eq!(tested["matched"], json!(true));
+        assert_eq!(tested["decision"], "Отказ");
+        assert_eq!(tested["reason"], "Возраст меньше 21");
+        assert_eq!(tested["source_hash"], source_hash(SRC));
+        assert_eq!(tested["last_test_checksum"], tested["source_hash"]);
+        assert!(tested["tested_at"].is_string());
+        // Q42: объяснение на верхнем уровне, без вложенного `explanation`.
+        assert!(tested.get("explanation").is_none());
+
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["last_test_checksum"], source_hash(SRC));
+        assert_eq!(d["test_valid"], json!(true));
+        assert_eq!(d["tested_at"], tested["tested_at"]);
+    }
+
+    #[tokio::test]
+    async fn test_valid_false_after_source_change_q29_inv4() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+        srv.dispatch(
+            "check.test",
+            json!({ "name": "МинимальныйВозраст", "input": { "Клиент.Возраст": 19 } }),
+        )
+        .await
+        .unwrap();
+
+        // Перезапись черновика новым текстом («сохранить = обновить»).
+        let new_src = "Правило МинимальныйВозраст { Если (Клиент.Возраст < 18) { \
+                       Решение = Отказ; Причина = \"Возраст меньше 18\"; } }";
+        create(&srv, new_src).await;
+
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["source"], new_src);
+        assert_eq!(d["source_hash"], source_hash(new_src));
+        assert_ne!(d["source_hash"], source_hash(SRC));
+        // last_test_checksum сохранился, но метка недействительна.
+        assert_eq!(d["test_valid"], json!(false));
     }
 }
