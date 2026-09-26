@@ -29,6 +29,7 @@ permissions:
   - { action: shell, resource: "git switch *", effect: ask }
   - { action: shell, resource: "git checkout *", effect: ask }
   - { action: shell, resource: "git merge *", effect: ask }
+  - { action: shell, resource: "git branch -d *", effect: ask }
   - { action: shell, resource: "git tag *", effect: ask }
   - { action: shell, resource: "git restore *", effect: ask }
   - { action: shell, resource: "git push *", effect: ask }
@@ -37,6 +38,7 @@ permissions:
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
+  - { action: question, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: deny }
 ---
 
@@ -46,6 +48,13 @@ permissions:
 код и документы уже подготовлены ролями команды. Перед задачей прочитай
 `.opencode/rules/git-workflow.md`: ветки, формат коммитов, пакет,
 идемпотентность.
+
+## Ветки задачи
+
+Старт (ветка до работы) и завершение (merge `--no-ff` в `develop`, push,
+удаление ветки) — по `.opencode/rules/git-workflow.md` («Старт задачи»,
+«Завершение задачи»); имя ветки содержит идентификатор артефакта
+(`T-XX-<слаг>`, `Dn-<слаг>`, `Qn-<слаг>`).
 
 ## Пакет и подтверждение
 

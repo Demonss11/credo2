@@ -1,7 +1,7 @@
 ---
 description: "Единственная роль с прогоном тестов: DoD, покрытие, приёмка и возврат на доработку."
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 color: "#ff922b"
 steps: 36
 permissions:

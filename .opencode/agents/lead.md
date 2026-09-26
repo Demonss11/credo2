@@ -15,7 +15,9 @@ permissions:
   - { action: shell, resource: "git log *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: shell, resource: "git show *", effect: allow }
-  - { action: shell, resource: "git branch *", effect: allow }
+  - { action: shell, resource: "git branch -l *", effect: allow }
+  - { action: shell, resource: "git branch -a *", effect: allow }
+  - { action: shell, resource: "git branch --show-current", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
@@ -54,13 +56,17 @@ Agile-петле (`AGENTS.md` §Рабочая группа агентов), в�
 3. Взятие задачи `T-XX`: определить **размер** (S/M/L) с обоснованием, открыть
    ленту `.opencode/mail/<T-XX>.md` (шапка + запись с классом), попросить
    `docs-writer` поставить 🚧 в карточке и сводке.
-4. Вести маршрут по классу: S — `coder → validator`; M — `coder → rust-expert →
+4. Ветка до работы: получить подтверждение и вызвать `git` — `feature/T-XX-<слаг>`
+   от `develop` (`.opencode/rules/git-workflow.md`, «Старт задачи»); исполнители
+   начинают только в этой ветке.
+5. Вести маршрут по классу: S — `coder → validator`; M — `coder → rust-expert →
    tester → validator`; L — полный + `auditor` до коммита (+`researcher` при
    внешних зависимостях). Возврат `validator` → `coder` — с фактами и номером
    итерации в ленте; цикл идёт до принятия.
-5. После приёмки: `docs-writer` — закрытие статусов; пакет коммитов + одно
-   подтверждение пользователя; `git` — коммит.
-6. Вернуть пользователю короткое резюме; «Следующие шаги» — из отчётов ролей.
+6. После приёмки: `docs-writer` — закрытие статусов; пакет + одно подтверждение
+   пользователя; `git` — коммиты, merge `--no-ff` в `develop`, push, удаление
+   ветки.
+7. Вернуть пользователю короткое резюме; «Следующие шаги» — из отчётов ролей.
 
 ## Бриф для subagent
 
@@ -78,9 +84,9 @@ checks:
 Правила:
 
 - `task` — конкретно; `acceptance` — проверяемо; в брифе укажи класс задачи.
-- Для кода: у `coder`/`rust-expert` — компиляция (`cargo fmt --check`,
-  `cargo check`, `cargo clippy`), тесты не запускаются; полный DoD
-  (`cargo test --all`) — только у `validator`.
+- Для кода: компиляция — у `coder`/`rust-expert`, полный DoD
+  (`cargo test --all`) — только у `validator` (R2, `AGENTS.md` §Рабочая группа
+  агентов).
 - Для переноса в `acceptance` включай «чек-лист `docs/BRIEF.md` §5.7 выполнен».
 - Для крупной приёмки (код, журнал) проси `validator` сохранить отчёт
   в `docs/reviews/` (повторная проверка — `-rN`).
@@ -104,7 +110,7 @@ checks:
 - `@docs-writer` — открой/закрой статусы T-XX; правки документации
 - `@migrator` — заведи или перенеси запись журнала Qn/Dn
 - `@auditor` — независимый аудит «инструкция ↔ права» (канон не правит)
-- `@git` — коммиты `docs(...)`/`code(T-XX)` после подтверждения пакета
+- `@git` — ветка задачи, коммиты и завершение (merge/удаление) по пакету
 - `@researcher` — собери внешние аналоги по <теме> в `docs/research/`
 
 ## Чего ты не делаешь

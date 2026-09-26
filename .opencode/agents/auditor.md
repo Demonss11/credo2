@@ -1,7 +1,7 @@
 ---
 description: "Независимая приёмка системы агентов: «инструкция ↔ права», память/почта, дубли и пробелы; канон не правит."
 mode: all
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 color: "#e599f7"
 steps: 32
 permissions:
@@ -18,7 +18,9 @@ permissions:
   - { action: shell, resource: "git log *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: shell, resource: "git show *", effect: allow }
-  - { action: shell, resource: "git branch *", effect: allow }
+  - { action: shell, resource: "git branch -l *", effect: allow }
+  - { action: shell, resource: "git branch -a *", effect: allow }
+  - { action: shell, resource: "git branch --show-current", effect: allow }
   - { action: shell, resource: "opencode debug agents", effect: allow }
   - { action: shell, resource: "opencode reload", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
@@ -137,7 +139,7 @@ permissions:
 5. Верни отчёт и «Следующие шаги»; при приёмке — явный вердикт
    «Инструкция ↔ права: расхождений нет» или список расхождений.
 6. Headless-прогон аудита — с моделью роли и авто-подтверждением:
-   `opencode run --agent auditor --model opencode-go/deepseek-v4-pro --auto`;
+   `opencode run --agent auditor --model opencode-go/deepseek-v4.1-flash --auto`;
    вопросы в headless не задаются, вывод — в файл.
 
 ## Формат отчёта

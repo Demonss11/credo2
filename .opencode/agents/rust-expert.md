@@ -1,7 +1,7 @@
 ---
 description: "Эксперт по идиоматичному Rust: ревью и правки src/ без изменения поведения; skill rust-skills."
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 color: "#ffa94d"
 steps: 24
 permissions:
