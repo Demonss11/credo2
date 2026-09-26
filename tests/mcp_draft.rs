@@ -395,3 +395,196 @@ fn test_missing_draft_is_error_not_panic() {
         .unwrap_or_else(|| panic!("нет текста ошибки: {payload}"));
     assert!(message.contains("найден"), "сообщение: {message}");
 }
+
+/// T-03 (Q28, §4.5): реальный stdio-контракт ошибок `check.create` —
+/// конверт `{"error": {"code": "validation_failed", "message": "..."}}`;
+/// невалидный source или несовпадение `name` с заголовком черновик не создают.
+#[test]
+fn create_validation_failed_envelope_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    // Невалидный source: нет заголовка «Правило {name}».
+    let bad = "Если (Клиент.Возраст < 21) { Решение = Отказ; }";
+    let (err, payload) = mcp.call("check.create", json!({ "name": NAME, "source": bad }));
+    assert!(err, "ожидалась ошибка: {payload}");
+    assert_eq!(payload["error"]["code"], "validation_failed", "{payload}");
+    let message = payload["error"]["message"].as_str().unwrap_or_default();
+    assert!(
+        message.contains("отсутствует заголовок правила"),
+        "{message}"
+    );
+    let (err, _) = mcp.get_draft(NAME);
+    assert!(err, "черновик с невалидным source не должен создаваться");
+
+    // name не совпадает с заголовком: сообщение называет оба имени.
+    let (err, payload) = mcp.call(
+        "check.create",
+        json!({ "name": "ДругоеИмя", "source": SRC }),
+    );
+    assert!(err, "{payload}");
+    assert_eq!(payload["error"]["code"], "validation_failed", "{payload}");
+    let message = payload["error"]["message"].as_str().unwrap_or_default();
+    assert!(
+        message.contains("ДругоеИмя") && message.contains(NAME),
+        "{message}"
+    );
+
+    // name обязателен.
+    let (err, payload) = mcp.call("check.create", json!({ "source": SRC }));
+    assert!(err, "{payload}");
+    assert_eq!(payload["error"]["code"], "validation_failed", "{payload}");
+}
+
+/// Проверяет, что `check.create` с данными аргументами отклонён конвертом
+/// `validation_failed` (§4.5); возвращает текст сообщения.
+fn create_rejected(mcp: &mut Mcp, args: Value) -> String {
+    let (err, payload) = mcp.call("check.create", args);
+    assert!(err, "ожидалась ошибка: {payload}");
+    assert_eq!(
+        payload["error"]["code"], "validation_failed",
+        "не канонический код: {payload}"
+    );
+    payload["error"]["message"]
+        .as_str()
+        .unwrap_or_default()
+        .to_string()
+}
+
+/// T-03 (Q28): оба параметра обязательны — без `source` ошибка, и песочница
+/// не пополняется (проверяется `count`, а не только `get_draft`).
+#[test]
+fn create_requires_source_and_creates_nothing_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    create_rejected(&mut mcp, json!({ "name": NAME }));
+
+    let (err, listed) = mcp.call("check.list_drafts", json!({}));
+    assert!(!err, "{listed}");
+    assert_eq!(listed["count"], json!(0), "песочница пополнилась: {listed}");
+    let (err, _) = mcp.get_draft(NAME);
+    assert!(err, "черновик создан без source");
+}
+
+/// T-03 (Q28): `name`/`source` — непустые строки; пустая строка, пробелы,
+/// не-строка (число, `null`) — `validation_failed`, черновик не создаётся.
+#[test]
+fn create_empty_or_nonstring_params_rejected_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    for args in [
+        json!({ "name": "", "source": SRC }),
+        json!({ "name": "   ", "source": SRC }),
+        json!({ "name": 42, "source": SRC }),
+        json!({ "name": null, "source": SRC }),
+        json!({ "name": NAME, "source": "" }),
+        json!({ "name": NAME, "source": "   " }),
+        json!({ "name": NAME, "source": 42 }),
+        json!({ "name": NAME, "source": null }),
+    ] {
+        create_rejected(&mut mcp, args);
+    }
+
+    let (err, listed) = mcp.call("check.list_drafts", json!({}));
+    assert!(!err, "{listed}");
+    assert_eq!(listed["count"], json!(0), "песочница пополнилась: {listed}");
+}
+
+/// T-03 (Q28): несовпадение `name` и заголовка `Правило {name}` —
+/// `validation_failed`; чужой черновик не создаётся, существующий не меняется.
+#[test]
+fn create_name_mismatch_keeps_existing_draft_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    mcp.create(SRC);
+
+    create_rejected(&mut mcp, json!({ "name": "ДругоеИмя", "source": SRC }));
+
+    let (err, _) = mcp.get_draft("ДругоеИмя");
+    assert!(err, "черновик с чужим именем создан");
+    let (_, listed) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(listed["count"], json!(1), "черновиков не один: {listed}");
+    assert_eq!(listed["drafts"][0]["name"], NAME);
+    let (err, got) = mcp.get_draft(NAME);
+    assert!(!err, "{got}");
+    assert_eq!(got["draft"]["source"], SRC, "существующий черновик изменён");
+    assert_eq!(got["draft"]["source_hash"], credo2::core::source_hash(SRC));
+}
+
+/// T-03 (Q28): невалидный source отклоняется, существующий одноимённый
+/// черновик остаётся нетронутым (песочница не пополняется и не меняется).
+#[test]
+fn create_invalid_source_keeps_existing_draft_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    mcp.create(SRC);
+
+    let bad = "Если (Клиент.Возраст < 18) { Решение = Отказ; }";
+    let message = create_rejected(&mut mcp, json!({ "name": NAME, "source": bad }));
+    assert!(
+        message.contains("отсутствует заголовок правила"),
+        "сообщение: {message}"
+    );
+
+    let (_, listed) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(listed["count"], json!(1), "{listed}");
+    assert_eq!(listed["drafts"][0]["condition"], "Клиент.Возраст < 21");
+    let (_, got) = mcp.get_draft(NAME);
+    assert_eq!(got["draft"]["source"], SRC, "существующий черновик изменён");
+    assert_eq!(got["draft"]["source_hash"], credo2::core::source_hash(SRC));
+}
+
+/// T-03 (Q28): upsert — тот же `name` с новым `source` перезаписывает:
+/// `count` остаётся 1, старый текст не сохраняется, ответ ровно `{status, name}`.
+#[test]
+fn create_upsert_replaces_single_draft_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    mcp.create(SRC);
+
+    let (err, resp) = mcp.call("check.create", json!({ "name": NAME, "source": SRC_V2 }));
+    assert!(!err, "{resp}");
+    assert_eq!(resp, json!({ "status": "ok", "name": NAME }), "{resp}");
+
+    let (_, listed) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(
+        listed["count"],
+        json!(1),
+        "перезапись создала второй черновик: {listed}"
+    );
+    assert_eq!(listed["drafts"][0]["condition"], "Клиент.Возраст < 18");
+
+    let (_, got) = mcp.get_draft(NAME);
+    assert_eq!(got["draft"]["source"], SRC_V2);
+    assert_ne!(got["draft"]["source"], SRC);
+    let source = got["draft"]["source"].as_str().unwrap_or_default();
+    assert!(
+        !source.contains("Возраст меньше 21"),
+        "старый текст остался: {got}"
+    );
+}
+
+/// T-03 (Q28): успешный `check.create` — ответ ровно `{status, name}` с
+/// `name` = входному; `source` сохраняется побайтово, без trim (включая
+/// окружающие переводы строк и пробелы).
+#[test]
+fn create_success_shape_and_source_verbatim_t03() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    let padded = format!("\n  {SRC}  \n");
+
+    let (err, resp) = mcp.call("check.create", json!({ "name": NAME, "source": padded }));
+    assert!(!err, "{resp}");
+    assert_eq!(resp, json!({ "status": "ok", "name": NAME }), "{resp}");
+
+    let (err, got) = mcp.get_draft(NAME);
+    assert!(!err, "{got}");
+    assert_eq!(got["draft"]["name"], NAME);
+    assert_eq!(got["draft"]["source"], padded, "source обрезан/изменён");
+    assert_eq!(
+        got["draft"]["source_hash"],
+        credo2::core::source_hash(&padded)
+    );
+}

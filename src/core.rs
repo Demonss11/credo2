@@ -441,7 +441,7 @@ pub fn parse_rule(source: &str) -> Result<Rule, String> {
         .captures(source)
         .and_then(|c| c.get(1))
         .map(|m| m.as_str().to_string())
-        .ok_or("Не найдено имя правила")?;
+        .ok_or("отсутствует заголовок правила (Не найдено имя правила)")?;
     let cond = cond_re.captures(source).ok_or("Не найдено условие")?;
     let field = cond.get(1).unwrap().as_str().trim().to_string();
     let op = cond.get(2).unwrap().as_str().to_string();
