@@ -49,13 +49,15 @@ docs/
 | Понять, что и как реализовано | [`features/README.md`](features/README.md) |
 | Взять задачу по коду | [`tasks/README.md`](tasks/README.md) |
 | Понять, кто из команды агентов что делает | [`../AGENTS.md`](../AGENTS.md) §Рабочая группа агентов |
-| Проверить требования тестом | `cargo test --all` в `prototypes/credo2` |
+| Проверить требования тестом | `cargo test --all` в `prototypes/credo2` (прогон выполняет `validator`, R2) |
 
 ## Состояние миграции
 
 `OPEN_QUESTIONS.md` (42 записи) разбирается на отдельные файлы. Пилот — **Q1**
 (2026-09-26): [`questions/Q1.md`](questions/Q1.md) +
-[`decisions/D15-evolution-credo2.md`](decisions/D15-evolution-credo2.md).
+[`decisions/D15-evolution-credo2.md`](decisions/D15-evolution-credo2.md). Вне
+архива заведена новая запись — **Q43** → [`decisions/D38-agent-cycle.md`](decisions/D38-agent-cycle.md)
+(цикл агентов).
 Каждый перенос сопровождается сверкой решения с кодом и решением «нужна ли
 задача» ([`BRIEF.md`](BRIEF.md) §5.3); миграция идёт блоками параллельно
 кодингу — интерфейс потоков — [`tasks/`](tasks/README.md) ([`BRIEF.md`](BRIEF.md) §8).
