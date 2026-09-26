@@ -18,6 +18,7 @@ permissions:
   - { action: subagent, resource: "migrator", effect: allow }
   - { action: subagent, resource: "docs-writer", effect: allow }
   - { action: subagent, resource: "coder", effect: allow }
+  - { action: subagent, resource: "rust-expert", effect: allow }
   - { action: subagent, resource: "tester", effect: allow }
   - { action: subagent, resource: "validator", effect: allow }
   - { action: subagent, resource: "researcher", effect: allow }
@@ -50,8 +51,9 @@ permissions:
 4. Сформировать бриф (шаблон ниже) и вызвать subagent отдельным сообщением.
 5. Проверить результат по критериям приёмки; при провале — вернуть на доработку
    или эскалировать пользователю.
-6. Приёмка: для переноса записи — `validator`; для кода — `tester`, затем
-   `validator`, затем `docs-writer` (закрытие статусов задачи).
+6. Приёмка: для переноса записи — `validator`; для кода — `rust-expert`
+   (идиоматика), затем `tester`, затем `validator`, затем `docs-writer`
+   (закрытие статусов задачи).
 7. Вернуть пользователю короткое резюме с фактическими статусами.
 
 ## Бриф для subagent
@@ -83,6 +85,7 @@ checks:
 
 - `@migrator` — перенеси Q2 из архива: Q + D + сверка с кодом + задача
 - `@coder` — реализуй T-01 по карточке и источнику `Dn`; DoD — в acceptance
+- `@rust-expert` — вычитай идиоматику по диффу T-01 (skill `rust-skills`)
 - `@tester` — проверь T-01: воспроизведи DoD и сценарии `draft.feature`
 - `@validator` — прими T-01 по чек-листу кода (`docs/BRIEF.md` §5.7)
 - `@docs-writer` — закрой T-01: статусы в карточке, сводке и требованиях

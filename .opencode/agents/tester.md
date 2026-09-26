@@ -21,7 +21,7 @@ permissions:
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
-  - { action: skill, resource: "*", effect: allow }
+  - { action: skill, resource: "rust-skills", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
   - { action: question, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: deny }
@@ -52,7 +52,9 @@ permissions:
 
 - Пишешь только `tests/**`; `src/**` и `docs/**` не трогаешь.
 - Не меняешь поведение кода и формулировки требований.
-- skill `rust-skills` — для тестовых идиом (именование, структура тестов).
+- Ты отвечаешь за поведение, полноту и границы тестов; идиоматику Rust
+  (включая тестовый код) вычитывает `rust-expert` — skill `rust-skills` тебе
+  недоступен.
 
 ## Отчёт
 

@@ -23,7 +23,7 @@ permissions:
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
-  - { action: skill, resource: "*", effect: allow }
+  - { action: skill, resource: "rust-skills", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
   - { action: question, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: deny }
@@ -45,7 +45,8 @@ permissions:
    в D-файле. Если решение противоречит коду или невыполнимо — не «правь молча»,
    верни `lead` с фактами.
 4. Юнит-тесты — рядом с кодом; интеграционные сценарии — в `tests/`.
-   Используй skill `rust-skills` для стиля и идиом.
+   Пиши просто и идиоматично; глубокую вычитку идиоматики делает `rust-expert`
+   после тебя (skill `rust-skills` тебе недоступен).
 5. Прогони DoD: `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
    `cargo test --all`.
 6. Отчитайся. Не коммить — коммит делает роль `git` после приёмки.

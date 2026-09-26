@@ -22,7 +22,7 @@
 | `docs/` | документация: SPEC, GRAMMAR, журнал Q/D, требования, задачи; карта — `docs/README.md` |
 | `.opencode/agents/` | рабочая группа агентов (ниже) |
 | `.opencode/rules/` | правила ролей (`git-workflow.md`) |
-| `.opencode/skills/rust-skills/` | skill по Rust для ролей `coder`/`tester` |
+| `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
 | `target/release/credo2.exe` | бинарник MCP/REST |
 | `.credo/` | данные CREDO: песочница и bare-git публикаций (вне git) |
 
@@ -36,15 +36,16 @@
 | `migrator` | ведёт журнал Q/D: перенос `Qx` из архива, новые Q/D, сверка с кодом, задачи | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md` (§10) |
 | `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG, `AGENTS.md`; закрытие статусов задач | `docs/**` (кроме журнала), `AGENTS.md` |
 | `coder` | задача кода `T-XX`: правки `src/`, юнит-тесты, DoD | `src/**`, `tests/**`, `Cargo.toml` |
+| `rust-expert` | идиоматика Rust: ревью и правки без изменения поведения; skill `rust-skills` | `src/**`, `tests/**` |
 | `tester` | независимая проверка задачи: DoD, тесты, сценарии `features/` | `tests/**` |
 | `validator` | приёмка: DoD, трассируемость, канон Q41; read-only для чужого | `docs/reviews/**` (свои отчёты приёмки) |
 | `researcher` | внешние аналоги и стандарты; вне кода, журнала и приёмки | `docs/research/**` |
 | `git` | git-операции и коммиты (изменяющие — с подтверждением) | — |
 
 Маршруты: журнал (`Qx` — перенос или новая запись) → `migrator` → `validator`;
-доработка `T-XX` → `coder` → `tester` → `validator` → `docs-writer` (закрытие
-статусов задачи) → `git`; документы → `docs-writer` → `validator`; исследование →
-`researcher` → `lead` (обзоры не канон).
+доработка `T-XX` → `coder` → `rust-expert` (идиоматика) → `tester` → `validator`
+→ `docs-writer` (закрытие статусов задачи) → `git`; документы → `docs-writer`
+→ `validator`; исследование → `researcher` → `lead` (обзоры не канон).
 `.opencode/**` и `opencode.json` — служебная зона: её меняет владелец, роли туда
 не пишут.
 Процесс ведения журнала — `docs/BRIEF.md`; реестр задач — `docs/tasks/README.md`.

@@ -37,6 +37,11 @@
   сохраняет отчёты в `docs/reviews/` (единственная его зона записи; улики,
   не канон); новая роль `researcher` — внешние обзоры в `docs/research/`
   (`webfetch`/`websearch` разрешены только ей); карта — `docs/README.md`.
+- **Роль `rust-expert` и разгрузка кода** (2026-09-26): код проходит
+  идиоматическую вычитку у `rust-expert` (skill `rust-skills`, бюджет чтения,
+  правки без изменения поведения); у `coder` и `tester` skill `rust-skills`
+  отключён; маршрут кода — `coder` → `rust-expert` → `tester` → `validator` →
+  `docs-writer` → `git`.
 - **Корень проекта** — `prototypes/credo2` (`AGENTS.md`, `opencode.json`);
   MCP `credo` работает с рабочей директорией репозитория, данные — `.credo/` (вне git).
 
