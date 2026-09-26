@@ -22,6 +22,7 @@
 | `docs/` | документация: SPEC, GRAMMAR, журнал Q/D, требования, задачи; карта — `docs/README.md` |
 | `.opencode/agents/` | рабочая группа агентов (ниже) |
 | `.opencode/rules/` | правила ролей (`git-workflow.md`) |
+| `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей |
 | `.opencode/memory/`, `.opencode/mail/` | операционные данные ролей: память и лента задач (в git, не канон) |
 | `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
 | `target/release/credo2.exe` | бинарник MCP/REST |
