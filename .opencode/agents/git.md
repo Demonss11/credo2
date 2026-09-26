@@ -10,27 +10,27 @@ permissions:
   - { action: read, resource: "**/node_modules/**", effect: deny }
   - { action: read, resource: "Cargo.lock", effect: deny }
   - { action: shell, resource: "*", effect: deny }
-  - { action: shell, resource: "git status*", effect: allow }
-  - { action: shell, resource: "git diff*", effect: allow }
-  - { action: shell, resource: "git log*", effect: allow }
-  - { action: shell, resource: "git show*", effect: allow }
-  - { action: shell, resource: "git branch -l*", effect: allow }
-  - { action: shell, resource: "git branch -a*", effect: allow }
+  - { action: shell, resource: "git status *", effect: allow }
+  - { action: shell, resource: "git diff *", effect: allow }
+  - { action: shell, resource: "git log *", effect: allow }
+  - { action: shell, resource: "git show *", effect: allow }
+  - { action: shell, resource: "git branch -l *", effect: allow }
+  - { action: shell, resource: "git branch -a *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
   - { action: shell, resource: "git remote -v", effect: allow }
-  - { action: shell, resource: "git rev-parse*", effect: allow }
-  - { action: shell, resource: "git tag -l*", effect: allow }
+  - { action: shell, resource: "git rev-parse *", effect: allow }
+  - { action: shell, resource: "git tag -l *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
-  - { action: shell, resource: "git add*", effect: ask }
-  - { action: shell, resource: "git commit*", effect: ask }
-  - { action: shell, resource: "git switch*", effect: ask }
-  - { action: shell, resource: "git checkout*", effect: ask }
-  - { action: shell, resource: "git merge*", effect: ask }
-  - { action: shell, resource: "git tag*", effect: ask }
-  - { action: shell, resource: "git restore*", effect: ask }
-  - { action: shell, resource: "git push*", effect: ask }
-  - { action: shell, resource: "git fetch*", effect: ask }
-  - { action: shell, resource: "git pull*", effect: ask }
+  - { action: shell, resource: "git add *", effect: ask }
+  - { action: shell, resource: "git commit *", effect: ask }
+  - { action: shell, resource: "git switch *", effect: ask }
+  - { action: shell, resource: "git checkout *", effect: ask }
+  - { action: shell, resource: "git merge *", effect: ask }
+  - { action: shell, resource: "git tag *", effect: ask }
+  - { action: shell, resource: "git restore *", effect: ask }
+  - { action: shell, resource: "git push *", effect: ask }
+  - { action: shell, resource: "git fetch *", effect: ask }
+  - { action: shell, resource: "git pull *", effect: ask }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
@@ -58,6 +58,8 @@ permissions:
 ## Границы
 
 - Одна команда за вызов; составные команды, пайпы и перенаправления запрещены.
+- Ветки публикаций CREDO (`.credo/published-repo`, `publish/{name}-{version}`)
+  не мержишь: слияние в `main` делает человек.
 - Запрещены `--force`, `push --force`, `reset --hard` и любое переписывание
   опубликованной истории.
 - Не коммить `target/`, `.credo/`, `node_modules/` — проверь `git status`.

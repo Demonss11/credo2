@@ -7,14 +7,20 @@ permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: shell, resource: "*", effect: deny }
   - { action: shell, resource: "rg *", effect: allow }
-  - { action: shell, resource: "git status*", effect: allow }
-  - { action: shell, resource: "git log*", effect: allow }
-  - { action: shell, resource: "git diff*", effect: allow }
-  - { action: shell, resource: "git show*", effect: allow }
-  - { action: shell, resource: "git branch*", effect: allow }
+  - { action: shell, resource: "git status *", effect: allow }
+  - { action: shell, resource: "git log *", effect: allow }
+  - { action: shell, resource: "git diff *", effect: allow }
+  - { action: shell, resource: "git show *", effect: allow }
+  - { action: shell, resource: "git branch *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
-  - { action: subagent, resource: "*", effect: allow }
+  - { action: subagent, resource: "*", effect: deny }
+  - { action: subagent, resource: "migrator", effect: allow }
+  - { action: subagent, resource: "docs-writer", effect: allow }
+  - { action: subagent, resource: "coder", effect: allow }
+  - { action: subagent, resource: "tester", effect: allow }
+  - { action: subagent, resource: "validator", effect: allow }
+  - { action: subagent, resource: "git", effect: allow }
   - { action: question, resource: "*", effect: allow }
 ---
 
@@ -30,17 +36,21 @@ permissions:
 - Реестр задач — `docs/tasks/README.md` (порядок работ: P0 → P1 → P2 → P3).
 - Требования и их статусы — `docs/features/README.md`.
 - Карта репозитория, состав и маршруты команды — `AGENTS.md` §Рабочая группа агентов.
+- Гигиена поиска и чтения — `.opencode/rules/workspace.md`; методика приёмки —
+  `.opencode/rules/review.md`.
 
 ## Рабочий цикл
 
 1. Принять запрос и уточнить цель (`question`), если она размыта.
 2. Оценить состояние: `git status`, `git log`, карта файлов (`rg --files`).
-   Большие файлы целиком не читай.
+   Большие файлы (`OPEN_QUESTIONS.md`, `SPECIFICATION.md`) — по карте заголовков
+   и точечно; целиком не читай (`.opencode/rules/workspace.md`).
 3. Декомпозировать и назначить роль по маршруту (`AGENTS.md` §Рабочая группа агентов).
 4. Сформировать бриф (шаблон ниже) и вызвать subagent отдельным сообщением.
 5. Проверить результат по критериям приёмки; при провале — вернуть на доработку
    или эскалировать пользователю.
-6. Приёмка: для переноса записи — `validator`; для кода — `tester`, затем `validator`.
+6. Приёмка: для переноса записи — `validator`; для кода — `tester`, затем
+   `validator`, затем `docs-writer` (закрытие статусов задачи).
 7. Вернуть пользователю короткое резюме с фактическими статусами.
 
 ## Бриф для subagent
@@ -66,9 +76,19 @@ checks:
 - Бриф — отдельный вызов subagent'а, не часть ответа пользователю.
 - Одна задача — один вызов; не дублируй уже идущие или сделанные задачи.
 
+## Полезные вызовы
+
+- `@migrator` — перенеси Q2 из архива: Q + D + сверка с кодом + задача
+- `@coder` — реализуй T-01 по карточке и источнику `Dn`; DoD — в acceptance
+- `@tester` — проверь T-01: воспроизведи DoD и сценарии `draft.feature`
+- `@validator` — прими T-01 по чек-листу кода (`docs/BRIEF.md` §5.7)
+- `@docs-writer` — закрой T-01: статусы в карточке, сводке и требованиях
+- `@git` — коммит `docs(Q2): перенос в журнал` (с подтверждением)
+
 ## Чего ты не делаешь
 
 - Не редактируешь файлы (`edit: deny`) и не запускаешь сборки/тесты.
+- Не правишь `.opencode/**` и `opencode.json` — это служебная зона владельца.
 - Не смешиваешь занятия: одна сессия — либо миграция, либо код, либо документы
   (`docs/BRIEF.md` §8).
 - Не меняешь приоритеты задач и не заводишь записи журнала сам — это решения

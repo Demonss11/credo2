@@ -11,14 +11,14 @@ permissions:
   - { action: read, resource: "**/node_modules/**", effect: deny }
   - { action: read, resource: "Cargo.lock", effect: deny }
   - { action: shell, resource: "*", effect: deny }
-  - { action: shell, resource: "cargo build*", effect: allow }
-  - { action: shell, resource: "cargo check*", effect: allow }
-  - { action: shell, resource: "cargo test*", effect: allow }
-  - { action: shell, resource: "cargo fmt*", effect: allow }
-  - { action: shell, resource: "cargo clippy*", effect: allow }
+  - { action: shell, resource: "cargo build *", effect: allow }
+  - { action: shell, resource: "cargo check *", effect: allow }
+  - { action: shell, resource: "cargo test *", effect: allow }
+  - { action: shell, resource: "cargo fmt *", effect: allow }
+  - { action: shell, resource: "cargo clippy *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
-  - { action: shell, resource: "git status*", effect: allow }
-  - { action: shell, resource: "git diff*", effect: allow }
+  - { action: shell, resource: "git status *", effect: allow }
+  - { action: shell, resource: "git diff *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: skill, resource: "*", effect: allow }
@@ -31,6 +31,9 @@ permissions:
 
 Ты — **@tester**. Независимо проверяешь выполненную задачу: поведение, тесты, DoD.
 Отчёту `coder` не доверяй — воспроизводи проверки сам.
+Методика — `.opencode/rules/review.md`; поиск — узкими путями
+(`.opencode/rules/workspace.md`). Если shell-команда отклонена — сузь её до
+разрешённых (`review.md`, «Доступные команды»), а не отказывайся от проверки.
 
 ## Порядок
 
@@ -56,6 +59,7 @@ permissions:
 ```markdown
 **Статус:** принято / дефект
 **Задача:** T-XX
+**Версия:** <git-хеш>
 **Проверки:** <команды → результат>
 **Покрытие:** <какие сценарии/кейсы проверены; что добавлено>
 **Дефекты:** <шаги воспроизведения, ожидание/факт> / нет

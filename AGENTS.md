@@ -33,15 +33,18 @@
 | Агент | Роль | Пишет в |
 |---|---|---|
 | `lead` | декомпозиция, вызовы ролей, приёмка отчётов, вопросы пользователю | — |
-| `migrator` | перенос `Qx` из архива в журнал: Q + D + сверка с кодом + задача | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md` (§10) |
-| `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG, `AGENTS.md` | `docs/**` (кроме журнала), `AGENTS.md` |
+| `migrator` | ведёт журнал Q/D: перенос `Qx` из архива, новые Q/D, сверка с кодом, задачи | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md` (§10) |
+| `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG, `AGENTS.md`; закрытие статусов задач | `docs/**` (кроме журнала), `AGENTS.md` |
 | `coder` | задача кода `T-XX`: правки `src/`, юнит-тесты, DoD | `src/**`, `tests/**`, `Cargo.toml` |
 | `tester` | независимая проверка задачи: DoD, тесты, сценарии `features/` | `tests/**` |
 | `validator` | приёмка: DoD, трассируемость, канон Q41; read-only | — |
 | `git` | git-операции и коммиты (изменяющие — с подтверждением) | — |
 
-Маршруты: перенос `Qx` → `migrator` → `validator`; доработка `T-XX` → `coder` →
-`tester` → `validator` → `git`; документы → `docs-writer` → `validator`.
+Маршруты: журнал (`Qx` — перенос или новая запись) → `migrator` → `validator`;
+доработка `T-XX` → `coder` → `tester` → `validator` → `docs-writer` (закрытие
+статусов задачи) → `git`; документы → `docs-writer` → `validator`.
+`.opencode/**` и `opencode.json` — служебная зона: её меняет владелец, роли туда
+не пишут.
 Процесс ведения журнала — `docs/BRIEF.md`; реестр задач — `docs/tasks/README.md`.
 
 ## Документы и решения
@@ -146,8 +149,9 @@ await tools.credo.check_rebuild_manifest();
    опубликованные версии — bare-git `.credo/published-repo`, источник истины — ветка `main`.
    Перезапуск сервера состояние не теряет (в отличие от исторического `prototypes/credo`).
 2. **Публикация — через ветку.** `check.publish` создаёт `publish/{name}-{version}` и не трогает
-   `main`; до merge версия не видна ни REST, ни манифесту. Merge — командой из поля `next_step`
-   ответа; после merge — `check.rebuild_manifest` (либо подождать: кэш REST обновится за ~2 с).
+   `main`; до merge версия не видна ни REST, ни манифесту. Merge ветки в `main` — командой из поля
+   `next_step` ответа; выполняет его человек (git-роль агентов ветки публикаций не мержит).
+   После merge — `check.rebuild_manifest` (либо подождать: кэш REST обновится за ~2 с).
 3. **Правила semver при публикации.** Дубликат версии и downgrade отклоняются; изменение входов
    контракта требует поднять MAJOR.
 4. **Отсутствующее поле — строгая ошибка (Q8), а не `0`.** Несовместимые типы — тоже ошибка
@@ -166,6 +170,16 @@ await tools.credo.check_rebuild_manifest();
    приоритет `--no-rest` > `--addr` > `--rest`). Адрес по умолчанию `127.0.0.1:8080`,
    Swagger — `/docs`, спека — `/openapi.json`. Ключ — `--api-key`/`CREDO_API_KEY` (заголовок
    `x-api-key`); без ключа API открыт (режим демо).
+
+## Гигиена и чтение
+
+- Обход дерева — по правилу `.opencode/rules/workspace.md`: узкие `glob`/`rg`
+  по `src/`, `tests/`, `docs/`; не обходить `target/`, `node_modules/`,
+  `.credo/`, `.git/`.
+- Большие документы (`docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md`) читать
+  по карте заголовков (`rg -n "^#{1,3} " <файл>`) и точечно, а не целиком.
+- Методика ревью и приёмки — `.opencode/rules/review.md`.
+- Быстрая проверка относительных ссылок — `docs/BRIEF.md` §9.
 
 ## Сборка, тесты и пересборка
 

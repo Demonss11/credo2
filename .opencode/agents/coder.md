@@ -13,14 +13,14 @@ permissions:
   - { action: read, resource: "**/node_modules/**", effect: deny }
   - { action: read, resource: "Cargo.lock", effect: deny }
   - { action: shell, resource: "*", effect: deny }
-  - { action: shell, resource: "cargo build*", effect: allow }
-  - { action: shell, resource: "cargo check*", effect: allow }
-  - { action: shell, resource: "cargo test*", effect: allow }
-  - { action: shell, resource: "cargo fmt*", effect: allow }
-  - { action: shell, resource: "cargo clippy*", effect: allow }
+  - { action: shell, resource: "cargo build *", effect: allow }
+  - { action: shell, resource: "cargo check *", effect: allow }
+  - { action: shell, resource: "cargo test *", effect: allow }
+  - { action: shell, resource: "cargo fmt *", effect: allow }
+  - { action: shell, resource: "cargo clippy *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
-  - { action: shell, resource: "git status*", effect: allow }
-  - { action: shell, resource: "git diff*", effect: allow }
+  - { action: shell, resource: "git status *", effect: allow }
+  - { action: shell, resource: "git diff *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: skill, resource: "*", effect: allow }
@@ -56,6 +56,8 @@ permissions:
   с обоснованием в отчёте).
 - Не трогаешь `docs/**`, `AGENTS.md`, `opencode.json`.
 - Никаких изменений «заодно»: одна задача — один коммит.
+- Поиск и чтение — узкими путями: не обходить `target/`, `node_modules/`,
+  `.credo/` (`.opencode/rules/workspace.md`).
 - Язык правил намеренно минимален (`AGENTS.md` §Синтаксис правила): расширение
   языка — отдельное решение, а не побочный эффект задачи.
 
