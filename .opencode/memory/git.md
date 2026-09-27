@@ -79,3 +79,25 @@
   коммит 3 (лента+память), затем `switch develop` → `pull` → `merge --no-ff` →
   `push origin develop` → `branch -d` → `push origin --delete` (push —
   timeout ≥ 300000 мс).
+- **2026-09-27 · T-13, W4 — завершено.** Коммиты `e34772f` (9 файлов),
+  `299fd0c` (30), `84ae806` (2). Merge `--no-ff` в `develop` → `7f6d02a`
+  «Слияние feature/T-13-agent-hardening в develop» (39 файлов, +2456/−23);
+  `push origin develop` (`c212156..7f6d02a`). Ветка удалена: `git branch -d`
+  отказал (не «полностью merged» в устаревший upstream `origin/...` — коммиты
+  задачи не были запушены в ветку) → `git push origin --delete`
+  (`- [deleted]`) → повтор `git branch -d` (`was 84ae806`); без `-D`/`--force`.
+  Состояние: `develop` в синхроне с `origin/develop`, дерево чистое;
+  `feature/T-13-agent-hardening` нет локально и на origin; тег
+  `archive/run3-T-03` не задет. Осталось: запись «после» в ленте/памяти не
+  закоммичена (рабочие данные; служебный коммит — по решению `lead`).
+  Дальше: Run 4 (T-03 заново) — вне T-13.
+- **2026-09-27 · T-13, служебный коммит записей после пакета — шаг 2 готов.**
+  Подтверждение `lead` — лента `T-13.md` («пакет подтверждён (служебный
+  коммит)», 2026-09-27). Сверка `git status --short`: ровно два пути
+  (` M .opencode/mail/T-13.md`, ` M .opencode/memory/git.md`), лишнего нет;
+  ветка `develop`. Отчёт `git` и этот чекпойнт дописаны **до** коммита (входят
+  в него). Осталось: `git add` этими путями → `git commit -m "chore(T-13):
+  служебные записи ленты и памяти после пакета"` → `git push origin develop`
+  (timeout ≥ 300000 мс) → проверки `git status -sb`, `git log -2 --oneline`.
+  Основание прямого коммита в `develop` — служебные рабочие данные (ветка
+  задачи удалена).
