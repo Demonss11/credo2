@@ -87,3 +87,23 @@
   `docs/reviews/T-03-2026-09-27-r2.md`, квитанция T-03 — append-запись
   (iteration 2, verdict accepted). Урок подтверждён: `cmp_owned` ловится
   только `cargo clippy`; повторный DoD после правки `src/**` — обязателен.
+- **Сервисная приёмка MCP-ready / W8 Run 4** (2026-09-27, HEAD `89ebd42`,
+  дерево `develop` + рабочие доки): чекпойнт **до прогона** — прочитаны лента
+  `service-mcp-ready.md`, своя память, `tests/features_inventory.rs`.
+  `git status --porcelain`: изменены `docs/features/README.md`,
+  `docs/tasks/README.md`, `.opencode/mail/T-03.md`,
+  `.opencode/memory/git.md`; untracked — `.opencode/commands/`, две service-ленты,
+  `docs/analysis/{mcp-ready-process,memorandum-W8-run4}.md`, 5 `agents-*.feature`,
+  `docs/tasks/T-15-mcp-ready-process/`. **`src/**` и `tests/**` не тронуты**
+  (после merge `89ebd42`). Кода нет → `fmt`/`clippy` не требуются; запускаю
+  `cargo test --all`. Ожидание: всё зелёное, `features_inventory` 4/4,
+  счётчики `docs/features/README.md` = 47 файлов / 278 сценариев
+  (новые 4+4+4+3+4 = 19, процесс 11/55). Вердикт — в отчёте ленты.
+- **Сервисная приёмка MCP-ready / W8 Run 4 — итог прогона:** `git status`
+  подтвердил отсутствие правок `src/**`/`tests/**`; `cargo test --all` —
+  **90 passed / 0 failed** (lib 49 + `features_inventory` 4/4 + `mcp_draft` 14 +
+  `publish` 12 + `rest` 11). Счётчики сверены машинно (`readme_totals_match_files`)
+  и вручную: 47 `.feature`, 278 сценариев (процесс 11/55, новые 19).
+  Вердикт **accepted** (P1/P2/P3 нет), отчёт — append в
+  `.opencode/mail/service-mcp-ready.md`. Изменены только два моих файла:
+  эта память и лента; ничего не коммитил, канон/код не правил.

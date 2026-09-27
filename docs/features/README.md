@@ -280,15 +280,26 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`agents-git-approval.feature`](agents-git-approval.feature) | Git-процесс задачи | 5 | ✅ | 🔴 | Ветка `feature/T-XX-<слаг>` до работы (git-flow: `master`/`develop`/`feature`), пакет формируется при планировании и лежит в плане, подтверждение фиксирует `lead`, `git` сверяет ленту и состояние, merge `--no-ff` и удаление ветки, идемпотентность, push ≥ 5 минут |
 | [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск), фиксирует `analyst` в досье и плане; S — fast path `git` → `coder` → `validator` → `git` (`validator` обязателен), M/L — полный маршрут (L + аудит); guard «сценарии `features/` → не ниже M»; переопределение владельцем |
 | [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 7 | ✅ | 🔴 | Авторство канона — сервисная сессия, `auditor` — независимая приёмка; сверка «инструкция ↔ права» с автопроверкой списка команд `review.md` ↔ фронтматтеры, сверка состояния и квитанций, подтверждения git, целостность памяти/почты, headless `--model --auto` |
+| [`agents-state-schema.feature`](agents-state-schema.feature) | Схема состояния | 4 | ⬜ | 🔴 | Поля, типы и инварианты (`iteration ≥ 1`, `rework = iteration − 1`), единый счётчик, `session_index`; валидатор `validate-state.mjs`; F15 |
+| [`agents-session-checkpoint.feature`](agents-session-checkpoint.feature) | Чекпойнт сессии | 4 | ⬜ | 🔴 | Session-commit в `process/runN` на границе сессии; правило останова (dispatch + запись + чекпойнт); восстановление по снапшоту; идемпотентность; F13 |
+| [`agents-re-raise.feature`](agents-re-raise.feature) | Классификация re-plan | 4 | ⬜ | 🟡 | Категории (`expect_mismatch`/`owner_override`/`plan_gap`/`role_failure`) и объект re-raise (`origin`, `failed_clause`, `fix`, `blocking`); owner override — вне метрики конвергенции |
+| [`agents-metrics.feature`](agents-metrics.feature) | Метрики процесса | 3 | ⬜ | 🟡 | Метрики прогона и очереди (`deferred_by_owner`, `blocked`) выводятся из состояния; метрика конвергенции без owner override; без ручных таблиц |
+| [`agents-mcp-readiness.feature`](agents-mcp-readiness.feature) | Готовность к MCP | 4 | ⬜ | 🟡 | Чек-лист заморозки (схема ≥2 прогона, ≤10 операций, идемпотентность, re-raise, метрики, ≥2 класса); границы MCP: storage/validation/query без решений |
 
 > **Пилот Run 3 (D39 §7, T-12):** T-12 принята `validator` (2026-09-27); loop-цикл
 > с `analyst`, fast path класса S, scope-hard-rule и квитанции приёмки
 > проверяются пилотом на T-03 **после** мержа T-12. До пилота статусы ✅/🟡 означают
 > структурную готовность (канон и роли обновлены), поведение подтверждает прогон.
 
-**Итого: 42 файла, 259 сценариев** (backend — 27 файлов / 148 сценариев,
-frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 6 файлов /
-36 сценариев).
+> **Проект MCP-готовности (2026-09-27, T-15):** сценарии `agents-state-schema`,
+> `agents-session-checkpoint`, `agents-re-raise`, `agents-metrics`,
+> `agents-mcp-readiness` — целевое состояние процесса перед кристаллизацией
+> в MCP (основание — [`../analysis/mcp-ready-process.md`](../analysis/mcp-ready-process.md),
+> внешние записки). Статусы ⬜; подтверждение — прогонами.
+
+**Итого: 47 файлов, 278 сценариев** (backend — 27 файлов / 148 сценариев,
+frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 11 файлов /
+55 сценариев).
 
 ## Соответствие коду
 

@@ -138,3 +138,25 @@
   ветка `feature/T-03-check-create` (HEAD `7e94c79`) в синхроне с origin;
   `develop` @ `bf56a4a`; 10 `??` (T-15/service). Осталось: решение `lead` по
   `features/README.md`, затем шаги 2–8 пакета `t03_merge`.
+- **2026-09-27 · T-03 Run 4, пакет `t03_merge` (повтор) — завершено.**
+  Подтверждение `lead` — лента `T-03.md` («merge T-03 — пакет подтверждён
+  владельцем» + «уточнение пакета»; директива владельца «делаем merge»).
+  Сверка шага 1 совпала: `develop` @ `bf56a4a`; `git diff --name-only develop
+  HEAD` → ровно 17 путей коммита `7e94c79` без `docs/features/README.md`.
+  Выполнено: process-коммит `8d9c9dc` «chore: записи прогона Run 4 (T-03)»
+  (2 файла, +131; `add` только `mail/T-03.md`, `memory/git.md`) → `restore
+  docs/tasks/README.md` (только он; `features/README.md` оставлен рабочим) →
+  `switch develop` → `pull` (`Already up to date`) → `merge --no-ff
+  feature/T-03-check-create` → `89ebd42` (17 файлов, +1321/−12) → `push origin
+  develop` (`bf56a4a..89ebd42`, timeout 360000) → удаление ветки.
+  `git branch -d` отказал (локальный `8d9c9dc` не был в устаревшем upstream
+  `origin/feature/T-03-check-create`; коммит уже вошёл в develop через
+  `89ebd42`) → без `-D`/`--force`: `push origin --delete` (`- [deleted]`) →
+  `fetch --prune` → `branch -d` (`was 8d9c9dc`). Порядок шагов 7↔8 поменян
+  только ради отказа `-d`.
+  Состояние: `develop` в синхроне с `origin/develop` @ `89ebd42`; `git log -3`
+  → `89ebd42`, `8d9c9dc`, `7e94c79`; ветки `feature/T-03-check-create` нет
+  локально и на origin; ` M docs/features/README.md` + 10 `??` (T-15/service).
+  Отчёт в ленте/памяти дописан **после** пакета — не закоммичен (рабочие
+  данные; служебный коммит — по решению `lead`). Заметка: `git branch --list`
+  роли не разрешён — проверки через `git status -sb`/`git branch -a`.

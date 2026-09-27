@@ -1,0 +1,168 @@
+# service-mcp-ready — подготовка документов «процесс, готовый к MCP»
+
+- **Дата:** 2026-09-27 · **Исполнитель:** сессия `lead` Run 4 по указанию
+  владельца («подготовь документы»; целевая картина — MCP, план максимум).
+- **Вход:** внешние аналитические записки `ext-an-W8-run4.md` и
+  `ext-an-2-W8-run4.md` (в папке загрузок владельца, вне репозитория);
+  меморандум W8 (Run 4) §4–§7/§12; канон `dispatch-loop.md` /
+  `git-workflow.md`; реестры `docs/features`, `docs/tasks`.
+- **Сделано (documents-first, до реализации):**
+  1. проектная записка `docs/analysis/mcp-ready-process.md` — целевая модель
+     (слои, схема состояния, каталог операций ≤10, re-raise, финализация и
+     правило останова, метрики, чек-лист готовности, миграция, фазы A–E);
+  2. пять процессных фич (`docs/features/agents-state-schema`, `-session-checkpoint`,
+     `-re-raise`, `-metrics`, `-mcp-readiness`; 19 сценариев) + строки, заметка
+     и счётчики в `docs/features/README.md` (47 файлов / 278 сценариев;
+     процесс — 11/55);
+  3. карточка `docs/tasks/T-15-mcp-ready-process/README.md` и строка в
+     `docs/tasks/README.md` (P1; зависит от T-11; источник — записка,
+     ID и журнал — предварительные, за `migrator`).
+- **Проверки:** структура фич — по правилам `features_inventory.rs` (первая
+  строка `# language: ru`; ровно одна `Функция:`; счётчики сверены вручную:
+  4+4+4+3+4 = 19); полный прогон (`cargo test --all`) — за `validator`; канон
+  (`.opencode/rules/**`, `AGENTS.md`) не тронут; код и тесты не менялись.
+- **Дальше / риски:** журнальные Q/D и подтверждение ID — `migrator` (до
+  старта T-15); merge T-03 — решение владельца; далее по плану записки:
+  Run 5 (S-пилот) → T-15 (L) → Run 6 (M) → заморозка → MCP (отдельно).
+  Изменения не закоммичены (рабочие данные; пакет — по подтверждению).
+
+## lead · 2026-09-27 · merge T-03 выполнен (открытый вопрос §12.1 снят)
+
+- По директиве владельца: `feature/T-03-check-create` влита в `develop`
+  (merge-коммит `89ebd42`, process-коммит `8d9c9dc`), ветка удалена
+  (local + origin); детали — лента `.opencode/mail/T-03.md`.
+- Записка `docs/analysis/mcp-ready-process.md` §12: вопрос 1 закрыт;
+  `develop` содержит T-03 (регресс-кейс доступен).
+
+## lead · 2026-09-27 · выбор по process-commit и git-фасаду (владелец принял)
+
+- Решено (владелец, 2026-09-27): process-commit исполняет роль `git` по
+  «постоянному» пакету (подтверждение — один раз на прогон); микро-роль
+  `checkpoint` не вводится; фасад — команды OpenCode
+  `.opencode/commands/git/…`; в перспективе git-MCP — узкий инструмент
+  `checkpoint` у `lead`.
+- Сделано: записка `docs/analysis/mcp-ready-process.md` — §5.4 (операция 8),
+  §6 (выбор механизма), §12.3 (вопрос закрыт), Приложение A (эскиз git-MCP);
+  карточка T-15 — фаза C (исполнитель, команды), «Черновик команды-фасада»,
+  примечания; команда `/git/status` создана
+  (`.opencode/commands/git/status.md`; read-only, временное решение до
+  git-MCP).
+- Проверки: в командах — только текстовые шаблоны (без shell-блоков `!`);
+  изменяющие git-операции не выполнялись; канон ролей и прав не тронут.
+- Дальше: `/git/checkpoint` — в фазе C T-15 (когда появятся `process/runN`
+  и «постоянный» пакет); при внедрении команд включить
+  `.opencode/commands/**` в область аудита `auditor`.
+
+## lead · 2026-09-27 · wave 0 T-15 — токен-гигиена (документ подготовлен)
+
+- По запросу владельца (перерасход токенов): изучены V2-доки `instructions` /
+  `formatters` / `plugins` (+ `agents`) и конфигурация репо; подготовлен
+  отдельный документ задачи T-15 —
+  `docs/tasks/T-15-mcp-ready-process/wave0-token-hygiene.md`
+  («Wave 0 — токен-гигиена, вне канона»): диагноз расхода (главный множитель —
+  фикс-оверхед на сессию × число сессий), состав (A: `formatter` + чистка
+  мёртвого `instructions`; B: плагин-пилот `token-guard.ts` — обрезка выводов
+  и tool-схем; C: дисциплина чтения/логов), замер до/после, риски, порядок.
+- Ссылки: карточка T-15 («Wave 0»), записка `mcp-ready-process.md` §10
+  (строка W0). Канон не тронут; исполнение — по слову владельца.
+
+## lead · 2026-09-27 · wave 0 — изучены permissions/policies (уточнения внесены)
+
+- Изучены V2-доки `permissions` и `policies`; уточнения внесены в
+  `docs/tasks/T-15-mcp-ready-process/wave0-token-hygiene.md`: §3.5 —
+  статические permissions (`<server>_<tool>`, `execute`/Code Mode), policies
+  как страховки (`*--force*`, `*reset --hard*`, `.ssh`), оговорка
+  «запрет ≠ обрезка схемы без проверки»; шаг 3 порядка — сравнение статики с
+  плагином.
+- Значимо для волны: `execute` (Code Mode) и MCP-схемы — крупная фикс-статья;
+  статические запреты — канон (фаза C, аудит), в wave 0 — только проверка
+  гипотезы. Канон не тронут.
+
+## lead · 2026-09-27 · wave 0 — изучены references (вне волны)
+
+- Изучен V2-док `references`: доступ к каталогам вне проекта (алиас + путь +
+  `description` в инструкциях; содержимое — по требованию; права — обычные
+  `external_directory`/`read`; ссылки прав не выдают). Для токен-экономии
+  wave 0 не применяем; зафиксировано в `wave0-token-hygiene.md` §3.6 как
+  кандидат «после демо» (DAR-доки workspace, архив внешних обзоров).
+  Канон не тронут.
+
+## lead · 2026-09-27 · wave 0 — изучены skills (контекст по требованию)
+
+- Изучен V2-док `skills`: тело скилла не в промпте — в запрос идут только
+  ID/имя/`description`, загрузка по требованию (`skill`), поддерживающие файлы
+  (`scripts/`, `references/`, шаблоны) читаются по ссылке; право `skill` по ID
+  (allow/ask/deny) скрывает скиллы от модели и настраивается по агентам.
+  Зафиксировано в `wave0-token-hygiene.md` §3.7: для wave 0 изменений нет;
+  кандидат фазы C — сузить `rust-skills` профильными ролями; на будущее —
+  шаблоны/чек-листы как скиллы и HTTP-каталог плейбуков. Канон не тронут.
+
+## validator · 2026-09-27 · сервисная приёмка
+
+- **Сделано:** независимая приёмка пакета документов «процесс, готовый к MCP»
+  (T-15/MCP-ready + финализация меморандума W8, Run 4) перед выкладкой. Кода нет —
+  изменения только в `docs/**`, `.opencode/commands/git/status.md`, почте/памяти.
+  Прогон — полный `cargo test --all`; `features_inventory` и счётчики сверены
+  машинно (тест) и вручную (перечень файлов, число сценариев).
+- **Проверки:**
+  - `git status --porcelain` (HEAD `89ebd42`, merge T-03): изменены
+    `docs/features/README.md`, `docs/tasks/README.md`, `.opencode/mail/T-03.md`,
+    `.opencode/memory/git.md`; untracked — `.opencode/commands/`,
+    `.opencode/mail/service-mcp-ready.md`, `.opencode/mail/service-w8-memorandum.md`,
+    `docs/analysis/mcp-ready-process.md`, `docs/analysis/memorandum-W8-run4.md`,
+    5×`docs/features/agents-*.feature`, `docs/tasks/T-15-mcp-ready-process/`.
+    **`src/**` и `tests/**` не тронуты** (после merge `89ebd42`) — совпадает
+    с заявленным периметром. Кода нет → `fmt`/`clippy` не требуются.
+  - `cargo test --all` → **90 passed / 0 failed** (lib 49 + `features_inventory`
+    4/4 + `mcp_draft` 14 + `publish` 12 + `rest` 11; doc-tests 0); compile
+    `Finished` без предупреждений.
+  - `features_inventory` → **4/4 ok** (`feature_files_are_valid_documents`,
+    `feature_files_match_readme_inventory`, `scenario_counts_match_readme`,
+    `readme_totals_match_files`). Счётчики `docs/features/README.md`:
+    **47 файлов / 278 сценариев** (backend 27/148, frontend 9/75, процесс 11/55).
+    Перечень файлов — ровно 47 `.feature`; новые `agents-*`: `state-schema` 4,
+    `session-checkpoint` 4, `re-raise` 4, `metrics` 3, `mcp-readiness` 4 = **19**.
+- **Вердикт: accepted** (P1/P2/P3 нет). Изменённые мною файлы (в пакет выкладки):
+  `.opencode/mail/service-mcp-ready.md` (эта запись), `.opencode/memory/validator.md`.
+  Ничего не коммитил, канон/код не правил.
+
+## lead · 2026-09-27 · выкладка документов — пакет подтверждён владельцем
+
+- Директива владельца: **«отправим в удалённый репозиторий все изменения»**
+  (2026-09-27). Приёмка — `validator` (раздел выше): **accepted**
+  (`cargo test --all` 90/0; `features_inventory` 4/4; счётчики 47/278;
+  `src/**`/`tests/**` не тронуты).
+- Пакет `push_docs_t15` (исполняет `git`, идемпотентно):
+  1. сверка: ветка `develop`, HEAD `89ebd42`; изменённые tracked — ровно
+     `docs/features/README.md`, `docs/tasks/README.md`,
+     `.opencode/mail/T-03.md`, `.opencode/memory/git.md`,
+     `.opencode/memory/validator.md`; untracked — ровно:
+     `docs/analysis/memorandum-W8-run4.md`,
+     `docs/analysis/mcp-ready-process.md`, 5×`docs/features/agents-*.feature`
+     (`state-schema`, `session-checkpoint`, `re-raise`, `metrics`,
+     `mcp-readiness`), `docs/tasks/T-15-mcp-ready-process/` (README + wave0),
+     `.opencode/mail/service-w8-memorandum.md`,
+     `.opencode/mail/service-mcp-ready.md`,
+     `.opencode/commands/git/status.md`; расхождение — стоп без изменяющих
+     команд;
+  2. `git pull origin develop`; `git switch -c feature/T-15-mcp-ready-process develop`;
+  3. коммит A — `docs(T-15): записка MCP-ready процесса, фичи, карточка, wave 0, /git/status`;
+     пути: `docs/analysis/mcp-ready-process.md`, `docs/features/README.md`,
+     5×`docs/features/agents-*.feature`,
+     `docs/tasks/README.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+     `docs/tasks/T-15-mcp-ready-process/wave0-token-hygiene.md`,
+     `.opencode/commands/git/status.md`, `.opencode/mail/service-mcp-ready.md`;
+  4. коммит B — `docs: финализация меморандума W8 (Run 4) и служебные записи`;
+     пути: `docs/analysis/memorandum-W8-run4.md`,
+     `.opencode/mail/service-w8-memorandum.md`, `.opencode/mail/T-03.md`,
+     `.opencode/memory/git.md`, `.opencode/memory/validator.md`;
+  5. `git push -u origin feature/T-15-mcp-ready-process` (таймаут ≥5 мин);
+  6. `git switch develop`; `git merge --no-ff feature/T-15-mcp-ready-process
+     -m "Слияние feature/T-15-mcp-ready-process в develop"`;
+  7. `git push origin develop` (таймаут ≥5 мин);
+  8. `git branch -d feature/T-15-mcp-ready-process`;
+     `git push origin --delete feature/T-15-mcp-ready-process`.
+- Не входит: правки канона и кода; исполнение wave 0 (это выкладка
+  документов); прочие ветки и теги.
+- Ожидание: `develop` содержит merge-коммит с A и B; ветка удалена локально и
+  на origin; дописи ленты/памяти после коммитов — рабочие (R7).

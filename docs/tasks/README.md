@@ -43,6 +43,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-11](T-11-agent-cycle/README.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта ролей | [D38](../decisions/D38-agent-cycle.md) (Q43) | P1 | — | 🚧 |
 | [T-12](T-12-agent-loop/README.md) | Разгрузка `lead`: loop-диспетчер, эфемерный `analyst`, состояние на диске | [D39](../decisions/D39-loop-dispatcher.md) (Q44) | P1 | — | ✅ |
 | [T-13](T-13-agent-hardening/README.md) | W7: доработка агентов после Run 3 (доступы, дисциплина цикла, гигиена) | [D40](../decisions/D40-scope-threshold.md), [D41](../decisions/D41-dispatch-refinements.md) (Q45, Q46) | P1 | — | ✅ |
+| [T-15](T-15-mcp-ready-process/README.md) | Процесс, готовый к MCP: схема состояния, операции, финализация, метрики | предварительно: [`analysis/mcp-ready-process.md`](../analysis/mcp-ready-process.md); Q/D — `migrator` | P1 | T-11 | ⬜ |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |
