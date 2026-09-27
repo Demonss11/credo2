@@ -240,3 +240,66 @@
   «грязь» R7 (отчёт в ленте r2 + этот чекпойнт). `--force`/rebase/`add -A`/
   push/иные ветки/merge не применялись; `target/`, `.credo/`,
   `.opencode/state/**` не коммитились.
+- **2026-09-28 · service-mcp-ready-r2, пакет `w0_merge` (коммит R7 на `exp` +
+  локальный merge в `develop`) — готово.** Подтверждение владельца — лента
+  `.opencode/mail/service-mcp-ready-r2.md` (раздел «Ответ владельца»:
+  «Локальный merge exp→develop»; запись `lead · 2026-09-27 · Run 5 — выбран
+  первый тяжёлый прогон: T-04»). Push по пакету **не выполнять**. Сверка
+  (шаг 1, идемпотентность): ветка `exp/agent-update-t15w0` (upstream
+  выставлен, ahead 2), HEAD `57abbbe`, ровно 2 `M`
+  (`mail/service-mcp-ready-r2.md`, `memory/git.md`) — совпало с пакетом.
+  Выполнено: `git add` двумя точными путями → `git diff --cached
+  --name-only` (2 пути) → коммит **`ae2b62d`** `chore: служебные записи
+  W0-i4 (лента, память)` (2 файла, +67) → `git switch develop` (HEAD
+  `3eb0856`) → `git merge --no-ff exp/agent-update-t15w0 -m "Слияние
+  exp/agent-update-t15w0 (волна 0 T-15) в develop"` → merge **`0437799`**
+  (10 файлов, +1139/−5; стратегия `ort`, конфликтов нет). Проверки:
+  `git log -3 --oneline` → `0437799`, `ae2b62d`, `57abbbe`;
+  `git status -sb` → `## develop...origin/develop [ahead 7]`, дерево чистое;
+  `git show --stat HEAD` → состав совпал (плагин `token-guard.ts`,
+  `wave0-plan/report/smoke/token-hygiene`, README T-15, `opencode.json`,
+  лента т. 1/т. 2, память). Осталось: push `develop`/`exp` — вне пакета,
+  отдельным решением; эта запись + отчёт в ленте — рабочая «грязь» (R7-r2,
+  ровно 2 пути) на `develop`, не закоммичены (служебный коммит — по решению
+  `lead`). `--force`/rebase/`add -A`/push/`branch -d`/`tag`/иные ветки не
+  применялись; `target/`, `.credo/`, `.opencode/state/**` не коммитились.
+  Заметка: `develop` впереди `origin/develop` на 7 (6 коммитов волны 0 из
+  `exp` + merge-коммит) — push не выполнялся по указанию владельца.
+- **2026-09-28 · T-04, пакет `branch_start` (ветка `feature/T-04-mcp-errors`) —
+  готово.** Подтверждение владельца — лента `.opencode/mail/T-04.md` (ответ
+  `question` 2026-09-28 «Да, полный пакет»; запись `lead · 2026-09-28 · гейт 1
+  пройден`). Сверка (шаг 1): ветка `develop`, HEAD `0437799`, dirt шире снимка
+  lead — 3 `M` (`mail/service-mcp-ready-r2.md`, `memory/analyst.md`,
+  `memory/git.md`) + 2 `??` (`mail/T-04.md`, `docs/analysis/T-04-2026-09-28.md`);
+  лишние пути — артефакты планирования Run 5 (после снимка `0437799`), не
+  коммитятся. Выполнено: `switch develop` пропущен (уже на нём) → `pull origin
+  develop` (`Already up to date`, origin/develop `3eb0856`) → `switch -c
+  feature/T-04-mcp-errors develop` → `push -u origin feature/T-04-mcp-errors`
+  (`* [new branch]`, timeout 360000 мс). Проверки: `git status -sb` →
+  `## feature/T-04-mcp-errors...origin/feature/T-04-mcp-errors` (синхрон, без
+  ahead/behind); `git log -1 --oneline` → `0437799`. `git branch -vv` отклонён
+  (нет в allowlist роли) — upstream сверен по выводу `push -u` и `status -sb`.
+  Состояние: ветка создана и опубликована, upstream выставлен; дерево и
+  служебные файлы не тронуты; `develop` `ahead 7` не отправлен (по решению
+  владельца). `add`/`commit`/`merge`/`branch -d`/`tag`/`--force`/rebase не
+  применялись. Осталось: работа задачи в ветке (docs-writer 🚧 → coder → …).
+  Заметка: `branch -vv` добавляю в список недоступных команд роли (как
+  `branch --list`).
+- **2026-09-28 · T-04, пакет `branch_end` (коммит + merge в `develop` + push +
+  удаление ветки) — готово.** Подтверждение владельца — лента `.opencode/mail/T-04.md`
+  (ответ `question` 2026-09-28 «полный пакет»; запись `lead · 2026-09-28 · гейт
+  пакета завершения`). Сверка (шаг 1, идемпотентность): ветка
+  `feature/T-04-mcp-errors`, HEAD `0437799`, upstream `origin/feature/T-04-mcp-errors`,
+  синхрон; ровно 19 путей (14 M + 5 ??) = снимок гейта и `package.add_paths`
+  (`tests/common/` ↔ `tests/common/mod.rs`; `docs/features/README.md` не менялся).
+  Выполнено: `git add` 19 точными путями одной командой (`./` для скрытых;
+  LF→CRLF — EOL, не отклонение) → `git diff --cached --name-only` = 19 путей →
+  коммит `code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов
+  §4.5` → `switch develop` → `pull origin develop` → `merge --no-ff
+  feature/T-04-mcp-errors -m "Слияние feature/T-04-mcp-errors в develop"` →
+  `push origin develop` (публикует и волну 0, ahead 7; timeout 360000 мс) →
+  `branch -d` → `push origin --delete`. Хеши коммита задачи и merge, old→new push,
+  состав staged = 19 — в отчёте роли `lead` (запись в ленту и этот чекпойнт
+  дописаны **до** коммита и входят в него, чтобы дерево осталось чистым).
+  `--force`/rebase/`add -A`/иные ветки и слияния не применялись; `target/`,
+  `.credo/`, `.opencode/state/**` не коммитились. Осталось: `complete` (lead).

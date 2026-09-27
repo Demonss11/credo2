@@ -386,23 +386,78 @@ pub fn publish(
     })
 }
 
+/// Различимая причина отказа `check.deprecate` (Q29/§4.5): MCP размечает
+/// `deprecation_conflict` / `version_not_found`, не разбирая текст ошибки.
+#[derive(Debug)]
+pub enum DeprecateError {
+    /// Версия не найдена в `main` — MCP: `version_not_found`.
+    VersionNotFound { name: String, version: String },
+    /// Версия уже помечена deprecated — MCP: `deprecation_conflict`.
+    AlreadyDeprecated { name: String, version: String },
+    /// Прочие ошибки (git, io, serde) — MCP: `internal_error`.
+    Other(anyhow::Error),
+}
+
+impl std::fmt::Display for DeprecateError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DeprecateError::VersionNotFound { name, version } => {
+                write!(f, "версия не найдена: {name}@{version}")
+            }
+            DeprecateError::AlreadyDeprecated { name, version } => {
+                write!(f, "{name}@{version} уже помечена deprecated")
+            }
+            DeprecateError::Other(e) => write!(f, "{e}"),
+        }
+    }
+}
+
+impl std::error::Error for DeprecateError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            DeprecateError::Other(e) => Some(e.as_ref()),
+            _ => None,
+        }
+    }
+}
+
+impl From<anyhow::Error> for DeprecateError {
+    fn from(e: anyhow::Error) -> Self {
+        DeprecateError::Other(e)
+    }
+}
+
 /// Помечает версию deprecated. Пишет в main напрямую.
-pub fn deprecate(repo: &Path, name: &str, version: &str, reason: &str) -> Result<()> {
+pub fn deprecate(
+    repo: &Path,
+    name: &str,
+    version: &str,
+    reason: &str,
+) -> Result<(), DeprecateError> {
     ensure_repo(repo)?;
     let v = Semver::parse(version)?;
     let vstr = v.as_storage();
     let path = format!("checks/{name}/{vstr}/meta.json");
 
-    let mut meta: CheckMeta = serde_json::from_slice(
-        &show_file(repo, "main", &path).with_context(|| format!("нет {name}@{vstr} в main"))?,
-    )?;
+    let raw = show_file(repo, "main", &path).map_err(|_| DeprecateError::VersionNotFound {
+        name: name.to_string(),
+        version: vstr.clone(),
+    })?;
+    let mut meta: CheckMeta =
+        serde_json::from_slice(&raw).map_err(|e| DeprecateError::Other(e.into()))?;
     if meta.deprecated_at.is_some() {
-        bail!("{name}@{vstr} уже помечена deprecated");
+        return Err(DeprecateError::AlreadyDeprecated {
+            name: name.to_string(),
+            version: vstr,
+        });
     }
     meta.deprecated_at = Some(chrono::Utc::now().to_rfc3339());
     meta.deprecation_reason = Some(reason.into());
 
-    let sha = hash_blob(repo, &serde_json::to_vec_pretty(&meta)?)?;
+    let sha = hash_blob(
+        repo,
+        &serde_json::to_vec_pretty(&meta).map_err(|e| DeprecateError::Other(e.into()))?,
+    )?;
     let tree = write_index_with_parent(repo, "main", &[(path, Some(sha))])?;
     let parent = rev_parse(repo, "main")?;
     let commit = commit_tree(repo, &tree, &parent, &format!("deprecate {name}@{vstr}"))?;

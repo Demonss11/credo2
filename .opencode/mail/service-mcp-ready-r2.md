@@ -105,3 +105,23 @@
   «грязь» (этот отчёт + чекпойнт в `git.md`) не закоммичена (R7). Заметка:
   включены lead-записи W0-i4 (лента т. 2 + решения владельца) — коммит
   фиксирует волну 0 целиком; предупреждения LF→CRLF — только EOL.
+
+## git · 2026-09-28 · готово · пакет w0_merge
+
+- Сделано: коммит R7 **`ae2b62d`** `chore: служебные записи W0-i4 (лента,
+  память)` (2 файла, +67) в `exp/agent-update-t15w0`; `git switch develop`
+  (HEAD `3eb0856`); локальный `git merge --no-ff exp/agent-update-t15w0` →
+  merge-коммит **`0437799`** «Слияние exp/agent-update-t15w0 (волна 0 T-15)
+  в develop» (10 файлов, +1139/−5). Push **не** выполнялся (вне пакета).
+- Проверки: до — `git status -sb` + `git log -1 --oneline`: ровно 2 `M`
+  (лента r2, память), ahead 2, HEAD `57abbbe`; `git add` двумя путями →
+  `git diff --cached --name-only` = 2 пути; после merge — `git log -3
+  --oneline` → `0437799`, `ae2b62d`, `57abbbe`; `git status -sb` →
+  `## develop...origin/develop [ahead 7]`, дерево чистое; `git show --stat
+  HEAD` → состав: `plugins/token-guard.ts`, `wave0-plan/report/smoke/
+  token-hygiene`, README T-15, `opencode.json`, ленты т. 1/т. 2, память.
+- Дальше / риски: push `develop`/`exp` — отдельным решением владельца; эта
+  запись + чекпойнт `memory/git.md` — рабочая «грязь» (R7-r2, ровно 2 пути)
+  на `develop`, не закоммичены (служебный коммит — по решению `lead`); далее
+  `analyst` (T-04) и старт `feature/T-04-…` от `develop` — отдельным
+  подтверждением. `--force`/rebase/`add -A`/`branch -d`/`tag` не применялись.
