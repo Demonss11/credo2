@@ -113,3 +113,28 @@
   `git branch -a` — ветка локально + `remotes/origin/feature/T-03-check-create`;
   HEAD `bf56a4a`. Осталось: работа в ветке (docs-writer 🚧 → coder → tester →
   validator → re-plan → ✅), затем W4 — отдельным подтверждённым пакетом.
+- **2026-09-27 · T-03 Run 4, суженный пакет `branch_commit_push` — готово.**
+  Подтверждение `lead` — лента `T-03.md` («surface_to_user: пакет заменён
+  владельцем (сужение)»): «доведи задачу до push в удаленную ветку
+  feature/T-03-check-create, а в develop не надо мерджить и удалять ветки»;
+  `progress.yaml` (`result: СУЖЕНИЕ`). Сверка `git status -sb` (13 M + 4 ?? =
+  17) ↔ `add_paths` — 1:1. Выполнено: `add` 17 точными путями → `commit`
+  `7e94c79` («code(T-03): check.create {name, source}», 17 files, +1190/−12) →
+  `push origin feature/T-03-check-create` → `bf56a4a..7e94c79` (timeout 360000).
+  Проверки: `git status -sb` — ветка в синхроне с origin, дерево чистое;
+  `git log -1 --oneline develop` → `bf56a4a` (не тронут); `git branch -a` —
+  ветка локально + `remotes/origin/feature/T-03-check-create`. Merge `--no-ff` в
+  develop, `push origin develop`, удаление ветки — **отменены владельцем**, не
+  выполнялись. Осталось: незамерженная ветка `feature/T-03-check-create`
+  (develop @ bf56a4a без T-03) — решение о merge/удалении за владельцем.
+- **2026-09-27 · T-03 Run 4, пакет `t03_merge` — СТОП на шаге 1.** Подтверждение
+  `lead` — лента `T-03.md` («merge T-03 — пакет подтверждён владельцем», директива
+  владельца «делаем merge»). Сверка `git status -sb`: изменённых tracked **4**
+  вместо ожидаемых 3 — лишний ` M docs/features/README.md` (правка T-15:
+  `agents-*.feature` + итог 47/278), помимо `docs/tasks/README.md`,
+  `.opencode/mail/T-03.md`, `.opencode/memory/git.md`. Затронут и `restore`-шаг:
+  пакет снимал только `docs/tasks/README.md`, судьба `features/README.md` не
+  задана. По hard rule шага 1 — **СТОП**, изменяющих команд не было. Состояние:
+  ветка `feature/T-03-check-create` (HEAD `7e94c79`) в синхроне с origin;
+  `develop` @ `bf56a4a`; 10 `??` (T-15/service). Осталось: решение `lead` по
+  `features/README.md`, затем шаги 2–8 пакета `t03_merge`.
