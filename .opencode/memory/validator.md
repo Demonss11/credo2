@@ -51,3 +51,39 @@
   `docs/features/README.md` не менялся (42/259); вне периметра правок нет
   (новый tracked-диф — только CHANGELOG). Вердикт: **ок**; новых P1/P2/P3 нет,
   новый файл отчёта не создавался.
+- **T-03 · Run 4, итерация 2** (2026-09-27, `feature/T-03-check-create`,
+  HEAD `bf56a4a`, рабочий файл дерева): чекпойнт **до прогона** — прочитаны
+  лента, карточка T-03/Q28, `draft.feature`, `agent_minimal.feature`,
+  `review.md`; `git status -sb`/`git diff`: правки `src/mcp.rs`
+  (`create()` name→parse→сверка; `tool_specs` name+required), `src/core.rs`
+  (`parse_rule` «отсутствует заголовок правила») + юнит-тесты в модулях,
+  `tests/mcp_draft.rs` (+6 сценариев). Канон не тронут. Граница T-04 (D40):
+  сцена «невалидный source» — текст есть, код `validation_failed` позже.
+  Запускаю полный DoD (`fmt`/`clippy -D warnings`/`test --all`); окно 3/259
+  ожидаю 42/259. Вердикт — в `docs/reviews/T-03-2026-09-27.md`.
+- **T-03 · Run 4, итог прогона:** `fmt` — pass; `clippy --all-targets -D warnings`
+  — **fail** (1 ошибка `cmp_owned`, `src/mcp.rs:563`: `t.name.to_string() ==
+  "check.create"` в новом юнит-тесте; подсказка `t.name`); `cargo clippy
+  --all-targets` без `-D` — ровно 1 warning, фикс одиночный; `cargo test --all`
+  — **90 passed / 0 failed** (lib 49 + features_inventory 4/4 + mcp_draft 14 +
+  publish 12 + rest 11), счётчики 42/259. Вердикт: **отклонено (rework)**, P1 —
+  красный DoD. Отчёт `docs/reviews/T-03-2026-09-27.md`, квитанция T-03
+  (iteration 2, verdict rework). Урок: rust-analyzer diagnostics не ловят
+  clippy-lints — `cmp_owned` виден только `cargo clippy` (tester запускал
+  `cargo check`, не clippy).
+- **T-03 · Run 4, итерация 2, раунд `-r2`** (2026-09-27,
+  `feature/T-03-check-create`, HEAD `bf56a4a` + рабочий файл дерева): чекпойнт
+  **до прогона** — прочитаны лента (участок №4), отчёт `-r1`, план, карточка,
+  `draft.feature` (сцены check.create), `review.md`; `git status -sb`/`diff
+  --stat`: правка `src/mcp.rs:563` на месте (`t.name == "check.create"`),
+  changed-файлы те же, что на `-r1` (нет новых); канон не тронут. Запускаю
+  полный DoD (`fmt`/`clippy -D warnings`/`test --all`); окно 3/259 ожидаю
+  42/259. Вердикт — в `docs/reviews/T-03-2026-09-27-r2.md`.
+- **T-03 · Run 4, итерация 2, `-r2` — итог прогона:** `fmt` — pass;
+  `clippy --all-targets -- -D warnings` — **pass** (`Finished`, прежний
+  `cmp_owned` снят); `cargo test --all` — **90 passed / 0 failed**
+  (lib 49 + features_inventory 4/4 + mcp_draft 14 + publish 12 + rest 11),
+  счётчики 42/259. Вердикт **принято** (P1/P2/P3 нет); отчёт
+  `docs/reviews/T-03-2026-09-27-r2.md`, квитанция T-03 — append-запись
+  (iteration 2, verdict accepted). Урок подтверждён: `cmp_owned` ловится
+  только `cargo clippy`; повторный DoD после правки `src/**` — обязателен.

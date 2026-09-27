@@ -42,11 +42,23 @@ impl McpServer {
     }
 
     async fn create(&self, args: JsonValue) -> Result<JsonValue, String> {
+        // Q28: оба параметра обязательны; `name` сверяется с заголовком
+        // `Правило {name}` (GRAMMAR.md).
+        let name = args
+            .get("name")
+            .and_then(|v| v.as_str())
+            .ok_or("Нужен параметр 'name'")?;
         let source = args
             .get("source")
             .and_then(|v| v.as_str())
             .ok_or("Нужен параметр 'source'")?;
         let rule = parse_rule(source)?;
+        if rule.name != name {
+            return Err(format!(
+                "Имя '{name}' не совпадает с заголовком '{}'",
+                rule.name
+            ));
+        }
         let existing = self.state.get_draft(&rule.name).await;
         let draft = self
             .state
@@ -300,9 +312,9 @@ fn tool_specs() -> Vec<Tool> {
     vec![
         make_tool(
             "check.create",
-            "Создать черновик. source: Правило Name { Если (Поле < 21) { Решение = Отказ; Причина = \"...\"; } }",
-            json!({ "source": { "type": "string" } }),
-            vec!["source"],
+            "Создать черновик. name сверяется с заголовком в source: Правило Name { Если (Поле < 21) { Решение = Отказ; Причина = \"...\"; } }",
+            json!({ "name": { "type": "string" }, "source": { "type": "string" } }),
+            vec!["name", "source"],
         ),
         make_tool("check.list_drafts", "Список черновиков", json!({}), vec![]),
         make_tool(
@@ -491,6 +503,79 @@ mod tests {
         assert!(d["last_test_checksum"].is_null() && d["tested_at"].is_null());
         assert_eq!(d["test_valid"], json!(false));
         assert_eq!(d["stale"], json!(false));
+    }
+
+    // ---------- T-03/Q28: {name, source} обязательны, name ↔ заголовок ----------
+
+    #[tokio::test]
+    async fn create_requires_name_param() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let err = srv
+            .dispatch("check.create", json!({ "source": SRC }))
+            .await
+            .unwrap_err();
+        assert_eq!(err, "Нужен параметр 'name'");
+    }
+
+    #[tokio::test]
+    async fn create_rejects_name_title_mismatch() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let err = srv
+            .dispatch(
+                "check.create",
+                json!({ "name": "ДругоеИмя", "source": SRC }),
+            )
+            .await
+            .unwrap_err();
+        assert!(err.contains("не совпадает"), "err = {err}");
+        assert!(err.contains("МинимальныйВозраст"), "err = {err}");
+        // Черновик при расхождении не создаётся.
+        let drafts = srv.dispatch("check.list_drafts", json!({})).await.unwrap();
+        assert_eq!(drafts["count"], json!(0));
+    }
+
+    #[tokio::test]
+    async fn create_returns_status_and_name() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let created = srv
+            .dispatch(
+                "check.create",
+                json!({ "name": "МинимальныйВозраст", "source": SRC }),
+            )
+            .await
+            .unwrap();
+        assert_eq!(
+            created,
+            json!({ "status": "ok", "name": "МинимальныйВозраст" })
+        );
+    }
+
+    #[test]
+    fn check_create_tool_spec_requires_name_and_source() {
+        let tool = tool_specs()
+            .into_iter()
+            .find(|t| t.name == "check.create")
+            .expect("check.create должен быть в tool_specs");
+        let v = serde_json::to_value(&tool).unwrap();
+
+        let props = &v["inputSchema"]["properties"];
+        assert!(props.get("name").is_some(), "нет свойства name: {v}");
+        assert!(props.get("source").is_some(), "нет свойства source: {v}");
+        let required = v["inputSchema"]["required"]
+            .as_array()
+            .expect("required должен быть массивом");
+        for key in ["name", "source"] {
+            assert!(
+                required.iter().any(|x| x == key),
+                "required не содержит {key}: {v}"
+            );
+        }
     }
 
     #[tokio::test]

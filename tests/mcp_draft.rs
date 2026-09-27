@@ -7,6 +7,9 @@
 //! пустой/бинарный `.dar`, `source_hash` после перезаписи, загрузка старого
 //! `sandbox.json`, идемпотентное удаление и отсутствующий черновик в
 //! `check.test`.
+//!
+//! T-03/Q28 дополняет файл сценариями `check.create` `{name, source}` из
+//! `draft.feature` и `agent_minimal.feature`.
 
 use serde_json::{Map, Value, json};
 use std::io::{BufRead, BufReader, Write};
@@ -220,6 +223,9 @@ fn stale_and_hash_after_overwrite_q12() {
     assert!(d["draft"]["created_at"].is_string());
     // Исходный .dar не меняется.
     assert_eq!(std::fs::read_to_string(t.path().join(DAR)).unwrap(), SRC);
+    // Q28: перезапись — не добавление второй записи («сохранить = обновить»).
+    let (_, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(drafts["count"], json!(1), "{drafts}");
 }
 
 /// `check.create`/`check.get_draft`: поля по §4.5, без внутреннего `rule`,
@@ -394,4 +400,158 @@ fn test_missing_draft_is_error_not_panic() {
         .or_else(|| payload["error"]["message"].as_str().map(str::to_owned))
         .unwrap_or_else(|| panic!("нет текста ошибки: {payload}"));
     assert!(message.contains("найден"), "сообщение: {message}");
+}
+
+// ---------- T-03/Q28: `check.create` — `{name, source}` ----------
+
+/// Текст ошибки инструмента: до T-04 (D40) это `{"error":"<текст>"}`, но
+/// принят и будущий конверт `{"error":{"message":"<текст>"}}`.
+fn error_text(payload: &Value) -> String {
+    payload["error"]
+        .as_str()
+        .map(str::to_owned)
+        .or_else(|| payload["error"]["message"].as_str().map(str::to_owned))
+        .unwrap_or_else(|| panic!("нет текста ошибки: {payload}"))
+}
+
+/// Сценарий `draft.feature` «Создание черновика через MCP»: `check.create` с
+/// `name`+`source` парсит текст, сверяет заголовок, сохраняет черновик в
+/// песочнице и возвращает `{status, name}`; текст хранится без изменений, есть
+/// `source_hash`; `.dar`-файл не создаётся (draft-first, Q33).
+#[test]
+fn create_scenario_saves_draft_to_sandbox_with_hash() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let created = mcp.create(SRC);
+    // Q28/§4.5: успех — ровно {status, name}.
+    assert_eq!(
+        created,
+        json!({ "status": "ok", "name": NAME }),
+        "{created}"
+    );
+
+    let (err, got) = mcp.get_draft(NAME);
+    assert!(!err, "{got}");
+    let d = &got["draft"];
+    assert_eq!(d["source"], SRC, "текст правила хранится без изменений");
+    assert_eq!(d["source_hash"], credo2::core::source_hash(SRC));
+    // Q33: `check.create` не материализует файл правила.
+    assert!(
+        !t.path().join(DAR).exists(),
+        "check.create не должен создавать {DAR}"
+    );
+
+    // «Сохраняется в песочнице»: новая сессия на том же workspace видит черновик.
+    drop(mcp);
+    let mut mcp = Mcp::start(t.path());
+    let (err, reloaded) = mcp.get_draft(NAME);
+    assert!(!err, "черновик не пережил перезапуск: {reloaded}");
+    assert_eq!(reloaded["draft"]["source"], SRC);
+    assert_eq!(
+        reloaded["draft"]["source_hash"],
+        credo2::core::source_hash(SRC)
+    );
+}
+
+/// Сценарий `draft.feature` «check.create с невалидным source отклоняется»:
+/// `source` без заголовка «Правило …» → ошибка, сообщение содержит
+/// «отсутствует заголовок правила», черновик не создаётся.
+/// Код конверта `validation_failed` — T-04 (D40): здесь проверяется только
+/// признак ошибки и текст сообщения.
+#[test]
+fn create_rejects_source_without_rule_header() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let bad = "Если (Клиент.Возраст < 21) { Решение = Отказ; }";
+    let (err, payload) = mcp.call("check.create", json!({ "name": NAME, "source": bad }));
+    assert!(err, "ожидалась ошибка: {payload}");
+    let message = error_text(&payload);
+    assert!(
+        message.contains("отсутствует заголовок правила"),
+        "сообщение: {message}"
+    );
+
+    // Черновик не создаётся.
+    let (err, got) = mcp.get_draft(NAME);
+    assert!(err, "черновик не должен быть создан: {got}");
+    let (_, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(drafts["count"], json!(0), "{drafts}");
+}
+
+/// T-03/Q28: `name` не совпадает с заголовком `Правило …` из `source` →
+/// ошибка, черновик не создаётся ни под каким именем.
+#[test]
+fn create_rejects_name_title_mismatch() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call(
+        "check.create",
+        json!({ "name": "ДругоеИмя", "source": SRC }),
+    );
+    assert!(err, "ожидалась ошибка: {payload}");
+    let message = error_text(&payload);
+    assert!(message.contains("не совпадает"), "сообщение: {message}");
+    assert!(
+        message.contains(NAME),
+        "сообщение должно называть заголовок: {message}"
+    );
+
+    // Черновик не создан ни под запрошенным именем, ни под заголовком.
+    let (err, got) = mcp.get_draft("ДругоеИмя");
+    assert!(err, "создан черновик 'ДругоеИмя': {got}");
+    let (err, got) = mcp.get_draft(NAME);
+    assert!(err, "создан черновик '{NAME}' при расхождении: {got}");
+    let (_, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(drafts["count"], json!(0), "{drafts}");
+}
+
+/// T-03/Q28: параметр `name` обязателен — без него ошибка, черновик не создан.
+#[test]
+fn create_without_name_param_is_error() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call("check.create", json!({ "source": SRC }));
+    assert!(err, "ожидалась ошибка: {payload}");
+    let message = error_text(&payload);
+    assert!(message.contains("name"), "сообщение: {message}");
+
+    let (_, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(drafts["count"], json!(0), "{drafts}");
+}
+
+/// T-03/Q28: параметр `source` обязателен — без него ошибка, черновик не создан.
+#[test]
+fn create_without_source_param_is_error() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call("check.create", json!({ "name": NAME }));
+    assert!(err, "ожидалась ошибка: {payload}");
+    let message = error_text(&payload);
+    assert!(message.contains("source"), "сообщение: {message}");
+
+    let (_, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(drafts["count"], json!(0), "{drafts}");
+}
+
+/// Сценарий `agent_minimal.feature` «Создание правила через естественный
+/// язык»: агент вызывает `check.create` с `name`+`source`, черновик
+/// появляется в `check.list_drafts`.
+#[test]
+fn agent_create_appears_in_drafts_list() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let created = mcp.create(SRC);
+    assert_eq!(created["status"], "ok", "{created}");
+
+    let (err, drafts) = mcp.call("check.list_drafts", json!({}));
+    assert!(!err, "{drafts}");
+    assert_eq!(drafts["status"], "ok", "{drafts}");
+    assert_eq!(drafts["count"], json!(1), "{drafts}");
+    assert_eq!(drafts["drafts"][0]["name"], NAME, "{drafts}");
 }

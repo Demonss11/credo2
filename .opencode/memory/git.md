@@ -101,3 +101,15 @@
   (timeout ≥ 300000 мс) → проверки `git status -sb`, `git log -2 --oneline`.
   Основание прямого коммита в `develop` — служебные рабочие данные (ветка
   задачи удалена).
+- **2026-09-27 · T-03 Run 4, шаг «Старт задачи» — готово.** Подтверждение
+  `lead` — лента `T-03.md` («пакет ветки подтверждён», 2026-09-27),
+  `progress.yaml` (`surface_to_user` → `confirmed: «Подтверждаю пакет»`).
+  Состояние до: `develop` @ `bf56a4a`, sync `origin/develop`, 2 `??` (рабочие
+  данные). Шаг 1 пропущен (уже на `develop`); `pull origin develop` —
+  `Already up to date`; `switch -c feature/T-03-check-create develop` →
+  `Switched`; `push -u` (timeout 360000) → `* [new branch]`, upstream выставлен.
+  Проверки после: `git status -sb` →
+  `## feature/T-03-check-create...origin/feature/T-03-check-create`, те же 2 `??`;
+  `git branch -a` — ветка локально + `remotes/origin/feature/T-03-check-create`;
+  HEAD `bf56a4a`. Осталось: работа в ветке (docs-writer 🚧 → coder → tester →
+  validator → re-plan → ✅), затем W4 — отдельным подтверждённым пакетом.

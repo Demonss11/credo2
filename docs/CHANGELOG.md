@@ -108,6 +108,12 @@
   Карточка задачи — [`tasks/T-01-draft-source-hash/README.md`](tasks/T-01-draft-source-hash/README.md),
   отчёт приёмки — [`reviews/T-01-2026-09-26.md`](reviews/T-01-2026-09-26.md);
   автотесты — [`../tests/mcp_draft.rs`](../tests/mcp_draft.rs) (реальный stdio-MCP).
+- **`check.create` принимает `{name, source}` (T-03).** MCP-инструмент требует
+  оба параметра; `name` сверяется с заголовком `Правило {name}` (`GRAMMAR.md`),
+  ответ — `{status: "ok", name}` (Q28, `SPECIFICATION.md` §4.5); повторный
+  вызов перезаписывает черновик (upsert). Карточка задачи —
+  [`tasks/T-03-check-create/README.md`](tasks/T-03-check-create/README.md),
+  отчёт приёмки — [`reviews/T-03-2026-09-27-r2.md`](reviews/T-03-2026-09-27-r2.md).
 
 ### Исправлено
 

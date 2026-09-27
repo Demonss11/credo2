@@ -72,3 +72,12 @@
   `decisions/{D40,D41}`); `cargo` не запускался. **Следующее действие (не
   моё):** пакет + подтверждение → `git` (merge `--no-ff`, push, удаление
   ветки).
+
+- **2026-09-27 · T-03 (Q28, класс M, Run 4) — взят статус 🚧.** Правки (2 файла):
+  карточка `docs/tasks/T-03-check-create/README.md` (⬜ открыта → 🚧 в работе)
+  и строка T-03 в сводке `docs/tasks/README.md` (⬜ → 🚧). Scope — только
+  статусы: фичи `draft.feature`/`agent_minimal.feature`, счётчики, CHANGELOG —
+  отдельным вызовом при закрытии. Ветка `feature/T-03-check-create` от
+  `develop` @ `bf56a4a`. Проверено перечитыванием; `cargo` не запускался.
+  Дальше (не моё): `coder` → `tester` → `validator` → re-plan; затем ✅
+  (карточка, сводка, требования, CHANGELOG, ссылка на `docs/reviews/…`).
