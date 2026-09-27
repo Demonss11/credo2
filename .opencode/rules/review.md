@@ -82,8 +82,18 @@
   `opencode debug agents`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
+- `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
+- `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`.
+- `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
+  `opencode debug agents`, `opencode reload`.
+- `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
+- `researcher`: `rg`.
+- `git`: `rg`, `git`-команды (изменяющие — `ask`),
+  `node .opencode/scripts/clean-logs.mjs`.
 - Остальные роли `cargo` не запускают; полный прогон тестов (`cargo test`) —
   только `validator`.
+- **Автопроверка `auditor`:** этот список должен совпадать с фронтматтерами
+  `.opencode/agents/*.md` (команда без права и право без применения — находки).
 - Пути в `git diff`/`git status` — **без `--`**: движок прав отклоняет `--`
   перед скрытыми путями (пробы 2026-09-26); рабочая форма —
   `git diff .opencode/...`, `git status .opencode`.

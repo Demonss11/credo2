@@ -65,6 +65,20 @@
   (6 файлов / 30 сценариев; статусы — [`features/README.md`](features/README.md)),
   задача — [T-11](tasks/T-11-agent-cycle/README.md), решение —
   [D38](decisions/D38-agent-cycle.md) (Q43).
+- **Цикл агентов v3** (T-12, 2026-09-27, D39): `lead` — loop-диспетчер
+  (исполняет `.opencode/state/current/next_action.yaml` буквально, решений не
+  принимает), эфемерный `analyst` ведёт досье `docs/analysis/<T-XX>-<дата>.md`
+  и план; состояние цикла — `.opencode/state/current/` (`next_action`/
+  `current_state` пишет `analyst`, `progress` — `lead`, `receipts` —
+  `validator`; вне git); fast path класса S, scope-решения — в журнал через
+  `migrator` до исполнения, приёмка закрывается квитанцией; R2/R7 и `review.md`
+  (порог H5, отчёты `-rN`) сохраняются. Правило цикла —
+  `.opencode/rules/dispatch-loop.md`, канон — `AGENTS.md` §Рабочая группа
+  агентов, досье — [`docs/analysis/`](analysis/README.md); сценарии —
+  `features/agents-*.feature` (6 файлов / 36 сценариев; статусы —
+  [`features/README.md`](features/README.md)), задача —
+  [T-12](tasks/T-12-agent-loop/README.md), решение —
+  [D39](decisions/D39-loop-dispatcher.md) (Q44).
 
 ### Добавлено
 
