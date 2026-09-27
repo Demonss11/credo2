@@ -6,7 +6,9 @@
 //! ответов. Покрывают границы, которых нет в юнит-тестах `src/mcp.rs`:
 //! пустой/бинарный `.dar`, `source_hash` после перезаписи, загрузка старого
 //! `sandbox.json`, идемпотентное удаление и отсутствующий черновик в
-//! `check.test`.
+//! `check.test`. T-03 (Q28): `check.create` `{name, source}` — upsert без флага
+//! перезаписи, mismatch `name`↔заголовок, обязательность параметров и `source`
+//! без заголовка.
 
 use serde_json::{Map, Value, json};
 use std::io::{BufRead, BufReader, Write};
@@ -152,6 +154,15 @@ impl Drop for Mcp {
 
 fn temp_workspace() -> tempfile::TempDir {
     tempfile::tempdir().expect("tempdir")
+}
+
+/// Текст ошибки из payload `{"error": ...}` (строка или объект с `message`).
+fn error_message(payload: &Value) -> String {
+    payload["error"]
+        .as_str()
+        .map(str::to_owned)
+        .or_else(|| payload["error"]["message"].as_str().map(str::to_owned))
+        .unwrap_or_else(|| panic!("нет текста ошибки: {payload}"))
 }
 
 /// Пустой файл и бинарные (не-UTF-8) байты — это «хэш отличается → `stale`.
@@ -394,4 +405,122 @@ fn test_missing_draft_is_error_not_panic() {
         .or_else(|| payload["error"]["message"].as_str().map(str::to_owned))
         .unwrap_or_else(|| panic!("нет текста ошибки: {payload}"));
     assert!(message.contains("найден"), "сообщение: {message}");
+}
+
+// ---------------------------------------------------------------------------
+// T-03 (Q28): `check.create` — `{name, source}`.
+// Сценарии `docs/features/draft.feature`: «Повторный check.create перезаписывает
+// черновик (сохранить = обновить)» и «check.create с невалидным source
+// отклоняется». Положительные поля ответа (a) уже покрыты
+// `get_draft_canonical_fields_and_no_internals_q29_inv2_inv5`, поэтому ниже —
+// недостающие сценарии (b) и негативные границы (c)–(e).
+// ---------------------------------------------------------------------------
+
+/// Q28 (draft.feature «Повторный check.create перезаписывает черновик»):
+/// повторный вызов с тем же `name` и новым `source` — upsert без отдельного
+/// флага перезаписи; в песочнице остаётся ровно один черновик.
+#[test]
+fn create_twice_overwrites_draft_without_flag_q28() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let first = mcp.create(SRC);
+    assert_eq!(first, json!({ "status": "ok", "name": NAME }), "{first}");
+
+    // Повторный create с новым текстом — тот же ответ, никакого флага не нужно.
+    let again = mcp.create(SRC_V2);
+    assert_eq!(again, json!({ "status": "ok", "name": NAME }), "{again}");
+
+    let (_, d) = mcp.get_draft(NAME);
+    assert_eq!(d["draft"]["source"], SRC_V2, "текст перезаписан: {d}");
+
+    // Upsert, а не вторая запись.
+    let (err, list) = mcp.call("check.list_drafts", json!({}));
+    assert!(!err, "{list}");
+    assert_eq!(
+        list["count"],
+        json!(1),
+        "повторный create не должен плодить черновики: {list}"
+    );
+}
+
+/// Q28: `name` не совпадает с заголовком `Правило {name}` → ошибка; черновик
+/// не создаётся ни под запрошенным, ни под заголовочным именем.
+#[test]
+fn create_name_mismatch_is_error_and_no_draft_q28() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call(
+        "check.create",
+        json!({ "name": "ДругоеИмя", "source": SRC }),
+    );
+    assert!(
+        err,
+        "ожидалась ошибка при расхождении name↔заголовок: {payload}"
+    );
+    let message = error_message(&payload);
+    // Сообщение различает оба имени (текст сценой не задан — проверяем факт).
+    assert!(message.contains("ДругоеИмя"), "сообщение: {message}");
+    assert!(message.contains(NAME), "сообщение: {message}");
+
+    let (err, _) = mcp.get_draft("ДругоеИмя");
+    assert!(err, "черновик 'ДругоеИмя' не должен существовать");
+    let (err, _) = mcp.get_draft(NAME);
+    assert!(err, "черновик '{NAME}' не должен создаваться при mismatch");
+    let (_, list) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(list["count"], json!(0), "{list}");
+}
+
+/// Q28: оба параметра обязательны — без `name` (и без `source`) ошибка,
+/// черновик не создаётся.
+#[test]
+fn create_missing_name_or_source_is_error_q28() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call("check.create", json!({ "source": SRC }));
+    assert!(err, "без 'name' ожидалась ошибка: {payload}");
+    assert!(
+        error_message(&payload).contains("name"),
+        "сообщение: {payload}"
+    );
+
+    let (err, payload) = mcp.call("check.create", json!({ "name": NAME }));
+    assert!(err, "без 'source' ожидалась ошибка: {payload}");
+    assert!(
+        error_message(&payload).contains("source"),
+        "сообщение: {payload}"
+    );
+
+    let (_, list) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(list["count"], json!(0), "{list}");
+}
+
+/// Q28 (draft.feature «check.create с невалидным source»): `source` без
+/// заголовка «Правило …» → ошибка с сообщением «отсутствует заголовок
+/// правила»; черновик не создаётся.
+#[test]
+fn create_source_without_header_is_error_q28() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+
+    let (err, payload) = mcp.call(
+        "check.create",
+        json!({
+            "name": NAME,
+            "source": "Если (Клиент.Возраст < 21) { Решение = Отказ; }"
+        }),
+    );
+    assert!(err, "ожидалась ошибка: {payload}");
+    let message = error_message(&payload);
+    assert!(
+        message.contains("отсутствует заголовок правила"),
+        "сообщение: {message}"
+    );
+
+    let (err, _) = mcp.get_draft(NAME);
+    assert!(err, "черновик не должен создаваться при невалидном source");
+    let (_, list) = mcp.call("check.list_drafts", json!({}));
+    assert_eq!(list["count"], json!(0), "{list}");
 }

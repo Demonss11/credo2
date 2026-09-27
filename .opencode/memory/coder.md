@@ -8,3 +8,29 @@
 ## Чекпойнты
 
 - Чекпойнтов ещё не было.
+
+## T-03 (2026-09-27) — check.create: {name, source}
+
+- **Карточка:** `docs/tasks/T-03-check-create/README.md`; источник Q28 (SPEC §10
+  №31); сценарии `draft.feature` («check.create …», «невалидный source …»
+  → «отсутствует заголовок правила»).
+- **Изменено:**
+  - `src/mcp.rs` `create()`: читает оба параметра (`name`, `source`) с разными
+    текстами ошибок; сверяет `name` с `rule.name`, при расхождении — `Err`;
+    при совпадении upsert + `{status:ok,name}` (как было).
+  - `src/mcp.rs` `tool_specs`: `check.create` — `properties {name,source}`,
+    `required ["name","source"]`, описание по Q28.
+  - `src/core.rs` `parse_rule`: `"Не найдено имя правила"` →
+    `"отсутствует заголовок правила"`.
+- **Юнит-тесты (модуль mcp.rs, не запускались):** обязательность обоих
+  параметров; отказ при mismatch; текст ошибки отсутствующего заголовка;
+  схема инструмента (`required`).
+- **R2:** тестов на старую строку не найдено — правок в модулях не требовалось.
+- **Границы:** конверт `{error:{code,message}}`/`validation_failed` — не делал
+  (T-04); upsert/форма ответа не менялись.
+- **Компиляция:** `cargo fmt --check` ok, `cargo check` ok,
+  `cargo clippy --all-targets -- -D warnings` ok.
+- **Дальше:** `tester` (интеграционные сценарии), затем `validator`.
+- **Риски:** текст mismatch-сообщения произвольный (сцена его не задаёт);
+  тест схемы опирается на serde-имя `inputSchema` (сборка/clippy чисты,
+  рантайм-проверку делает `validator`).

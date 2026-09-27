@@ -47,3 +47,24 @@
   тронуты (42/259, процесс 6/36). Проверено перечитыванием фразы. Отчёт — в
   `.opencode/mail/T-12.md`. **Следующее действие (не моё):** пакет и коммит
   (`git`).
+
+- **2026-09-27 · T-03 (`check.create`, класс M, P1) — взят статус 🚧.** Правки:
+  карточка `docs/tasks/T-03-check-create/README.md:3` (⬜ открыта → 🚧 в работе) и
+  строка T-03 в сводке `docs/tasks/README.md:40` (⬜ → 🚧). Scope — только эти
+  два файла. Проверено `rg` по `docs/tasks` (T-03 🚧, остальные не задеты);
+  `docs/features/`, счётчики, CHANGELOG не тронуты. Отчёт — в
+  `.opencode/mail/T-03.md`. **Следующее действие (не моё):** `coder`/`tester` →
+  `validator`; затем закрытие ✅ (карточка, сводка, требования `features/`,
+  ссылка на отчёт приёмки).
+
+- **2026-09-27 · T-03 — статусы закрыты ✅ (готово).** Приёмка `validator` —
+  iteration 1, accepted; отчёт `docs/reviews/T-03-2026-09-27.md`. Правки:
+  карточка `docs/tasks/T-03-check-create/README.md:3` (`🚧 в работе` →
+  `✅ сделана`) + строка 7 «Отчёт приёмки» по образцу T-01/T-12; сводка
+  `docs/tasks/README.md:40` (T-03 → ✅). Проверки: `git diff -- docs/tasks` —
+  только статусы и ссылка; ссылка на отчёт живая; `git status --porcelain` —
+  `docs/GRAMMAR.md` и `docs/features/README.md` не изменены (draft.feature 🟡,
+  agent_minimal без правок); `.opencode/**` не тронут. Границы: GRAMMAR §7
+  (стр. 56) — вне T-03 (решение analyst), follow-up отдельной docs-задачей.
+  **Следующее действие (не моё):** `surface_to_user` (git-пакет) → `git`
+  (`code(T-03)`, merge `--no-ff`, push, удаление ветки) → `complete`.

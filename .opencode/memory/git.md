@@ -37,3 +37,30 @@
   него). Осталось: `git add` этими путями → `git commit -m "chore(T-12):
   служебные записи ленты и памяти после пакета"` → `git push origin develop`
   (timeout ≥ 300000 мс) → проверки `git status -sb`, `git log -2 --oneline`.
+- **2026-09-27 · T-03, «Старт задачи» — до push.** Пакет подтверждён `lead`
+  (лента `T-03.md`, запись `surface_to_user` 2026-09-27): `switch develop` →
+  `pull origin develop` → `switch -c feature/T-03-check-create develop` →
+  `push -u origin`. Шаг 1 пропущен (уже на `develop`); pull — Already up to
+  date; ветка создана от `c212156` (`develop`). Отклонение: `git ls-remote`
+  ролью не разрешён — состояние `origin` сверяется по выводу push.
+  Осталось: push -u (timeout ≥ 300000 мс) + сверка `git status -sb`; затем
+  «после» в ленту/память.
+- **2026-09-27 · T-03, «Старт задачи» — готово.** Пакет выполнен полностью:
+  `push -u origin feature/T-03-check-create` → `* [new branch]`, upstream
+  выставлен. Коммитов/слияний нет. Состояние: HEAD `c212156` (= `develop`),
+  текущая ветка `feature/T-03-check-create`,
+  `## feature/T-03-check-create...origin/feature/T-03-check-create` (синхрон);
+  незакоммичено: `M memory/analyst.md`, `M memory/git.md`, `?? mail/T-03.md`,
+  `?? docs/analysis/T-03-2026-09-27.md`. Осталось: W-пакет задачи (коммиты по
+  приёмке `validator`, merge `--no-ff` в `develop`, push, удаление ветки) —
+  отдельное подтверждение. Наблюдение: `git ls-remote` роли запрещён
+  (permission.rejected) — идемпотентность ветки на `origin` сверять по
+  `git status -sb`/выводу push.
+- **2026-09-27 · T-03, пакет завершения — до коммита.** Подтверждение `lead`
+  (лента `T-03.md`, «git-пакет завершения подтверждён», «Подтверждаю пакет»);
+  `package` в `next_action.yaml` прочитан. Сверка `git status --porcelain`:
+  ровно 14 путей = `add_paths`, посторонних нет. Ветка
+  `feature/T-03-check-create`, HEAD `c212156` (= `develop`), задача не
+  закоммичена. Осталось: `add` 14 путями → `commit` `code(T-03)` →
+  `switch develop` → `pull` → `merge --no-ff` → `push` → `branch -d` →
+  `push --delete`. Записи ленты/памяти входят в коммит (дописаны до `add`).

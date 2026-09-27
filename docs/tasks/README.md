@@ -37,7 +37,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-10](T-10-workspace-phase-0/README.md) | Фаза 0: workspace `dar-core` + `credo-server` (бинарник пока `credo2.exe`) | D15 (Q1), SPEC §5/§8 | P0 | — | ⬜ |
 | [T-01](T-01-draft-source-hash/README.md) | Черновик: `source`, `source_hash`, `stale`, `test_valid` | Q12, Q29 | P1 | — | ✅ |
 | [T-02](T-02-test-gate/README.md) | Тест-гейт публикации: `last_test_checksum`/`tested_at` | Q16, Q34 | P1 | T-01 | ⬜ |
-| [T-03](T-03-check-create/README.md) | `check.create`: `{name, source}` и ответ `{status, name}` | Q28 | P1 | — | ⬜ |
+| [T-03](T-03-check-create/README.md) | `check.create`: `{name, source}` и ответ `{status, name}` | Q28 | P1 | — | ✅ |
 | [T-04](T-04-mcp-errors/README.md) | MCP-ошибки: конверт и 10 стабильных кодов (§4.5) | Q29, Q11 | P1 | — | ⬜ |
 | [T-05](T-05-mcp-success-schemas/README.md) | MCP-схемы успеха инструментов (§4.5) | Q29 | P1 | T-01, T-02 | ⬜ |
 | [T-11](T-11-agent-cycle/README.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта ролей | [D38](../decisions/D38-agent-cycle.md) (Q43) | P1 | — | 🚧 |
