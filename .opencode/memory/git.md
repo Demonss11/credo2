@@ -220,3 +220,23 @@
   `--force`/rebase/`add -A`/иные ветки/merge не применялись; `target/`,
   `.credo/`, `.opencode/state/**` не коммитились. Заметка: сообщение коммита с
   `;` внутри кавычек движок принял — сужать не пришлось.
+- **2026-09-27 · service-mcp-ready-r2, пакет `w0_i3_i4` (коммит правок wave 0
+  W0-i3/i4, T-15) — готово.** Подтверждение владельца — лента
+  `.opencode/mail/service-mcp-ready-r2.md` («Да, коммит без push»; запись
+  `lead · 2026-09-27 · W0-i4 — решение владельца`). Push по пакету **не
+  выполнять**. Сверка (шаг 1, идемпотентность): ветка `exp/agent-update-t15w0`
+  (upstream `origin/exp/agent-update-t15w0`, ahead 1), HEAD до работы
+  `fb8d619`, ровно 8 путей (6 `M` + 2 `??`) — совпало с пакетом. Выполнено:
+  `git add` восемью точными путями (одной командой; предупреждения LF→CRLF —
+  EOL, не отклонение) → сверка `git diff --cached --name-only` (8 путей) →
+  коммит **`57abbbe`** `feat(plugin): wave 0 W0-i3+i4 — B2 tool-схемы, замер
+  и отчёт волны` (8 файлов, +538/−29: `plugins/token-guard.ts`,
+  `mail/service-mcp-ready.md`, `mail/service-mcp-ready-r2.md`,
+  `memory/git.md`, `tasks/T-15-.../README.md`, `wave0-plan.md`,
+  `wave0-token-hygiene.md`, `wave0-report.md`). Проверки:
+  `git log -2 --oneline` → `57abbbe`, `fb8d619`; `git status -sb` → `ahead 2`,
+  дерево чистое; `git show --stat HEAD` → состав совпал. Пропущено как уже
+  выполненное: нет. Осталось: push ветки — вне пакета; незакоммичена рабочая
+  «грязь» R7 (отчёт в ленте r2 + этот чекпойнт). `--force`/rebase/`add -A`/
+  push/иные ветки/merge не применялись; `target/`, `.credo/`,
+  `.opencode/state/**` не коммитились.
