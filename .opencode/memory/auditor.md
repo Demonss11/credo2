@@ -61,3 +61,20 @@
   `debug agents` — 18 агентов; `lead.steps 16`, `analyst.steps 20`;
   `cargo test *` — ровно 1 (`validator`). P1/P2 нет, P3 r1 закрыты. Не проверено:
   карточки T-13/T-14, `features_inventory` — за `validator`; коммит-протокол — W4.
+- 2026-09-28 · T-04 (L, Run 5), ветка `feature/T-04-mcp-errors` @0437799. Аудит
+  перед коммитом (коммита нет, работа в рабочем дереве). **Инструкция ↔ права:**
+  фронтматтеры ↔ `review.md` §«Доступные команды» — совпадение по 11 ролям; но
+  **P2**: бриф lead (`next_action.yaml:36-39`) требует от auditor «append в
+  `.opencode/mail/T-04.md`», а права auditor разрешают `edit` только своей памяти
+  (`agents/auditor.md:8-9`) — запись в ленту отклонена (`permission.rejected`),
+  аудиторский отчёт в ленте отсутствует. Факты: канон (`AGENTS.md`,
+  `.opencode/agents|rules`, `SPECIFICATION`, `GRAMMAR`, `decisions`) не тронут;
+  `src/rest.rs`/`src/core.rs` не тронуты (Q23); пути ролей = allowlist (coder
+  `src/*`, tester `tests/*`, validator `docs/reviews`+`receipts`, docs-writer
+  `docs/tasks`, analyst `docs/analysis`+`state`, lead `progress`+лента);
+  память/почта — только добавления (numstat 0 удалений, `T-04.md` — append);
+  отчёт `docs/reviews/T-04-2026-09-28.md` + квитанция T-04 iteration 1 accepted
+  (`receipts.yaml:55-65`). Git: 17 путей (12 M + 5 ??), ветка в синхроне с origin.
+  Автопроверка фронтматтеры ↔ `review.md` §«Доступные команды» — совпадение по
+  11 ролям, `cargo test` только `validator`. Замечания (не находки): shell-отказ
+  на `git … -- .opencode` — канон review.md:97-99; `git ls-files` у auditor нет.

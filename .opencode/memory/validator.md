@@ -107,3 +107,21 @@
   Вердикт **accepted** (P1/P2/P3 нет), отчёт — append в
   `.opencode/mail/service-mcp-ready.md`. Изменены только два моих файла:
   эта память и лента; ничего не коммитил, канон/код не правил.
+- **T-04 · Run 5, итерация 1** (2026-09-28, `feature/T-04-mcp-errors` от `develop`
+  `0437799`, рабочий файл дерева): чекпойнт **до прогона** — прочитаны лента,
+  карточка, досье, `review.md`; `git status -sb`/`diff --stat`: правки
+  `src/mcp.rs` (ToolError/ErrorCode, конверт §4.5, `call_tool` → `isError=true`),
+  `src/lib.rs` (`DeprecateError`), `tests/mcp_draft.rs` + новые
+  `tests/common/mod.rs`/`tests/mcp_errors.rs`. `src/rest.rs`/`src/core.rs` НЕ
+  тронуты (REST Q23 граница цела). Коды 10, `delete_draft` идемпотентен,
+  `draft_not_found` — только get/test/publish. Запускаю полный DoD
+  (`fmt`/`clippy -D warnings`/`test --all`); боевая проверка B1 — жду маркер
+  token-guard при выводе >12 КБ. Вердикт — в `docs/reviews/T-04-2026-09-28.md`.
+- **T-04 · итог прогона:** `fmt` — pass; `clippy --all-targets -- -D warnings` —
+  **pass**; `cargo test --all` — **107 passed / 0 failed** (lib 54 +
+  `features_inventory` 4/4 + mcp_draft 18 + mcp_errors 8 + publish 12 + rest 11;
+  счётчики 47/278). Вердикт **принято** (P1/P2/P3 нет); отчёт
+  `docs/reviews/T-04-2026-09-28.md`, квитанция T-04 (iteration 1, accepted).
+  B1: маркера `…[token-guard] срез` в выводе `cargo test` **нет** — ~7 КБ < 12 КБ;
+  плагин активен (в этой сессии срезан `git diff src/mcp.rs` ≈21 КБ).
+  Урок подтверждён: `clippy` после правок `src/**` обязателен (здесь pass).

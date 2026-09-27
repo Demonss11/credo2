@@ -25,3 +25,28 @@
   (agent_minimal). Расширен `stale_and_hash_after_overwrite_q12` (перезапись →
   `count==1`). Компиляция: `cargo check --all-targets` ok, `cargo fmt --check`
   ok. Прогон — за `validator`.
+
+- **T-04 (2026-09-28), чекпойнт «продолжение»:** конверт ошибок §4.5 —
+  `{"error":{"code","message"}}`, коды латиница snake_case / русский текст.
+  Рефактор общего каркаса: создан `tests/common/mod.rs` (`Mcp`, `error_text`,
+  `error_code`, `assert_error_envelope`, `temp_workspace`); `tests/mcp_draft.rs`
+  переведён на `mod common` (в работе — см. ленту T-04).
+  Разделение scope: success-схема `check.delete_draft` (`deleted: bool`) — T-05;
+  test-гейт публикации — T-02; `version_deprecated`/`check.run` — вне MVP (Q33).
+  Компиляция/прогон — за `validator`.
+
+- **T-04 (2026-09-28), чекпойнт «готово»:** интеграционные тесты ошибочных
+  сценариев. `tests/common/mod.rs` (новый) — общий каркас MCP (`Mcp`,
+  `temp_workspace`, `error_text`, `error_code`, `assert_error_envelope`).
+  `tests/mcp_draft.rs` — на `common`, зафиксированы коды (`validation_failed`,
+  `draft_not_found`, `evaluation_failed`), `delete_is_idempotent` усилен
+  (`get_draft` после удаления → `draft_not_found`; повторное удаление — успех),
+  добавлены Q8/Q9 и отсутствие `input`. `tests/mcp_errors.rs` (новый) —
+  `publish_failed`/`publish` невалидная версия/без черновика, `deprecate`
+  (пустой reason, невалидная/отсутствующая версия, повтор) → `deprecation_conflict`,
+  `unknown_tool`; сидирование `.credo/published-repo` по образцу `rest.rs`.
+  Проверки: `cargo fmt --check` ok, `cargo check --all-targets` ok; `cargo test`
+  не запускался (за `validator`). Грабли: автоформаттер при сохранении сортирует
+  mixed-case импорты иначе, чем `cargo fmt` (style edition) — писать однотипные
+  импорты (`use common::*;`, полное `serde_json::Value`) или сверять
+  `cargo fmt --check` после правок.

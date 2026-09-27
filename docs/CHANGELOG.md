@@ -114,6 +114,17 @@
   вызов перезаписывает черновик (upsert). Карточка задачи —
   [`tasks/T-03-check-create/README.md`](tasks/T-03-check-create/README.md),
   отчёт приёмки — [`reviews/T-03-2026-09-27-r2.md`](reviews/T-03-2026-09-27-r2.md).
+- **Единый конверт ошибок MCP и 10 стабильных кодов (T-04).** Ошибочные ответы
+  MCP возвращают `isError = true` и `{"error": {"code", "message"}}` (ключи
+  ровно `code`/`message`); `message` — русский (Q11), `code` — латиница
+  `snake_case`. Коды §4.5 (Q29): `validation_failed`, `draft_not_found`,
+  `evaluation_failed`, `publish_failed`, `version_not_found`,
+  `version_deprecated`, `deprecation_conflict`, `manifest_error`,
+  `unknown_tool`, `internal_error` (`version_deprecated` зарезервирован под
+  `check.run` — Q33, вне MVP). Конверт REST (Q23) не менялся. Карточка задачи —
+  [`tasks/T-04-mcp-errors/README.md`](tasks/T-04-mcp-errors/README.md),
+  отчёт приёмки — [`reviews/T-04-2026-09-28.md`](reviews/T-04-2026-09-28.md)
+  (`cargo test --all` → 107 passed / 0 failed).
 
 ### Исправлено
 
@@ -141,3 +152,7 @@
 - **`GET /checks` (Q21).** В ответ добавлен `schema_version`; `active` —
   максимальная supported-версия, `""` если все версии deprecated;
   `supported`/`deprecated` — по убыванию.
+- **Конверт ошибок MCP (T-04).** Ошибочные ответы переведены на единый конверт
+  `{"error": {"code", "message"}}` с `isError = true`; плоский конверт ошибки
+  больше не используется. Ломающее для MCP-клиентов, читавших прежний формат
+  ошибки.
