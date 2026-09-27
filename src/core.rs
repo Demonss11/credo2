@@ -441,7 +441,7 @@ pub fn parse_rule(source: &str) -> Result<Rule, String> {
         .captures(source)
         .and_then(|c| c.get(1))
         .map(|m| m.as_str().to_string())
-        .ok_or("Не найдено имя правила")?;
+        .ok_or("отсутствует заголовок правила")?;
     let cond = cond_re.captures(source).ok_or("Не найдено условие")?;
     let field = cond.get(1).unwrap().as_str().trim().to_string();
     let op = cond.get(2).unwrap().as_str().to_string();
@@ -691,5 +691,18 @@ mod tests {
             Semver::parse("1.2.3-rc.1+build").unwrap().as_storage(),
             "1.2.3-rc.1"
         );
+    }
+
+    // ---------- Q28: заголовок правила обязателен ----------
+
+    #[test]
+    fn parse_rule_without_title_reports_missing_header() {
+        let err = parse_rule("Если (Клиент.Возраст < 21) { Решение = Отказ; }").unwrap_err();
+        assert_eq!(err, "отсутствует заголовок правила");
+    }
+
+    #[test]
+    fn parse_rule_with_title_reads_name() {
+        assert_eq!(rule(MIN_AGE).name, "МинимальныйВозраст");
     }
 }
