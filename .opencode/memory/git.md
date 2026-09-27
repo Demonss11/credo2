@@ -202,3 +202,21 @@
   документов (лента, память)"` → `git push origin develop` (timeout ≥ 300000 мс)
   → проверки `git status -sb`, `git log -2 --oneline develop`; после push
   файловых записей не делать.
+- **2026-09-28 · service-mcp-ready, пакет `w0_b1_fix` (коммит правок wave 0 B1)
+  — готово.** Подтверждение владельца — лента `.opencode/mail/service-mcp-ready.md`
+  («wave 0 — коммит правок B1 (пакет подтверждён владельцем)», директива
+  «делай коммит»); push по пакету **не выполнять**. Сверка (шаг 1): ветка
+  `exp/agent-update-t15w0` (upstream выставлен), ровно 4 `M` по пакету, untracked
+  нет; HEAD до работы `25c5979`. Выполнено: `git add` четырьмя точными путями
+  (одной командой; предупреждение LF→CRLF — EOL, не отклонение) → сверка
+  `git diff --cached --name-only` (4 пути) → коммит **`fb8d619`**
+  `fix(plugin): wave 0 B1 — token-guard на V2 API (@opencode/plugin@2.0.18);
+  smoke форматтера закрыт` (4 файла, +317/−148: `plugins/token-guard.ts`,
+  `tasks/T-15-mcp-ready-process/wave0-plan.md`, `wave0-smoke-formatter.md`,
+  `mail/service-mcp-ready.md`). Проверки: `git log -2 --oneline` → `fb8d619`,
+  `25c5979`; `git status -sb` → `ahead 1`, дерево чистое; `git show --stat HEAD`
+  → состав совпал. Пропущено как уже выполненное: нет. Осталось: push ветки —
+  вне пакета; незакоммичена рабочая «грязь» R7 (отчёт в ленте + этот чекпойнт).
+  `--force`/rebase/`add -A`/иные ветки/merge не применялись; `target/`,
+  `.credo/`, `.opencode/state/**` не коммитились. Заметка: сообщение коммита с
+  `;` внутри кавычек движок принял — сужать не пришлось.

@@ -1,6 +1,7 @@
-// T-15 wave 0 · B1 — пилот токен-гигиены: обрезка выводов инструментов.
-// Карточка: docs/tasks/T-15-mcp-ready-process/wave0-token-hygiene.md §3.2 (B1).
-// План/чек-лист: docs/tasks/T-15-mcp-ready-process/wave0-plan.md (W0-i2).
+// T-15 wave 0 · B1+B2 — пилот токен-гигиены: B1 обрезка выводов инструментов;
+// B2 снятие tool-схем по именам агентов.
+// Карточка: docs/tasks/T-15-mcp-ready-process/wave0-token-hygiene.md §3.2 (B1/B2).
+// План/чек-лист: docs/tasks/T-15-mcp-ready-process/wave0-plan.md (W0-i2, W0-i3).
 //
 // V2 Plugin API (OpenCode CLI 2.0.x): Plugin.define({ id, setup }); setup(ctx)
 // получает контекст (ctx.tool, ctx.storage, ctx.session, …). Пакет типов —
@@ -14,16 +15,22 @@
 // одним атомарным write — watcher перезагружает файл на каждое изменение и
 // ловит промежуточные (неполные) состояния.
 //
-// Права не меняет, схемы инструментов не трогает (это B2, W0-i3). Откат —
-// переименовать/удалить файл (автозагрузка .opencode/plugins/**; watcher
-// следит за файлом, при необходимости — рестарт сервиса OpenCode).
+// Права не меняет; B2 — только форма исходящего запроса для трёх ролей
+// (docs-writer/git/analyst, см. таблицу ниже), permissions и канон не
+// правятся. Откат — переименовать/удалить файл (автозагрузка
+// .opencode/plugins/**; watcher следит за файлом, при необходимости —
+// рестарт сервиса OpenCode).
 //
-// Счётчики — ctx.storage (персистентный JSON плагина, ключ "stats"); вывод —
-// console.log сервера на каждый срез.
+// Счётчики — ctx.storage (персистентный JSON плагина): B1 — ключ "stats",
+// B2 — ключ "b2stats"; вывод — console.log сервера.
 //
-// Соседство с B2 (W0-i3): B2 будет добавлен в ЭТОТ же файл —
-// ctx.session.hook("context") (агентский цикл), удаление ключей event.tools
-// по префиксам; см. wave0-plan.md, «Общие решения».
+// W0-i3 (эксперимент §3.5, 2026-09-27): статический deny снимает схему
+// инструмента из запроса (подтверждено на `skill`/`webfetch`/`execute` в
+// репозитории и на `credo_check_create` в изолированном прогоне с
+// codemode=false); плагин снимает ключи по префиксам. В текущей конфигурации
+// репозитория (codemode=true по умолчанию) MCP-схемы не являются ключами
+// event.tools: MCP скрыт за Code Mode (`execute`), а B2 остаётся страховкой
+// на случай прямой экспозиции MCP-инструментов.
 
 import { Plugin } from "@opencode/plugin";
 
@@ -107,6 +114,31 @@ const sliceText = (raw: string, tool: string): SliceOutcome => {
   };
 };
 
+// ── B2 (W0-i3): снятие tool-схем по именам агентов ─────────────────────────
+//
+// Черновые правила §3.2 сверены с брифами и review.md (лента
+// service-mcp-ready, запись 2026-09-27, «W0-i3 (B2) — сверка правил снятия
+// префиксов с брифами»): docs-writer/git — без `rust-analyzer*` и `credo*`;
+// analyst — без `rust-analyzer*` (credo оставлен «по нужде»); lead — не
+// трогать; остальные роли — без изменений. Префиксы покрывают оба написания
+// сервера (`rust-analyzer` / `rust_analyzer`) и MCP-ключи вида
+// `<server>_<tool>` (проверено изолированным прогоном: `credo_check_create`).
+// Хук `session.context` выполняется только для агентского цикла (primary);
+// у compaction/title/generate собственные хуки, поэтому условие «только
+// primary» задано самой регистрацией (kind в событии не приходит).
+
+const B2_PREFIXES: Record<string, readonly string[]> = {
+  "docs-writer": ["rust-analyzer", "rust_analyzer", "credo"],
+  git: ["rust-analyzer", "rust_analyzer", "credo"],
+  analyst: ["rust-analyzer", "rust_analyzer"],
+};
+
+interface B2Stats {
+  removed: number;
+  bytesTrimmed: number;
+  byAgent: Record<string, { removed: number; bytesTrimmed: number }>;
+}
+
 interface Stats {
   slices: number;
   bytesTrimmed: number;
@@ -117,7 +149,13 @@ export default Plugin.define({
   id: "token-guard",
   async setup(ctx) {
     const STATS_KEY = "stats";
+    const B2_STATS_KEY = "b2stats";
     const emptyStats = (): Stats => ({ slices: 0, bytesTrimmed: 0, byTool: {} });
+    const emptyB2Stats = (): B2Stats => ({
+      removed: 0,
+      bytesTrimmed: 0,
+      byAgent: {},
+    });
 
     const readStats = async (): Promise<Stats> => {
       try {
@@ -133,6 +171,23 @@ export default Plugin.define({
         };
       } catch {
         return emptyStats();
+      }
+    };
+
+    const readB2Stats = async (): Promise<B2Stats> => {
+      try {
+        const parsed: any = await ctx.storage.get(B2_STATS_KEY);
+        if (!parsed || typeof parsed !== "object") return emptyB2Stats();
+        return {
+          removed: Number(parsed.removed) || 0,
+          bytesTrimmed: Number(parsed.bytesTrimmed) || 0,
+          byAgent:
+            parsed.byAgent && typeof parsed.byAgent === "object"
+              ? parsed.byAgent
+              : {},
+        };
+      } catch {
+        return emptyB2Stats();
       }
     };
 
@@ -207,6 +262,49 @@ export default Plugin.define({
       } catch (e) {
         // Никакого «глушения» роли: при любой ошибке результат остаётся как есть.
         console.warn("[token-guard] execute.after failed, result untouched:", e);
+      }
+    });
+
+    // B2: удаление ненужных роли tool-схем из исходящего запроса (только
+    // агентский цикл — context; права и канон не меняются).
+    await ctx.session.hook("context", async (event: any) => {
+      try {
+        // Страховка на будущее: в доках V2 «context» — это primary; поле
+        // kind в событии не приходит, но если появится — чужое не трогаем.
+        if (event?.kind && event.kind !== "primary") return;
+        const tools: Record<string, unknown> | undefined = event?.tools;
+        const agent = typeof event?.agent === "string" ? event.agent : "";
+        const prefixes = B2_PREFIXES[agent];
+        if (!tools || !prefixes) return;
+
+        let removed = 0;
+        let bytesTrimmed = 0;
+        for (const key of Object.keys(tools)) {
+          if (!prefixes.some((p) => key.startsWith(p))) continue;
+          try {
+            bytesTrimmed += JSON.stringify(tools[key]).length;
+          } catch {
+            // не измерилось — не мешает удалению
+          }
+          delete tools[key];
+          removed += 1;
+        }
+        if (removed === 0) return;
+
+        const stats = await readB2Stats();
+        stats.removed += removed;
+        stats.bytesTrimmed += bytesTrimmed;
+        const per = stats.byAgent[agent] ?? { removed: 0, bytesTrimmed: 0 };
+        per.removed += removed;
+        per.bytesTrimmed += bytesTrimmed;
+        stats.byAgent[agent] = per;
+        await ctx.storage.set(B2_STATS_KEY, stats);
+        console.log(
+          `[token-guard] B2 agent=${agent} removed=${removed} bytes=${bytesTrimmed}`,
+        );
+      } catch (e) {
+        // Схемы/права при ошибке не трогаем: событие остаётся как есть.
+        console.warn("[token-guard] B2 context failed, tools untouched:", e);
       }
     });
   },

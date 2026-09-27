@@ -30,7 +30,9 @@
 (`formatter`, чистка мёртвого `instructions`), плагин-пилот
 `token-guard.ts`, дисциплина чтения/логов; план —
 [`wave0-token-hygiene.md`](wave0-token-hygiene.md); канон не правится
-(сплит `AGENTS.md` и права — фаза C).
+(сплит `AGENTS.md` и права — фаза C). **Исполнено 2026-09-27** (W0-i1…W0-i4):
+итог и метрики — [`wave0-report.md`](wave0-report.md); решение
+«канон/пилот/откат» — за владельцем.
 
 **A. Документ и решения** — подготовлено этим пакетом:
 проектная записка `docs/analysis/mcp-ready-process.md`; фичи `agents-*` в
