@@ -42,9 +42,11 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-05](T-05-mcp-success-schemas/README.md) | MCP-схемы успеха инструментов (§4.5) | Q29 | P1 | T-01, T-02 | ⬜ |
 | [T-11](T-11-agent-cycle/README.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта ролей | [D38](../decisions/D38-agent-cycle.md) (Q43) | P1 | — | 🚧 |
 | [T-12](T-12-agent-loop/README.md) | Разгрузка `lead`: loop-диспетчер, эфемерный `analyst`, состояние на диске | [D39](../decisions/D39-loop-dispatcher.md) (Q44) | P1 | — | ✅ |
+| [T-13](T-13-agent-hardening/README.md) | W7: доработка агентов после Run 3 (доступы, дисциплина цикла, гигиена) | [D40](../decisions/D40-scope-threshold.md), [D41](../decisions/D41-dispatch-refinements.md) (Q45, Q46) | P1 | — | ✅ |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |
+| [T-14](T-14-grammar-message-sync/README.md) | GRAMMAR §7: синхронизация цитаты сообщения парсера | [D41](../decisions/D41-dispatch-refinements.md) (Q46) | P2 | T-03 | ⬜ |
 | [T-09](T-09-check-run/README.md) | `check.run` — исполнение опубликованной версии | Q33 | P3 | T-06 | ⬜ |
 
 ## DoD для любой задачи
