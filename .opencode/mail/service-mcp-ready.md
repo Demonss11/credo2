@@ -288,3 +288,103 @@
   ветку, без push (директива владельца от 2026-09-28).
 - Дальше: W0-i3 (B2 — обрезка tool-схем; сначала сверка черновых правил с
   брифами ролей и запись согласия в ленту **до** включения кода).
+
+## lead · 2026-09-28 · wave 0 — разбор ветки, фикс плагина (V1→V2), smoke закрыт
+
+- Ветка `exp/agent-update-t15w0` (local + origin; до этой записи дерево
+  чистое): коммиты `9affa8d` (A: конфиг + план + smoke-протокол), `1bd0f0c`
+  (B1: плагин), `25c5979` (merge PR #3 `work-stage-layout-956e9` — учесть при
+  слиянии в `develop`).
+- **Диагностика ошибки плагина** («Plugin must export a default definition
+  with an id and an effect or setup function»): рабочее приложение —
+  `@opencode/cli` **2.0.18** (V2); первая версия `token-guard.ts` написана под
+  V1-хуки (`@opencode-ai/plugin@1.18.x`, функции-хуки). Типы
+  `@opencode-ai/plugin@1.18.30` в `~/.config/opencode/node_modules` —
+  устаревший V1-остаток; актуальные типы — `@opencode/plugin@2.0.18`
+  (`Plugin.define`, `ctx.tool.hook`, `ctx.storage`).
+- **Исправление** (`.opencode/plugins/token-guard.ts`): переписан под V2 —
+  `import { Plugin } from "@opencode/plugin"`; `Plugin.define({ id, setup })`;
+  `ctx.tool.hook("execute.after")` — подмена `event.result`
+  (`content: string | Content[]`, `output?`); счётчики — `ctx.storage` (ключ
+  `stats`), вывод — `console.log` сервера на каждый срез. Логика B1 сохранена
+  (лимит ~12 КБ, голова+хвост, важные строки, ANSI, `read`-пометка;
+  исключения — `subagent`/`task`). Отступление по счётчикам снято.
+- **Smoke форматтера (W0-i1) закрыт** в этом же прогоне:
+  `target/wave0-formatter-smoke.rs` (намеренно плохой формат) после записи
+  инструментом перечитан уже отформатированным — rustfmt работает;
+  `target/wave0-formatter-smoke.md` не изменён — prettier/biome не активны.
+  Временные файлы — в `target/` (вне git).
+- Осталось: (1) `opencode service restart` → убедиться, что ошибка загрузки
+  исчезла (плагин активен); (2) боевая проверка B1 (счётчики растут, роли не
+  «глушатся»); (3) W0-i3 (B2) и W0-i4 (замер/отчёт); (4) коммит исправления в
+  ветку — после подтверждения загрузки. Канон не тронут.
+
+## lead · 2026-09-28 · wave 0 — фикс #2 плагина: убран импорт (резолв)
+
+- После рестарта ошибка изменилась на «Plugin failed to load»; причина из лога
+  сервера (`~/.local/share/opencode/log/opencode.log`, ref `err_07d08b9f`):
+  `ResolveMessage: Cannot find package '@opencode/plugin' imported from
+  .../token-guard.ts` — локальный плагин без установленного рядом пакета не
+  резолвит импорт.
+- Исправление: `import { Plugin } from "@opencode/plugin"` убран; default —
+  простой объект `{ id: "token-guard", async setup(ctx) {…} }` (загрузчик
+  проверяет только форму: `id` + `setup`/`effect`). Логика и счётчики — без
+  изменений (`ctx.tool.hook("execute.after")`, `ctx.storage`). Импорт вернётся
+  только ради типов — при появлении `package.json` в проекте.
+- Проверка: watcher уже следит за файлом (hot-reload); если не подхватилось —
+  `opencode service restart`. В логе не должно быть `failed to load plugin`;
+  затем — боевая проверка B1 (счётчики, срезы, роли не «глушатся»).
+
+## lead · 2026-09-28 · wave 0 — B1 проверен в бою; плагин загружен (watcher)
+
+- Плагин загрузился без ошибок: watcher сделал hot-reload после правок (лог
+  сервера: `msg="loading plugin"` без последующего `failed to load plugin`;
+  ошибки `err_07d08b9f` больше нет).
+- **Боевые срабатывания B1** (реальный прогон):
+  - `read` большого файла (`docs/features/README.md`): 35 777 → ~16,7 КБ,
+    маркер «срез: опущено ~19 069 байт», пометка «остаток опущен
+    (offset/limit)»;
+  - `glob` каталога: 13 915 → ~12,3 КБ, маркер «опущено ~1 559 байт».
+- Замечания: `console.log` плагина в `opencode.log` не попадает (stdout
+  сервиса); `ctx.storage` — бинарное хранилище (текстовый поиск
+  `bytesTrimmed` не находит); визуальная сверка счётчиков — на W0-i4.
+- Окружение: в `.opencode/` установлен `@opencode-ai/plugin@1.18.31` — это
+  **V1-линия** (не даёт `@opencode/plugin`); для V2-типов нужен
+  `@opencode/plugin@2.0.18`. Текущая import-free версия работает независимо;
+  `.opencode/.gitignore` покрывает `node_modules/`, `package.json`,
+  `package-lock.json` (в git не попадают).
+- Осталось: тяжёлые выводы `cargo test`/`rg` — на ближайших прогонах;
+  счётчики/экономия — на W0-i4; коммит правок (плагин, план, лента) в ветку.
+
+## lead · 2026-09-28 · wave 0 — фикс #3: пакет 2.0.18, импорт возвращён, рестарт чистый
+
+- Установка (владелец): в `.opencode/` — `@opencode/plugin@^2.0.18`;
+  V1-пакет `@opencode-ai/plugin` удалён; `package.json`/`node_modules`/
+  `package-lock.json` — под `.opencode/.gitignore` (git чистый).
+- Плагин вернулся к канонической форме: `import { Plugin } from
+  "@opencode/plugin"` + `Plugin.define({ id, setup })`.
+- Диагностика промежуточных сбоев (19:54–19:56): (1) синтаксическая ошибка —
+  артефакт ступенчатой правки (watcher перезагружает файл на каждое
+  изменение); (2) `Cannot find package` уже после установки — залипший кэш
+  резолва в текущем процессе (Bun-путь reload без cache-busting); **чистый
+  рестарт** решил.
+- После рестарта (20:00:50, новый run `d42551d6`): `msg="loading plugin"`
+  **без** `failed to load plugin`; боевой срез подтверждён (grep-вывод
+  33 060 → ~12 КБ). Правило гигиены — в шапке плагина: правки одним атомарным
+  write.
+- Осталось: W0-i3 (B2 — обрезка tool-схем), W0-i4 (счётчики/замер/отчёт),
+  коммит правок в ветку.
+
+## lead · 2026-09-28 · wave 0 — коммит правок B1 (пакет подтверждён владельцем)
+
+- Директива владельца: **«делай коммит»** (2026-09-28). Ветка —
+  `exp/agent-update-t15w0`; **без push**.
+- Пакет `w0_b1_fix` (исполняет `git`, идемпотентно): сверка `git status -sb`
+  (ожидаемые изменённые — ровно 4: `.opencode/plugins/token-guard.ts`,
+  `docs/tasks/T-15-mcp-ready-process/wave0-plan.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0-smoke-formatter.md`,
+  `.opencode/mail/service-mcp-ready.md`; иное — стоп); `git add` этими путями;
+  `git commit -m "fix(plugin): wave 0 B1 — token-guard на V2 API
+  (@opencode/plugin@2.0.18); smoke форматтера закрыт"`; push НЕ выполнять.
+- Ожидание: коммит на ветке; рабочая «грязь» после отчёта роли (лента/память)
+  — R7, поедет со следующим пакетом.
