@@ -1,0 +1,303 @@
+# Архив ленты Run 3: T-03 — `check.create` (ветка откачена)
+
+> Служебный архив: полная лента `.opencode/mail/T-03.md` на момент отката
+> пилотной ветки `feature/T-03-check-create` (27.09.2026; HEAD `ecebdee` +
+> незакоммиченные записи второй сессии). Ветка откачена по решению владельца
+> (W7 → Run 4); улика сохранена для сравнения Run 1/2/3. Не канон.
+> Связано: `memorandum-W6-run3.md`, `memorandum-W6-run3-it2.md`,
+> `W7-preRUN4_T-03.md`.
+
+---
+
+# T-03 — `check.create`: `{name, source}`
+
+- **Класс:** M · **Источник:** Q28 (SPEC §10 №31) · **Ветка:** `feature/T-03-check-create`
+- **Реестр:** `docs/tasks/README.md` (P1, «зависит от —»)
+
+## analyst · 2026-09-27 · планирование
+
+- Сделано: досье `docs/analysis/T-03-2026-09-27.md`; план
+  `.opencode/state/current/next_action.yaml` (3 действия) и `current_state.yaml`;
+  лента открыта.
+- Ключевые посылки: схема `check.create` знает только `source`; handler выводит
+  имя из `parse_rule` и не сверяет с `name`; сообщение при отсутствии заголовка —
+  «Не найдено имя правила» (сцена ждёт «отсутствует заголовок правила»); ответ
+  `{status,name}` и upsert уже есть.
+- Проверки: только чтение (карточка, `draft.feature`, `agent_minimal.feature`,
+  `src/mcp.rs`, `src/core.rs`, `tests/mcp_draft.rs`, T-04, git-workflow, dispatch-loop).
+- Дальше / риски: R1 — код `validation_failed` и конверт ошибок — граница T-04;
+  R2 — смена сообщения в `core.rs` может задеть юнит-тесты `parse_rule`. Очередь:
+  `surface_to_user` (ветка) → `git` (ветка) → `docs-writer` (🚧).
+
+## lead · 2026-09-27 · surface_to_user — подтверждение ветки
+
+- Сделано: владелец подтвердил стартовый git-пакет — `feature/T-03-check-create`
+  от `develop`, включая `push -u origin`. Запись в
+  `.opencode/state/current/progress.yaml`.
+- Проверки: — (вопрос владельцу, ответ «Подтверждаю пакет»).
+- Дальше / риски: действие 2 плана — `dispatch git` (создание и публикация ветки).
+## git · 2026-09-27 · в работе (старт задачи, пакет ветки) — до push
+
+- Сделано: сверен пакет `lead` (подтверждение ветки от 2026-09-27) с `git status`;
+  `switch develop` — пропущен (уже на `develop`); `pull origin develop` → Already
+  up to date; `git switch -c feature/T-03-check-create develop` → создана, HEAD
+  `c212156`. Локальной ветки до этого не было (проверка `rev-parse --verify` → код 1).
+- Проверки: `git status -sb` (до: `develop...origin/develop`, `M memory/analyst.md`,
+  `?? mail/T-03.md`, `?? docs/analysis/T-03-2026-09-27.md`); `git log -1` → `c212156`;
+  `git remote -v` → `origin https://github.com/Demonss11/credo2.git`.
+- Дальше / риски: `push -u origin feature/T-03-check-create` (timeout ≥ 5 мин);
+  отклонение: `git ls-remote` движком прав роли запрещён — наличие ветки на
+  `origin` подтвердится только выводом push.
+
+## git · 2026-09-27 · готово (старт задачи, пакет ветки)
+
+- Сделано: пакет выполнен полностью. `git push -u origin feature/T-03-check-create`
+  → `* [new branch]`, upstream выставлен (`branch ... set up to track
+  'origin/feature/T-03-check-create'`). Коммитов и слияний нет. HEAD
+  `c212156` (= `develop`), ветка `feature/T-03-check-create` (merge-base с
+  `develop` совпадает).
+- Проверки: `git status -sb` → `## feature/T-03-check-create...origin/feature/T-03-check-create`,
+  изменения только рабочие: `M memory/analyst.md`, `M memory/git.md`,
+  `?? mail/T-03.md`, `?? docs/analysis/T-03-2026-09-27.md`; `git branch
+  --show-current` → `feature/T-03-check-create`; `git log -1` → `c212156`.
+- Дальше / риски: задача передаётся исполнителям (`docs-writer` — 🚧, затем
+  `coder`/`tester`/`validator`). Отклонений от пакета нет; записи ленты/памяти
+  не закоммичены — уйдут в пакет задачи по решению `lead`.
+
+## docs-writer · 2026-09-27 · готово (статус 🚧)
+
+- Сделано: открыт статус задачи — карточка
+  `docs/tasks/T-03-check-create/README.md:3` (`⬜ открыта` → `🚧 в работе`) и
+  строка T-03 в сводке `docs/tasks/README.md:40` (`⬜` → `🚧`). Больше ничего
+  не правил (scope — только статусы).
+- Проверки: `rg` по `docs/tasks` → карточка T-03 «🚧 в работе», сводка — `🚧`;
+  остальные задачи не задеты (T-01/T-12 — ✅, T-11 — 🚧, прочие — ⬜); ссылки
+  карточки не менялись.
+- Дальше / риски: следующие действия очереди — `coder` (код + сообщение
+  «отсутствует заголовок правила», R2 — юнит-тесты `parse_rule`) и `tester`
+  (сценарии `draft.feature`/`agent_minimal.feature`); закрытие ✅ — после
+  приёмки `validator` (карточка, сводка, требования `features/`, ссылка на
+  отчёт приёмки).
+
+## analyst · 2026-09-27 · re-plan (точка ветвления: ветка + 🚧)
+
+- Сделано: сверен свежий срез (лента, карточка T-03, `draft.feature`,
+  `agent_minimal.feature`, `src/mcp.rs:44-60, 302-305`, `src/core.rs:434-472`);
+  обновлены `next_action.yaml` (3 действия) и `current_state.yaml`
+  (фаза `implementation`).
+- Ключевые факты: `create()` читает только `source` и игнорирует `name`;
+  схема — `properties {source}`, `required ["source"]`; `parse_rule`
+  отдаёт Err «Не найдено имя правила» (нужно «отсутствует заголовок правила»).
+- Маршрут: `coder` → `tester` → `validator`. **`rust-expert` исключён** —
+  правка не идиоматическая (параметр + сравнение + текст), clippy у validator.
+- Проверки: только чтение (6 файлов + 2 среза кода).
+- Дальше / риски: R1 — конверт `validation_failed` = граница T-04 (в брифе
+  coder явно «не делать»); R2 — смена строки в `core.rs:444` может задеть
+  юнит-тесты `parse_rule`; R3 — трактовка mismatch `name`↔заголовок из Q28.
+
+## coder · 2026-09-27 · готово
+
+- Сделано: `src/mcp.rs::create()` — читает оба параметра (`name`/`source`,
+  каждый обязателен, отсутствие → `Err` «Нужен параметр '…'»); сверяет `name`
+  с `rule.name` и при расхождении отклоняет (`Err` с обоими именами); при
+  совпадении — прежний upsert + `{status:ok,name}`. `tool_specs`: `check.create`
+  → `properties {name,source}`, `required ["name","source"]`, описание по Q28.
+  `src/core.rs::parse_rule` — `"Не найдено имя правила"` →
+  `"отсутствует заголовок правила"` (сцена `draft.feature`).
+- Тесты (юнит, в модуле `mcp.rs`; не запускались): обязательность обоих
+  параметров, отказ при mismatch `name`, текст ошибки об отсутствующем
+  заголовке, схема инструмента (`required`). R2: ассертов на старую строку
+  `core.rs` не найдено — правок в модулях не потребовалось.
+- Проверки: `cargo fmt --check` → ok; `cargo check` → ok;
+  `cargo clippy --all-targets -- -D warnings` → ok (тесты не запускались — R2).
+- Дальше / риски: `tester` — интеграционные сценарии; `validator` — DoD.
+  Границы соблюдены: конверт `{error:{code,message}}`/`validation_failed` не
+  делал (T-04), upsert и форма ответа не менялись. Текст mismatch-сообщения
+  произвольный (сцена его не задаёт); тест схемы использует serde-имя
+  `inputSchema` — рантайм подтвердит `validator`.
+
+## tester · 2026-09-27 · готово
+
+- Сделано: в `tests/mcp_draft.rs` добавлены интеграционные кейсы под
+  сценарии `docs/features/draft.feature` (Q28): (b)
+  `create_twice_overwrites_draft_without_flag_q28` — upsert без флага,
+  `{status:ok,name}`, текст перезаписан, `count == 1`; (c)
+  `create_name_mismatch_is_error_and_no_draft_q28` — mismatch
+  `name`↔заголовок → isError, черновик не создан; (d)
+  `create_missing_name_or_source_is_error_q28` — без `name`/`source` → isError,
+  count 0; (e) `create_source_without_header_is_error_q28` — source без
+  заголовка → isError, сообщение «отсутствует заголовок правила», черновик нет.
+  Плюс helper `error_message(&Value)` (payload `{"error": …}`).
+- (a) положительный контракт не дублировал: уже покрыт
+  `get_draft_canonical_fields_and_no_internals_q29_inv2_inv5` и
+  `stale_and_hash_after_overwrite_q12`. Существующие тесты новому контракту не
+  противоречат (`mcp.create` и так передаёт `{name, source}`).
+- Проверки: `cargo check --all-targets` → ok; `cargo fmt --check` → ok (тесты
+  не запускались — за `validator`).
+- Дальше / риски: прогон и приёмка — `validator`. Сомнение для приёмки: если
+  rmcp валидирует `inputSchema.required` до `dispatch`, кейс (d) вернёт
+  JSON-RPC error, а не tool-result `isError` — тогда тест (d) надо адаптировать
+  под фактический конверт (граница T-04, `validation_failed`).
+
+## validator · 2026-09-27 · чекпойнт до прогона
+
+- Сделано: проверка покрытия сцен (`draft.feature`: «Создание черновика через
+  MCP», «Повторный check.create перезаписывает», «check.create с невалидным
+  source»; `agent_minimal.feature`: «Создание правила через естественный язык»);
+  границ T-03/T-04.
+- Проверки: чтение (лента, досье, фичи, `src/mcp.rs:44-72,303-324`,
+  `src/core.rs:434-472`, `tests/mcp_draft.rs:411-526`, юнит `mcp.rs:514-596`).
+  Код соответствует Q28: оба параметра обязательны, сверка name↔заголовок,
+  схема required ["name","source"].
+- Дальше / риски: запускаю DoD (`fmt`/`clippy`/`test --all`). Открытый вопрос
+  tester (rmcp required → JSON-RPC error vs tool-result isError) проверит кейс (d).
+
+## validator · 2026-09-27 · готово — принято
+
+- Сделано: полный DoD воспроизведён; приёмка T-03. Отчёт
+  `docs/reviews/T-03-2026-09-27.md`; квитанция в `receipts.yaml` (T-03,
+  iteration 1, accepted).
+- Проверки: `cargo fmt --check` → pass; `cargo clippy --all-targets -- -D
+  warnings` → pass; `cargo test --all` → **86 passed / 0 failed** (lib 47 +
+  features_inventory 4 + mcp_draft 12 + publish 12 + rest 11).
+- Открытый вопрос tester: тест (d) `create_missing_name_or_source_is_error_q28`
+  **проходит без адаптации** — rmcp не отклоняет по `required` до `dispatch`;
+  отказ handler'а приходит как tool-result `isError` (`{"error":"Нужен
+  параметр 'name'"}`). Замечаний к `tester` нет.
+- Дальше / риски: P1/P2/P3 — нет; критичных проблем нет. Границы T-03/T-04
+  соблюдены (конверт `{error:{code,message}}`/`validation_failed` — T-04).
+  `docs-writer` — закрытие статусов ✅; `git` — пакет задачи.
+
+## analyst · 2026-09-27 · re-plan (pass: приёмка T-03)
+
+- Сделано: сверен срез (лента, квитанция `receipts.yaml`, отчёт
+  `docs/reviews/T-03-2026-09-27.md`, досье, `progress.yaml`, git-workflow
+  «Завершение задачи»); обновлены `next_action.yaml` (маркер `closeout_pass`)
+  и `current_state.yaml` (фаза `closeout`, acceptance accepted, rework 0).
+- **Решение по `docs/GRAMMAR.md` §7 (стр. 56): НЕ включать в T-03.** Строка
+  цитирует устаревшее «Не найдено имя правила» (код теперь: «отсутствует
+  заголовок правила»). Причина: GRAMMAR — канон языка (по размерным маршрутам
+  правка канона → L + auditor), а T-03 уже принят как M; границы досье — только
+  `src/**` + `tests/**`. Зафиксировано как follow-up отдельной docs-задачей.
+- Очередь: `docs-writer` (✅ карточка + сводка, ссылка на отчёт приёмки) →
+  `surface_to_user` (git-пакет) → `git` (коммит `code(T-03)`, `merge --no-ff`
+  в develop, push, удаление ветки) → `complete`.
+- Проверки: только чтение (9 файлов + 3 точечных `grep`).
+- Дальше / риски: R1 — только идемпотентность git-пакета; GRAMMAR-дрейф
+  остаётся до follow-up (не блокер T-03).
+
+## docs-writer · 2026-09-27 · готово (статус ✅)
+
+- Сделано: закрыт статус задачи — карточка
+  `docs/tasks/T-03-check-create/README.md:3` (`🚧 в работе` → `✅ сделана`) и
+  добавлена строка 7 `- **Отчёт приёмки:** [`../../reviews/T-03-2026-09-27.md`](../../reviews/T-03-2026-09-27.md).`
+  по формату карточек T-01/T-12; строка T-03 в сводке
+  `docs/tasks/README.md:40` (`🚧` → `✅`). Больше ничего не правил.
+- Проверки: `git diff -- docs/tasks` — только две строки статуса и строка-ссылка;
+  ссылка разрешается (`docs/reviews/T-03-2026-09-27.md` существует);
+  `git status --porcelain` — `docs/GRAMMAR.md` и `docs/features/README.md`
+  отсутствуют в списке изменённых. `draft.feature` остаётся 🟡,
+  `agent_minimal.feature` без изменений.
+- Дальше / риски: очереди — `surface_to_user` (git-пакет), `git` (коммит
+  `code(T-03)`, `merge --no-ff` в develop, push, удаление ветки), `complete`.
+  GRAMMAR `§7 (стр. 56)` не тронут (вне границ); follow-up — отдельной
+  docs-задачей.
+
+## analyst · 2026-09-27 · re-plan (микро: расхождение add_paths перед гейтом)
+
+- Сделано: сверен `git status --porcelain` (14 файлов) с `package.add_paths`
+  в `next_action.yaml`. Обнаружено расхождение: изменённый
+  `.opencode/memory/docs-writer.md` (чекпойнт 🚧 → ✅) отсутствовал в пакете;
+  добавлен. Остальные 13 путей покрыты; иных расхождений нет.
+- Проверки: `next_action.yaml` — add_paths после правки = 14 позиций, полное
+  совпадение с рабочим деревом. Notes/steps не менялись: `.opencode/state/**`
+  вне git (receipts не коммитится) — верно; трекер-пакет без него.
+- Дальше / риски: без правки `expect` git («рабочее дерево чисто») не выполнился
+  бы (untracked/modified остался). План неизменен далее: `surface_to_user`
+  (пакет) → `git` → `complete`. Другие поля плана не трогал.
+
+## lead · 2026-09-27 · surface_to_user — git-пакет завершения подтверждён
+
+- Сделано: владелец подтвердил пакет завершения (коммит `code(T-03)` по 14
+  путям, `merge --no-ff` в `develop`, push, удаление ветки). Запись в
+  `.opencode/state/current/progress.yaml`.
+- Проверки: перед показом сверено `git status --porcelain` (14 позиций) с
+  `package.add_paths`; расхождение по `.opencode/memory/docs-writer.md`
+  устранено микро re-plan. Ответ владельца: «Подтверждаю пакет».
+- Дальше / риски: действие 3 — `dispatch git` (пакет завершения).
+
+## git · 2026-09-27 · в работе (пакет завершения) — до коммита
+
+- Сделано: сверено подтверждение пакета (запись `lead` «git-пакет завершения
+  подтверждён», ответ «Подтверждаю пакет») с полем `package` плана; `git status
+  --porcelain` = ровно 14 путей `add_paths`, посторонних нет. Ветка
+  `feature/T-03-check-create`, HEAD `c212156` (= `develop`), задача ещё не
+  закоммичена.
+- Проверки: `git status -sb` → `## feature/T-03-check-create...origin/feature/T-03-check-create`;
+  `git log --oneline -3` → `c212156 chore(T-12)…`; `git branch --show-current` →
+  `feature/T-03-check-create`.
+- Дальше / риски: `git add` по 14 точным путям → `commit` `code(T-03)` →
+  `switch develop` → `pull` → `merge --no-ff` → `push` → удаление ветки.
+
+## git · 2026-09-27 · готово (owner override: только push feature-ветки)
+
+- Сделано: коммит `ecebdee` создан ранее (шаг пакета завершения, 14 путей, поверх
+  `c212156`). По прямому указанию владельца (отмена полного пакета завершения,
+  зафиксирована `lead` в `progress.yaml`, запись `cancelled_by_owner`) выполнен
+  **только** `git switch feature/T-03-check-create` →
+  `git push origin feature/T-03-check-create` → `c212156..ecebdee`. Повторный
+  add/commit не требовался (в ветке уже нет незакоммиченного).
+- Проверки: `git status -sb` до push → `## feature/T-03-check-create...origin/
+  feature/T-03-check-create [ahead 1]`, дерево чистое; `git log -1` → `ecebdee`
+  `code(T-03): check.create {name, source}, сверка заголовка и тексты ошибок`;
+  после push `origin/feature/T-03-check-create` → `ecebdee`, `git status -sb` →
+  ветка в синхроне; `develop` → `c212156` (не тронут).
+- Отложено по указанию владельца: `merge --no-ff` в `develop`, `push origin
+  develop`, удаление ветки (локально и на `origin`) — **не выполнялись**.
+- Дальше / риски: ветка `feature/T-03-check-create` опубликована с задачей
+  (`ecebdee`), но в `develop` не влита — завершение задачи (merge/push/удаление
+  ветки) отдельным подтверждённым пакетом. Записи ленты/памяти этой сессии —
+  рабочие, незакоммичены.
+
+## lead · 2026-09-27 · owner override — только push feature; merge отложен
+
+- Сделано: зафиксированы отмена владельцем полного пакета завершения (шаг push
+  в develop остановлен, субагент прерван) и прямое указание «давай сделаем
+  только push в feature/T-03-check-create»; микро re-plan `analyst` сузил
+  package до switch+push (merge/push develop/удаление ветки убраны). Git-роль
+  выполнила: switch на feature + `git push origin feature/T-03-check-create` →
+  `c212156..ecebdee`.
+- Проверки: `origin/feature/T-03-check-create` = `ecebdee`; `develop` (локально
+  и origin) = `c212156` — не тронут; merge, push develop, удаление ветки не
+  выполнялись.
+- Дальше / риски: `surface_to_user` — судьба merge/ветки и закрытия T-03
+  (`complete` с отложенным merge либо возврат к пакету завершения позже).
+
+## lead · 2026-09-27 · surface_to_user — ответ: вернуться к пакету позже
+
+- Сделано: владельцу доложено о выполненном push (`origin/feature/T-03-check-create`
+  = `ecebdee`, `develop` не тронут); задан вопрос о судьбе merge/ветки. Ответ
+  владельца: **«Вернуться к пакету позже»** — T-03 не закрывается, merge
+  `--no-ff` в develop, push develop и удаление ветки остаются отложенными.
+- Проверки: — (вопрос владельцу; ответ записан в `progress.yaml`).
+- Дальше / риски: re-plan `analyst` — зафиксировать состояние ожидания (resume
+  при возврате владельца); ветка `feature/T-03-check-create` (`ecebdee`) хранит
+  принятую работу и не удаляется.
+
+## analyst · 2026-09-27 · re-plan (resume: ожидание владельца, closeout отложен)
+
+- Сделано: сверен срез (лента, `receipts.yaml` T-03 accepted, git-workflow
+  «Завершение задачи», `progress.yaml`). `next_action.yaml` → `status:
+  awaiting_user`, маркер `closeout_deferred_awaiting_owner`, единственное
+  действие `wait_for_user` (вопрос/контекст возврата) + сохранён `package`
+  завершения (merge --no-ff в develop из `ecebdee` → push origin develop →
+  удаление ветки) и полный `resume_hint`. `current_state.yaml` → фаза
+  `awaiting_owner`, acceptance accepted, `merge_to_develop: deferred`,
+  `origin_feature: ecebdee`, `pushed_feature: done`, ветка сохраняется.
+- Проверки: только чтение (next_action/current_state/receipts/dispatch-loop/
+  git-workflow/лента/память).
+- Дальше / риски: T-03 **не закрывается** (`complete` отложен). Возврат
+  владельца → re-plan: `surface_to_user` (подтверждение пакета) → `dispatch git`
+  → `complete` + закрытие служебных записей. Ветка `feature/T-03-check-create`
+  (`ecebdee`) хранит принятую работу. Follow-up: `docs/GRAMMAR.md` §7 — отдельной
+  docs-задачей. Незакоммиченные записи ленты/памяти — рабочие, не коммитить.

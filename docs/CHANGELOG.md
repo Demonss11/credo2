@@ -79,6 +79,24 @@
   [`features/README.md`](features/README.md)), задача —
   [T-12](tasks/T-12-agent-loop/README.md), решение —
   [D39](decisions/D39-loop-dispatcher.md) (Q44).
+- **Доработка агентов после Run 3** (T-13, 2026-09-27, D40/D41): по итогам
+  пилота Run 3 уточнён контракт диспетчера. Маршрут M допускает исключение роли
+  с письменным обоснованием в досье (`route_exclusions`; для L исключений нет);
+  scope-порог узкий — решение заводится только при отвергнутой альтернативе или
+  частичном покрытии, унаследованные границы фиксируются полем
+  `inherited_boundaries` без записи в журнал (D40). `analyst` сверяет
+  `package.add_paths` со снимком `git status --porcelain` до гейта, описан
+  частичный пакет и override владельца (`cancelled_by_owner`/`deferred`);
+  `surface_to_user` — всегда `question` с `channel: question|text`; авторитет
+  статуса — `receipts.yaml`, `current_state.yaml` — снимок с `as_of`; действие
+  завершается записью в `progress.yaml`; введены порог меморандума, реестр
+  находок `docs/analysis/findings-registry.md` и pre-flight чек-лист
+  `docs/analysis/run-checklist.md`. Правила команд: одиночные (без `;`, `|`,
+  `>`), `git -C` вне прав, точечные пути `./…` (D41). Задача —
+  [T-13](tasks/T-13-agent-hardening/README.md), отчёт приёмки —
+  [`reviews/T-13-2026-09-27.md`](reviews/T-13-2026-09-27.md), решения —
+  [D40](decisions/D40-scope-threshold.md) (Q45),
+  [D41](decisions/D41-dispatch-refinements.md) (Q46).
 
 ### Добавлено
 
