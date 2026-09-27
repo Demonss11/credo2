@@ -274,16 +274,21 @@ Notebook) и **процесс агентов** (канон и роли кома�
 
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
-| [`agents-cycle.feature`](agents-cycle.feature) | Цикл задачи | 6 | ✅ | 🔴 | Agile-петля `coder → rust-expert → tester → validator → docs-writer → git`; R2 (тесты — только `validator`); чекпойнт до тяжёлой операции; `steps` |
-| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; повторная валидация `-rN`; правки после приёмки; возврат на реальном P1/P2 — предстоит |
-| [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 6 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID` |
-| [`agents-git-approval.feature`](agents-git-approval.feature) | Git-процесс задачи | 5 | ✅ | 🔴 | Ветка `feature/T-XX-<слаг>` до работы (git-flow: `master`/`develop`/`feature`), пакетное подтверждение, merge `--no-ff` и удаление ветки, идемпотентность, push ≥ 5 минут |
-| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск); S/M/L, guard «сценарии `features/` → не ниже M», переопределение владельцем, фиксация в ленте |
-| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 6 | ✅ | 🔴 | Авторство канона — сервисная сессия, `auditor` — независимая приёмка; сверка «инструкция ↔ права» и подтверждений git, целостность памяти/почты, headless `--model --auto` |
+| [`agents-cycle.feature`](agents-cycle.feature) | Цикл задачи | 7 | ✅ | 🔴 | loop-цикл: `lead` — диспетчер, `analyst` — досье и план `next_action.yaml`, полный маршрут `coder → rust-expert → tester → validator → docs-writer → git`; scope-решение — в журнал до исполнения; R2 (тесты — только `validator`); чекпойнт до тяжёлой операции; `steps` |
+| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; re-plan `analyst`, номер итерации в плане и ленте; повторная валидация `-rN`; порог существенности не меняется; возврат на реальном P1/P2 — предстоит |
+| [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 8 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID`; состояние `.opencode/state/current/` (`next_action`/`current_state` — `analyst`, `progress` — `lead`, `receipts` — `validator`), квитанция приёмки |
+| [`agents-git-approval.feature`](agents-git-approval.feature) | Git-процесс задачи | 5 | ✅ | 🔴 | Ветка `feature/T-XX-<слаг>` до работы (git-flow: `master`/`develop`/`feature`), пакет формируется при планировании и лежит в плане, подтверждение фиксирует `lead`, `git` сверяет ленту и состояние, merge `--no-ff` и удаление ветки, идемпотентность, push ≥ 5 минут |
+| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск), фиксирует `analyst` в досье и плане; S — fast path `git` → `coder` → `validator` → `git` (`validator` обязателен), M/L — полный маршрут (L + аудит); guard «сценарии `features/` → не ниже M»; переопределение владельцем |
+| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 7 | ✅ | 🔴 | Авторство канона — сервисная сессия, `auditor` — независимая приёмка; сверка «инструкция ↔ права» с автопроверкой списка команд `review.md` ↔ фронтматтеры, сверка состояния и квитанций, подтверждения git, целостность памяти/почты, headless `--model --auto` |
 
-**Итого: 42 файла, 255 сценариев** (backend — 27 файлов / 148 сценариев,
+> **Пилот Run 3 (D39 §7, T-12):** T-12 принята `validator` (2026-09-27); loop-цикл
+> с `analyst`, fast path класса S, scope-hard-rule и квитанции приёмки
+> проверяются пилотом на T-03 **после** мержа T-12. До пилота статусы ✅/🟡 означают
+> структурную готовность (канон и роли обновлены), поведение подтверждает прогон.
+
+**Итого: 42 файла, 259 сценариев** (backend — 27 файлов / 148 сценариев,
 frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 6 файлов /
-32 сценария).
+36 сценариев).
 
 ## Соответствие коду
 

@@ -7,6 +7,7 @@ steps: 36
 permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: "docs/reviews/**", effect: allow }
+  - { action: edit, resource: ".opencode/state/current/receipts.yaml", effect: allow }
   - { action: edit, resource: ".opencode/memory/validator.md", effect: allow }
   - { action: edit, resource: ".opencode/mail/**", effect: allow }
   - { action: read, resource: "**/target/**", effect: deny }
@@ -52,10 +53,13 @@ permissions:
 3. **До тяжёлого прогона** запиши чекпойнт в память и отчёт в ленту (R5);
    **после** прогона дополни запись результатом.
 4. Прогони полный DoD (см. чек-лист «Код» ниже); прими решение.
-5. **Не принято** — верни `lead` отчёт с фактами (`файл:строка`, команда,
-   ожидание/факт), не правя чужое: `lead` вызовет `coder`, цикл повторится
-   (номер итерации — в ленте). **Принято** — отчёт и вердикт; `lead` закроет
-   задачу через `docs-writer`.
+5. Квитанция — append в `.opencode/state/current/receipts.yaml` (task,
+   iteration, вердикт, отчёт, цифры DoD, снимок версии): без неё `lead` не
+   исполняет `complete`.
+6. **Не принято** — верни `lead` отчёт с фактами (`файл:строка`, команда,
+   ожидание/факт), не правя чужое: план вернёт `coder`, цикл повторится
+   (номер итерации — в плане и ленте). **Принято** — отчёт, вердикт и
+   квитанция; `lead` закроет задачу через `docs-writer`.
 
 ## Чек-лист по типу работы
 
@@ -90,7 +94,8 @@ permissions:
 повторная проверка — `…-rN.md` (`.opencode/rules/review.md`,
 «Хранение отчётов»). Это твоя вторая зона записи (кроме ленты и памяти);
 всё остальное — read-only. Если сохранение не запрошено — отчёт остаётся
-в ответе. Итог приёмки (кратко) — в ленту задачи.
+в ответе. Итог приёмки (кратко) — в ленту задачи; квитанция (append) — в
+`.opencode/state/current/receipts.yaml` (не отчёт, а машинная отметка плана).
 
 ## Правила находок
 
