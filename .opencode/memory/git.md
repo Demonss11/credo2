@@ -6,6 +6,9 @@
 
 ## Чекпойнты
 
+> D41: оперативная хроника задач — в `state/` и ленте; здесь — знание роли и
+> аварийные чекпойнты. Записи ниже — история.
+
 - **2026-09-27 · T-12, шаг «Старт задачи» — готово.** Пакет (подтверждён `lead`
   в ленте `T-12.md`, запись от 2026-09-27): `switch develop` → `pull origin
   develop` → `switch -c feature/T-12-agent-loop develop` → `push -u`. Выполнено
@@ -37,3 +40,42 @@
   него). Осталось: `git add` этими путями → `git commit -m "chore(T-12):
   служебные записи ленты и памяти после пакета"` → `git push origin develop`
   (timeout ≥ 300000 мс) → проверки `git status -sb`, `git log -2 --oneline`.
+- **2026-09-27 · service-w7-rollback (откат Run 3 + старт W7) — готово.**
+  Подтверждение `lead` — лента `.opencode/mail/service-w7-rollback.md` («пакет
+  отката подтверждён», указание владельца 27.09.2026). Сверка
+  `git status --short` до шагов: ровно 3 `M` (`mail/T-03.md`,
+  `memory/analyst.md`, `memory/git.md`) + 6 `??` — совпала. Выполнено:
+  `restore` этих 3 путей → `switch develop` →
+  `branch -d feature/T-03-check-create` (was `ecebdee`; warning: merged to
+  upstream, not HEAD — ожидаемо) → `push origin --delete` (`- [deleted]`) →
+  `switch -c feature/T-13-agent-hardening develop` → `push -u` (`* [new
+  branch]`, upstream выставлен). Состояние: ветка `feature/T-13-agent-hardening`
+  в синхроне с `origin/feature/T-13-agent-hardening`, HEAD `c212156`; `develop`
+  не тронут; `feature/T-03-check-create` нет локально и на origin. Незакоммичено:
+  `?? mail/service-w7-rollback.md`, `?? docs/analysis/T-03-run3-mail-archive.md`,
+  `?? docs/analysis/W7-preRUN4_T-03.md`, `?? docs/analysis/memorandum-*` (×3).
+  Осталось: правки канона W7 и коммиты — отдельными подтверждёнными пакетами.
+- **2026-09-27 · service-w7-rollback (аварийный архив Run 3) — готово.**
+  Подтверждение `lead` — лента `.opencode/mail/service-w7-rollback.md` («аварийный
+  архив Run 3», указание владельца 27.09.2026). Пакет: тег на `ecebdee` + push
+  тега. Шаг 1 (`git cat-file -t`) недоступен роли (нет в allowlist) → заменён
+  read-only: `git rev-parse ecebdee` → `ecebdeedf856470f1a74b4599f264c07c0de7ae6`,
+  `git log -1 --oneline ecebdee` → `ecebdee` (коммит жив). Выполнено:
+  `git tag -l "archive/*"` (пусто) → `git tag archive/run3-T-03 ecebdee` →
+  `git push origin archive/run3-T-03` (`* [new tag]`, timeout 360000 мс).
+  Проверки: `git tag -l "archive/*"` → `archive/run3-T-03`;
+  `git rev-parse archive/run3-T-03` → `ecebdee…`; `git log -1 --oneline
+  archive/run3-T-03` → `ecebdee code(T-03): check.create {name, source}, …`.
+  Состояние: ветка `feature/T-13-agent-hardening`, дерево как было (6 `M` +
+  20 `??`); коммитов/слияний нет. Заметка: текст сообщения коммита — `{name,
+  source}` (в плане `lead` было `{name, subject}`).
+  Осталось: правки канона W7 и коммиты — отдельными подтверждёнными пакетами.
+- **2026-09-27 · T-13, W4 — коммиты 1–2 готовы.** Подтверждение `lead` — лента
+  `T-13.md` («пакет подтверждён пользователем», 2026-09-27). Сверка
+  `git status --short`: 22 `M` + 17 новых (итого 39), лишнего нет; ветка
+  `feature/T-13-agent-hardening`, HEAD `c212156`. Коммит 1 `e34772f`
+  (`docs(Q45,Q46): D40/D41`, 9 файлов); коммит 2 `299fd0c`
+  (`chore(T-13): W7`, 30 файлов). Дерево после коммита 2 чистое. Осталось:
+  коммит 3 (лента+память), затем `switch develop` → `pull` → `merge --no-ff` →
+  `push origin develop` → `branch -d` → `push origin --delete` (push —
+  timeout ≥ 300000 мс).
