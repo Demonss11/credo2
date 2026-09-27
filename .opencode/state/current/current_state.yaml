@@ -1,0 +1,34 @@
+# Run 5 (2026-09-28), T-04: снимок на момент re-plan участка №5 (analyst, финализация).
+# Авторитет — receipts.yaml (T-04, iteration 1, accepted).
+as_of: 2026-09-28
+task: T-04
+iteration: 1
+phase: final
+class: L
+class_dispute: false
+acceptance: accepted
+acceptance_report: docs/reviews/T-04-2026-09-28.md
+rework: 0
+branch: feature/T-04-mcp-errors
+branch_head: "0437799"
+branch_sync: "origin/feature/T-04-mcp-errors (синхрон; работа в рабочем дереве)"
+base: develop
+base_commit: 0437799
+owner_gate_1: passed                 # класс L + пакет branch_start
+auditor: passed                      # P1 нет; P2 — право auditor на ленту (в меморандум Run 5)
+docs_writer: passed                  # статусы ✅, CHANGELOG; features/README.md не менялся
+package_pending: none
+gate_pending: none                   # пакет branch_end + push develop (волна 0) подтверждены
+develop_ahead_origin: 7              # публикуется вместе с push develop (разрешено)
+working_dirt: 19                     # 14 M + 5 ??; ⊆ package.add_paths гейта
+progress_marker: run5_t04_finalize
+breakpoint: none
+b1_fact: >
+  token-guard активен; вывод `cargo test --all` ≈7 КБ < 12 КБ — не срезан (ожидаемо);
+  срез подтверждён на diff src/mcp.rs ≈21 КБ.
+artifacts:
+  dossier: docs/analysis/T-04-2026-09-28.md
+  card: docs/tasks/T-04-mcp-errors/README.md
+  mail: .opencode/mail/T-04.md
+  review: docs/reviews/T-04-2026-09-28.md
+route_pending: [git, complete]

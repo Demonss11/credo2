@@ -1,0 +1,65 @@
+# Квитанции приёмки (append-only; пишет только validator).
+# Формат: task, iteration, verdict, report, dod, snapshot, at.
+# Pre-flight Run 4 (2026-09-27): квитанция откаченного Run 3 (T-03) удалена —
+# отчёт не существует; улики: docs/analysis/T-03-run3-mail-archive.md,
+# тег archive/run3-T-03.
+
+- task: T-12
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-12-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "78 passed / 0 failed"
+    features_inventory: "42 files / 259 scenarios"
+  snapshot: "feature/T-12-agent-loop, HEAD f06ff82 + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-13
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-13-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "78 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-13-agent-hardening, HEAD c212156 + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-03
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-03-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: "fail: cmp_owned src/mcp.rs:563"
+    test: "90 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-03-check-create, HEAD bf56a4a + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-03
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-03-2026-09-27-r2.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "90 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-03-check-create, HEAD bf56a4a + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-04
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-04-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "feature/T-04-mcp-errors, HEAD 0437799 + working tree (2026-09-28)"
+  at: "2026-09-28"
