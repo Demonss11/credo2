@@ -160,3 +160,45 @@
   Отчёт в ленте/памяти дописан **после** пакета — не закоммичен (рабочие
   данные; служебный коммит — по решению `lead`). Заметка: `git branch --list`
   роли не разрешён — проверки через `git status -sb`/`git branch -a`.
+- **2026-09-27 · service-mcp-ready, пакет `push_docs_t15` (выкладка документов
+  T-15/W8) — готово.** Подтверждение `lead` — лента
+  `.opencode/mail/service-mcp-ready.md` («выкладка документов — пакет
+  подтверждён владельцем», директива владельца «отправим в удалённый репозиторий
+  все изменения»); приёмка `validator` — `accepted` (там же). Сверка
+  `git status --porcelain --untracked-files=all`: 5 `M`
+  (`features/README.md`, `tasks/README.md`, `mail/T-03.md`, `memory/git.md`,
+  `memory/validator.md`) + 13 `??` — ровно по пакету (2 `analysis`, 5
+  `agents-*.feature`, 2 `tasks/T-15-*`, 2 `mail/service-*`,
+  `commands/git/status.md`), лишнего нет. Ветка `develop`, HEAD `89ebd42`.
+  Выполнено: `pull origin develop` (`Already up to date`) → `switch -c
+  feature/T-15-mcp-ready-process develop` → коммит A `a054a46` «docs(T-15):
+  записка MCP-ready процесса, фичи, карточка, wave 0, /git/status» (12 файлов,
+  +896/−3; индекс сверен `git diff --cached --name-only`) → коммит B `30febd6`
+  «docs: финализация меморандума W8 (Run 4) и служебные записи» (5 файлов,
+  +701) → `push -u origin feature/T-15-mcp-ready-process` (`* [new branch]`,
+  timeout 360000) → `switch develop` → `merge --no-ff` → `afe6a7a` «Слияние
+  feature/T-15-mcp-ready-process в develop» (17 файлов, +1597/−3) →
+  `push origin develop` (`89ebd42..afe6a7a`, timeout 360000) → `branch -d`
+  (`was 30febd6`) → `push origin --delete` (`- [deleted]`).
+  Проверки: `git log -3 --oneline develop` → `afe6a7a`, `30febd6`, `a054a46`;
+  `git branch -a` → ветки задачи нет ни локально, ни на origin;
+  `git status -sb` → `## develop...origin/develop` (чисто, в синхроне).
+  Пропущено как уже выполненное: нет. `-D`/`--force`/rebase не применялись;
+  `target/`, `.credo/`, `.opencode/state/**` не коммитились.
+  Осталось: отчёт в ленте и этот чекпойнт — рабочая «грязь» (R7), не
+  закоммичены; служебный коммит — по решению `lead`.
+- **2026-09-27 · service-mcp-ready, служебный коммит записей
+  (`service_records`) — шаг 2 готов.** Подтверждение `lead` — лента
+  `.opencode/mail/service-mcp-ready.md` («системный коммит записей (по
+  директиве владельца)»; директива владельца «у develop остались не
+  закоммиченные изменения — нужен системный коммит»). Сверка `git status -sb`:
+  ровно два пути (` M .opencode/mail/service-mcp-ready.md`,
+  ` M .opencode/memory/git.md`), лишнего нет; ветка `develop` в синхроне с
+  `origin/develop`, HEAD `afe6a7a`. Отчёт `git` и этот чекпойнт дописаны **до**
+  коммита (входят в него). Основание прямого коммита в `develop` — служебные
+  рабочие данные по директиве владельца (прецедент `bf56a4a`). Осталось:
+  `git add` этими двумя путями (индекс сверить `git diff --cached --name-only`
+  → 2 пути) → `git commit -m "chore: служебные записи после выкладки
+  документов (лента, память)"` → `git push origin develop` (timeout ≥ 300000 мс)
+  → проверки `git status -sb`, `git log -2 --oneline develop`; после push
+  файловых записей не делать.

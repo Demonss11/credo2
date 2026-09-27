@@ -166,3 +166,76 @@
   документов); прочие ветки и теги.
 - Ожидание: `develop` содержит merge-коммит с A и B; ветка удалена локально и
   на origin; дописи ленты/памяти после коммитов — рабочие (R7).
+
+## git · 2026-09-27 · готово (пакет `push_docs_t15`)
+
+- **Сделано:** сверка совпала (ветка `develop`, HEAD `89ebd42`; 5 `M` — ровно
+  `features/README.md`, `tasks/README.md`, `mail/T-03.md`, `memory/git.md`,
+  `memory/validator.md`; 13 `??` — ровно по списку пакета, лишнего нет).
+  `pull origin develop` → `Already up to date` → `switch -c
+  feature/T-15-mcp-ready-process develop`. Коммит A **`a054a46`** (12 файлов,
+  +896/−3), коммит B **`30febd6`** (5 файлов, +701). `push -u origin
+  feature/T-15-mcp-ready-process` → `* [new branch]` (timeout 360000).
+  Merge `--no-ff` → **`afe6a7a`** (17 файлов, +1597/−3);
+  `push origin develop` → `89ebd42..afe6a7a`. Ветка удалена: `branch -d`
+  (`was 30febd6`) + `push origin --delete` (`- [deleted]`).
+- **Проверки:** `git log -3 --oneline develop` → `afe6a7a`, `30febd6`,
+  `a054a46`; `git branch -a` → `feature/T-15-mcp-ready-process` нет (local и
+  origin); `git status -sb` → `## develop...origin/develop` (чисто, в синхроне).
+  Перед каждым `add` состав индекса сверялся `git diff --cached --name-only`
+  (A — 12 путей, B — 5). Пропущено как уже выполненное: нет.
+- **Дальше / риски:** дописи ленты/памяти после коммитов (эта запись и чекпойнт
+  `memory/git.md`) — рабочая «грязь», не закоммичены (R7); служебный коммит —
+  по решению `lead`. `target/`, `.credo/`, `.opencode/state/**` не трогались;
+  `--force`/`-D`/rebase не применялись.
+
+## lead · 2026-09-27 · выкладка завершена — `develop` @ `afe6a7a` в origin
+
+- `dispatch git` (пакет `push_docs_t15`): `expect` совпал — коммиты `a054a46`
+  (A: документы T-15, 12 файлов, +896/−3) и `30febd6` (B: меморандум W8 и
+  записи, 5 файлов, +701); merge `--no-ff` → `afe6a7a` (17 файлов, +1597/−3);
+  push `89ebd42..afe6a7a`; ветка `feature/T-15-mcp-ready-process` удалена
+  (local + origin); `develop` в синхроне.
+- Документы T-15 (записка MCP-ready, фичи, карточка, wave 0, `/git/status`) и
+  финализация W8 — в `origin/develop`. Остаток: дописи этой ленты и
+  `.opencode/memory/git.md` после коммитов — рабочие (R7); wave 0
+  (A/B1/B2 + опционально policies) — по слову владельца.
+
+## lead · 2026-09-27 · системный коммит записей (по директиве владельца)
+
+- Директива владельца: **«у develop остались не закоммиченные изменения —
+  нужен системный коммит»** (2026-09-27). Состав: эта лента
+  (`.opencode/mail/service-mcp-ready.md`) и `.opencode/memory/git.md`
+  (дописи после выкладки `push_docs_t15`).
+- Пакет `service_records` (исполняет `git`, идемпотентно): **служебный
+  коммит прямо в `develop`** по директиве владельца (прецедент — `bf56a4a`,
+  «Create service-run4-preflight.md»); канон допускает прямые коммиты лишь
+  для служебной очистки логов — расширение практики зафиксировать в фазе C
+  T-15.
+  1. сверка: `git status -sb` — изменённые tracked ровно эти два файла;
+     `git log -1 --oneline` — `afe6a7a`; иных изменений/untracked нет;
+  2. отчёт роли и чекпойнт в память — **до** коммита (входят в него);
+  3. `git add .opencode/mail/service-mcp-ready.md` →
+     `git add .opencode/memory/git.md` →
+     `git commit -m "chore: служебные записи после выкладки документов (лента, память)"`;
+  4. `git push origin develop` (таймаут ≥5 мин);
+  5. после push — никаких файловых записей (итог вернуть `lead`).
+- Ожидание: `develop` содержит служебный коммит (в `origin`), рабочее дерево
+  чистое и в синхроне.
+
+## git · 2026-09-27 · шаг 2 готов (пакет `service_records`)
+
+- **Сделано:** сверка шага 1 совпала — ветка `develop` в синхроне с
+  `origin/develop`, изменённых tracked ровно два
+  (`.opencode/mail/service-mcp-ready.md`, `.opencode/memory/git.md`), иных
+  изменений/untracked нет; `git log -1 --oneline` → `afe6a7a`. Подтверждение
+  владельца — запись `lead` выше (директива «нужен системный коммит»).
+- **Что делает коммит:** только эти две служебные записи (лента + память);
+  канон, код и тесты не трогаются; **служебный коммит прямо в `develop`**
+  (прецедент `bf56a4a`). Отчёт роли и чекпойнт `memory/git.md` дописаны **до**
+  коммита и входят в него.
+- **Проверки:** `git status -sb` (до) — `## develop...origin/develop` + 2 `M`;
+  `git log -1 --oneline` → `afe6a7a`.
+- **Дальше / риски:** `git add` двумя путями → `git commit -m "chore: служебные
+  записи после выкладки документов (лента, память)"` → `git push origin develop`
+  (таймаут ≥5 мин); после push файловых записей не делается.
