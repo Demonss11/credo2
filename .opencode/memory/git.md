@@ -343,3 +343,33 @@
   не создавал (прямые коммиты в `develop` — исключение по решению владельца).
   Осталось: `complete` (lead). Заметка: `git mv` стейджит перенос сразу —
   при пакете с переносом проверять `git status` на пред-стейдж (`RM`).
+
+- **2026-09-28 · пакет `w8_records` (процессный коммит в `develop` + push) —
+  готово.** Подтверждение владельца — лента `.opencode/mail/service-mcp-ready-r2.md`
+  («сервисная сессия · 2026-09-28 · подтверждение владельца: пакет w8_records
+  (в develop)»; шаг 8 §6 меморандума W8). Сверка (шаг 1): `git status --porcelain`
+  = ровно 3 пути (`mail/service-mcp-ready-r2.md`, `memory/git.md`,
+  `docs/analysis/memorandum-W8-run5.md`) — совпало; ветка `develop`, синхрон с
+  `origin/develop`. Выполнено: `git add` тремя точными путями (одной командой;
+  LF→CRLF — EOL) → `git diff --cached --name-only` = 3 → коммит **`779018c`**
+  `chore(process): записи пакета w8_commits` (3 файла, +57/−5) → `git push origin
+  develop` (`b1e1bbb..779018c`, timeout 360000 мс). Проверки: `git log --oneline
+  -3` → `779018c`, `b1e1bbb`, `a2424b6`; `git status -sb` → `## develop...origin/develop`
+  (синхрон, дерево чистое); `git show --stat HEAD` = 3 файла.
+  `--force`/rebase/`add -A`/merge/ветки/теги не применялись; `target/`,
+  `.credo/`, `node_modules/` не коммитились. Осталось: `complete` (lead);
+  эта запись + отчёт в ленте — рабочая «грязь» после пакета (не закоммичены).
+- **2026-09-28 · пакет `wave0b_docs` (коммит в `develop`, без push) — готово.**
+  Подтверждение владельца — диспетч `lead` («закомить», 2026-09-28); отдельной
+  записи `lead` в ленте под пакет не было (отмечено в отчёте). Сверка (шаг 1):
+  `git status --porcelain` = ровно 8 путей (4 `M` + 4 `??`), снимок совпал;
+  ветка `develop`, синхрон с `origin/develop`. Выполнено: `git add` восемью
+  точными путями → `git diff --cached --name-only` = 8 → коммит
+  `docs(T-15): фаза B0 — карточка, wave0b-документы, синхронизация записки`
+  (8 файлов). Запись в ленте и этот чекпойнт дописаны **до** коммита и входят в
+  него (дерево чистое). Проверки (после): `git log -1 --oneline`,
+  `git show --stat HEAD` = 8 файлов, `git status -sb` → `## develop...origin/develop`
+  `[ahead 1]` (без `??`/` M`). Push НЕ выполнялся (не подтверждён);
+  `--force`/rebase/`add -A`/merge/ветки/теги не применялись; `target/`,
+  `.credo/`, `node_modules/` не коммитились. Осталось: push — отдельным
+  подтверждённым пакетом.
