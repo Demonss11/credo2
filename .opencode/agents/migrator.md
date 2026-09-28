@@ -12,6 +12,7 @@ permissions:
   - { action: edit, resource: "docs/TRACEABILITY.md", effect: allow }
   - { action: edit, resource: "docs/OPEN_QUESTIONS.md", effect: allow }
   - { action: edit, resource: "docs/SPECIFICATION.md", effect: allow }
+  - { action: edit, resource: "docs/analysis/findings-registry.md", effect: allow }
   - { action: edit, resource: ".opencode/memory/migrator.md", effect: allow }
   - { action: edit, resource: ".opencode/mail/**", effect: allow }
   - { action: read, resource: "**/target/**", effect: deny }
@@ -89,6 +90,9 @@ permissions:
   `Dn`, файл `docs/decisions/Dn-<слаг>.md`, обязательная «Сверка с кодом»
   (§5.3), задача `T-XX` или явное «задач не требуется», строка в §10 и
   `TRACEABILITY.md`.
+- **Реестр находок** — `docs/analysis/findings-registry.md`: строки находок
+  (ID, источник, суть, статус, связи); ID не переиспользуются, статусы
+  обновляются по закрытию; меморандумы ссылаются на реестр.
 - Источник новых записей — решение владельца (из брифа `lead` или досье
   `analyst`) или
   зафиксированное расхождение. Принятые решения не переписывай «задним

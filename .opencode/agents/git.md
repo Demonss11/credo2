@@ -20,6 +20,7 @@ permissions:
   - { action: shell, resource: "git branch -l *", effect: allow }
   - { action: shell, resource: "git branch -a *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
+  - { action: shell, resource: "git branch -vv", effect: allow }
   - { action: shell, resource: "git remote -v", effect: allow }
   - { action: shell, resource: "git rev-parse *", effect: allow }
   - { action: shell, resource: "git tag -l *", effect: allow }
@@ -41,6 +42,7 @@ permissions:
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
   - { action: question, resource: "*", effect: deny }
+  - { action: execute, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: deny }
 ---
 

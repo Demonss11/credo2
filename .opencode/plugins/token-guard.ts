@@ -15,8 +15,8 @@
 // одним атомарным write — watcher перезагружает файл на каждое изменение и
 // ловит промежуточные (неполные) состояния.
 //
-// Права не меняет; B2 — только форма исходящего запроса для трёх ролей
-// (docs-writer/git/analyst, см. таблицу ниже), permissions и канон не
+// Права не меняет; B2 (снятие tool-схем по именам агентов) отключён решением
+// владельца 2026-09-28 — таблица префиксов пуста; permissions и канон не
 // правятся. Откат — переименовать/удалить файл (автозагрузка
 // .opencode/plugins/**; watcher следит за файлом, при необходимости —
 // рестарт сервиса OpenCode).
@@ -29,8 +29,8 @@
 // репозитории и на `credo_check_create` в изолированном прогоне с
 // codemode=false); плагин снимает ключи по префиксам. В текущей конфигурации
 // репозитория (codemode=true по умолчанию) MCP-схемы не являются ключами
-// event.tools: MCP скрыт за Code Mode (`execute`), а B2 остаётся страховкой
-// на случай прямой экспозиции MCP-инструментов.
+// event.tools — срабатываний нет; B2 отключён (владелец, 2026-09-28), таблица
+// префиксов пуста; включать при прямой экспозиции MCP.
 
 import { Plugin } from "@opencode/plugin";
 
@@ -114,24 +114,24 @@ const sliceText = (raw: string, tool: string): SliceOutcome => {
   };
 };
 
-// ── B2 (W0-i3): снятие tool-схем по именам агентов ─────────────────────────
+// ── B2 (W0-i3, отключено 2026-09-28): снятие tool-схем по именам агентов ────
 //
-// Черновые правила §3.2 сверены с брифами и review.md (лента
-// service-mcp-ready, запись 2026-09-27, «W0-i3 (B2) — сверка правил снятия
-// префиксов с брифами»): docs-writer/git — без `rust-analyzer*` и `credo*`;
-// analyst — без `rust-analyzer*` (credo оставлен «по нужде»); lead — не
-// трогать; остальные роли — без изменений. Префиксы покрывают оба написания
-// сервера (`rust-analyzer` / `rust_analyzer`) и MCP-ключи вида
-// `<server>_<tool>` (проверено изолированным прогоном: `credo_check_create`).
+// Черновые правила §3.2 были сверены с брифами и review.md (лента
+// service-mcp-ready, запись 2026-09-27): docs-writer/git — без
+// `rust-analyzer*` и `credo*`; analyst — без `rust-analyzer*`; lead — не
+// трогать. Префиксы покрывали оба написания сервера (`rust-analyzer` /
+// `rust_analyzer`) и MCP-ключи вида `<server>_<tool>` (проверено изолированным
+// прогоном: `credo_check_create`). Таблица ниже пуста — B2 отключён решением
+// владельца (F28/D45); включать при прямой экспозиции MCP.
 // Хук `session.context` выполняется только для агентского цикла (primary);
 // у compaction/title/generate собственные хуки, поэтому условие «только
 // primary» задано самой регистрацией (kind в событии не приходит).
 
-const B2_PREFIXES: Record<string, readonly string[]> = {
-  "docs-writer": ["rust-analyzer", "rust_analyzer", "credo"],
-  git: ["rust-analyzer", "rust_analyzer", "credo"],
-  analyst: ["rust-analyzer", "rust_analyzer"],
-};
+// Отключено решением владельца 2026-09-28 (codemode=true — срабатываний нет).
+// При прямой экспозиции MCP (codemode=false) вернуть правила:
+//   docs-writer/git — ["rust-analyzer", "rust_analyzer", "credo"];
+//   analyst — ["rust-analyzer", "rust_analyzer"].
+const B2_PREFIXES: Record<string, readonly string[]> = {};
 
 interface B2Stats {
   removed: number;

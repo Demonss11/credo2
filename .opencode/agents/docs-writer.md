@@ -32,6 +32,7 @@ permissions:
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
   - { action: question, resource: "*", effect: deny }
+  - { action: execute, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: deny }
   - { action: external_directory, resource: "D:/pyTechNotes/dar/dar7/dar/dar/DECISIONS.md", effect: allow }
 ---

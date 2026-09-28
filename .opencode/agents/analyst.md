@@ -7,6 +7,8 @@ steps: 20
 permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: "docs/analysis/**", effect: allow }
+  # Реестр находок — зона migrator (D48): точечный deny.
+  - { action: edit, resource: "docs/analysis/findings-registry.md", effect: deny }
   - { action: edit, resource: ".opencode/memory/analyst.md", effect: allow }
   - { action: edit, resource: ".opencode/mail/**", effect: allow }
   - { action: edit, resource: ".opencode/state/current/next_action.yaml", effect: allow }
@@ -40,7 +42,7 @@ permissions:
 
 ## Бюджет (читать первым)
 
-- ≤ 10 прочитанных файлов за вызов; большие документы — по карте заголовков
+- ≤ 12 прочитанных файлов за вызов; большие документы — по карте заголовков
   (`.opencode/rules/workspace.md`);
 - не читаешь `target/`, `.git/`, `Cargo.lock`, `node_modules/`, `.credo/`;
 - команды — одиночные (без `;`, пайпов, перенаправлений).
