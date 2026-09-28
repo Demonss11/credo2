@@ -173,14 +173,15 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | W0-i3 | B2 (срез схем) | W0 | ✅; отключён (D45) | F28 |
 | W0-i4 | Замер и отчёт волны | W0 | ✅ 27.09 | `wave0-report` |
 | A | Документ, журнал, карточка, фичи | A | ✅ | `mcp-ready-process` |
-| B0-i1 | Изоляция и протокол проб | B0 | ⬜ (документы готовы) | `wave0b-plan` |
-| B0-i2 | Shell Strategy | B0 | ⬜ | — |
-| B0-i3 | Opencode Telemetry | B0 | ⬜ | — |
-| B0-i4 | Subagent Reporter + Agent Identity | B0 | ⬜ | — |
-| B0-i5 | CC Safety Net | B0 | ⬜ | — |
-| B0-i6 | snip | B0 | ⬜ | — |
-| B0-i7 | Handoff | B0 | ⬜ | — |
-| B0-i8 | Отчёт и финализация B0 | B0 | ⬜ | — |
+| B0-i1 | Изоляция и протокол проб | B0 | ✅ 28.09 | `wave0b-plan` |
+| B0-i2 | Shell Strategy | B0 | ✅ 28.09 | `wave0b-probes` |
+| B0-i3 | Opencode Telemetry | B0 | ✅ 28.09 · 🔴 не V2 | `wave0b-probes` |
+| B0-i4 | Subagent Reporter + Agent Identity | B0 | ✅ 28.09 · 🔴×2 | `wave0b-probes` |
+| B0-i5 | CC Safety Net | B0 | ✅ 28.09 · 🟢 | `wave0b-probes` |
+| B0-i6 | snip | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
+| B0-i7 | Handoff | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
+| B0-i8 | Отчёт и финализация B0 | B0 | 🚧 отчёт готов; пакет — по подтверждению | `wave0b-report` |
+| B0-own | Своя обвязка V2 (P1 observe, P2 guard, P3 checkpoint, P4 metrics, P5 attribution) | B0 | ⬜ ждёт мини-волны | `wave0b-report` §4 |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |
 | B1-F26 | S/M-прогон + fast path S (D39) | B1 | ⏸ | F26; решение 28.09 |
 | B1-F27 | Прогон с ведущим `lead` (лимит 16) | B1 | ⏸ | F27 |

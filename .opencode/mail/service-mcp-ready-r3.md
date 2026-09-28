@@ -144,3 +144,179 @@
 - Дальше / риски: коммит **B** (26 путей) → `git push origin develop` → `log`/
   `status`/`show --stat`. Хеш B здесь не приводится (F43). После `push` записей
   в отслеживаемые файлы нет.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i1: изоляция и формы установки V2 (готово)
+
+- Сделано: temp-проект `%TEMP%\opencode\wave0b-probe` (`git init`, dummy `.env`,
+  `hello.txt`); зафиксированы обе формы установки V2: локальный
+  `.opencode/plugins/*.ts` + `npm install @opencode/plugin` (283 пакета, 60 с) и
+  config `plugins[]` (каталог); startup-критерий чистый; протокол —
+  `wave0b-probes.md`; улики — `target/wave0b-i1/`.
+- Проверки: `opencode run --auto --model opencode-go/deepseek-v4.1-flash` ×3 →
+  `ок`; маркеры setup `.opencode/wave0b-probe-loaded.json` (13:53:02.507Z) и
+  `.opencode/wave0b-probe-config-loaded.json` (13:53:48.073Z); в логе
+  `loading plugin` без `failed to load plugin`.
+- Дальше / риски: прогон 1 не завершился в CLI (сессия `succeeded`, `/wait` — 499
+  после kill) — повторы норма; для i4/i7 контроль таймаута. Далее **B0-i2**: Shell
+  Strategy — инструкция, не плагин; `instructions` в V2 не загружается (доки +
+  проба), контент — кандидат в C.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i2: Shell Strategy (готово; 🔴 установка / 🟢 контент)
+
+- Сделано: паспорт (v1.1.0, MIT, инструкция без кода); проба механизма в temp:
+  A — `instructions` + маркер-правило → не загрузилось (`ок`); B — контроль через
+  `AGENTS.md` → маркер применён (`ПАНТЕРА-9137`); сверка с дисциплиной ролей
+  (allowlist'ы; Linux-only части; конфликт `git --no-pager` с префиксными
+  правилами; `GIT_TERMINAL_PROMPT=0` — учесть).
+- Проверки: `opencode run --auto --model opencode-go/deepseek-v4.1-flash` ×2;
+  V2-доки config#instructions («accepts but does not load»).
+- Вердикт: 🔴 как V2-артефакт (README-способ установки не работает; кандидат
+  V1-эпохи); 🟢 содержание — рекомендация C (раздел «non-interactive shell» под
+  pwsh/allowlist). Улики — `target/wave0b-i2/`.
+- Дальше / риски: **B0-i3** (Opencode Telemetry) — установка пакета, SQLite/CLI,
+  сверка с `opencode stats`/`session export`.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i3: Opencode Telemetry (готово; 🔴)
+
+- Сделано: паспорт (v0.2.0, MIT, V1 Plugin API); пробы форм V2 в temp: config-пути
+  (абс/отн/файл) не подхватываются; `.opencode/plugins/<dir>/` — подхват только с
+  корневым `index.ts`, затем WARN `failed to load plugin` («Plugin must export a
+  default definition with an id and an effect or setup function»); CLI `octm help`
+  работает (Bun 1.4.2); сверка — `opencode stats --days 1` и `opencode session list`.
+- Проверки: `opencode run --auto --model opencode-go/deepseek-v4.1-flash` ×3 (ок);
+  `bun run bin/cli.ts help`; `opencode stats --days 1` (19 сессий, 59 промптов,
+  1.2k шагов, 207.7m токенов, 97.1% tool success — без расхода токенов).
+- Вердикт: 🔴 для OpenCode 2.0.18 (V1-only; данных не даёт); метрики D — нативные
+  `stats`/`session export`. Улики — `target/wave0b-i3/`.
+- Дальше / риски: **B0-i4** (Subagent Reporter + Agent Identity) — headless-прогон
+  с субагентом; следить за stdout-стримом и атрибуцией роль/модель.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i4: Subagent Reporter + Agent Identity (готово; 🔴×2)
+
+- Сделано: оба кандидата — V1 Plugin API; пробы в temp дали WARN `failed to load
+  plugin`: Subagent Reporter — «must export a default definition with an id and an
+  effect or setup function»; Agent Identity — `Cannot find package
+  '@opencode-ai/plugin'` (runtime V1-зависимость, default-экспорта нет).
+- Проверки: headless-прогон с субагентом — нативный stdout показывает только
+  `✓ … General Agent` (внутренний стрим не виден — baseline для C); сбои плагинов
+  сессию не ломают. Улики — `target/wave0b-i4/`.
+- Вердикт: 🔴×2 для OpenCode 2.0.18. Рекомендации C: наблюдаемость — `--format
+  json` или свой V2-плагин; атрибуция `role`/модель — собственная или нативные
+  данные сессии.
+- Дальше / риски: **B0-i5** (CC Safety Net) — пробы блокировок на temp-путях
+  (`git reset --hard`, `rm -rf`, `.env`), сосуществование с permissions ролей.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i5: CC Safety Net (готово; 🟢)
+
+- Сделано: паспорт (v2.4.11, MIT; V2-энтрипоинт `./opencode/v2`);
+  установка локальной копией в temp (`dist/` + root `index.ts`; `shell=pwsh`,
+  `options.shell=powershell`); headless-проба: read `.env` — **BLOCKED**
+  (`secret.basename.env`); `git push --force` — **BLOCKED** (`git.push-force`,
+  предложен `--force-with-lease`); `git status --short` — прошёл; audit JSONL в
+  `~/.cc-safety-net/logs/**` (копия — `target/wave0b-i5/`); `explain`:
+  `git reset --hard` — BLOCKED в репо (в temp — ALLOWED, политика temp-root);
+  `Remove-Item -Recurse -Force` — ALLOWED на standard (есть paranoid-правило).
+- Проверки: сессия `opencode run --auto` (файлы не менялись); `explain` ×3;
+  audit JSONL (5 записей с `sessionId`/`ruleId`/`intent`).
+- Вердикт: 🟢 — перенос в служебную зону (решение владельца + `auditor`), форма —
+  `opencode plugin add cc-safety-net@latest` + `options.shell=powershell`; вопрос
+  paranoid-пресета — в C.
+- Дальше / риски: **B0-i6** (snip, опция) — доступность CLI на Windows, замер
+  экономии shell-вывода.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i6: snip (готово; 🔴)
+
+- Сделано: паспорт (MIT; V1-зависимость `@opencode-ai/plugin ^1.0.0`); CLI
+  `snip --version` → CommandNotFound, `go version` → CommandNotFound (brew нет) —
+  документированная установка на Windows неприменима; лоад-тест в temp → WARN
+  `failed to load plugin` («must export a default definition…»); экономия не
+  измерена (CLI недоступен); конфликты переноса: префикс `snip` ломает allowlist'ы
+  ролей, POSIX-пайпы vs дисциплина одиночных команд.
+- Проверки: `snip --version`, `go version`, `opencode run` (temp), лог.
+- Вердикт: 🔴 — токен-политика C на базе B1/token-guard; snip пересмотреть при
+  V2-порте + Windows-сборке. Улики — `target/wave0b-i6/`.
+- Дальше / риски: **B0-i7** (Handoff) — имитация обрыва/лимита, continuation vs
+  resume по `sessionID`.
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i7: Handoff (готово; 🔴)
+
+- Сделано: паспорт (v0.5.0, MIT; V1-плагин `HandoffPlugin`, без default; runtime
+  `@opencode-ai/plugin`/`@opencode-ai/sdk`/`zod`); faithful-проба в temp (src +
+  root index.ts, доустановлены zod/sdk) → WARN `failed to load plugin`:
+  гонка копирования, затем `Cannot find package '@opencode-ai/plugin'` (runtime
+  V1; повтор ~16 раз); сравнение continuation-prompt vs resume по `sessionID`
+  (данные для C): resume — полный контекст/дороже; continuation — сводка/дешевле;
+  нативные аналоги — `session export` и самоотчёт роли.
+- Проверки: `opencode run` (temp), лог, исходники кандидата.
+- Вердикт: 🔴; C — `session-checkpoint`: resume как основной путь + опционально
+  своя continuation-сводка. Улики — `target/wave0b-i7/`.
+- Дальше / риски: **B0-i8** — отчёт, рекомендации C/D/E/F, пакет коммитов
+  (по подтверждению владельца).
+
+---
+
+## сервисная сессия · 28.09.2026 · B0-i8: отчёт и финализация (готово; пакет — по подтверждению)
+
+- Сделано: `wave0b-report.md` заполнен (вердикты, метрики, рекомендации C/D/E/F,
+  вопросы владельцу §5); карточка `wave0b-plugins.md` — статус ✅; реестр T-15 —
+  B0-i1…i7 ✅, B0-i8 🚧 (пакет — по подтверждению); чек-боксы i8 (отчёт/откат — [x],
+  коммит — [ ]). Пробы: репо чист, канон не тронут; temp-полигон и улики
+  `target/wave0b-i1…i7/` — на месте.
+- Проверки: ревизия протоколов/улик все 7 итераций; `opencode stats --days 1`
+  (23 сессии · 63 промпта · 219.9m токенов, 97.1% tool success); лента r3 — 268+ строк
+  (при >300 — том 4).
+- Итог по волне: 🟢 — CC Safety Net (перенос — решение владельца + auditor);
+  🔴 — Telemetry, Subagent Reporter, Agent Identity, snip, Handoff; Shell Strategy —
+  🔴 установка / 🟢 контент (C).
+- Дальше / риски: подтверждение пакета коммитов (один, прямо в `develop`);
+  аудит переноса ccsn; S/M-прогон (B1-F26).
+
+---
+
+## сервисная сессия · 28.09.2026 · подтверждение владельца: пакет `wave0b_records` + решения по B0
+
+- Владелец подтвердил (2026-09-28) коммит документов B0 одним коммитом **прямо в
+  `develop`** (пакет `wave0b_records`) — после фиксации правки отчёта. Пути:
+  `docs/tasks/T-15-mcp-ready-process/` (`wave0b-plugins.md`, `wave0b-plan.md`,
+  `wave0b-probes.md`, `wave0b-report.md`, `README.md`), `.opencode/mail/service-mcp-ready-r3.md`,
+  `.opencode/memory/service.md` + по C13 отчёт роли `git` и `.opencode/memory/git.md`;
+  сообщение — `chore(process): T-15 wave 0 фазы B (B0) — протоколы проб, вердикты,
+  отчёт`; затем `git push origin develop`.
+- Решения владельца: **своя обвязка B0-own** (P1–P5, `wave0b-report` §4) — мини-волна
+  после коммита B0; **перенос CC Safety Net — позже** (пресет standard); **S/M-прогон
+  (B1-F26)** — после B0-own.
+- Основание: `wave0b-report.md` §4/§6; прогоны и вердикты — `wave0b-probes.md`;
+  фиксация правок — этот пакет.
+
+---
+
+## git · 28.09.2026 · чекпойнт (пакет `wave0b_records`) — до `git add`
+
+- Сделано: подтверждение владельца сверено по этой ленте (запись «сервисная сессия ·
+  28.09.2026 · подтверждение владельца: пакет `wave0b_records` + решения по B0»):
+  один коммит **прямо в `develop`**, сообщение —
+  `chore(process): T-15 wave 0 фазы B (B0) — протоколы проб, вердикты, отчёт`,
+  затем `push origin develop`. Снимок `git status --porcelain` до записей: 6 ` M`
+  (`mail/service-mcp-ready-r3.md`, `README.md`, `wave0b-plugins.md`, `wave0b-plan.md`,
+  `wave0b-probes.md`, `wave0b-report.md`) + `?? .opencode/memory/service.md`; чекпойнт
+  `.opencode/memory/git.md` — эта запись (C13, входит в пакет).
+- Проверки: чтение ленты `r3` (подтверждение) и `.opencode/rules/git-workflow.md`;
+  `git status --porcelain` — снимок выше; посторонних правок нет.
+- Дальше / риски: `git switch develop` → `git pull origin develop` → `git add` (ровно
+  8 путей из пакета) → `git diff --cached --name-only` (сверка: 8) → commit →
+  `push origin develop` → `log -2 --oneline` / `status -sb` / `show --stat HEAD`.
+  После `push` в отслеживаемые файлы не пишу (F43): хеши верну `lead` ответом.

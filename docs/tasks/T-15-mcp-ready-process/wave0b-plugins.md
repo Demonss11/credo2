@@ -3,9 +3,11 @@
 - **Тип:** подготовительный пакет фазы B задачи [T-15](README.md) («wave 0 B»);
   **вне канона** — `AGENTS.md`, `.opencode/rules/**` и права ролей не правятся.
 - **Дата:** 2026-09-28 · **Автор:** сервисная сессия по поручению владельца.
-- **Статус:** ⬜ документы подготовлены (пробы не начаты); исполнение —
+- **Статус:** ✅ исполнено 28.09.2026 (B0-i1…B0-i8): план —
   [`wave0b-plan.md`](wave0b-plan.md), протоколы и вердикты —
-  [`wave0b-probes.md`](wave0b-probes.md), итог — [`wave0b-report.md`](wave0b-report.md).
+  [`wave0b-probes.md`](wave0b-probes.md), итог и рекомендации —
+  [`wave0b-report.md`](wave0b-report.md); перенос CC Safety Net — решение владельца
+  + `auditor`; коммит документов — по подтверждению.
 - **Основание:** разбор каталога
   [awesome-opencode](https://github.com/awesome-opencode/awesome-opencode#plugins)
   (136 плагинов, 28.09.2026) и решения владельца 28.09.2026: раскладка по фазам
