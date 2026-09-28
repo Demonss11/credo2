@@ -18,7 +18,8 @@ permissions:
   - { action: shell, resource: "cargo fmt *", effect: allow }
   - { action: shell, resource: "cargo clippy *", effect: allow }
   - { action: shell, resource: "cargo test *", effect: allow }
-  - { action: shell, resource: "opencode debug agents", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "git status *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }

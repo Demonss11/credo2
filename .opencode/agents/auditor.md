@@ -22,7 +22,8 @@ permissions:
   - { action: shell, resource: "git branch -l *", effect: allow }
   - { action: shell, resource: "git branch -a *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
-  - { action: shell, resource: "opencode debug agents", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs *", effect: allow }
   - { action: shell, resource: "opencode reload", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
@@ -148,8 +149,8 @@ permissions:
 2. Составь карту правил: где объявлено и где повторяется.
 3. Прогони чек-лист; фиксируй `файл:строка` и severity: позиция, суть,
    последствие.
-4. Проверь машинно: `opencode debug agents` (права, `steps`, режимы); после
-   `opencode reload` — **дважды** (первый прогон может быть неполным).
+4. Проверь машинно: `node .opencode/scripts/agents-perms.mjs` (права, `steps`,
+   режимы); после `opencode reload` — **дважды** (первый прогон может быть неполным).
 5. Верни отчёт и «Следующие шаги»; при приёмке — явный вердикт
    «Инструкция ↔ права: расхождений нет» или список расхождений. Краткую
    версию отчёта допиши в ленту задачи `.opencode/mail/<T-XX>.md` (append;
@@ -175,7 +176,7 @@ permissions:
 **P3:**
 - `файл:строка` — <суть> → <правка>
 
-**Проверки:** `opencode debug agents` — ok / N проблем
+**Проверки:** `node .opencode/scripts/agents-perms.mjs` — ok / N проблем
 **Инструкция ↔ права:** расхождений нет / список
 **Следующие шаги:**
 - [ ] <шаг>

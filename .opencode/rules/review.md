@@ -29,7 +29,8 @@
   - `src/**`, `tests/**`, `Cargo.toml` — полный повторный прогон DoD и новый
     отчёт `-rN`;
   - канон и права (`AGENTS.md`, `.opencode/**`) — новый отчёт: машинная сверка
-    прав (`opencode debug agents`, после `reload` — дважды) и адресные проверки;
+    прав (`node .opencode/scripts/agents-perms.mjs`, после `reload` — дважды) и
+    адресные проверки;
   - механические docs-правки (статусы, CHANGELOG, ссылки) — адресная проверка
     изменённых файлов с вердиктом в ленте;
   - пакет без изменений `src/**`, `tests/**`, `Cargo.toml` — cargo-прогоны
@@ -83,13 +84,13 @@
 ## Доступные команды
 
 - `validator`: `rg`, `git status|diff|log|show|grep`, `git branch --contains`,
-  `cargo fmt|clippy|test`, `opencode debug agents`.
+  `cargo fmt|clippy|test`, `node .opencode/scripts/agents-perms.mjs`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
 - `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
 - `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`.
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
-  `opencode debug agents`, `opencode reload`.
+  `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
 - `researcher`: `rg`.
 - `git`: `rg`, `git`-команды (изменяющие — `ask`),

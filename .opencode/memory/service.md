@@ -160,3 +160,15 @@
   (P1/P2/P3 нет; cargo не запускался — по новому правилу); отчёт
   `docs/reviews/service-dod-scope-2026-09-29.md`, квитанция
   `service-dod-scope`; пакет ждёт подтверждения).
+- 29.09.2026 · **service-agent-tools**: пакет инструментов экономии токенов —
+  скрипт `.opencode/scripts/agents-perms.mjs` (сводка прав ≈3–4 КБ вместо
+  122 КБ сырого `opencode debug agents`; `--role`/`--grep`/`--json`/`--all`);
+  сырой `opencode debug agents` **убран** у `validator`/`auditor` (канон:
+  `validator.md`, `auditor.md`, `review.md`, `AGENTS.md` §«Служебная зона»,
+  сценарии `agents-cycle`/`agents-audit`); каноничная форма подсчёта строк
+  `rg -c '^' <файл>` (`workspace.md`); журнал Q56 → `D51-agent-tools-token-hygiene`
+  (migrator); аудит `auditor` — «расхождений нет» + P2 (AGENTS.md/сценарии) и
+  P3 — закрыты до приёмки; приёмка `validator` — **принято** (P3
+  `AGENTS.md` в D51 закрыт адресно; **cargo не запускался — D50**; смоук
+  скрипта прошёл); отчёт `docs/reviews/service-agent-tools-2026-09-29.md`,
+  квитанция `service-agent-tools`; пакет ждёт подтверждения.

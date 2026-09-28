@@ -54,3 +54,11 @@
   `tests/**`, `Cargo.toml` (строки 253–256) — синхронно с `review.md:35–38`.
   Прочие файлы не трогал; `cargo`/git не запускались. Остаток: приёмка
   `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-agent-tools` · закрытие P2-2 аудита
+  (D51, экономия токенов): `docs/features/agents-cycle.feature:51` — команда
+  `opencode debug agents` → `node .opencode/scripts/agents-perms.mjs`;
+  `docs/features/agents-audit.feature:17` — то же в оговорке «первый прогон».
+  Сценарии/структура и `docs/features/README.md` не тронуты: счётчики 47/278
+  (276 `Сценарий:` + 2 «Структура сценария:»); `rg` — сырых упоминаний в фичах
+  нет, путь скрипта существует. `cargo`/git не запускались. Остаток: P3
+  (журнал/SPEC — не зона) → аудит → приёмка `validator` → пакет `git`.

@@ -48,7 +48,7 @@
 
   Сценарий: Права подтверждены машинно
     Дано роли перезагружены командой "opencode reload"
-    Когда "auditor" (или "validator") выполняет "opencode debug agents"
+    Когда "auditor" (или "validator") выполняет "node .opencode/scripts/agents-perms.mjs"
     Тогда право shell "cargo test *" есть только у "validator"
     И у остальных ролей его нет
     И у всех ролей задан "steps"

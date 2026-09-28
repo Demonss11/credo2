@@ -145,3 +145,21 @@
   `chore(agents): Q55/D50 — cargo-прогоны по составу пакета`. Осталось: `add`
   17 → сверка staged (ровно 17) → коммит локально, **без `push`**. Хеш — не
   здесь (F43): вернуть ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-agent-tools` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-agent-tools.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 16 `M` + 5 `??` =
+  21 путь, совпал; 22-й — чекпойнт `git.md` (этот). База HEAD `01a70fd`,
+  `develop`, ahead 1; коммита с целевым сообщением нет. 22 пути: `AGENTS.md`,
+  `agents/{auditor,validator}.md`, `rules/{review,workspace}.md`,
+  `scripts/agents-perms.mjs`, письмо `mail/service-agent-tools.md`,
+  `memory/{auditor,docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/{SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/D51-agent-tools-token-hygiene.md`,
+  `docs/features/{agents-audit,agents-cycle}.feature`,
+  `docs/questions/{Q56,README}.md`,
+  `docs/reviews/service-agent-tools-2026-09-29.md`. Сообщение —
+  `chore(agents): Q56/D51 — agents-perms.mjs вместо сырого debug agents; rg -c для строк`.
+  Осталось: `add` 22 → сверка staged (ровно 22) → коммит → проверки →
+  `push origin develop` (таймаут ≥ 5 мин; публикует `01a70fd` и новый коммит) →
+  `status -sb` → `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом.
+  Веток/merge/тегов нет.

@@ -196,3 +196,17 @@
     debug_agents: "not run — no rights/steps changes; auditor run in same snapshot (mail:111-113)"
   snapshot: "develop, HEAD 0ee25f5 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-agent-tools
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-agent-tools-2026-09-29.md
+  dod:
+    cargo: "not run — D50: package without changes to src/**, tests/**, Cargo.toml (git diff --stat -- src tests Cargo.toml empty); features exception not triggered (counter/composition unchanged: 47 files, 276+2=278 = features/README.md:303 verified by rg)"
+    smoke: "ok — default summary 'agents: 11 из 18' (validator: script + 'opencode debug agents' absent; 'cargo test *' only validator; auditor: script + 'opencode reload'); --role validator = frontmatter, steps=36; --grep cargo = 22 hits; --json ok; --help ok"
+    rights: "ok — review.md:86-97 matches all 11 frontmatters; --all --grep 'opencode debug agents' hits 0; --all --grep 'opencode reload' hits 1 (auditor)"
+    journal: "ok — Q56 (resolved by D51) ↔ D51 (Resolves/Spec §10 №51/Affects/Tasks:—) ↔ TRACEABILITY:27 ↔ questions/README:44 ↔ SPEC:872; OPEN_QUESTIONS untouched (new Q); IDs unique; 'Сверка с кодом' ⚪ + tasks not required; waypoint note 'на момент ревизии 29.09.2026' (D51:75-76); no '1.9 КБ' (6× '3–4 КБ')"
+    borders: "ok — 13 M + 4 ??; src/**, tests/**, Cargo.toml untouched; canon: validator.md:21-22, auditor.md:25-26,152,179, review.md:32,87,93, workspace.md:24-25, AGENTS.md:149-151; features: 2 scenario-step lines only"
+    exit_codes: "по исходнику 0/1/2 (agents-perms.mjs:48,69,78,121,130,146,159); инструментально не различимы — harness отдаёт 1 на неуспех (rg --nosuchflag → 1 вместо 2)"
+  snapshot: "develop, HEAD 01a70fd + working tree (2026-09-29)"
+  at: "2026-09-29"

@@ -6,6 +6,39 @@
 
 ## Чекпойнты
 
+- **2026-09-29 · приёмка «service-agent-tools» (Q56/D51, чекпойнт до прогона):**
+  прочитаны лента `service-agent-tools.md`, `review.md:28-39,84-117`,
+  `workspace.md:19-30`, фронтматтеры `validator.md:1-34` / `auditor.md:1-34`,
+  скрипт `agents-perms.mjs`. Снимок: `develop`, HEAD `01a70fd` + рабочее дерево
+  (13 M + 4 `??`); `git diff -- src tests Cargo.toml` пусто; `docs/features`
+  — правки только текста шагов (2 хунка: `agents-cycle.feature:51`,
+  `agents-audit.feature:17`), счётчики/состав не менялись → **cargo не
+  запускаю** (D50, исключение не сработало — обосную в отчёте). Далее: смоук
+  скрипта (сводка, `--role validator`, `--grep cargo`, `--help`,
+  `--all --grep "opencode debug agents"|"opencode reload"`), адресные проверки
+  (счётчики 278, §10 №51, D51/Q56/TRACEABILITY/README, ссылки, «1.9 КБ»,
+  снимок строк с пометкой). Сырую `opencode debug agents` не запускаю — права
+  нет (по замыслу D51).
+- **2026-09-29 · приёмка «service-agent-tools» (Q56/D51, итог):** вердикт
+  **принято с замечаниями**; P1/P2 нет; **P3** — `D51:7-12` (`Affects`) и
+  `:47-49` («Решение» п. 4) не перечисляют `AGENTS.md:149-151` (строка —
+  следствие D51/P2-1 аудита) → неполная трассировка «решение ↔ артефакты»;
+  правка `migrator` — одна строка. Проверено: смоук `agents-perms.mjs`
+  (сводка `agents: 11 из 18`; `--role validator` = фронтматтер, `steps=36`;
+  `--grep cargo` = 22; `--json`; `--help`; `--all --grep "opencode debug
+  agents"` → 0; `--all --grep "opencode reload"` → auditor), `review.md:86-97`
+  ↔ 11 фронтматтеров, фичи 276+2=278 = `features/README.md:303`, `rg -c '^'` →
+  272, канон/фичи без сырой команды, журнал Q56↔D51↔TRACEABILITY:27↔
+  `questions/README:44`↔SPEC:872, «1.9 КБ» нет, пометка снимка (D51:75-76),
+  ссылки живые, границы — 13 M + 4 `??`, `src`/`tests`/`Cargo.toml` не тронуты.
+  **cargo не запускался — D50** (исключение по `docs/features/**` не сработало:
+  счётчики/состав не менялись). Отчёт
+  `docs/reviews/service-agent-tools-2026-09-29.md`; квитанция
+  `service-agent-tools` iteration 1 — append. **Урок:** харнесс отдаёт
+  «Exited with code 1» на любую неуспешную команду (`rg --nosuchflag` → 1, а не
+  документированный 2) — коды выхода скриптов инструментально не различать,
+  брать из исходника и писать это в отчёт.
+
 - **2026-09-28 · приёмка «service-t11-closeout» (итог):** вердикт **принято с
   замечаниями**; P1/P2 нет; P3 — `docs/features/README.md:291-292` (легенда `🟡`
   «поведение не подтверждено» против строки `agents-rework` с фактом Run 4).
