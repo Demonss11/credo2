@@ -33,4 +33,18 @@
   `chore(process): T-15 B0-own BO-i1 — карточка мини-волны, разведка V2-API, шпаргалка, реестр`;
   затем `push origin develop`. Хеш — не здесь (F43): возвращается `lead` ответом.
   Веток/merge/тегов нет.
-- Чекпойнтов ещё не было (до 28.09.2026).
+- 28.09.2026 · пакет `service-t11-closeout` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-t11-closeout.md` §«пакет подтверждён
+  владельцем (сужение)» — «Только коммит, без push»). Снимок до: 13 `M` + 3 `??`
+  = 16 путей, совпал; база HEAD `bed3019`, `develop`; чекпойнт `git.md` — в
+  составе пакета (17-й). 17 путей: письмо `mail/service-t11-closeout.md`,
+  `memory/{docs-writer,migrator,service,validator,git}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`,
+  `docs/analysis/findings-registry.md`, `docs/decisions/D38-agent-cycle.md`,
+  `docs/features/README.md`, `docs/reviews/T-11-closeout-2026-09-28.md`,
+  `docs/tasks/README.md`, карточки
+  `docs/tasks/{T-11-agent-cycle,T-15-mcp-ready-process,T-16-stale-check-test}/README.md`,
+  `rustfmt.toml`. Сообщение — `chore(process): T-11 закрыта (критерий пилота —
+  Run 4); T-16 (H7); правка rustfmt.toml`. Осталось: `add` 17 путей → сверка
+  staged → коммит локально. **`push` не выполнять** (сужение владельца). Хеш —
+  не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

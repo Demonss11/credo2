@@ -275,7 +275,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
 |---|---|---:|---|---|---|
 | [`agents-cycle.feature`](agents-cycle.feature) | Цикл задачи | 7 | ✅ | 🔴 | loop-цикл: `lead` — диспетчер, `analyst` — досье и план `next_action.yaml`, полный маршрут `coder → rust-expert → tester → validator → docs-writer → git`; scope-решение — в журнал до исполнения; R2 (тесты — только `validator`); чекпойнт до тяжёлой операции; `steps` |
-| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; re-plan `analyst`, номер итерации в плане и ленте; повторная валидация `-rN`; порог существенности не меняется; возврат на реальном P1/P2 — предстоит |
+| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; re-plan `analyst`, номер итерации в плане и ленте; повторная валидация `-rN`; порог существенности не меняется; возврат и `-r2` отработали в Run 4 (T-03); остаток — чистая механика D42 (`iteration 1→2`) — T-15 (B1-F15) |
 | [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 8 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID`; состояние `.opencode/state/current/` (`next_action`/`current_state` — `analyst`, `progress` — `lead`, `receipts` — `validator`), квитанция приёмки |
 | [`agents-git-approval.feature`](agents-git-approval.feature) | Git-процесс задачи | 5 | ✅ | 🔴 | Ветка `feature/T-XX-<слаг>` до работы (git-flow: `master`/`develop`/`feature`), пакет формируется при планировании и лежит в плане, подтверждение фиксирует `lead`, `git` сверяет ленту и состояние, merge `--no-ff` и удаление ветки, идемпотентность, push ≥ 5 минут |
 | [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск), фиксирует `analyst` в досье и плане; S — fast path `git` → `coder` → `validator` → `git` (`validator` обязателен), M/L — полный маршрут (L + аудит); guard «сценарии `features/` → не ниже M»; переопределение владельцем |
@@ -286,10 +286,10 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`agents-metrics.feature`](agents-metrics.feature) | Метрики процесса | 3 | ⬜ | 🟡 | Метрики прогона и очереди (`deferred_by_owner`, `blocked`) выводятся из состояния; метрика конвергенции без owner override; без ручных таблиц |
 | [`agents-mcp-readiness.feature`](agents-mcp-readiness.feature) | Готовность к MCP | 4 | ⬜ | 🟡 | Чек-лист заморозки (схема ≥2 прогона, ≤10 операций, идемпотентность, re-raise, метрики, ≥2 класса); границы MCP: storage/validation/query без решений |
 
-> **Пилот Run 3 (D39 §7, T-12):** T-12 принята `validator` (2026-09-27); loop-цикл
-> с `analyst`, fast path класса S, scope-hard-rule и квитанции приёмки
-> проверяются пилотом на T-03 **после** мержа T-12. До пилота статусы ✅/🟡 означают
-> структурную готовность (канон и роли обновлены), поведение подтверждает прогон.
+> **Пилоты состоялись (Run 4, Run 5):** Run 4 — T-03: возврат на доработку P1
+> и повторная приёмка `-r2`; Run 5 — T-04 (класс L). Статусы ✅/🟡 отражают факт
+> прогонов: ✅ — поведение подтверждено; 🟡 — структурная готовность, поведение
+> подтверждено не полностью (см. примечание строки).
 
 > **Проект MCP-готовности (2026-09-27, T-15):** сценарии `agents-state-schema`,
 > `agents-session-checkpoint`, `agents-re-raise`, `agents-metrics`,

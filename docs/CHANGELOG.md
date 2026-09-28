@@ -117,6 +117,15 @@
   отчёты приёмки — [`reviews/W8-config-2026-09-28.md`](reviews/W8-config-2026-09-28.md)
   и [`reviews/W8-canon-2026-09-28.md`](reviews/W8-canon-2026-09-28.md); разбор —
   [меморандум W8, том 2](analysis/memorandum-W8-run5.md).
+- **Закрытие T-11 и задача T-16** (2026-09-28): цикл агентов (T-11, D38/Q43)
+  закрыт — критерий пилота выполнен в Run 4 (T-03): возврат на доработку P1 и
+  повторная приёмка `-r2` (отчёты [`reviews/T-03-2026-09-27.md`](reviews/T-03-2026-09-27.md),
+  [`reviews/T-03-2026-09-27-r2.md`](reviews/T-03-2026-09-27-r2.md)); повторные
+  аудиты 28.09.2026 (W8) расхождений «инструкция ↔ права» не нашли; ветка
+  `exp/agent-cycle-rerun` влита в `develop`. Заведена
+  [T-16](tasks/T-16-stale-check-test/README.md) — `check.test` на
+  stale-черновике исполняет текст файла `rules/{name}.dar` (Q12; находка H7).
+  Хвосты процесса — [T-15](tasks/T-15-mcp-ready-process/README.md).
 
 ### Добавлено
 

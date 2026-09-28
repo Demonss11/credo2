@@ -6,6 +6,34 @@
 
 ## Чекпойнты
 
+- **2026-09-28 · приёмка «service-t11-closeout» (итог):** вердикт **принято с
+  замечаниями**; P1/P2 нет; P3 — `docs/features/README.md:291-292` (легенда `🟡`
+  «поведение не подтверждено» против строки `agents-rework` с фактом Run 4).
+  **Критерий T-11 подтверждён 4/4:** права (`cargo test *` только `validator.md:20`;
+  r3 + свежий аудит W8), память 11 ролей + `service.md`, resume `sessionID` 3×,
+  пилот Run 4/T-03 (отчёты rework/`-r2`, квитанция `iteration 2`), `0a5832f`/
+  `5019c45` в `develop`. Согласованность T-15/T-16/D38/фичи/счётчики 47-278 —
+  ок; границы (`agents|rules/**`, `AGENTS.md`, `src`, `tests`) не тронуты;
+  `rustfmt.toml` — только комментарий. DoD: `cargo fmt --check` pass,
+  `cargo test --test features_inventory` 4/4; полный `--all` не гонялся
+  (`src/tests` неизменны с W8-config). Отчёт
+  `docs/reviews/T-11-closeout-2026-09-28.md`; квитанция `T-11-closeout` append.
+  Урок: `git branch --contains` вне allow-list `validator` — заменять `git log`.
+- **2026-09-28 · приёмка сервисного пакета «service-t11-closeout» (до прогона):**
+  прочитаны лента операции, карточки T-11/T-15/T-16, `review.md`, отчёты r3/T-03,
+  меморандумы W8 т.1/т.2 §0, реестр находок, `receipts.yaml`. Снимок: ветка
+  `develop`, HEAD `bed3019` + рабочее дерево; изменены 10 файлов
+  (`docs/**`, 2 памяти, `rustfmt.toml`) + новые `mail/service-t11-closeout.md`,
+  `docs/tasks/T-16-stale-check-test/`; `.opencode/agents|rules/**`, `AGENTS.md`,
+  `src/**`, `tests/**` не тронуты (`git status --porcelain`). `git diff -- src
+  tests` пусто. Критерий T-11: права (debug agents, frontmatter — `cargo test *`
+  только `validator`), память 11 ролей + `service.md`, пилот Run 4/T-03 (отчёты
+  rework/`-r2`, квитанция iteration 2), коммиты `0a5832f`/`5019c45` в истории
+  `develop` (`git log develop -50`), 6 шапок `agents-*.feature` с `# D38 (Q43)`,
+  счётчики 47/278 (`features/README.md:300`). Далее: `cargo fmt --check` +
+  `cargo test --test features_inventory` (README фич правлен текстом); полный DoD
+  не гоняю — `src/**`/`tests/**` неизменны с W8-config. `git branch --contains`
+  отклонён движком прав — заменил на `git log develop`.
 - **2026-09-28 · приёмка сервисного пакета «C13 (F43) + T-15 + очистка логов»
   (в работе):** прочитаны `git-workflow.md`, `git.md`, `AGENTS.md` (§«Память и
   почта»), карточка T-15, `findings-registry.md`, `receipts.yaml`, `r3`-лента.

@@ -1,7 +1,5 @@
 # rustfmt.toml
 
-# Edition для standalone-вызовов rustfmt (харнесс-форматтер) — согласован
-# с `cargo fmt` (Cargo.toml edition = "2024"); style edition следует за edition.
 edition = "2024"
 
 # Максимальная ширина строки
