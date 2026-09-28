@@ -20,3 +20,9 @@
   `docs/features/README.md` приведена в соответствие со строкой `agents-rework`
   (🟡 — структурная готовность, подтверждено не полностью).
   Остаток: приёмка `validator` и пакет `git`.
+- 2026-09-28 · операция `service-migration-q2q3` · сопутствующие документы к
+  переносу Q2+Q3 → D16: `docs/features/README.md` :69 — ссылки `[Q3]`/`[D16]`
+  в ноте Q3 (счётчики 47/278 не менялись); обратные ссылки `# D16 (Q2, Q3)` в
+  шапках `parser.feature`/`lexer.feature`/`execution.feature`; `docs/CHANGELOG.md`
+  :19–24 — запись «Перенос Q2, Q3 → D16». Ноты Q4/Q36/Q38 не трогал. Остаток:
+  приёмка `validator` (docs) и пакет `git`.

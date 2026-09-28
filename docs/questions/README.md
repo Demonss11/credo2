@@ -23,6 +23,8 @@
 | Q | Тема (1 строка) | Решение | Статус | Связано |
 |---|---|---|---|---|
 | [Q1](Q1.md) | SPEC — план «с нуля» или доработка `credo2`? | [D15](../decisions/D15-evolution-credo2.md) — эволюция `credo2`, не greenfield | resolved | [T-10](../tasks/T-10-workspace-phase-0/README.md) |
+| [Q2](Q2.md) | где канонический DSL: `concept.md`, SPEC или features? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — канон v0.1 — `GRAMMAR.md` (EBNF включён) | resolved | [Q3](Q3.md) |
+| [Q3](Q3.md) | минимальный DSL (regex, одно сравнение) или полноценный лексер/AST? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — regex-минимум; лексер+AST — v0.2 | resolved | [Q2](Q2.md) |
 | [Q43](Q43.md) | каким должен быть цикл работы команды агентов? | [D38](../decisions/D38-agent-cycle.md) — Agile-петля, единый тестировщик, память и почта | resolved | [T-11](../tasks/T-11-agent-cycle/README.md) |
 | [Q44](Q44.md) | как разгрузить `lead` и сделать цикл durable? | [D39](../decisions/D39-loop-dispatcher.md) — loop-диспетчер, эфемерный `analyst`, состояние на диске | resolved | [T-12](../tasks/T-12-agent-loop/README.md) |
 | [Q45](Q45.md) | какой порог scope-решения в цикле диспетчера? | [D40](../decisions/D40-scope-threshold.md) — узкий порог + триггер частичного покрытия | resolved | [T-13](../tasks/T-13-agent-hardening/README.md) |

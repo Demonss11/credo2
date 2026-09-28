@@ -78,3 +78,20 @@
   origin develop` (таймаут ≥ 5 мин; публикует `6d4c840`, `e1e90d4`, новый
   коммит) → `status -sb` (синхрон) → `log -3`. Хеш — не здесь (F43): вернуть
   `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q2q3` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q2q3.md` §«пакет подтверждён
+  (сужение: только коммит)» — дословно «Только коммит»; `push` отменён). Снимок
+  до: 16 `M` + 5 `??` = 21 путь, совпал; 22-й — чекпойнт `git.md` (этот). База
+  HEAD `491e153`, `develop`, синхрон с `origin/develop` (`491e153`); коммита с
+  целевым сообщением нет. 22 пути: письмо `mail/service-migration-q2q3.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/D16-dsl-canon-regex-mvp.md`, `docs/features/README.md`,
+  `docs/features/{execution,lexer,parser}.feature`, `docs/questions/Q2.md`,
+  `docs/questions/Q3.md`, `docs/questions/README.md`,
+  `docs/reviews/migration-q2q3-2026-09-28.md`, `docs/tasks/README.md`,
+  `docs/tasks/T-14-grammar-message-sync/README.md`. Сообщение —
+  `docs(D16): перенос Q2, Q3 — канон языка v0.1 и парсер MVP`. Осталось: `add`
+  22 → сверка staged (ровно 22) → коммит локально, **без `push`**. Хеш — не
+  здесь (F43): вернуть ответом. Веток/merge/тегов нет.

@@ -118,3 +118,13 @@
   отчёт `docs/reviews/service-canon-hygiene-2026-09-28.md`, квитанция
   `service-canon-hygiene`; `develop` ahead 1 (`e1e90d4`); дальше — пакет
   `git` по подтверждению.
+- 28.09.2026 · **service-migration-q2q3**: перенос блока **Q2+Q3** →
+  `D16-dsl-canon-regex-mvp` (`migrator`; `Resolves: Q2, Q3`, сверка с кодом ✅
+  соответствует, задач не требуется — дрейф `GRAMMAR.md` §2 покрыт T-14);
+  сопутствующие — `docs-writer` (нота Q3 в `features/README`, шапки
+  `# D16 (Q2, Q3)` в `parser`/`lexer`/`execution`, запись в CHANGELOG);
+  гигиена — T-14 `§7`→`§2` (`migrator`); приёмка `validator` — **принято**
+  (P1/P2/P3 нет; `cargo fmt --check` pass, `features_inventory` 4/4, 47/278);
+  отчёт `docs/reviews/migration-q2q3-2026-09-28.md`, квитанция
+  `service-migration-q2q3`; пакет docs-коммита ждёт подтверждения
+  (`develop` @ `491e153`, синхронен с origin).

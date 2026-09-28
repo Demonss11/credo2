@@ -141,3 +141,17 @@
     test: "not rerun (src/tests unchanged since W8-config: 107 passed / 47 files / 278 scenarios)"
   snapshot: "develop, HEAD e1e90d4 + working tree (2026-09-28)"
   at: "2026-09-28"
+
+- task: service-migration-q2q3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q2q3-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since W8-config); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; .opencode/agents|rules untouched; archive not extended"
+    journal: "ok — Q2/Q3 pointers only in archive; D16=SPEC §10 №16; Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q↔D↔TRACEABILITY↔README↔§10 consistent; 3 headers # D16 (Q2, Q3); T-14 → §2"
+  snapshot: "develop, HEAD 491e153 + working tree (2026-09-28)"
+  at: "2026-09-28"

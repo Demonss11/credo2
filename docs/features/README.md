@@ -66,7 +66,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`explain.feature`](explain.feature) | Объяснимость | 3 | ✅ | 🔴 | Поля объяснения: `rule_name`, `condition`, `actual_value` (латиница, Q42) |
 | [`errors.feature`](errors.feature) | Ошибки | 3 | 🟡 | 🔴 | «Неизвестное поле» и «Несовместимые типы» на исполнении (Q8/Q9); «Файл пуст» и ошибки типов на парсере — v0.2 |
 
-> **Решение Q3 (2026-09-24):** MVP использует regex-минимум — это и есть
+> **Решение Q3 (2026-09-24; [Q3](../questions/Q3.md), [D16](../decisions/D16-dsl-canon-regex-mvp.md)):** MVP использует regex-минимум — это и есть
 > язык v0.1, канонизированный в [`../GRAMMAR.md`](../GRAMMAR.md). Лексер и
 > полноценный AST — целевое состояние v0.2 (`lexer.feature`, сценарии AST в
 > `parser.feature`); LSP поверх стабильного API `parse_rule` без ожидания

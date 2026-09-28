@@ -86,6 +86,35 @@
   `service-permissions` iteration 1 — append. **Урок снят:** `git branch
   --contains` теперь штатное право роли — косвенную замену `git log` больше
   не применять.
+- **2026-09-28 · приёмка «service-migration-q2q3» (чекпойнт до прогона):**
+  прочитаны лента операции, D16, Q2/Q3, `OPEN_QUESTIONS.md` (:31–44 — только
+  указатели), `TRACEABILITY.md:9–10`, `questions/README.md:26–27`,
+  `SPECIFICATION.md:837` (§10 №16), `features/README.md:69` + счётчики :300,
+  `CHANGELOG.md:19–24`, карточка T-14 и сводка `tasks/README.md:51`,
+  `GRAMMAR.md:56` (§2, строка 7 — дрейф), `BRIEF.md` §2/§5.3/§5.6/§5.7/§7/§9.
+  Снимок: `develop`, HEAD `491e153` + рабочее дерево (13 M + 4 `??`); `git diff
+  -- src tests AGENTS.md opencode.json` пусто; `.opencode/agents|rules` — без
+  правок (shell-доступ к пути запрещён — проверю через `git status`/`git diff`).
+  3 шапки `# D16 (Q2, Q3)` (parser/lexer/execution) — ровно три. Далее:
+  `cargo fmt --check` + `cargo test --test features_inventory` (ожидание 4/4;
+  47/278). Полный `--all` не гоняю: `src/**`/`tests/**` неизменны с W8-config.
+- **2026-09-28 · приёмка «service-migration-q2q3» (итог):** вердикт
+  **принято**, P1/P2/P3 нет. Перенос (§7): в архиве только указатели
+  (`OPEN_QUESTIONS.md:36–44`); `D16` = §10 №16 (`SPECIFICATION.md:837`),
+  `Resolves/Spec/Affects/Tasks` заполнены, сверка ✅ + «Задач не требуется»;
+  `GRAMMAR.md:56` (§2, таблица, строка 7) — дрейф, покрыт T-14 (карточка
+  ведёт на §2; `§7` только в примечании :35). Q↔D↔`TRACEABILITY.md:9–10`↔
+  `questions/README.md:26–27`↔§10 согласованы (статус `resolved` — конвенция
+  пилота Q1/D15); слаг `D16-dsl-canon-regex-mvp` уникален; ссылки живые;
+  `# D16 (Q2, Q3)` — ровно 3 фичи (parser/lexer/execution). Границы:
+  `git diff -- src tests AGENTS.md opencode.json` пусто; `.opencode/agents|rules`
+  не тронуты; архив не пополнялся, чужие записи не переписаны. DoD:
+  `cargo fmt --check` pass; `cargo test --test features_inventory` **4/4 ok**
+  (47/278, `features/README.md:300`); полный `--all` не гонялся — `src/tests`
+  неизменны с W8-config. Отчёт `docs/reviews/migration-q2q3-2026-09-28.md`;
+  квитанция `service-migration-q2q3` iteration 1 append. Урок: стилевые
+  отклонения в файле с десятками длинных строк (таблицы) не считать находкой
+  без последствия.
 - **2026-09-28 · приёмка «service-canon-hygiene» (F45 + сокращение дублей
   `cargo`-правил, итог):** вердикт **принято с замечаниями**; P1/P2 нет; P3 —
   `.opencode/memory/service.md` без чекпойнта операции (лента есть: `:131-161`).
