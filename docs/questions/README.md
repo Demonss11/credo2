@@ -26,6 +26,8 @@
 | [Q2](Q2.md) | где канонический DSL: `concept.md`, SPEC или features? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — канон v0.1 — `GRAMMAR.md` (EBNF включён) | resolved | [Q3](Q3.md) |
 | [Q3](Q3.md) | минимальный DSL (regex, одно сравнение) или полноценный лексер/AST? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — regex-минимум; лексер+AST — v0.2 | resolved | [Q2](Q2.md) |
 | [Q4](Q4.md) | `Приоритет` входит в MVP? | [D17](../decisions/D17-priority-out-of-mvp.md) — вне MVP; вернётся в v0.2 с конвейерами | resolved | [Q3](Q3.md) |
+| [Q5](Q5.md) | единая легенда статусов и приоритетов? | [D19](../decisions/D19-statuses-priorities-canon.md) — две независимые оси меток; канон — `features/README.md` | resolved | [Q6](Q6.md) (попутно) |
+| [Q6](Q6.md) | пересчитать сводную таблицу SPEC §6.1? | [D19](../decisions/D19-statuses-priorities-canon.md) — **попутно (D19)** при Q5: таблица §6.1 удалена, канон — README | resolved | [Q5](Q5.md) |
 | [Q43](Q43.md) | каким должен быть цикл работы команды агентов? | [D38](../decisions/D38-agent-cycle.md) — Agile-петля, единый тестировщик, память и почта | resolved | [T-11](../tasks/T-11-agent-cycle/README.md) |
 | [Q44](Q44.md) | как разгрузить `lead` и сделать цикл durable? | [D39](../decisions/D39-loop-dispatcher.md) — loop-диспетчер, эфемерный `analyst`, состояние на диске | resolved | [T-12](../tasks/T-12-agent-loop/README.md) |
 | [Q45](Q45.md) | какой порог scope-решения в цикле диспетчера? | [D40](../decisions/D40-scope-threshold.md) — узкий порог + триггер частичного покрытия | resolved | [T-13](../tasks/T-13-agent-hardening/README.md) |

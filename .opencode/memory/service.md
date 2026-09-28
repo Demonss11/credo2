@@ -138,3 +138,13 @@
   4/4, 47/278); отчёт `docs/reviews/migration-q4-2026-09-29.md`, квитанция
   `service-migration-q4`; пакет docs-коммита ждёт подтверждения
   (`develop` @ `f488085`, ahead 1).
+- 29.09.2026 · **service-migration-q5q6**: перенос **Q5 → `D19-statuses-priorities-canon`**
+  и **Q6 — попутно** (`migrator`; `Resolves: Q5`, Q6 не в Resolves — правило
+  BRIEF §7; сверка ✅ соответствует — SPEC §6.1/§6.2 ссылаются на README,
+  две оси меток, `features_inventory.rs`; задач не требуется); сопутствующие —
+  `docs-writer` (нота Q5/Q40 в `features/README` со ссылками Q5/D19, запись в
+  CHANGELOG; шапки фич не менялись — решение уровня требований); приёмка
+  `validator` — **принято** (P1/P2/P3 нет; fmt pass, `features_inventory` 4/4);
+  отчёт `docs/reviews/migration-q5q6-2026-09-29.md`, квитанция
+  `service-migration-q5q6`; пакет docs-коммита ждёт подтверждения
+  (`develop` @ `788aa4c`, синхронен с origin).

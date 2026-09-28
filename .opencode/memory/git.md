@@ -112,3 +112,20 @@
   staged (ровно 21) → коммит → проверки → `push origin develop` (таймаут ≥ 5
   мин; публикует `f488085` и новый коммит, ahead 2) → `status -sb` (синхрон) →
   `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q5q6` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q5q6.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 11 `M` + 5 `??` =
+  16 путей, совпал; 17-й — чекпойнт `git.md` (этот). База HEAD `788aa4c`,
+  `develop`, синхрон с `origin/develop`; коммита с целевым сообщением нет.
+  17 путей: письмо `mail/service-migration-q5q6.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/D19-statuses-priorities-canon.md`, `docs/features/README.md`,
+  `docs/questions/{Q5,Q6,README}.md`,
+  `docs/reviews/migration-q5q6-2026-09-29.md`. Сообщение —
+  `docs(D19): перенос Q5, Q6 — канон статусов и приоритетов`. Осталось: `add`
+  17 → сверка staged (ровно 17) → коммит → проверки → `push origin develop`
+  (таймаут ≥ 5 мин; публикует `788aa4c` и новый коммит, ahead 2) → `status -sb`
+  (синхрон) → `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом. Веток/
+  merge/тегов нет.

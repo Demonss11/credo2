@@ -169,3 +169,17 @@
     journal: "ok — Q4 pointer only in archive (OPEN_QUESTIONS.md:46-49); D17=SPEC §10 №17 (:838); Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q4↔D17↔TRACEABILITY:11↔questions/README:28↔§10 consistent; explain.feature no longer has Приоритет (fact verified); src/core.rs parse_rule has no Приоритет; GRAMMAR §4 (:91 ❌)/§5 (:97 v0.2); 4 headers # D17 (Q4) (parser/execution/editor/lsp) + client_explanation:8 (D17/Q36); slug D17-priority-out-of-mvp unique"
   snapshot: "develop, HEAD f488085 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q5q6
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q5q6-2026-09-29.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since 22f7683 — W8-config reformat; git diff 22f7683..HEAD -- src tests empty); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; .opencode/agents|rules untouched; archive not extended (pointers only)"
+    journal: "ok — Q5/Q6 pointers only in archive (OPEN_QUESTIONS.md:51-54,60-64); D19=SPEC §10 №19 (:840); Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q6 closed incidentally (not in Resolves; BRIEF §7 rule); Q↔D↔TRACEABILITY:12-13↔questions/README:29-30↔§10 consistent; slug D19-statuses-priorities-canon unique; SPEC §6.1/§6.2 reference README without duplicate table"
+  snapshot: "develop, HEAD 788aa4c + working tree (2026-09-29)"
+  at: "2026-09-29"

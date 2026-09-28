@@ -26,6 +26,15 @@
   (v0.2 с конвейерами); вопрос — [`questions/Q4.md`](questions/Q4.md),
   решение — [`decisions/D17-priority-out-of-mvp.md`](decisions/D17-priority-out-of-mvp.md);
   сверка с кодом — соответствует, задач не требуется.
+- **Перенос Q5, Q6 → D19** (миграция журнала, 29.09.2026): две независимые
+  оси меток — статус реализации × приоритет MVP; канон —
+  [`features/README.md`](features/README.md), `SPECIFICATION.md` §6 — ссылки
+  вместо дублирующей таблицы; вопросы — [`questions/Q5.md`](questions/Q5.md),
+  [`questions/Q6.md`](questions/Q6.md), решение —
+  [`decisions/D19-statuses-priorities-canon.md`](decisions/D19-statuses-priorities-canon.md);
+  Q6 закрыт попутно (таблица §6.1 удалена; счётчики проверяет
+  [`tests/features_inventory.rs`](../tests/features_inventory.rs)); сверка с
+  кодом — соответствует, задач не требуется.
 
 ### Процесс
 

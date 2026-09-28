@@ -92,4 +92,17 @@
   `semver` — MAJOR, иное) — на `docs-writer` (нота + шапки фич), задачи нет.
   `features/**`/`CHANGELOG` не трогал. Отчёт — `.opencode/mail/service-migration-q4.md`.
   Коммит — за `git`.
+- 2026-09-29 · service-migration-q5q6: перенос **Q5 → D19**
+  (`docs/decisions/D19-statuses-priorities-canon.md`, `Resolves: Q5`) и
+  попутного **Q6** (отдельного D нет, BRIEF §7). Созданы `docs/questions/Q5.md`,
+  `Q6.md` (resolved by D19; у Q6 — «закрыт попутно при Q5»; приоритет обоих —
+  ⚪ оформление), указатели в `OPEN_QUESTIONS.md` (блок Q5–Q6), строки в
+  `TRACEABILITY.md` (Q6 — пометка «закрыт попутно при Q5») и
+  `questions/README.md` (Q6 — «попутно (D19)»), ссылка/пометка «Q6 — попутно»
+  в `SPECIFICATION.md` §10 №19 (текст строки не переписывался). Сверка — ✅:
+  SPEC §6.1/§6.2 — ссылки на README без дублей, `features/README.md` — две
+  колонки (статус + приоритет), `tests/features_inventory.rs` проверяет
+  структуру/полноту/счётчики/«Итого»; Tasks: —. `features/**`/`CHANGELOG` не
+  трогал (docs-writer). Отчёт — `.opencode/mail/service-migration-q5q6.md`.
+  Коммит — за `git`.
 

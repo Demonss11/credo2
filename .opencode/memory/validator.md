@@ -146,6 +146,32 @@
   `(D17/Q36)`; слаг `D17-priority-out-of-mvp` — 1 файл. Далее: `cargo fmt --check`
   + `cargo test --test features_inventory` (ожидание 4/4, 47/278); полный `--all`
   не гоняю — `src/**`/`tests/**` неизменны с W8-config.
+- **2026-09-29 · приёмка «service-migration-q5q6» (чекпойнт до прогона):**
+  прочитаны лента операции, `Q5.md`, `Q6.md`, `D19-statuses-priorities-canon.md`,
+  архив `OPEN_QUESTIONS.md:51-64` (только указатели; Q6 — «закрыт попутно»),
+  `TRACEABILITY.md:12-13`, `questions/README.md:29-30`, `SPECIFICATION.md:840`
+  (§10 №19), нота `features/README.md:12-20`, `CHANGELOG.md:29-37`,
+  `BRIEF.md` §7 (`:269-320`, правило попутного вопроса `:291-292`), §6,
+  `review.md:78-95`. Снимок: `develop`, HEAD `788aa4c` + рабочее дерево
+  (7 M + 4 `??`); `git diff -- src tests AGENTS.md opencode.json` пусто;
+  `.opencode/agents|rules` не тронуты. Далее: `cargo fmt --check` +
+  `cargo test --test features_inventory` (ожидание 4/4, 47/278); полный `--all`
+  не гоняю — `src/**`/`tests/**` неизменны с `22f7683` (реформат W8-config).
+- **2026-09-29 · приёмка `service-migration-q5q6` (итог):** **принято**,
+  P1/P2/P3 нет. Проверки: `cargo fmt --check` — pass; `cargo test --test
+  features_inventory` — 4/4 (47/278); `git diff -- src tests AGENTS.md
+  opencode.json` — пусто; `git diff 22f7683..HEAD -- src tests` — пусто;
+  `.opencode/agents|rules` не тронуты. Перенос Q5 (+ попутный Q6) →
+  `D19-statuses-priorities-canon`: указатели в архиве (`OPEN_QUESTIONS.md:51-54`,
+  `:60-64`), `D19` = §10 №19 (`SPECIFICATION.md:840`), `Resolves: Q5` (Q6 **не**
+  в `Resolves` — BRIEF §7, попутная конвенция соблюдена: ссылки Q6 → D19,
+  пометки «закрыт попутно»); `TRACEABILITY.md:12-13`, `questions/README.md:29-30`,
+  нота `features/README.md:12-14`, `CHANGELOG.md:29-37`; сверка ✅ + «Задач не
+  требуется»; SPEC §6.1/§6.2 — ссылки на README без дубля таблицы; слаг уникален.
+  Отчёт `docs/reviews/migration-q5q6-2026-09-29.md`; квитанция
+  `service-migration-q5q6` iteration 1 — append. **Урок:** в приёмке переноса
+  проверять попутный вопрос по BRIEF §7 (`:291-292`) отдельным пунктом — он не
+  входит в `Resolves` D, и «формальная» проверка поля может дать ложное P1.
 - **2026-09-29 · приёмка `service-migration-q4` (итог):** **принято**, P1/P2/P3 нет.
   Проверки: `cargo fmt --check` — pass; `cargo test --test features_inventory` —
   4/4 (47/278); `git diff -- src tests AGENTS.md opencode.json` — пусто. Перенос
