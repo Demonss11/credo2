@@ -60,3 +60,21 @@
   канона + реестр + лента + памяти; `src/**`/`tests/**`/`opencode.json` —
   чисто. Вердикт «инструкция ↔ права: расхождений нет»; P1–P3 нет. Отчёт —
   `service-canon-hygiene.md`. Правок канона не вносил.
+- **29.09.2026 · аудит `service-dod-scope` (Q55/D50 — DoD по составу пакета),
+  сервисный, без правок.** Снимок `develop`, HEAD `0ee25f5` + дерево. Сверены:
+  `review.md:34-36` (новый пункт: пакет без `src/**`/`tests/**` → cargo не
+  гоняется; исключение — счётчики/состав `docs/features/**` → адресный
+  `cargo test --test features_inventory`), `validator.md:87-89` (строка про
+  счётчики), `BRIEF.md:253-256` (§5.7), `AGENTS.md` §«Сборка», `dispatch-loop.md:43`
+  (R2) — согласованы, второго предписания «cargo на docs» нет. Правки канона —
+  только тела (`.opencode` diff +2/−1 в `validator.md`, +3/−1 в `review.md`),
+  `permissions`/`steps` не менялись. Машинно: `opencode debug agents` (1 прогон,
+  `reload` не было; вывод срезан token-guard) — `validator` steps 36, права
+  совпадают с фронтматтером. Журнал Q55/D50/§10 №50/TRACEABILITY/`questions/README`
+  — поля и ID ок, «Сверка с кодом» ⚪. Границы: 8 M + 3 `??`, архив/реестр чисто,
+  `git diff -- src tests` пусто. Памяти `migrator`/`docs-writer` — append, канону
+  не противоречат (F35 — ok). Вердикт «инструкция ↔ права: расхождений нет»;
+  P1/P2 нет. P3: (1) перечень `src/tests` не включает `Cargo.toml` (зона `coder`)
+  — пакет только с `Cargo.toml` пропускает DoD; (2) в ленте нет записи сервисной
+  сессии о правках канона (только «открытие операции»). Отчёт —
+  `.opencode/mail/service-dod-scope.md`. Правок канона не вносил.

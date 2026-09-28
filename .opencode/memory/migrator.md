@@ -105,4 +105,28 @@
   структуру/полноту/счётчики/«Итого»; Tasks: —. `features/**`/`CHANGELOG` не
   трогал (docs-writer). Отчёт — `.opencode/mail/service-migration-q5q6.md`.
   Коммит — за `git`.
+- 2026-09-29 · service-dod-scope: **новая запись** (не из архива) —
+  `docs/questions/Q55.md` (🟡, resolved) → `docs/decisions/D50-dod-by-package-scope.md`
+  (accepted; пакет без изменений `src/**`/`tests/**` — cargo у `validator` не
+  запускается; исключение — правки счётчиков/состава сценариев
+  `docs/features/**` → адресный `cargo test --test features_inventory`).
+  Строка №50 в `SPECIFICATION.md` §10, строка Q55 в `TRACEABILITY.md` и
+  `questions/README.md`. `OPEN_QUESTIONS.md` не трогал (новый Q, не архив);
+  Q55 — первый «живой» Q после завершения переносов. Сверка D50 — ⚪
+  (процесс/документы): расхождение `review.md:28-33` ↔ `validator.md:87` ↔
+  `BRIEF.md` §5.7 зафиксировано. Tasks: — (правки канона — сервисная сессия и
+  `docs-writer`). Реестр находок не трогал (вне явного скоупа задачи). ID
+  свободны (последние Q54/D49). `cargo`/git не запускались. Отчёт — лента
+  `.opencode/mail/service-dod-scope.md`; коммит — за `git`.
+- 2026-09-29 · service-dod-scope (P3 аудита, `Cargo.toml`): дополнен (не
+  переписан) `docs/decisions/D50-dod-by-package-scope.md` — перечень «пакет без
+  изменений кода» → `src/**`, `tests/**`, `Cargo.toml` (п. 1, п. 3, альтернативы
+  (а)/(б)), в п. 1 — пометка «уточнено 29.09.2026 при аудите: перечень дополнен
+  `Cargo.toml` — зона `coder`; `review.md`/`BRIEF.md` синхронизированы»;
+  «Следствия»/«Сверка с кодом» — факт синхронизации. Та же правка — в строке
+  №50 `SPECIFICATION.md` §10 (зона `migrator`). `Q55.md` **не менял** (вопрос
+  как заданный; перечень — в D50/§10; правка «задним числом» противоречит
+  BRIEF §11). Канон `review.md`/`validator.md`/`BRIEF.md` уже синхронизирован
+  сервисной сессией/`docs-writer`. `cargo`/git не запускались. Отчёт — та же
+  лента; коммит — за `git`.
 

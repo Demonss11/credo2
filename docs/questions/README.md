@@ -40,3 +40,4 @@
 | [Q52](Q52.md) | как завершать ветку при устаревшем upstream, что с `git -C` и где хеши closeout? | [D47](../decisions/D47-git-refinements-run5.md) — `push --delete` → `branch -d`; `workdir` полем; хеши в отчёте `git`/`progress` | resolved | — |
 | [Q53](Q53.md) | кто ведёт реестр находок, если инструкции адресуют его `migrator`, а права не покрывают `docs/analysis/**`? | [D48](../decisions/D48-findings-registry-owner.md) — реестр ведёт `migrator` (право + синхронизация) | resolved | — |
 | [Q54](Q54.md) | чем `validator` подтверждает вхождение коммита в историю ветки при приёмке? | [D49](../decisions/D49-validator-branch-contains.md) — право `git branch --contains` (read-only) | resolved | — |
+| [Q55](Q55.md) | обязателен ли cargo-прогон `validator` для пакетов без изменений кода? | [D50](../decisions/D50-dod-by-package-scope.md) — DoD по составу пакета: cargo только при изменениях кода | resolved | — |

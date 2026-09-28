@@ -172,6 +172,34 @@
   `service-migration-q5q6` iteration 1 — append. **Урок:** в приёмке переноса
   проверять попутный вопрос по BRIEF §7 (`:291-292`) отдельным пунктом — он не
   входит в `Resolves` D, и «формальная» проверка поля может дать ложное P1.
+- **2026-09-29 · приёмка «service-dod-scope» (чекпойнт до записи):** прочитаны
+  лента операции, `review.md` §«Порог существенности» (:28-38), `validator.md`
+  (фронтматтер :1-34, чек-лист :83-92), `BRIEF.md` §5.7 (:241-257), `Q55.md`,
+  `D50-dod-by-package-scope.md`, §10 №50 (`SPECIFICATION.md:871`),
+  `TRACEABILITY.md:26`, `questions/README.md:43`, `AGENTS.md` §«Сборка»
+  (:298-307), `dispatch-loop.md` §«Hard rules» (R2 :43-47), `receipts.yaml`.
+  Снимок: `develop`, HEAD `0ee25f5` + рабочее дерево (9 M + 3 `??`); области —
+  журнал/канон-текст/доки/памяти; `src/**`, `tests/**`, `Cargo.toml`,
+  `opencode.json` не тронуты; `docs/features/**` не тронуты. **cargo не
+  запускаю — ровно по D50** (состав пакета). Далее: адресные проверки
+  (ссылки, ID, поля), отчёт `docs/reviews/service-dod-scope-2026-09-29.md`,
+  квитанция, лента.
+- **2026-09-29 · приёмка «service-dod-scope» (итог):** **принято**, P1/P2/P3 нет.
+  **Правило D50 применено к себе:** cargo-прогонов нет — `src/**`/`tests/**`/
+  `Cargo.toml` не менялись, исключение (`docs/features/**`) не сработало.
+  Проверено адресно: `git status` (9 M + 3 `??`), `git diff --stat` (+72/−3,
+  только журнал/канон-текст/доки/памяти), diff канона (два хунка: `validator.md`
+  :84-89, `review.md` :26-38; фронтматтер не тронут → `opencode debug agents`
+  не запускал, обоснование в отчёте), `rg "Cargo.toml"` (review.md:29,35;
+  BRIEF:253; D50 ×9), `rg "^\| 50 \|"` (одна строка :871), `rg "D50-|Q55"`,
+  `rg "features_inventory"` (старой формулировки нет). Q55/D50 ↔ TRACEABILITY:26
+  ↔ questions/README:43 ↔ §10 №50; сверка ⚪ + «Задач не требуется»; P3-1/P3-2
+  аудита закрыты (перечень с `Cargo.toml` + пометка об аудите; запись сервисной
+  сессии `mail:195-215`). **Урок:** если канон-пакет меняет только тело роли,
+  машинную сверку прав не дублировать — обосновывать неизменностью фронтматтера
+  и прогоном аудитора в том же снимке. Отчёт
+  `docs/reviews/service-dod-scope-2026-09-29.md`; квитанция `service-dod-scope`
+  iteration 1 — append.
 - **2026-09-29 · приёмка `service-migration-q4` (итог):** **принято**, P1/P2/P3 нет.
   Проверки: `cargo fmt --check` — pass; `cargo test --test features_inventory` —
   4/4 (47/278); `git diff -- src tests AGENTS.md opencode.json` — пусто. Перенос

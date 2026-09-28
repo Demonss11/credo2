@@ -129,3 +129,19 @@
   (таймаут ≥ 5 мин; публикует `788aa4c` и новый коммит, ahead 2) → `status -sb`
   (синхрон) → `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом. Веток/
   merge/тегов нет.
+- 29.09.2026 · пакет `service-dod-scope` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-dod-scope.md` §«пакет подтверждён
+  (сужение: только коммит)» — дословно «Только коммит»; `push` отменён). Снимок
+  до: фактически **12 `M` + 4 `??` = 16 путей**, а не 13 M + 4 ?? = 17, как в
+  пакете (расхождение на 1); состав совпал с перечнем. 17-й — чекпойнт `git.md`
+  (этот) → итого **17: 13 M + 4 ??**. База HEAD `0ee25f5`, `develop`, синхрон с
+  `origin/develop`; коммита с целевым сообщением нет. 17 путей: письмо
+  `mail/service-dod-scope.md`,
+  `memory/{auditor,docs-writer,git,migrator,service,validator}.md`,
+  `agents/validator.md`, `rules/review.md`, `state/current/receipts.yaml`,
+  `docs/{BRIEF,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/D50-dod-by-package-scope.md`, `docs/questions/{Q55,README}.md`,
+  `docs/reviews/service-dod-scope-2026-09-29.md`. Сообщение —
+  `chore(agents): Q55/D50 — cargo-прогоны по составу пакета`. Осталось: `add`
+  17 → сверка staged (ровно 17) → коммит локально, **без `push`**. Хеш — не
+  здесь (F43): вернуть ответом. Веток/merge/тегов нет.

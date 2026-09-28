@@ -250,6 +250,10 @@ T-XX: ⬜ открыта ──► 🚧 в работе ──► ✅ сдела
 - [ ] DoD прототипа зелёный: `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
       `cargo test --all` (полный прогон выполняет только `validator`; роли,
       работающие с кодом, ограничиваются компиляцией `fmt`/`check`/`clippy`).
+      Пакет без изменений `src/**`, `tests/**`, `Cargo.toml` — cargo-прогоны не
+      выполняются (адресная проверка; порог — `review.md`
+      §«Порог существенности», `D50`); исключение — правки счётчиков/состава
+      сценариев `docs/features/**` → адресный `cargo test --test features_inventory`.
 - [ ] Сообщение коммита: `docs(Qn): <что>` или `docs(Dn): <что>` (одна запись — один коммит).
 
 ## 6. TRACEABILITY.md

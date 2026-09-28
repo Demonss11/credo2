@@ -148,3 +148,15 @@
   отчёт `docs/reviews/migration-q5q6-2026-09-29.md`, квитанция
   `service-migration-q5q6`; пакет docs-коммита ждёт подтверждения
   (`develop` @ `788aa4c`, синхронен с origin).
+- 29.09.2026 · **service-dod-scope**: правило «пакет без изменений `src/**`,
+  `tests/**`, `Cargo.toml` — cargo-прогоны (`fmt`/`clippy`/`test`) не
+  выполняются; исключение — правки счётчиков/состава сценариев
+  `docs/features/**` → адресный `cargo test --test features_inventory`»
+  (наблюдение владельца → Q55 → `D50-dod-by-package-scope`; журнал — migrator;
+  канон — сервисная сессия: `review.md` §«Порог существенности» (2 места) +
+  `validator.md` чек-лист «Документы и агенты»; `BRIEF.md` §5.7 — docs-writer;
+  аудит — «расхождений нет», P3 закрыты до приёмки: `Cargo.toml` во всех
+  перечнях, запись о правках в ленте; приёмка validator — **принято**
+  (P1/P2/P3 нет; cargo не запускался — по новому правилу); отчёт
+  `docs/reviews/service-dod-scope-2026-09-29.md`, квитанция
+  `service-dod-scope`; пакет ждёт подтверждения).
