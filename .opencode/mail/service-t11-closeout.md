@@ -197,3 +197,172 @@
   в ответе `lead`. Риск: расхождение staged со списком — стоп без коммита;
   обрыв — повтор снимка и продолжение со следующего шага.
 
+## migrator · 28.09.2026 · готово
+
+- Сделано: заведена запись журнала по пробелу прав `validator` —
+  [`Q54`](../../docs/questions/Q54.md) (🟡, resolved) → [`D49`](../../docs/decisions/D49-validator-branch-contains.md)
+  (accepted; право `git branch --contains *` — одна read-only строка allowlist,
+  синхронизация строки `review.md`). Краткий канон — `SPECIFICATION.md` §10
+  №49; строка `TRACEABILITY.md`; сводка `questions/README.md`; реестр
+  `findings-registry.md` — F44 (закрыт D49/Q54). Разграничение в Q54: отказ
+  `git diff -- .opencode/...` — не пробел прав (квик dot-пути после `--`,
+  канон `./…`; уточнение владельца 28.09.2026).
+- Проверки: файлами — `.opencode/agents/validator.md:23-27` (паттернов
+  `git branch` нет; allowlist `status|diff|log|show|grep`);
+  `review.md:81-82` (список команд `validator`); `rights-matching-2026-09-27.md`
+  §5 (dot-путь после `--`); `T-11-closeout-2026-09-28.md:48-52,105-108`
+  (отказ `git branch --contains` → `git log develop -50`); ID свободны —
+  последние Q53/D48, `Q54.md`/`D49-*.md` отсутствовали. Сверка D49 — ⚪
+  (процесс/права); `cargo` и git-команд не запускал.
+- Дальше / риски: правки канона (`.opencode/agents/validator.md`,
+  `.opencode/rules/review.md`) вносит сервисная сессия владельца; приёмка —
+  смоуком `git branch --contains <коммит>` (роль `validator`); коммит — за
+  ролью `git`. Риск: до правки канона вердикт ⚪ держится на отсутствии
+  паттерна — расхождение снимётся внесением права.
+
+## сервисная сессия · 28.09.2026 · правки канона внесены (Q54/D49)
+
+- Сделано: по решению D49 внесены ровно две правки канона:
+  `.opencode/agents/validator.md:28` — allowlist `validator` дополнен
+  `- { action: shell, resource: "git branch --contains *", effect: allow }`
+  (read-only, после `git grep *`); `.opencode/rules/review.md:81` — строка
+  «Доступные команды» для `validator` синхронизирована (`git branch --contains`).
+  Других ролей решение не касается; иных правок канона нет.
+- Проверки: файлами — фронтматтер `validator.md:23-28` и список
+  `review.md:81-82`; правка минимальна. Уточнение владельца учтено: `git diff *`
+  у роли есть (строка 24); отказ `git diff -- .opencode/...` — квик dot-пути
+  после `--`, не пробел прав (роль применила `./…` — норма).
+- Дальше / риски: аудит `auditor` (свежая сессия: «инструкция ↔ права») →
+  приёмка `validator` (`opencode debug agents` + смоук `git branch --contains
+  0a5832f`) → пакет `git` по подтверждению владельца (внимание: `develop`
+  уже ahead 1 после `6d4c840`).
+
+## auditor · 28.09.2026 · готово (аудит «инструкция ↔ права» после правки канона Q54/D49)
+
+**Аудит:** правка канона по D49 — `.opencode/agents/validator.md:28`
+(`+ git branch --contains *`) и `.opencode/rules/review.md:81` (строка
+«Доступные команды»), сверка с журналом Q54/D49, составом рабочего дерева,
+памятью и почтой. **Бюджет:** 10 файлов, 10 `rg` (в лимите). Канон и чужие
+файлы не правил; `cargo` не запускал; git-команды — read-only.
+
+- Сделано: независимая проверка целостности правки; вердикт —
+  **«Инструкция ↔ права: расхождений нет»**, P1/P2 нет, одна P3.
+- Проверки:
+  - `git diff --numstat` → 8 путей: `validator.md` 1/0, `review.md` 2/2,
+    лента 40/0, `memory/migrator.md` 10/0, `SPECIFICATION.md` 1/0,
+    `TRACEABILITY.md` 1/0, `findings-registry.md` 1/0, `questions/README.md`
+    1/0; `??` — ровно `Q54.md` и `D49-*.md`. Продуктовый код (`src/**`,
+    `tests/**`), `AGENTS.md`, `opencode.json` — не тронуты. Посторонних путей
+    нет: состав = канон (2) + журнал (5: Q54, D49, SPEC, TRACEABILITY,
+    `questions/README`) + лента + память + реестр.
+  - `git diff .opencode/agents/validator.md .opencode/rules/review.md` — ровно
+    ожидаемое: одна строка allowlist после `git grep *`; в списке `validator`
+    добавлен `git branch --contains`.
+  - `rg -n "action: shell" .opencode/agents` × `review.md:81-92` — списки
+    команд всех ролей совпадают с фронтматтерами (в т.ч. `cargo test *` —
+    только `validator.md:20`); новых прав сверх D49 нет; иные роли не задеты.
+  - `opencode debug agents` — один прогон (`reload` не делался): в блоке
+    `permissions` роли `validator` резолв
+    `{ action: shell, resource: "git branch --contains *", effect: allow }`
+    виден (перед `webfetch/deny`). Вывод срезан token-guard: опущено ~36.9 КБ
+    из 51.4 КБ — полнострочно прочитаны блоки `validator` и `migrator`,
+    остальные роли сверены по файлам, а не по debug-выводу.
+  - Журнал: `Q54.md` (resolved by D49; разграничение dot-пути после `--`
+    зафиксировано), `D49` (`Resolves`/`Спека`/`Affects`/`Tasks: —` заполнены;
+    вердикт «Сверка с кодом» — ⚪ с фактами до/после), `SPECIFICATION.md:870`
+    (№49, нумерация 45→49 без повторов), `TRACEABILITY.md:20`,
+    `questions/README.md:37`, `findings-registry.md:52` (F44) — согласованы;
+    ID Q54/D49 уникальны; ссылки на `validator.md`, `review.md`,
+    `T-11-closeout-2026-09-28.md`, `rights-matching-2026-09-27.md` живые.
+  - Лента: append-дисциплина соблюдена (`+40/-0`) — чужие записи не
+    переписаны; вывод `read` по строкам ~116–167 тоже срезан token-guard
+    (~4.7 КБ) — факт среза зафиксирован, вывод не использован вслепую.
+  - Память: `memory/migrator.md` (запись Q54/D49) канону роли не
+    противоречит (F35); `memory/service.md` чекпойнта о правке канона ещё не
+    содержит — лента покрывает (не находка, дополнение за сервисной сессией).
+
+**P1:** критичных проблем нет
+**P2:** критичных проблем нет
+**P3:**
+- `docs/analysis/findings-registry.md:52` — F44 помечен «закрыт», приёмка
+  указана как `service-permissions-2026-09-28`, но такого артефакта нет
+  (`docs/reviews/` — только `service-permissions-2026-09-26*`, лента
+  операции — `service-t11-closeout`); приёмщик/читатель не найдёт улику по
+  названному имени → при приёмке указать фактическое имя отчёта (или ленту
+  `service-t11-closeout`).
+
+**Проверки:** `opencode debug agents` — ok (паттерн у `validator` виден; срез token-guard зафиксирован)
+**Наблюдения (не находки):**
+- паттерн `git branch --contains *` по хвосту не строго read-only (движок:
+  `*` — 0+ токенов без ограничения формы, `rights-matching-2026-09-27.md:67`),
+  как и прочие `git <подкоманда> *` роли; дисциплина роли и формулировка D49
+  «read-only» это покрывают — отдельного решения не требует;
+- смоук `git branch --contains <коммит>` аудитором не выполнен (права в
+  промпте роли нет) — за `validator` при приёмке D49.
+- Дальше / риски: `validator` — приёмка (`opencode debug agents` + смоук
+  `git branch --contains 0a5832f`); уточнить имя приёмки в F44; далее пакет
+  `git` по подтверждению владельца.
+
+## validator · 28.09.2026 · чекпойнт до прогона
+
+- Сделано: прочитаны лента, отчёты `migrator`/`auditor`, канон
+  `validator.md:28`/`review.md:81`, Q54/D49, SPEC §10 №49, `TRACEABILITY.md:20`,
+  `questions/README.md:37`, `findings-registry.md:52` (F44). Снимок: `develop`,
+  HEAD `6d4c840` + рабочее дерево (10 M + 2 `??`); `git diff -- ./.opencode` —
+  ровно одна строка allowlist + синхронизация `review.md`; `git diff -- src
+  tests` пусто; `AGENTS.md`/`opencode.json` не тронуты.
+- Проверки: `git status --porcelain`, `git diff --numstat`,
+  `git diff -- ./.opencode`, `git log -6 --oneline` — состав совпал с
+  ожидаемым; `opencode debug agents` и смоук — следующие (тяжёлая операция).
+- Дальше / риски: `opencode debug agents` (один прогон; срез token-guard
+  возможен) + `git branch --contains 0a5832f` — боевой смоук нового права.
+  Если движок отклонит — стоп-фактор приёмки (не обходить). Полный DoD не
+  гоняю: `src/**`/`tests/**` неизменны.
+
+## validator · 28.09.2026 · итог приёмки
+
+- Сделано: приёмка пакета Q54/D49 — вердикт **принято**, P1/P2/P3 нет.
+  Канон: `validator.md:28` — ровно одна строка allowlist
+  `git branch --contains *`; `review.md:81` синхронизирован; иных правок
+  канона нет (`git diff -- ./.opencode`). Машинный резолв
+  (`opencode debug agents`, один прогон, без `reload`): право у `validator`
+  видно. **Смоук нового права прошёл** (не отклонён): `git branch --contains
+  0a5832f` → `* develop`, `exp/agent-cycle-rerun`, `exp/agent-update-t15w0`.
+  Журнал Q54/D49, SPEC §10 №49, `TRACEABILITY.md:20`,
+  `questions/README.md:37`, F44 согласованы; ID уникальны; ссылки живые.
+  P3 аудитора закрыт: F44 ссылается на `service-permissions-2026-09-28` —
+  этот отчёт создан.
+- Проверки: `opencode debug agents` (срез token-guard ~36.9/51.4 КБ, блок
+  `validator` прочитан), `git branch --contains 0a5832f`, `git status
+  --porcelain`, `git diff --numstat`, `git diff -- ./.opencode`, `git diff --
+  src tests` (пусто), `git log -6 --oneline`. Отчёт —
+  [`docs/reviews/service-permissions-2026-09-28.md`](../../docs/reviews/service-permissions-2026-09-28.md);
+  квитанция `service-permissions` (iteration 1) — append в `receipts.yaml`.
+- DoD: продуктовый код не тронут (`src/**`/`tests/**` неизменны с W8-config) —
+  `cargo test --all`/`fmt`/`clippy` не перезапускались (обоснование — в отчёте).
+- Дальше / риски: пакет `git` по подтверждению владельца (`develop` уже
+  ahead 1 после `6d4c840`).
+
+## сервисная сессия · 28.09.2026 · пакет Q54/D49 подтверждён (сужение)
+
+- Подтверждение (одно, `question`, владелец, 28.09.2026): дословно —
+  **«Только коммит»**. Пакет не менялся (16 путей); `push` отменён; коммит —
+  локально в `develop` (после `6d4c840` → ahead 2).
+- Следствие для `git`: идемпотентно — записи до `add` (эта лента + чекпойнт
+  `memory/git.md`), `add` ровно 16 путей по списку, сверка staged, коммит
+  `chore(agents): Q54/D49 — validator: право git branch --contains (аудит и приёмка)`,
+  без push; после коммита в отслеживаемые файлы не писать (F43); хеш — в ответе
+  сервисной сессии.
+
+## git · 28.09.2026 · в работе (записи до add)
+
+- Сделано: сверен снимок — 12 ` M` + 3 `??` = 15 путей, 16-й — чекпойнт
+  `memory/git.md`; база HEAD `6d4c840`, ветка `develop`, ahead 1; коммит с
+  целевым сообщением в `git log --all --grep=Q54` не найден; подтверждение
+  владельца (сужение «Только коммит») прочитано в этой ленте (§выше).
+- Проверки: `git status --porcelain` → 15 путей, совпал; `git status -sb` →
+  `## develop...origin/develop [ahead 1]`; `git log -3` → HEAD `6d4c840`.
+- Дальше / риски: `add` ровно 16 путей по списку → `diff --cached --name-only`
+  (сверка 16) → коммит локально; `push` не выполнять; после коммита в
+  отслеживаемые файлы не писать (F43), хеш — в ответе.
+

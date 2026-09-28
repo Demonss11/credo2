@@ -60,3 +60,29 @@
   `README.md:13–14` — указатель на `BRIEF.md` §5.1–§5.2 косвенный (сводка там не
   упомянута). Итог — в `mail/service-mcp-ready-r3.md`; не коммичено.
 - Чекпойнтов ещё не было до этой записи.
+- **2026-09-28 · приёмка сервисного пакета «service-permissions» (Q54/D49,
+  чекпойнт до прогона):** прочитаны лента `service-t11-closeout.md`, отчёты
+  `migrator`/`auditor`, канон `validator.md:28` и `review.md:81`,
+  Q54/D49, SPEC §10 №49 (`:870`), `TRACEABILITY.md:20`,
+  `questions/README.md:37`, `findings-registry.md:52` (F44). Снимок: `develop`,
+  HEAD `6d4c840` + рабочее дерево (10 M + 2 `??`); `git diff -- ./.opencode` —
+  ровно одна строка allowlist `validator` + синхронизация `review.md`;
+  `git diff -- src tests` пусто; `AGENTS.md`/`opencode.json` не тронуты.
+  Далее: `opencode debug agents` (один прогон, срез token-guard возможен) +
+  смоук `git branch --contains 0a5832f`. Полный DoD не гоняю:
+  `src/**`/`tests/**` неизменны (обоснование в отчёте).
+- **2026-09-28 · приёмка «service-permissions» (Q54/D49, итог):** вердикт
+  **принято**, P1/P2/P3 нет. Канон: `validator.md:28` — ровно одна строка
+  allowlist `git branch --contains *`, `review.md:81` синхронизирован; иных
+  правок канона нет. Машинный резолв (`opencode debug agents`, один прогон,
+  без `reload`; срез token-guard ~36.9/51.4 КБ, блок `validator` прочитан) —
+  право видно. **Смоук прошёл:** `git branch --contains 0a5832f` → `* develop`,
+  `exp/agent-cycle-rerun`, `exp/agent-update-t15w0` (право подхватилось в
+  свежей сессии). Журнал Q54/D49/SPEC §10 №49/TRACEABILITY:20/questions
+  README:37/F44 согласованы, ID уникальны, ссылки живые. P3 аудитора закрыт —
+  F44 ссылается на созданный `docs/reviews/service-permissions-2026-09-28.md`.
+  DoD: `src/**`/`tests/**` неизменны с W8-config — `cargo test/fmt/clippy` не
+  перезапускались (правка канона/прав → машинная сверка прав). Квитанция
+  `service-permissions` iteration 1 — append. **Урок снят:** `git branch
+  --contains` теперь штатное право роли — косвенную замену `git log` больше
+  не применять.

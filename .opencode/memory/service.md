@@ -91,3 +91,15 @@
   features) закрыт адресной проверкой. Пакет 17 путей (`develop`,
   `chore(process)`, включая правку владельца `rustfmt.toml`) — ждёт
   подтверждения; записи сформированы до `git add` (C13/F43).
+- 28.09.2026 · **service-t11-closeout/r2 — права `validator`** (замечание
+  владельца): `git branch --contains` отклонялся движком (паттерна нет) при
+  приёмке закрытия T-11. Журнал: Q54 → D49 (migrator); канон вносила сервисная
+  сессия — `.opencode/agents/validator.md:28` (`git branch --contains *`,
+  read-only) + `review.md:81` (список роли). Аудит `auditor` — «Инструкция ↔
+  права: расхождений нет» (P3 про имя отчёта в F44 закрыт); приёмка `validator`
+  — **принято** (P1/P2/P3 нет), смоук `git branch --contains 0a5832f` прошёл
+  (`* develop`, `exp/agent-cycle-rerun`, `exp/agent-update-t15w0`);
+  отчёт `docs/reviews/service-permissions-2026-09-28.md`, квитанция
+  `service-permissions`. Уточнение владельца учтено: `git diff *` у роли был и
+  есть; отказ `git diff -- .opencode/...` — квик dot-пути, не пробел прав.
+  Дальше: пакет `git` (develop ahead 1 после `6d4c840`) по подтверждению.

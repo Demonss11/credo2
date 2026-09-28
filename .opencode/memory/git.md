@@ -48,3 +48,17 @@
   Run 4); T-16 (H7); правка rustfmt.toml`. Осталось: `add` 17 путей → сверка
   staged → коммит локально. **`push` не выполнять** (сужение владельца). Хеш —
   не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 28.09.2026 · пакет `Q54/D49` (прямо в `develop`, подтверждение владельца в
+  `.opencode/mail/service-t11-closeout.md` §«пакет Q54/D49 подтверждён (сужение)»,
+  дословно «Только коммит» — `push` отменён). Снимок до: 12 ` M` + 3 `??` =
+  15 путей, совпал; база HEAD `6d4c840`, `develop`, ahead 1; коммит с целевым
+  сообщением отсутствует. 16 путей (чекпойнт `git.md` — 16-й): письмо
+  `mail/service-t11-closeout.md`, `agents/validator.md`, `rules/review.md`,
+  `memory/{auditor,migrator,service,validator,git}.md`,
+  `state/current/receipts.yaml`, `docs/SPECIFICATION.md`,
+  `docs/TRACEABILITY.md`, `docs/analysis/findings-registry.md`,
+  `docs/questions/README.md`, `docs/decisions/D49-validator-branch-contains.md`,
+  `docs/questions/Q54.md`, `docs/reviews/service-permissions-2026-09-28.md`.
+  Сообщение — `chore(agents): Q54/D49 — validator: право git branch --contains
+  (аудит и приёмка)`. Осталось: `add` 16 → сверка staged → коммит локально,
+  **без `push`**. Хеш — не здесь (F43): вернуть ответом. Веток/merge/тегов нет.

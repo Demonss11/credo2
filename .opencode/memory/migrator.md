@@ -32,3 +32,13 @@
   «(уточнено 2026-09-28: замечание закрыто)» про обратные ссылки. Q/D не
   заводились (Q12). Отчёт — лента `.opencode/mail/service-t11-closeout.md`.
   Коммит — за `git`.
+- 2026-09-28 · service-t11-closeout (пробел прав `validator`): заведена
+  `docs/questions/Q54.md` (🟡, resolved) → `docs/decisions/D49-validator-branch-contains.md`
+  (accepted; одна read-only строка allowlist `git branch --contains *` +
+  синхронизация `review.md` §«Доступные команды»). Строка №49 в
+  `SPECIFICATION.md` §10, строка Q54 в `TRACEABILITY.md` и
+  `questions/README.md`, F44 в `findings-registry.md` (закрыт D49/Q54).
+  Разграничено: `git diff -- .opencode/...` — квик dot-пути после `--`, не
+  пробел прав (уточнение владельца). Сверка D49 — ⚪ (права/процесс); ID
+  свободны (последние Q53/D48). Правки канона — сервисная сессия; приёмка —
+  смоук `git branch --contains`; коммит — за `git`. Отчёт — та же лента.

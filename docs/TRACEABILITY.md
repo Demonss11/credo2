@@ -17,6 +17,7 @@
 | [Q51](questions/Q51.md) — как разделять продуктовые и процессные коммиты и как коммитить состояние? | [D46](decisions/D46-product-process-commits.md) — продуктовые и процессные коммиты; `state/**` | — | — | resolved |
 | [Q52](questions/Q52.md) — как завершать ветку при устаревшем upstream, что с `git -C` и где хеши closeout? | [D47](decisions/D47-git-refinements-run5.md) — git-уточнения Run 5: удаление ветки, `git -C`, хеши | — | — | resolved |
 | [Q53](questions/Q53.md) — кто ведёт реестр находок, если инструкции адресуют его `migrator`, а права не покрывают `docs/analysis/**`? | [D48](decisions/D48-findings-registry-owner.md) — реестр находок: владелец `migrator` и зона записи | `analysis/findings-registry.md` | — | resolved |
+| [Q54](questions/Q54.md) — чем validator подтверждает вхождение коммита в историю ветки? | [D49](decisions/D49-validator-branch-contains.md) — право git branch --contains (read-only) | — | — | resolved |
 
 Легенда статусов: `open` — ждёт решения · `resolved by Dn` — закрыт решением ·
 `dropped` — снят без решения. В колонке «Задачи» — `T-XX` из

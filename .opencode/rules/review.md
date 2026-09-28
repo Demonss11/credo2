@@ -78,8 +78,8 @@
 
 ## Доступные команды
 
-- `validator`: `rg`, `git status|diff|log|show|grep`, `cargo fmt|clippy|test`,
-  `opencode debug agents`.
+- `validator`: `rg`, `git status|diff|log|show|grep`, `git branch --contains`,
+  `cargo fmt|clippy|test`, `opencode debug agents`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
 - `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
