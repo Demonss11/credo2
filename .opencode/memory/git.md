@@ -95,3 +95,20 @@
   `docs(D16): перенос Q2, Q3 — канон языка v0.1 и парсер MVP`. Осталось: `add`
   22 → сверка staged (ровно 22) → коммит локально, **без `push`**. Хеш — не
   здесь (F43): вернуть ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q4` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q4.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 16 `M` + 4 `??` =
+  20 путей, совпал; 21-й — чекпойнт `git.md` (этот). База HEAD `f488085`,
+  `develop`, ahead 1; коммита с целевым сообщением нет. 21 путь: письмо
+  `mail/service-migration-q4.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/D17-priority-out-of-mvp.md`, `docs/features/README.md`,
+  `docs/features/{client_explanation,editor,execution,lsp,parser}.feature`,
+  `docs/questions/Q4.md`, `docs/questions/README.md`,
+  `docs/reviews/migration-q4-2026-09-29.md`. Сообщение —
+  `docs(D17): перенос Q4 — Приоритет вне MVP`. Осталось: `add` 21 → сверка
+  staged (ровно 21) → коммит → проверки → `push origin develop` (таймаут ≥ 5
+  мин; публикует `f488085` и новый коммит, ahead 2) → `status -sb` (синхрон) →
+  `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

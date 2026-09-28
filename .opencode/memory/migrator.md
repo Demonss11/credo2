@@ -81,4 +81,15 @@
   (Контекст `:14`, «Что сделать» `:21`; оба → `§2`). В карточке `§7` остаётся
   лишь в примечании как намеренная историческая цитата „§7“ (D41/§10 №41).
   Больше ничего не менялось. `cargo`/git не запускались; отчёт — та же лента.
+- 2026-09-29 · service-migration-q4: перенос **Q4 → D17**
+  (`docs/decisions/D17-priority-out-of-mvp.md`, `Resolves: Q4`). Создан
+  `docs/questions/Q4.md` (resolved by D17; 🔴 блокер; дата 2026-09-24), указатель
+  в `OPEN_QUESTIONS.md` (блок Q4), строки в `TRACEABILITY.md` и
+  `questions/README.md`, ссылка в `SPECIFICATION.md` §10 №17. Сверка — ✅:
+  `parse_rule` без `Приоритет`, `GRAMMAR.md` §4/§5 ❌/v0.2, фичи — целевое v0.2;
+  Tasks: —. Факт: архивный список фич устарел (`explain.feature` без
+  `Приоритет`; актуально `parser`/`execution`/`editor`/`lsp`/`client_explanation`;
+  `semver` — MAJOR, иное) — на `docs-writer` (нота + шапки фич), задачи нет.
+  `features/**`/`CHANGELOG` не трогал. Отчёт — `.opencode/mail/service-migration-q4.md`.
+  Коммит — за `git`.
 

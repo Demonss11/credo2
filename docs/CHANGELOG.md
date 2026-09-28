@@ -22,6 +22,10 @@
   решение — [`decisions/D16-dsl-canon-regex-mvp.md`](decisions/D16-dsl-canon-regex-mvp.md);
   архивные блоки заменены указателями; сверка с кодом — соответствует
   (дрейф `GRAMMAR` закрывает [`T-14`](tasks/T-14-grammar-message-sync/README.md)).
+- **Перенос Q4 → D17** (миграция журнала, 29.09.2026): `Приоритет` вне MVP
+  (v0.2 с конвейерами); вопрос — [`questions/Q4.md`](questions/Q4.md),
+  решение — [`decisions/D17-priority-out-of-mvp.md`](decisions/D17-priority-out-of-mvp.md);
+  сверка с кодом — соответствует, задач не требуется.
 
 ### Процесс
 

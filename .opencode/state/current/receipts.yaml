@@ -155,3 +155,17 @@
     journal: "ok — Q2/Q3 pointers only in archive; D16=SPEC §10 №16; Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q↔D↔TRACEABILITY↔README↔§10 consistent; 3 headers # D16 (Q2, Q3); T-14 → §2"
   snapshot: "develop, HEAD 491e153 + working tree (2026-09-28)"
   at: "2026-09-28"
+
+- task: service-migration-q4
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q4-2026-09-29.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since 22f7683 — W8-config reformat); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; git diff 22f7683..HEAD -- src tests empty; .opencode/agents|rules untouched (only 3 memories changed)"
+    journal: "ok — Q4 pointer only in archive (OPEN_QUESTIONS.md:46-49); D17=SPEC §10 №17 (:838); Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q4↔D17↔TRACEABILITY:11↔questions/README:28↔§10 consistent; explain.feature no longer has Приоритет (fact verified); src/core.rs parse_rule has no Приоритет; GRAMMAR §4 (:91 ❌)/§5 (:97 v0.2); 4 headers # D17 (Q4) (parser/execution/editor/lsp) + client_explanation:8 (D17/Q36); slug D17-priority-out-of-mvp unique"
+  snapshot: "develop, HEAD f488085 + working tree (2026-09-29)"
+  at: "2026-09-29"

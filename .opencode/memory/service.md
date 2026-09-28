@@ -128,3 +128,13 @@
   отчёт `docs/reviews/migration-q2q3-2026-09-28.md`, квитанция
   `service-migration-q2q3`; пакет docs-коммита ждёт подтверждения
   (`develop` @ `491e153`, синхронен с origin).
+- 29.09.2026 · **service-migration-q4**: перенос **Q4 → `D17-priority-out-of-mvp`**
+  (`migrator`; сверка с кодом ✅ соответствует — `parse_rule` без `Приоритет`,
+  `GRAMMAR.md` §4/§5 согласованы; задач не требуется); сопутствующие —
+  `docs-writer` (нота Q4 + ссылки Q4/D17, список фич без устаревшего
+  `explain.feature`, шапки `# D17 (Q4)` в `parser`/`execution`/`editor`/`lsp`
+  + `client_explanation` «(D17/Q36)», запись в CHANGELOG); приёмка `validator`
+  — **принято** (P1/P2/P3 нет; `cargo fmt --check` pass, `features_inventory`
+  4/4, 47/278); отчёт `docs/reviews/migration-q4-2026-09-29.md`, квитанция
+  `service-migration-q4`; пакет docs-коммита ждёт подтверждения
+  (`develop` @ `f488085`, ahead 1).

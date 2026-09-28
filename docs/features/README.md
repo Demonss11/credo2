@@ -72,10 +72,11 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > `parser.feature`); LSP поверх стабильного API `parse_rule` без ожидания
 > AST (GRAMMAR.md §3). Приоритет `lexer` — ⏳.
 >
-> **Решение Q4 (2026-09-24):** `Приоритет` вне MVP — сценарии с
-> `Приоритет: 100;` в `parser.feature`, `execution.feature`,
-> `explain.feature`, `editor.feature`, `lsp.feature`,
-> `client_explanation.feature` относятся к целевому состоянию v0.2.
+> **Решение Q4 (2026-09-24; [Q4](../questions/Q4.md),
+> [D17](../decisions/D17-priority-out-of-mvp.md)):** `Приоритет` вне MVP —
+> сценарии с `Приоритет: 100;` в `parser.feature`, `execution.feature`,
+> `editor.feature`, `lsp.feature`, `client_explanation.feature` относятся
+> к целевому состоянию v0.2.
 >
 > **Решения Q36/Q38 (2026-09-24):** конвейеры/скоринги/таблицы — вне MVP;
 > LSP — в MVP в составе diagnostics + completion + hover + symbols +

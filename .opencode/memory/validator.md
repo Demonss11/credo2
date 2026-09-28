@@ -132,3 +132,28 @@
   `service-canon-hygiene` iteration 1 — append. Урок: `execute`-право в выводе
   `opencode debug agents` проверять по фронтматтеру, если блок роли в срезе, а
   полный файл недоступен (`external_directory: deny`).
+- **2026-09-29 · приёмка «service-migration-q4» (чекпойнт до прогона):**
+  прочитаны лента операции, `Q4.md`, `D17-priority-out-of-mvp.md`,
+  `OPEN_QUESTIONS.md:46-49` (указатель, полного текста нет), `TRACEABILITY.md:11`,
+  `questions/README.md:28`, `SPECIFICATION.md:838` (§10 №17), `GRAMMAR.md:91`
+  (§4, `Приоритет` — ❌) / `:97` (§5), нота `features/README.md:75-79`, счётчики
+  `:301` (47/278), `CHANGELOG.md:25-28`, `features_inventory.rs`, `review.md`,
+  `BRIEF.md` §2/§4/§5.3/§5.6/§5.7/§7. Снимок: `develop`, HEAD `f488085` +
+  рабочее дерево (13 M + 3 `??`); `git diff -- src tests AGENTS.md opencode.json`
+  пусто; `rg -i приоритет src` — только semver-комментарий `core.rs:414` и
+  флаг `main.rs:56`; `parse_rule` — regex `Правило`/`Если`/`Решение`/`Причина`.
+  4 шапки `# D17 (Q4)` (parser/execution/editor/lsp) + `client_explanation:8`
+  `(D17/Q36)`; слаг `D17-priority-out-of-mvp` — 1 файл. Далее: `cargo fmt --check`
+  + `cargo test --test features_inventory` (ожидание 4/4, 47/278); полный `--all`
+  не гоняю — `src/**`/`tests/**` неизменны с W8-config.
+- **2026-09-29 · приёмка `service-migration-q4` (итог):** **принято**, P1/P2/P3 нет.
+  Проверки: `cargo fmt --check` — pass; `cargo test --test features_inventory` —
+  4/4 (47/278); `git diff -- src tests AGENTS.md opencode.json` — пусто. Перенос
+  Q4 → `D17-priority-out-of-mvp`: указатель в архиве (`OPEN_QUESTIONS.md:46-49`),
+  `D17` = §10 №17 (`SPECIFICATION.md:838`), строки `TRACEABILITY.md:11` /
+  `questions/README.md:28`, 4 шапки `# D17 (Q4)` (parser/execution/editor/lsp) +
+  `client_explanation:8` `(D17/Q36)`; сверка ✅ + «Задач не требуется». Отчёт
+  `docs/reviews/migration-q4-2026-09-29.md`; квитанция `service-migration-q4`
+  iteration 1 — append. **Урок:** обоснование «`src/tests` неизменны» привязывать
+  к точному хешу последнего изменения Rust (`22f7683` — реформат W8-config), а не
+  к имени пакета: `git diff a7eac82..HEAD -- src tests` не пуст.

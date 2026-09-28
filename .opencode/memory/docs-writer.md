@@ -26,3 +26,11 @@
   шапках `parser.feature`/`lexer.feature`/`execution.feature`; `docs/CHANGELOG.md`
   :19–24 — запись «Перенос Q2, Q3 → D16». Ноты Q4/Q36/Q38 не трогал. Остаток:
   приёмка `validator` (docs) и пакет `git`.
+- 2026-09-29 · операция `service-migration-q4` · сопутствующие к переносу Q4 → D17:
+  `docs/features/README.md` :75–79 — ссылки `[Q4]`/`[D17]`, список фич уточнён
+  (убран `explain.feature`, остались `parser`/`execution`/`editor`/`lsp`/
+  `client_explanation`), счётчики 47/278 не менялись; обратные ссылки
+  `# D17 (Q4)` в шапках `parser.feature`, `execution.feature`, `editor.feature`,
+  `lsp.feature`; `client_explanation.feature` :8 `(Q4/Q36)` → `(D17/Q36)`;
+  `docs/CHANGELOG.md` :25–28 — запись «Перенос Q4 → D17». Журнал/реестр/SPEC/
+  tasks не трогал. Остаток: приёмка `validator` (docs) и пакет `git`.
