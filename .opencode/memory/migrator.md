@@ -50,3 +50,24 @@
   `.opencode/mail/T-13.md`. Следующее действие: W2 — research F4 и правки
   канона (сервисная сессия), затем W3 (аудит + приёмка) → W4 (пакет/коммиты).
   Замечание: в D41 добавлен п. 13 (GRAMMAR §7, F11) — опора T-14.
+- 2026-09-28 · W8 т. 2 (Run 5, новые записи, готово): созданы Q47–Q53/D42–D48
+  (`docs/questions/Q47..Q53.md`; `docs/decisions/D42-expect-iteration.md`,
+  `D43-auditor-mail.md`, `D44-run5-refinements.md`, `D45-wave0-quality-config.md`,
+  `D46-product-process-commits.md`, `D47-git-refinements-run5.md`,
+  `D48-findings-registry-owner.md`). Реестр `docs/analysis/findings-registry.md` —
+  внесены F15–F39 (F39 — блокировка прав, снята правкой `migrator.md`/`AGENTS.md`
+  сервисной сессией, D48). Изменены `docs/TRACEABILITY.md` (Q47–Q53),
+  `docs/SPECIFICATION.md` §10 (№42–48). Сверка у всех D — ⚪ (процесс/права/
+  конфиг; продукт не менялся); подтверждения — чтение канона и
+  `rights-probe-2026-09-28.md`. Все Tasks: — («канон внесён сервисной сессией;
+  карточка T-15 (F26) — docs-writer»). ID без коллизий (были Q46/D41).
+  Отчёт — `.opencode/mail/service-mcp-ready-r2.md`. Следующее: аудит `auditor` +
+  приёмка `validator` канон-пакета, коммит `git`; открытые находки — F15/F26/F27.
+- **Грабли (F39):** обновление реестра находок — в правах `migrator`
+  (`edit docs/analysis/findings-registry.md`, с 28.09.2026); при `permission.rejected`
+  в `docs/analysis/**` — не обходить, а докладывать (право внесено D48).
+- 2026-09-28 · реестр: по аудиту канон-пакета (P3, закрыты правками сервисной
+  сессии в тот же день) добавлены F40–F42 (наследие `opencode run` у `auditor`;
+  дубли «эскалации» сверх `dispatch-loop`; косвенная запись `analyst` в реестр —
+  точечный deny, F39/D48). Больше ничего не трогал; лента — без изменений;
+  коммит — за `git`.

@@ -97,6 +97,26 @@
   [`reviews/T-13-2026-09-27.md`](reviews/T-13-2026-09-27.md), решения —
   [D40](decisions/D40-scope-threshold.md) (Q45),
   [D41](decisions/D41-dispatch-refinements.md) (Q46).
+- **Процессный пакет W8/Run 5** (2026-09-28, D42–D48): по итогам Run 5 (T-04,
+  класс L) уточнён канон агентов — `auditor` получил право
+  `edit .opencode/mail/**` (отчёт в ленту задачи), реестр находок закреплён за
+  `migrator` (`docs/analysis/findings-registry.md`), введены правило эскалации
+  при затыке и «бриф ↔ канон» — стоп-фактор, R2-формулировки и микропроверка
+  «память ↔ канон», протокол срезанного вывода, сплит лент; `steps` `coder`
+  52 / `tester` 36, бюджет чтения `analyst` — 12; разделение продуктовых и
+  процессных коммитов (`state/**` — в процессном пакете), порядок удаления
+  ветки при устаревшем upstream и место хешей closeout.
+- **Конфиг-пакет качества** (2026-09-28, D45): `rustfmt.toml` (стиль 80 +
+  `edition = "2024"`), `rust-toolchain.toml` (`1.96.0`), `.cargo/config.toml`
+  (`-D warnings`), `.gitattributes` (`* text=auto eol=lf`); удалён инертный
+  `clippy.toml`; реформат `src`/`tests` (10 файлов, только форматирование).
+  Волна 0 закреплена: A (`formatter`), B1 — норма, B2 — отключён, deny
+  `execute` (`docs-writer`/`git`); зависимости плагина (`package.json`,
+  `package-lock.json`) — в git, шаг `npm ci` — в `AGENTS.md`. Решения —
+  [D42](decisions/D42-expect-iteration.md)–[D48](decisions/D48-findings-registry-owner.md);
+  отчёты приёмки — [`reviews/W8-config-2026-09-28.md`](reviews/W8-config-2026-09-28.md)
+  и [`reviews/W8-canon-2026-09-28.md`](reviews/W8-canon-2026-09-28.md); разбор —
+  [меморандум W8, том 2](analysis/memorandum-W8-run5.md).
 
 ### Добавлено
 

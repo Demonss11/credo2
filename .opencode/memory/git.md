@@ -303,3 +303,24 @@
   дописаны **до** коммита и входят в него, чтобы дерево осталось чистым).
   `--force`/rebase/`add -A`/иные ветки и слияния не применялись; `target/`,
   `.credo/`, `.opencode/state/**` не коммитились. Осталось: `complete` (lead).
+- **2026-09-28 · пакет `run5_records` (записи Run 5 + меморандум W9 +
+  state-снапшот → push в origin/develop) — готово.** Подтверждение владельца —
+  лента `.opencode/mail/service-mcp-ready-r2.md` (ответ `question` 2026-09-28
+  «откладываем реализацию. пушим в origin»; запись `lead · 2026-09-28 · решение
+  владельца: правки канона отложены; push записей Run 5`). Сверка (шаг 1):
+  ветка `develop`, HEAD `cd845d4`, 3 `M` (`./.opencode/.gitignore`,
+  `mail/T-04.md`, `mail/service-mcp-ready-r2.md`) + 2 `??` (`state/`,
+  `docs/analysis/memorandum-W9-run5.md`), `state/` — ровно 4 файла
+  (`current_state.yaml`, `next_action.yaml`, `progress.yaml`, `receipts.yaml`) —
+  совпало с пакетом. Выполнено: `git add` восемью точными путями (одной
+  командой; предупреждения LF→CRLF — EOL, не отклонение) → `git diff --cached
+  --name-only` = 8 путей → коммит **`a7eac82`** `chore: записи прогона Run 5
+  (T-04) + меморандум W9; state-снапшот` (8 файлов, +884/−2) → `git push origin
+  develop` (`cd845d4..a7eac82`, timeout 360000 мс). Проверки:
+  `git log -2 --oneline` → `a7eac82`, `cd845d4`; `git status -sb` →
+  `## develop...origin/develop` (синхрон, дерево чистое); `git show --stat HEAD`
+  → состав совпал. `--force`/rebase/`add -A`/merge/`branch -d`/`tag`/иные
+  ветки не применялись; `target/`, `.credo/`, `node_modules/` не коммитились.
+  Осталось: `complete` (lead). Заметка: `state/**` закоммичен впервые
+  (`.gitignore` обновлён владельцем); эта запись + отчёт в ленте — рабочая
+  «грязь» после пакета, не закоммичена.

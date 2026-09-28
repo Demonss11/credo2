@@ -125,3 +125,65 @@
   B1: маркера `…[token-guard] срез` в выводе `cargo test` **нет** — ~7 КБ < 12 КБ;
   плагин активен (в этой сессии срезан `git diff src/mcp.rs` ≈21 КБ).
   Урок подтверждён: `clippy` после правок `src/**` обязателен (здесь pass).
+- **W8-config · приёмка конфиг-пакета качества** (2026-09-28, `develop`
+  HEAD `a7eac82` + рабочее дерево, снимок 2026-09-28): чекпойнт **до прогона** —
+  прочитаны меморандум `memorandum-W8-run5.md` §0/§4.6, файлы `rustfmt.toml`
+  (`edition="2024"`, `max_width=80`, `tab_spaces=4`, `match_block_trailing_comma`,
+  `merge_derives`), `rust-toolchain.toml` (`channel="1.96.0"`), `.cargo/config.toml`
+  (`rustflags = ["-D","warnings"]`), `.gitattributes` (`* text=auto eol=lf`),
+  `opencode.json`; `rg --files -g clippy.toml` — пусто; `rg whitelist opencode.json`
+  — нет (git diff: удалён legacy-блок `provider.opencode-go.whitelist`,
+  −4 строки); `git status -sb`/`git diff --stat`: ровно 10 файлов
+  `src/**`+`tests/**` (реформат 80: core 93, lib 134, main 4, mcp 97, rest 23,
+  common/mod 52, features_inventory 28, mcp_draft 6, mcp_errors 14, rest 41),
+  плюс канон/журнал/меморандум/`.cargo`/`rust*-*.toml` — **вне скоупа пакета**.
+  Смоук-улика доступна чтением: `target/fmt-smoke-2026-09-28.rs` →
+  `use serde_json::{Value, json};` (порядок style edition 2024). Запускаю полный
+  DoD (`fmt`/`clippy -D warnings`/`test --all`); жду 107/0, `features_inventory`
+  4/4 (47/278). Вердикт — в `docs/reviews/W8-config-2026-09-28.md`.
+- **W8-config · итог прогона:** `cargo fmt --check` — pass;
+  `cargo clippy --all-targets -- -D warnings` — pass (`Finished dev` 1m14s);
+  `cargo test --all` — **107/0** (lib 54 + features_inventory 4 + mcp_draft 18 +
+  mcp_errors 8 + publish 12 + rest 11), `features_inventory` 4/4 (47/278,
+  README «47 файлов, 278 сценариев»). `clippy.toml` — нет (дерево и история);
+  `whitelist` в `opencode.json` — нет (удалён legacy-блок, −4). Реформат
+  `src/**`+`tests/**` — ровно 10 файлов (+335/−157), выборочные диффы —
+  форматирование (`max_width` 80, импорты, trailing-comma в `match`). Вывод
+  `cargo test` ~7 КБ — **без** маркера token-guard. Смоук
+  `target/fmt-smoke-2026-09-28.rs` прочитан rg: `use serde_json::{Value, json};`
+  (style edition 2024) — улика F20 согласуется. Вердикт **принято**
+  (P1/P2/P3 нет); отчёт `docs/reviews/W8-config-2026-09-28.md`, квитанция
+  `receipts.yaml` (W8-config, iteration 1, accepted). Урок: `git rev-parse`/
+  `git ls-files` вне allowlist — HEAD берётся `git log --oneline -1`, состав
+  файлов — `git diff --stat`/`git status`; `target/**` доступен точечным `rg`,
+  но read-периметром не покрыт.
+- **W8-canon · процессная приёмка канон-пакета 28.09.2026** (2026-09-28,
+  `develop` HEAD `a7eac82` + рабочее дерево, снимок 2026-09-28): чекпойнт
+  **до прогона** — прочитаны меморандум `memorandum-W8-run5.md` (§0–§8),
+  `rights-probe-2026-09-28.md`, `findings-registry.md` (F1–F42),
+  `run-checklist.md`, `W8-config-2026-09-28.md`, журнал Q47–Q53/D42–D48,
+  SPEC §10 №42–48, `TRACEABILITY.md`, фронтматтеры 11 ролей,
+  `dispatch-loop.md`/`review.md`/`git-workflow.md`, `token-guard.ts`,
+  `.opencode/.gitignore`, память `coder`/`tester`/`auditor`/`migrator`,
+  лента `service-mcp-ready-r2.md`. **Машинно:** `opencode reload` — отказ
+  (вне allowlist `validator`; разрешено `auditor`); `opencode debug agents`
+  ×2 — выводы идентичны (51378 Б, 13 `steps`), 11 ролей; `coder.steps 52`,
+  `tester.steps 36`, `auditor.steps 32`, `git/migrator 28`, `lead 16`,
+  `analyst/docs-writer/researcher 20`, `rust-expert 24`, `validator 36`;
+  `edit .opencode/mail/**` ×11; `opencode reload` — только `auditor`;
+  `findings-registry.md` deny у `analyst` (стр.78) + allow у `migrator`
+  (стр.1635); `execute: deny` — ровно 2 (docs-writer/git); `git branch -vv`
+  у `git`. `git status -sb`/`git diff --stat -- src tests`: ровно 10 файлов
+  (+335/−157) — те же, что в W8-config, новых правок `src/**`/`tests/**` нет.
+  Линки (меморандум/проба) резолвятся; дублей эскалации нет (канон — только
+  `dispatch-loop` §Hard rules); `state/**` согласован в 4 текстах. Запускаю
+  `cargo test --all` (страховка DoD на текущем дереве). Вердикт — в отчёте
+  `docs/reviews/W8-canon-2026-09-28.md`.
+- **W8-canon · итог:** `cargo test --all` — **107/0** (lib 54 + features_inventory
+  4 + mcp_draft 18 + mcp_errors 8 + publish 12 + rest 11), `features_inventory`
+  4/4 (47/278), вывод ~7 КБ без маркера среза. Машинная сверка прав (11 ролей,
+  стабильность ×2) и адресные проверки журнала/ссылок — ок. Вердикт **принято**
+  (P1/P2/P3 нет); отчёт `docs/reviews/W8-canon-2026-09-28.md`; квитанция
+  `receipts.yaml` (W8-canon, iteration 1, accepted). Техническое: `opencode
+  reload` — вне прав `validator` (отказ); заменено `debug agents` ×2. Пакет — к
+  коммиту за `git`; F15/F26/F27 открыты.

@@ -63,3 +63,27 @@
     features_inventory: "4/4 ok (47 files / 278 scenarios)"
   snapshot: "feature/T-04-mcp-errors, HEAD 0437799 + working tree (2026-09-28)"
   at: "2026-09-28"
+
+- task: W8-config
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/W8-config-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "develop, HEAD a7eac82 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: W8-canon
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/W8-canon-2026-09-28.md
+  dod:
+    fmt: "not rerun (src/tests unchanged since W8-config)"
+    clippy: "not rerun (src/tests unchanged since W8-config)"
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "develop, HEAD a7eac82 + working tree (2026-09-28)"
+  at: "2026-09-28"

@@ -78,3 +78,26 @@
   Автопроверка фронтматтеры ↔ `review.md` §«Доступные команды» — совпадение по
   11 ролям, `cargo test` только `validator`. Замечания (не находки): shell-отказ
   на `git … -- .opencode` — канон review.md:97-99; `git ls-files` у auditor нет.
+- 2026-09-28 · канон-пакет W8-т2 (Run 5), `develop` @`a7eac82` + рабочее дерево.
+  `reload` → `debug agents` ×2 — состав стабилен: `coder 52`, `tester 36`,
+  `auditor 32`, `git 28`, `lead 16`, `analyst 20`; `edit .opencode/mail/**` у
+  всех 11 ролей; `edit findings-registry.md` — у `migrator`; `execute: deny` —
+  только `docs-writer`/`git`; `git branch -vv` — allow у `git`; `B2_PREFIXES={}`.
+  Фронтматтеры ↔ `review.md` — совпадение по 11 ролям. Память ↔ канон (F35):
+  дрейфа нет (`coder` исправлен, `tester` `git -C`, `analyst` R2-формулировка).
+  P1/P2 нет. P3: `agents/auditor.md:158` — `opencode run` вне allowlist и вне
+  списка review.md (наследие, не пакет); эскалация-затык размножена в 4 файлах
+  (`dispatch-loop` + `AGENTS.md` + `coder` + `tester`, формулировки расходятся);
+  `analyst.md:9` `edit docs/analysis/**` покрывает `findings-registry.md`
+  (владелец — `migrator` по D48). Отчёт — в `service-mcp-ready-r2.md` (F16
+  проверен на практике: append прошёл).
+- 2026-09-28 · канон-пакет W8-т2, аудит **r2** (свежая сессия) после закрытия
+  трёх P3 r1. `reload` → `debug agents` ×2 — состав стабилен, 11 ролей;
+  `coder 52`, `tester 36`; `analyst` → `docs/analysis/findings-registry.md`
+  `deny`, `migrator` → `allow` (last-match-wins подтверждён). Проверено:
+  `auditor.md` п.6 — headless как процедура владельца, без предписания роли
+  `opencode run` и без дубля модели; `coder.md:48`/`tester.md:56`/`AGENTS.md`
+  §«Лимиты шагов» — короткие ссылки на `dispatch-loop.md` §«Hard rules», канон
+  правила только там; `analyst.md:11` — точечный deny реестра. P1/P2 нет,
+  P3 нет. Вердикт: инструкция ↔ права — расхождений нет. Не проверено:
+  `features_inventory` — за `validator`. Отчёт — `service-mcp-ready-r2.md`.
