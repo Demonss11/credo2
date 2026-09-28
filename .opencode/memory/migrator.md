@@ -42,3 +42,18 @@
   пробел прав (уточнение владельца). Сверка D49 — ⚪ (права/процесс); ID
   свободны (последние Q53/D48). Правки канона — сервисная сессия; приёмка —
   смоук `git branch --contains`; коммит — за `git`. Отчёт — та же лента.
+- 2026-09-28 · service-canon-hygiene (F45): в `docs/analysis/findings-registry.md`
+  добавлена F45 (после F44) — `auditor`: `execute` (Code Mode) не запрещён,
+  вызов `tools.shell` → «Unknown tool 'shell'»; статус «закрывается правкой
+  канона 28.09.2026»; связь `service-canon-hygiene`. Q/D не заводились
+  (образец F40–F42; сверка §5.3 не применима). Отчёт — лента
+  `.opencode/mail/service-canon-hygiene.md`. `cargo`/git не запускались.
+- 2026-09-28 · service-canon-hygiene (F45 закрыт, F46 заведена): в
+  `docs/analysis/findings-registry.md` F45 переведён в «закрыт правкой канона
+  28.09.2026» по факту внесения (`auditor.md:32` deny `execute`, `:124-125`
+  причина), после F45 добавлена F46 — дубли `cargo fmt|clippy|check|test`
+  в каноне (Q41-дрейф), статус «закрыт сведением к одному канону (R2 →
+  `dispatch-loop.md`; DoD → `AGENTS.md` §Сборка; матрица → фронтматтеры +
+  `review.md`)», связь `service-canon-hygiene`. Сверка §5.3 не применима
+  (права/канон), Q/D не заводились. `cargo`/git не запускались. Коммит — за
+  `git`; отчёт — та же лента. Открытых находок реестра не добавилось.

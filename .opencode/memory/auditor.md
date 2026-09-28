@@ -32,3 +32,31 @@
   P1/P2 нет. P3: `findings-registry.md:52` — F44 ссылается на приёмку
   `service-permissions-2026-09-28`, которой нет. Отчёт — лента
   `service-t11-closeout.md`. Правок канона не вносил.
+- **28.09.2026 · анализ дублей `cargo`-правил (service-canon-hygiene, задача 2),
+  сервисный, без правок.** Разобраны 36 строк-вхождений `cargo fmt|check|clippy|test`.
+  Класс A (права, фронтматтеры `coder`/`tester`/`rust-expert`/`validator`) и B
+  (`review.md:79-92` «Доступные команды») — намеренный дубль, две стороны
+  автосверки, остаются. R2 («`cargo test` — только `validator`») — один канон
+  `dispatch-loop.md:43`; буквальный DoD — один канон `AGENTS.md:304-306`.
+  К сокращению/ссылке: `review.md:93-94`, `auditor.md:84-86`, `validator.md:40,79-80`,
+  `coder.md:53-55`, `tester.md:51-52`, `rust-expert.md:61`, `AGENTS.md:45,303`,
+  `dispatch-loop.md:45`. P1 нет; P2 — дрейф (три копии DoD, матрица в `auditor`);
+  P3 — якорь «(R2, `AGENTS.md`)» в `dispatch-loop.md:43` не разрешается (R2
+  определён в `docs/tasks/T-11-agent-cycle/README.md:33`); расхождение
+  формулировки владельца («`cargo fmt` — только `validator`») с правами (`fmt`
+  есть у `coder`/`tester`/`rust-expert`). `docs/**` — вне правок. Сверка
+  `review.md:81-92` ↔ фронтматтеры — совпадают; «инструкция ↔ права» — расхождений
+  нет. `cargo`/`opencode debug agents` не запускались. Отчёт —
+  `service-canon-hygiene.md`. Правок канона не вносил.
+- **28.09.2026 · аудит пакета `service-canon-hygiene` (F45 + сокращение
+  дублей `cargo`), сервисный, без правок.** Сверка `review.md:80-91` ↔
+  фронтматтеры 11 ролей — совпадают; `cargo test` только `validator`; новых
+  прав сверх D49/F45 нет (диффом: единственная правка прав — `auditor.md:32`
+  `deny execute`). `opencode debug agents` (1 прогон, без `reload`):
+  `auditor.execute = deny` (полный вывод, стр. 378–380), `validator` →
+  `git branch --contains *`; вывод срезан token-guard (~36.9/51.4 КБ). R2 —
+  один канон `dispatch-loop.md:43`; DoD — один `AGENTS.md:304-306`; ссылки
+  разрешаются; реестр F45/F46 корректен, F40–F44 не задеты. Границы: 8 файлов
+  канона + реестр + лента + памяти; `src/**`/`tests/**`/`opencode.json` —
+  чисто. Вердикт «инструкция ↔ права: расхождений нет»; P1–P3 нет. Отчёт —
+  `service-canon-hygiene.md`. Правок канона не вносил.

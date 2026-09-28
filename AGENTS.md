@@ -42,7 +42,7 @@
 | `coder` | код задачи: `src/**` и юнит-тесты в модулях; тесты не запускает | `src/**`, `Cargo.toml` |
 | `rust-expert` | идиоматика Rust: правки `src/**` без изменения поведения; skill `rust-skills` | `src/**` |
 | `tester` | владелец `tests/**`: добавляет интеграционные тесты по сценариям; не запускает | `tests/**` |
-| `validator` | единственная роль с `cargo test` и полным DoD: покрытие, приёмка, возврат на доработку; квитанция — в `receipts.yaml` | `docs/reviews/**`, `.opencode/state/current/receipts.yaml` |
+| `validator` | приёмка и полный DoD прототипа: покрытие, возврат на доработку; квитанция — в `receipts.yaml` | `docs/reviews/**`, `.opencode/state/current/receipts.yaml` |
 | `researcher` | внешние аналоги и стандарты; вне кода, журнала и приёмки | `docs/research/**` |
 | `git` | git-операции: коммиты пакетом после подтверждения, идемпотентность | лента задачи, своя память |
 | `auditor` | служебная зона: независимый аудит «инструкция ↔ права» и приёмка канона; канон не правит; `mode: all` | своя память, лента задачи |
@@ -300,7 +300,7 @@ await tools.credo.check_rebuild_manifest();
 ```sh
 cargo build --release
 
-# DoD прототипа (из корня репозитория; полный прогон тестов — только validator):
+# DoD прототипа (из корня репозитория):
 cargo fmt --check
 cargo clippy --all-targets -- -D warnings
 cargo test --all

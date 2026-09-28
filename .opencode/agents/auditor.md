@@ -29,6 +29,7 @@ permissions:
   - { action: skill, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }
   - { action: question, resource: "*", effect: allow }
+  - { action: execute, resource: "*", effect: deny }
   - { action: external_directory, resource: "*", effect: ask }
 ---
 
@@ -81,9 +82,7 @@ permissions:
 
 - Каждая команда из тела роли есть в её `permissions` (и наоборот: право
   без применения — находка).
-- `cargo test` разрешён **только** `validator`; у `coder`, `rust-expert`,
-  `tester` — `cargo check`/`fmt` (+`clippy` у `coder`/`rust-expert`),
-  у `docs-writer`, `migrator`, `lead`, `analyst` — без `cargo`.
+- R2 — `dispatch-loop.md` §«Hard rules».
 - Список команд ролей в `.opencode/rules/review.md` («Доступные команды»)
   совпадает с фронтматтерами; расхождение — находка.
 - Зона записи роли в YAML совпадает с «Пишет в» в `AGENTS.md` и с телом;
@@ -122,6 +121,8 @@ permissions:
 
 - ≤ 15 прочитанных файлов за аудит; больше — сигналь владельцу;
 - ≤ 10 запусков `rg`; команды — одиночные (без `;`, пайпов, перенаправлений);
+- shell-команды — прямым инструментом `shell`; `execute` (Code Mode) роли
+  запрещён: в нём нет `tools.shell` (ошибка «Unknown tool 'shell'»);
 - не читать один файл дважды (исключение — повторное чтение для пропуска
   среза `token-guard` и проверки своей правки); большие документы — по карте
   заголовков (`.opencode/rules/workspace.md`).

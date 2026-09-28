@@ -86,3 +86,20 @@
   `service-permissions` iteration 1 — append. **Урок снят:** `git branch
   --contains` теперь штатное право роли — косвенную замену `git log` больше
   не применять.
+- **2026-09-28 · приёмка «service-canon-hygiene» (F45 + сокращение дублей
+  `cargo`-правил, итог):** вердикт **принято с замечаниями**; P1/P2 нет; P3 —
+  `.opencode/memory/service.md` без чекпойнта операции (лента есть: `:131-161`).
+  Проверено: `opencode debug agents` (1 прогон, без `reload`; срез token-guard
+  ~36 912/51 378 Б, видны `migrator`+`validator`; у `validator` —
+  `cargo fmt|clippy|test *`, `git branch --contains *` (D49); блок `auditor` в
+  срезе → `execute: deny` только статически `auditor.md:32`, полный файл вне
+  зоны чтения); `rg "action: shell"` — `cargo test *` только `validator.md:20`,
+  список `review.md:80-91` ↔ фронтматтеры 11 ролей совпадают; R2 — одно
+  определение `dispatch-loop.md:43`, ссылки резолвятся; DoD — один список
+  `AGENTS.md:304-306`, ссылки `review.md:49`/`validator.md:79-80`; реестр
+  F45:53/F46:54 (+2 строки, F40–F44 не задеты); границы: `git diff -- src tests
+  opencode.json` пусто, `docs/**` — только реестр. Отчёт
+  `docs/reviews/service-canon-hygiene-2026-09-28.md`; квитанция
+  `service-canon-hygiene` iteration 1 — append. Урок: `execute`-право в выводе
+  `opencode debug agents` проверять по фронтматтеру, если блок роли в срезе, а
+  полный файл недоступен (`external_directory: deny`).

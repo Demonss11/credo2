@@ -103,3 +103,18 @@
   `service-permissions`. Уточнение владельца учтено: `git diff *` у роли был и
   есть; отказ `git diff -- .opencode/...` — квик dot-пути, не пробел прав.
   Дальше: пакет `git` (develop ahead 1 после `6d4c840`) по подтверждению.
+- 28.09.2026 · **service-canon-hygiene**: (1) фикс **F45** — у `auditor` не было
+  `deny execute` (Code Mode: `tools.shell` → «Unknown tool 'shell'»); внесено
+  `auditor.md:32` + причина в теле; (2) аудит дублей
+  `cargo fmt|clippy|check|test` (`auditor`): каноны — R2 `dispatch-loop.md:43`,
+  DoD `AGENTS.md:304-306`, матрица — фронтматтеры + `review.md` (`:79-92`);
+  решение владельца «по таблице аудитора», права — без изменений («оставить
+  как есть»); сокращение внесено в 8 файлов канона (`AGENTS.md` `:45,303`,
+  `review.md` `:49-50,93-94`, `dispatch-loop.md` `:43,45-46`, `validator.md`
+  `:39-40,79-80`, `coder.md` `:53-55`, `tester.md` `:51-53`, `rust-expert.md`
+  `:61`, `auditor.md` `:84-86`); реестр — F45 «закрыт», F46 новая (migrator);
+  аудит `auditor` — «Инструкция ↔ права: расхождений нет»; приёмка
+  `service-canon-hygiene` — **принято с P3** (эта запись закрывает P3);
+  отчёт `docs/reviews/service-canon-hygiene-2026-09-28.md`, квитанция
+  `service-canon-hygiene`; `develop` ahead 1 (`e1e90d4`); дальше — пакет
+  `git` по подтверждению.

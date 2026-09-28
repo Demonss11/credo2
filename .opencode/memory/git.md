@@ -62,3 +62,19 @@
   Сообщение — `chore(agents): Q54/D49 — validator: право git branch --contains
   (аудит и приёмка)`. Осталось: `add` 16 → сверка staged → коммит локально,
   **без `push`**. Хеш — не здесь (F43): вернуть ответом. Веток/merge/тегов нет.
+- 28.09.2026 · пакет `service-canon-hygiene` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-canon-hygiene.md` §«пакет подтверждён
+  (коммит + push)» — «Коммит + push», 28.09.2026). Снимок до: 14 `M` + 2 `??` =
+  16 путей, совпал; база HEAD `e1e90d4`, `develop`, ahead 2 (`6d4c840`, `e1e90d4`);
+  коммита с целевым сообщением нет (grep по `--all` пусто); чекпойнт `git.md` —
+  17-й путь (в составе пакета). 17 путей: `AGENTS.md`,
+  `agents/{auditor,coder,rust-expert,tester,validator}.md`,
+  `rules/{dispatch-loop,review}.md`, `mail/service-canon-hygiene.md`,
+  `memory/{auditor,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/analysis/findings-registry.md`,
+  `docs/reviews/service-canon-hygiene-2026-09-28.md`. Сообщение —
+  `chore(agents): F45/F46 — deny execute у auditor; дубли cargo-правил сведены
+  (Q41)`. Осталось: `add` 17 → сверка staged (17) → коммит → проверки → `push
+  origin develop` (таймаут ≥ 5 мин; публикует `6d4c840`, `e1e90d4`, новый
+  коммит) → `status -sb` (синхрон) → `log -3`. Хеш — не здесь (F43): вернуть
+  `lead` ответом. Веток/merge/тегов нет.

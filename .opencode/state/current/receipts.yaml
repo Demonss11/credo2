@@ -125,3 +125,19 @@
     test: "not rerun (src/tests unchanged since W8-config: 107 passed / 47 files / 278 scenarios)"
   snapshot: "develop, HEAD 6d4c840 + working tree (2026-09-28)"
   at: "2026-09-28"
+
+- task: service-canon-hygiene
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-canon-hygiene-2026-09-28.md
+  dod:
+    debug_agents: "one run, no reload; output truncated by token-guard (~36912/51378 B; lines 1551-2616 = migrator+validator); validator visible: cargo fmt|clippy|test + opencode debug agents + git branch --contains * (D49), external_directory deny; auditor block cut, full file outside role read zone -> auditor.execute=deny confirmed statically (auditor.md:32)"
+    rights: "ok — rg action:shell .opencode/agents: cargo test * only validator.md:20; rg -n 'action: shell' list matches review.md:80-91 for all 11 roles; no rights beyond D49/F45"
+    rules: "ok — R2 single definition dispatch-loop.md:43, refs validator.md:40/coder.md:54-55/tester.md:51-52/rust-expert.md:62/auditor.md:85 resolve; DoD single literal list AGENTS.md:304-306, refs review.md:49/validator.md:79-80"
+    registry: "ok — F45:53 / F46:54 match facts, \\| escaping, diff +2 lines, F40-F44 untouched"
+    borders: "ok — git status 11 M + 1 ??; docs only findings-registry.md; git diff -- src tests opencode.json empty"
+    fmt: "not rerun (no Rust changes; canon/process package)"
+    clippy: "not rerun (no Rust changes; canon/process package)"
+    test: "not rerun (src/tests unchanged since W8-config: 107 passed / 47 files / 278 scenarios)"
+  snapshot: "develop, HEAD e1e90d4 + working tree (2026-09-28)"
+  at: "2026-09-28"
