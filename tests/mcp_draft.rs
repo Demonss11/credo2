@@ -315,7 +315,8 @@ fn test_missing_field_is_evaluation_failed_q8() {
     let mut mcp = Mcp::start(t.path());
     mcp.create(NAME, SRC);
 
-    let (err, payload) = mcp.call("check.test", json!({ "name": NAME, "input": {} }));
+    let (err, payload) =
+        mcp.call("check.test", json!({ "name": NAME, "input": {} }));
     let message = assert_error_envelope(err, &payload, "evaluation_failed");
     assert!(message.contains("Неизвестное поле"), "сообщение: {message}");
     assert!(
@@ -409,7 +410,8 @@ fn create_rejects_source_without_rule_header() {
     let mut mcp = Mcp::start(t.path());
 
     let bad = "Если (Клиент.Возраст < 21) { Решение = Отказ; }";
-    let (err, payload) = mcp.call("check.create", json!({ "name": NAME, "source": bad }));
+    let (err, payload) =
+        mcp.call("check.create", json!({ "name": NAME, "source": bad }));
     let message = assert_error_envelope(err, &payload, "validation_failed");
     assert!(
         message.contains("отсутствует заголовок правила"),

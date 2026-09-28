@@ -44,7 +44,7 @@ impl Mcp {
                         if tx.send(l).is_err() {
                             break;
                         }
-                    }
+                    },
                     Err(_) => break,
                 }
             }
@@ -72,12 +72,15 @@ impl Mcp {
     }
 
     fn send(&mut self, msg: &serde_json::Value) {
-        writeln!(self.stdin, "{}", serde_json::to_string(msg).unwrap()).expect("write stdin");
+        writeln!(self.stdin, "{}", serde_json::to_string(msg).unwrap())
+            .expect("write stdin");
         self.stdin.flush().expect("flush stdin");
     }
 
     pub fn notify(&mut self, method: &str, params: serde_json::Value) {
-        self.send(&json!({ "jsonrpc": "2.0", "method": method, "params": params }));
+        self.send(
+            &json!({ "jsonrpc": "2.0", "method": method, "params": params }),
+        );
     }
 
     pub fn request(
@@ -95,10 +98,15 @@ impl Mcp {
         loop {
             let line = match self.rx.recv_timeout(Duration::from_secs(30)) {
                 Ok(l) => l,
-                Err(RecvTimeoutError::Timeout) => panic!("таймаут ответа на {method} (id={id})"),
-                Err(RecvTimeoutError::Disconnected) => panic!("сервер закрыл stdout"),
+                Err(RecvTimeoutError::Timeout) => {
+                    panic!("таймаут ответа на {method} (id={id})")
+                },
+                Err(RecvTimeoutError::Disconnected) => {
+                    panic!("сервер закрыл stdout")
+                },
             };
-            let v: serde_json::Value = serde_json::from_str(line.trim()).expect("ответ — JSON");
+            let v: serde_json::Value =
+                serde_json::from_str(line.trim()).expect("ответ — JSON");
             // Пропускаем уведомления сервера (без id).
             if v.get("id").and_then(serde_json::Value::as_i64) == Some(id) {
                 return v;
@@ -112,24 +120,34 @@ impl Mcp {
     }
 
     /// Возвращает `(isError, payload)`; payload — JSON из `content[0].text`.
-    pub fn call(&mut self, tool: &str, args: serde_json::Value) -> (bool, serde_json::Value) {
+    pub fn call(
+        &mut self,
+        tool: &str,
+        args: serde_json::Value,
+    ) -> (bool, serde_json::Value) {
         let id = self.next_id();
-        let resp = self.request(id, "tools/call", json!({ "name": tool, "arguments": args }));
+        let resp = self.request(
+            id,
+            "tools/call",
+            json!({ "name": tool, "arguments": args }),
+        );
         let result = &resp["result"];
         assert!(result.is_object(), "нет result в ответе: {resp}");
         let is_error = result["isError"].as_bool().unwrap_or(false);
         let text = result["content"][0]["text"]
             .as_str()
             .unwrap_or_else(|| panic!("нет content[0].text: {resp}"));
-        let payload: serde_json::Value = serde_json::from_str(text).unwrap_or_else(|e| {
-            panic!("content[0].text — не JSON ({e}): {text}");
-        });
+        let payload: serde_json::Value = serde_json::from_str(text)
+            .unwrap_or_else(|e| {
+                panic!("content[0].text — не JSON ({e}): {text}");
+            });
         (is_error, payload)
     }
 
     /// Успешный `check.create` для `name`/`source`.
     pub fn create(&mut self, name: &str, source: &str) -> serde_json::Value {
-        let (err, payload) = self.call("check.create", json!({ "name": name, "source": source }));
+        let (err, payload) = self
+            .call("check.create", json!({ "name": name, "source": source }));
         assert!(!err, "check.create вернул ошибку: {payload}");
         payload
     }
@@ -173,7 +191,9 @@ pub fn assert_error_envelope(
         .get("error")
         .unwrap_or_else(|| panic!("нет error в ответе: {payload}"))
         .as_object()
-        .unwrap_or_else(|| panic!("error — не объект (плоский конверт?): {payload}"));
+        .unwrap_or_else(|| {
+            panic!("error — не объект (плоский конверт?): {payload}")
+        });
     let mut keys: Vec<&str> = error.keys().map(String::as_str).collect();
     keys.sort_unstable();
     assert_eq!(
@@ -206,7 +226,7 @@ pub fn assert_error_envelope(
 
 /// Код ошибки из единого конверта T-04 (`{"error":{"code","message"}}`).
 pub fn error_code(payload: &serde_json::Value) -> &str {
-    payload["error"]["code"]
-        .as_str()
-        .unwrap_or_else(|| panic!("нет error.code в конверте ошибки: {payload}"))
+    payload["error"]["code"].as_str().unwrap_or_else(|| {
+        panic!("нет error.code в конверте ошибки: {payload}")
+    })
 }

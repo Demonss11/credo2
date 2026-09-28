@@ -30,10 +30,6 @@
           "name": "qwen/qwen3-coder-plus"
         }
       }
-    },
-    "opencode-go": {
-      // Оставляем только эти модели, остальные скрываются из /models
-      "whitelist": ["deepseek-v4.1-flash", "deepseek-v4-pro"]
     }
   },
 

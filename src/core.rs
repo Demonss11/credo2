@@ -111,7 +111,7 @@ impl fmt::Display for EvalError {
             // (Q11: русские сообщения).
             EvalError::UnknownField(field) => {
                 write!(f, "Неизвестное поле: {field}")
-            }
+            },
             EvalError::TypeMismatch {
                 field,
                 actual,
@@ -158,24 +158,25 @@ pub fn evaluate_rule(
         .get(&rule.condition.field)
         .cloned()
         .ok_or_else(|| EvalError::UnknownField(rule.condition.field.clone()))?;
-    let matched = match (&actual, rule.condition.op.as_str(), &rule.condition.value) {
-        (Value::Number(a), op, Value::Number(b)) => match op {
-            "<" => a < b,
-            ">" => a > b,
-            "==" => a == b,
-            "!=" => a != b,
-            _ => unreachable!("оператор ограничен парсером: <, >, ==, !="),
-        },
-        // строки сравниваются только на равенство; `<`/`>` для строк —
-        // ошибка типов (Q9)
-        (Value::Str(a), "==", Value::Str(b)) => a == b,
-        (Value::Str(a), "!=", Value::Str(b)) => a != b,
-        _ => Err(EvalError::TypeMismatch {
-            field: rule.condition.field.clone(),
-            actual: actual.type_name(),
-            expected: rule.condition.value.type_name(),
-        })?,
-    };
+    let matched =
+        match (&actual, rule.condition.op.as_str(), &rule.condition.value) {
+            (Value::Number(a), op, Value::Number(b)) => match op {
+                "<" => a < b,
+                ">" => a > b,
+                "==" => a == b,
+                "!=" => a != b,
+                _ => unreachable!("оператор ограничен парсером: <, >, ==, !="),
+            },
+            // строки сравниваются только на равенство; `<`/`>` для строк —
+            // ошибка типов (Q9)
+            (Value::Str(a), "==", Value::Str(b)) => a == b,
+            (Value::Str(a), "!=", Value::Str(b)) => a != b,
+            _ => Err(EvalError::TypeMismatch {
+                field: rule.condition.field.clone(),
+                actual: actual.type_name(),
+                expected: rule.condition.value.type_name(),
+            })?,
+        };
     Ok(Explanation {
         rule_name: rule.name.clone(),
         condition: condition_to_string(&rule.condition),
@@ -243,7 +244,10 @@ pub fn source_hash(source: &str) -> String {
     sha256_of(source.as_bytes())
 }
 
-pub fn checksum_of(rule: &Rule, contract: &CheckContract) -> anyhow::Result<String> {
+pub fn checksum_of(
+    rule: &Rule,
+    contract: &CheckContract,
+) -> anyhow::Result<String> {
     use sha2::{Digest, Sha256};
     let mut h = Sha256::new();
     h.update(serde_json::to_vec(rule)?);
@@ -289,17 +293,16 @@ impl Semver {
                 if b.is_empty() {
                     bail!("пустой build-метаданные");
                 }
-                if !b
-                    .bytes()
-                    .all(|c| c.is_ascii_alphanumeric() || c == b'.' || c == b'-')
-                {
+                if !b.bytes().all(|c| {
+                    c.is_ascii_alphanumeric() || c == b'.' || c == b'-'
+                }) {
                     bail!("невалидные build-метаданные");
                 }
                 if b.split('.').any(|seg| seg.is_empty()) {
                     bail!("пустой идентификатор в build-метаданных");
                 }
                 (a, Some(b.to_string()))
-            }
+            },
             None => (s, None),
         };
 
@@ -308,17 +311,16 @@ impl Semver {
                 if b.is_empty() {
                     bail!("пустой pre-release");
                 }
-                if !b
-                    .bytes()
-                    .all(|c| c.is_ascii_alphanumeric() || c == b'.' || c == b'-')
-                {
+                if !b.bytes().all(|c| {
+                    c.is_ascii_alphanumeric() || c == b'.' || c == b'-'
+                }) {
                     bail!("невалидный pre-release");
                 }
                 if b.split('.').any(|seg| seg.is_empty()) {
                     bail!("пустой идентификатор в pre-release");
                 }
                 (a, Some(b.to_string()))
-            }
+            },
             None => (s, None),
         };
 
@@ -389,7 +391,7 @@ fn compare_pre(a: &str, b: &str) -> Ordering {
                 if ord != Ordering::Equal {
                     return ord;
                 }
-            }
+            },
         }
     }
 }
@@ -402,7 +404,7 @@ fn compare_ident(a: &str, b: &str) -> Ordering {
             let av: u64 = a.parse().unwrap_or(u64::MAX);
             let bv: u64 = b.parse().unwrap_or(u64::MAX);
             av.cmp(&bv)
-        }
+        },
         (true, false) => Ordering::Less,
         (false, true) => Ordering::Greater,
         (false, false) => a.cmp(b),
@@ -433,7 +435,8 @@ impl PartialOrd for Semver {
 
 pub fn parse_rule(source: &str) -> Result<Rule, String> {
     let name_re = Regex::new(r"Правило\s+(\w+)").unwrap();
-    let cond_re = Regex::new(r"Если\s*\(([^<>=!]+)\s*(<|>|==|!=)\s*([^)]+)\)").unwrap();
+    let cond_re =
+        Regex::new(r"Если\s*\(([^<>=!]+)\s*(<|>|==|!=)\s*([^)]+)\)").unwrap();
     let decision_re = Regex::new(r"Решение\s*=\s*(\w+)").unwrap();
     let reason_re = Regex::new(r#"Причина\s*=\s*"([^"]+)""#).unwrap();
 
@@ -531,8 +534,11 @@ mod tests {
   }
 }",
         );
-        let err = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(25.0))]))
-            .expect_err("ожидалась ошибка типов");
+        let err = evaluate_rule(
+            &r,
+            &input(&[("Клиент.Возраст", Value::Number(25.0))]),
+        )
+        .expect_err("ожидалась ошибка типов");
         match &err {
             EvalError::TypeMismatch {
                 field,
@@ -542,7 +548,7 @@ mod tests {
                 assert_eq!(field, "Клиент.Возраст");
                 assert_eq!(*actual, "number");
                 assert_eq!(*expected, "string");
-            }
+            },
             other => panic!("неожиданная ошибка: {other:?}"),
         }
         assert!(err.to_string().contains("Несовместимые типы"));
@@ -551,7 +557,11 @@ mod tests {
     #[test]
     fn explanation_has_latin_keys_and_condition_q42() {
         let r = rule(MIN_AGE);
-        let e = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(19.0))])).unwrap();
+        let e = evaluate_rule(
+            &r,
+            &input(&[("Клиент.Возраст", Value::Number(19.0))]),
+        )
+        .unwrap();
         assert_eq!(e.rule_name, "МинимальныйВозраст");
         assert_eq!(e.condition, "Клиент.Возраст < 21");
         assert!(e.matched);
@@ -574,7 +584,11 @@ mod tests {
     #[test]
     fn unmatched_rule_has_empty_decision_q10() {
         let r = rule(MIN_AGE);
-        let e = evaluate_rule(&r, &input(&[("Клиент.Возраст", Value::Number(25.0))])).unwrap();
+        let e = evaluate_rule(
+            &r,
+            &input(&[("Клиент.Возраст", Value::Number(25.0))]),
+        )
+        .unwrap();
         assert!(!e.matched);
         assert_eq!(e.decision, "");
         assert_eq!(e.reason, "");
@@ -697,7 +711,8 @@ mod tests {
 
     #[test]
     fn parse_rule_without_title_reports_missing_header() {
-        let err = parse_rule("Если (Клиент.Возраст < 21) { Решение = Отказ; }").unwrap_err();
+        let err = parse_rule("Если (Клиент.Возраст < 21) { Решение = Отказ; }")
+            .unwrap_err();
         assert_eq!(err, "отсутствует заголовок правила");
     }
 

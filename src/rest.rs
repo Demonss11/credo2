@@ -49,20 +49,29 @@ type ApiErr = (StatusCode, Json<JsonValue>);
 
 /// Конверт ошибки Q23: `{"error": {"code", "message"}}`.
 /// `code` — стабильный `snake_case` (латиница); `message` — русский текст Q11.
-fn err(code: &'static str, status: StatusCode, msg: impl Into<String>) -> ApiErr {
+fn err(
+    code: &'static str,
+    status: StatusCode,
+    msg: impl Into<String>,
+) -> ApiErr {
     (
         status,
         Json(json!({ "error": { "code": code, "message": msg.into() } })),
     )
 }
 
-async fn auth(State(state): State<Arc<AppState>>, req: Request, next: Next) -> Response {
+async fn auth(
+    State(state): State<Arc<AppState>>,
+    req: Request,
+    next: Next,
+) -> Response {
     let path = req.uri().path();
     if matches!(path, "/health" | "/docs" | "/openapi.json") {
         return next.run(req).await;
     }
     if let Some(expected) = state.api_key() {
-        let provided = req.headers().get("x-api-key").and_then(|v| v.to_str().ok());
+        let provided =
+            req.headers().get("x-api-key").and_then(|v| v.to_str().ok());
         if provided != Some(expected.as_str()) {
             return err(
                 "unauthorized",
@@ -269,7 +278,10 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
         );
 
         for v in e.supported.iter().chain(e.deprecated.iter()) {
-            let c = match checks.iter().find(|c| &c.name == name && &c.version == v) {
+            let c = match checks
+                .iter()
+                .find(|c| &c.name == name && &c.version == v)
+            {
                 Some(c) => c,
                 None => continue,
             };
@@ -289,7 +301,8 @@ async fn openapi(State((_, cache)): State<Ctx>) -> Json<JsonValue> {
                 "401": error_response("Не авторизован")
             });
             if deprecated {
-                post_responses["410"] = error_response("Версия выведена из эксплуатации");
+                post_responses["410"] =
+                    error_response("Версия выведена из эксплуатации");
             }
             let mut post = json!({
                 "summary": format!("Выполнить {summary}"),

@@ -1,12 +1,13 @@
 use crate::core::{
-    Semver, Value, condition_to_string, contract_from_rule, evaluate_rule, parse_rule,
+    Semver, Value, condition_to_string, contract_from_rule, evaluate_rule,
+    parse_rule,
 };
 use crate::{AppState, DeprecateError, Draft, ServiceCache};
 use rmcp::{
     handler::server::ServerHandler,
     model::{
-        CallToolRequestParams, CallToolResponse, CallToolResult, ErrorData, ListToolsResult,
-        PaginatedRequestParams, ServerConfig, Tool,
+        CallToolRequestParams, CallToolResponse, CallToolResult, ErrorData,
+        ListToolsResult, PaginatedRequestParams, ServerConfig, Tool,
     },
     service::{RequestContext, RoleServer},
 };
@@ -14,7 +15,10 @@ use serde_json::{Map, Value as JsonValue, json};
 use std::collections::HashMap;
 use std::sync::Arc;
 
-pub async fn run_stdio(state: Arc<AppState>, cache: Arc<ServiceCache>) -> anyhow::Result<()> {
+pub async fn run_stdio(
+    state: Arc<AppState>,
+    cache: Arc<ServiceCache>,
+) -> anyhow::Result<()> {
     let server = McpServer { state, cache };
     let service = rmcp::serve_server(server, rmcp::transport::stdio()).await?;
     service.waiting().await?;
@@ -127,7 +131,11 @@ impl ToolError {
 }
 
 impl McpServer {
-    async fn dispatch(&self, name: &str, args: JsonValue) -> Result<JsonValue, ToolError> {
+    async fn dispatch(
+        &self,
+        name: &str,
+        args: JsonValue,
+    ) -> Result<JsonValue, ToolError> {
         match name {
             "check.create" => self.create(args).await,
             "check.list_drafts" => self.list_drafts().await,
@@ -164,9 +172,9 @@ impl McpServer {
             )));
         }
         let existing = self.state.get_draft(&rule.name).await;
-        let draft = self
-            .state
-            .make_draft(source.to_string(), rule, existing.as_ref());
+        let draft =
+            self.state
+                .make_draft(source.to_string(), rule, existing.as_ref());
         let name = draft.name.clone();
         self.state
             .upsert_draft(draft)
@@ -211,8 +219,10 @@ impl McpServer {
         let input_json = args
             .get("input")
             .ok_or_else(|| ToolError::validation("Нужен 'input'"))?;
-        let input: HashMap<String, Value> = serde_json::from_value(input_json.clone())
-            .map_err(|e| ToolError::validation(format!("Ошибка входа: {e}")))?;
+        let input: HashMap<String, Value> =
+            serde_json::from_value(input_json.clone()).map_err(|e| {
+                ToolError::validation(format!("Ошибка входа: {e}"))
+            })?;
         let d = self
             .state
             .get_draft(name)
@@ -222,7 +232,8 @@ impl McpServer {
         // типы) возвращается как ошибка инструмента MCP с кодом
         // `evaluation_failed` (Q29).
         // Q29: `stale` не блокирует `check.test`.
-        let e = evaluate_rule(&d.rule, &input).map_err(|e| ToolError::evaluation(e.to_string()))?;
+        let e = evaluate_rule(&d.rule, &input)
+            .map_err(|e| ToolError::evaluation(e.to_string()))?;
 
         // Q16/Q34/Q29: успешный тест фиксирует метку `last_test_checksum`
         // (= `source_hash` на момент теста) и `tested_at`.
@@ -250,7 +261,10 @@ impl McpServer {
         }))
     }
 
-    async fn delete_draft(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
+    async fn delete_draft(
+        &self,
+        args: JsonValue,
+    ) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
@@ -260,7 +274,9 @@ impl McpServer {
             .delete_draft(name)
             .await
             .map_err(|e| ToolError::internal(e.to_string()))?;
-        Ok(json!({ "status": if removed { "deleted" } else { "not_found" }, "name": name }))
+        Ok(
+            json!({ "status": if removed { "deleted" } else { "not_found" }, "name": name }),
+        )
     }
 
     async fn publish(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
@@ -281,7 +297,9 @@ impl McpServer {
         // (mcp_tools.feature); проверяем до поиска черновика, чтобы код не
         // зависел от его наличия.
         Semver::parse(version_raw).map_err(|e| {
-            ToolError::validation(format!("невалидная версия {version_raw:?}: {e}"))
+            ToolError::validation(format!(
+                "невалидная версия {version_raw:?}: {e}"
+            ))
         })?;
 
         let d = self
@@ -338,8 +356,9 @@ impl McpServer {
             return Err(ToolError::validation("Нужен непустой 'reason'"));
         }
         // Q29: невалидная версия — `validation_failed`.
-        Semver::parse(version)
-            .map_err(|e| ToolError::validation(format!("невалидная версия {version:?}: {e}")))?;
+        Semver::parse(version).map_err(|e| {
+            ToolError::validation(format!("невалидная версия {version:?}: {e}"))
+        })?;
 
         let repo = self.state.published_repo().to_path_buf();
         let name_s = name.to_string();
@@ -356,8 +375,10 @@ impl McpServer {
             match e {
                 DeprecateError::AlreadyDeprecated { .. } => {
                     ToolError::deprecation_conflict(message)
-                }
-                DeprecateError::VersionNotFound { .. } => ToolError::version_not_found(message),
+                },
+                DeprecateError::VersionNotFound { .. } => {
+                    ToolError::version_not_found(message)
+                },
                 DeprecateError::Other(_) => ToolError::internal(message),
             }
         })?;
@@ -402,9 +423,11 @@ impl McpServer {
         let manifest = self.cache.manifest().await;
         let repo = self.state.published_repo().to_path_buf();
         let m = manifest.clone();
-        let written = tokio::task::spawn_blocking(move || crate::write_manifest_to_main(&repo, &m))
-            .await??
-            .is_some();
+        let written = tokio::task::spawn_blocking(move || {
+            crate::write_manifest_to_main(&repo, &m)
+        })
+        .await??
+        .is_some();
         Ok((manifest.service_hash, written))
     }
 }
@@ -413,7 +436,8 @@ impl McpServer {
 /// только рендеренные строки, внутренний `Rule` не публикуется; `stale`
 /// и `test_valid` — вычисляемые.
 fn draft_json(state: &AppState, d: &Draft) -> JsonValue {
-    let test_valid = d.last_test_checksum.as_deref() == Some(d.source_hash.as_str());
+    let test_valid =
+        d.last_test_checksum.as_deref() == Some(d.source_hash.as_str());
     json!({
         "name": d.name,
         "source": d.source,
@@ -430,7 +454,12 @@ fn draft_json(state: &AppState, d: &Draft) -> JsonValue {
     })
 }
 
-fn make_tool(name: &str, description: &str, properties: JsonValue, required: Vec<&str>) -> Tool {
+fn make_tool(
+    name: &str,
+    description: &str,
+    properties: JsonValue,
+    required: Vec<&str>,
+) -> Tool {
     serde_json::from_value(json!({
         "name": name, "description": description,
         "inputSchema": { "type": "object", "properties": properties, "required": required }
@@ -501,9 +530,13 @@ fn tool_specs() -> Vec<Tool> {
     ]
 }
 
-fn response(value: JsonValue, is_error: bool) -> Result<CallToolResponse, ErrorData> {
-    let text = serde_json::to_string(&value)
-        .map_err(|e| ErrorData::internal_error(format!("serialize: {e}"), None))?;
+fn response(
+    value: JsonValue,
+    is_error: bool,
+) -> Result<CallToolResponse, ErrorData> {
+    let text = serde_json::to_string(&value).map_err(|e| {
+        ErrorData::internal_error(format!("serialize: {e}"), None)
+    })?;
     let r: CallToolResult = serde_json::from_value(json!({
         "content": [{ "type": "text", "text": text }],
         "isError": is_error
@@ -565,7 +598,8 @@ mod tests {
     /// инструментов `check.import`/`check.export*` в `list_tools` быть не должно.
     #[test]
     fn no_import_export_tools_q26() {
-        let names: Vec<String> = tool_specs().iter().map(|t| t.name.to_string()).collect();
+        let names: Vec<String> =
+            tool_specs().iter().map(|t| t.name.to_string()).collect();
 
         assert!(!names.is_empty(), "list_tools пуст");
         for name in &names {
@@ -588,7 +622,8 @@ mod tests {
 
     fn new_server(dir: &std::path::Path) -> McpServer {
         let state = Arc::new(AppState::new(dir.to_path_buf(), None).unwrap());
-        let cache = ServiceCache::load(state.published_repo().to_path_buf()).unwrap();
+        let cache =
+            ServiceCache::load(state.published_repo().to_path_buf()).unwrap();
         McpServer { state, cache }
     }
 
@@ -666,7 +701,8 @@ mod tests {
         assert!(err.message.contains("не совпадает"), "err = {err:?}");
         assert!(err.message.contains("МинимальныйВозраст"), "err = {err:?}");
         // Черновик при расхождении не создаётся.
-        let drafts = srv.dispatch("check.list_drafts", json!({})).await.unwrap();
+        let drafts =
+            srv.dispatch("check.list_drafts", json!({})).await.unwrap();
         assert_eq!(drafts["count"], json!(0));
     }
 
@@ -915,7 +951,8 @@ mod tests {
         let srv = new_server(t.path());
         // Портим репозиторий публикаций: `.git` делает его рабочим —
         // `ensure_repo` отказывает, `rebuild_manifest` не проходит.
-        std::fs::create_dir_all(srv.state.published_repo().join(".git")).unwrap();
+        std::fs::create_dir_all(srv.state.published_repo().join(".git"))
+            .unwrap();
 
         let err = srv
             .dispatch("check.rebuild_manifest", json!({}))

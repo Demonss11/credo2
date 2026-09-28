@@ -16,7 +16,10 @@ mod common;
 
 use common::*;
 use credo2::core::{contract_from_rule, parse_rule};
-use credo2::{commit_tree, ensure_repo, publish, rev_parse, update_ref, write_index_with_parent};
+use credo2::{
+    commit_tree, ensure_repo, publish, rev_parse, update_ref,
+    write_index_with_parent,
+};
 use serde_json::json;
 use std::path::Path;
 
@@ -63,7 +66,8 @@ fn publish_missing_draft_is_draft_not_found() {
     let t = temp_workspace();
     let mut mcp = Mcp::start(t.path());
 
-    let (err, payload) = mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
+    let (err, payload) =
+        mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
     let message = assert_error_envelope(err, &payload, "draft_not_found");
     assert!(
         message.contains("черновик не найден"),
@@ -79,10 +83,12 @@ fn publish_duplicate_version_is_publish_failed() {
     let mut mcp = Mcp::start(t.path());
     mcp.create(NAME, SRC);
 
-    let (err, first) = mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
+    let (err, first) =
+        mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
     assert!(!err, "первая публикация отклонена: {first}");
 
-    let (err, payload) = mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
+    let (err, payload) =
+        mcp.call("check.publish", json!({ "name": NAME, "version": "1.0.0" }));
     let message = assert_error_envelope(err, &payload, "publish_failed");
     assert!(message.contains("уже существует"), "сообщение: {message}");
 }

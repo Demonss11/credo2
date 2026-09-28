@@ -3,7 +3,8 @@ pub mod mcp;
 pub mod rest;
 
 use crate::core::{
-    CheckContract, CheckMeta, Rule, Semver, StoredCheck, checksum_of, sha256_of, source_hash,
+    CheckContract, CheckMeta, Rule, Semver, StoredCheck, checksum_of,
+    sha256_of, source_hash,
 };
 use anyhow::{Context, Result, anyhow, bail};
 use serde::{Deserialize, Serialize};
@@ -108,10 +109,14 @@ pub fn write_index_with_parent(
                         &format!("100644,{s},{path}"),
                     ],
                 )?;
-            }
+            },
             None => {
-                let _ = git_with_index(repo, idx.path(), &["update-index", "--force-remove", path]);
-            }
+                let _ = git_with_index(
+                    repo,
+                    idx.path(),
+                    &["update-index", "--force-remove", path],
+                );
+            },
         }
     }
     let tree = git_with_index(repo, idx.path(), &["write-tree"])?
@@ -124,7 +129,12 @@ pub fn rev_parse(repo: &Path, refname: &str) -> Result<String> {
     Ok(git_run(repo, &["rev-parse", refname])?.trim().to_string())
 }
 
-pub fn commit_tree(repo: &Path, tree: &str, parent: &str, msg: &str) -> Result<String> {
+pub fn commit_tree(
+    repo: &Path,
+    tree: &str,
+    parent: &str,
+    msg: &str,
+) -> Result<String> {
     let out = Command::new("git")
         .arg("-C")
         .arg(repo)
@@ -196,8 +206,9 @@ fn list_tree(repo: &Path, refname: &str) -> Result<Vec<String>> {
 
 pub fn ensure_repo(repo: &Path) -> Result<()> {
     // Маркер bare-репо: есть objects/ и refs/, но нет рабочего .git.
-    let is_bare =
-        repo.join("objects").is_dir() && repo.join("refs").is_dir() && !repo.join(".git").exists();
+    let is_bare = repo.join("objects").is_dir()
+        && repo.join("refs").is_dir()
+        && !repo.join(".git").exists();
     if is_bare {
         return Ok(());
     }
@@ -241,14 +252,14 @@ pub fn list_from_ref(repo: &Path, refname: &str) -> Result<Vec<StoredCheck>> {
             Err(e) => {
                 tracing::warn!("skip {dir}: {e}");
                 continue;
-            }
+            },
         };
         let meta: CheckMeta = match serde_json::from_slice(&meta_bytes) {
             Ok(m) => m,
             Err(e) => {
                 tracing::warn!("skip {dir}: bad meta: {e}");
                 continue;
-            }
+            },
         };
 
         if meta.name != parts[1] || meta.version != parts[2] {
@@ -260,10 +271,16 @@ pub fn list_from_ref(repo: &Path, refname: &str) -> Result<Vec<StoredCheck>> {
             continue;
         }
 
-        let rule: Rule =
-            serde_json::from_slice(&show_file(repo, refname, &format!("{dir}/rule.json"))?)?;
-        let contract: CheckContract =
-            serde_json::from_slice(&show_file(repo, refname, &format!("{dir}/contract.json"))?)?;
+        let rule: Rule = serde_json::from_slice(&show_file(
+            repo,
+            refname,
+            &format!("{dir}/rule.json"),
+        )?)?;
+        let contract: CheckContract = serde_json::from_slice(&show_file(
+            repo,
+            refname,
+            &format!("{dir}/contract.json"),
+        )?)?;
 
         out.push(StoredCheck {
             name: meta.name.clone(),
@@ -276,7 +293,10 @@ pub fn list_from_ref(repo: &Path, refname: &str) -> Result<Vec<StoredCheck>> {
     Ok(out)
 }
 
-pub fn latest_semver_for<'a>(checks: &'a [StoredCheck], name: &str) -> Option<&'a StoredCheck> {
+pub fn latest_semver_for<'a>(
+    checks: &'a [StoredCheck],
+    name: &str,
+) -> Option<&'a StoredCheck> {
     checks.iter().filter(|c| c.name == name).max_by(|a, b| {
         let av = Semver::parse(&a.version).ok();
         let bv = Semver::parse(&b.version).ok();
@@ -338,7 +358,9 @@ pub fn publish(
                 latest.version
             );
         }
-        if !crate::core::same_inputs(&latest.contract, contract) && version.major == lv.major {
+        if !crate::core::same_inputs(&latest.contract, contract)
+            && version.major == lv.major
+        {
             bail!(
                 "контракт изменился (входы), но MAJOR не поднят ({} → {}); \
                  поднимите MAJOR",
@@ -403,10 +425,10 @@ impl std::fmt::Display for DeprecateError {
         match self {
             DeprecateError::VersionNotFound { name, version } => {
                 write!(f, "версия не найдена: {name}@{version}")
-            }
+            },
             DeprecateError::AlreadyDeprecated { name, version } => {
                 write!(f, "{name}@{version} уже помечена deprecated")
-            }
+            },
             DeprecateError::Other(e) => write!(f, "{e}"),
         }
     }
@@ -439,12 +461,14 @@ pub fn deprecate(
     let vstr = v.as_storage();
     let path = format!("checks/{name}/{vstr}/meta.json");
 
-    let raw = show_file(repo, "main", &path).map_err(|_| DeprecateError::VersionNotFound {
-        name: name.to_string(),
-        version: vstr.clone(),
+    let raw = show_file(repo, "main", &path).map_err(|_| {
+        DeprecateError::VersionNotFound {
+            name: name.to_string(),
+            version: vstr.clone(),
+        }
     })?;
-    let mut meta: CheckMeta =
-        serde_json::from_slice(&raw).map_err(|e| DeprecateError::Other(e.into()))?;
+    let mut meta: CheckMeta = serde_json::from_slice(&raw)
+        .map_err(|e| DeprecateError::Other(e.into()))?;
     if meta.deprecated_at.is_some() {
         return Err(DeprecateError::AlreadyDeprecated {
             name: name.to_string(),
@@ -456,17 +480,22 @@ pub fn deprecate(
 
     let sha = hash_blob(
         repo,
-        &serde_json::to_vec_pretty(&meta).map_err(|e| DeprecateError::Other(e.into()))?,
+        &serde_json::to_vec_pretty(&meta)
+            .map_err(|e| DeprecateError::Other(e.into()))?,
     )?;
     let tree = write_index_with_parent(repo, "main", &[(path, Some(sha))])?;
     let parent = rev_parse(repo, "main")?;
-    let commit = commit_tree(repo, &tree, &parent, &format!("deprecate {name}@{vstr}"))?;
+    let commit =
+        commit_tree(repo, &tree, &parent, &format!("deprecate {name}@{vstr}"))?;
     update_ref(repo, "refs/heads/main", &commit)?;
     Ok(())
 }
 
 /// Записывает manifest.json в main. Возвращает Some(commit), если был создан.
-pub fn write_manifest_to_main(repo: &Path, manifest: &Manifest) -> Result<Option<String>> {
+pub fn write_manifest_to_main(
+    repo: &Path,
+    manifest: &Manifest,
+) -> Result<Option<String>> {
     ensure_repo(repo)?;
     let bytes = serde_json::to_vec_pretty(manifest)?;
     let new_sha = hash_blob(repo, &bytes)?;
@@ -479,7 +508,11 @@ pub fn write_manifest_to_main(repo: &Path, manifest: &Manifest) -> Result<Option
         return Ok(None);
     }
 
-    let tree = write_index_with_parent(repo, "main", &[("manifest.json".into(), Some(new_sha))])?;
+    let tree = write_index_with_parent(
+        repo,
+        "main",
+        &[("manifest.json".into(), Some(new_sha))],
+    )?;
     let parent = rev_parse(repo, "main")?;
     let msg = format!("manifest: {}", manifest.service_hash);
     let commit = commit_tree(repo, &tree, &parent, &msg)?;
@@ -602,7 +635,8 @@ impl ServiceCache {
 
     pub async fn reload(&self) -> Result<()> {
         let repo = self.repo.clone();
-        let (head, checks) = tokio::task::spawn_blocking(move || read_state(&repo)).await??;
+        let (head, checks) =
+            tokio::task::spawn_blocking(move || read_state(&repo)).await??;
         let manifest = build_manifest(&checks);
         let mut st = self.state.write().await;
         st.head = head;
@@ -654,10 +688,13 @@ impl ServiceCache {
     /// Один тик watcher: дёргает git rev-parse main. Если HEAD тот же — list не вызывается.
     async fn tick(&self) -> Result<()> {
         let repo = self.repo.clone();
-        let head = match tokio::task::spawn_blocking(move || rev_parse(&repo, "main")).await? {
-            Ok(h) => h,
-            Err(_) => return Ok(()),
-        };
+        let head =
+            match tokio::task::spawn_blocking(move || rev_parse(&repo, "main"))
+                .await?
+            {
+                Ok(h) => h,
+                Err(_) => return Ok(()),
+            };
         let same = { self.state.read().await.head == head };
         if same {
             return Ok(());
@@ -794,7 +831,8 @@ impl AppState {
         self.sandbox.read().await.drafts.get(name).cloned()
     }
     pub async fn list_drafts(&self) -> Vec<Draft> {
-        let mut v: Vec<_> = self.sandbox.read().await.drafts.values().cloned().collect();
+        let mut v: Vec<_> =
+            self.sandbox.read().await.drafts.values().cloned().collect();
         v.sort_by(|a, b| a.name.cmp(&b.name));
         v
     }
@@ -812,7 +850,12 @@ impl AppState {
     /// Собирает черновик из текста и разобранного правила. Повторная запись
     /// сохраняет `created_at` и метки теста: `test_valid` сам станет ложным,
     /// если текст изменился (Q29, инвариант 4).
-    pub fn make_draft(&self, source: String, rule: Rule, existing: Option<&Draft>) -> Draft {
+    pub fn make_draft(
+        &self,
+        source: String,
+        rule: Rule,
+        existing: Option<&Draft>,
+    ) -> Draft {
         let now = chrono::Utc::now().to_rfc3339();
         let hash = source_hash(&source);
         Draft {
@@ -824,7 +867,8 @@ impl AppState {
                 .map(|d| d.created_at.clone())
                 .unwrap_or_else(|| now.clone()),
             updated_at: now,
-            last_test_checksum: existing.and_then(|d| d.last_test_checksum.clone()),
+            last_test_checksum: existing
+                .and_then(|d| d.last_test_checksum.clone()),
             tested_at: existing.and_then(|d| d.tested_at.clone()),
         }
     }
@@ -860,7 +904,8 @@ mod tests {
                 published_at: "2026-09-24T00:00:00Z".into(),
                 published_by: "test".into(),
                 checksum: format!("sha256:{name}-{version}"),
-                deprecated_at: deprecated.then(|| "2026-09-24T00:00:00Z".into()),
+                deprecated_at: deprecated
+                    .then(|| "2026-09-24T00:00:00Z".into()),
                 deprecation_reason: None,
             },
         }
@@ -873,7 +918,8 @@ mod tests {
     #[test]
     fn manifest_hash_changes_on_deprecation() {
         let h1 = build_manifest(&[stored(None)]).service_hash;
-        let h2 = build_manifest(&[stored(Some("2026-09-24T00:00:00Z".into()))]).service_hash;
+        let h2 = build_manifest(&[stored(Some("2026-09-24T00:00:00Z".into()))])
+            .service_hash;
         assert_ne!(h1, h2);
     }
 
@@ -890,14 +936,20 @@ mod tests {
 
     #[test]
     fn active_is_first_supported_q21() {
-        let m = build_manifest(&[stored_v("A", "1.0.0", false), stored_v("A", "1.0.1", false)]);
+        let m = build_manifest(&[
+            stored_v("A", "1.0.0", false),
+            stored_v("A", "1.0.1", false),
+        ]);
         assert_eq!(m.checks[0].active, "1.0.1");
         assert_eq!(m.checks[0].active, m.checks[0].supported[0]);
     }
 
     #[test]
     fn active_is_empty_when_all_deprecated_q21() {
-        let m = build_manifest(&[stored_v("A", "1.0.0", true), stored_v("A", "1.0.1", true)]);
+        let m = build_manifest(&[
+            stored_v("A", "1.0.0", true),
+            stored_v("A", "1.0.1", true),
+        ]);
         assert_eq!(m.checks[0].active, "");
         assert!(m.checks[0].supported.is_empty());
         assert_eq!(m.checks[0].deprecated, vec!["1.0.1", "1.0.0"]);
@@ -977,7 +1029,11 @@ mod tests {
         let t = tempfile::tempdir().unwrap();
         let state = AppState::new(t.path().to_path_buf(), None).unwrap();
 
-        let first = state.make_draft(DRAFT_SRC.into(), parse_rule(DRAFT_SRC).unwrap(), None);
+        let first = state.make_draft(
+            DRAFT_SRC.into(),
+            parse_rule(DRAFT_SRC).unwrap(),
+            None,
+        );
         assert_eq!(first.source, DRAFT_SRC);
         assert_eq!(first.source_hash, source_hash(DRAFT_SRC));
         assert!(first.last_test_checksum.is_none());
