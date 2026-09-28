@@ -23,4 +23,14 @@
   `chore(process): T-15 wave 0 фазы B (B0) — протоколы проб, вердикты, отчёт`; затем
   `push origin develop`. Хеш — не здесь (F43): возвращается `lead` ответом. Веток/merge/
   тегов нет.
+- 28.09.2026 · пакет `wave0b_own_i1` (прямо в `develop`, подтверждение владельца в
+  `.opencode/mail/service-mcp-ready-r4.md`, запись сервисной сессии 28.09.2026).
+  Снимок до: 2 ` M` (`memory/service.md`, `README.md`) + 3 `??`
+  (`mail/service-mcp-ready-r4.md`, `wave0b-own.md`, `wave0b-own-plugin-guide.md`);
+  база `cafc4c4`, синхрон с `origin/develop`; чекпойнт `git.md` — в составе пакета.
+  6 путей: `docs/tasks/T-15-mcp-ready-process/{wave0b-own,wave0b-own-plugin-guide,README}.md`,
+  `mail/service-mcp-ready-r4.md`, `memory/service.md`, `memory/git.md`. Сообщение —
+  `chore(process): T-15 B0-own BO-i1 — карточка мини-волны, разведка V2-API, шпаргалка, реестр`;
+  затем `push origin develop`. Хеш — не здесь (F43): возвращается `lead` ответом.
+  Веток/merge/тегов нет.
 - Чекпойнтов ещё не было (до 28.09.2026).

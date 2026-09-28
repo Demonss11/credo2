@@ -180,8 +180,13 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-i5 | CC Safety Net | B0 | ✅ 28.09 · 🟢 | `wave0b-probes` |
 | B0-i6 | snip | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
 | B0-i7 | Handoff | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
-| B0-i8 | Отчёт и финализация B0 | B0 | 🚧 отчёт готов; пакет — по подтверждению | `wave0b-report` |
-| B0-own | Своя обвязка V2 (P1 observe, P2 guard, P3 checkpoint, P4 metrics, P5 attribution) | B0 | ⬜ ждёт мини-волны | `wave0b-report` §4 |
+| B0-i8 | Отчёт и финализация B0 | B0 | ✅ 28.09 · коммит `cafc4c4` | `wave0b-report` |
+| B0-own-i1 | Каркас и разведка V2-API (BO-i1) | B0-own | ✅ 28.09 | `wave0b-own` |
+| B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | ⬜ · предложена BO-i2 | `wave0b-report` §4 |
+| B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | ⬜ | `wave0b-report` §4 |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |
 | B1-F26 | S/M-прогон + fast path S (D39) | B1 | ⏸ | F26; решение 28.09 |
 | B1-F27 | Прогон с ведущим `lead` (лимит 16) | B1 | ⏸ | F27 |

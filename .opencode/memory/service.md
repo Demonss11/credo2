@@ -59,4 +59,24 @@
   P3 checkpoint, P4 metrics, P5 attribution) — после коммита B0 (прототипы в temp,
   перенос после аудита); **перенос CC Safety Net — позже** (пресет standard);
   **S/M-прогон** — после B0-own. Отчёт дополнен (§4 «Своя обвязка», §6 «Решения
-  владельца»); реестр — строка `B0-own`. Далее: пакет `wave0b_records` → роль git.
+  владельца»); реестр — строка `B0-own`. Далее: пакет `wave0b_records` → роль git (✅ коммит `cafc4c4`).
+- 28.09.2026 · **BO-i1** (T-15 B0-own, каркас и разведка V2-API): полигон
+  `%TEMP%\opencode\wave0b-own` (форма B0; npm — 283 пакета/42 с); startup 🟢 —
+  маркер setup 14:49:56Z, релог после атомарного write 14:55:55Z, WARN плагина
+  нет (аномалия B0-i1 повторилась: первый CLI-прогон завис — сессия
+  `ses_f1781a1b6ffe…` `succeeded`, повтор «ок»); разведка пробой: события
+  `session.created` c `parentID`/`agent`/`model` (поток серверный — фильтровать),
+  `permission.evaluate` (`action`/`resources`/`effect`), `tool.before/after`,
+  `session.context` (`agent`/`model`), `command.list`; нативно — `stats --json`,
+  `session export` (`info.agent/model/parentID`). Документы — `wave0b-own.md` +
+  шпаргалка `wave0b-own-plugin-guide.md`; улики — `target/wave0b-own-i1/`;
+  лента — r4; реестр: B0-i8 ✅, `B0-own` →
+  `B0-own-i1` ✅ + `B0-own-P1…P5` ⬜. Осталось: BO-i2 (`wave0-guard`, плагин vs
+  `experimental.policies`) — по подтверждению; далее BO-i3…BO-i7; коммит
+  документов — пакетом (C13).
+- 28.09.2026 · **ревью BO-i1** (сервисная сессия): вердикт подтверждён
+  (независимая проверка реестра/памяти/ленты/маркера/улик/сессий по API);
+  probe-плагин полигона погашен (`_off/`; журнал 87→123 строки, остановлен
+  15:10:57Z, контрольный прогон — без роста); приёмы для
+  BO-i2 — «прогрев» (аномалия первого прогона, 2/2) и фильтр журнала по
+  `project`/`session`; находка-кандидат F/D — в отчёт BO-i7.
