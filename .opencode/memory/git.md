@@ -460,3 +460,21 @@
   Осталось: `add` 25 → сверка staged (ровно 25: 21 M + 4 A) → коммит →
   `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит поверх
   `b536df0`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q39` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q39.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 19 `M` + 4 `??` =
+  23 пути, совпал; посторонних нет; база HEAD `710eb7b`, `develop` =
+  `origin/develop` (синхрон); коммита с целевым сообщением нет (`--all` пусто).
+  24-й — чекпойнт `git.md` (этот). Состав: письмо
+  `mail/service-migration-q39.md`,
+  `memory/{docs-writer,migrator,service,validator}.md`, `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D18-pipelines-out-lsp-mvp,D26-rest-auth-x-api-key,D31-check-create-contract,README}.md`,
+  `docs/decisions/D6-lsp-degradation.md` (A),
+  `docs/features/{README.md,lsp_notebook}.feature`,
+  `docs/questions/{Q10,Q22,Q38,Q39,README}.md`,
+  `docs/reviews/migration-q39-2026-09-29.md` (A). Сообщение —
+  `docs(D6): перенос Q39 — падение LSP: деградация без второго движка, лимит
+  автоперезапуска`. Осталось: `add` 24 → сверка staged (ровно 24: 19 M + 5 A)
+  → коммит → `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит
+  поверх `710eb7b`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

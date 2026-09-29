@@ -132,7 +132,7 @@ hover; `SPECIFICATION.md` §3.3/§5 перечислял лишь диагнос
 - Вопросы: [Q36](../questions/Q36.md), [Q38](../questions/Q38.md)
 - Связанные: [Q4](../questions/Q4.md)
   ([D17](D17-priority-out-of-mvp.md) — `Приоритет` вне MVP, возврат в v0.2);
-  [Q37](../questions/Q37.md) (закрыт D33), Q39 — ожидает переноса; [D22](D22-rest-paths-canon.md) (конвейеры —
+  [Q37](../questions/Q37.md) (закрыт D33), [Q39](../questions/Q39.md); [D22](D22-rest-paths-canon.md) (конвейеры —
   отдельный ресурс v0.2), [D36](D36-batch-deferred.md) (batch),
   [D37](D37-client-explanation-deferred.md) (объяснение клиента) —
   перечисляют конвейеры как v0.2-зависимость
