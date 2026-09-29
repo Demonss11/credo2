@@ -409,6 +409,25 @@
   [`D65`](decisions/D65-reference-policy.md); статусы и счётчики
   `features/README.md` (47/278) не менялись; `cargo` не запускался (D50 —
   документная волна).
+- **Doc-quality проверки: вопросы Q62–Q64 и решения D66–D68** (2026-09-29,
+  операция `service-doc-tools` (`.opencode/mail/**`)): обзор внешнего тулсета
+  соседнего проекта —
+  [`docs/research/doc-quality-checks-2026-09-29.md`](research/doc-quality-checks-2026-09-29.md)
+  (первый файл раздела `research/`). **D66 (Q62)** — doc-quality проверки
+  ([`questions/Q62.md`](questions/Q62.md)): Node-инструменты в
+  `.opencode/scripts/` (лимит строк + `markdownlint-cli2`, узкий ruleset),
+  композит с порядком «быстрые раньше», охват — живые зоны; **link-check —
+  единый владелец [`T-18`](tasks/T-18-docs-journal-test/README.md)** (Rust,
+  DoD `cargo test --all`); включение поэтапно (пилот → локально → CI-job `docs`);
+  реализация — задача [`T-19`](tasks/T-19-doc-quality-checks/README.md) (потом).
+  **D67 ([`Q63`](questions/Q63.md))** — `cspell` отложен (кандидат v0.2).
+  **D68 ([`Q64`](questions/Q64.md))** — `CHANGELOG` остаётся рукописным,
+  генератор из коммитов отклонён. Решения —
+  [`decisions/D66-doc-quality-checks.md`](decisions/D66-doc-quality-checks.md),
+  [`D67-cspell-deferred.md`](decisions/D67-cspell-deferred.md),
+  [`D68-changelog-handwritten.md`](decisions/D68-changelog-handwritten.md);
+  статусы и счётчики `features/README.md` (47/278) не менялись; `cargo` не
+  запускался (D50 — документная волна).
 
 ### Процесс
 

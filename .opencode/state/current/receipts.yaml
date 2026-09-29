@@ -733,3 +733,25 @@
     invariants: "ok — archive D; 42 «Перенос» = Q1-Q42 text-only; TRACEABILITY 61 Q-rows + legend (Q|D|Жизненный цикл|Задачи|Реализация); questions/README 61 (Q|Тема|D); decisions/README 54 (D|Краткая тема|Решает|Дата|Статус); §10 rows 61-65 = 5; counters 47/278 (:314); no canon markdown links to OPEN_QUESTIONS/.opencode/mail (only historic T-15/**); src/tests/Cargo.toml untouched; links in edited lines live"
   snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-doc-tools-step2
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/doc-tools-d66d68-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff -- src tests Cargo.toml empty; docs/process wave; feature composition/counters unchanged (47/278 = features/README.md:314)"
+    dfiles: "ok — D66/D67/D68 (untracked) accepted, 2026-09-29, Resolves Q62/Q63/Q64 one-to-one, Спека §10 №66/67/68; D66 Tasks T-19 (+ link-check note in T-18), Сверка ⬜/задачи; D67/D68 Tasks '—' + 'Задач не требуется', Сверка ⚪; sections Контекст/Решение/Следствия/Сверка с кодом/Альтернативы/Ссылки"
+    spec10: "ok — rows 66-68 :889-891 right after №65 :888, ascending, [D66]/[D67]/[D68] links live; git diff -U0 = exactly +3 lines, 0 deletions, neighbours intact"
+    statuses: "ok — Q62/Q63/Q64.md:3 'resolved by [D66/D67/D68]'; TRACEABILITY :72-74 (Q62 in work + Tasks [T-19] ⬜, Q63/Q64 resolved + '—'), Q-rows 64, D63 legend intact; questions/README :84-86 D-links"
+    decisions_readme: "ok — 57 table rows (rg -c '^\\| \\[D') = 57 D-files (rg --files); D66 :81 -> D68 :83 after D65 :80, ascending; themes brief"
+    task: "ok — docs/tasks/T-19-doc-quality-checks/README.md (Источник D66 (Q62) :7, P3 :4, ⬜ :3, executor service session :67, link-check in T-18 :51/:71, pilot :44); row docs/tasks/README.md:55 after T-18 :54; links live"
+    changelog: "ok — 'Doc-quality проверки: вопросы Q62–Q64 и решения D66–D68' :412-430 in '### Документация' after D61–D65 exec :386-411, before '### Процесс' :432; 19/0 pure insert; links live"
+    mail_sweep: "ok — no markdown links to .opencode/mail/** in Q62-Q64/D66-D68/T-19 (rg ']\\\\([^)]*opencode/mail' empty); '.opencode/mail/**' only as code-span exclusion zone (T-19:34)"
+    docs_journal: "ok — rg ']\\\\([^)]*docs_journal' over new files + SPEC empty; tests/docs_journal.rs only as code-span (D66:12/:24/:44/:69/:83, Q62:20, T-19:20), per D64 convention"
+    links: "ok — all relative targets in new/changed files exist (Q62-64, D45/D46/D50/D60/D64/D65, T-18/T-19, BRIEF/SPEC/CHANGELOG/TRACEABILITY, research file, AGENTS.md, tasks/README)"
+    regressions: "ok — rg 'ожида(ет|ют) переноса' outside reviews: only marker descriptions T-18:36, Q60:33; no Q62-64/D66-68; counters 47/278 = features/README.md:314; archive docs/OPEN_QUESTIONS.md absent"
+    borders: "ok — 10 M + 9 ??; only docs/** journal + .opencode/mail feed + 4 role memories + report; src/**, tests/**, Cargo.toml, .opencode/agents|rules, AGENTS.md, docs/reviews/**, docs/analysis/** untouched; git read-only"
+    p3: "docs/research/doc-quality-checks-2026-09-29.md:8 — markdown link to .opencode/mail/service-doc-tools.md (deletable working data, clean-logs --mail-only); becomes broken at routine cleanup (F47 class); research zone is non-canon and outside doc-tool scope (T-19:33) -> P3 not P2; one-line fix for researcher: provenance as code-span name without URL, matching Q62-Q64 convention"
+    p3_closure: "closed 2026-09-29 (no new iteration) — researcher replaced the mail link at :8-9 with the URL-free name form: 'внутренний дайджест тулсета — операция `service-doc-tools` (`.opencode/mail/**` — рабочие данные, снят сервисной сессией 29.09.2026)'; rg ']\\\\([^)]*opencode/mail' docs/research -> empty; in-place edit (file 160 lines, 2-line block -> 2-line block), other links live (D64/D65/T-18/AGENTS.md/external https), single file in docs/research/**; package composition unchanged (git status --porcelain identical); cargo/git untouched (D50); verdict stands — accepted_with_notes (P3 closed)"
+  snapshot: "develop @ bfbfec5 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"

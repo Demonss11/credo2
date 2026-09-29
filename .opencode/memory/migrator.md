@@ -961,4 +961,40 @@
   (`:50–55`) и D65 п.4 (`:46–55`). Прочие строки §10 и файлы не трогал (`BRIEF.md`
   §8 `:292-295` — остаток за `docs-writer`). `cargo`/git не запускались (D50).
   Отчёт — лента (секция `P2-r2 — SPEC §10 №64/№65`). Дальше — приёмка `-r3`.
+- 2026-09-29 · service-doc-tools (шаг 1 — **Q62–Q64 заведены**, open): созданы
+  `docs/questions/Q62.md` (doc-quality проверки: состав/место/режим;
+  рекомендация (а) `size`+`markdownlint`, link-check — T-18),
+  `Q63.md` (`cspell` en+ru — отложить),
+  `Q64.md` (`CHANGELOG` — рукописный, генератор отклонить). Все `open`,
+  ⚪ оформление, дата 2026-09-29; опора — обзор
+  `docs/research/doc-quality-checks-2026-09-29.md`. Строки: `TRACEABILITY.md`
+  (3 после Q61, D/Задачи/Реализация `—`, lifecycle `open`) и
+  `questions/README.md` (3 после Q61, D `—`). D/§10 (`decisions/**`) **не
+  трогал** — решения D66–D68 и строки №66–68 только после согласования
+  владельцем; `CHANGELOG.md` не трогал (docs-writer, финальный пакет).
+  Проверки: `rg -c "^\| \[Q"` → **64/64**; все 15 относительных ссылок в
+  Q62–Q64 живы; `cargo`/git не запускались (D50). Сверка с кодом не
+  применялась (⚪ оформление, вопроса без решения). Отчёт — лента
+  `.opencode/mail/service-doc-tools.md`; коммит — за `git`.
+  **Следующее:** шаг 2 — D66–D68 к согласованию владельцем (свободные §10 —
+  №66; Q — Q65).
+- 2026-09-29 · service-doc-tools (шаг 2 — **D66–D68 + T-19**, шаг готов к
+  приёмке): перенос **Q62 → D66** (`docs/decisions/D66-doc-quality-checks.md`,
+  «Сверка» ⬜ не реализовано), **Q63 → D67** (`D67-cspell-deferred.md`, ⚪),
+  **Q64 → D68** (`D68-changelog-handwritten.md`, ⚪); все `accepted`. Создан
+  `docs/tasks/T-19-doc-quality-checks/README.md` (Источник D66 (Q62), P3, ⬜;
+  link-check — в T-18; пилот до включения) + строка в `docs/tasks/README.md`.
+  Правки: `SPECIFICATION.md` §10 **№66–68** (`:889–891`); `decisions/README.md`
+  +3 (**57** = 57 D-файлов); `questions/README.md` Q62–Q64 (D-ссылки);
+  `TRACEABILITY.md` Q62–Q64 — Q62 `in work` (**T-19** ⬜), Q63/Q64 `resolved`;
+  Q62–Q64 статус `resolved by D6x`. **D65-свип («время жизни адреса»):** в
+  Q62–Q64 снят провенанс-адрес ленты (`(\`.opencode/mail/**\`)` → имя
+  `service-doc-tools`); в `D66`/`T-19` `.opencode/mail/**` — только
+  зона-исключение охвата (оставлено осознанно; ср. D65/§10 №64/T-18); сняты
+  2 битых линка `D66`/`T-19` на ещё не существующий `tests/docs_journal.rs` →
+  code-span (как в D64). Проверки: ссылки живы; «ожида(ет|ют) переноса» — без
+  субъектов (только описания в T-18/Q60 и `reviews/**`); 64 Q-строки в
+  TRACEABILITY. `cargo`/git не запускались (D50); `CHANGELOG` не трогал
+  (docs-writer). **Свободные:** §10 — **№69**, Q — **Q65**. Отчёт — лента
+  `.opencode/mail/service-doc-tools.md` (секция «хвосты»); коммит — за `git`.
 

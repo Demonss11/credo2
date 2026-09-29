@@ -457,3 +457,15 @@
   `develop` = `origin/develop` = `6ff997b`. Исполнение D61–D65 — волна
   (migrator → docs-writer → сервисная сессия (AGENTS/.opencode) → auditor →
   validator → git); T-18 — отдельным циклом кода.
+- 29.09.2026 · **service-docs-hygiene — закрытие**: коммит **`bfbfec5`**
+  (исполнение D61–D65; 86 путей, +1512/−941), `develop` = `origin/develop`,
+  дерево чистое. Итоги: архив удалён, BRIEF 307 строк, TRACEABILITY v2 (61:
+  44/13/4), каталоги 61/54, mail-ссылки сняты, F47/F48 закрыты, служебная
+  зона почищена (аудит «инструкция↔права» чист, `agents-perms` 11/18 ×2).
+  Остаток: задача **T-18** (`tests/docs_journal.rs`).
+- 29.09.2026 · **service-doc-tools — старт**: оцениваем doc-quality тулсет
+  соседнего проекта (`mcp_doc_server/.gitverse/tools`: links/size/markdownlint/
+  cspell/changelog-gen). План: `researcher` → Q62–Q64 → предлагаемые решения
+  (D66–D68) → согласование с владельцем → формализация/пилот/коммит. Лента —
+  `service-doc-tools.md`. «Сделай коммит если ещё не сделан» — коммитить
+  нечего (`bfbfec5`).

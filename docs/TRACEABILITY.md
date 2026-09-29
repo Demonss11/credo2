@@ -69,6 +69,9 @@
 | [Q59](questions/Q59.md) — индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | [D63](decisions/D63-journal-index-lifecycle.md) — единая таблица жизненного цикла; каталоги Q/D без дублей | resolved | — | — |
 | [Q60](questions/Q60.md) — тест целостности журнала | [D64](decisions/D64-journal-integrity-test.md) — `tests/docs_journal.rs`: ID, парность, таблицы, запреты | in work | [T-18](tasks/T-18-docs-journal-test/README.md) ⬜ | — |
 | [Q61](questions/Q61.md) — политика ссылок и допустимых дублей в документации | [D65](decisions/D65-reference-policy.md) — «ссылка, не копия»; «время жизни адреса» | resolved | — | — |
+| [Q62](questions/Q62.md) — doc-quality проверки: состав, место, режим включения | [D66](decisions/D66-doc-quality-checks.md) — size + lint локально; link-check — единый владелец T-18 | in work | [T-19](tasks/T-19-doc-quality-checks/README.md) ⬜ | — |
+| [Q63](questions/Q63.md) — спелл-чек документации (`cspell` en+ru) | [D67](decisions/D67-cspell-deferred.md) — отложить (кандидат v0.2) | resolved | — | — |
+| [Q64](questions/Q64.md) — `CHANGELOG`: генератор из коммитов или рукописный? | [D68](decisions/D68-changelog-handwritten.md) — рукописный; генератор отклонён | resolved | — | — |
 
 Легенда жизненного цикла: `open` — ждёт решения · `resolved` — решение принято
 (задач не требуется) · `in work` — есть открытые задачи · `done` — задачи

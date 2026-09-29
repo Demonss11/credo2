@@ -81,3 +81,6 @@
 | [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | [D63](../decisions/D63-journal-index-lifecycle.md) |
 | [Q60](Q60.md) | тест целостности журнала | [D64](../decisions/D64-journal-integrity-test.md) |
 | [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | [D65](../decisions/D65-reference-policy.md) |
+| [Q62](Q62.md) | doc-quality проверки: состав, место, режим включения | [D66](../decisions/D66-doc-quality-checks.md) |
+| [Q63](Q63.md) | спелл-чек документации (`cspell` en+ru) | [D67](../decisions/D67-cspell-deferred.md) |
+| [Q64](Q64.md) | `CHANGELOG`: генератор из коммитов или рукописный? | [D68](../decisions/D68-changelog-handwritten.md) |

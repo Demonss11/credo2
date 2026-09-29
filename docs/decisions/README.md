@@ -78,3 +78,6 @@
 | [D63](D63-journal-index-lifecycle.md) | Индекс журнала — единая таблица жизненного цикла | [Q59](../questions/Q59.md) | 2026-09-29 | accepted |
 | [D64](D64-journal-integrity-test.md) | Тест целостности журнала — `tests/docs_journal.rs` | [Q60](../questions/Q60.md) | 2026-09-29 | accepted |
 | [D65](D65-reference-policy.md) | Политика ссылок и дублей — «ссылка, не копия»; «время жизни адреса» | [Q61](../questions/Q61.md) | 2026-09-29 | accepted |
+| [D66](D66-doc-quality-checks.md) | Doc-quality проверки: size+lint, link-check в T-18 | [Q62](../questions/Q62.md) | 2026-09-29 | accepted |
+| [D67](D67-cspell-deferred.md) | Cspell — отложен (v0.2) | [Q63](../questions/Q63.md) | 2026-09-29 | accepted |
+| [D68](D68-changelog-handwritten.md) | CHANGELOG — рукописный, генератор отклонён | [Q64](../questions/Q64.md) | 2026-09-29 | accepted |

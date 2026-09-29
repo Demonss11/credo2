@@ -561,3 +561,25 @@
   коммит → `status -sb` (ahead 1) → `push origin develop` (таймаут ≥ 5 мин;
   публикует новый коммит поверх `6ff997b`). Хеш — не здесь (F43): вернуть `lead`
   ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-doc-tools` шаг 2 финал (D66–D68 + Q62–Q64 + обзор +
+  T-19; прямо в `develop`, подтверждение владельца (одно, 29.09.2026) — дословно
+  «Коммит + push»; лента `.opencode/mail/service-doc-tools.md`). Снимок до: 12 `M`
+  + 10 `??` = 22 пути, совпал; посторонних/пропавших нет; `docs/research/` и
+  `docs/tasks/T-19-doc-quality-checks/` — по одному файлу; база HEAD `bfbfec5`,
+  `develop` = `origin/develop` (синхрон); коммита с темой нет (`--all` по `D66`/
+  `doc-quality`/`Q62` — пусто). 23-й — чекпойнт `git.md` (этот) + отчёт в ленте
+  (до `add`). Состав: 13 `M` (12 снимка + `git.md`) —
+  `memory/{docs-writer,migrator,researcher,service,validator,git}.md`,
+  `state/current/receipts.yaml`, `docs/{CHANGELOG,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/README.md`, `docs/questions/README.md`, `docs/tasks/README.md`;
+  10 `A` — `mail/service-doc-tools.md`,
+  `docs/decisions/{D66-doc-quality-checks,D67-cspell-deferred,D68-changelog-handwritten}.md`,
+  `docs/questions/{Q62,Q63,Q64}.md`,
+  `docs/research/doc-quality-checks-2026-09-29.md`,
+  `docs/reviews/doc-tools-d66d68-2026-09-29.md`,
+  `docs/tasks/T-19-doc-quality-checks/README.md`. Сообщение —
+  `docs(Q62–Q64, D66–D68): doc-quality проверки — решения, обзор, задача T-19`.
+  Осталось: `add` 23 → сверка staged (ровно 23: 13 `M` + 10 `A`) → коммит →
+  `status -sb` (ahead 1) → `push origin develop` (таймаут ≥ 5 мин; публикует новый
+  коммит поверх `bfbfec5`). Хеш — не здесь (F43): вернуть `lead` ответом.
+  Веток/merge/тегов нет.
