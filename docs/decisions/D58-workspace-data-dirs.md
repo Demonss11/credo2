@@ -100,7 +100,7 @@ v0.2.
 - Вопрос: [Q19](../questions/Q19.md)
 - Связанные: [Q12](../questions/Q12.md) (песочница — черновики),
   [Q17](../questions/Q17.md) (published-repo), [Q1](../questions/Q1.md)
-  (эволюция); [Q31](../questions/Q31.md); [Q34](../questions/Q34.md); Q35 (ожидает переноса)
+  (эволюция); [Q31](../questions/Q31.md); [Q34](../questions/Q34.md); [Q35](../questions/Q35.md)
 - Задачи: — (см. «Сверка с кодом»)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №58;
   §4.3

@@ -664,4 +664,23 @@
   за `git`. Далее: `docs-writer` (шапки `# D32 (Q34)` в `notebook_ui`/
   `inline_execution`/`test_draft`/`publish` + ноты `features/README.md:130/:236`)
   → `validator`.
+- 2026-09-29 · service-migration-q35: перенос **Q35 → D59**
+  (`docs/decisions/D59-workspace-templates.md`, `Resolves: [Q35]`; слаг
+  `D59-workspace-templates`). Созданы `docs/questions/Q35.md` (resolved by D59;
+  2026-09-26, ⚪ оформление, «Перенос: 2026-09-29, блок «Создание workspace и
+  шаблоны»») и D59 (`Tasks: —`). §10 — **новая строка №59**
+  (`SPECIFICATION.md:882`, после №58 `:881`); `decisions/README.md` — строка D59
+  (`:70`; **44 строки**) + `:18` «(Q35–Q41)» → «(Q36–Q41)»; Q35 в
+  `TRACEABILITY.md:42` (после Q34, перед Q42; Feature — `notebook_ui`/
+  `file_management`) и `questions/README.md:59`; архив `:238–278` → указатель
+  (метка «блок «Создание workspace и шаблоны»», Q36 цел). Свип: `D31:151`
+  (`Q35+`→`Q36+`), `D58:103`, `Q19.md:12`, `questions/README.md:43` — живые
+  ссылки. Контроль `rg "ожида[ею]т переноса"` — субъекты только Q36–Q39/Q37
+  (вне `docs/reviews/**`). Сверка §5.3 — ⚪ не применимо (Notebook — Фаза 2–3;
+  workspace в `src/` только как путь `AppState`; логики создания
+  `rules/`/`Пример.dar`/шаблона нет); «задач не требуется» (T-10 — не про это).
+  `cargo` не запускался (D50); `src`/`tests`/`features`/`CHANGELOG` не трогал.
+  Лимит шагов в первом вызове — отчёт дописан вторым. Дальше: `docs-writer`
+  (шапки `# D59 (Q35)`, ноты `features/README.md:203/:208`, CHANGELOG) →
+  `validator` → `git`.
 

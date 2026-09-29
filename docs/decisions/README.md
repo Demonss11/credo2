@@ -15,7 +15,7 @@
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
 Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q35–Q41); при переносе записи получают
+решения ещё не перенесённых вопросов (Q36–Q41); при переносе записи получают
 D-файлы с этими номерами (прецедент — D32/D35).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
@@ -67,3 +67,4 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D56](D56-merge-step.md) | Минимальный цикл публикации — явный шаг `credo merge` | [Q15](../questions/Q15.md) | 2026-09-25 | [T-17](../tasks/T-17-merge-command/README.md) | accepted |
 | [D57](D57-bare-git-immutability.md) | Иммутабельность версии — bare-git, без отдельного механизма | [Q17](../questions/Q17.md) | 2026-09-26 | [T-06](../tasks/T-06-registry-path-xyz/README.md), [T-17](../tasks/T-17-merge-command/README.md) | accepted |
 | [D58](D58-workspace-data-dirs.md) | Каталоги данных workspace — `.credo/` и `.dar-notebook/` | [Q19](../questions/Q19.md) | 2026-09-26 | — | accepted |
+| [D59](D59-workspace-templates.md) | Создание workspace и шаблоны — `rules/Пример.dar`, `README.md`, `.gitignore`; «Создать правило» пишет парсящийся шаблон | [Q35](../questions/Q35.md) | 2026-09-26 | — | accepted |

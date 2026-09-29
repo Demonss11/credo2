@@ -11,6 +11,7 @@
 # D58 (Q19): служебные каталоги workspace — .credo/ (server) и .dar-notebook/ (Notebook), оба вне git (.gitignore)
 # D12 (Q31): чат — правая панель основного окна (третья колонка, видима по умолчанию, resize/toggle); результаты — инлайн в редакторе.
 # D32 (Q34): в MVP тесты — только локальный кэш .dar-notebook/results-cache.json (вне git); .dar-notebook/ — в .gitignore; каталог tests/ в workspace не создаётся (v0.2).
+# D59 (Q35): новый workspace — rules/Пример.dar (пример из GRAMMAR.md §1), README.md, .gitignore; шаблон нового правила парсится.
 Функция: Основной интерфейс DAR Notebook
   Как риск-технолог
   Я хочу видеть все компоненты в одном окне

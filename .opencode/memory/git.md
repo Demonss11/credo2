@@ -403,3 +403,21 @@
   Осталось: `add` 27 → сверка staged (ровно 27: 24 M + 3 A) → коммит →
   проверки → `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит).
   Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q35` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q35.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 16 `M` + 5 `??` =
+  21 путь, совпал; посторонних нет; база HEAD `e0e06f7`, `develop`, ahead 1 от
+  `origin/develop` (`bc76060`); коммита с целевым сообщением нет (`--all` пусто).
+  22-й — чекпойнт `git.md` (этот). Пути: письмо `mail/service-migration-q35.md`,
+  `mail/service-handoff-2026-09-29-r2.md` (ожидаемая с прошлой сессии),
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D31-check-create-contract,D58-workspace-data-dirs,D59-workspace-templates,README}.md`,
+  `docs/features/{file_management,notebook_ui}.feature`,
+  `docs/questions/{Q19,Q35,README}.md`,
+  `docs/reviews/migration-q35-2026-09-29.md`. Сообщение —
+  `docs(D59): перенос Q35 — создание workspace и шаблоны: Пример.dar, README.md,
+  .gitignore`. Осталось: `add` 22 → сверка staged (ровно 22) → коммит →
+  проверки → `push origin develop` (таймаут ≥ 5 мин; публикует `e0e06f7` и новый
+  коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
