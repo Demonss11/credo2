@@ -126,3 +126,21 @@
   согласован). `docs/CHANGELOG.md:105-130` — запись «Перенос Q16–Q19 → D32,
   D57, D35, D58». Счётчики 47/278 не менялись; `cargo`/git не запускались
   (D50). Остаток: приёмка `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-migration-q20q23` · сопутствующие к переносу
+  Q20–Q23 → D22/D23/D26/D25: обратные ссылки `# Dn (Qx): …` (BRIEF §5.6 п.2) в
+  шапках 8 фич `Affects` — D22 (Q20): `rest_api.feature:11`,
+  `evaluate.feature:10`, `batch.feature:8`, `import_export.feature:6`;
+  D23 (Q21): `rest_api.feature:12`, `evaluate.feature:11`,
+  `manifest.feature:2`, `dashboard.feature:5`; D26 (Q22):
+  `evaluate.feature:12`, `rest_auth.feature:9`; D25 (Q23):
+  `rest_api.feature:13`, `evaluate.feature:13`, `rest_auth.feature:10`,
+  `errors.feature:6` (в `rest_api`/`evaluate` — по три строки, каждый D своей;
+  порядок по Q, после существующей D53). `docs/CHANGELOG.md:137-160` — запись
+  «Перенос Q20–Q23 → D22, D23, D26, D25» (канон путей, схема `GET /checks`,
+  `x-api-key`, конверт ошибок; задачи «не требуется»). Счётчики 47/278 не
+  менялись (`features/README.md:309`, сверено чтением); numstat фич 14/0.
+  Нюанс: прозаичные Q-строки в шапках (`# Q20 (решено …)` в `rest_api`/
+  `evaluate`/`batch`/`import_export`, `# Q21: …` в `evaluate`) не удалял — по
+  инструкции только добавление D-строк. `cargo`/git не запускались (D50);
+  журнал/`TRACEABILITY`/`SPECIFICATION`/`tasks`/`decisions/README.md` не трогал.
+  Остаток: приёмка `validator` (docs) → пакет `git`.

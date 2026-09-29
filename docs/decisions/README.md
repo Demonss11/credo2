@@ -15,7 +15,7 @@
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
 Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q20–Q41); при переносе записи получают
+решения ещё не перенесённых вопросов (Q24–Q41); при переносе записи получают
 D-файлы с этими номерами (прецедент — D32/D35).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
@@ -30,6 +30,10 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D17](D17-priority-out-of-mvp.md) | `Приоритет` вне MVP; синтаксис вернётся в v0.2 | [Q4](../questions/Q4.md) | 2026-09-24 | — | accepted |
 | [D19](D19-statuses-priorities-canon.md) | Две оси меток; единственный канон — `features/README.md` | [Q5](../questions/Q5.md), [Q6](../questions/Q6.md) (попутно) | 2026-09-24 | — | accepted |
 | [D21](D21-core-semantics-v01.md) | Семантика ядра v0.1 — строгие ошибки, словарь решений, канон объяснения | [Q8](../questions/Q8.md), [Q9](../questions/Q9.md), [Q10](../questions/Q10.md), [Q42](../questions/Q42.md) | 2026-09-24 | — | accepted |
+| [D22](D22-rest-paths-canon.md) | Канон REST-путей — `/checks/{name}/versions/{version}/...`; принцип атомарной композиции | [Q20](../questions/Q20.md) | 2026-09-25 | — | accepted |
+| [D23](D23-get-checks-manifest.md) | Схема `GET /checks` — манифест `{schema_version, count, service_hash, checks[]}`; `kind` не вводится | [Q21](../questions/Q21.md) | 2026-09-25 | — | accepted |
+| [D25](D25-rest-error-envelope.md) | Формат ошибок REST — конверт `{"error": {"code", "message"}}`; коды `snake_case`, тексты русские | [Q23](../questions/Q23.md) | 2026-09-25 | — | accepted |
+| [D26](D26-rest-auth-x-api-key.md) | Аутентификация REST — заголовок `x-api-key`; `CREDO_API_KEY`/`--api-key`; открытые пути | [Q22](../questions/Q22.md) | 2026-09-25 | — | accepted |
 | [D32](D32-test-gate-mvp.md) | Тест-гейт публикации — метка теста в черновике | [Q16](../questions/Q16.md); Q34 (ожидает переноса) | 2026-09-26 | [T-02](../tasks/T-02-test-gate/README.md) | accepted |
 | [D35](D35-semver-v01.md) | Semver v0.1 — числовое сравнение pre-release; build вне идентичности | [Q18](../questions/Q18.md) | 2026-09-26 | — | accepted |
 | [D38](D38-agent-cycle.md) | Цикл агентов: Agile-петля, единый тестировщик, память и почта | [Q43](../questions/Q43.md) | 2026-09-26 | [T-11](../tasks/T-11-agent-cycle/README.md) | accepted |

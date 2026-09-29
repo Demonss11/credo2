@@ -134,6 +134,30 @@
   `SPECIFICATION.md` §10, связи — `TRACEABILITY.md`; поддержка — `migrator`
   при заведении нового `Dn` тем же изменением, что и файл
   ([`decisions/README.md`](decisions/README.md)).
+- **Перенос Q20–Q23 → D22, D23, D26, D25** (миграция журнала, 29.09.2026):
+  блок «REST API», часть 1. **Q20 → D22** — канонический путь REST
+  `/checks/{name}/versions/{version}/...` (сегмент `/versions/` обязателен;
+  конвейерам v0.2 — отдельный ресурс `/pipelines/...`); вопрос —
+  [`questions/Q20.md`](questions/Q20.md), решение —
+  [`decisions/D22-rest-paths-canon.md`](decisions/D22-rest-paths-canon.md).
+  **Q21 → D23** — схема `GET /checks`: манифест
+  (`schema_version`/`count`/`service_hash`/`checks`) с `ManifestEntry`
+  `name`/`active`/`supported`/`deprecated`; версии по убыванию, `active`
+  пуст, если все версии deprecated, поля `kind` нет; вопрос —
+  [`questions/Q21.md`](questions/Q21.md), решение —
+  [`decisions/D23-get-checks-manifest.md`](decisions/D23-get-checks-manifest.md).
+  **Q22 → D26** — аутентификация REST: заголовок `x-api-key` (ключ
+  `CREDO_API_KEY`, флаг `--api-key`), открытые пути
+  `/health`/`/docs`/`/openapi.json`, без ключа API открыт (демо); вопрос —
+  [`questions/Q22.md`](questions/Q22.md), решение —
+  [`decisions/D26-rest-auth-x-api-key.md`](decisions/D26-rest-auth-x-api-key.md).
+  **Q23 → D25** — единый конверт ошибок REST
+  `{"error": {"code", "message"}}` со стабильными кодами 401/404/409/410/422;
+  вопрос — [`questions/Q23.md`](questions/Q23.md), решение —
+  [`decisions/D25-rest-error-envelope.md`](decisions/D25-rest-error-envelope.md).
+  Шапочные пометки D22/D23/D26/D25 добавлены в затронутые фичи
+  (`rest_api`/`evaluate`/`batch`/`import_export`/`manifest`/`dashboard`/`rest_auth`/`errors`).
+  Сверка с кодом — ✅ по всем четырём, задач не требуется.
 
 ### Процесс
 

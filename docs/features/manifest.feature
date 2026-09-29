@@ -1,4 +1,5 @@
 # language: ru
+# D23 (Q21): схема GET /checks — манифест name/active/supported/deprecated; версии по убыванию, active пуст, если все deprecated
 Функция: Манифест сервиса
   Как потребитель REST API
   Я хочу получать единый отпечаток состояния сервиса

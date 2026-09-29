@@ -360,4 +360,45 @@
   D-файлы с этими номерами (прецедент — D32/D35)» (абзац :17-19). Таблица и
   шапка не тронуты; `cargo` не запускался (D50); не коммитил. Отчёт — та же
   лента.
+- 2026-09-29 · service-migration-q20q23 (вызов 1 из 2): перенос **Q20 → D22**
+  (`docs/decisions/D22-rest-paths-canon.md`, `Resolves: Q20`, строка §10 №22
+  уже была — маркер `(§1.3.1, Q20; …[D22]…)`) и **Q21 → D23**
+  (`docs/decisions/D23-get-checks-manifest.md`, `Resolves: Q21`, §10 №23 —
+  `(Q21; …[D23]…)`). Созданы `docs/questions/Q20.md`, `Q21.md` (дата
+  2026-09-25, resolved, «Перенос 2026-09-29, блок Q20–Q23»). Сводки: строки
+  D22/D23 в `decisions/README.md` (после D21; шапка «Q20–Q41» → «Q22–Q41»),
+  Q20/Q21 в `questions/README.md` и `TRACEABILITY.md` (после Q19; Feature —
+  ровно `.feature` из `Affects`). Свип: §1.3.1 (:50) и §4.4 (:406) —
+  `OPEN_QUESTIONS.md` заменён на D22/D23; `D53` «Связанные» — Q20 живой
+  ссылкой (Q22/Q23 не трогал). Архив: блоки Q20 (:148–218) и Q21 (:220–256) →
+  указатели «→ перенесён» (формат Q16–Q19, «блок Q20–Q23»); Q22 (:158)/Q23 не
+  трогались. Сверка §5.3 — обе ✅ (Q20: `src/rest.rs` маршруты 20–29, OpenAPI
+  235–360, фичи `rest_api/evaluate/batch/import_export`, `tests/rest.rs`;
+  Q21: `src/lib.rs` `ManifestEntry` 525–531/`build_manifest` 541–608,
+  `src/rest.rs` `manifest_response` 96–111/409 161–168, unit-тесты
+  927/938/948 и 421–450, `tests/rest.rs` 126–144). Задачи: — («код уже
+  соответствует канону»). `features/**`/`CHANGELOG`/`src`/`tests` не трогал;
+  `cargo` не запускался (D50); архив — одним PowerShell-rewrite (numstat
+  9/109). ID: заняты D22/D23; далее — **D26 (Q22), D25 (Q23)** (§10 №26/№25
+  уже есть), затем §10 **№59**, Q-номер **Q57**. Отчёт — лента
+  `.opencode/mail/service-migration-q20q23.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q20q23 (вызов 2 из 2): перенос **Q22 → D26**
+  (`docs/decisions/D26-rest-auth-x-api-key.md`, `Resolves: Q22`, строка §10
+  №26 уже была — маркер `(Q22; …[D26]…)`) и **Q23 → D25**
+  (`docs/decisions/D25-rest-error-envelope.md`, `Resolves: Q23`, §10 №25 —
+  `(Q23; …[D25]…)`). Созданы `docs/questions/Q22.md`, `Q23.md` (дата
+  2026-09-25, resolved, «Перенос 2026-09-29, блок Q20–Q23»). Сводки: строки
+  D25/D26 в `decisions/README.md` (между D23 и D32; parenthetical «Q22–Q41» →
+  «Q24–Q41»), Q22/Q23 в `questions/README.md` и `TRACEABILITY.md` (Feature —
+  ровно `.feature` из `Affects`). Свип: `Q11.md:12` и `D53` «Связанные» —
+  Q22/Q23 живыми ссылками. Архив: блоки Q22 (:158–202) и Q23 (:204–254) →
+  указатели «→ перенесён» (формат Q20/Q21, «блок Q20–Q23»). Сверка §5.3 — обе
+  ✅ (Q22: `src/rest.rs` `auth` 63–85, `src/main.rs` `--api-key`/
+  `CREDO_API_KEY` 34–36, `tests/rest.rs` 293–310; Q23: `src/rest.rs` `err()`
+  52–61 и коды, `details` нет, `tests/common/mod.rs` `assert_error_envelope`
+  184–225, `tests/rest.rs` 376+). Задачи: — («код уже соответствует»).
+  `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не запускался
+  (D50). **Блок Q20–Q23 закрыт** (D22/Q20, D23/Q21, D26/Q22, D25/Q23). ID:
+  заняты D22/D23/D25/D26; далее §10 **№59**, Q-номер **Q57**. Отчёт — та же
+  лента; коммит — за `git`.
 

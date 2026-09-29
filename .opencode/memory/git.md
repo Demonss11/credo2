@@ -283,3 +283,20 @@
   сверка staged (ровно 12) → коммит → проверки → `push origin develop` (таймаут
   ≥ 5 мин; публикует `5a7fb01`, `e141476` и новый коммит). Хеш — не здесь (F43):
   вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q20q23` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q20q23.md` §«пакет подтверждён» —
+  дословно «Коммит + push»). Снимок до: 21 `M` + 10 `??` = 31 путь, совпал;
+  32-й — чекпойнт `git.md` (этот). База HEAD `48c5b77`, `develop`, синхрон с
+  `origin/develop`; коммита с целевым сообщением нет. 32 пути: письмо
+  `mail/service-migration-q20q23.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D22-rest-paths-canon,D23-get-checks-manifest,D25-rest-error-envelope,D26-rest-auth-x-api-key,D53-error-messages-language,README}.md`,
+  `docs/features/{batch,dashboard,errors,evaluate,import_export,manifest,rest_api,rest_auth}.feature`,
+  `docs/questions/{Q11,Q20,Q21,Q22,Q23,README}.md`,
+  `docs/reviews/migration-q20q23-2026-09-29.md`. Сообщение —
+  `docs(D22, D23, D26, D25): перенос Q20–Q23 — пути REST, манифест,
+  аутентификация, конверт ошибок`. Осталось: `add` 32 → сверка staged (ровно 32)
+  → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует новый
+  коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

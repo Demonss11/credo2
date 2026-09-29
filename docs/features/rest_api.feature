@@ -8,6 +8,9 @@
 # коды: check_not_found, version_not_found, version_deprecated,
 # activation_unavailable, evaluation_failed, unauthorized.
 # D53 (Q11): человекочитаемое — русский; машиночитаемое (коды, ключи, идентификаторы) — латиница
+# D22 (Q20): канонический путь REST — /checks/{name}/versions/{version}/... (сегмент /versions/ обязателен)
+# D23 (Q21): схема GET /checks — манифест name/active/supported/deprecated; версии по убыванию, active пуст, если все deprecated
+# D25 (Q23): конверт ошибки REST — {"error": {"code", "message"}}; code — латиница snake_case, message — русский
 Функция: REST API
   Как потребитель сервиса
   Я хочу читать версии и выполнять конкретные версии проверок
