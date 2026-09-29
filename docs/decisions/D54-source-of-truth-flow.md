@@ -128,9 +128,9 @@ SPEC объявлял «файл на диске — источник истин
 
 - Вопрос: [Q12](../questions/Q12.md)
 - Связанные: [Q13](../questions/Q13.md) (артефакт публикации),
-  [Q15](../questions/Q15.md) (merge в `main`); Q30 (транспорт MCP), Q33
-  (draft-first), Q32 (три уровня истины), Q29 (контракт черновика) — ожидают
-  переноса
+  [Q15](../questions/Q15.md) (merge в `main`); [Q29](../questions/Q29.md)
+  (контракт черновика); Q30 (транспорт MCP), Q33 (draft-first), Q32 (три
+  уровня истины) — ожидают переноса
 - Задачи: [T-16](../tasks/T-16-stale-check-test/README.md),
   [T-08](../tasks/T-08-materialize-source-file/README.md),
   [T-01](../tasks/T-01-draft-source-hash/README.md) (сделана)

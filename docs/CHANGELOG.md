@@ -180,6 +180,29 @@
   (`batch`/`client_explanation`/`import_export`). Сверка с кодом — ⚪ «не
   применимо» (решения об отсрочке), задач не требуется; статусы ⏸/⏳ и
   счётчики `features/README.md` (47/278) не меняются.
+- **Перенос Q28–Q29 → D31, D34** (миграция журнала, 29.09.2026): связка
+  «MCP-контракты» — контракт `check.create` и контракты MCP-инструментов.
+  **Q28 → D31** — `check.create` принимает `{name, source}` (оба обязательны;
+  `name` сверяется с заголовком правила), отвечает `{status, name}`; повторный
+  вызов перезаписывает черновик («сохранить = обновить»), `expected_kind` и
+  `contract` не вводятся; вопрос — [`questions/Q28.md`](questions/Q28.md),
+  решение —
+  [`decisions/D31-check-create-contract.md`](decisions/D31-check-create-contract.md).
+  **Q29 → D34** — общие правила успеха/ошибки, 10 стабильных кодов ошибок
+  (различать ошибки следует по `code`, а не по тексту `message`), инварианты
+  черновика (`stale`/`test_valid`; `size`/`format` не вводятся) и полные
+  JSON-схемы инструментов; сводка — [`SPECIFICATION.md`](SPECIFICATION.md)
+  §4.5, полные схемы — D34 (`check.deprecate` требует непустой `reason`);
+  вопрос — [`questions/Q29.md`](questions/Q29.md), решение —
+  [`decisions/D34-mcp-tool-contracts.md`](decisions/D34-mcp-tool-contracts.md).
+  Шапочные пометки D31/D34 добавлены в затронутые фичи
+  (`draft`/`agent_minimal`/`mcp_tools`/`test_draft`/`publish`/`deprecation`).
+  Задачи связки: [`T-03`](tasks/T-03-check-create/README.md) (сделана),
+  [`T-04`](tasks/T-04-mcp-errors/README.md) (сделана),
+  [`T-05`](tasks/T-05-mcp-success-schemas/README.md) (открыта; схемы успеха —
+  единственная открытая по связке). Сверка с кодом — ✅ (Q28) и 🟡 (Q29,
+  расхождение покрыто T-05); статусы и счётчики `features/README.md` (47/278)
+  не меняются.
 
 ### Процесс
 

@@ -122,8 +122,8 @@ Q15).
 
 - Вопрос: [Q17](../questions/Q17.md)
 - Связанные: [Q13](../questions/Q13.md) (артефакт публикации),
-  [Q15](../questions/Q15.md) (merge в `main`); Q32 (путь реестра), Q29
-  (контракт публикации) — ожидают переноса
+  [Q15](../questions/Q15.md) (merge в `main`); [Q29](../questions/Q29.md)
+  (контракт публикации); Q32 (путь реестра) — ожидает переноса
 - Задачи: [T-06](../tasks/T-06-registry-path-xyz/README.md),
   [T-17](../tasks/T-17-merge-command/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №57

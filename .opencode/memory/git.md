@@ -317,3 +317,20 @@
   staged (ровно 27) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин;
   публикует новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом.
   Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q28q29` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q28q29.md` §«пакет подтверждён» —
+  дословно «Коммит + push»). Снимок до: 29 `M` + 7 `??` = 36 путей, совпал;
+  30-й `M` — чекпойнт `git.md` (этот), итого 37. База HEAD `2e0edcb`, `develop`,
+  синхрон с `origin/develop`; коммита с целевым сообщением нет. 37 путей: письмо
+  `mail/service-migration-q28q29.md`, `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D14-published-artifact-canon,D31-check-create-contract,D32-test-gate-mvp,D34-mcp-tool-contracts,D35-semver-v01,D40-scope-threshold,D54-source-of-truth-flow,D57-bare-git-immutability,README}.md`,
+  `docs/features/{agent_minimal,deprecation,draft,mcp_tools,publish,test_draft}.feature`,
+  `docs/questions/{Q12,Q13,Q16,Q17,Q18,Q28,Q29,Q45,README}.md`,
+  `docs/reviews/{migration-q28q29-2026-09-29,migration-q28q29-2026-09-29-r2}.md`.
+  Сообщение — `docs(D31, D34): перенос Q28–Q29 — контракты MCP: check.create,
+  ответы инструментов`. Осталось: `add` 37 → сверка staged (ровно 37: 30 M +
+  7 A) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует
+  новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов
+  нет.

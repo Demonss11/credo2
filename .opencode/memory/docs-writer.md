@@ -157,3 +157,16 @@
   (D50); `src/**`, `tests/**`, журнал, `TRACEABILITY`/`SPECIFICATION`/`tasks`/
   `decisions/README.md` не трогал. Остаток: приёмка `validator` (docs) →
   пакет `git`.
+- 2026-09-29 · операция `service-migration-q28q29` · сопутствующие к переносу
+  Q28–Q29 → D31/D34: обратные ссылки `# Dn (Qx): …` (BRIEF §5.6 п.2) в шапках
+  6 фич — D31 (Q28): `draft.feature:11`, `agent_minimal.feature:12`; D34 (Q29):
+  `draft.feature:12` (рядом с D31), `mcp_tools.feature:7`,
+  `test_draft.feature:11`, `publish.feature:15`, `deprecation.feature:4`
+  (7 строк, 6 фич; прежние Q-строки и D-строки сохранены — только добавление).
+  `docs/CHANGELOG.md:183–205` — запись «Перенос Q28–Q29 → D31, D34» (связка
+  «MCP-контракты»; Q28 ✅ T-03; Q29 🟡 T-04 сделана/T-05 открыта — единственная
+  открытая). Счётчики 47/278 не менялись (`features/README.md:309`, сверено
+  чтением); ссылки записи живые (glob 7/7). `cargo`/git не запускались (D50);
+  `src/**`, `tests/**`, журнал, `TRACEABILITY`/`SPECIFICATION`/`tasks`/
+  `decisions/README.md` не трогал. Остаток: приёмка `validator` (docs) →
+  пакет `git`.

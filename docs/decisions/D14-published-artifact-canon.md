@@ -144,8 +144,8 @@
 - Вопрос: [Q13](../questions/Q13.md)
 - Связанные: [Q7](../questions/Q7.md) («Следствие для кода», терминология),
   [Q12](../questions/Q12.md) (источник истины), [Q18](../questions/Q18.md)
-  (pre-release); Q32 (структура пути), Q29 (контракт ответа публикации),
-  Q34 (тест-гейт) — ожидают переноса
+  (pre-release); [Q29](../questions/Q29.md) (контракт ответа публикации),
+  Q32 (структура пути), Q34 (тест-гейт) — ожидают переноса
 - Задачи: [T-06](../tasks/T-06-registry-path-xyz/README.md),
   [T-07](../tasks/T-07-meta-fields/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №14

@@ -102,8 +102,8 @@
 
 - Вопрос: [Q16](../questions/Q16.md)
 - Связанные: [Q12](../questions/Q12.md) (источник истины, `source_hash`),
-  [Q13](../questions/Q13.md) (артефакт публикации); Q34, Q29 (ожидают
-  переноса)
+  [Q13](../questions/Q13.md) (артефакт публикации); [Q29](../questions/Q29.md);
+  Q34 (ожидает переноса)
 - Задачи: [T-02](../tasks/T-02-test-gate/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №32
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

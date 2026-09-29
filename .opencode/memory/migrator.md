@@ -434,4 +434,57 @@
   `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не запускался
   (D50). Отчёт — лента `.opencode/mail/service-migration-q24q26.md`; коммит —
   за `git`.
+- 2026-09-29 · service-migration-q28q29 (вызов 1 из 2): перенос **Q28 → D31**
+  (`docs/decisions/D31-check-create-contract.md`, `Resolves: Q28`). Создан
+  `docs/questions/Q28.md` (дата 2026-09-26, resolved, «Перенос: 2026-09-29,
+  блок Q28–Q29»). Сводки: D31 в `decisions/README.md` (между D26 и D32;
+  **37 строк**; parenthetical «(Q27–Q41)» → «(Q27, Q30–Q41)»); Q28 в
+  `TRACEABILITY.md` (Feature — `draft.feature`, `agent_minimal.feature`) и
+  `questions/README.md`. §10 №31 (:854) — добавлено «полный контекст —
+  [D31](decisions/D31-check-create-contract.md)». Архив: Q28 (:215–252) →
+  указатель, метка «блок Q28–Q29». Свип Q28: `Q45.md:18`,
+  `D40-scope-threshold.md:19` — живой ссылкой; Q29 не трогался. Сверка §5.3 —
+  ✅: `src/mcp.rs` `create` 155–184 (`{name,source}`, `parse_rule` 167, сверка
+  заголовка 168–173, ответ `{status,name}` 183, `upsert_draft` 180), tool spec
+  472–477, юнит-тесты 676–733; `tests/mcp_draft.rs` 63–99/104–141/369–402/
+  408–481/487–499; `tests/mcp_errors.rs`; фичи `draft.feature` 2–4/16–25/58–71,
+  `agent_minimal.feature` 40–41; SPEC §4.5/§7. Tasks: T-03 — **сделана**;
+  новых нет. Вызов 2 — **Q29 → D34** (`D34-mcp-tool-contracts.md`; §4.5, не
+  копировать; `SPECIFICATION.md:507` → D34; свип Q29). Q27/Q30 — 4б-2.
+  `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не запускался
+  (D50). Отчёт — лента `.opencode/mail/service-migration-q28q29.md`; коммит —
+  за `git`.
+- 2026-09-29 · service-migration-q28q29 (вызов 2 из 2): перенос **Q29 → D34**
+  (`docs/decisions/D34-mcp-tool-contracts.md`, `Resolves: Q29`; `Tasks:` T-04
+  (сделана), T-05 (открыта)). Создан `docs/questions/Q29.md` (дата
+  2026-09-26, resolved, «Перенос: 2026-09-29, блок Q28–Q29»). Канон: §4.5 —
+  общие правила/коды-перечень/инварианты/сводная таблица; в D34 — таблица
+  «когда используется» для 10 кодов, полные JSON-схемы всех 10 инструментов,
+  вне-MVP (ничего не потеряно). Сводки: D34 в `decisions/README.md` (между D32
+  и D35; **38 строк**; parenthetical «(Q27, Q30–Q41)» остаётся); Q29 в
+  `TRACEABILITY.md` (Feature — `mcp_tools`/`draft`/`test_draft`/`publish`/
+  `deprecation`) и `questions/README.md`. §10 №34 (:857) — «полный контекст —
+  [D34]». Архив: блок Q29 (после сдвига :220–526) → указатель, метка «блок
+  Q28–Q29»; Q30 :225 цел. Свип Q29: `Q45.md:18`, `D40-scope-threshold.md:19`,
+  `Q12/Q13/Q16/Q17/Q18.md`, `questions/README.md`, `D32/D35/D54/D14/D57` —
+  живой ссылкой; «ожидает переноса» у Q29 не осталось. Сверка §5.3 — **🟡**:
+  ✅ конверт+10 кодов (`src/mcp.rs` 38–67, 72–131, 533–546), инварианты 1–5
+  (`create` 155–184, `draft_json` 438–455, `test_valid` 439–440), `list_drafts`
+  186–199 / `get_draft` 438–455 / `test` 250–261; 🟡 схемы успеха —
+  `delete_draft` 277–279, `publish` 328–341, `deprecate` 391–396,
+  `list_published` 399–411, `rebuild_manifest` 413–419 → T-05 (открыта). Снят
+  дрейф «полные схемы»: SPEC :525 и §10 №34 → D34; `SPECIFICATION.md:507` →
+  D34 (OPEN_QUESTIONS в SPEC осталась только в шапке §10 :816); D34 :314,
+  OPEN_QUESTIONS :714. **Связка «MCP-контракты» закрыта** (D31/Q28, D34/Q29).
+  Далее — 4б-2 (Q27+Q30); свободный §10 — **№59**, следующий Q — **Q57**.
+  `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не запускался
+  (D50). Отчёт — та же лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q28q29 (P2 rework): приёмка `validator` дала P2 —
+  `D34-mcp-tool-contracts.md:420` держал `Q18 (semver)` в перечне «ожидают
+  переноса», хотя Q18 мигрирован (D35). Правка одной строки: `:420–421` →
+  `[Q18](../questions/Q18.md) / [D35](D35-semver-v01.md)` (semver),
+  `Q33 (draft-first) — ожидает переноса`. Свип
+  `rg "ожида[ею]т переноса" docs/decisions/D34-mcp-tool-contracts.md` → только
+  Q33. `cargo` не запускался (D50). Отчёт — лента (секция `P2`); далее приёмка
+  `-r2`; коммит — за `git`.
 
