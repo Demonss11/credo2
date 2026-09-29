@@ -66,6 +66,13 @@
 | [Q62](questions/Q62.md) — doc-quality проверки: состав, место, режим включения | [D66](decisions/D66-doc-quality-checks.md) — size + lint локально; link-check — единый владелец T-18 | in work | [T-19](tasks/T-19-doc-quality-checks/README.md) ⬜ | — |
 | [Q63](questions/Q63.md) — спелл-чек документации (`cspell` en+ru) | [D67](decisions/D67-cspell-deferred.md) — отложить (кандидат v0.2) | resolved | — | — |
 | [Q64](questions/Q64.md) — `CHANGELOG`: генератор из коммитов или рукописный? | [D68](decisions/D68-changelog-handwritten.md) — рукописный; генератор отклонён | resolved | — | — |
+| [Q65](questions/Q65.md) — ретро-D для до-журнальных решений §10 (№ 1–5, 7–11, 13) | [D69](decisions/D69-retro-decisions.md) — 11 ретро-D-файлов (`D1…D13`) | resolved | — | — |
+| [Q66](questions/Q66.md) — `SPECIFICATION.md`: существенное сокращение и §10-индекс | [D70](decisions/D70-spec-reduction.md) — сжатие дублей; таблица §10 упраздняется | resolved | — | — |
+| [Q67](questions/Q67.md) — правила журнала → `.opencode/rules/journal.md`, `BRIEF.md` удалить | [D71](decisions/D71-journal-rules-relocation.md) — переезд правил; `BRIEF.md` удаляется | resolved | — | — |
+| [Q68](questions/Q68.md) — `CHANGELOG`: очистка и новое правило ведения | [D72](decisions/D72-changelog-full-cleanup.md) — полная очистка; далее только кодовые изменения | resolved | — | — |
+| [Q69](questions/Q69.md) — `README`: корневой создать, `docs/README.md` отрефакторить | [D73](decisions/D73-readme-entrypoints.md) — корневой README; `docs/README.md` — лёгкая карта | resolved | — | — |
+| [Q70](questions/Q70.md) — `GRAMMAR`: нормативный фокус | [D74](decisions/D74-grammar-normative-focus.md) — нормативный минимум; rationale — ссылками | resolved | — | — |
+| [Q71](questions/Q71.md) — работа роли `git`: сокращение шагов и токенов | [D75](decisions/D75-git-lean-workflow.md) — минимальный цикл, хелпер `git-check.mjs` + allowlist, `steps` 28→14 | resolved | — | — |
 
 Легенда жизненного цикла: `open` — ждёт решения · `resolved` — решение принято
 (задач не требуется) · `in work` — есть открытые задачи · `done` — задачи

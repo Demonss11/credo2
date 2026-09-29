@@ -7,7 +7,7 @@
 - **Affects:** [`review.md`](../../.opencode/rules/review.md) §«Порог
   существенности»; [`validator.md`](../../.opencode/agents/validator.md)
   (чек-лист «Документы и агенты», строка про счётчики
-  `docs/features/README.md`); [`BRIEF.md`](../BRIEF.md) §5.7
+  `docs/features/README.md`); `BRIEF.md` §5.7 (историч.)
 - **Tasks:** — (см. «Сверка с кодом»)
 
 ## Контекст
@@ -24,7 +24,7 @@
 - [`validator.md`](../../.opencode/agents/validator.md) (стр. 87):
   «счётчики `docs/features/README.md` согласованы **с тестом**
   `features_inventory`» — читается как обязательный cargo-прогон;
-- [`BRIEF.md`](../BRIEF.md) §5.7: DoD прототипа (`cargo fmt --check`,
+- `BRIEF.md` §5.7: DoD прототипа (`cargo fmt --check`,
   `cargo clippy …`, `cargo test --all`) без оговорки про docs-пакеты.
 
 Полный контекст — [Q55](../questions/Q55.md), лента
@@ -35,7 +35,7 @@
 1. **Пакет без изменений `src/**`, `tests/**`, `Cargo.toml`** — cargo-прогоны у
    `validator` **не выполняются**. Приёмка — адресной проверкой изменённых
    документов (живость ссылок, отсутствие дублей канона по Q41, согласованность
-   статусов и полей [BRIEF](../BRIEF.md) §5.7).
+   статусов и полей `BRIEF.md` §5.7).
    *(уточнено 29.09.2026 при аудите: перечень дополнен `Cargo.toml` — зона
    `coder`; `review.md`/`BRIEF.md` синхронизированы)*
 2. **Исключение — правки счётчиков или состава сценариев
@@ -82,7 +82,7 @@
 [`review.md`](../../.opencode/rules/review.md) (стр. 28–33: docs → адресная
 проверка, cargo не упомянут), [`validator.md`](../../.opencode/agents/validator.md)
 (стр. 87: «счётчики … согласованы с тестом `features_inventory`»),
-[`BRIEF.md`](../BRIEF.md) §5.7 (DoD без оговорки про docs-пакеты); факты
+`BRIEF.md` §5.7 (DoD без оговорки про docs-пакеты); факты
 прогонов — лента
 `service-dod-scope.md` (`.opencode/mail/**`).
 Уточнение при аудите (29.09.2026): перечень состава пакета в `review.md`

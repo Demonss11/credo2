@@ -3,7 +3,7 @@ description: "Git-операции CREDO: пакеты коммитов посл
 mode: subagent
 model: opencode-go/deepseek-v4.1-flash
 color: "#adb5bd"
-steps: 28
+steps: 14
 permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: ".opencode/memory/git.md", effect: allow }
@@ -27,6 +27,8 @@ permissions:
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/clean-logs.mjs", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/clean-logs.mjs *", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/git-check.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/git-check.mjs *", effect: allow }
   - { action: shell, resource: "git add *", effect: ask }
   - { action: shell, resource: "git commit *", effect: ask }
   - { action: shell, resource: "git switch *", effect: ask }
@@ -76,6 +78,13 @@ permissions:
 5. **До `git add`** запиши чекпойнт в память и краткий отчёт в ленту — они
    входят в пакет (F43). После `push` в отслеживаемые файлы не пиши: верни
    `lead` ответом фактические хеши и что осталось.
+
+## Минимальный цикл пакета
+
+Полный цикл (7 шагов) и запреты избыточных проверок — в
+`.opencode/rules/git-workflow.md` §«Минимальный цикл `git`» (читаешь правило
+перед задачей). Сверка состояния — `node .opencode/scripts/git-check.mjs
+[--staged] [--expect=N]`.
 
 ## Что делаешь
 

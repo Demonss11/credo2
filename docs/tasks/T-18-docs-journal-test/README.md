@@ -6,7 +6,9 @@
 - **Зависит от:** после исполнения [D61](../../decisions/D61-archive-removal.md),
   [D62](../../decisions/D62-brief-journal-rules.md),
   [D63](../../decisions/D63-journal-index-lifecycle.md),
-  [D65](../../decisions/D65-reference-policy.md) (новая структура индекса и шапок)
+  [D65](../../decisions/D65-reference-policy.md),
+  [D71](../../decisions/D71-journal-rules-relocation.md) (новая структура индекса,
+  шапок и правил журнала)
 - **Источник:** [D64](../../decisions/D64-journal-integrity-test.md) (Q60);
   образец — [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs)
   ([D20](../../decisions/D20-features-docs-dod.md)/Q40); связано: D63, D65, D61
@@ -14,8 +16,10 @@
 ## Контекст
 
 Целостность журнала Q/D проверяется ручными свипами, а `P3`-дрейф номеров строк
-между прогонами ловится глазами ([`../../BRIEF.md`](../../BRIEF.md) §7 обещает
-тест `tests/docs_journal.rs`; критерий §7 (историч.; выполнен D61) требует «тест целостности добавлен»).
+между прогонами ловится глазами
+([`../../../.opencode/rules/journal.md`](../../../.opencode/rules/journal.md) §7
+обещает тест `tests/docs_journal.rs`; критерий §7 (историч.; выполнен D61)
+требует «тест целостности добавлен»).
 Решение [D64](../../decisions/D64-journal-integrity-test.md) закрепляет
 машинную проверку по образцу
 [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs).
@@ -26,8 +30,10 @@
 зависимостей):
 
 - **v0.1 (ядро):** уникальность/целостность ID `Q`/`D`; парность `Q`↔`D` (кроме
-  `dropped`/«попутных»); у `D` — строка §10 со ссылкой `[Dn]` и строка в
-  [`../../decisions/README.md`](../../decisions/README.md); у `Q` — строки в
+  `dropped`/«попутных», а также ретро-D без Q — допустимы
+  ([D69](../../decisions/D69-retro-decisions.md): `D1`–`D5`, `D7`–`D11`, `D13`); у `D` — запись в
+  [`../../decisions/README.md`](../../decisions/README.md) (§10-адреса —
+  исторические, не проверяются); у `Q` — строки в
   [`../../questions/README.md`](../../questions/README.md) и
   [`../../TRACEABILITY.md`](../../TRACEABILITY.md); вердикт «Сверка с кодом» в
   каждом `D`; согласованность `TRACEABILITY` (задачи `T-XX` существуют;

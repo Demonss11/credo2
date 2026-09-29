@@ -1,17 +1,17 @@
 # questions — журнал вопросов Q/D
 
 > **Назначение:** сводка живого журнала вопросов для быстрого обзора. Источник
-> истины — сами `Qn.md`; полные решения — `../decisions/Dn-*.md`; краткий канон —
-> `../SPECIFICATION.md` §10; связи Q → D → feature → задача — `../TRACEABILITY.md`;
+> истины — сами `Qn.md`; полные решения — `../decisions/Dn-*.md`; связи
+> Q → D → feature → задача — `../TRACEABILITY.md`;
 > архив `OPEN_QUESTIONS.md` удалён после завершения миграции, источник — журнал.
 >
 > **Роль в политике Q41:** рабочая сводка, **не канон**: текст вопроса и решения
-> живёт в `Qn.md` и `Dn-*.md`, формулировка решения — в §10; статусы и
+> живёт в `Qn.md` и `Dn-*.md`; статусы и
 > приоритеты требований — только в `../features/README.md`.
 >
 > **Поддержка:** при заведении новой `Qn` `migrator` добавляет строку в эту
 > сводку тем же изменением, что и файл (процесс журнала —
-> [`../BRIEF.md`](../BRIEF.md) §5.1–§5.2).
+> [`../../.opencode/rules/journal.md`](../../.opencode/rules/journal.md) §5.1–§5.2).
 
 **Каталог:** `docs/questions/Qn.md` без слага. Сквозной номер в порядке
 появления (`Q1`, `Q2`, …); номера не переиспользуются.
@@ -84,3 +84,10 @@
 | [Q62](Q62.md) | doc-quality проверки: состав, место, режим включения | [D66](../decisions/D66-doc-quality-checks.md) |
 | [Q63](Q63.md) | спелл-чек документации (`cspell` en+ru) | [D67](../decisions/D67-cspell-deferred.md) |
 | [Q64](Q64.md) | `CHANGELOG`: генератор из коммитов или рукописный? | [D68](../decisions/D68-changelog-handwritten.md) |
+| [Q65](Q65.md) | ретро-D для до-журнальных решений §10 (№ 1–5, 7–11, 13) | [D69](../decisions/D69-retro-decisions.md) |
+| [Q66](Q66.md) | `SPECIFICATION.md`: существенное сокращение и §10-индекс | [D70](../decisions/D70-spec-reduction.md) |
+| [Q67](Q67.md) | правила журнала → `.opencode/rules/journal.md`, `BRIEF.md` удалить | [D71](../decisions/D71-journal-rules-relocation.md) |
+| [Q68](Q68.md) | `CHANGELOG`: очистка и новое правило ведения | [D72](../decisions/D72-changelog-full-cleanup.md) |
+| [Q69](Q69.md) | `README`: корневой создать, `docs/README.md` отрефакторить | [D73](../decisions/D73-readme-entrypoints.md) |
+| [Q70](Q70.md) | `GRAMMAR`: нормативный фокус | [D74](../decisions/D74-grammar-normative-focus.md) |
+| [Q71](Q71.md) | работа роли `git`: сокращение шагов и токенов | [D75](../decisions/D75-git-lean-workflow.md) |

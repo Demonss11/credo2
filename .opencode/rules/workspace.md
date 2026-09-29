@@ -23,7 +23,7 @@
 - Содержимое — `rg` с явным путём (`src/`, `tests/`, `docs/`), не от корня.
 - Число строк файла — `rg -c '^' <файл>` (одиночная команда; `powershell
   -Command` и пайпы правами отклоняются).
-- Большие документы (`docs/SPECIFICATION.md`, `docs/BRIEF.md`) —
+- Большие документы (`docs/SPECIFICATION.md`) —
   сначала карта заголовков (`rg -n "^#{1,3} " <файл>`), затем точечное
   чтение по `offset`/`limit`.
 - PowerShell-обход — с `-Filter` и `-Depth`; исключай `node_modules`

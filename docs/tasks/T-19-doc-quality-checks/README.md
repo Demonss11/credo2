@@ -11,8 +11,10 @@
 
 ## Контекст
 
-Ссылочная гниль и рост документов — ручная боль (29.09.2026:
-[`../../BRIEF.md`](../../BRIEF.md) сжат 395→304 строки). Соседний проект
+Ссылочная гниль и рост документов — ручная боль (29.09.2026: `docs/BRIEF.md`
+сжат 395→304 строки — историч.; правила журнала перенесены в
+[`../../../.opencode/rules/journal.md`](../../../.opencode/rules/journal.md)
+решением [D71](../../decisions/D71-journal-rules-relocation.md)). Соседний проект
 применяет композит doc-проверок (`markdownlint-cli2`, лимит строк, `cspell`,
 `markdown-link-check`) как единый `npm run check`. Решение
 [D66](../../decisions/D66-doc-quality-checks.md) закрепляет для credo2 Node-
@@ -27,7 +29,7 @@ link-check — единый владелец Rust-тест `tests/docs_journal.r
 1. **`.opencode/scripts/doc-checks/`** (новое):
    - `check-doc-size.mjs` — лимит по умолчанию **300 строк**; фиксированные
      исключения-«книги»: `SPECIFICATION.md`, `GRAMMAR.md`, `CHANGELOG.md`,
-     `BRIEF.md`, `features/README.md`; охват — `AGENTS.md`, `docs/*.md`,
+     `features/README.md`; охват — `AGENTS.md`, `docs/*.md`,
      `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**/README.md`,
      `docs/features/README.md`, `docs/README.md`, `.opencode/agents/**`,
      `.opencode/rules/**`; исключения — `docs/reviews/**`, `docs/analysis/**`,
@@ -56,7 +58,8 @@ link-check — единый владелец Rust-тест `tests/docs_journal.r
 
 Пилот с корня даёт **0 нарушений** на включённом охвате, исключения
 документированы, время прогона — секунды; композит запускается одной командой;
-[`../../BRIEF.md`](../../BRIEF.md) §7/§8 обновлён ссылкой на инструменты
+[`../../../.opencode/rules/journal.md`](../../../.opencode/rules/journal.md)
+§7/§8 обновлён ссылкой на инструменты
 (`docs-writer`); CI-job `docs` добавлен отдельным изменением. DoD —
 [`../README.md`](../README.md) §«DoD для любой задачи» с поправкой
 [D50](../../decisions/D50-dod-by-package-scope.md): Rust-код не меняется →

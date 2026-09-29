@@ -54,7 +54,7 @@
 - Расхождение канона и кода без задачи.
 - Красный DoD (список команд — `AGENTS.md` §«Сборка, тесты и пересборка»).
 - Битые относительные ссылки; ID, использованный дважды; Q без D и наоборот;
-  запись без «Сверки с кодом» (`docs/BRIEF.md` §5.3).
+  запись без «Сверки с кодом» (`.opencode/rules/journal.md` §5.3).
 
 ## Что не блокер
 
@@ -94,7 +94,8 @@
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
 - `researcher`: `rg`.
 - `git`: `rg`, `git`-команды (изменяющие — `ask`),
-  `node .opencode/scripts/clean-logs.mjs`.
+  `node .opencode/scripts/clean-logs.mjs`,
+  `node .opencode/scripts/git-check.mjs`.
 - **Автопроверка `auditor`:** этот список должен совпадать с фронтматтерами
   `.opencode/agents/*.md` (команда без права и право без применения — находки).
 - **Проверка памяти (F35):** «Знание» в `.opencode/memory/<роль>.md` не

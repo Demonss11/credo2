@@ -7,7 +7,7 @@
 - **Affects:** `.opencode/scripts/doc-checks/**` (новое: `check-doc-size.mjs`,
   ruleset `markdownlint-cli2`, композит `check`),
   `.opencode/package.json` (поле `scripts`);
-  [`BRIEF.md`](../BRIEF.md) §7/§8 (после исполнения);
+  [`journal.md`](../../.opencode/rules/journal.md) §7/§8 (после исполнения);
   `.github/workflows/ci.yml` (отдельный job `docs`, позже);
   `tests/docs_journal.rs` — link-check
   ([T-18](../tasks/T-18-docs-journal-test/README.md),
@@ -20,13 +20,13 @@
 
 Соседний проект применяет композит doc-проверок (`markdownlint-cli2`, лимит
 строк, `cspell`, `markdown-link-check`; порядок «быстрые раньше») как единый
-`npm run check`. У нас проверка ссылок — вручную ([`BRIEF.md`](../BRIEF.md) §7),
+`npm run check`. У нас проверка ссылок — вручную ([`journal.md`](../../.opencode/rules/journal.md) §7),
 а link-check запланирован в Rust-тесте `tests/docs_journal.rs`
 ([T-18](../tasks/T-18-docs-journal-test/README.md),
 [D64](D64-journal-integrity-test.md)) — один владелец уже назначен. Node-
 инфраструктура в `.opencode/` есть (`npm ci`, `clean-logs.mjs`,
 `agents-perms.mjs`). Опыт 29.09.2026: ссылочная гниль и ручное сжатие документов
-([`BRIEF.md`](../BRIEF.md) 395→304 строки). Обзор-основание —
+(`BRIEF.md`, историч., 395→304 строки). Обзор-основание —
 [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md).
 Полный контекст — [Q62](../questions/Q62.md).
 
@@ -35,7 +35,7 @@
 1. **Node-инструменты в `.opencode/scripts/doc-checks/`:**
    - **doc-size** — лимит по умолчанию **300 строк**; фиксированные
      исключения-«книги»: `SPECIFICATION.md`, `GRAMMAR.md`, `CHANGELOG.md`,
-     `BRIEF.md`, `features/README.md`; охват — живые зоны журнала/ролей/правил/
+     `features/README.md`; охват — живые зоны журнала/ролей/правил/
      карточек; история `reviews/**`/`analysis/**` и рабочие `mail/**`/`state/**` —
      вне;
    - **markdownlint-cli2** — ruleset: `MD001`, `MD025`, `MD040`, `MD047`,
@@ -60,7 +60,7 @@
 - Принят «быстрый сперва»: size (мс, без зависимостей) → lint.
 - Пилот до включения — сухой прогон без `--fix`, отчёт-счётчики, утверждение
   таблицы лимитов/исключений.
-- [`BRIEF.md`](../BRIEF.md) §7/§8 после исполнения получает ссылку на
+- [`journal.md`](../../.opencode/rules/journal.md) §7/§8 после исполнения получает ссылку на
   инструменты; CI-job `docs` заводится отдельно от job `test`.
 
 ## Сверка с кодом
@@ -106,7 +106,7 @@ link-check фиксируется здесь и в карточке T-19 (кар
 - **Только size** — отклонено: markdown-lint дёшев и адресует markdown-форму,
   которую T-18 не проверяет.
 - **Не брать** — отклонено: ссылочная гниль и неограниченный рост документов
-  (опыт 29.09: [`BRIEF.md`](../BRIEF.md) 395→304).
+  (опыт 29.09: `BRIEF.md`, историч., 395→304).
 
 ## Ссылки
 

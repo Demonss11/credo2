@@ -65,7 +65,7 @@ permissions:
 
 ## Чек-лист по типу работы
 
-**Новые записи Q/D** (`docs/BRIEF.md` §5.1–§5.3):
+**Новые записи Q/D** (`.opencode/rules/journal.md` §5.1–§5.3):
 
 - `docs/questions/Qx.md` и `docs/decisions/Dn-*.md` существуют; ID, ссылки и
   поля (`Resolves`, `Спека`, `Affects`, `Tasks`) заполнены верно;

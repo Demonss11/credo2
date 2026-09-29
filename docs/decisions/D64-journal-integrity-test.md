@@ -8,7 +8,7 @@
   [Q40](../questions/Q40.md)/[D20](D20-features-docs-dod.md));
   [`TRACEABILITY.md`](../TRACEABILITY.md), [`questions/README.md`](../questions/README.md),
   [`decisions/README.md`](../decisions/README.md), §10 [`SPECIFICATION.md`](../SPECIFICATION.md);
-  [`BRIEF.md`](../BRIEF.md) (раздел «Целостность журнала» — [D62](D62-brief-journal-rules.md));
+  `BRIEF.md` (историч.; раздел «Целостность журнала» — [D62](D62-brief-journal-rules.md));
   задача [`T-18`](../tasks/T-18-docs-journal-test/README.md); согласовано с
   [D61](D61-archive-removal.md), [D63](D63-journal-index-lifecycle.md),
   [D65](D65-reference-policy.md)
@@ -16,9 +16,9 @@
 
 ## Контекст
 
-[`BRIEF.md`](../BRIEF.md) §7 описывает проверку целостности журнала вручную и
+`BRIEF.md` §7 (историч.) описывает проверку целостности журнала вручную и
 обещает тест `tests/docs_journal.rs` из «плана v0.x»; критерий завершения
-миграции ([`BRIEF.md`](../BRIEF.md) §7, историч.; выполнен [D61](D61-archive-removal.md)) требует «тест целостности добавлен».
+миграции (`BRIEF.md` §7, историч.; выполнен [D61](D61-archive-removal.md)) требует «тест целостности добавлен».
 Сейчас целостность проверяется ручными свипами, а `P3`-дрейф номеров строк
 между прогонами ловится глазами. Машинная проверка по образцу
 [`tests/features_inventory.rs`](../../tests/features_inventory.rs) убрала бы
@@ -68,7 +68,7 @@
 - Тест — часть `tests/`, поэтому его прогон входит в DoD `cargo test --all`
   ([`AGENTS.md`](../../AGENTS.md) §Сборка, [D20](D20-features-docs-dod.md));
   отдельного прогона `validator` для документации решение не вводит.
-- Раздел «Целостность журнала» в [`BRIEF.md`](../BRIEF.md) получает машинный
+- Раздел «Целостность журнала» (`BRIEF.md`, историч.) получает машинный
   основной механизм ([D62](D62-brief-journal-rules.md)); ручной чек-лист
   становится вспомогательным.
 - Тест зависит от структуры, вводимой [D63](D63-journal-index-lifecycle.md)
@@ -106,7 +106,7 @@
   не покрывает парность Q↔D, строки §10/сводок и согласованность задач —
   основной источник дрейфа F46.
 - **Отложить** (оставить ручные свипы) — отклонено: критерий завершения миграции
-  ([`BRIEF.md`](../BRIEF.md) §7, историч.; выполнен [D61](D61-archive-removal.md)) прямо требует тест целостности; ручные свипы
+  (`BRIEF.md` §7, историч.; выполнен [D61](D61-archive-removal.md)) прямо требует тест целостности; ручные свипы
   дороги и ловят `P3`-дрейф глазами.
 
 ## Ссылки

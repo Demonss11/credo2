@@ -21,8 +21,8 @@
 | `tests/` | интеграционные тесты: `publish.rs`, `rest.rs`, `features_inventory.rs` |
 | `docs/` | документация: SPEC, GRAMMAR, журнал Q/D, требования, задачи, досье `docs/analysis/`; карта — `docs/README.md` |
 | `.opencode/agents/` | рабочая группа агентов (ниже) |
-| `.opencode/rules/` | правила ролей: `git-workflow.md`, `review.md`, `workspace.md`, `dispatch-loop.md` |
-| `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей |
+| `.opencode/rules/` | правила ролей: `git-workflow.md`, `journal.md`, `review.md`, `workspace.md`, `dispatch-loop.md` |
+| `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей; `agents-perms.mjs` — машинная сверка прав; `git-check.mjs` — read-only сводка состояния git (роль `git`) |
 | `.opencode/memory/`, `.opencode/mail/` | операционные данные ролей: память и лента задач (в git, не канон) |
 | `.opencode/state/` | состояние цикла: `next_action`/`current_state`/`progress`/`receipts` (трекается с 28.09.2026; канон — `dispatch-loop.md`) |
 | `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
@@ -38,7 +38,7 @@
 | `lead` | loop-диспетчер: исполняет `next_action.yaml` буквально, вызывает роли, фиксирует результаты, вопросы владельцу | `.opencode/state/current/progress.yaml`, лента задачи, своя память |
 | `analyst` | эфемерный решатель: одно решение за вызов — досье, класс, план, сводка | `docs/analysis/**`, `.opencode/state/current/next_action.yaml` и `current_state.yaml`, лента задачи, своя память |
 | `migrator` | ведёт журнал Q/D: новые Q/D, сверка с кодом, задачи | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/SPECIFICATION.md` (§10), `docs/analysis/findings-registry.md` |
-| `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG; статусы задач (🚧 при взятии, ✅ после приёмки) | `docs/**` (кроме журнала и `docs/reviews/**`) |
+| `docs-writer` | документация: требования, SPEC, GRAMMAR, README, CHANGELOG; статусы задач (🚧 при взятии, ✅ после приёмки) | `docs/**` (кроме журнала и `docs/reviews/**`) |
 | `coder` | код задачи: `src/**` и юнит-тесты в модулях; тесты не запускает | `src/**`, `Cargo.toml` |
 | `rust-expert` | идиоматика Rust: правки `src/**` без изменения поведения; skill `rust-skills` | `src/**` |
 | `tester` | владелец `tests/**`: добавляет интеграционные тесты по сценариям; не запускает | `tests/**` |
@@ -155,7 +155,7 @@
 Shell-команды давай одиночными (без `;`, пайпов и перенаправлений); отклонённую
 команду сузь до разрешённой и повтори.
 
-Процесс ведения журнала — `docs/BRIEF.md`; реестр задач — `docs/tasks/README.md`.
+Процесс ведения журнала — `.opencode/rules/journal.md`; реестр задач — `docs/tasks/README.md`.
 
 ## Документы и решения
 
@@ -164,12 +164,12 @@ Shell-команды давай одиночными (без `;`, пайпов �
 | Документ | Канон чего |
 |---|---|
 | `docs/README.md` | карта документации и канонов |
-| `docs/SPECIFICATION.md` | целевая архитектура; §10 — краткие формулировки решений |
-| `docs/questions/` + `docs/decisions/` | полный контекст «вопрос → решение» (правила — `docs/BRIEF.md`, связи — `docs/TRACEABILITY.md`) |
+| `docs/SPECIFICATION.md` | целевая архитектура; решения — журнал `decisions/` |
+| `docs/questions/` + `docs/decisions/` | полный контекст «вопрос → решение» (правила — `.opencode/rules/journal.md`, связи — `docs/TRACEABILITY.md`) |
 | `docs/features/README.md` | статусы, приоритеты и счётчики сценариев (проверяет `tests/features_inventory.rs`) |
 | `docs/GRAMMAR.md` | язык v0.1 (EBNF включён) |
 | `docs/tasks/` | реестр задач по коду (Источник — `Dn`/`Qn` журнала) |
-| `docs/CHANGELOG.md` | хронология прототипа |
+| `docs/CHANGELOG.md` | кодовые изменения продукта (D72) |
 | `../../DECISIONS.md` | сквозные архитектурные ADR DAR (уровень рабочего пространства) |
 
 Если код расходится с принятым решением — это фиксируется статусом 🟡 требования
@@ -285,10 +285,10 @@ await tools.credo.check_rebuild_manifest();
 - Обход дерева — по правилу `.opencode/rules/workspace.md`: узкие `glob`/`rg`
   по `src/`, `tests/`, `docs/`; не обходить `target/`, `node_modules/`,
   `.credo/`, `.git/`.
-- Большие документы (`docs/SPECIFICATION.md`, `docs/BRIEF.md`) читать
+- Большие документы (`docs/SPECIFICATION.md`) читать
   по карте заголовков (`rg -n "^#{1,3} " <файл>`) и точечно, а не целиком.
 - Методика ревью и приёмки — `.opencode/rules/review.md`.
-- Быстрая проверка относительных ссылок — `docs/BRIEF.md` §7.
+- Быстрая проверка относительных ссылок — `.opencode/rules/journal.md` §7.
 - Вывод инструмента может быть срезан харнессом (плагин `token-guard`,
   порог ~12 КБ): маркер `…[token-guard] срез: опущено ~N байт` — вывод
   **неполон**. «Важные строки» — смягчение, не замена: если от опущенного

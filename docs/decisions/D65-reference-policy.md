@@ -4,7 +4,7 @@
 - **Дата:** 2026-09-29
 - **Resolves:** [Q61](../questions/Q61.md)
 - **Спека:** [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №65
-- **Affects:** [`BRIEF.md`](../BRIEF.md) (антипаттерны/рецепты — [D62](D62-brief-journal-rules.md));
+- **Affects:** `BRIEF.md` (историч.; антипаттерны/рецепты — [D62](D62-brief-journal-rules.md));
   [`TRACEABILITY.md`](../TRACEABILITY.md), [`questions/README.md`](../questions/README.md),
   [`decisions/README.md`](../decisions/README.md) (структура — [D63](D63-journal-index-lifecycle.md));
   [`SPECIFICATION.md`](../SPECIFICATION.md) §10; проводники правила —
@@ -18,7 +18,7 @@
 Документация пронизана перекрёстными ссылками и перечнями; одна правка тянет
 3–4 файла (кейс `F46` в
 [`findings-registry.md`](../analysis/findings-registry.md)). Запрет ссылок на
-номера строк уже зафиксирован в антипаттернах [`BRIEF.md`](../BRIEF.md) §8, но
+номера строк уже зафиксирован в антипаттернах `BRIEF.md` §8, но
 политика «какие ссылки обязательны, а какие избыточны» и правило «время жизни
 адреса» не были зафиксированы. Дополнительный риск — ссылки канона на рабочие
 данные, которые удаляются штатно (`F47`). Полный контекст — [Q61](../questions/Q61.md).
@@ -32,12 +32,12 @@
    - `Q` ↔ `D` (взаимные: `Resolves` в D — ссылка на Q, обратно в Q — на D);
    - `D` → задача (`Tasks` в D-файле, `T-XX` в `docs/tasks/`);
    - пометка `# Dn (Qn)` в шапке фичи
-     ([`features/*.feature`](../features/), [`BRIEF.md`](../BRIEF.md) §5.6);
+     ([`features/*.feature`](../features/), `BRIEF.md` §5.6);
    - §10 → `D` (каждая строка решения ведёт на D-файл);
    - связи централизует [`TRACEABILITY.md`](../TRACEABILITY.md) — единая таблица
      жизненного цикла ([D63](D63-journal-index-lifecycle.md)).
 3. **Запрещено:**
-   - ссылки на номера строк (антипаттерн [`BRIEF.md`](../BRIEF.md) §8);
+   - ссылки на номера строк (антипаттерн `BRIEF.md` §8);
    - дублирующие перечни правил/формулировок в шапках документов;
    - копии таблицы «Канон чего» — один канон ([D60](D60-docs-ownership-sync.md)/§10),
      остальное — ссылки (находка 3 разведки);
@@ -71,7 +71,7 @@
    [`decisions/README.md`](../decisions/README.md),
    [`questions/README.md`](../questions/README.md),
    [`TRACEABILITY.md`](../TRACEABILITY.md) (≤6 файлов) плюс затронутые
-   фичи/задачи; рецепт в затронутых разделах [`BRIEF.md`](../BRIEF.md)
+   фичи/задачи; рецепт в затронутых разделах `BRIEF.md` (историч.)
    ([D62](D62-brief-journal-rules.md)).
 
 ## Следствия
@@ -80,7 +80,7 @@
   ссылки (причина `F46` устранена политикой).
 - Ссылки на удаляемые рабочие данные исчезают из канона; провенанс остаётся в
   лентах/памяти и не теряется при штатных чистках (`F47`).
-- Обязательные связи фиксируются в [`BRIEF.md`](../BRIEF.md) и проверяются
+- Обязательные связи фиксируются в `BRIEF.md` (историч.) и проверяются
   тестом [D64](D64-journal-integrity-test.md); бюджет закрытия `Q` (≤6 файлов)
   задаёт ориентир.
 - Исполнение (снятие адресов `mail/**` из журнала, ссылки-копии в шапках) — документные
@@ -99,7 +99,7 @@
   [`findings-registry.md`](../analysis/findings-registry.md): правка одной
   записи тянет 3–4 файла; пересказ решений в нотах
   [`features/README.md`](../features/README.md); 4–5 копий «Канон чего».
-- **Запрет номеров строк** уже в [`BRIEF.md`](../BRIEF.md) §8; политика его
+- **Запрет номеров строк** уже в `BRIEF.md` §8; политика его
   воспроизводит, а не вводит заново.
 - **Существующие адреса `mail/**` в каноне** (полный список):
   `docs/questions/` Q54 (`service-t11-closeout.md`), Q55 (`service-dod-scope.md`),
@@ -134,7 +134,7 @@
 - Вопрос: [Q61](../questions/Q61.md)
 - Связанные: [D63](D63-journal-index-lifecycle.md) (единая таблица/каталоги);
   [D64](D64-journal-integrity-test.md) (тест — проводник правила);
-  [D62](D62-brief-journal-rules.md) (антипаттерны/рецепты [`BRIEF.md`](../BRIEF.md));
+  [D62](D62-brief-journal-rules.md) (антипаттерны/рецепты `BRIEF.md`, историч.);
   [D60](D60-docs-ownership-sync.md) (политика «один факт — один канон»)
 - Реестр: `F47`/`F46` в [`findings-registry.md`](../analysis/findings-registry.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №65

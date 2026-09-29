@@ -1,22 +1,25 @@
 # decisions — журнал решений Q/D
 
 > **Назначение:** сводка принятых решений журнала Q/D для быстрого обзора. Источник
-> истины — сами `Dn-*.md`; краткий канон формулировок — `../SPECIFICATION.md` §10;
-> связи D → Q → feature → задача — `../TRACEABILITY.md`; вопросы — `../questions/README.md`;
+> истины и формулировки — сами `Dn-*.md`; связи D → Q → feature → задача —
+> `../TRACEABILITY.md`; вопросы — `../questions/README.md`;
 > архив `OPEN_QUESTIONS.md` удалён после завершения миграции.
 >
 > **Роль в политике Q41:** рабочая сводка, **не канон**: текст решения живёт в
-> `Dn-*.md`, формулировка — в §10, связи — в `TRACEABILITY.md`.
+> `Dn-*.md`, связи — в `TRACEABILITY.md`.
 >
 > **Поддержка:** при заведении нового `Dn` `migrator` добавляет строку в эту сводку
-> тем же изменением, что и файл (процесс журнала — [`../BRIEF.md`](../BRIEF.md) §5.2).
+> тем же изменением, что и файл (процесс журнала —
+> [`../../.opencode/rules/journal.md`](../../.opencode/rules/journal.md) §5.2).
 
-**Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
-`SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
-Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения;
-при переносе записи получают D-файлы с этими номерами (прецеденты заполнения
-пропусков — D32/D35, D20/D60). Неперенесённых записей не осталось: все вопросы
-архива оформлены журналом (блок «Процесс», Q40+Q41, — последний).
+**Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — сквозной номер решения
+(исторически = № строки прежней таблицы `SPECIFICATION.md` §10; таблица
+упразднена решением [D70](D70-spec-reduction.md)); номера не переиспользуются,
+слаг не переименовывается. Пропуски номеров — исторические §10-строки без
+отдельного D-файла: до-журнальные решения; при переносе записи получают D-файлы
+с этими номерами (прецеденты заполнения пропусков — D32/D35, D20/D60).
+Неперенесённых записей не осталось: все вопросы архива оформлены журналом
+(блок «Процесс», Q40+Q41, — последний).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
 
@@ -24,8 +27,19 @@
 
 | D | Краткая тема | Решает | Дата | Статус |
 |---|---|---|---|---|
+| [D1](D1-comment-syntax.md) | `//`-комментарии вместо `:::`-блоков | — | 2026-09-29 | accepted |
+| [D2](D2-file-first-source-of-truth.md) | Файл = источник истины (file-first) | — | 2026-09-29 | accepted |
+| [D3](D3-lsp-sidecar-process.md) | LSP как sidecar-процесс | — | 2026-09-29 | accepted |
+| [D4](D4-lsp-transport-stdio.md) | Транспорт LSP — stdio | — | 2026-09-29 | accepted |
+| [D5](D5-lsp-client-codemirror.md) | Клиент LSP — `codemirror-languageserver` | — | 2026-09-29 | accepted |
 | [D6](D6-lsp-degradation.md) | Падение LSP — нет второго движка; автоперезапуск ≤ 3, ручной перезапуск | [Q39](../questions/Q39.md) | 2026-09-26 | accepted |
+| [D7](D7-tauri-ipc-notebook.md) | Tauri IPC для Notebook | — | 2026-09-29 | accepted |
+| [D8](D8-mcp-for-agent.md) | MCP для агента | — | 2026-09-29 | accepted |
+| [D9](D9-nextjs-removed.md) | Next.js убран | — | 2026-09-29 | accepted |
+| [D10](D10-graph-deferred.md) | Граф связей отложен | — | 2026-09-29 | accepted |
+| [D11](D11-wasm-native-first.md) | WASM: сначала нативный, потом браузер | — | 2026-09-29 | accepted |
 | [D12](D12-agent-chat-panel.md) | Чат агента — правая панель окна Notebook; результаты `check.test` — инлайн | [Q31](../questions/Q31.md) | 2026-09-26 | accepted |
+| [D13](D13-f64-mvp-decimal-v02.md) | Семантика чисел: `f64` в MVP, `Decimal` в v0.2 | — | 2026-09-29 | accepted |
 | [D14](D14-published-artifact-canon.md) | Артефакт публикации — неизменяемая JSON-тройка, каталог версии | [Q13](../questions/Q13.md) | 2026-09-25 | accepted |
 | [D15](D15-evolution-credo2.md) | Эволюция `credo2`, а не greenfield | [Q1](../questions/Q1.md) | 2026-09-24 | accepted |
 | [D16](D16-dsl-canon-regex-mvp.md) | Канон языка v0.1 — `GRAMMAR.md`; парсер MVP — regex-минимум | [Q2](../questions/Q2.md), [Q3](../questions/Q3.md) | 2026-09-24 | accepted |
@@ -74,10 +88,17 @@
 | [D59](D59-workspace-templates.md) | Создание workspace и шаблоны — `rules/Пример.dar`, `README.md`, `.gitignore` | [Q35](../questions/Q35.md) | 2026-09-26 | accepted |
 | [D60](D60-docs-ownership-sync.md) | Владение документами и синхронизация — «один факт — один канон» | [Q41](../questions/Q41.md) | 2026-09-26 | accepted |
 | [D61](D61-archive-removal.md) | Завершение миграции — архив `OPEN_QUESTIONS.md` удаляется | [Q57](../questions/Q57.md) | 2026-09-29 | accepted |
-| [D62](D62-brief-journal-rules.md) | `BRIEF.md` после миграции — компактные правила ведения журнала | [Q58](../questions/Q58.md) | 2026-09-29 | accepted |
+| [D62](D62-brief-journal-rules.md) | `BRIEF.md` после миграции — компактные правила ведения журнала | [Q58](../questions/Q58.md) | 2026-09-29 | superseded by [D71](D71-journal-rules-relocation.md) |
 | [D63](D63-journal-index-lifecycle.md) | Индекс журнала — единая таблица жизненного цикла | [Q59](../questions/Q59.md) | 2026-09-29 | accepted |
 | [D64](D64-journal-integrity-test.md) | Тест целостности журнала — `tests/docs_journal.rs` | [Q60](../questions/Q60.md) | 2026-09-29 | accepted |
 | [D65](D65-reference-policy.md) | Политика ссылок и дублей — «ссылка, не копия»; «время жизни адреса» | [Q61](../questions/Q61.md) | 2026-09-29 | accepted |
 | [D66](D66-doc-quality-checks.md) | Doc-quality проверки: size+lint, link-check в T-18 | [Q62](../questions/Q62.md) | 2026-09-29 | accepted |
 | [D67](D67-cspell-deferred.md) | Cspell — отложен (v0.2) | [Q63](../questions/Q63.md) | 2026-09-29 | accepted |
 | [D68](D68-changelog-handwritten.md) | CHANGELOG — рукописный, генератор отклонён | [Q64](../questions/Q64.md) | 2026-09-29 | accepted |
+| [D69](D69-retro-decisions.md) | Ретро-D §10 (№ 1–5, 7–11, 13) — 11 D-файлов | [Q65](../questions/Q65.md) | 2026-09-29 | accepted |
+| [D70](D70-spec-reduction.md) | SPEC — сокращение; таблица §10 упраздняется | [Q66](../questions/Q66.md) | 2026-09-29 | accepted |
+| [D71](D71-journal-rules-relocation.md) | Правила журнала → `.opencode/rules/journal.md`; `BRIEF.md` удаляется | [Q67](../questions/Q67.md) | 2026-09-29 | accepted |
+| [D72](D72-changelog-full-cleanup.md) | `CHANGELOG` — полная очистка; далее только кодовые изменения | [Q68](../questions/Q68.md) | 2026-09-29 | accepted |
+| [D73](D73-readme-entrypoints.md) | README — корневой создаётся; `docs/README.md` — лёгкая карта | [Q69](../questions/Q69.md) | 2026-09-29 | accepted |
+| [D74](D74-grammar-normative-focus.md) | `GRAMMAR` — нормативный минимум; rationale — ссылками | [Q70](../questions/Q70.md) | 2026-09-29 | accepted |
+| [D75](D75-git-lean-workflow.md) | Роль `git` — минимальный цикл, хелпер + allowlist, `steps` 28→14 | [Q71](../questions/Q71.md) | 2026-09-30 | accepted |

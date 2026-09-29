@@ -56,9 +56,9 @@ permissions:
 1. фронтматтер `.opencode/agents/*.md` — права, модель, режим, `steps`;
 2. тело `.opencode/agents/*.md` — рабочие инструкции роли;
 3. `AGENTS.md` — общие правила, навигация, маршруты, память и почта;
-4. `.opencode/rules/*.md` — правила (`git-workflow`, `review`, `workspace`,
-   `dispatch-loop`);
-5. карта канонов `docs/README.md`, процессы `docs/BRIEF.md`,
+4. `.opencode/rules/*.md` — правила (`git-workflow`, `journal`, `review`,
+   `workspace`, `dispatch-loop`);
+5. карта канонов `docs/README.md`, процессы `.opencode/rules/journal.md`,
    `docs/tasks/README.md`, `docs/features/README.md` — проверяешь
    **целостность** (дубли, ссылки, счётчики), но не решения;
 6. `.opencode/memory/<роль>.md`, `.opencode/mail/<T-XX>.md` и
@@ -198,5 +198,5 @@ permissions:
 
 - `AGENTS.md` — карта, роли, маршруты, память и почта, служебная зона.
 - `.opencode/rules/*.md` — правила ролей.
-- `docs/BRIEF.md` — процесс журнала (канон Q/D).
+- `.opencode/rules/journal.md` — процесс журнала (канон Q/D).
 - `docs/README.md` — карта документации.

@@ -11,7 +11,7 @@
   внешний, не правится);
   [`AGENTS.md`](../../AGENTS.md) §«Документы и решения»;
   [`README.md`](../README.md) (карта документации и канонов);
-  [`BRIEF.md`](../BRIEF.md), [`questions/README.md`](../questions/README.md),
+  `BRIEF.md` (историч.), [`questions/README.md`](../questions/README.md),
   [`decisions/README.md`](../decisions/README.md),
   [`TRACEABILITY.md`](../TRACEABILITY.md) (ссылки «не канон»)
 - **Tasks:** — (см. «Сверка с кодом»)
@@ -34,14 +34,14 @@
 
 | Документ | Канон чего |
 |---|---|
-| [`SPECIFICATION.md`](../SPECIFICATION.md) | целевая архитектура; §10 — краткие формулировки решений |
+| [`SPECIFICATION.md`](../SPECIFICATION.md) | целевая архитектура; решения — журнал [`decisions/`](../decisions/) ([D70](D70-spec-reduction.md)) |
 | [`questions/`](../questions/) + [`decisions/`](../decisions/) (журнал; исторически — архив `OPEN_QUESTIONS.md`, удалён после миграции) | полный контекст «вопрос → решение» |
 | [`features/README.md`](../features/README.md) | **единственный** канон статусов, приоритетов и счётчиков сценариев ([Q5](../questions/Q5.md)/[Q40](../questions/Q40.md)) |
 | [`GRAMMAR.md`](../GRAMMAR.md) | канон языка v0.1 (EBNF включён, [Q2](../questions/Q2.md)) |
 | `DECISIONS.md` (корень рабочего пространства) | реестр **сквозных архитектурных** ADR (кратко + источники) |
 | `concept.md`, `SCOPE.md`, `NON_GOALS.md`, `ROADMAP.md`, `open-questions.md` | рамки и продуктовые вопросы DAR (не технические детали CREDO) |
 | [`AGENTS.md`](../../AGENTS.md) (корень `credo2`) | операционная инструкция агентам |
-| [`CHANGELOG.md`](../CHANGELOG.md), `CONFORMANCE/` | хронология прототипа; принципы тестов соответствия |
+| [`CHANGELOG.md`](../CHANGELOG.md), `CONFORMANCE/` | кодовые изменения продукта ([D72](D72-changelog-full-cleanup.md)); принципы тестов соответствия |
 | [`tasks/`](../tasks/) | реестр задач по коду: сводка + папка на задачу (не норматив) |
 
 **Правила:**
