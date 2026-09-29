@@ -1,6 +1,6 @@
 # Память: migrator (журнал Q/D)
 
-- **Канон:** `docs/BRIEF.md` (§2 ID, §4 шаблоны, §5.3 сверка, §7 перенос).
+- **Канон:** `.opencode/rules/journal.md` (§2 ID, §4 шаблоны, §5.3 сверка).
 - **Правило:** чекпойнт — состояние записи (Q/D), что проверено, следующее
   действие, ссылки. Кратко.
 
@@ -997,4 +997,143 @@
   TRACEABILITY. `cargo`/git не запускались (D50); `CHANGELOG` не трогал
   (docs-writer). **Свободные:** §10 — **№69**, Q — **Q65**. Отчёт — лента
   `.opencode/mail/service-doc-tools.md` (секция «хвосты»); коммит — за `git`.
+- 2026-09-29 · service-doc-rework (шаг 2 — **Q65–Q70 заведены**, open): созданы
+  `docs/questions/Q65.md`–`Q70.md` (все `open`, ⚪ оформление, 2026-09-29) —
+  ретро-D §10 №1–5/7–11/13 (11 файлов, без новых §10-строк), сокращение SPEC +
+  §10-индекс, BRIEF → `.opencode/rules/journal.md`, очистка CHANGELOG,
+  README×2, нормативный фокус GRAMMAR. Рекомендации — решения владельца
+  29.09.2026; открытые развилки: Q68 (потеря записи о ломающих при полной
+  очистке), Q66 (провенанс §1.3.1: Q20 ↔ D22). Строки: `TRACEABILITY.md` +6
+  после Q64 (D/Задачи/Реализация `—`, `open`), `questions/README.md` +6
+  (D `—`) → **70/70** (`rg -c "^\| \[Q"`). Ссылки Q65–Q70 живы; на `mail/**`
+  не ссылался (D65) — разведка пересказана текстом; `tests/docs_journal.rs` и
+  `.opencode/rules/journal.md` — code-span (не существуют). D/§10/
+  `decisions/**`/`CHANGELOG.md`/`BRIEF.md` не трогал (D69–D74 — после
+  согласования). `cargo` не запускался (D50); git — только read-only
+  `status --porcelain`. **Дальше:** шаг 3 — D69–D74 к согласованию владельцем
+  (свободные §10 — **№69**, Q — **Q71**). Отчёт — лента
+  `.opencode/mail/service-doc-rework.md`; коммит — за `git`.
+- 2026-09-29 · service-doc-rework (**шаг 3 — D69–D74 оформлены**): создано
+  **17 D-файлов** в `docs/decisions/` — 11 ретро-D (`D1-comment-syntax`,
+  `D2-file-first-source-of-truth`, `D3-lsp-sidecar-process`,
+  `D4-lsp-transport-stdio`, `D5-lsp-client-codemirror`, `D7-tauri-ipc-notebook`,
+  `D8-mcp-for-agent`, `D9-nextjs-removed`, `D10-graph-deferred`,
+  `D11-wasm-native-first`, `D13-f64-mvp-decimal-v02`; все `accepted`, `Resolves: —`,
+  `Спека: SPEC §10, №N (историч.; упраздняется D70)`) и 6 решений —
+  `D69-retro-decisions` (Q65), `D70-spec-reduction` (Q66; **таблица §10
+  упраздняется**), `D71-journal-rules-relocation` (Q67), `D72-changelog-full-cleanup`
+  (Q68), `D73-readme-entrypoints` (Q69), `D74-grammar-normative-focus` (Q70);
+  `Спека: —`. **Строки §10 для D69–D74 не заводились** (правка владельца);
+  `CHANGELOG`/`BRIEF`/`SPEC`/`GRAMMAR`/`README`/`.opencode/**` не трогал
+  (исполнение). Правки: Q65–Q70 `open` → `resolved by [D69]…[D74]`;
+  `TRACEABILITY.md` +6 строк (D-ссылки, `resolved`, Задачи/Реализация `—`);
+  `questions/README.md` +6 (D-ссылки); `decisions/README.md` +17 строк (ретро-D
+  по номерам: D1–D5 перед D6, D7–D11 между D6/D12, D13 между D12/D14; D69–D74
+  после D68). Проверки: **74 = 74** (README-строки D и `glob docs/decisions/D*.md`);
+  Q-строки **70/70** (TRACEABILITY и questions/README); статусы и `Спека: —`
+  верны; ссылки живые (T-01/T-08/T-16/T-18/T-19, `features/*`, `src/*`,
+  `AGENTS.md`, `.opencode/rules/**`); §10 не тронут; историч. `reviews/analysis/mail`
+  не тронуты. Сверка §5.3 — чтением, без `cargo`/git (D50): ретро-D ✅/🟡/⬜/⚪ по
+  карте (№1 ✅ `core.rs`/`GRAMMAR.md`; №13 ✅ `core.rs:13/:453`; №8 ✅ `mcp.rs`;
+  №2 🟡 `mcp.rs:239–258/:440`; №3–5/7 ⬜/⚪; №9 ⚪; №10/11 ⬜). D69 фиксирует
+  исключение T-18 «ретро-D без Q — допустимо» (карточку правит исполнение D70).
+  **Замечание:** «63» в задании — промежуточный ориентир (57 + 6 D69–D74),
+  итог **74 = 74** (согласовано). Отчёт — лента `.opencode/mail/service-doc-rework.md`
+  (секция `## migrator · 29.09.2026 · D69–D74`); коммит — за `git`. **Дальше:**
+  шаг 3 завершён → согласование/приёмка пакета; затем исполнение D70–D74
+  (SPEC, BRIEF→rules, CHANGELOG, README×2, GRAMMAR, карточка T-18) — канон
+  агентов по протоколу (аудит `auditor`).
+- 2026-09-29 · service-doc-rework (D70/D71, часть migrator): исполнены D70 (SPEC)
+  и D71 (ссылки на `BRIEF` в зонах migrator). **SPEC §10: таблица (№1–68,
+  «Обоснование», шапка-Q41) удалена** — 70 строк, 6 правок `edit` (преамбула +
+  5 чанков строк, контент-анкеры); раздел = «## 10. Решения — журнал» + абзац
+  (журнал `decisions/`+`questions/`, `TRACEABILITY.md`,
+  `.opencode/rules/journal.md`, корневой `DECISIONS.md`; статусы —
+  `features/README.md`, Q5/Q40/Q41). CRLF сохранён: `rg -c "\r$"` 924 → **844**.
+  **§1.3.1 (P3): провенанс Q20 ↔ D22 верен** — `D22` `Resolves: Q20`, прямо
+  закрепляет принцип атомарной композиции (§1.3.1); минимальная правка
+  «решением Q20» → «решением [`D22`] (вопрос [`Q20`])». `BRIEF`→`journal.md`:
+  `decisions/README.md` (шапка + «Каталог»: `Dn` сквозной, историч. §10, D70),
+  `questions/README.md` (§5.1–§5.2; снят «краткий канон §10»), `tasks/README.md`
+  (§5.3; источник — журнал, без «§10 напрямую»), `T-18` (§7; у `D` — запись в
+  `decisions/README.md`, §10-адреса историч. — D70 п.4), `T-19` (§7/§8; `BRIEF.md`
+  убран из исключений doc-size — D71 п.4; «395→304» — историч. code-span + D71).
+  Пути: `../../.opencode/rules/journal.md` (docs/*), `../../../…` (карточки). `BRIEF`
+  в SPEC — 0; в зонах — только историч. имена (Q58/Q67/D62/D71, TRACEABILITY,
+  каталоги) и `docs/BRIEF.md` в `T-19:14`. `cargo`/git не запускались (D50).
+  Отчёт — `service-doc-rework`. **Остаток (след. вызов):** D-файлы с живыми
+  `[`BRIEF.md`](../BRIEF.md)` (D38, D50, D60, D61, D62, D64, D65, D66, D71, D73),
+  вкл. D66 (D71 п.4) и D60 (D70 п.3 — таблица канонов «SPEC — архитектура и §10»);
+  Q-файлы — историч., D71 п.3 «не трогать»; `docs/README.md`/`CHANGELOG.md` —
+  `docs-writer`.
+- 2026-09-29 · service-doc-rework (D70/D71, вызов 2 — D-файлы): де-линкованы
+  живые `[BRIEF.md](../BRIEF.md)` в `docs/decisions` (D50 ×4, D60 Affects,
+  D61 ×4, D62 ×4, D64 ×5, D65 ×8, D71 ×3) → code-span `BRIEF.md` + «(историч.)».
+  **D66**: ссылки → `journal.md` §7/§8; `BRIEF.md` убран из исключений doc-size
+  (D71 п.4; `journal.md` в исключения не нужен — <300 строк, охват
+  `.opencode/rules/**`). **D60**: таблица канонов, строка SPEC → «целевая
+  архитектура; решения — журнал `decisions/` (D70)». **D62**: статус →
+  `superseded by D71` + note в начале; статус в `decisions/README.md`
+  синхронизирован. **T-18**: «Зависит от» + D71. Проверки: `rg "\]\([^)]*BRIEF"
+  docs/decisions` **пусто**; `rg BRIEF` — только code-span/plain-история;
+  `journal.md` ссылки живые; `D60:37` без §10; `D62:7` superseded. `cargo`/git не
+  запускались (D50). Отчёт — `service-doc-rework` (секция D-файлы). **Остаток:**
+  живые BRIEF-ссылки вне зоны — `docs/README.md`/`CHANGELOG.md` (`docs-writer`);
+  Q-файлы (Q43/Q55/Q57/Q58/Q60/Q61/Q62/Q67) — историч. (D71 п.3); тело D60
+  (§10-canon строки 53/76/93–97) — историч. текст решения, не переписан.
+- 2026-09-29 · service-doc-rework (D72 п.4 → D68): в
+  `docs/decisions/D68-changelog-handwritten.md` в «Следствия» добавлен пункт
+  «Обновление 29.09.2026» — область ведения `CHANGELOG`: только кодовые
+  изменения продукта; документация/процесс — нет (история — git/журнал Q/D);
+  ссылка на `[D72](D72-changelog-full-cleanup.md)`. Историч. текст D68 не
+  переписан. Проверки: чтением — связность, ссылка живая
+  (`docs/decisions/D72-changelog-full-cleanup.md`). `cargo`/git не запускались
+  (D50). Отчёт — `service-doc-rework`. Дальше — пакет D70/D71(+D72) к
+  аудиту/приёмке; коммит — за `git`.
+- 2026-09-29 · service-doc-rework (P2/P3 аудита): **P2** — в Q-файлах
+  `[`BRIEF.md`](../BRIEF.md)` → code-span `BRIEF.md` + «историч.; правила —
+  `.opencode/rules/journal.md`, [D71]» (Q43:9, Q55:11/36, Q57:7, Q58:7/13,
+  Q60:7/15, Q61:7/17/42, Q62:10/19, Q67:10). **P3** — T-18 (проверка парности):
+  названо исключение «ретро-D без Q (D69: `D1`–`D5`, `D7`–`D11`, `D13`)».
+  Проверки: `rg "\]\([^)]*BRIEF" docs/questions docs/tasks` **пусто**;
+  `rg BRIEF docs/questions` — только code-span/plain-история. `cargo`/git не
+  запускались (D50). Отчёт — `service-doc-rework` (секция P2/P3). Дальше — пакет
+  к аудиту/приёмке; коммит — за `git`.
+- 2026-09-29 · service-doc-rework (P2-2 приёмки): в
+  `docs/decisions/D60-docs-ownership-sync.md:44` (таблица канонов) строка
+  `CHANGELOG.md`: «хронология прототипа» → «кодовые изменения продукта
+  ([D72])». Согласовано с `AGENTS.md:172`, `docs/README.md:15`. Других правок
+  D60 нет. `cargo`/git не запускались (D50). Отчёт — `service-doc-rework` (P2-2).
+  Дальше — пакет к аудиту/приёмке; коммит — за `git`.
+- 2026-09-30 · service-git-efficiency (оформление, **Q71 → D75**, готово):
+  созданы `docs/questions/Q71.md` (🟡 важно; сразу `resolved by [D75]` —
+  решение владельца 30.09.2026) и
+  `docs/decisions/D75-git-lean-workflow.md` (`accepted`, `Resolves: [Q71]`,
+  `Спека: —` (§10 упразднена D70), `Affects` — `.opencode/agents/git.md`,
+  `rules/git-workflow.md`, `rules/review.md`, `scripts/git-check.mjs` (новый),
+  `memory/git.md`; `Tasks: —`). Строки: `TRACEABILITY.md` (+1, Q71/D75,
+  `resolved`, задачи/реализация `—`), `questions/README.md` (+1),
+  `decisions/README.md` (+1, после D74); F49–F55 в
+  `docs/analysis/findings-registry.md` (статус «закрывается D75»; post-push,
+  серии `--grep`, полные чтения ленты/памяти, промпт-дубль состава, отказы прав,
+  eol/newline-пробы, `memory/git.md` 602 строки). Сверка §5.3 — ⚪
+  (процесс/инструменты): `git.md` `steps: 28`/allowlist без `git-check.mjs`,
+  `git-workflow` §«Пакет и подтверждение»/§«Идемпотентность», `review.md`
+  §«Доступные команды», `memory/git.md` 602 строки, хелпер отсутствует.
+  Проверки: **75 = 75** (README-строки D = файлы `D*.md`); Q-строки **71/71**;
+  ссылки Q71/D75 живые (`rg -o`); ID не переиспользованы (свободные — Q72/D76).
+  `cargo`/git не запускались (D50); `.opencode/**` (кроме ленты/памяти) не
+  трогал — исполнение D75 за сервисной сессией. Отчёт — лента
+  `.opencode/mail/service-git-efficiency.md`; коммит — за `git`.
+- 2026-09-30 · service-git-efficiency (хвосты приёмки D75): **P3** — в
+  `docs/decisions/D75-git-lean-workflow.md` `Affects` дополнен
+  [`AGENTS.md`](../../AGENTS.md) (карта `.opencode/rules/`+`.opencode/scripts/`;
+  прецедент D51); **F49–F55** в `docs/analysis/findings-registry.md` —
+  «закрывается D75» → «закрыт 30.09.2026 (D75; …; принято `validator` — отчёт
+  `docs/reviews/git-efficiency-2026-09-30.md`)», суть/связи не переписаны.
+  Проверки: `rg` — `AGENTS.md` в `Affects` (:12), 7 закрытых F-строк, 0
+  «закрывается D75», ссылка на отчёт живая. Прочих правок нет; `cargo`/git не
+  запускались (D50). Отчёт — та же лента (`## migrator · 30.09.2026 · P3 и
+  F49–F55`); коммит — за `git` (сейчас — «не коммитим»).
+
 

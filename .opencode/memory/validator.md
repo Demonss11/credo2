@@ -1,6 +1,6 @@
 # Память: validator (приёмка)
 
-- **Канон:** `.opencode/rules/review.md`; `docs/BRIEF.md` §5.3/§7.
+- **Канон:** `.opencode/rules/review.md`; `.opencode/rules/journal.md` §5.3/§7.
 - **Правило:** чекпойнт **до** прогона тестов (что проверено, что запускаю) и
   **после** (результат, вердикт) — тесты прерывают сессию (R5). Кратко.
 
@@ -1074,3 +1074,72 @@
   «свип пуст + чтение строки + неизменность длины (`rg -c "^"`) + неизменный
   состав `git status --porcelain`» (сравнить нельзя `numstat` — файл
   неотслеживаемый).
+
+- **2026-09-29 · `service-doc-rework` (приёмка D69–D74 + канон; r1 + r2, без
+  cargo):** прочитаны лента `service-doc-rework.md`, `review.md`, канон/фичи,
+  D1–D13/D60–D74, Q65–Q70, `decisions/README`, `TRACEABILITY`, `CHANGELOG`,
+  `GRAMMAR`, SPEC §6/§11 vs база, `receipts.yaml`. Снимок: `develop` @ `75b078c`
+  (= `origin/develop`; коммитов волны нет) + рабочее дерево (39 M + 21 `??`);
+  `git diff --stat -- src tests Cargo.toml` пусто → **cargo не запускался — D50**.
+  **r1 — отклонено (rework):** P1 нет; **P2-1** `.opencode/rules/journal.md:4` —
+  `[D71](../docs/decisions/…)` резолвится в `.opencode/docs/…` (битая;
+  канонично `../../docs/decisions/…`); **P2-2** `D60:44` — «хронология прототипа»
+  против D72/`AGENTS.md:172`; **P3-1** титулы `SPECIFICATION.md:1`/`GRAMMAR.md:1`
+  с `{}`; **P3-2** «Канон:» → удалённый `docs/BRIEF.md` в
+  `memory/{validator,migrator,docs-writer}.md` (F35). Отчёт
+  `docs/reviews/doc-rework-2026-09-29.md`; квитанция iteration 1 (`rework`).
+  **r2 — принято (iteration 2, `accepted`):** все P2/P3 закрыты адресно —
+  journal.md `../../docs/decisions/D71-…` (цель существует), `D60:44` =
+  «кодовые изменения продукта ([D72])» (иных правок в D60 нет), титулы
+  SPEC/GRAMMAR без `{}` (остались тело SPEC `:15`/рамка `:70` и фичи — не
+  титулы), шапки «Канон:» → `.opencode/rules/journal.md` (только шапки:
+  `numstat` 1/1 / шапка + прежняя хроника; права/`steps` не менялись).
+  Инварианты r1 держатся: D69 (11 ретро-D, 74=74, §10-номера ↔ база), D70
+  (SPEC 497, §6/§11 = база, §10-указатель, §1.3.1→D22/Q20), D71 (BRIEF нет,
+  живых BRIEF-ссылок в каноне нет, D62 superseded, D66 без BRIEF, D60 без §10),
+  D72 (CHANGELOG 7 строк, D68 дополнен), D73 (README 42/48, без Q/BRIEF),
+  D74 (GRAMMAR 78, `Q\d+` пусто, EBNF целы); Q 70/70, 47/278
+  (`features/README.md:314`), свип чист, `reviews`/`analysis` не тронуты,
+  `agents-perms` «11 из 18». Наблюдение (не находка): `GRAMMAR:49` «Не найдено
+  имя правила» vs код «отсутствует заголовок правила» — открытая задача `T-14`.
+  **Урок:** битую ссылку из нового канона ловит проверка «база пути»
+  (`rg --files <каталог> -g "<глоб>"`), а не «ссылка выглядит правдоподобно»:
+  доки живут в `docs/**`, а канон — в `.opencode/rules/**`, уровней вверх на
+  один больше. **Приём:** правки CRLF-файла (`memory/**`) через `edit` требуют
+  якоря **внутри строки** (без `\n`): переводы строк в этих файлах CRLF,
+  многострочный якорь не матчится.
+- **2026-09-30 · `service-git-efficiency` (D75, чекпойнт до прогона, без cargo):**
+  прочитаны лента (факты разбора, аудит D75 `:236-273`, закрытие P2/P3 `:304-334`),
+  `git.md` (`steps: 14`, §-ссылка `:82-87`, allowlist `:30-31`),
+  `git-workflow.md` (цикл `:85-95`, шаблон промпта `:68-70`, идемпотентность
+  `:126-134`), `review.md:84-118`, `git-check.mjs` (read-only по коду),
+  `memory/git.md` (34 строки), `Q71`, `D75`, `TRACEABILITY:75`,
+  `findings-registry:57-63` (F49–F55), `questions/README` (71 строка),
+  `decisions/README` (75 строк), SPEC §10 упразднена (D70) — строки D там нет и
+  не требуется. Снимок: `develop` @ `75b078c` + рабочее дерево
+  (`git diff --shortstat` 43 файла: 42 M + 1 D; + 31 `??` — две волны,
+  `service-doc-rework` и `service-git-efficiency`); `src`/`tests`/`Cargo.toml` в
+  `git status` нет, `git diff --stat -- src tests Cargo.toml` пусто →
+  **cargo не запускаю — D50**. Далее:
+  `agents-perms.mjs` ×2 (`11 из 18`), попытка прогона `git-check.mjs` (права
+  `validator` его не покрывают — ожидаю отказ → чтение кода), адресные сверки.
+  **Итог: принято с замечаниями (P3, не блокер)** — `D75:7-11` (`Affects`) без
+  `AGENTS.md` (строка `:25` правилась исполнением D75 п.5; прецедент `D51:13-14`);
+  P1/P2 нет. Проверено: `agents-perms` ×2 (идентичны, `11 из 18`, `git steps=14`
+  + `git-check.mjs`, изменяющие `ask`; права `validator` = `review.md:86-87`);
+  `git-check.mjs` — прогон `permission.rejected`, read-only по коду `:1-105`;
+  3 живых вхождения «Минимальный цикл» (дом + 2 ссылки); `decisions/README`
+  75 = 75 D-файлов; `questions/README` 71; `TRACEABILITY` 71, Q71 `:75`;
+  `findings-registry:57-63` F49–F55 «закрывается D75»; `AGENTS.md:24-25`;
+  `memory/git.md` 34 строки ↔ канон (F35) без расхождений; ссылки живые; лента/
+  память `auditor`/`migrator`/`git` согласованы. **cargo не запускался — D50**
+  (`git diff --stat -- src tests Cargo.toml` пусто; фичи не тронуты, 47/278).
+  Отчёт `docs/reviews/git-efficiency-2026-09-30.md`; квитанция
+  `service-git-efficiency-exec` iteration 1 (`accepted_with_notes`) — append.
+  **Урок:** `agents-perms.mjs` показывает **эффективные** права из
+  `opencode debug agents` (а не текст `.md`) — годится как независимое
+  подтверждение правок фронтматтера (здесь `git steps=14` + новый allowlist);
+  паритет `review.md` ↔ фронтматтеры он не проверяет — это ручная сверка.
+  **Приём:** `rg -c "\r" <файл>` различает CRLF/LF (правки CRLF-файлов —
+  однострочными якорями; `state/receipts.yaml`/лента — LF, многострочный якорь
+  проходит).
