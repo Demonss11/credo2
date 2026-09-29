@@ -210,3 +210,16 @@
     exit_codes: "по исходнику 0/1/2 (agents-perms.mjs:48,69,78,121,130,146,159); инструментально не различимы — harness отдаёт 1 на неуспех (rg --nosuchflag → 1 вместо 2)"
   snapshot: "develop, HEAD 01a70fd + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q7
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q7-2026-09-29.md
+  dod:
+    cargo: "not run — D50: package without changes to src/**, tests/**, Cargo.toml (git diff 22f7683..HEAD -- src tests empty; paths absent from git status); features exception not triggered (publish.feature: header comment only, 3+/1-, 'Сценарий:'=7 unchanged, features/README.md untouched)"
+    journal: "ok — Q7 pointer only in archive (OPEN_QUESTIONS.md:66-69, no full text); D52=SPEC §10 №52 (:873, unique, style ↔ №44-51); Resolves: Q7, Спека №52, Affects/Tasks filled; code-check ⚪ + facts (core.rs:71-81 CheckMeta w/o display_name/source_hash/compiler_version; lib.rs:526-539 ManifestEntry/service_hash; §11: 14 new + 2 refined articles); Q7↔D52↔TRACEABILITY:14↔questions/README:31↔§10 consistent; tasks not required (T-07 covers, tasks/README.md:49); slug unique; links live"
+    backrefs: "ok — publish.feature:7-11 [Q7]→[D52] header note; CHANGELOG.md:38-46 entry"
+    borders: "ok — 8 M + 3 ??; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended"
+    p3: "OPEN_QUESTIONS.md:66 pointer lacks topic/date vs neighbours Q4:46/Q5:51/Q6:60 — one-line migrator fix (BRIEF §7 literal form satisfied, non-blocker)"
+  snapshot: "develop, HEAD 5883a17 + working tree (2026-09-29)"
+  at: "2026-09-29"

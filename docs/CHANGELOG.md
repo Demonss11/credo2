@@ -35,6 +35,15 @@
   Q6 закрыт попутно (таблица §6.1 удалена; счётчики проверяет
   [`tests/features_inventory.rs`](../tests/features_inventory.rs)); сверка с
   кодом — соответствует, задач не требуется.
+- **Перенос Q7 → D52** (миграция журнала, 29.09.2026): глоссарий
+  ([`SPECIFICATION.md`](SPECIFICATION.md) §11) — терминологический канон:
+  14 новых статей + уточнение статей «Черновик» и «Публикация»; вопрос —
+  [`questions/Q7.md`](questions/Q7.md), решение —
+  [`decisions/D52-glossary-terms-canon.md`](decisions/D52-glossary-terms-canon.md);
+  шапочная пометка [`features/publish.feature`](features/publish.feature)
+  обновлена (Q13, [Q7](questions/Q7.md) → [D52](decisions/D52-glossary-terms-canon.md));
+  сверка с кодом — документная (⚪), задач не требуется (расхождение
+  `meta.json` покрывает [T-07](tasks/T-07-meta-fields/README.md)).
 
 ### Процесс
 

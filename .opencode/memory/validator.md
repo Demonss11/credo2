@@ -244,3 +244,37 @@
   iteration 1 — append. **Урок:** обоснование «`src/tests` неизменны» привязывать
   к точному хешу последнего изменения Rust (`22f7683` — реформат W8-config), а не
   к имени пакета: `git diff a7eac82..HEAD -- src tests` не пуст.
+- **2026-09-29 · приёмка `service-migration-q7` (чекпойнт до отчёта):** прочитаны
+  лента `service-migration-q7.md`, `Q7.md`, `D52-glossary-terms-canon.md`,
+  `BRIEF.md` §5.7/§7, `review.md` §«Доступные команды»/«Порог»,
+  `OPEN_QUESTIONS.md:44-69,441-443`, `SPECIFICATION.md:865-906` (§10 №44-52, §11),
+  `TRACEABILITY.md`, `questions/README.md`, `publish.feature:1-14`, `CHANGELOG.md:25-46`,
+  `tasks/T-07-meta-fields/README.md`, `src/core.rs:68-87`, `src/lib.rs:524-539`,
+  `receipts.yaml`. Снимок: `develop`, HEAD `5883a17` + рабочее дерево (8 M + 3 `??`);
+  `git diff 22f7683..HEAD -- src tests` пусто; `AGENTS.md`/`.opencode/agents|rules`/
+  `docs/tasks/**`/`docs/features/README.md` не в статусе; правка `publish.feature`
+  — только шапка (3+/1-, `Сценарий:` = 7 без изменений) → **cargo не запускаю — D50**
+  (исключение не сработало). Далее: отчёт `docs/reviews/migration-q7-2026-09-29.md`,
+  квитанция, лента.
+- **2026-09-29 · приёмка `service-migration-q7` (итог):** вердикт **принято с
+  замечаниями**; P1/P2 нет; **P3** — `OPEN_QUESTIONS.md:66` указатель Q7 без
+  темы/даты («### Q7. → перенесён») против соседей (`Q4:46`, `Q5:51`, `Q6:60`:
+  `### Qn. ✅ <тема> (решено <дата>) → перенесён`) → потеря контекста в архиве;
+  правка `migrator` — одна строка (BRIEF §7 буквально соблюдён, не блокер).
+  Проверено: архив — только указатель (`:66-69`, полного текста нет; `:443`
+  «открытый Q7» в блоке Q13 — историческое, как и ссылки на Q4/Q5/Q6 в
+  неперенесённых блоках); `D52` = §10 №52 (`:873`, номер уникален, стиль ↔ №44-51);
+  `Resolves: Q7`, `Спека` №52, `Affects`/`Tasks` заполнены; сверка ⚪ + факты
+  (`core.rs:71-81` — `CheckMeta` без `display_name`/`source_hash`/`compiler_version`;
+  `lib.rs:526-539` — `ManifestEntry`/`service_hash`; §11 — 14 новых статей + 2
+  уточнённых); Q7↔D52↔`TRACEABILITY:14`↔`questions/README:31`↔§10 №52 согласованы;
+  `publish.feature:7-11` `[Q7]→[D52]`; `CHANGELOG:38-46`; слаг уникален; ссылки
+  живые; границы — 8 M + 3 `??`, `src`/`tests`/`Cargo.toml`/канон/`docs/tasks` не
+  тронуты, архив не пополнялся. **cargo не запускался — D50.** Отчёт
+  `docs/reviews/migration-q7-2026-09-29.md`; квитанция `service-migration-q7`
+  iteration 1 — append.
+- **2026-09-29 · `service-migration-q7` — закрытие P3 (H5, адресная):** заголовок
+  указателя `OPEN_QUESTIONS.md:66` приведён к виду соседей — `### Q7. ✅ Термины в
+  глоссарии (решено 2026-09-26) → перенесён`; тело (`:68-69`) не изменено, ссылки
+  живые. **P3 закрыт — принято, замечаний нет.** Квитанция не менялась; git/cargo
+  не запускались (по указанию) — проверка файловая.

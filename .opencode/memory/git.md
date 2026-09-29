@@ -163,3 +163,18 @@
   `push origin develop` (таймаут ≥ 5 мин; публикует `01a70fd` и новый коммит) →
   `status -sb` → `log -3`. Хеш — не здесь (F43): вернуть `lead` ответом.
   Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q7` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q7.md` §«пакет подтверждён
+  (сужение: только коммит)» — дословно «Только коммит»; `push` отменён). Снимок
+  до: 11 `M` + 4 `??` = 15 путей, совпал; 16-й — чекпойнт `git.md` (этот).
+  База HEAD `5883a17`, `develop`, синхрон с `origin/develop`; коммита с целевым
+  сообщением нет. 16 путей: письмо `mail/service-migration-q7.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/D52-glossary-terms-canon.md`, `docs/features/publish.feature`,
+  `docs/questions/Q7.md`, `docs/questions/README.md`,
+  `docs/reviews/migration-q7-2026-09-29.md`. Сообщение —
+  `docs(D52): перенос Q7 — терминологический канон §11`. Осталось: `add` 16 →
+  сверка staged (ровно 16) → коммит локально, **без `push`**. Хеш — не здесь
+  (F43): вернуть ответом. Веток/merge/тегов нет.

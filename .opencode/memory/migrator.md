@@ -167,4 +167,26 @@
   машинная сверка через `node .opencode/scripts/agents-perms.mjs`, ожидание
   `agents: 11 из 18`) — следствие закрытия P2-1 аудита. Больше ничего не
   трогал. `cargo`/git не запускались. Отчёт — та же лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q7: перенос **Q7 → D52**
+  (`docs/decisions/D52-glossary-terms-canon.md`, `Resolves: Q7`). Создан
+  `docs/questions/Q7.md` (resolved by D52; приоритет ⚪ оформление — правит
+  противоречие документации, кода не меняет; дата 2026-09-26), указатель в
+  `OPEN_QUESTIONS.md` (блок Q7), строки в `TRACEABILITY.md` (Задачи: T-07) и
+  `questions/README.md`, **новая** строка №52 в `SPECIFICATION.md` §10
+  (решения Q7 в §10 не было — BRIEF §7). Сверка — ⚪ (документы): статьи §11
+  на месте (14 новых + уточнения `Черновик`/`Публикация`); пометка
+  `publish.feature:7-9` на месте; `CheckMeta` (`src/core.rs`) без
+  `display_name`/`source_hash`/`compiler_version` — расхождение покрыто
+  **T-07** (Источник: Q13, Q7), новой задачи нет (`Tasks: —`); `ManifestEntry`/
+  `service_hash` (`src/lib.rs`) сверены с §11. `features/**`/`CHANGELOG` не
+  трогал (docs-writer); в блоке Q13 архива осталась фраза «открытый Q7»
+  (`OPEN_QUESTIONS.md:443`) — чужая запись, снимется при переносе Q13.
+  ID свободны (последние Q56/D51; теперь — Q57/D53). `cargo`/git не
+  запускались; shell одиночные. Отчёт — лента
+  `.opencode/mail/service-migration-q7.md`; коммит — за `git`.
+- 2026-09-29 · P3 приёмки service-migration-q7: заголовок указателя Q7 в
+  `OPEN_QUESTIONS.md` приведён к формату соседей — `### Q7. ✅ Термины в
+  глоссарии (решено 2026-09-26) → перенесён`; тело указателя («Мигрирован …»,
+  ссылки на `questions/Q7.md` и `decisions/D52-glossary-terms-canon.md`) не
+  трогалось. `cargo`/git не запускались; отчёт — та же лента.
 
