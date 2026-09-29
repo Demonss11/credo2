@@ -804,4 +804,17 @@
   — старых адресов вне `reviews/**` нет. `cargo`/git не запускались (D50).
   Отчёт — та же лента (шапка «P3 закрыт»); далее подтверждение P3 у `validator`
   → `git`.
+- 2026-09-29 · service-docs-hygiene (шаг 1 — фиксация Q57–Q61, без решений):
+  созданы `docs/questions/Q57.md`…`Q61.md` (все `open`, ⚪ оформление, дата
+  2026-09-29; без поля «Перенос» — новые записи). Строки добавлены в
+  `docs/TRACEABILITY.md` (после Q56 `:63`: `rg -c '^\| \[Q[0-9]+'` = **61**)
+  и `docs/questions/README.md` (+5; = **61**); «Связано» перекрёстно
+  (Q57↔Q58/Q59, Q58↔Q57/Q59/Q60, Q59↔Q60/Q58, Q60↔Q59/Q57, Q61↔Q59/Q58).
+  D/§10/архив/`decisions/**`/`features/**`/`BRIEF.md`/`README.md`/`AGENTS.md`
+  не трогались. **Затык (права):** `edit docs/CHANGELOG.md` → `Permission denied`
+  (rights `migrator` покрывают журнал, но не CHANGELOG) — запись «заведены
+  Q57–Q61» НЕ внесена; нужно либо расширение прав служебной сессией, либо
+  `docs-writer`. `cargo`/git не запускались (D50). Отчёт — лента
+  `.opencode/mail/service-docs-hygiene.md`; коммит — за `git`.
+  Свободные ID: §10 — №61, Q — Q62.
 

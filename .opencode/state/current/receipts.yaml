@@ -641,3 +641,20 @@
     feed: "ok — service-migration-q40q41.md order opening :26 -> migrator :76 -> docs-writer :126; no orphan/out-of-order fragments"
   snapshot: "develop @ 8fa027e (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-docs-hygiene-step1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-q57q61-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; docs-only journal records; feature counters 47/278 = features/README.md:313 unchanged, review.md §«Порог существенности» exception not triggered"
+    journal: "ok — new Q57.md (48), Q58.md (45), Q59.md (45), Q60.md (41), Q61.md (41) by BRIEF.md §4/§5.1: Статус open, Дата 2026-09-29, Приоритет ⚪ оформление, Связано (live refs), Контекст/Вопрос/Варианты (а)/(б)/(в)/Рекомендация; no Перенос/Resolves/accepted/Итог fields; no D-files and no §10 rows (rg 'Q5[7-9]|Q6[01]' docs/SPECIFICATION.md docs/decisions -> empty)"
+    traceability: "ok — 5 rows :64-68 right after Q56 :63, before legend :70; D/Feature/Tasks '—', status open; Q-rows rg -c '^\\| \\[Q[0-9]+' -> 61 (was 56); 5/0"
+    questions_readme: "ok — 5 rows :81-85 after Q56 :80 (end of summary); Решение '—', open, cross-links; Q-rows -> 61; 61 Q-files (rg --files docs/questions -g 'Q*.md'); 5/0"
+    changelog: "ok — 'Чистка документации: заведены вопросы Q57–Q61' :352-363, in '### Документация' after Q40+Q41 entry :335-351, before '### Процесс' :365; links live (feed :353 ../.opencode/mail/service-docs-hygiene.md, Q-files :362-363 questions/Q5[7-9], Q6[01]); 12/0, no decision wording (':354' без решений)"
+    topics: "ok — Q57 archive/finish (deletion by BRIEF.md §7, verified :321), Q58 BRIEF.md, Q59 journal index/TRACEABILITY, Q60 integrity test tests/docs_journal.rs (BRIEF §9 :372), Q61 link policy; facts reproduced: BRIEF 395 lines / 11 OPEN_QUESTIONS refs, 42 Q-files with 'Перенос:', F46 findings-registry.md:54"
+    links: "ok — all targets in new Q-files exist (Qn.md, ../BRIEF.md, ../OPEN_QUESTIONS.md, ../SPECIFICATION.md, ../GRAMMAR.md, ../README.md, ../TRACEABILITY.md, ../decisions/README.md, ../decisions/D60-docs-ownership-sync.md, ../tasks/README.md, ../features/README.md, ../analysis/findings-registry.md, ../../AGENTS.md, ../../tests/features_inventory.rs, ../../.opencode/mail/service-docs-hygiene.md); 'Связано' cross-links symmetric"
+    borders: "ok — 5 M + 6 ??; only docs/CHANGELOG.md + docs/TRACEABILITY.md + docs/questions/README.md + 5 untracked Q + feed + 3 role memories; docs/OPEN_QUESTIONS.md, docs/decisions/**, docs/SPECIFICATION.md, docs/features/**, docs/BRIEF.md, docs/README.md, AGENTS.md, src/**, tests/**, historical docs/reviews/**, docs/tasks/** untouched; no cargo, no git mutations (read-only snapshots)"
+    note: "observation (not a finding): new records link the operation feed .opencode/mail/service-docs-hygiene.md, which clean-logs.mjs deletes (clean-logs.mjs:7,110-113) — precedent questions/README.md:80 (Q56); policy of references to working data is the subject of Q61/Q60, fixing now would prejudge Q61"
+  snapshot: "develop @ a7359fe (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"

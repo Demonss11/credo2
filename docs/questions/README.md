@@ -78,3 +78,8 @@
 | [Q54](Q54.md) | чем `validator` подтверждает вхождение коммита в историю ветки при приёмке? | [D49](../decisions/D49-validator-branch-contains.md) — право `git branch --contains` (read-only) | resolved | — |
 | [Q55](Q55.md) | обязателен ли cargo-прогон `validator` для пакетов без изменений кода? | [D50](../decisions/D50-dod-by-package-scope.md) — DoD по составу пакета: cargo только при изменениях кода | resolved | — |
 | [Q56](Q56.md) | какими инструментами роли экономят токены при проверках (подсчёт строк; машинная сверка прав)? | [D51](../decisions/D51-agent-tools-token-hygiene.md) — скрипт-сводка `agents-perms.mjs` + `rg -c '^'`; сырой `opencode debug agents` убран | resolved | [service-agent-tools](../../.opencode/mail/service-agent-tools.md) |
+| [Q57](Q57.md) | судьба архива `OPEN_QUESTIONS.md` после завершения миграции | — | open | [Q58](Q58.md), [Q59](Q59.md) |
+| [Q58](Q58.md) | роль и структура `BRIEF.md` после завершения миграции | — | open | [Q57](Q57.md), [Q59](Q59.md), [Q60](Q60.md) |
+| [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | — | open | [Q60](Q60.md), [Q58](Q58.md) |
+| [Q60](Q60.md) | тест целостности журнала | — | open | [Q59](Q59.md), [Q57](Q57.md) |
+| [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | — | open | [Q59](Q59.md), [Q58](Q58.md) |

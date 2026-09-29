@@ -325,3 +325,15 @@
   Остаток: приёмка `validator` (отчёт `reviews/migration-q40q41-2026-09-29.md`) →
   пакет `git` («Коммит + push»). Финишные формулировки «до конца миграции» —
   отдельным блоком.
+- 2026-09-29 · операция `service-docs-hygiene` · шаг 1 (фиксация Q без решений;
+  запись CHANGELOG, которую не смог внести `migrator`): `docs/CHANGELOG.md:352–363`
+  — запись «Чистка документации: заведены вопросы Q57–Q61» (2026-09-29), в
+  `### Документация` сразу после «Перенос Q40+Q41 → D20/D60» (`:335–351`), до
+  `### Процесс` (`:365`); по одной–двум строкам на Q + 6 ссылок
+  (`../.opencode/mail/service-docs-hygiene.md` — от `docs/`, `questions/Q57.md`…
+  `Q61.md`). Проверки: 6 целей живы; только `docs/CHANGELOG.md` изменён мной
+  (`git status --short` — снимок); `cargo`/git-изменения не запускались (D50).
+  Журнал (`docs/questions/**`, `TRACEABILITY.md`, `questions/README.md`),
+  BRIEF/SPEC/GRAMMAR/`docs/README`/`features/**`/`tasks/**`/`decisions/**`
+  не трогал. Остаток: приёмка `validator` (docs) → пакет `git`; далее шаг 2
+  операции — разведка дублей `auditor`, затем решения D по Q57–Q61.

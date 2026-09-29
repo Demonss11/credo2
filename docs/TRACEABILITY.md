@@ -61,6 +61,11 @@
 | [Q54](questions/Q54.md) — чем validator подтверждает вхождение коммита в историю ветки? | [D49](decisions/D49-validator-branch-contains.md) — право git branch --contains (read-only) | — | — | resolved |
 | [Q55](questions/Q55.md) — обязателен ли cargo-прогон validator для пакетов без изменений кода? | [D50](decisions/D50-dod-by-package-scope.md) — DoD по составу пакета: cargo только при изменениях кода | — | — | resolved |
 | [Q56](questions/Q56.md) — какими инструментами роли экономят токены при проверках (подсчёт строк; машинная сверка прав)? | [D51](decisions/D51-agent-tools-token-hygiene.md) — скрипт `agents-perms.mjs` + каноничная форма `rg -c '^'`; сырой `opencode debug agents` убран | `.opencode/scripts/agents-perms.mjs` (новый), канон ролей | — | resolved |
+| [Q57](questions/Q57.md) — судьба архива `OPEN_QUESTIONS.md` после завершения миграции | — | — | — | open |
+| [Q58](questions/Q58.md) — роль и структура `BRIEF.md` после завершения миграции | — | — | — | open |
+| [Q59](questions/Q59.md) — индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | — | — | — | open |
+| [Q60](questions/Q60.md) — тест целостности журнала | — | — | — | open |
+| [Q61](questions/Q61.md) — политика ссылок и допустимых дублей в документации | — | — | — | open |
 
 Легенда статусов: `open` — ждёт решения · `resolved by Dn` — закрыт решением ·
 `dropped` — снят без решения. В колонке «Задачи» — `T-XX` из

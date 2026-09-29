@@ -501,3 +501,19 @@
   [17 из снимка + чекпойнт `git.md`] + 7 `A`) → коммит → `push origin develop` (таймаут ≥ 5 мин;
   публикует новый коммит поверх `8fa027e`). Хеш — не здесь (F43): вернуть `lead`
   ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-docs-hygiene` шаг 1 (прямо в `develop`, подтверждение
+  владельца (одно, `question`, 29.09.2026) — дословно «Коммит + push»; лента
+  `.opencode/mail/service-docs-hygiene.md`). Снимок до: 8 `M` + 7 `??` = 15 путей,
+  совпал; посторонних/пропавших нет; база HEAD `a7359fe`, `develop` = `origin/develop`
+  (синхрон); коммита с целевым сообщением нет (`--all` по `Q57`/
+  `service-docs-hygiene` пусто; `гигиена docs` — только исторический `299fd0c T-13`).
+  16-й — чекпойнт `git.md` (этот). Состав: 8 `M` —
+  `memory/{docs-writer,migrator,service,validator,git}.md`, `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,TRACEABILITY}.md`, `docs/questions/README.md`; 7 `??` —
+  `mail/service-docs-hygiene.md`, `docs/questions/{Q57,Q58,Q59,Q60,Q61}.md`,
+  `docs/reviews/docs-hygiene-q57q61-2026-09-29.md`. Сообщение —
+  `docs(Q57–Q61): гигиена docs — зафиксированы вопросы: архив, BRIEF,
+  индекс/TRACEABILITY, тест целостности, ссылки`. Осталось: `add` 16 → сверка
+  staged (ровно 16: 9 `M` + 7 `A`) → коммит → `status -sb` (ahead 1) →
+  `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит поверх
+  `a7359fe`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
