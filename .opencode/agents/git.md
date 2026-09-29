@@ -3,7 +3,7 @@ description: "Git-операции CREDO: пакеты коммитов посл
 mode: subagent
 model: opencode-go/deepseek-v4.1-flash
 color: "#adb5bd"
-steps: 14
+steps: 18
 permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: ".opencode/memory/git.md", effect: allow }
@@ -85,6 +85,10 @@ permissions:
 `.opencode/rules/git-workflow.md` §«Минимальный цикл `git`» (читаешь правило
 перед задачей). Сверка состояния — `node .opencode/scripts/git-check.mjs
 [--staged] [--expect=N]`.
+
+**Стартовое чтение — минимум:** память (хвост), правило (§«Минимальный цикл» +
+§«Пакет и подтверждение»), хвост ленты. Подтверждение владельца — по **точному
+адресу записи** из промпта `lead`; повторно по лентам не искать.
 
 ## Что делаешь
 

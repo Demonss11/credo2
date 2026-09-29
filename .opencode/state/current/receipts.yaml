@@ -806,3 +806,19 @@
     p3: "docs/decisions/D75-git-lean-workflow.md:7-11 (Affects) omits AGENTS.md although :25 (scripts map, git-check.mjs) was edited by D75 п.5 closure (feed :318) — traceability gap, one-line fix for migrator; precedent D51:13-14 (service-agent-tools P3). Non-blocker."
   snapshot: "develop @ 75b078c (= origin/develop) + working tree (2026-09-30); 43 tracked changes (42 M + 1 D) + 31 untracked"
   at: "2026-09-30"
+
+- task: service-git-efficiency-exec
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/git-efficiency-2026-09-30.md
+  dod:
+    cargo: "not run (D50) — git diff --stat -- src tests Cargo.toml empty in working tree and across 75b078c..HEAD; docs/features/** untouched (counters 47/278 unchanged)"
+    git_md: "ok — git.md:6 steps: 18; :89-91 «Стартовое чтение — минимум» (memory tail, rule §«Минимальный цикл» + §«Пакет и подтверждение», feed tail; confirmation by exact address from lead prompt)"
+    git_workflow: "ok — :94-97 add forms (./ prefix, no --) + staged as separate step after add; :98-100 service waves (no task) — one commit (canon + records), separate chore(process) for code tasks (D46); :161-162 F22 exception for service waves; :68-71 strengthened lead template"
+    d75: "ok — :63-77 «Обновление 30.09.2026 (session-analysis)»: forms :64-67, start-up reading :68-70, steps 18 :71, template :72-73, wave practice :74-75, source facts/D65 :76-77 (no mail/** refs); :46-47 п.6 note «(уточнено 30.09.2026: 18 — см. «Следствия»)»; :7-12 Affects includes AGENTS.md"
+    rights: "ok — agents-perms.mjs x2 identical: agents 11 из 18; git steps=18; other roles unchanged (analyst 20, auditor 32, coder 52, docs-writer 20, lead 16, migrator 28, researcher 20, rust-expert 24, tester 36, validator 36); no new commands (add forms/staged/git-check.mjs already allowed)"
+    consistency: "ok — git-workflow.md:94-97 ↔ review.md:103-107 ↔ git.md:89-91; D46 exists; steps 18 agrees in git.md:6 and D75:71; role body ↔ frontmatter"
+    journal: "ok — F49–F55 closed (findings-registry:57-63 «закрыт 30.09.2026 (D75; …; принято validator)», report link live); rg «закрывается D75» empty; D75 Affects r1-P3 closed"
+    p3_closure: "closed — r1 P3 (D75:12 Affects + AGENTS.md); audit-of-refinements P3 #1 (D75:46 note «уточнено 30.09.2026: 18»); P3 #2 (git-workflow.md:161-162 F22 exception for service waves)"
+  snapshot: "develop @ 0872dfa (= origin/develop) + working tree (2026-09-30); 6 M (git.md, git-workflow.md, D75, feed service-git-efficiency.md, memories auditor/migrator)"
+  at: "2026-09-30"
