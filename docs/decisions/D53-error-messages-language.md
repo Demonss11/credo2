@@ -61,7 +61,8 @@
 - Тексты REST закреплены в §4.4 (таблица статус/`code`/`message`), ключи и
   тексты MCP — в §4.5; краткий канон решения — §10 №53.
 - Шапочные пометки Q11 в `evaluate.feature` / `rest_api.feature` /
-  `rest_auth.feature` фиксируют канон (правки — зона `docs-writer`).
+  `rest_auth.feature` / `errors.feature` фиксируют канон (правки — зона
+  `docs-writer`).
 - Резерв `version_deprecated` в MCP (код есть, путь `check.run` вне MVP) —
   известный и покрыт [T-09](../tasks/T-09-check-run/README.md) / Q33.
 

@@ -211,3 +211,18 @@
   `docs(D53): перенос Q11 — язык сообщений об ошибках`. Осталось: `add` 21 →
   сверка staged (ровно 21) → коммит локально, **без `push`**. Хеш — не здесь
   (F43): вернуть ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q11-microfix-d53` (прямо в `develop`,
+  решение владельца 29.09.2026 дословно «давай сделаем микроправку D53 и делаем
+  push в develop»). Снимок до: 5 `M` (`mail/service-migration-q11.md`,
+  `memory/{migrator,service,validator}.md`,
+  `docs/decisions/D53-error-messages-language.md`) + 1 `M` `memory/git.md`
+  (этот) = 6, совпал. База HEAD `746f985`, `develop`, ahead 3 (`8f0c9d9`,
+  `c9193da`, `746f985`); `origin/develop` = `5883a17`; `pull` не выполнять;
+  коммита с целевым сообщением нет. Пакет (6): `mail/service-migration-q11.md`,
+  `memory/{git,migrator,service,validator}.md`,
+  `docs/decisions/D53-error-messages-language.md`. Сообщение —
+  `docs(D53): уточнение «Следствий» — errors.feature в списке пометок Q11`;
+  затем `push origin develop` (таймаут ≥ 5 мин; публикует `8f0c9d9`, `c9193da`,
+  `746f985` и новый коммит). Осталось: `add` 6 → сверка staged (6) → коммит →
+  проверки → `push`. Хеш — не здесь (F43): вернуть `lead` ответом.
+  Веток/merge/тегов нет.

@@ -234,4 +234,8 @@
   Q11 (`:18`) в колонке «Feature» дополнена [`errors.feature`](features/errors.feature)
   (согласовано с `Affects` D53 и обратной ссылкой `errors.feature:5`). Больше
   ничего не трогал. `cargo`/git не запускались; отчёт — та же лента.
+- 2026-09-29 · service-migration-q11 (микроправка D53): в §«Следствия» D53
+  (`:63-64`) в перечень шапочных пометок Q11 добавлен `errors.feature`
+  (`evaluate` / `rest_api` / `rest_auth` / `errors`). Больше ничего не менялось.
+  `cargo`/git не запускались; отчёт — та же лента.
 
