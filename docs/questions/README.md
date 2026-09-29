@@ -32,6 +32,7 @@
 | [Q8](Q8.md) | отсутствующее поле: ошибка или `0`? | [D21](../decisions/D21-core-semantics-v01.md) — строгая ошибка `UnknownField` (REST 422 / MCP); `0.0` не подставляется | resolved | [Q9](Q9.md) |
 | [Q9](Q9.md) | типизация и сравнение чисел | [D21](../decisions/D21-core-semantics-v01.md) — проверка типов на исполнении (`TypeMismatch`); строки только `==`/`!=`; `f64` точно | resolved | [Q8](Q8.md) |
 | [Q10](Q10.md) | словарь решений и «не сработало» | [D21](../decisions/D21-core-semantics-v01.md) — словарь задаёт банк, без `"Pass"`; «не сработало» — пустые `decision`/`reason` | resolved | [Q8](Q8.md) |
+| [Q11](Q11.md) | язык сообщений об ошибках: русский для человекочитаемого, латиница для машинного? | [D53](../decisions/D53-error-messages-language.md) — «машина / человек»: русский `message`, латиница в кодах/ключах/`name` | resolved | Q13, Q22, Q23 (ожидают переноса); [Q42](Q42.md) |
 | [Q42](Q42.md) | каноническая схема объяснения и язык полей | [D21](../decisions/D21-core-semantics-v01.md) — ключи `snake_case` + поле `condition`, тексты русские, без `priority` | resolved | [Q4](Q4.md) (`priority` вне MVP) |
 | [Q43](Q43.md) | каким должен быть цикл работы команды агентов? | [D38](../decisions/D38-agent-cycle.md) — Agile-петля, единый тестировщик, память и почта | resolved | [T-11](../tasks/T-11-agent-cycle/README.md) |
 | [Q44](Q44.md) | как разгрузить `lead` и сделать цикл durable? | [D39](../decisions/D39-loop-dispatcher.md) — loop-диспетчер, эфемерный `analyst`, состояние на диске | resolved | [T-12](../tasks/T-12-agent-loop/README.md) |

@@ -216,4 +216,22 @@
   цитаты в отчёте приёмки `docs/reviews/migration-q8q10q42-2026-09-29.md`).
   Решения не переписывались; `cargo`/git не запускались. Отчёт — та же лента;
   повторная приёмка — `validator` `-r2`.
+- 2026-09-29 · service-migration-q11: перенос **Q11 → D53**
+  (`docs/decisions/D53-error-messages-language.md`, `Resolves: Q11`). Создан
+  `docs/questions/Q11.md` (resolved by D53; приоритет 🟡 важно — канон языка
+  сообщений, демо не блокирует; дата 2026-09-25), указатель в `OPEN_QUESTIONS.md`
+  (блок Q11), строки в `TRACEABILITY.md` (Задачи: —) и `questions/README.md`,
+  **новая** строка №53 в `SPECIFICATION.md` §10 (решения Q11 в §10 не было —
+  BRIEF §7); сняты устаревшие «Q11 (ожидает переноса)» в `Q8.md:57`/`Q42.md:54`
+  → живые ссылки `[Q11](Q11.md)`. Сверка — ✅: `src/rest.rs` (тексты 404/410/
+  409/401, коды латиницей), `src/mcp.rs` (русские `message`, 10 `snake_case`-
+  кодов), тесты `tests/rest.rs`/`tests/common/mod.rs`/`tests/mcp_errors.rs`;
+  резерв `version_deprecated` в MCP — известный (T-09/Q33); `Tasks: —`.
+  `features/**`/`CHANGELOG` не трогал (docs-writer). ID свободны (последние
+  Q56/D52; теперь — Q57/D54). `cargo`/git не запускались; shell одиночные.
+  Отчёт — лента `.opencode/mail/service-migration-q11.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q11 (P3 приёмки): в `docs/TRACEABILITY.md` строка
+  Q11 (`:18`) в колонке «Feature» дополнена [`errors.feature`](features/errors.feature)
+  (согласовано с `Affects` D53 и обратной ссылкой `errors.feature:5`). Больше
+  ничего не трогал. `cargo`/git не запускались; отчёт — та же лента.
 

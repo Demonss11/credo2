@@ -249,3 +249,20 @@
     borders: "ok — 14 M + 7 ??; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched"
   snapshot: "develop, HEAD 8f0c9d9 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q11
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q11-2026-09-29.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (narrowed git status empty); features exception not triggered — docs/features/** edits are header comments only (+1/0 in each of 4 files), counters/composition unchanged (47 files / 278 scenarios = features/README.md:303)"
+    journal: "ok — Q11 block cut from archive, pointer only (OPEN_QUESTIONS.md:90-93, diff 4+/46-, no full text, no hunk outside the block); Q11.md ID/date 2026-09-25 kept, fields filled, status 'resolved by D53'; D53 accepted, Resolves: Q11, Спека §10 №53, Affects filled, Tasks: — + explicit 'Задач не требуется'"
+    spec10: "ok — SPECIFICATION.md:874 is the only row 53 (50-53 unique), after №52, style ↔ neighbours, [D53] link live"
+    code_check: "✅ verified by rg — rest.rs:79,121,135,158,166,191,199 (canonical Russian texts, latin snake_case codes); mcp.rs:54-66 (10 codes), :43-46 VersionDeprecated #[allow(dead_code)] + Q33, :95/:149-151 Russian messages; lib.rs:427; tests: rest.rs:95 assert_error, common/mod.rs:222 'message не русский (Q11)', mcp_errors.rs:13"
+    consistency: "ok — Q11 ↔ D53 ↔ TRACEABILITY:18 ↔ questions/README:35 ↔ §10 №53 (status resolved, tasks —); slug D53-error-messages-language unique; links live"
+    bonus: "ok — Q8.md:57 and Q42.md:54: marks → [Q11](Q11.md), diff 1/-1 each, decisions' text not rewritten; links resolve"
+    headers: "ok — '# D53 (Q11): человекочитаемое — русский; …' exactly in 4 features (evaluate:9, rest_api:10, rest_auth:8, errors:5); CHANGELOG.md:63-76 entry"
+    borders: "ok — 13 M + 3 ??; docs/** (except tasks/**) + 2 memories + new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended (deletions only)"
+    p3: "TRACEABILITY.md:18 Feature column omits errors.feature although D53:15-16 has it in Affects and errors.feature:5 carries the D53 backlink → one-directional traceability; one-line fix (docs-writer/lead)"
+  snapshot: "develop, HEAD c9193da + working tree (2026-09-29)"
+  at: "2026-09-29"

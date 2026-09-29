@@ -7,6 +7,7 @@
 # Q23 (решено 2026-09-25): конверт ошибки — {"error": {"code", "message"}};
 # коды: check_not_found, version_not_found, version_deprecated,
 # activation_unavailable, evaluation_failed, unauthorized.
+# D53 (Q11): человекочитаемое — русский; машиночитаемое (коды, ключи, идентификаторы) — латиница
 Функция: REST API
   Как потребитель сервиса
   Я хочу читать версии и выполнять конкретные версии проверок

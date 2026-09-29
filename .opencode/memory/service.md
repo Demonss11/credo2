@@ -192,3 +192,14 @@
   принято (iteration 2, отчёт `-r2`)**; `cargo` не запускался (D50); квитанция
   `service-migration-q8q10q42` (iteration 1 rework + iteration 2 accepted);
   пакет ждёт подтверждения.
+- 29.09.2026 · **service-migration-q11**: перенос **Q11 → `D53-error-messages-language`**
+  (язык сообщений: human — русский, machine — латиница; канонические тексты
+  REST-ошибок; **своей строки в §10 не было — добавлена новая №53**, BRIEF §7);
+  сверка ✅ соответствует (`rest.rs`/`mcp.rs`/тесты; `version_deprecated` —
+  известный, T-09); сопутствующие — `docs-writer` (шапки `# D53 (Q11)` в
+  `evaluate`/`rest_api`/`rest_auth`/`errors`, CHANGELOG); бонус переноса:
+  `Q8.md`/`Q42.md` — пометки «Q11 ожидает переноса» → живые ссылки; приёмка
+  `validator` — **принято с P3** (TRACEABILITY: +`errors.feature`) → P3 закрыт
+  адресно; `cargo` не запускался (D50); отчёт
+  `docs/reviews/migration-q11-2026-09-29.md`, квитанция `service-migration-q11`;
+  пакет ждёт подтверждения; следующие ID — Q57/D54.

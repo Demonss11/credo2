@@ -60,6 +60,20 @@
   ✅ соответствует, задач не требуется (сценарий типов в `errors.feature` —
   целевое v0.2, статус 🟡; `execution.feature` 🟡 из-за `Приоритет`,
   [Q4](questions/Q4.md)).
+- **Перенос Q11 → D53** (миграция журнала, 29.09.2026): язык сообщений об
+  ошибках — принцип «машина / человек» (сквозной для Q11, Q13, Q42):
+  человекочитаемый `message` — русский, машиночитаемое (коды ошибок, ключи JSON,
+  идентификаторы, сегменты путей) — латиница `snake_case`; канонические тексты и
+  статусы REST-ошибок закреплены (404/410/409/401, `SPECIFICATION.md` §4.4/§4.5);
+  вопрос — [`questions/Q11.md`](questions/Q11.md), решение —
+  [`decisions/D53-error-messages-language.md`](decisions/D53-error-messages-language.md);
+  шапочная пометка D53 добавлена в
+  [`features/evaluate.feature`](features/evaluate.feature),
+  [`rest_api.feature`](features/rest_api.feature),
+  [`rest_auth.feature`](features/rest_auth.feature),
+  [`errors.feature`](features/errors.feature); сверка с кодом — ✅ соответствует,
+  задач не требуется (`version_deprecated` в MCP — известный резерв, покрыт
+  [T-09](tasks/T-09-check-run/README.md) / Q33).
 
 ### Процесс
 
