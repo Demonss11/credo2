@@ -74,6 +74,34 @@
   [`errors.feature`](features/errors.feature); сверка с кодом — ✅ соответствует,
   задач не требуется (`version_deprecated` в MCP — известный резерв, покрыт
   [T-09](tasks/T-09-check-run/README.md) / Q33).
+- **Перенос Q12–Q15 → D54, D14, D55, D56** (миграция журнала, 29.09.2026):
+  блок «Хранилище, публикация, git» — единый поток источника истины, канон
+  артефакта, имя ветки и двухшаговый цикл публикации. **Q12 → D54** — источник
+  истины `.dar`-файл; поток `файл → черновик → публикация`; черновик производный,
+  устаревание — метка `stale`; вопрос — [`questions/Q12.md`](questions/Q12.md),
+  решение — [`decisions/D54-source-of-truth-flow.md`](decisions/D54-source-of-truth-flow.md).
+  **Q13 → D14** — артефакт публикации — неизменяемая JSON-тройка
+  (`rule.json`/`contract.json`/`meta.json`) в `checks/{name}/{X}/{Y}/{Z}/`,
+  «один check = один каталог версии»; вопрос —
+  [`questions/Q13.md`](questions/Q13.md), решение —
+  [`decisions/D14-published-artifact-canon.md`](decisions/D14-published-artifact-canon.md).
+  **Q14 → D55** — имя ветки доставки `publish/{name}-{version}`; `checks/...` —
+  путь артефакта, не имя ветки; вопрос —
+  [`questions/Q14.md`](questions/Q14.md), решение —
+  [`decisions/D55-publish-branch-name.md`](decisions/D55-publish-branch-name.md).
+  **Q15 → D56** — двухшаговый цикл публикации: `check.publish` создаёт ветку,
+  отдельный явный шаг `credo merge {name} {version}` сливает в `main`
+  (ancestor-проверка, CAS, удаление ветки); вопрос —
+  [`questions/Q15.md`](questions/Q15.md), решение —
+  [`decisions/D56-merge-step.md`](decisions/D56-merge-step.md). Шапочные
+  пометки D54/D14/D55/D56 добавлены в затронутые фичи, канон имени ветки — в
+  [`features/README.md`](features/README.md); заведена задача
+  [`T-17`](tasks/T-17-merge-command/README.md) (`credo merge`; P2 — на
+  подтверждение владельца). Сверка с кодом — 🟡 расхождения, покрытые задачами
+  ([`T-16`](tasks/T-16-stale-check-test/README.md),
+  [`T-08`](tasks/T-08-materialize-source-file/README.md),
+  [`T-06`](tasks/T-06-registry-path-xyz/README.md),
+  [`T-07`](tasks/T-07-meta-fields/README.md), T-17).
 
 ### Процесс
 

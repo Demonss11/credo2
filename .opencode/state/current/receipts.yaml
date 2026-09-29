@@ -266,3 +266,38 @@
     p3: "TRACEABILITY.md:18 Feature column omits errors.feature although D53:15-16 has it in Affects and errors.feature:5 carries the D53 backlink → one-directional traceability; one-line fix (docs-writer/lead)"
   snapshot: "develop, HEAD c9193da + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q12q15
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q12q15-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — package without changes to src/**, tests/**, Cargo.toml (paths absent from git status); features exception not triggered — docs/features/** edits are header comments only (+16/-0 across 13 files, 0 deletions, no scenario touched) and the features/README.md:145-148 note; counter line :308 unchanged = 47 files / 278 scenarios (read)"
+    journal: "ok — archive: single hunk OPEN_QUESTIONS.md:104,129 -> :104,19, four blocks cut, four pointers with '-> перенесён' + 'Мигрирован 2026-09-29 (блок …)' (:104-107,:109-112,:114-117,:119-122), no full texts, no hunk outside the block; Q12-Q15 IDs/dates 2026-09-25 kept, Перенос 2026-09-29, links live"
+    decisions: "ok — D54/D14/D55/D56: accepted, Дата 2026-09-25, Resolves Q12/Q13/Q14/Q15, Спека §10 №54/№14/№55/№56, Affects+Tasks filled, 'Сверка с кодом' with verdicts 🟡/🟡/✅/🟡; facts verified by rg (lib.rs:342,383,397; mcp.rs:335-340 incl. manual git update-ref :337; core.rs:71-81 CheckMeta)"
+    spec10: "ok — :875 №54, :876 №55, :877 №56 unique (no other 54-56), :835 №14 got live [D14] link (numstat 4+/1-); style ↔ №52/№53"
+    consistency: "ok — Affects = TRACEABILITY Feature column: Q12 6 features = D54:9-14, Q13 5 = D14:10-14, Q14 2 (features/README not in column) = D55:7-9, Q15 3 = D56:9-11; statuses resolved; tasks T-16/T-08, T-06/T-07, —, T-17"
+    headers: "ok — exactly 16 '# Dn (Qx)' lines in 13 features (6×D54, 5×D14, 2×D55, 3×D56), no duplicates, inside the comment header before 'Функция:' (publish:12-14, publish_rules:2-4); CHANGELOG.md:77-104 inside '### Документация'"
+    task17: "ok — card docs/tasks/T-17-merge-command/README.md (status ⬜, Источник D56 (Q15), P2 + 'на подтверждение владельца', criterion ↔ git_integration.feature:42-48) + row tasks/README.md:51"
+    bonus: "ok — Q13 markers replaced by live links (Q7.md:11 1+/1-, Q11.md:10 2+/1-, questions/README rows Q7/Q11); decisions' text untouched"
+    borders: "ok — 24 M + 10 ??; docs/** only (plus 3 role memories and the new mail); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched; archive not extended"
+    links: "ok — all link targets exist (13 features, T-01/T-06/T-07/T-08/T-16/T-17, D14/D54/D55/D56, Q12-Q15); D IDs unique"
+    p2: "Q15 still listed as 'ожидают переноса' although migrated in this package: Q12.md:14, D54-source-of-truth-flow.md:130-132, questions/README.md:36 (expectation: [Q15](Q15.md) / plain ID outside the pending list, cf. Q7.md:11) — false status in canon, 3-line migrator fix; plural form also to check: rg 'ожида(ет|ют) переноса' docs"
+    p3_1: "OPEN_QUESTIONS.md:104,109 'блок Q12–Q15' vs :114,119 'блок Q14–Q15' — one package, two batch labels (non-blocker)"
+    p3_2: "TRACEABILITY.md:19 Tasks for Q12 omits T-01, while D54:18-21 names it and tasks/README.md:38 attributes T-01 to Q12 (one-line fix, optional)"
+  snapshot: "develop @ 711a3c8 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q12q15
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q12q15-2026-09-29-r2.md
+  dod:
+    cargo: "not run (D50) — rework touched only docs/questions, docs/decisions/D54, docs/OPEN_QUESTIONS, docs/TRACEABILITY (in-place line edits); src/**, tests/**, Cargo.toml absent from git status; features/CHANGELOG unchanged since iteration 1 (per-file numstat identical; counters 47/278 = features/README.md:308)"
+    p2_closed: "yes — Q15 removed from 'ожидают переноса', now a live link: Q12.md:13-14 ([Q13](Q13.md), [Q15](Q15.md); Q30, Q33, Q32, Q29 pending), D54-source-of-truth-flow.md:130-133 ([Q15](../questions/Q15.md) (merge в `main`); Q30/Q33/Q32/Q29 pending), questions/README.md:36 ([Q13](Q13.md), [Q15](Q15.md); Q30, Q33 pending); rg 'ожида(ет|ют) переноса' docs → Q12–Q15 nowhere under the mark (remaining = really unmigrated Q + historical docs/reviews/**)"
+    p3_1_closed: "yes — single label 'блок Q12–Q15': OPEN_QUESTIONS.md:106,111,116,121 + 'Перенос' in Q12.md:12, Q13.md:11, Q14.md:9, Q15.md:10; rg 'блок Q1[24]–Q1[35]' → exactly those 8, no Q12–Q13/Q14–Q15 left"
+    p3_2_closed: "yes — TRACEABILITY.md:19 Tasks for Q12 = T-16, T-08, T-01 (T-01 added, ↔ D54:18-21, tasks/README.md:38); Q13/Q14/Q15 lists match their D Tasks"
+    regressions: "none — git diff --numstat -- docs per-file identical to iteration 1 (CHANGELOG 28/0, OPEN_QUESTIONS 19/129, SPECIFICATION 4/1, TRACEABILITY 4/0, features/README 5/0, features +16/0, Q11 2/1, Q7 1/1, questions/README 6/2, tasks/README 1/0); rework edits are in-place line rewrites; archive pointers only (no full texts); §10 :835/:875/:876/:877 text unchanged; 16 feature headers unchanged; CHANGELOG:77 unchanged; line counts Q13/Q14/Q15/D14/D55/D56 = 75/49/71/153/92/125 as accepted, Q12 73, D54 138→139 (+1, explained by the 'Связанные' rewrap in the P2 fix)"
+    borders: "ok — 26 M + 11 ?? (vs iteration 1: +validator.md, +receipts.yaml, +r1 report); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched"
+  snapshot: "develop @ 711a3c8 + working tree (2026-09-29, after rework)"
+  at: "2026-09-29"

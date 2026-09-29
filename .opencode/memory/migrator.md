@@ -238,4 +238,71 @@
   (`:63-64`) в перечень шапочных пометок Q11 добавлен `errors.feature`
   (`evaluate` / `rest_api` / `rest_auth` / `errors`). Больше ничего не менялось.
   `cargo`/git не запускались; отчёт — та же лента.
+- 2026-09-29 · service-migration-q12q15 (вызов 1 из 2): перенос **Q12 → D54**
+  (`docs/decisions/D54-source-of-truth-flow.md`, `Resolves: Q12`, §10 №54) и
+  **Q13 → D14** (`docs/decisions/D14-published-artifact-canon.md`,
+  `Resolves: Q13`, §10 **№14** — строка была без D-ссылки, ссылка добавлена).
+  Созданы `docs/questions/Q12.md`, `Q13.md` (resolved; даты 2026-09-25;
+  приоритеты: Q12 🔴 блокер, Q13 🟡 важно). Указатели в `OPEN_QUESTIONS.md`
+  (блок Q12–Q13), строки в `TRACEABILITY.md` (после Q11) и
+  `questions/README.md` (между Q11 и Q42). Сняты устаревшие пометки
+  «Q13 (ожидает переноса)» в `questions/README.md` (строки Q7/Q11),
+  `Q7.md:11`, `Q11.md:10-11` → `[Q13](Q13.md)`. Сверка §5.3 — 🟡/🟡:
+  Q12 — `src/lib.rs` `source_hash`/`stale` ✅ (T-01), `check.test` по тексту
+  черновика `src/mcp.rs:235` → **T-16**, нет материализации `.dar`
+  `src/lib.rs:389-393` → **T-08**; Q13 — плоский путь `src/lib.rs:342/383/462`
+  → **T-06**, `CheckMeta` `src/core.rs:70-81`/запись `src/lib.rs:373-381` без
+  `display_name`/`source_hash`/`compiler_version` → **T-07**; артефакт-тройка/
+  неизменяемость ✅; `publish.feature`/`storage_paths.feature` обновлены по
+  решению (читал, не правил). Новых расхождений MVP нет, новых задач нет.
+  «Уточнение Q32 (ожидает переноса)» и «Следствие для кода (Q7)» — в Следствиях
+  D14. `features/**`/`CHANGELOG`/`src`/`tests` не трогал (docs-writer/чужие
+  зоны); `cargo` не запускался (D50); shell одиночные. ID: заняты D14, D54;
+  свободны — Q57, §10 №55 (под Q14/D55). Отчёт — лента
+  `.opencode/mail/service-migration-q12q15.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q12q15 (вызов 1, верификация): `rg -n
+  "^### Q1[23]" docs/OPEN_QUESTIONS.md` → 104/109 (указатели, полных текстов
+  нет); `rg "Q13 \(ожидает переноса\)" docs` → только `docs/reviews/**`
+  (историческое, не правится). Остаток вызова 1 закрыт; впереди вызов 2 —
+  Q14 → D55, Q15 → D56.
+- 2026-09-29 · service-migration-q12q15 (вызов 2 из 2): перенос **Q14 → D55**
+  (`docs/decisions/D55-publish-branch-name.md`, `Resolves: Q14`, новая §10
+  №55) и **Q15 → D56** (`docs/decisions/D56-merge-step.md`, `Resolves: Q15`,
+  новая §10 №56). Созданы `docs/questions/Q14.md` (⚪ оформление),
+  `Q15.md` (🟡 важно); указатели в `OPEN_QUESTIONS.md` (блок Q14–Q15),
+  строки в `TRACEABILITY.md` (после Q13) и `questions/README.md` (между Q13 и
+  Q42). Заведена задача **T-17** (`docs/tasks/T-17-merge-command/README.md`,
+  Источник: D56 (Q15), P2 — **на подтверждение владельца**) + строка в
+  `docs/tasks/README.md`. Сверка §5.3 — Q14 ✅ (`src/lib.rs:397`,
+  `src/mcp.rs:326/332`, `tests/publish.rs:27`, `publish_rules.feature:10`,
+  `publish.feature:25`; задач не требуется); Q15 🟡 (ветка создаётся ✅
+  `src/lib.rs:321-409`; шага слияния нет ⬜: нет `credo merge`,
+  `merge-base --is-ancestor`, CAS-`update-ref` (`update_ref` 3-арг
+  `src/lib.rs:161-164`; `create_ref` zero-oid `:169-179`), удаления ветки;
+  `src/mcp.rs:335-340` — ручной un-CAS `git update-ref`;
+  `git_integration.feature:42-48` → T-17). Новых расхождений вне T-17 нет.
+  Блок **Q12–Q15 закрыт**. `features/**`/`CHANGELOG`/`src`/`tests` не трогал;
+  `cargo` не запускался (D50); shell одиночные. ID: заняты D14/D54/D55/D56;
+  свободны — Q57, §10 №57. Отчёт — лента
+  `.opencode/mail/service-migration-q12q15.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q12q15 (сверка связей, P3-аналог):
+  `docs/TRACEABILITY.md` — строка Q12 (:19) дополнена `notebook_ui.feature`,
+  `editor.feature`, `file_management.feature` (3 → 6, как `D54:9-14`); строка
+  Q13 (:20) дополнена `mcp_tools.feature` (4 → 5, как `D14:10-14`). Q14 (:21) и
+  Q15 (:22) сверены — `.feature`-состав совпадает с `Affects` `D55`/`D56`
+  (`D55` дополнительно ссылается на `features/README.md` — сводка, не
+  `.feature`). Больше ничего не менял; фичи не правил; `cargo` не запускался.
+  Отчёт — та же лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q12q15 (rework P2/P3, после приёмки iteration 1):
+  P2 — Q15 выведен из «ожидают переноса» (`Q12.md:13-14`,
+  `D54:129-132`, `questions/README.md:36`) и стал живой ссылкой; в группе
+  оставлены только не перенесённые (Q30/Q33/Q32/Q29 и т. п.). P3-1 — единая
+  метка блока **«Q12–Q15»**: `OPEN_QUESTIONS.md:114,119` и поля «Перенос»
+  `Q12.md:12`/`Q13.md:11`/`Q14.md:9`/`Q15.md:10`. P3-2 — `TRACEABILITY.md:19`
+  (Q12, «Задачи») добавлен `T-01` → `T-16, T-08, T-01`; Q13/Q14/Q15 состав
+  задач = `Tasks` их D. Свип `rg "ожида(ет|ют) переноса"` — пометки только у
+  реально открытых Q; форма `Q1[2-5] \(ожидает переноса\)` — только
+  `docs/reviews/**`. Фичи/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не
+  запускался (D50). Повторная приёмка — `validator` `-r2`; отчёт — та же лента;
+  коммит — за `git`.
 

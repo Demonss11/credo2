@@ -90,3 +90,19 @@
   по BRIEF §5.2 п.6 и прецеденту D21 — снимается одной правкой при ином чтении.
   Счётчики 47/278 не менялись; журнал/реестр/SPEC/tasks не трогал; `cargo`/git не
   запускались. Остаток: приёмка `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-migration-q12q15` · сопутствующие к переносу
+  Q12–Q15 → D54/D14/D55/D56: обратные ссылки `# Dn (Qx): …` (BRIEF §5.6 п.2)
+  в шапках 13 фич `Affects` — D54 (Q12): `draft.feature:10`,
+  `test_draft.feature:10`, `publish.feature:13`, `notebook_ui.feature:10`,
+  `editor.feature:3`, `file_management.feature:4`; D14 (Q13):
+  `publish.feature:12`, `storage_paths.feature:8`, `publish_rules.feature:2`,
+  `immutability.feature:6`, `mcp_tools.feature:7`; D55 (Q14):
+  `publish.feature:14`, `publish_rules.feature:3`; D56 (Q15):
+  `git_integration.feature:7`, `deferred.feature:2`, `publish_rules.feature:4`
+  (в `publish.feature`/`publish_rules.feature` — по три строки, каждый D своей
+  строкой). `features/README.md:145-149` — блок «Решение Q14» (ветка
+  `publish/{name}-{version}`; `checks/...` — путь артефакта, не имя ветки).
+  `docs/CHANGELOG.md:77-104` — запись «Перенос Q12–Q15 → D54, D14, D55, D56».
+  Счётчики 47/278 не менялись (правки фич — только комментарии, 0 удалений);
+  `cargo`/git не запускались (D50). Остаток: сплошной обход ссылок не делался
+  (только точечный) → приёмка `validator` (docs) → пакет `git`.

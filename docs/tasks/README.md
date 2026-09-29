@@ -48,6 +48,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |
+| [T-17](T-17-merge-command/README.md) | `credo merge`: слияние ветки публикации в `main` (ancestor-проверка, CAS, удаление ветки) | [D56](../decisions/D56-merge-step.md) (Q15) | P2 | — | ⬜ |
 | [T-14](T-14-grammar-message-sync/README.md) | GRAMMAR: синхронизация цитаты сообщения парсера | [D41](../decisions/D41-dispatch-refinements.md) (Q46) | P2 | T-03 | ⬜ |
 | [T-09](T-09-check-run/README.md) | `check.run` — исполнение опубликованной версии | Q33 | P3 | T-06 | ⬜ |
 
