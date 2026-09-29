@@ -334,3 +334,20 @@
   7 A) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует
   новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов
   нет.
+- 29.09.2026 · пакет `service-migration-q27q30` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q27q30.md` §«пакет подтверждён
+  (коммит без push)» — дословно «Только коммит (без push)»). Снимок до: 18 `M` +
+  8 `??` = 26 путей, совпал; 27-й — чекпойнт `git.md` (этот). База HEAD `bc76060`,
+  `develop`, синхрон с `origin/develop`; коммита с целевым сообщением нет.
+  27 путей: письмо `mail/service-migration-q27q30.md`,
+  `mail/service-handoff-2026-09-29.md`, `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D27-rest-launch-address,D29-notebook-mcp-transport,D31-check-create-contract,D54-source-of-truth-flow,D56-merge-step,README}.md`,
+  `docs/features/{README.md,agent_minimal.feature}`,
+  `docs/questions/{Q12,Q15,Q27,Q30,README}.md`,
+  `docs/reviews/{migration-q27q30-2026-09-29,migration-q27q30-2026-09-29-r2}.md`.
+  Сообщение — `docs(D27, D29): перенос Q27, Q30 — транспорт и запуск: адрес и
+  флаги REST, sidecar Notebook`. Осталось: `add` 27 → сверка staged (ровно 27:
+  19 M + 8 A) → коммит локально, **без `push`** (сужение владельца). Хеш — не
+  здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

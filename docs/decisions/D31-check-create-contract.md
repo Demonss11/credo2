@@ -147,7 +147,8 @@
   Q33 (draft-first), [Q12](../questions/Q12.md) (поток
   `файл → черновик → публикация`), [Q11](../questions/Q11.md) (язык сообщений —
   ответственность [D53](D53-error-messages-language.md));
-  Q27, Q30+ — ожидают переноса
+  [Q27](../questions/Q27.md) (запуск и адрес REST),
+  [Q30](../questions/Q30.md) (транспорт MCP в Notebook); Q31+ — ожидают переноса
 - Задача: [T-03](../tasks/T-03-check-create/README.md) (сделана)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №31;
   схемы — §4.5

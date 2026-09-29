@@ -210,7 +210,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | 🔴 | Initialize, диагностика, completion, hover, definition, formatting, токены; автодополнение: ключевые слова + слова с точкой, без типов (Q37) |
 | [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 8 | ⬜ | 🔴 | Sidecar-процесс, диагностика/completion в CodeMirror; падение: автоперезапуск с лимитом, повторный `didOpen`, деградация без LSP (Q39) |
 
-> **Решение Q30 (2026-09-26):** Notebook спавнит `credo-server` как
+> **Решение Q30 (2026-09-26; [Q30](../questions/Q30.md), [D29](../decisions/D29-notebook-mcp-transport.md)):** Notebook спавнит `credo-server` как
 > локальный sidecar через stdio (JSON-RPC 2.0) и запускает его
 > автоматически при старте (скрыто от пользователя); сервер работает в
 > режиме «только MCP» (Q27). `published-repo` локален; HTTP+SSE и внешний

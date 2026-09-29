@@ -412,3 +412,39 @@
     borders: "ok — package 27 M + 5 ?? (plus my validator.md/receipts.yaml/report); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched"
   snapshot: "develop @ 2e0edcb + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q27q30
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q27q30-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged"
+    archive: "ok — OPEN_QUESTIONS.md:183 Q27 / :203 Q30 pointers '-> перенесён' with label 'блок 4б-2 «Транспорт и запуск», Q27+Q30' (:185/:205); no full texts; Q28 :193/Q29 :198 pointers, Q31 :213/Q32 :248 full; two hunks (-180,33 +180,11; -222,36 +200,11); numstat 10/57"
+    sweep: "ok — rg 'ожида[ею]т переноса' docs (вне reviews): no Q27/Q30; subjects only Q31+ (Q32/33/34/35/36/37/39); fix D54:132-133, D56:120-121 confirmed (Q30 live link, Q33/Q32 and Q32 under marker)"
+    dfields: "ok — D27/D29: Resolves/Спека/Affects/Tasks filled, 'Сверка с кодом' ✅ with reading evidence, 'Задач не требуется' justified; src/main.rs and src/mcp.rs cites verified"
+    spec10: "ok — :850 №27 [D27], :852 №29 [D29]; markers (Q30)/(Q27) intact; neighbours intact (diff = 2 lines)"
+    consistency: "ok — Q27 TRACEABILITY :34 Feature '—'; Q30 :37 agent_minimal.feature; questions/README :51/:54; fields agree"
+    decisions_readme: "ok — 40 rows (rg -c); D27 :38 -> D29 :39 -> D31 :40; parenthetical :18 '(Q31–Q41)'"
+    crosslinks: "ok — Q27<->Q30 and D27<->D29 live both ways; all relative link targets of new/edited files resolve; no broken links"
+    features: "ok — exactly 1 '# D29 (Q30)' in agent_minimal.feature:13; features/README.md:213 note with [Q30]/[D29]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q27, Q30 → D27, D29' :206-223 after Q28–Q29 :183-205; links live"
+    feed: "ok — order opening :25 -> migrator #1 :53 -> #2 :100 -> post-fix :149 -> docs-writer :176; no orphan fragments; P3 count 34 vs actual 31"
+    p2: "D29-notebook-mcp-transport.md:7,40-41,68-71,105 — SPEC section<->line pairs shifted by one section (heading map: §2.2=127-142, §2.3=143-190, §4.1=253-280, §4.2=281-340); §2.3 (:267–270) impossible; Affects omits §4.2 (:303–317, Q30 ref :307); fix = migrator"
+    borders: "ok — 16 M + 6 ??; only block files + handoff mail + 3 role memories + feed; src/**, tests/**, Cargo.toml, docs/reviews/** (tracked) untouched"
+  snapshot: "develop @ bc76060 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q27q30
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q27q30-2026-09-29-r2.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged"
+    p2_closed: "ok — D29:7-8/41-42/70-77/110 pairs match heading map (§2.2=127-142, §2.3=143-190, §4.1=253-280, §4.2=281-340); all cited lines inside their sections (:134 :178 :182–187 :267–270 :303–317, Q30 ref :307, diagram :286, 'no code changes' :318–319); rg '§2.2 (:178|§2.3 (:267|§4.1 (:286|§4.1 (:306' docs .opencode/mail -> empty (historical snapshots only); feed :125/:131-132 aligned; D29 106->111 lines, anchors :1-33/:39-53/:55-108 intact"
+    p3_closed: "ok — feed :170 = '31 указатель (уточнено при rework)'; rg -c '→ перенесён' = 31, rg -c 'Мигрирован' = 31; other '34 указател' occurrences (:208/:245/:251) are finding quotes/fix notes"
+    regressions: "ok — git diff --numstat identical to r1 for all tracked package files (CHANGELOG 18/0, OPEN_QUESTIONS 10/57, SPECIFICATION 2/2, TRACEABILITY 2/0, D31 2/1, D54 2/2, D56 2/2, decisions/README 3/1, features/README 1/1, agent_minimal.feature 1/0, Q12 2/1, Q15 1/1, questions/README 4/2; memories docs-writer 12/0, service 26/0); changed only D29 (untracked ??), feed (??) and memory migrator 56->67; no new facts"
+    untouched: "ok — SPEC §10 :850/:852, decisions/README 40 rows, TRACEABILITY :34/:37, questions/README Q27 :51/Q30 :54, features counters :309 (47/278) + single '# D29 (Q30)', CHANGELOG :206-223 — same as r1"
+    links: "ok — D29 [Q30]/[Q27]/[D27]/[D54]/[D50]/feature refs resolve; no broken links"
+    borders: "ok — 18 M + 7 ??; new vs r1 only my docs/reviews reports; src/**, tests/**, Cargo.toml, docs/reviews/** (historical) untouched"
+  snapshot: "develop @ bc76060 + working tree (2026-09-29)"
+  at: "2026-09-29"

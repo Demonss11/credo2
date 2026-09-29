@@ -203,6 +203,24 @@
   единственная открытая по связке). Сверка с кодом — ✅ (Q28) и 🟡 (Q29,
   расхождение покрыто T-05); статусы и счётчики `features/README.md` (47/278)
   не меняются.
+- **Перенос Q27, Q30 → D27, D29** (миграция журнала, 29.09.2026): связка
+  «Транспорт и запуск» (кросс-разделов 4→5). **Q27 → D27** — запуск и адрес
+  REST: адрес по умолчанию `127.0.0.1:8080`; REST поднимается только по явному
+  флагу `--rest`/`--addr`, приоритет `--no-rest` > `--addr` > `--rest`; без
+  флагов — штатный режим «только MCP (stdio)»; вопрос —
+  [`questions/Q27.md`](questions/Q27.md), решение —
+  [`decisions/D27-rest-launch-address.md`](decisions/D27-rest-launch-address.md).
+  **Q30 → D29** — транспорт MCP в Notebook: Notebook спавнит `credo-server` как
+  локальный sidecar через stdio (JSON-RPC 2.0) и запускает его автоматически
+  при старте (скрыто от пользователя); `published-repo` локален; HTTP+SSE и
+  внешний (общий) сервер — вне MVP (v0.2+, multi-user); вопрос —
+  [`questions/Q30.md`](questions/Q30.md), решение —
+  [`decisions/D29-notebook-mcp-transport.md`](decisions/D29-notebook-mcp-transport.md).
+  Шапочная пометка `# D29 (Q30)` добавлена в
+  [`features/agent_minimal.feature`](features/agent_minimal.feature); заметка
+  про транспорт в [`features/README.md`](features/README.md) — со ссылками на
+  Q30/D29. Сверка с кодом — ✅ (реализация соответствует решениям), задач не
+  требуется; статусы и счётчики `features/README.md` (47/278) не меняются.
 
 ### Процесс
 
