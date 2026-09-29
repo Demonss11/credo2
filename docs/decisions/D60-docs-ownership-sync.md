@@ -35,7 +35,7 @@
 | Документ | Канон чего |
 |---|---|
 | [`SPECIFICATION.md`](../SPECIFICATION.md) | целевая архитектура; §10 — краткие формулировки решений |
-| [`questions/`](../questions/) + [`decisions/`](../decisions/) (журнал; исторически — [`OPEN_QUESTIONS.md`](../OPEN_QUESTIONS.md)) | полный контекст «вопрос → решение» |
+| [`questions/`](../questions/) + [`decisions/`](../decisions/) (журнал; исторически — архив `OPEN_QUESTIONS.md`, удалён после миграции) | полный контекст «вопрос → решение» |
 | [`features/README.md`](../features/README.md) | **единственный** канон статусов, приоритетов и счётчиков сценариев ([Q5](../questions/Q5.md)/[Q40](../questions/Q40.md)) |
 | [`GRAMMAR.md`](../GRAMMAR.md) | канон языка v0.1 (EBNF включён, [Q2](../questions/Q2.md)) |
 | `DECISIONS.md` (корень рабочего пространства) | реестр **сквозных архитектурных** ADR (кратко + источники) |

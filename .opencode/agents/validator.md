@@ -65,12 +65,13 @@ permissions:
 
 ## Чек-лист по типу работы
 
-**Перенос Q/D** (`docs/BRIEF.md` §7):
+**Новые записи Q/D** (`docs/BRIEF.md` §5.1–§5.3):
 
 - `docs/questions/Qx.md` и `docs/decisions/Dn-*.md` существуют; ID, ссылки и
   поля (`Resolves`, `Спека`, `Affects`, `Tasks`) заполнены верно;
 - у D есть вердикт «Сверка с кодом»; задачи созданы или явно «не требуется»;
-- в архиве вместо блока — указатель; `docs/TRACEABILITY.md` согласован;
+- `docs/TRACEABILITY.md` и каталоги (`questions/README.md`,
+  `decisions/README.md`) согласованы (без дублей полей);
 - строка `Dn` есть в `docs/SPECIFICATION.md` §10.
 
 **Код (`T-XX`):**

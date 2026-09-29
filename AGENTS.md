@@ -37,7 +37,7 @@
 |---|---|---|
 | `lead` | loop-диспетчер: исполняет `next_action.yaml` буквально, вызывает роли, фиксирует результаты, вопросы владельцу | `.opencode/state/current/progress.yaml`, лента задачи, своя память |
 | `analyst` | эфемерный решатель: одно решение за вызов — досье, класс, план, сводка | `docs/analysis/**`, `.opencode/state/current/next_action.yaml` и `current_state.yaml`, лента задачи, своя память |
-| `migrator` | ведёт журнал Q/D: перенос `Qx` из архива, новые Q/D, сверка с кодом, задачи | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md` (§10), `docs/analysis/findings-registry.md` |
+| `migrator` | ведёт журнал Q/D: новые Q/D, сверка с кодом, задачи | `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`, `docs/TRACEABILITY.md`, `docs/SPECIFICATION.md` (§10), `docs/analysis/findings-registry.md` |
 | `docs-writer` | документация: требования, SPEC, GRAMMAR, BRIEF, README, CHANGELOG; статусы задач (🚧 при взятии, ✅ после приёмки) | `docs/**` (кроме журнала и `docs/reviews/**`) |
 | `coder` | код задачи: `src/**` и юнит-тесты в модулях; тесты не запускает | `src/**`, `Cargo.toml` |
 | `rust-expert` | идиоматика Rust: правки `src/**` без изменения поведения; skill `rust-skills` | `src/**` |
@@ -166,7 +166,6 @@ Shell-команды давай одиночными (без `;`, пайпов �
 | `docs/README.md` | карта документации и канонов |
 | `docs/SPECIFICATION.md` | целевая архитектура; §10 — краткие формулировки решений |
 | `docs/questions/` + `docs/decisions/` | полный контекст «вопрос → решение» (правила — `docs/BRIEF.md`, связи — `docs/TRACEABILITY.md`) |
-| `docs/OPEN_QUESTIONS.md` | архив до конца миграции журнала: очередь и указатели |
 | `docs/features/README.md` | статусы, приоритеты и счётчики сценариев (проверяет `tests/features_inventory.rs`) |
 | `docs/GRAMMAR.md` | язык v0.1 (EBNF включён) |
 | `docs/tasks/` | реестр задач по коду (Источник — `Dn`/`Qn` журнала) |
@@ -286,10 +285,10 @@ await tools.credo.check_rebuild_manifest();
 - Обход дерева — по правилу `.opencode/rules/workspace.md`: узкие `glob`/`rg`
   по `src/`, `tests/`, `docs/`; не обходить `target/`, `node_modules/`,
   `.credo/`, `.git/`.
-- Большие документы (`docs/OPEN_QUESTIONS.md`, `docs/SPECIFICATION.md`) читать
+- Большие документы (`docs/SPECIFICATION.md`, `docs/BRIEF.md`) читать
   по карте заголовков (`rg -n "^#{1,3} " <файл>`) и точечно, а не целиком.
 - Методика ревью и приёмки — `.opencode/rules/review.md`.
-- Быстрая проверка относительных ссылок — `docs/BRIEF.md` §9.
+- Быстрая проверка относительных ссылок — `docs/BRIEF.md` §7.
 - Вывод инструмента может быть срезан харнессом (плагин `token-guard`,
   порог ~12 КБ): маркер `…[token-guard] срез: опущено ~N байт` — вывод
   **неполон**. «Важные строки» — смягчение, не замена: если от опущенного

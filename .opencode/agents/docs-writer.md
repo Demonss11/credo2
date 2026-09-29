@@ -16,7 +16,6 @@ permissions:
   - { action: edit, resource: "docs/questions/**", effect: deny }
   - { action: edit, resource: "docs/decisions/**", effect: deny }
   - { action: edit, resource: "docs/TRACEABILITY.md", effect: deny }
-  - { action: edit, resource: "docs/OPEN_QUESTIONS.md", effect: deny }
   - { action: edit, resource: "docs/reviews/**", effect: deny }
   - { action: read, resource: "**/target/**", effect: deny }
   - { action: read, resource: ".git/**", effect: deny }
@@ -48,7 +47,7 @@ GRAMMAR, BRIEF, README, CHANGELOG. Тестовых прогонов у тебя
 ## Канон
 
 - `docs/BRIEF.md` — процесс журнала Q/D. Записи журнала (`docs/questions/`,
-  `docs/decisions/`, `docs/TRACEABILITY.md`, `docs/OPEN_QUESTIONS.md`) ведёт
+  `docs/decisions/`, `docs/TRACEABILITY.md`) ведёт
   `migrator` — ты их не правишь.
 - `docs/features/README.md` — правила требований: Gherkin (`# language: ru`),
   статусы (✅/🟡/⬜/⏸) и приоритеты (🔴/🟡/🟢/⏳) живут только здесь; счётчики
@@ -87,7 +86,7 @@ GRAMMAR, BRIEF, README, CHANGELOG. Тестовых прогонов у тебя
 ## Проверки
 
 - Проверка относительных ссылок в затронутых файлах (существование путей);
-  быстрый обход ссылок — `docs/BRIEF.md` §9.
+  быстрый обход ссылок — `docs/BRIEF.md` §7.
 - Согласованность с `tests/features_inventory.rs` (счётчики) — при правке
   требований прогон обеспечивает `validator` по запросу `lead`.
 - Чекпойнт в память и ленту задачи — до и после тяжёлых правок.

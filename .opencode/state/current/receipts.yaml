@@ -692,3 +692,44 @@
     borders: "ok — only expected files changed in r2: D65 (untracked, 131 -> 140 lines), Q61.md (+22/-2, 61 lines), T-18/README.md (+3); D64 not edited; git diff --numstat for D61-D64, SPECIFICATION, TRACEABILITY, questions/README, decisions/README, tasks/README, CHANGELOG, findings-registry byte-identical to -r1; git diff --stat for OPEN_QUESTIONS/BRIEF/docs-README/features/GRAMMAR/T-16/.opencode/agents empty; counters 47/278 untouched; links in new lines live; no cargo (D50), git read-only"
   snapshot: "develop @ 04cd7bf (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 1
+  verdict: rework
+  report: (none — session cut by step limit; findings relayed to lead, feed records rework P2/P3)
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; docs wave"
+    p2: "canon links to docs/analysis/** (~40: D40-D51, Q45-Q54, T-11/T-13, CHANGELOG) not covered by D65 п.4/D64 п.8 prohibition inventory — requires scope decision (extend sweep or add exception)"
+    p3: "D65 'Сверка с кодом' partial list (five Q-files Q57-Q61) vs corrected п.4; Q57:19,:66 and D61:27,:67 'BRIEF.md §7' criterion without 'историч.' mark"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/docs-hygiene-exec-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); docs-only edits; feature counters 47/278 = features/README.md:314 untouched"
+    scope: "address-only re-acceptance after rework (migrator rework P2/P3, feed :998-1028): (1) D64/D65/Q61/T-18 consistency (ban zone = mail/state; analysis admissible), (2) D65 full inventory, (3) Q57/D61 historical marks; other -r1 zones not re-reviewed (verdict stands)"
+    p2_closure: "closed — D64 п.8 (:50-55), D65 п.4 (:46-55), Q61:44-48, T-18:37-40 now allow canon links to docs/analysis/** as provenance (clean-logs.mjs cleans memory/mail only); whitelist findings-registry intact; ban zone = .opencode/mail/** + .opencode/state/**"
+    p3a_closure: "closed — D65 partial 'five Q-files' list replaced by the full inventory (:104-110); stale '8 адресов' counter removed (:86)"
+    p3b_closure: "closed — Q57:19,:67 and D61:27,:68 carry 'BRIEF.md §7, историч.; выполнен D61'"
+    p2_open: "BRIEF.md:292-295 (§8 anti-patterns) and SPECIFICATION.md:887 (§10 №64) / :888 (§10 №65) still forbid canon links to docs/analysis/** — contradict reworked D64 п.8/D65 п.4/Q61/T-18 (canon-vs-decision, Q41/D60); T-18 implementer reading §10 №64 would ban analysis links -> red on ~40 live canon links (D40-D51, Q45-Q54, T-11/T-13, CHANGELOG); fix = 3 mechanical edits, no scope choice"
+    invariants: "ok — archive absent (D), 42 «Перенос» = Q1-Q42 text-only, TRACEABILITY 61 rows + legend (Q|D|Жизненный цикл|Задачи|Реализация), questions/README 61 (Q|Тема|D), decisions/README 54 (D|Краткая тема|Решает|Дата|Статус), BRIEF 304, counters 47/278 (:314), no canon links to OPEN_QUESTIONS/.opencode/mail (only historic T-15/**), src/tests/Cargo.toml untouched, status set identical to -r1, no new files"
+    borders: "ok — rework touched only D64, D65, Q61, T-18, Q57, D61 (+ feed/memories); other files byte-identical to -r1 lens"
+    tech: "wide rg over docs cut by token-guard — narrowed by paths/-g; SPEC rows 887/888 confirmed unchanged vs 6ff997b via git diff -U0"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-exec-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff --numstat -- src tests Cargo.toml empty; docs-only wave; feature counters 47/278 = features/README.md:314 untouched"
+    scope: "address-only closure of the residual -r2 P2: canonical formulations of 'время жизни адреса' synced; other zones not re-reviewed (r1/r2 verdicts stand)"
+    p2_closure: "closed — one rule in all six places: BRIEF.md:292-298 (§8), SPECIFICATION.md:887 (§10 №64) / :888 (§10 №65), D64:50-55 (п.8), D65:46-55 (п.4), Q61:44-48, T-18:37-40 — ban = .opencode/mail/** (clean-logs --mail-only) + .opencode/state/**; docs/analysis/** admissible as provenance; whitelist findings-registry.md (D48). No stale analysis ban left in canon (rg analysis/** over the six files = only 'допустим/провенанс' wordings)"
+    borders: "ok — git diff -U0 -- docs/SPECIFICATION.md = exactly 3 hunks (header :815-816 from r1; rows :887-888 from r3), no other lines; BRIEF 304 -> 307 (+3 = the single §8 bullet); git status --porcelain set identical to -r2, no new files except the validator report"
+    invariants: "ok — archive D; 42 «Перенос» = Q1-Q42 text-only; TRACEABILITY 61 Q-rows + legend (Q|D|Жизненный цикл|Задачи|Реализация); questions/README 61 (Q|Тема|D); decisions/README 54 (D|Краткая тема|Решает|Дата|Статус); §10 rows 61-65 = 5; counters 47/278 (:314); no canon markdown links to OPEN_QUESTIONS/.opencode/mail (only historic T-15/**); src/tests/Cargo.toml untouched; links in edited lines live"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"

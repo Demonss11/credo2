@@ -29,7 +29,7 @@
   команду в allowlist и инструкциях, но фактически читали срез.
 
 Полный контекст — [Q56](../questions/Q56.md), лента
-[`service-agent-tools.md`](../../.opencode/mail/service-agent-tools.md).
+`service-agent-tools.md` (`.opencode/mail/**`).
 
 ## Решение
 
@@ -104,6 +104,6 @@
 - Вопрос: [Q56](../questions/Q56.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №51
 - Основание: лента
-  [`service-agent-tools.md`](../../.opencode/mail/service-agent-tools.md);
+  `service-agent-tools.md` (`.opencode/mail/**`);
   наблюдения владельца 29.09.2026
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

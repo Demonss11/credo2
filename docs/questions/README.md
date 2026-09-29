@@ -3,83 +3,81 @@
 > **Назначение:** сводка живого журнала вопросов для быстрого обзора. Источник
 > истины — сами `Qn.md`; полные решения — `../decisions/Dn-*.md`; краткий канон —
 > `../SPECIFICATION.md` §10; связи Q → D → feature → задача — `../TRACEABILITY.md`;
-> до завершения миграции оставшиеся вопросы — в `../OPEN_QUESTIONS.md` (архив).
+> архив `OPEN_QUESTIONS.md` удалён после завершения миграции, источник — журнал.
 >
 > **Роль в политике Q41:** рабочая сводка, **не канон**: текст вопроса и решения
 > живёт в `Qn.md` и `Dn-*.md`, формулировка решения — в §10; статусы и
 > приоритеты требований — только в `../features/README.md`.
 >
 > **Поддержка:** при заведении новой `Qn` `migrator` добавляет строку в эту
-> сводку тем же изменением, что и файл; статус — при закрытии решением (процесс
-> журнала — [`../BRIEF.md`](../BRIEF.md) §5.1–§5.2).
+> сводку тем же изменением, что и файл (процесс журнала —
+> [`../BRIEF.md`](../BRIEF.md) §5.1–§5.2).
 
 **Каталог:** `docs/questions/Qn.md` без слага. Сквозной номер в порядке
 появления (`Q1`, `Q2`, …); номера не переиспользуются.
 
-**Статусы:** `open` · `resolved by Dn` · `dropped`.
-
 ## Сводка
 
-| Q | Тема (1 строка) | Решение | Статус | Связано |
-|---|---|---|---|---|
-| [Q1](Q1.md) | SPEC — план «с нуля» или доработка `credo2`? | [D15](../decisions/D15-evolution-credo2.md) — эволюция `credo2`, не greenfield | resolved | [T-10](../tasks/T-10-workspace-phase-0/README.md) |
-| [Q2](Q2.md) | где канонический DSL: `concept.md`, SPEC или features? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — канон v0.1 — `GRAMMAR.md` (EBNF включён) | resolved | [Q3](Q3.md) |
-| [Q3](Q3.md) | минимальный DSL (regex, одно сравнение) или полноценный лексер/AST? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) — regex-минимум; лексер+AST — v0.2 | resolved | [Q2](Q2.md) |
-| [Q4](Q4.md) | `Приоритет` входит в MVP? | [D17](../decisions/D17-priority-out-of-mvp.md) — вне MVP; вернётся в v0.2 с конвейерами | resolved | [Q3](Q3.md) |
-| [Q5](Q5.md) | единая легенда статусов и приоритетов? | [D19](../decisions/D19-statuses-priorities-canon.md) — две независимые оси меток; канон — `features/README.md` | resolved | [Q6](Q6.md) (попутно) |
-| [Q6](Q6.md) | пересчитать сводную таблицу SPEC §6.1? | [D19](../decisions/D19-statuses-priorities-canon.md) — **попутно (D19)** при Q5: таблица §6.1 удалена, канон — README | resolved | [Q5](Q5.md) |
-| [Q7](Q7.md) | §11 не содержит терминов, которыми оперируют фичи (`check`, `active`, `service_hash`, …)? | [D52](../decisions/D52-glossary-terms-canon.md) — терминологический канон §11: 14 новых статей + уточнение двух | resolved | [T-07](../tasks/T-07-meta-fields/README.md); [Q13](Q13.md) |
-| [Q8](Q8.md) | отсутствующее поле: ошибка или `0`? | [D21](../decisions/D21-core-semantics-v01.md) — строгая ошибка `UnknownField` (REST 422 / MCP); `0.0` не подставляется | resolved | [Q9](Q9.md) |
-| [Q9](Q9.md) | типизация и сравнение чисел | [D21](../decisions/D21-core-semantics-v01.md) — проверка типов на исполнении (`TypeMismatch`); строки только `==`/`!=`; `f64` точно | resolved | [Q8](Q8.md) |
-| [Q10](Q10.md) | словарь решений и «не сработало» | [D21](../decisions/D21-core-semantics-v01.md) — словарь задаёт банк, без `"Pass"`; «не сработало» — пустые `decision`/`reason` | resolved | [Q8](Q8.md) |
-| [Q11](Q11.md) | язык сообщений об ошибках: русский для человекочитаемого, латиница для машинного? | [D53](../decisions/D53-error-messages-language.md) — «машина / человек»: русский `message`, латиница в кодах/ключах/`name` | resolved | [Q13](Q13.md); [Q22](Q22.md), [Q23](Q23.md); [Q42](Q42.md) |
-| [Q12](Q12.md) | единственный источник истины: `.dar`-файлы или песочница+JSON? | [D54](../decisions/D54-source-of-truth-flow.md) — источник истины `.dar`; поток `файл → черновик → публикация`, `stale` | resolved | [Q13](Q13.md), [Q15](Q15.md); [Q30](Q30.md); [Q33](Q33.md); [T-16](../tasks/T-16-stale-check-test/README.md), [T-08](../tasks/T-08-materialize-source-file/README.md) |
-| [Q13](Q13.md) | что именно публикуется и по какому пути? | [D14](../decisions/D14-published-artifact-canon.md) — артефакт — неизменяемая JSON-тройка `checks/{name}/{X}/{Y}/{Z}/` | resolved | [Q7](Q7.md), [Q12](Q12.md); [Q18](Q18.md); [Q29](Q29.md); [Q32](Q32.md); [T-06](../tasks/T-06-registry-path-xyz/README.md), [T-07](../tasks/T-07-meta-fields/README.md) |
-| [Q14](Q14.md) | имя ветки публикации | [D55](../decisions/D55-publish-branch-name.md) — `publish/{name}-{version}`; `checks/...` — путь артефакта, не имя ветки | resolved | [Q13](Q13.md), [Q15](Q15.md) |
-| [Q15](Q15.md) | кто и как мержит ветку в `main`? | [D56](../decisions/D56-merge-step.md) — двухшаговый цикл: `check.publish` → ветка, `credo merge` → `main` (ancestor-проверка, CAS, удаление ветки) | resolved | [Q14](Q14.md); [Q30](Q30.md); [Q32](Q32.md); [T-17](../tasks/T-17-merge-command/README.md) |
-| [Q16](Q16.md) | публикация без теста и контрольная сумма | [D32](../decisions/D32-test-gate-mvp.md) — тест-гейт: метка теста в черновике (`last_test_checksum`/`tested_at`); отказ без теста и при расхождении | resolved | [Q12](Q12.md), [Q13](Q13.md); [Q29](Q29.md); [Q34](Q34.md); [T-02](../tasks/T-02-test-gate/README.md) |
-| [Q17](Q17.md) | иммутабельность: файловая система или bare-git? | [D57](../decisions/D57-bare-git-immutability.md) — bare-git, три слоя защиты (каталог версии, отказ на publish, CAS при merge) | resolved | [Q13](Q13.md), [Q15](Q15.md); [Q29](Q29.md); [Q32](Q32.md); [T-06](../tasks/T-06-registry-path-xyz/README.md), [T-17](../tasks/T-17-merge-command/README.md) |
-| [Q18](Q18.md) | сортировка pre-release и build-метаданные | [D35](../decisions/D35-semver-v01.md) — semver v0.1: числовое сравнение pre-release; build вне идентичности и отбрасывается при записи | resolved | [Q13](Q13.md), [Q16](Q16.md); [Q29](Q29.md); [Q32](Q32.md) |
-| [Q19](Q19.md) | где живут данные: `.credo/` и `.dar-notebook/`? | [D58](../decisions/D58-workspace-data-dirs.md) — оба каталога в корне workspace, вне git; серверный и клиентский домены | resolved | [Q12](Q12.md), [Q17](Q17.md); [Q31](Q31.md); [Q34](Q34.md); [Q35](Q35.md) |
-| [Q20](Q20.md) | канонические пути REST | [D22](../decisions/D22-rest-paths-canon.md) — канон `/checks/{name}/versions/{version}/...`; сегмент `/versions/` обязателен; конвейеры — отдельный ресурс v0.2 | resolved | [Q21](Q21.md); [Q24](Q24.md); [Q26](Q26.md); [Q36](Q36.md) |
-| [Q21](Q21.md) | схема ответа `GET /checks` | [D23](../decisions/D23-get-checks-manifest.md) — манифест `{schema_version, count, service_hash, checks[]}`; `ManifestEntry = name/active/supported/deprecated`; `kind` не вводится | resolved | [Q20](Q20.md), [Q13](Q13.md); [Q24](Q24.md); [Q36](Q36.md) |
-| [Q22](Q22.md) | аутентификация REST — заголовок | [D26](../decisions/D26-rest-auth-x-api-key.md) — `x-api-key`; `CREDO_API_KEY`/`--api-key`; открытые `/health`, `/docs`, `/openapi.json`; единый текст 401 | resolved | [Q23](Q23.md) |
-| [Q23](Q23.md) | формат ошибок REST | [D25](../decisions/D25-rest-error-envelope.md) — конверт `{"error": {"code", "message"}}`; коды `snake_case`, тексты русские; `details` не вводится | resolved | [Q11](Q11.md), [Q22](Q22.md); [Q24](Q24.md) |
-| [Q24](Q24.md) | массовый прогон (batch): отложен | [D36](../decisions/D36-batch-deferred.md) — batch вне MVP/v0.2; MVP — клиентская оркестрация; при возврате — отдельный `.../batch`, ключи латиницей | resolved | [Q20](Q20.md), [Q21](Q21.md), [Q23](Q23.md); [Q26](Q26.md); [Q36](Q36.md) |
-| [Q25](Q25.md) | объяснение для клиента: отложено | [D37](../decisions/D37-client-explanation-deferred.md) — `check.explain_client` вне MVP/v0.2; MVP-сырьё — `Explanation`, рендер — задача потребителя | resolved | [Q10](Q10.md), [Q4](Q4.md), [Q42](Q42.md); [Q31](Q31.md); [Q36](Q36.md), [Q37](Q37.md) |
-| [Q26](Q26.md) | импорт/экспорт `.dar`: контракт | [D24](../decisions/D24-import-export-deferred.md) — импорт/экспорт вне MVP/v0.2; экспорт вырождается в файловую копию, отдельный транспорт не нужен | resolved | [Q12](Q12.md), [Q13](Q13.md), [Q20](Q20.md); [Q32](Q32.md) |
-| [Q27](Q27.md) | порт REST и запуск сервера | [D27](../decisions/D27-rest-launch-address.md) — адрес по умолчанию `127.0.0.1:8080`; REST только по `--rest`/`--addr`, приоритет `--no-rest` > `--addr` > `--rest`; без флагов — «только MCP (stdio)» | resolved | [Q30](Q30.md) (транспорт MCP в Notebook); [Q22](Q22.md), [D26](../decisions/D26-rest-auth-x-api-key.md) |
-| [Q28](Q28.md) | параметры `check.create` | [D31](../decisions/D31-check-create-contract.md) — контракт `{name, source}` (оба обязательны); имя сверяется с заголовком `Правило {name}`; «сохранить = обновить»; ответ `{status, name}`; `expected_kind`/`contract` не используются | resolved | [Q29](Q29.md); [T-03](../tasks/T-03-check-create/README.md) (сделана) |
-| [Q29](Q29.md) | ответы `check.test`/`check.list_published`/`check.deprecate`: контракты MCP-инструментов | [D34](../decisions/D34-mcp-tool-contracts.md) — общие правила, 10 кодов (таблица «когда используется»), инварианты черновика, полные JSON-схемы; успех — объект со `status`, ошибка — конверт `{"error":{"code","message"}}` | resolved | [Q28](Q28.md); [T-04](../tasks/T-04-mcp-errors/README.md) (сделана), [T-05](../tasks/T-05-mcp-success-schemas/README.md) (открыта) |
-| [Q30](Q30.md) | транспорт MCP в Notebook: локальный sidecar или общий сервер | [D29](../decisions/D29-notebook-mcp-transport.md) — MVP: Notebook спавнит `credo-server` как локальный sidecar через stdio (JSON-RPC 2.0), автозапуск; режим «только MCP» (Q27); HTTP+SSE и внешний сервер — v0.2+ | resolved | [Q27](Q27.md), [D27](../decisions/D27-rest-launch-address.md); [Q12](Q12.md) ([D54](../decisions/D54-source-of-truth-flow.md)); [Q32](Q32.md) |
-| [Q31](Q31.md) | где живёт чат агента? | [D12](../decisions/D12-agent-chat-panel.md) — чат — правая панель основного окна Notebook; результаты `check.test` — инлайн в редакторе, не в чате; отдельное окно — вне MVP | resolved | [Q33](Q33.md), [D30](../decisions/D30-execution-mechanism.md); [Q30](Q30.md), [D29](../decisions/D29-notebook-mcp-transport.md) |
-| [Q32](Q32.md) | два git-репозитория и мультиверсионность | [D28](../decisions/D28-two-git-contours.md) — git-панель Notebook — только workspace-репо; реестр публикаций — read-only «Версии» (манифест / `check.list_published`); структура реестра `checks/{name}/{X}/{Y}/{Z}/`; хотфикс-линии; публикация только с новым номером (без downgrade), pre-release — вне MVP | resolved | [Q13](Q13.md), [Q15](Q15.md); [Q16](Q16.md); [Q17](Q17.md); [Q18](Q18.md); [Q20](Q20.md); [Q22](Q22.md); [Q33](Q33.md); [T-06](../tasks/T-06-registry-path-xyz/README.md) |
-| [Q33](Q33.md) | чем исполняется правило в редакторе? | [D30](../decisions/D30-execution-mechanism.md) — единый механизм через MCP `check.test` на черновике (draft-first); локального исполнения (`dar-core`) нет; `check.run` — [T-09](../tasks/T-09-check-run/README.md) | resolved | [Q31](Q31.md), [D12](../decisions/D12-agent-chat-panel.md); [Q12](Q12.md), [D54](../decisions/D54-source-of-truth-flow.md); [T-08](../tasks/T-08-materialize-source-file/README.md), [T-09](../tasks/T-09-check-run/README.md) |
-| [Q34](Q34.md) | тесты: внутри `.dar` или в `.dar-notebook/`? | [D32](../decisions/D32-test-gate-mvp.md) — в рамках D32 (общая линия §10 №32 с [Q16](Q16.md)): тесты MVP — только локальный кэш `.dar-notebook/results-cache.json` («быстрые прогоны» — черновики тестов); `tests/*.тест` (code=doc) — вне MVP (v0.2) | resolved | [Q16](Q16.md), [D32](../decisions/D32-test-gate-mvp.md); [Q19](Q19.md), [D58](../decisions/D58-workspace-data-dirs.md); [Q33](Q33.md); [T-02](../tasks/T-02-test-gate/README.md) |
-| [Q35](Q35.md) | что создаёт новый workspace и какой шаблон получает новое правило? | [D59](../decisions/D59-workspace-templates.md) — workspace: `rules/`, `rules/Пример.dar` (пример из `GRAMMAR.md` §1), `README.md`, `.gitignore` (`.credo/`, `.dar-notebook/`); «Создать правило» — `rules/{Имя}.dar` с парсящимся шаблоном; черновик — по сохранению (Q33) | resolved | [Q19](Q19.md), [D58](../decisions/D58-workspace-data-dirs.md); [Q33](Q33.md); [Q31](Q31.md); [Q34](Q34.md) |
-| [Q36](Q36.md) | конвейеры: несколько правил в одном файле? | [D18](../decisions/D18-pipelines-out-lsp-mvp.md) — конвейеры/скоринги/таблицы вне MVP (язык v0.1, одно правило = один файл); documentSymbol — «несколько открытых файлов»; граф отложен (v0.2) | resolved | [Q4](Q4.md), [Q38](Q38.md); [`lsp.feature`](../features/lsp.feature) |
-| [Q37](Q37.md) | реестр полей и типов для автодополнения | [D33](../decisions/D33-fields-registry-source.md) — источник схемы полей и словарей — БД (в MVP `HashMap`/демо-конфиг, без явной схемы); каталог `tables/` исключён, синтаксис таблиц в `GRAMMAR.md` не вводится; автодополнение MVP — ключевые слова + слова с точкой из открытых файлов, типы полей не подсказываются; словарь решений — системная таблица банка (в MVP демо-конфиг, не хардкод) | resolved | [Q9](Q9.md), [Q10](Q10.md); [Q34](Q34.md); [Q36](Q36.md), [Q38](Q38.md) |
-| [Q38](Q38.md) | состав LSP сверх SPEC | [D18](../decisions/D18-pipelines-out-lsp-mvp.md) — LSP в MVP: initialize, синхронизация, diagnostics, completion (ключевые слова + решения), hover, symbols, semanticTokens; formatting/definition/references — v0.2 | resolved | [Q36](Q36.md) |
-| [Q39](Q39.md) | поведение при падении LSP | [D6](../decisions/D6-lsp-degradation.md) — нет второго движка (fallback нет): при недоступности sidecar функции LSP недоступны; автоперезапуск ≤ 3 попыток подряд, затем ручной перезапуск; после перезапуска — `initialize` + повторный `didOpen` с текущим текстом; буферы/курсор/undo не теряются; `check.test` не блокируется | resolved | [Q33](Q33.md), [Q38](Q38.md); [`lsp_notebook.feature`](../features/lsp_notebook.feature) |
-| [Q40](Q40.md) | исполняемые ли Gherkin-сценарии | [D20](../decisions/D20-features-docs-dod.md) — `.feature` — документация, не исполняемая спецификация; DoD = `cargo fmt --check` + `cargo clippy -- -D warnings` + `cargo test --all` + ручной UI-прогон; cucumber-rs — v0.2; инвентаризация — `tests/features_inventory.rs` | resolved | [Q5](Q5.md) ([D19](../decisions/D19-statuses-priorities-canon.md)); [Q41](Q41.md); [`features/README.md`](../features/README.md) |
-| [Q41](Q41.md) | владелец и синхронизация документов | [D60](../decisions/D60-docs-ownership-sync.md) — политика «один факт — один канон»: роли документов; статусы/числа — только в `features/README.md`; новое решение — строка §10 + журнал (+ ADR при сквозном) | resolved | [Q40](Q40.md); [Q5](Q5.md) ([D19](../decisions/D19-statuses-priorities-canon.md)); [`SPECIFICATION.md`](../SPECIFICATION.md) §6.1, §10; [`../../AGENTS.md`](../../AGENTS.md) |
-| [Q42](Q42.md) | каноническая схема объяснения и язык полей | [D21](../decisions/D21-core-semantics-v01.md) — ключи `snake_case` + поле `condition`, тексты русские, без `priority` | resolved | [Q4](Q4.md) (`priority` вне MVP) |
-| [Q43](Q43.md) | каким должен быть цикл работы команды агентов? | [D38](../decisions/D38-agent-cycle.md) — Agile-петля, единый тестировщик, память и почта | resolved | [T-11](../tasks/T-11-agent-cycle/README.md) |
-| [Q44](Q44.md) | как разгрузить `lead` и сделать цикл durable? | [D39](../decisions/D39-loop-dispatcher.md) — loop-диспетчер, эфемерный `analyst`, состояние на диске | resolved | [T-12](../tasks/T-12-agent-loop/README.md) |
-| [Q45](Q45.md) | какой порог scope-решения в цикле диспетчера? | [D40](../decisions/D40-scope-threshold.md) — узкий порог + триггер частичного покрытия | resolved | [T-13](../tasks/T-13-agent-hardening/README.md) |
-| [Q46](Q46.md) | какие уточнения канона цикла нужны по итогам Run 3? | [D41](../decisions/D41-dispatch-refinements.md) — уточнения `dispatch-loop` после Run 3 | resolved | [T-13](../tasks/T-13-agent-hardening/README.md), [T-14](../tasks/T-14-grammar-message-sync/README.md) |
-| [Q47](Q47.md) | как формулировать `expect` и нумеровать участки, если `iteration` — rework-цикл? | [D42](../decisions/D42-expect-iteration.md) — `expect` в терминах hard rules; `iteration` — только rework | resolved | — |
-| [Q48](Q48.md) | как `auditor` фиксирует отчёт в ленте при правах только на память? | [D43](../decisions/D43-auditor-mail.md) — право `edit .opencode/mail/**` (отчёт в ленту) | resolved | — |
-| [Q49](Q49.md) | что делать при расхождении брифа с каноном и при затыке, каких запасов `steps` требуют роли и как работать со срезом и лентами? | [D44](../decisions/D44-run5-refinements.md) — бриф ↔ канон, затык, `steps`, allowlist, срез B1, ленты | resolved | — |
-| [Q50](Q50.md) | что закрепляем из волны 0 и каким должен быть конфиг-пакет качества? | [D45](../decisions/D45-wave0-quality-config.md) — A/B1 (норма), B2 (отключить), deny `execute`, конфиг качества | resolved | — |
-| [Q51](Q51.md) | как разделять продуктовые и процессные коммиты и как коммитить состояние? | [D46](../decisions/D46-product-process-commits.md) — разделение составов, `chore(process): …`, `state/**` | resolved | — |
-| [Q52](Q52.md) | как завершать ветку при устаревшем upstream, что с `git -C` и где хеши closeout? | [D47](../decisions/D47-git-refinements-run5.md) — `push --delete` → `branch -d`; `workdir` полем; хеши в отчёте `git`/`progress` | resolved | — |
-| [Q53](Q53.md) | кто ведёт реестр находок, если инструкции адресуют его `migrator`, а права не покрывают `docs/analysis/**`? | [D48](../decisions/D48-findings-registry-owner.md) — реестр ведёт `migrator` (право + синхронизация) | resolved | — |
-| [Q54](Q54.md) | чем `validator` подтверждает вхождение коммита в историю ветки при приёмке? | [D49](../decisions/D49-validator-branch-contains.md) — право `git branch --contains` (read-only) | resolved | — |
-| [Q55](Q55.md) | обязателен ли cargo-прогон `validator` для пакетов без изменений кода? | [D50](../decisions/D50-dod-by-package-scope.md) — DoD по составу пакета: cargo только при изменениях кода | resolved | — |
-| [Q56](Q56.md) | какими инструментами роли экономят токены при проверках (подсчёт строк; машинная сверка прав)? | [D51](../decisions/D51-agent-tools-token-hygiene.md) — скрипт-сводка `agents-perms.mjs` + `rg -c '^'`; сырой `opencode debug agents` убран | resolved | [service-agent-tools](../../.opencode/mail/service-agent-tools.md) |
-| [Q57](Q57.md) | судьба архива `OPEN_QUESTIONS.md` после завершения миграции | [D61](../decisions/D61-archive-removal.md) — архив удаляется; ссылки и шапки — на журнал | resolved | [Q58](Q58.md), [Q59](Q59.md) |
-| [Q58](Q58.md) | роль и структура `BRIEF.md` после завершения миграции | [D62](../decisions/D62-brief-journal-rules.md) — `BRIEF.md` — компактные правила ведения журнала | resolved | [Q57](Q57.md), [Q59](Q59.md), [Q60](Q60.md) |
-| [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | [D63](../decisions/D63-journal-index-lifecycle.md) — единая таблица жизненного цикла; каталоги Q/D без дублей | resolved | [Q60](Q60.md), [Q58](Q58.md) |
-| [Q60](Q60.md) | тест целостности журнала | [D64](../decisions/D64-journal-integrity-test.md) — `tests/docs_journal.rs`: ID, парность, таблицы, запреты; v0.1 | resolved | [Q59](Q59.md), [Q57](Q57.md); [T-18](../tasks/T-18-docs-journal-test/README.md) |
-| [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | [D65](../decisions/D65-reference-policy.md) — «ссылка, не копия»; «время жизни адреса» (без mail/state/analysis) | resolved | [Q59](Q59.md), [Q58](Q58.md) |
+| Q | Тема | D |
+|---|---|---|
+| [Q1](Q1.md) | SPEC — план «с нуля» или доработка `credo2`? | [D15](../decisions/D15-evolution-credo2.md) |
+| [Q2](Q2.md) | где канонический DSL: `concept.md`, SPEC или features? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) |
+| [Q3](Q3.md) | минимальный DSL (regex, одно сравнение) или полноценный лексер/AST? | [D16](../decisions/D16-dsl-canon-regex-mvp.md) |
+| [Q4](Q4.md) | `Приоритет` входит в MVP? | [D17](../decisions/D17-priority-out-of-mvp.md) |
+| [Q5](Q5.md) | единая легенда статусов и приоритетов? | [D19](../decisions/D19-statuses-priorities-canon.md) |
+| [Q6](Q6.md) | пересчитать сводную таблицу SPEC §6.1? | [D19](../decisions/D19-statuses-priorities-canon.md) |
+| [Q7](Q7.md) | §11 не содержит терминов, которыми оперируют фичи (`check`, `active`, `service_hash`, …)? | [D52](../decisions/D52-glossary-terms-canon.md) |
+| [Q8](Q8.md) | отсутствующее поле: ошибка или `0`? | [D21](../decisions/D21-core-semantics-v01.md) |
+| [Q9](Q9.md) | типизация и сравнение чисел | [D21](../decisions/D21-core-semantics-v01.md) |
+| [Q10](Q10.md) | словарь решений и «не сработало» | [D21](../decisions/D21-core-semantics-v01.md) |
+| [Q11](Q11.md) | язык сообщений об ошибках: русский для человекочитаемого, латиница для машинного? | [D53](../decisions/D53-error-messages-language.md) |
+| [Q12](Q12.md) | единственный источник истины: `.dar`-файлы или песочница+JSON? | [D54](../decisions/D54-source-of-truth-flow.md) |
+| [Q13](Q13.md) | что именно публикуется и по какому пути? | [D14](../decisions/D14-published-artifact-canon.md) |
+| [Q14](Q14.md) | имя ветки публикации | [D55](../decisions/D55-publish-branch-name.md) |
+| [Q15](Q15.md) | кто и как мержит ветку в `main`? | [D56](../decisions/D56-merge-step.md) |
+| [Q16](Q16.md) | публикация без теста и контрольная сумма | [D32](../decisions/D32-test-gate-mvp.md) |
+| [Q17](Q17.md) | иммутабельность: файловая система или bare-git? | [D57](../decisions/D57-bare-git-immutability.md) |
+| [Q18](Q18.md) | сортировка pre-release и build-метаданные | [D35](../decisions/D35-semver-v01.md) |
+| [Q19](Q19.md) | где живут данные: `.credo/` и `.dar-notebook/`? | [D58](../decisions/D58-workspace-data-dirs.md) |
+| [Q20](Q20.md) | канонические пути REST | [D22](../decisions/D22-rest-paths-canon.md) |
+| [Q21](Q21.md) | схема ответа `GET /checks` | [D23](../decisions/D23-get-checks-manifest.md) |
+| [Q22](Q22.md) | аутентификация REST — заголовок | [D26](../decisions/D26-rest-auth-x-api-key.md) |
+| [Q23](Q23.md) | формат ошибок REST | [D25](../decisions/D25-rest-error-envelope.md) |
+| [Q24](Q24.md) | массовый прогон (batch): отложен | [D36](../decisions/D36-batch-deferred.md) |
+| [Q25](Q25.md) | объяснение для клиента: отложено | [D37](../decisions/D37-client-explanation-deferred.md) |
+| [Q26](Q26.md) | импорт/экспорт `.dar`: контракт | [D24](../decisions/D24-import-export-deferred.md) |
+| [Q27](Q27.md) | порт REST и запуск сервера | [D27](../decisions/D27-rest-launch-address.md) |
+| [Q28](Q28.md) | параметры `check.create` | [D31](../decisions/D31-check-create-contract.md) |
+| [Q29](Q29.md) | ответы `check.test`/`check.list_published`/`check.deprecate`: контракты MCP-инструментов | [D34](../decisions/D34-mcp-tool-contracts.md) |
+| [Q30](Q30.md) | транспорт MCP в Notebook: локальный sidecar или общий сервер | [D29](../decisions/D29-notebook-mcp-transport.md) |
+| [Q31](Q31.md) | где живёт чат агента? | [D12](../decisions/D12-agent-chat-panel.md) |
+| [Q32](Q32.md) | два git-репозитория и мультиверсионность | [D28](../decisions/D28-two-git-contours.md) |
+| [Q33](Q33.md) | чем исполняется правило в редакторе? | [D30](../decisions/D30-execution-mechanism.md) |
+| [Q34](Q34.md) | тесты: внутри `.dar` или в `.dar-notebook/`? | [D32](../decisions/D32-test-gate-mvp.md) |
+| [Q35](Q35.md) | что создаёт новый workspace и какой шаблон получает новое правило? | [D59](../decisions/D59-workspace-templates.md) |
+| [Q36](Q36.md) | конвейеры: несколько правил в одном файле? | [D18](../decisions/D18-pipelines-out-lsp-mvp.md) |
+| [Q37](Q37.md) | реестр полей и типов для автодополнения | [D33](../decisions/D33-fields-registry-source.md) |
+| [Q38](Q38.md) | состав LSP сверх SPEC | [D18](../decisions/D18-pipelines-out-lsp-mvp.md) |
+| [Q39](Q39.md) | поведение при падении LSP | [D6](../decisions/D6-lsp-degradation.md) |
+| [Q40](Q40.md) | исполняемые ли Gherkin-сценарии | [D20](../decisions/D20-features-docs-dod.md) |
+| [Q41](Q41.md) | владелец и синхронизация документов | [D60](../decisions/D60-docs-ownership-sync.md) |
+| [Q42](Q42.md) | каноническая схема объяснения и язык полей | [D21](../decisions/D21-core-semantics-v01.md) |
+| [Q43](Q43.md) | каким должен быть цикл работы команды агентов? | [D38](../decisions/D38-agent-cycle.md) |
+| [Q44](Q44.md) | как разгрузить `lead` и сделать цикл durable? | [D39](../decisions/D39-loop-dispatcher.md) |
+| [Q45](Q45.md) | какой порог scope-решения в цикле диспетчера? | [D40](../decisions/D40-scope-threshold.md) |
+| [Q46](Q46.md) | какие уточнения канона цикла нужны по итогам Run 3? | [D41](../decisions/D41-dispatch-refinements.md) |
+| [Q47](Q47.md) | как формулировать `expect` и нумеровать участки, если `iteration` — rework-цикл? | [D42](../decisions/D42-expect-iteration.md) |
+| [Q48](Q48.md) | как `auditor` фиксирует отчёт в ленте при правах только на память? | [D43](../decisions/D43-auditor-mail.md) |
+| [Q49](Q49.md) | что делать при расхождении брифа с каноном и при затыке, каких запасов `steps` требуют роли и как работать со срезом и лентами? | [D44](../decisions/D44-run5-refinements.md) |
+| [Q50](Q50.md) | что закрепляем из волны 0 и каким должен быть конфиг-пакет качества? | [D45](../decisions/D45-wave0-quality-config.md) |
+| [Q51](Q51.md) | как разделять продуктовые и процессные коммиты и как коммитить состояние? | [D46](../decisions/D46-product-process-commits.md) |
+| [Q52](Q52.md) | как завершать ветку при устаревшем upstream, что с `git -C` и где хеши closeout? | [D47](../decisions/D47-git-refinements-run5.md) |
+| [Q53](Q53.md) | кто ведёт реестр находок, если инструкции адресуют его `migrator`, а права не покрывают `docs/analysis/**`? | [D48](../decisions/D48-findings-registry-owner.md) |
+| [Q54](Q54.md) | чем `validator` подтверждает вхождение коммита в историю ветки при приёмке? | [D49](../decisions/D49-validator-branch-contains.md) |
+| [Q55](Q55.md) | обязателен ли cargo-прогон `validator` для пакетов без изменений кода? | [D50](../decisions/D50-dod-by-package-scope.md) |
+| [Q56](Q56.md) | какими инструментами роли экономят токены при проверках (подсчёт строк; машинная сверка прав)? | [D51](../decisions/D51-agent-tools-token-hygiene.md) |
+| [Q57](Q57.md) | судьба архива `OPEN_QUESTIONS.md` после завершения миграции | [D61](../decisions/D61-archive-removal.md) |
+| [Q58](Q58.md) | роль и структура `BRIEF.md` после завершения миграции | [D62](../decisions/D62-brief-journal-rules.md) |
+| [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | [D63](../decisions/D63-journal-index-lifecycle.md) |
+| [Q60](Q60.md) | тест целостности журнала | [D64](../decisions/D64-journal-integrity-test.md) |
+| [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | [D65](../decisions/D65-reference-policy.md) |

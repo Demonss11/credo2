@@ -537,3 +537,27 @@
   → коммит → `status -sb` (ahead 1) → `push origin develop` (таймаут ≥ 5 мин;
   публикует новый коммит поверх `04cd7bf`). Хеш — не здесь (F43): вернуть `lead`
   ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-docs-hygiene` финал (исполнение D61–D65 + служебная
+  зона; прямо в `develop`, подтверждение владельца (одно, `question`, 29.09.2026) —
+  дословно «Коммит + push»; лента `.opencode/mail/service-docs-hygiene.md`).
+  Снимок до: 83 `M` + 1 `D` + 1 `??` = **85** путей в дереве, совпал с ожиданием;
+  посторонних/пропавших нет; единственное удаление — `docs/OPEN_QUESTIONS.md`,
+  единственный новый — `docs/reviews/docs-hygiene-exec-2026-09-29.md`; база HEAD
+  `6ff997b`, `develop` = `origin/develop` (синхрон); коммита с темой нет (`--all`
+  по `D61`/`гигиена docs` — только исторические `6ff997b` (решения) и `04cd7bf`
+  (шаг 1); `переписан`/`исполнение` — пусто). 86-й — чекпойнт `git.md` (этот) +
+  отчёт в ленте (до `add`). Состав (86 = 85 дерева + `memory/git.md`): 83 `M`
+  (в т.ч. `AGENTS.md`, `.opencode/rules/workspace.md`,
+  `.opencode/agents/{docs-writer,migrator,validator}.md`,
+  `docs/{BRIEF,CHANGELOG,GRAMMAR,README,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D17,D49,D50,D51,D60,D61,D64,D65,README}.md`,
+  `docs/questions/{Q1..Q42,Q54..Q61,README}.md`, `docs/features/README.md`,
+  `docs/tasks/{README,T-16-stale-check-test,T-18-docs-journal-test}/README.md`,
+  `docs/analysis/findings-registry.md`, лента, памяти ролей, `state/current/receipts.yaml`);
+  1 `D` — `docs/OPEN_QUESTIONS.md`; 1 `A` — `docs/reviews/docs-hygiene-exec-2026-09-29.md`
+  (+`M` `memory/git.md` → staged 84 `M` + 1 `D` + 1 `A` = 86). Сообщение —
+  `docs(D61–D65): исполнение гигиены docs — архив удалён, BRIEF переписан,
+  индекс/ссылки, служебная зона`. Осталось: `add` 86 → сверка staged (ровно 86) →
+  коммит → `status -sb` (ahead 1) → `push origin develop` (таймаут ≥ 5 мин;
+  публикует новый коммит поверх `6ff997b`). Хеш — не здесь (F43): вернуть `lead`
+  ответом. Веток/merge/тегов нет.

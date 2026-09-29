@@ -350,7 +350,7 @@
   (документная, задач не требуется); статусы и счётчики `features/README.md`
   (47/278) не меняются.
 - **Чистка документации: заведены вопросы Q57–Q61** (2026-09-29, операция
-  [`service-docs-hygiene`](../.opencode/mail/service-docs-hygiene.md); без
+  `service-docs-hygiene` (`.opencode/mail/**`); без
   решений — их ещё нет): открытые записи журнала о гигиене `docs/` после
   завершения миграции Q/D. **Q57** — судьба архива `OPEN_QUESTIONS.md` и ссылок
   на него (удаление по критерию `BRIEF.md` §7, ссылки в Q-файлах без URL,
@@ -362,7 +362,7 @@
   («ссылка, не копия»). Вопросы — [`questions/Q57.md`](questions/Q57.md)…
   [`Q61.md`](questions/Q61.md); решения — после разведки дублей (`auditor`).
 - **Решения D61–D65: гигиена `docs`** (2026-09-29, операция
-  [`service-docs-hygiene`](../.opencode/mail/service-docs-hygiene.md); оформлены
+  `service-docs-hygiene` (`.opencode/mail/**`); оформлены
   `migrator`, исполнение — следующая волна): **D61 (Q57)** — архив
   `OPEN_QUESTIONS.md` удаляется; ссылки и шапки переводятся
   на журнал, служебная зона (`.opencode/agents/**`) — по протоколу. **D62 (Q58)**
@@ -383,6 +383,32 @@
   [`D64-journal-integrity-test.md`](decisions/D64-journal-integrity-test.md),
   [`D65-reference-policy.md`](decisions/D65-reference-policy.md). Статусы и
   счётчики `features/README.md` (47/278) не меняются.
+- **Исполнение D61–D65: гигиена `docs`** (2026-09-29, операция
+  `service-docs-hygiene` (`.opencode/mail/**`); исполнение — `docs-writer`):
+  **D61 (Q57)** — архив `OPEN_QUESTIONS.md` удалён; в 42 Q-файлах поле
+  «Перенос» — текстом без ссылок; живые шапки (`SPECIFICATION.md` §10,
+  `AGENTS.md`, `docs/README.md`, `features/README.md`, `GRAMMAR.md`,
+  `tasks/README.md`, `questions/README.md`, `decisions/README.md`,
+  [`TRACEABILITY.md`](TRACEABILITY.md), карточка
+  [`T-16`](tasks/T-16-stale-check-test/README.md)) переведены на журнал; мёртвые
+  права и шаг архива у `migrator`/`docs-writer` сняты (служебная зона — по
+  протоколу, аудит `auditor`). **D63 (Q59)** — [`TRACEABILITY.md`](TRACEABILITY.md):
+  формат `Q | D | Жизненный цикл | Задачи | Реализация` (жизненный цикл:
+  `resolved` / `in work` / `done`; статусы задач — из реестра; таблица —
+  представление); каталоги [`questions/README.md`](questions/README.md) и
+  [`decisions/README.md`](decisions/README.md) — без дублей полей (61/54 строки).
+  **D62 (Q58)** — [`BRIEF.md`](BRIEF.md) переписан компактно (304 строки, −23%;
+  без миграционных разделов; §7 «Целостность журнала» → тест D64/
+  [`T-18`](tasks/T-18-docs-journal-test/README.md)); карта `docs/README.md`
+  обновлена (миграция завершена). **D65 (Q61)** — ссылки канона на
+  `.opencode/mail/**` сняты (Q54–Q61, D49–D51, `questions/README`; в CHANGELOG —
+  текстом); правило «время жизни адреса» зафиксировано; `F47`/`F48` в реестре
+  находок закрыты. Ссылки: [`BRIEF.md`](BRIEF.md),
+  [`TRACEABILITY.md`](TRACEABILITY.md),
+  [`decisions/D61-archive-removal.md`](decisions/D61-archive-removal.md)…
+  [`D65`](decisions/D65-reference-policy.md); статусы и счётчики
+  `features/README.md` (47/278) не менялись; `cargo` не запускался (D50 —
+  документная волна).
 
 ### Процесс
 

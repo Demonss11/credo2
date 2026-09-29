@@ -9,9 +9,8 @@
 ```
 docs/
   README.md          # этот файл: карта и каноны
-  BRIEF.md           # процесс журнала Q/D: ID, шаблоны, рецепты, миграция
-  TRACEABILITY.md    # связи Q → D → feature
-  OPEN_QUESTIONS.md  # архив: очередь миграции (перенесённые — указателями)
+  BRIEF.md           # процесс журнала Q/D: структура, ID, шаблоны, рецепты, целостность
+  TRACEABILITY.md    # связи и жизненный цикл Q → D → задача → реализация
   SPECIFICATION.md   # целевая архитектура; §10 — краткие формулировки решений
   GRAMMAR.md         # язык v0.1 (EBNF включён)
   CHANGELOG.md       # хронология прототипа
@@ -51,15 +50,13 @@ docs/
 | Понять, что и как реализовано | [`features/README.md`](features/README.md) |
 | Взять задачу по коду | [`tasks/README.md`](tasks/README.md) |
 | Понять, кто из команды агентов что делает | [`../AGENTS.md`](../AGENTS.md) §Рабочая группа агентов |
-| Проверить требования тестом | `cargo test --all` в `prototypes/credo2`; прогон выполняет `validator` |
+| Проверить требования и DoD | [`../AGENTS.md`](../AGENTS.md) §Сборка; процесс приёмки — [`.opencode/rules/dispatch-loop.md`](../.opencode/rules/dispatch-loop.md) |
 
-## Состояние миграции
+## Журнал и связи
 
-`OPEN_QUESTIONS.md` (42 записи) разбирается на отдельные файлы. Пилот — **Q1**
-(2026-09-26): [`questions/Q1.md`](questions/Q1.md) +
-[`decisions/D15-evolution-credo2.md`](decisions/D15-evolution-credo2.md).
-Каждый перенос сопровождается сверкой решения с кодом и решением «нужна ли
-задача» ([`BRIEF.md`](BRIEF.md) §5.3); миграция идёт блоками параллельно
-кодингу — интерфейс потоков — [`tasks/`](tasks/README.md) ([`BRIEF.md`](BRIEF.md) §8).
-Прогресс — в [`TRACEABILITY.md`](TRACEABILITY.md); процедура —
-[`BRIEF.md`](BRIEF.md) §7.
+Журнал Q/D — единственный источник контекста решений: [`questions/`](questions/)
+(Q → D) и [`decisions/`](decisions/) (D → контекст); связи и жизненный цикл —
+[`TRACEABILITY.md`](TRACEABILITY.md)
+([D63](decisions/D63-journal-index-lifecycle.md)). Миграция архива завершена
+([D61](decisions/D61-archive-removal.md)); правила ведения журнала —
+[`BRIEF.md`](BRIEF.md).

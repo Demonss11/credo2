@@ -28,7 +28,7 @@
   `cargo clippy …`, `cargo test --all`) без оговорки про docs-пакеты.
 
 Полный контекст — [Q55](../questions/Q55.md), лента
-[`service-dod-scope.md`](../../.opencode/mail/service-dod-scope.md).
+`service-dod-scope.md` (`.opencode/mail/**`).
 
 ## Решение
 
@@ -84,7 +84,7 @@
 (стр. 87: «счётчики … согласованы с тестом `features_inventory`»),
 [`BRIEF.md`](../BRIEF.md) §5.7 (DoD без оговорки про docs-пакеты); факты
 прогонов — лента
-[`service-dod-scope.md`](../../.opencode/mail/service-dod-scope.md).
+`service-dod-scope.md` (`.opencode/mail/**`).
 Уточнение при аудите (29.09.2026): перечень состава пакета в `review.md`
 §«Порог существенности» (стр. 29, 35), `validator.md` (стр. 87–89) и
 `BRIEF.md` §5.7 (стр. 253) включает `Cargo.toml` — расхождение снято.
@@ -112,6 +112,6 @@
 - Вопрос: [Q55](../questions/Q55.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №50
 - Основание: лента
-  [`service-dod-scope.md`](../../.opencode/mail/service-dod-scope.md);
+  `service-dod-scope.md` (`.opencode/mail/**`);
   наблюдение владельца 29.09.2026
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

@@ -66,5 +66,5 @@ dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/righ
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №49
 - Основание: [`T-11-closeout-2026-09-28.md`](../reviews/T-11-closeout-2026-09-28.md)
   п. 4; [`rights-matching-2026-09-27.md`](../analysis/rights-matching-2026-09-27.md)
-  §5; лента [`service-t11-closeout.md`](../../.opencode/mail/service-t11-closeout.md)
+  §5; лента `service-t11-closeout.md` (`.opencode/mail/**`)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

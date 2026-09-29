@@ -14,8 +14,8 @@
 ## Контекст
 
 Целостность журнала Q/D проверяется ручными свипами, а `P3`-дрейф номеров строк
-между прогонами ловится глазами ([`../../BRIEF.md`](../../BRIEF.md) §9 обещает
-тест `tests/docs_journal.rs`; критерий §7 требует «тест целостности добавлен»).
+между прогонами ловится глазами ([`../../BRIEF.md`](../../BRIEF.md) §7 обещает
+тест `tests/docs_journal.rs`; критерий §7 (историч.; выполнен D61) требует «тест целостности добавлен»).
 Решение [D64](../../decisions/D64-journal-integrity-test.md) закрепляет
 машинную проверку по образцу
 [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs).
@@ -34,8 +34,9 @@
   жизненный цикл — из словаря
   [D63](../../decisions/D63-journal-index-lifecycle.md)); запреты — номера
   строк, миграционные маркеры («ожидает переноса», `OPEN_QUESTIONS.md`, «до
-  конца миграции»), ссылки канона на `.opencode/mail/**`, `.opencode/state/**`,
-  `docs/analysis/**` ([D65](../../decisions/D65-reference-policy.md));
+  конца миграции»), ссылки канона на удаляемые/сессионные данные
+  (`.opencode/mail/**`, `.opencode/state/**`) ([D65](../../decisions/D65-reference-policy.md));
+  `docs/analysis/**` — допустим (провенанс);
   исключение (whitelisted) — [`findings-registry.md`](../../analysis/findings-registry.md)
   (живой реестр находок, владелец `migrator`, [D48](../../decisions/D48-findings-registry-owner.md));
 - **v0.2:** полный link-check относительных ссылок журнала (вне исторических зон
