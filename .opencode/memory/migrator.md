@@ -619,4 +619,25 @@
   «§10, решение №30» (краткий канон, не менялся). `cargo` не запускался (D50);
   границы — D30 + лента + память. Отчёт — та же лента (секция «P3»); коммит — за
   `git`.
+- 2026-09-29 · service-migration-q32 (блок «Git-контур», **Q32 → D28**, готово):
+  перенос `docs/decisions/D28-two-git-contours.md` (`Resolves: [Q32]`; слаг
+  `D28-two-git-contours`; `Tasks: T-06`). Создан `docs/questions/Q32.md`
+  (2026-09-26, 🟡 важно; «Перенос: 2026-09-29, блок «Git-контур», Q32»;
+  «Связано» — живые Q13/Q15/Q16/Q17/Q18/Q20/Q22/Q33 + D28 + T-06 + 8 фич).
+  §10 №28 (`:851`) — `Q32 (полный контекст — [D28](decisions/D28-two-git-contours.md)):`;
+  сводки: D28 в `decisions/README.md:40` (между D27 и D29), parenthetical `:18`
+  → «(Q34–Q41)»; Q32 в `TRACEABILITY.md:39` и `questions/README.md:56`.
+  Архив `OPEN_QUESTIONS.md:219` → указатель («блок «Git-контур» (Q32)»). Свип
+  Q32: `D31:151` → «Q34+ — ожидают переноса»; `D24:84–85/:115–116`,
+  `D29:107–108`, `D30:138–139`, `D35:113`, `D54:133`, `D55:88–89`, `D56:121`,
+  `D57:126`; Q12/Q13/Q14/Q15/Q17/Q18/Q26/Q30/Q33; `questions/README.md`
+  `:37,:39,:41,:42,:50,:54`. **Сверх списка (по контрольному `rg`) поправлены
+  `D14:50` и `D14:148`** — Q32 там был под маркером. Сверка §5.3 — 🟡: плоский
+  путь `src/lib.rs:342/:383/:462/:317`, `list_from_ref :241–248`; MCP
+  `src/mcp.rs` publish/deprecate/list_published; REST-шаблон `src/rest.rs:25–29`
+  (канон Q20); тесты пути нет → [T-06]; UI — целевое Notebook. `cargo` не
+  запускался (D50); `features/**`/`CHANGELOG`/`src`/`tests`/`tasks`/`reviews`/
+  `analysis` не трогал. Отчёт — `.opencode/mail/service-migration-q32.md`;
+  коммит — за `git`. Далее: `docs-writer` (шапки 8 фич + `features/README.md` +
+  CHANGELOG) → `validator`.
 

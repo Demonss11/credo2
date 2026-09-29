@@ -95,7 +95,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 | [`immutability.feature`](immutability.feature) | Иммутабельность | 4 | 🟡 | 🟡 | Повторная публикация той же версии (`publish_failed`) и при существующей ветке (`create_ref` без перезаписи); параллельная публикация — один победитель; новая версия не изменяет старые артефакты (Q17); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 5 | 🟡 | 🔴 | Версия = путь `checks/{name}/{X}/{Y}/{Z}/` (`rule.json`, `contract.json`, `meta.json`); раскладка semver (Q32) |
 
-> **Решение Q32 (2026-09-26):** структура реестра публикаций —
+> **Решение Q32 (2026-09-26; [Q32](../questions/Q32.md), [D28](../decisions/D28-two-git-contours.md)):** структура реестра публикаций —
 > `checks/{name}/{X}/{Y}/{Z}/` (X = major, Y = minor, Z = patch).
 > Публичный REST сохраняет канон Q20
 > (`/checks/{name}/versions/{version}/evaluate`); сервер внутренне маппит
@@ -216,7 +216,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > режиме «только MCP» (Q27). `published-repo` локален; HTTP+SSE и внешний
 > сервер — вне MVP (v0.2+, multi-user).
 
-> **Решение Q32 (2026-09-26):** git-панель Notebook работает только с
+> **Решение Q32 (2026-09-26; [Q32](../questions/Q32.md), [D28](../decisions/D28-two-git-contours.md)):** git-панель Notebook работает только с
 > workspace-репозиторием; репозиторий публикаций — внутренняя деталь
 > сервера, виден read-only в панели «Версии» (манифест /
 > `check.list_published`). Переключение версий — выпадающий список в

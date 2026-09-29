@@ -110,7 +110,7 @@ pre-release (`rc2`/`rc10`) как текущее, `core.rs` уже сравни�
 - Вопрос: [Q18](../questions/Q18.md)
 - Связанные: [Q13](../questions/Q13.md) (артефакт публикации, путь),
   [Q16](../questions/Q16.md) (гейт публикации); [Q29](../questions/Q29.md);
-  Q32 (ожидает переноса)
+  [Q32](../questions/Q32.md)
 - Задачи: — (см. «Сверка с кодом»); known-покрытие —
   [T-05](../tasks/T-05-mcp-success-schemas/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №35

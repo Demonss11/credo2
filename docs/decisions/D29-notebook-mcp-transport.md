@@ -104,8 +104,8 @@ Notebook. Требования `features/*.feature` не переписываю�
 - Вопрос: [Q30](../questions/Q30.md)
 - Связанные: [Q27](../questions/Q27.md) (запуск и адрес REST; режим «только
   MCP» — [D27](D27-rest-launch-address.md)); [Q12](../questions/Q12.md)
-  ([D54](D54-source-of-truth-flow.md)); Q32 (локальность workspace/published-repo)
-  — ожидает переноса
+  ([D54](D54-source-of-truth-flow.md)); [Q32](../questions/Q32.md)
+  (локальность workspace/published-repo)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №29;
   §2.2 (`:134`), §2.3 (`:178`, `:182–187`), §4.1 (`:267–270`), §4.2 (`:303–317`)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

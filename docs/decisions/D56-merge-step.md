@@ -118,7 +118,7 @@ CAS-обновления `main` и удаления ветки.
 - Связанные: [Q14](../questions/Q14.md) (имя ветки),
   [Q13](../questions/Q13.md) (артефакт), [Q12](../questions/Q12.md)
   (источник истины); [Q30](../questions/Q30.md) (транспорт MCP в Notebook),
-  Q32 (опубликованный репозиторий) — ожидает переноса
+  [Q32](../questions/Q32.md) (опубликованный репозиторий)
 - Задача: [T-17](../tasks/T-17-merge-command/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №56;
   §7

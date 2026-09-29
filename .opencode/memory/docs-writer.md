@@ -195,3 +195,28 @@
   записи живые (glob 11/11). T-08/T-09 не трогал (обе ⬜). `cargo`/git не
   запускались (D50); журнал/SPEC/`TRACEABILITY`/tasks/`decisions/**`/`src`/`tests`
   не трогал. Остаток: приёмка `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-migration-q32` · сопутствующие к переносу
+  Q32 → D28 («Git-контур», слаг `D28-two-git-contours`): обратные ссылки
+  `# D28 (Q32): …` (BRIEF §5.6 п.2) в шапках **8 фич** (по одной строке, в конец
+  шапочного блока, до `Функция:`) — `storage_paths.feature:10`,
+  `git_integration.feature:8`, `agent_minimal.feature:16`, `publish.feature:17`,
+  `publish_rules.feature:5`, `immutability.feature:8`, `deprecation.feature:5`,
+  `mcp_tools.feature:10` (прежние Q-/D-строки сохранены — только добавление;
+  `# D28` в фичах ранее отсутствовал — дублей нет). Темы формулировок: путь
+  реестра `checks/{name}/{X}/{Y}/{Z}/` (storage_paths/publish/publish_rules/
+  immutability/deprecation/mcp_tools), workspace-only git-панель + read-only
+  «Версии» + переключатель версий + хотфикс-линия (git_integration),
+  буфер→черновик→`check.test`, файл — при публикации (agent_minimal),
+  публикация только с новым номером/downgrade запрещён (publish/publish_rules/
+  immutability/mcp_tools), pre-release вне MVP (storage_paths). `features/README.md`
+  — заголовки двух нот Q32 (:98,:219) дополнены `[Q32]`/`[D28]` по прецеденту
+  Q30:213/Q33:229, текст нот не менял; табличные «(Q32)» не трогал.
+  `docs/CHANGELOG.md:247–263` — запись «Перенос Q32 → D28» (после записи
+  Q31/Q33:224–246; три уровня источника правды, сверка 🟡 — путь реестра не
+  реализован, T-06 открыта; статусы фич и счётчики 47/278 не меняются).
+  Проверки: `rg -c "^# D28 \(Q32\)"` = 1 на файл (8/8, без дублей); ссылки
+  живы (glob 3/3 — Q32, D28, T-06); `features/README.md:309` — «47 файлов,
+  278 сценариев» не менялось; numstat моих файлов — только добавления
+  (features 8×1/0, features/README 2/2, CHANGELOG 17/0). T-06 не трогал (⬜).
+  `cargo`/git не запускались (D50); журнал/SPEC/`TRACEABILITY`/tasks/`src`/
+  `tests` не трогал. Остаток: приёмка `validator` (docs) → пакет `git`.

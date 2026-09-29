@@ -2,6 +2,7 @@
 # Q29 (решено 2026-09-26): контракт ответа — SPECIFICATION.md §4.5;
 # reason обязателен и непуст; повторная депрекация — deprecation_conflict.
 # D34 (Q29): ответ check.deprecate — объект со status (доменный "deprecated"), name, version, reason, deprecated_at, service_hash; повторная депрекация — deprecation_conflict
+# D28 (Q32): версия в реестре — путь checks/{name}/{X}/{Y}/{Z}/
 Функция: Deprecation версии
   Как владелец проверки
   Я хочу отозвать версию без удаления данных

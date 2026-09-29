@@ -81,8 +81,8 @@
   [`import_export.feature`](../features/import_export.feature), 5 сценариев,
   статус ⏸, приоритет ⏳, «пост-MVP (Q26)».
 - **Зависимости:** Q12 → [D54](D54-source-of-truth-flow.md), Q13 →
-  [D14](D14-published-artifact-canon.md) закрыты; Q32 (структура реестра) —
-  ожидает переноса.
+  [D14](D14-published-artifact-canon.md) закрыты; [Q32](../questions/Q32.md)
+  (структура реестра).
 
 `cargo` не запускался (§5.3, [D50](D50-dod-by-package-scope.md)): решение не
 меняет код, адресный прогон не требуется (наличие сторож-теста отмечено
@@ -112,8 +112,8 @@ MVP расхождений нет — кода нет и не планирует
 - Вопрос: [Q26](../questions/Q26.md)
 - Связанные: [D54](D54-source-of-truth-flow.md) (источник истины — `.dar`),
   [D14](D14-published-artifact-canon.md) (артефакт публикации),
-  [D22](D22-rest-paths-canon.md) (канон пути, состав REST); Q32 (структура
-  реестра — ожидает переноса)
+  [D22](D22-rest-paths-canon.md) (канон пути, состав REST);
+  [Q32](../questions/Q32.md) (структура реестра)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №24;
   §4.4 (MVP-минимум REST)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

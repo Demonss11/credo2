@@ -370,3 +370,19 @@
   6 A) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует
   `ce9f8d7` и новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом.
   Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q32` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q32.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 39 `M` + 4 `??` =
+  43 пути, совпал; посторонних нет; база HEAD `61d6471`, `develop`, синхрон с
+  `origin/develop`; коммита с целевым сообщением нет. 44 пути: письмо
+  `mail/service-migration-q32.md`, `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D14-published-artifact-canon,D24-import-export-deferred,D28-two-git-contours,D29-notebook-mcp-transport,D30-execution-mechanism,D31-check-create-contract,D35-semver-v01,D54-source-of-truth-flow,D55-publish-branch-name,D56-merge-step,D57-bare-git-immutability,README}.md`,
+  `docs/features/{README.md,agent_minimal,deprecation,git_integration,immutability,mcp_tools,publish,publish_rules,storage_paths}.feature`,
+  `docs/questions/{Q12,Q13,Q14,Q15,Q17,Q18,Q26,Q30,Q32,Q33,README}.md`,
+  `docs/reviews/migration-q32-2026-09-29.md`. Сообщение — `docs(D28): перенос
+  Q32 — Git-контур: реестр X/Y/Z и мультиверсионность`. Осталось: `add` 44 →
+  сверка staged (ровно 44: 40 M + 4 A) → коммит → проверки → `push origin develop`
+  (таймаут ≥ 5 мин; публикует новый коммит). Хеш — не здесь (F43): вернуть
+  `lead` ответом. Веток/merge/тегов нет.

@@ -15,7 +15,7 @@
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
 Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q32, Q34–Q41); при переносе записи получают
+решения ещё не перенесённых вопросов (Q34–Q41); при переносе записи получают
 D-файлы с этими номерами (прецедент — D32/D35).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
@@ -37,6 +37,7 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D25](D25-rest-error-envelope.md) | Формат ошибок REST — конверт `{"error": {"code", "message"}}`; коды `snake_case`, тексты русские | [Q23](../questions/Q23.md) | 2026-09-25 | — | accepted |
 | [D26](D26-rest-auth-x-api-key.md) | Аутентификация REST — заголовок `x-api-key`; `CREDO_API_KEY`/`--api-key`; открытые пути | [Q22](../questions/Q22.md) | 2026-09-25 | — | accepted |
 | [D27](D27-rest-launch-address.md) | Запуск и адрес REST — `127.0.0.1:8080` по умолчанию; REST только по `--rest`/`--addr`, приоритет `--no-rest` > `--addr` > `--rest`; без флагов — «только MCP» | [Q27](../questions/Q27.md) | 2026-09-25 | — | accepted |
+| [D28](D28-two-git-contours.md) | Два git-контура — git-панель Notebook только workspace-репо, реестр публикаций read-only «Версии»; структура реестра `checks/{name}/{X}/{Y}/{Z}/`; мультиверсионность и хотфикс-линии; публикация только с новым номером; pre-release — вне MVP | [Q32](../questions/Q32.md) | 2026-09-26 | [T-06](../tasks/T-06-registry-path-xyz/README.md) | accepted |
 | [D29](D29-notebook-mcp-transport.md) | Транспорт MCP в Notebook — локальный sidecar по stdio (JSON-RPC 2.0), автозапуск; «только MCP»; внешний сервер — v0.2+ | [Q30](../questions/Q30.md) | 2026-09-26 | — | accepted |
 | [D30](D30-execution-mechanism.md) | Единый механизм исполнения из редактора — MCP `check.test` на черновике (draft-first); локального исполнения (`dar-core`) нет; `check.run` — [T-09](../tasks/T-09-check-run/README.md), материализация `.dar` — [T-08](../tasks/T-08-materialize-source-file/README.md) | [Q33](../questions/Q33.md) | 2026-09-26 | [T-08](../tasks/T-08-materialize-source-file/README.md), [T-09](../tasks/T-09-check-run/README.md) | accepted |
 | [D31](D31-check-create-contract.md) | Контракт `check.create` — `{name, source}` (оба обязательны); имя — из заголовка; «сохранить = обновить»; ответ `{status, name}` | [Q28](../questions/Q28.md) | 2026-09-26 | [T-03](../tasks/T-03-check-create/README.md) (сделана) | accepted |

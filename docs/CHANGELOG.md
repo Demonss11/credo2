@@ -244,6 +244,23 @@
   🟡 (Q33: `check.test`/draft-first соответствуют; `check.run` — T-09,
   материализация `rules/{name}.dar` — T-08, обе открыты); статусы и счётчики
   `features/README.md` (47/278) не меняются.
+- **Перенос Q32 → D28** (миграция журнала, 29.09.2026): «Git-контур» — три
+  уровня источника правды (буфер → черновик → `check.test`; `rules/*.dar` →
+  git-операции; опубликованная версия → `check.run` «как в проде»); git-панель
+  Notebook — только workspace-репозиторий, published-repo — внутренняя деталь
+  (read-only «Версии»); переключатель версий из тулбара; публикация только с
+  новым номером (downgrade/переопубликация запрещены), хотфикс-линии;
+  структура реестра — `checks/{name}/{X}/{Y}/{Z}/`; pre-release — вне MVP;
+  вопрос — [`questions/Q32.md`](questions/Q32.md), решение —
+  [`decisions/D28-two-git-contours.md`](decisions/D28-two-git-contours.md).
+  Шапочные пометки `# D28 (Q32)` добавлены в затронутые фичи
+  (`storage_paths`/`git_integration`/`agent_minimal`/`publish`/`publish_rules`/
+  `immutability`/`deprecation`/`mcp_tools`); две заметки Q32 в
+  [`features/README.md`](features/README.md) — со ссылками на Q/D. Сверка с
+  кодом — 🟡 (путь реестра не реализован: в коде плоский
+  `checks/{name}/{version}` вместо `checks/{name}/{X}/{Y}/{Z}/`, покрыто
+  [`T-06`](tasks/T-06-registry-path-xyz/README.md), открыта); статусы фич и
+  счётчики `features/README.md` (47/278) не меняются.
 
 ### Процесс
 

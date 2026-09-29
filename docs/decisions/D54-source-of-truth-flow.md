@@ -130,7 +130,7 @@ SPEC объявлял «файл на диске — источник истин
 - Связанные: [Q13](../questions/Q13.md) (артефакт публикации),
   [Q15](../questions/Q15.md) (merge в `main`); [Q29](../questions/Q29.md)
   (контракт черновика); [Q30](../questions/Q30.md) (транспорт MCP в Notebook);
-  [Q33](../questions/Q33.md) (draft-first); Q32 (три уровня истины) — ожидает переноса
+  [Q33](../questions/Q33.md) (draft-first); [Q32](../questions/Q32.md) (три уровня истины)
 - Задачи: [T-16](../tasks/T-16-stale-check-test/README.md),
   [T-08](../tasks/T-08-materialize-source-file/README.md),
   [T-01](../tasks/T-01-draft-source-hash/README.md) (сделана)

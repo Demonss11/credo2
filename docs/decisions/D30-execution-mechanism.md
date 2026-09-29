@@ -135,8 +135,8 @@ draft-first, отсутствие локального исполнения) с�
 - Вопрос: [Q33](../questions/Q33.md)
 - Связанные: [Q31](../questions/Q31.md)
   ([D12](D12-agent-chat-panel.md) — чат и инлайн-результаты); [Q12](../questions/Q12.md)
-  ([D54](D54-source-of-truth-flow.md) — источник истины, draft-first); Q32 (три
-  уровня источника правды) — ожидает переноса
+  ([D54](D54-source-of-truth-flow.md) — источник истины, draft-first);
+  [Q32](../questions/Q32.md) (три уровня источника правды)
 - Задачи: [T-08](../tasks/T-08-materialize-source-file/README.md),
   [T-09](../tasks/T-09-check-run/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №30;
