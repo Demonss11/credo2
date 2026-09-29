@@ -223,3 +223,29 @@
     p3: "OPEN_QUESTIONS.md:66 pointer lacks topic/date vs neighbours Q4:46/Q5:51/Q6:60 — one-line migrator fix (BRIEF §7 literal form satisfied, non-blocker)"
   snapshot: "develop, HEAD 5883a17 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q8q10q42
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q8q10q42-2026-09-29.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (git diff --name-only -- src tests Cargo.toml empty); features exception not triggered — docs/features/** edits are header comments only (5 files x 3 added lines, 0 deletions), no scenario line touched; counters/composition unchanged: 278 scenario lines / 47 files = features/README.md:303"
+    journal: "ok — only 4 pointers in archive (OPEN_QUESTIONS.md:75-88,137-140; no full texts, Q11 block untouched); D21 = SPEC §10 №21 (:842, row pre-existing, link appended, diff 1 line); Resolves: Q8, Q9, Q10, Q42; Спека/Affects filled; Tasks: — + explicit 'Задач не требуется' (:151); code-check ✅ + facts verified (core.rs:97 UnknownField, :100 TypeMismatch, :138 condition, :146 condition_to_string, :581 no priority, :201/:601 no \"Pass\"; tests q8/q9/q10/q42 at :507-604); errors.feature nuance (parser, v0.2) fixed (:139-145), out of MVP scope; Q↔D21↔TRACEABILITY:15-18↔questions/README:32-35↔§10 №21 consistent; dates 2026-09-24 kept; slug unique"
+    features_headers: "ok — exactly 5 '# D21 (Q8–Q10, Q42)' (errors:2-4, explain:2-4, explain_full:2-4, execution:4-6, test_draft:7-9); comment-only diff"
+    borders: "ok — 12 M + 6 ??; docs/** + 2 memories only; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended"
+    links: "fail — 6 dead relative links to unmigrated questions: Q8.md:57 and Q42.md:54 → [Q11](Q11.md); Q10.md:11,62 → [Q36](Q36.md)–[Q39](Q39.md); docs/questions has 26 files, Q11–Q41 not migrated; neighbour convention is plain ID text (Q7.md:11)"
+    p1: "Q8.md:57, Q42.md:54, Q10.md:11,62 — dead links → migrator removes markdown brackets (as Q7.md:11); review.md 'Что блокер' + BRIEF §5.7/§9"
+  snapshot: "develop, HEAD 8f0c9d9 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q8q10q42
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q8q10q42-2026-09-29-r2.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (git diff --name-only -- src tests Cargo.toml empty); features exception not triggered (docs/features/** unchanged since iteration 1; 278 scenario lines / 47 files = features/README.md:303)"
+    p1_closed: "ok — rg \"Q(11|36|39)\\.md\\)\" docs/questions empty; fixes only in 4 lines: Q8.md:57 'Q11 (ожидает переноса)', Q42.md:54 '(Q11 (ожидает переноса))', Q10.md:11 and :62 'Q36–Q39 (ожидают переноса)' (style = Q7.md:11); remaining matches only in iteration-1 report (validator zone)"
+    package_unchanged: "ok — git diff --stat per-file numbers identical to iteration 1 (CHANGELOG 16, OPEN_QUESTIONS 137, SPECIFICATION 2, TRACEABILITY 4, 5x features 3, questions/README 4); growth only in write zones (memory/validator +33, memory/migrator +9, receipts +14); Q9.md untouched (61 lines); D21 anchors :5/:22/:151 unchanged"
+    borders: "ok — 14 M + 7 ??; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched"
+  snapshot: "develop, HEAD 8f0c9d9 + working tree (2026-09-29)"
+  at: "2026-09-29"

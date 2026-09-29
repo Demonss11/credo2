@@ -178,3 +178,20 @@
   `docs(D52): перенос Q7 — терминологический канон §11`. Осталось: `add` 16 →
   сверка staged (ровно 16) → коммит локально, **без `push`**. Хеш — не здесь
   (F43): вернуть ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q8q10q42` (прямо в `develop`,
+  подтверждение владельца в `.opencode/mail/service-migration-q8q10q42.md`
+  §«пакет подтверждён (сужение: только коммит)» — дословно «Только коммит»;
+  `push` отменён). Снимок до: 15 `M` + 8 `??` = 23 пути, совпал; 24-й —
+  чекпойнт `git.md` (этот). База HEAD `8f0c9d9`, `develop`, ahead 1; коммита с
+  целевым сообщением нет. 24 пути: письмо `mail/service-migration-q8q10q42.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/D21-core-semantics-v01.md`,
+  `docs/features/{errors,execution,explain,explain_full,test_draft}.feature`,
+  `docs/questions/{Q8,Q9,Q10,Q42,README}.md`,
+  `docs/reviews/migration-q8q10q42-2026-09-29.md`,
+  `docs/reviews/migration-q8q10q42-2026-09-29-r2.md`. Сообщение —
+  `docs(D21): перенос Q8–Q10, Q42 — семантика ядра v0.1`. Осталось: `add` 24 →
+  сверка staged (ровно 24) → коммит локально, **без `push`**. Хеш — не здесь
+  (F43): вернуть ответом. Веток/merge/тегов нет.

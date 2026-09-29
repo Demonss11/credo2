@@ -189,4 +189,31 @@
   глоссарии (решено 2026-09-26) → перенесён`; тело указателя («Мигрирован …»,
   ссылки на `questions/Q7.md` и `decisions/D52-glossary-terms-canon.md`) не
   трогалось. `cargo`/git не запускались; отчёт — та же лента.
+- 2026-09-29 · service-migration-q8q10q42: перенос связки **Q8, Q9, Q10, Q42 →
+  D21** (`docs/decisions/D21-core-semantics-v01.md`, `Resolves: Q8, Q9, Q10,
+  Q42`, `Спека: §10 №21`). Созданы `docs/questions/Q8.md`, `Q9.md`, `Q10.md`,
+  `Q42.md` (resolved by D21; даты 2026-09-24; приоритеты: Q8/Q9 — 🔴 блокер,
+  Q10/Q42 — 🟡 важно, обоснованы). Указатели в `OPEN_QUESTIONS.md` (блок
+  Q8–Q10, Q42; Q11 не тронут), строки в `TRACEABILITY.md` (4) и
+  `questions/README.md` (4), ссылка «(полный контекст — [D21]…)» в
+  `SPECIFICATION.md` §10 №21 (текст не переписывался; строка №52 не тронута).
+  Сверка — ✅: `src/core.rs` (`EvalError::UnknownField`/`TypeMismatch`,
+  `evaluate_rule -> Result`, `Explanation` c `condition`/без `priority`,
+  `contract_from_rule` без `"Pass"`; тесты `*_q8/*_q9/*_q10/*_q42`),
+  `src/rest.rs` (422 `evaluation_failed`), `src/mcp.rs` (ошибка инструмента),
+  фичи `errors/explain/explain_full/execution/test_draft`, `features/README.md`.
+  Нюанс: сценарий «Несовместимые типы» в `errors.feature` описан на парсере —
+  целевое v0.2 (уже 🟡 в README), задач не заводилось (`Tasks: —`).
+  `features/**`/`CHANGELOG` не трогал (docs-writer). `cargo`/git не
+  запускались; shell одиночные. ID свободны (последние Q56/D52). Отчёт — лента
+  `.opencode/mail/service-migration-q8q10q42.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q8q10q42 (возврат P1, iteration 1): сняты
+  битые markdown-ссылки на непересённые вопросы в новых файлах — `Q8.md:57`
+  `[Q11](Q11.md)` → `Q11 (ожидает переноса)`; `Q42.md:54` → `(Q11 (ожидает
+  переноса))`; `Q10.md:11` и `:62` `[Q36](Q36.md)–[Q39](Q39.md)` → `Q36–Q39
+  (ожидают переноса)`. Конвенция соседей — `Q7.md:11` (ID текстом). Проверка:
+  `rg "Q(11|36|39)\.md\)" docs/questions` пусто (в `docs` остались только
+  цитаты в отчёте приёмки `docs/reviews/migration-q8q10q42-2026-09-29.md`).
+  Решения не переписывались; `cargo`/git не запускались. Отчёт — та же лента;
+  повторная приёмка — `validator` `-r2`.
 

@@ -44,6 +44,22 @@
   обновлена (Q13, [Q7](questions/Q7.md) → [D52](decisions/D52-glossary-terms-canon.md));
   сверка с кодом — документная (⚪), задач не требуется (расхождение
   `meta.json` покрывает [T-07](tasks/T-07-meta-fields/README.md)).
+- **Перенос Q8–Q10, Q42 → D21** (миграция журнала, 29.09.2026): семантика ядра
+  v0.1 — строгие ошибки исполнения (Q8/Q9), словарь решений задаёт банк и
+  «не сработало» — пустые `decision`/`reason` (Q10), канон объяснения —
+  `snake_case` + `condition` (Q42); вопросы — [`questions/Q8.md`](questions/Q8.md),
+  [`Q9.md`](questions/Q9.md), [`Q10.md`](questions/Q10.md),
+  [`Q42.md`](questions/Q42.md), решение —
+  [`decisions/D21-core-semantics-v01.md`](decisions/D21-core-semantics-v01.md);
+  шапочные ссылки D21 добавлены в
+  [`features/errors.feature`](features/errors.feature),
+  [`explain.feature`](features/explain.feature),
+  [`explain_full.feature`](features/explain_full.feature),
+  [`execution.feature`](features/execution.feature),
+  [`test_draft.feature`](features/test_draft.feature); сверка с кодом —
+  ✅ соответствует, задач не требуется (сценарий типов в `errors.feature` —
+  целевое v0.2, статус 🟡; `execution.feature` 🟡 из-за `Приоритет`,
+  [Q4](questions/Q4.md)).
 
 ### Процесс
 
