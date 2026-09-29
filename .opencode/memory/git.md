@@ -441,3 +441,22 @@
   сверка staged (ровно 31) → коммит → `push origin develop` (таймаут ≥ 5 мин;
   публикует новый коммит поверх `681c4b1`). Хеш — не здесь (F43): вернуть `lead`
   ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q37` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q37.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 20 `M` + 4 `??` =
+  24 пути, совпал; посторонних нет; база HEAD `b536df0`, `develop` =
+  `origin/develop` (синхрон); коммита с целевым сообщением нет (`--all` пусто).
+  25-й — чекпойнт `git.md` (этот). Состав: письмо
+  `mail/service-migration-q37.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D18-pipelines-out-lsp-mvp,D31-check-create-contract,D37-client-explanation-deferred,README}.md`,
+  `docs/decisions/D33-fields-registry-source.md` (A),
+  `docs/features/{README.md,lsp.feature,notebook_ui.feature}`,
+  `docs/questions/{Q10,Q25,Q37,Q38,README}.md`,
+  `docs/reviews/migration-q37-2026-09-29.md`. Сообщение —
+  `docs(D33): перенос Q37 — реестр полей: источник схемы — БД, каталог tables/ исключён`.
+  Осталось: `add` 25 → сверка staged (ровно 25: 21 M + 4 A) → коммит →
+  `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит поверх
+  `b536df0`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

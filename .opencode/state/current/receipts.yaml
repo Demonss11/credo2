@@ -564,3 +564,28 @@
     borders: "ok — 24 M + 4 ??; only docs/** journal + 4 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, docs/analysis/**, historical docs/reviews/** not touched"
   snapshot: "develop @ 681c4b1 (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q37
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q37-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D33 (Q37)' comment line each, counters/composition unchanged (47/278 = features/README.md:311)"
+    journal: "ok — new Q37.md + new D33-fields-registry-source.md; Resolves: [Q37] (D33:5); all 6 points + 'Следствие для кода' + 'Обновлено' transferred (archive 43 lines -> Q37.md:50-82 / D33:34-60); Q37:8-9 migration label 'блок «Реестр полей»'; D33 closes D32->D34 numbering gap"
+    affects: "ok — D33:7-16 SPEC §3.3/§4.3/§10 + lsp.feature + notebook_ui.feature + features/README + GRAMMAR.md + external DECISIONS.md; covers archive 'Обновить' and 'Следствия' :62-78; q31q33 P3 lesson not reproduced"
+    dfields: "ok — D33 status accepted, date 2026-09-26, Спека §10 №33; Tasks: — (:17) + 'Задач не требуется' (:125-129) consistent with ⚪ 'Сверка с кодом' (:82), convention D58:58/D59:80; no 'ожидает переноса' about Q37 in new files"
+    special_case: "ok — no new §10 row (№33 existed :856); new D33 closes numbering gap; neighbour rows №32 :855 / №34 :857 intact"
+    spec10: "ok — :856 diff = exactly 1 line; '(Q37; полный контекст — [D33]…)' added; style matches №27/№29; link live"
+    decisions_readme: "ok — 46 table rows (rg -c '^\\| \\[D'), 46 D-files; D33 :46 between D32 :45 and D34 :47; parenthetical :18 = '(Q39–Q41)'; diff 2/1"
+    traceability: "ok — Q37 :44 between Q36 :43 and Q38 :45; Feature = lsp.feature + notebook_ui.feature, Tasks —, resolved; 1/0"
+    questions_readme: "ok — Q37 :61 between Q36 :60 and Q38 :62; sweep Q25 :49 -> live [Q37] (marker removed); 2/1"
+    archive: "ok — git diff -U0 single hunk -250,43 +250,5; pointer :250-254 label 'блок «Реестр полей»', no full text; Q36 :244-248 / Q38 :256-260 pointers intact; Q39 full :262+; order Q35->Q36->Q37->Q38->Q39 kept; numstat 5/43"
+    sweep: "ok — rg 'ожида[ею]т переноса' (outside reviews): subjects only Q39 (D18:135, D31:151, Q10:12/:62, questions/README:46, Q38:13); Q40/Q41 unmarked; Q37 nowhere marked; own records Q22:12/Q38:13; edits D31:151 'Q39+', Q25:15 live, Q10:11/:62 live [Q37], D37:112-113 live [Q37]+closed, D18:135 live [Q37]+Q39 marker, Q38:12-13 live [Q37]; Q36.md clean"
+    features: "ok — exactly 1 '# D33 (Q37)' (lsp.feature:7, prior '# Q37' :3-5 and '# D18 (Q36, Q38)' :6 intact) and 1 (notebook_ui.feature:15, prior '# Q37' :9 / '# D59' :14 intact), each 1/0, no dups; note features/README:249 with live [Q37]/[D33], text not rewritten; counters :311 (47/278) unchanged"
+    client_explanation: "ok — not touched (git status); Q37 there is prose v0.2 dependency (:6), not in D33 Affects -> not addressee"
+    changelog: "ok — 'Перенос Q37 → D33' :304-318 right after Q36/Q38 (:287-303), before '### Процесс' :320; links live"
+    crosslinks: "ok — D33/Q37 mutual + Q9/Q10/Q34/Q36/Q38/D18/D21/D32/D50/GRAMMAR/lsp.feature/notebook_ui.feature/features-README/TRACEABILITY all exist; no broken links; no duplicate IDs"
+    feed: "ok — service-migration-q37.md order opening :25 -> migrator :59 -> docs-writer :93; no orphan/out-of-order fragments; no other mail/** touched"
+    borders: "ok — 18 M + 3 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ b536df0 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
