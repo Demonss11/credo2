@@ -51,6 +51,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-17](T-17-merge-command/README.md) | `credo merge`: слияние ветки публикации в `main` (ancestor-проверка, CAS, удаление ветки) | [D56](../decisions/D56-merge-step.md) (Q15) | P2 | — | ⬜ |
 | [T-14](T-14-grammar-message-sync/README.md) | GRAMMAR: синхронизация цитаты сообщения парсера | [D41](../decisions/D41-dispatch-refinements.md) (Q46) | P2 | T-03 | ⬜ |
 | [T-09](T-09-check-run/README.md) | `check.run` — исполнение опубликованной версии | Q33 | P3 | T-06 | ⬜ |
+| [T-18](T-18-docs-journal-test/README.md) | Тест целостности журнала `tests/docs_journal.rs` (ID, парность, таблицы, запреты) | [D64](../decisions/D64-journal-integrity-test.md) (Q60) | P3 | после D61–D63, D65 | ⬜ |
 
 ## DoD для любой задачи
 

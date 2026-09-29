@@ -78,8 +78,8 @@
 | [Q54](Q54.md) | чем `validator` подтверждает вхождение коммита в историю ветки при приёмке? | [D49](../decisions/D49-validator-branch-contains.md) — право `git branch --contains` (read-only) | resolved | — |
 | [Q55](Q55.md) | обязателен ли cargo-прогон `validator` для пакетов без изменений кода? | [D50](../decisions/D50-dod-by-package-scope.md) — DoD по составу пакета: cargo только при изменениях кода | resolved | — |
 | [Q56](Q56.md) | какими инструментами роли экономят токены при проверках (подсчёт строк; машинная сверка прав)? | [D51](../decisions/D51-agent-tools-token-hygiene.md) — скрипт-сводка `agents-perms.mjs` + `rg -c '^'`; сырой `opencode debug agents` убран | resolved | [service-agent-tools](../../.opencode/mail/service-agent-tools.md) |
-| [Q57](Q57.md) | судьба архива `OPEN_QUESTIONS.md` после завершения миграции | — | open | [Q58](Q58.md), [Q59](Q59.md) |
-| [Q58](Q58.md) | роль и структура `BRIEF.md` после завершения миграции | — | open | [Q57](Q57.md), [Q59](Q59.md), [Q60](Q60.md) |
-| [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | — | open | [Q60](Q60.md), [Q58](Q58.md) |
-| [Q60](Q60.md) | тест целостности журнала | — | open | [Q59](Q59.md), [Q57](Q57.md) |
-| [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | — | open | [Q59](Q59.md), [Q58](Q58.md) |
+| [Q57](Q57.md) | судьба архива `OPEN_QUESTIONS.md` после завершения миграции | [D61](../decisions/D61-archive-removal.md) — архив удаляется; ссылки и шапки — на журнал | resolved | [Q58](Q58.md), [Q59](Q59.md) |
+| [Q58](Q58.md) | роль и структура `BRIEF.md` после завершения миграции | [D62](../decisions/D62-brief-journal-rules.md) — `BRIEF.md` — компактные правила ведения журнала | resolved | [Q57](Q57.md), [Q59](Q59.md), [Q60](Q60.md) |
+| [Q59](Q59.md) | индекс журнала: три таблицы и жизненный цикл `TRACEABILITY` | [D63](../decisions/D63-journal-index-lifecycle.md) — единая таблица жизненного цикла; каталоги Q/D без дублей | resolved | [Q60](Q60.md), [Q58](Q58.md) |
+| [Q60](Q60.md) | тест целостности журнала | [D64](../decisions/D64-journal-integrity-test.md) — `tests/docs_journal.rs`: ID, парность, таблицы, запреты; v0.1 | resolved | [Q59](Q59.md), [Q57](Q57.md); [T-18](../tasks/T-18-docs-journal-test/README.md) |
+| [Q61](Q61.md) | политика ссылок и допустимых дублей в документации | [D65](../decisions/D65-reference-policy.md) — «ссылка, не копия»; «время жизни адреса» (без mail/state/analysis) | resolved | [Q59](Q59.md), [Q58](Q58.md) |

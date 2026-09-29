@@ -517,3 +517,23 @@
   staged (ровно 16: 9 `M` + 7 `A`) → коммит → `status -sb` (ahead 1) →
   `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит поверх
   `a7359fe`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-docs-hygiene` шаг 3 (D61–D65; прямо в `develop`,
+  подтверждение владельца (одно, `question`, 29.09.2026) — дословно «Коммит + push»;
+  лента `.opencode/mail/service-docs-hygiene.md`). Снимок до: 18 `M` + 7 `??` = 25
+  путей, совпал; посторонних/пропавших нет; база HEAD `04cd7bf`, `develop` =
+  `origin/develop` (синхрон); коммита с целевым сообщением нет (`--all` по `D61`
+  и `service-docs-hygiene` пусто; `гигиена docs` — только исторический `04cd7bf`
+  шага 1). 26-й — чекпойнт `git.md` (этот) + отчёт в ленте (до `add`). Состав: 19
+  `M` (18 из снимка + `git.md`) — `mail/service-docs-hygiene.md`,
+  `memory/{auditor,docs-writer,migrator,validator,git}.md`,
+  `state/current/receipts.yaml`, `docs/{CHANGELOG,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/analysis/findings-registry.md`, `docs/decisions/README.md`,
+  `docs/questions/{Q57..Q61,README}.md`, `docs/tasks/README.md`; 7 `A` —
+  `docs/decisions/{D61-archive-removal,D62-brief-journal-rules,D63-journal-index-lifecycle,D64-journal-integrity-test,D65-reference-policy}.md`,
+  `docs/reviews/docs-hygiene-d61d65-2026-09-29.md`,
+  `docs/tasks/T-18-docs-journal-test/README.md`. Сообщение — `docs(Q57–Q61):
+  решения D61–D65 — гигиена docs: архив, BRIEF, индекс/TRACEABILITY, тест
+  целостности, ссылки`. Осталось: `add` 26 → сверка staged (ровно 26: 19 `M` + 7 `A`)
+  → коммит → `status -sb` (ahead 1) → `push origin develop` (таймаут ≥ 5 мин;
+  публикует новый коммит поверх `04cd7bf`). Хеш — не здесь (F43): вернуть `lead`
+  ответом. Веток/merge/тегов нет.

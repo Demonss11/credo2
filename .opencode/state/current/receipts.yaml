@@ -658,3 +658,37 @@
     note: "observation (not a finding): new records link the operation feed .opencode/mail/service-docs-hygiene.md, which clean-logs.mjs deletes (clean-logs.mjs:7,110-113) — precedent questions/README.md:80 (Q56); policy of references to working data is the subject of Q61/Q60, fixing now would prejudge Q61"
   snapshot: "develop @ a7359fe (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-docs-hygiene-step3
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/docs-hygiene-d61d65-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); decisions/statuses/task only; feature counters 47/278 = features/README.md unchanged, review.md §«Порог существенности» exception not triggered"
+    journal: "ok — D61 (136 lines), D62 (105), D63 (106), D64 (120), D65 (131): accepted, 2026-09-29, Resolves one-to-one Q57->D61 ... Q61->D65, Спека §10 №61-65, Affects, Контекст/Решение/Следствия/Альтернативы/Сверка с кодом/Ссылки; verdicts ⚪ (:86/:63/:62/:85) and ⬜ + T-18 (D64:78, Tasks :15); D64 п.8 whitelist findings-registry (D48) = D65 п.4 exception"
+    spec10: "ok — rows 61-65 :884-888 right after №60 :883, before blank :889 + '---' :890/§11 :892; rg -c '^\\| 6[1-5] \\|' = 5; git diff = 5 insertions / 0 deletions, neighbours intact, style of neighbours, [D61]...[D65] links live"
+    statuses: "ok — Q57.md:3..Q61.md:3 'resolved by [D6x]' (1 line each); TRACEABILITY.md:64-68 D-links, 'resolved', Q60 Tasks [T-18], others '—', legend :70-73 intact, Q-rows 61; questions/README.md:81-85 5 cols, D-link + resolved, Q-rows 61, 61 Q-files"
+    decisions_readme: "ok — 54 table rows (rg -c '^\\| \\[D') = 54 D-files (rg --files); D61 :77 -> D65 :81 ascending after D60 :76; topics condensed (not copies of §10)"
+    task: "ok — docs/tasks/T-18-docs-journal-test/README.md: tester (:49), Источник D64 (Q60) (:10), depends after D61-D63/D65 (:6-9), v0.1/v0.2 scope, ⬜ P3; row docs/tasks/README.md:54 (P3, 'после D61–D63, D65', ⬜); card links live"
+    changelog: "ok — 'Решения D61–D65: гигиена docs' :364-385 in '### Документация' right after Q57-Q61 entry :352-363, before '### Процесс' :387; tests/docs_journal.rs is code-span (:375); links live (D61-D65 :380-384, Q57/Q61 :379, T-18 :376, D48 :378); 22/0"
+    borders: "ok — 16 M + 6 ??; git diff --stat empty for docs/OPEN_QUESTIONS.md, docs/BRIEF.md, docs/README.md, docs/features, docs/GRAMMAR.md, docs/tasks/T-16-stale-check-test, .opencode/agents; 42 Q-files with 'Перенос:' unchanged (rg -l = 42); feature counters 47/278 untouched (features/README.md not in git status); only expected journal/task files + feed + 3 role memories"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' outside reviews/analysis: only T-18:36 and Q60:33 (both as lists of forbidden markers); Q57-Q61 nowhere marked as awaiting migration"
+    links: "ok — all targets of D61-D65 and T-18 exist (Dn/Qn, SPECIFICATION, BRIEF, GRAMMAR, README, CHANGELOG, TRACEABILITY, questions/README, decisions/README, tasks/README, T-16, T-18, features/, features/README.md, analysis/findings-registry.md, AGENTS.md, tests/features_inventory.rs, .opencode/agents/{migrator,docs-writer}.md, OPEN_QUESTIONS.md)"
+    p2: "docs/decisions/D65-reference-policy.md:58-60 and :98-100 — 'Существующие адреса mail/** в каноне' inventory incomplete: live canon mail links also in docs/questions/Q54.md:12,18 (service-t11-closeout.md), Q55.md:18 (service-dod-scope.md), Q56.md:20 (service-agent-tools.md), targets exist; plus docs/tasks/T-15-mcp-ready-process/wave0*.md. Execution per D65 (:80 '8 адресов') will not remove them and the D64 п.8 test (only whitelisted exception = findings-registry) will be red on them; clean-logs.mjs --mail-only deletes all mail/*.md (:107-113) -> broken canon links, F47 (D61:105-107, D65:75-76) closes only partially. Fix requires a scope decision (extend execution inventory OR declare exception for pre-2026-09-29 records in D65 п.4/D64 п.8) — hence P2, returned to lead"
+    p3: "docs/tasks/T-18-docs-journal-test/README.md:36-38 — v0.1 check list names the ban on canon links to .opencode/mail/**, .opencode/state/**, docs/analysis/** without the findings-registry whitelist exception of its source (D64:50-53 / D65:54-57); literal implementation yields false red on existing canon links to the registry; one-line fix for migrator"
+    tech: "token-guard cut the wide sweep 'rg \\.opencode/mail docs' (~15 KB omitted) — re-verified with narrow rg over docs/questions and docs/tasks, P2 does not depend on the cut; PowerShell does not expand '*' in rg paths (os error 123) — commands re-run with -g"
+  snapshot: "develop @ 04cd7bf (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-step3
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-d61d65-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); docs-only edits in r2 (D65, Q61, T-18 card), feature counters 47/278 untouched"
+    scope: "address-only re-acceptance after rework (migrator rework P2/P3, feed :404-446): (1) mail/** inventory completeness in D65, (2) Q61/D65/T-18 consistency (whitelist), (3) r2 edit borders; other -r1 zones not re-reviewed (verdict stands)"
+    p2_closure: "closed — independent sweep `rg -n \"]\\([^)]*opencode/mail/\"` over canon (outside reviews/**analysis/**) gives all markdown targets on .opencode/mail/*.md: Q54.md:12,18; Q55.md:18; Q56.md:20; Q57.md:12; Q58.md:9; Q59.md:11; Q60.md:11; Q61.md:10; questions/README.md:80; D49:69; D50:31,87,115; D51:32,107; CHANGELOG.md:353,365. D65:58-68 list matches file-by-file (Q54 x2, Q55, Q56, Q57-Q61, questions/README, D49, D50, D51, CHANGELOG) — no missing addresses; Q61.md:55-58 synchronised; D64 п.8 (:50-53) whitelist intact; non-link mentions verified separately (Q43:60, Q48:12,31, Q51:18, D38:45, D39:45, D43:1,23-24,46, D46:15,25, decisions/README:59, TRACEABILITY:55, SPECIFICATION:861,866,869) — forbidden patterns (mail/**, T-XX.md) or rule descriptions, not links; D65:65-66 note on D43 line (right mention, not feed address) correct; D65:69-72 scope note (T-15/historical zones outside canon) confirmed"
+    p3_closure: "closed — T-18/README.md:39-40 now carries the whitelisted exception findings-registry.md (migrator-owned registry, D48), consistent with D64:50-53 and D65:54-57"
+    borders: "ok — only expected files changed in r2: D65 (untracked, 131 -> 140 lines), Q61.md (+22/-2, 61 lines), T-18/README.md (+3); D64 not edited; git diff --numstat for D61-D64, SPECIFICATION, TRACEABILITY, questions/README, decisions/README, tasks/README, CHANGELOG, findings-registry byte-identical to -r1; git diff --stat for OPEN_QUESTIONS/BRIEF/docs-README/features/GRAMMAR/T-16/.opencode/agents empty; counters 47/278 untouched; links in new lines live; no cargo (D50), git read-only"
+  snapshot: "develop @ 04cd7bf (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"

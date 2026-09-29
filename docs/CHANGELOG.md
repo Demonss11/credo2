@@ -361,6 +361,28 @@
   (`tests/docs_journal.rs`); **Q61** — политика ссылок и допустимых дублей
   («ссылка, не копия»). Вопросы — [`questions/Q57.md`](questions/Q57.md)…
   [`Q61.md`](questions/Q61.md); решения — после разведки дублей (`auditor`).
+- **Решения D61–D65: гигиена `docs`** (2026-09-29, операция
+  [`service-docs-hygiene`](../.opencode/mail/service-docs-hygiene.md); оформлены
+  `migrator`, исполнение — следующая волна): **D61 (Q57)** — архив
+  `OPEN_QUESTIONS.md` удаляется; ссылки и шапки переводятся
+  на журнал, служебная зона (`.opencode/agents/**`) — по протоколу. **D62 (Q58)**
+  — [`BRIEF.md`](BRIEF.md) переписывается компактно: минус миграционные разделы,
+  §9 переходит в тест. **D63 (Q59)** — индекс журнала: единая таблица жизненного
+  цикла в [`TRACEABILITY.md`](TRACEABILITY.md)
+  (`Q | D | Жизненный цикл | Задачи | Реализация`), каталоги
+  [`questions/README.md`](questions/README.md) и
+  [`decisions/README.md`](decisions/README.md) — без дублей. **D64 (Q60)** — тест
+  целостности журнала `tests/docs_journal.rs`
+  ([`T-18`](tasks/T-18-docs-journal-test/README.md)). **D65 (Q61)** — политика
+  «ссылка, не копия» и «время жизни адреса» (исключение — реестр находок,
+  [D48](decisions/D48-findings-registry-owner.md)). Вопросы —
+  [`questions/Q57.md`](questions/Q57.md)…[`Q61.md`](questions/Q61.md); решения —
+  [`decisions/D61-archive-removal.md`](decisions/D61-archive-removal.md),
+  [`D62-brief-journal-rules.md`](decisions/D62-brief-journal-rules.md),
+  [`D63-journal-index-lifecycle.md`](decisions/D63-journal-index-lifecycle.md),
+  [`D64-journal-integrity-test.md`](decisions/D64-journal-integrity-test.md),
+  [`D65-reference-policy.md`](decisions/D65-reference-policy.md). Статусы и
+  счётчики `features/README.md` (47/278) не меняются.
 
 ### Процесс
 
