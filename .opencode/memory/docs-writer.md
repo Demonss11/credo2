@@ -182,3 +182,16 @@
   ссылки живые (glob 4/4). `cargo`/git не запускались (D50); журнал/SPEC/
   `TRACEABILITY`/tasks/`src`/`tests` не трогал. Остаток: приёмка `validator`
   (docs) → пакет `git`.
+- 2026-09-29 · операция `service-migration-q31q33` · сопутствующие к переносу
+  Q31 → D12 и Q33 → D30 (связка «Notebook-функции»): обратные ссылки `# Dn (Qx): …`
+  (BRIEF §5.6 п.2) в шапках 5 фич — D12 (Q31): `notebook_ui.feature:12`,
+  `agent_minimal.feature:14`, `inline_execution.feature:10`; D30 (Q33):
+  `agent_minimal.feature:15`, `inline_execution.feature:11`, `draft.feature:13`,
+  `mcp_tools.feature:9` (7 строк; прежние Q-строки/D-строки сохранены — только
+  добавление в конец шапочного блока). `features/README.md` — ноты Q33 (:229) и
+  Q31 (:240): заголовок дополнен `[Qx]`/`[Dn]` по прецеденту Q30:213, текст нот
+  не менял. `docs/CHANGELOG.md:224–246` — запись «Перенос Q31, Q33 → D12, D30».
+  Счётчики 47/278 не менялись (`features/README.md:309`, сверено чтением); ссылки
+  записи живые (glob 11/11). T-08/T-09 не трогал (обе ⬜). `cargo`/git не
+  запускались (D50); журнал/SPEC/`TRACEABILITY`/tasks/`decisions/**`/`src`/`tests`
+  не трогал. Остаток: приёмка `validator` (docs) → пакет `git`.

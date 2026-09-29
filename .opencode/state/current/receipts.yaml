@@ -448,3 +448,25 @@
     borders: "ok — 18 M + 7 ??; new vs r1 only my docs/reviews reports; src/**, tests/**, Cargo.toml, docs/reviews/** (historical) untouched"
   snapshot: "develop @ bc76060 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q31q33
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q31q33-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged (only '# Dn (Qn)' comment lines)"
+    archive: "ok — OPEN_QUESTIONS.md:213 Q31 / :284 Q33 pointers '-> перенесён' with label 'блок «Notebook-функции», Q31+Q33' (:215/:286); no full texts; Q32 :219-282/Q34 :290 full; two hunks (-210,40 +210,11; -310,46 +281,11); numstat 10/74; rg -c '→ перенесён' = 33"
+    spec10: "ok — :835 №12 (Q31; [D12]), :853 №30 (Q33; [D30]); markers/second column/neighbours intact; diff = exactly 2 lines"
+    decisions_readme: "ok — 42 rows (rg -c '^\\| \\[D'); D12 :27 first (before D14 :28); D30 :41 between D29 :40 and D31 :42; ascending; parenthetical :18 = '(Q32, Q34–Q41)'; diff +3/-1"
+    traceability: "ok — Q31 :38, Q33 :39 added (+2/0); Features/Tasks match Affects: Q33 4 features + T-08/T-09, Q31 3 features tasks —"
+    questions_readme: "ok — Q31 :55, Q33 :56 (+5/-3); fields agree; sweep Q12 :36, Q19 :43, Q25 :49 live"
+    sweep: "ok — rg -U 'Q3[13]...ожида' docs (вне reviews/analysis): Q31/Q33 never 'ожидают переноса'; marker groups only Q32/Q34+/Q36/Q37; 4 mini-fixes (D58:103, Q19.md:12, questions/README:43/:49) confirmed"
+    dfields: "ok — D12/D30 full field set; Resolves [Q31]/[Q33]; Affects features match TRACEABILITY + 7 header lines; D30 Tasks T-08/T-09 (both open), D12 'Задач не требуется'; 'Сверка с кодом' ⚪ (D12) / 🟡 (D30) with verified evidence (src/mcp.rs:143/:214/:282/:470, VersionDeprecated :43-46, stale_false... :772; src/core.rs Explanation :136, evaluate_rule :153; tests/mcp_draft.rs :172/:352/:367)"
+    crosslinks: "ok — Q31<->Q33 and D12<->D30 live both ways; all relative targets of 4 new files resolve; no broken links"
+    features: "ok — exactly 7 '# D12 (Q31)'/`# D30 (Q33)` lines (notebook_ui:12, agent_minimal:14-15, inline_execution:10-11, draft:13, mcp_tools:9); prior Q/D lines intact; notes :229/:240 with [Qx]/[Dn]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q31, Q33 → D12, D30' :224-246 right after Q27/Q30 :206-223, before '### Процесс'; links live"
+    feed: "ok — order opening :26 -> migrator #1 :60 -> #2 :87 -> post-check :119 -> docs-writer :136; no orphan fragments; F43 records mail/service-migration-q27q30.md:304-316 + memory/service.md:316-328 match commit ce9f8d7 (27 files, ahead 1, no push)"
+    borders: "ok — 24 M + 5 ??; only docs/journal files + 2 feeds + 2 role memories; src/**, tests/**, Cargo.toml, docs/reviews/** (historical), docs/analysis/**, docs/tasks/** (T-08/T-09 cards untouched) not touched"
+    p3: "D30-execution-mechanism.md:7-13 (Affects) lists only SPEC §10 while the same decision canon covers §2.2/§4.1/§4.2/§7 (D30:47-49/:142-143, Q33.md:16-17); siblings list sections (D27:7-8, D29:7-10, D32:8-9, D36:7-10); fix = one line (migrator); non-blocking (info present in same file). D12:7-12 has no such gap (Q31 affects only §10)"
+  snapshot: "develop @ ce9f8d7 (ahead 1 of origin/develop bc76060) + working tree (2026-09-29)"
+  at: "2026-09-29"

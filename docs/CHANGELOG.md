@@ -221,6 +221,29 @@
   про транспорт в [`features/README.md`](features/README.md) — со ссылками на
   Q30/D29. Сверка с кодом — ✅ (реализация соответствует решениям), задач не
   требуется; статусы и счётчики `features/README.md` (47/278) не меняются.
+- **Перенос Q31, Q33 → D12, D30** (миграция журнала, 29.09.2026): связка
+  «Notebook-функции». **Q31 → D12** — чат с агентом — правая панель основного
+  окна Notebook (третья колонка трёхколоночного layout; видима по умолчанию,
+  resize/toggle); чат общий для workspace, агент получает контекст активного
+  правила; результаты исполнения (`Explanation`) — инлайн в редакторе (подсветка
+  сработавшего условия + блок результата), не сообщением в чате; рассуждения
+  агента — свёрнутые вызовы инструментов без JSON; отдельное окно (Slack) — вне
+  MVP; вопрос — [`questions/Q31.md`](questions/Q31.md), решение —
+  [`decisions/D12-agent-chat-panel.md`](decisions/D12-agent-chat-panel.md).
+  **Q33 → D30** — единый механизм исполнения из редактора и агентом — MCP
+  `check.test` на черновике; кнопка «Выполнить» активна только при наличии
+  черновика (draft-first: `check.create` из буфера, файл `rules/{name}.dar` — при
+  публикации, Q12), локального исполнения через Tauri `dar-core` нет;
+  опубликованная версия — `check.run` (в `credo2` отсутствует); вопрос —
+  [`questions/Q33.md`](questions/Q33.md), решение —
+  [`decisions/D30-execution-mechanism.md`](decisions/D30-execution-mechanism.md).
+  Шапочные пометки `# D12 (Q31)` / `# D30 (Q33)` добавлены в затронутые фичи
+  (`notebook_ui`/`agent_minimal`/`inline_execution`/`draft`/`mcp_tools`); заметки
+  Q31/Q33 в [`features/README.md`](features/README.md) — со ссылками на Q/D.
+  Сверка с кодом — ⚪ (Q31: UI Notebook вне кода `credo2`, задач не требуется) и
+  🟡 (Q33: `check.test`/draft-first соответствуют; `check.run` — T-09,
+  материализация `rules/{name}.dar` — T-08, обе открыты); статусы и счётчики
+  `features/README.md` (47/278) не меняются.
 
 ### Процесс
 

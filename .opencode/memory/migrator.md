@@ -554,4 +554,69 @@
   Q30-отчёт `:125/:131` исправлен. P3 — `:170` «34 указателя» → «31» (проверено
   `rg -c "→ перенесён"` = 31, `rg -c "Мигрирован"` = 31). `cargo` не запускался
   (D50). Дальше — приёмка `-r2`. Отчёт — та же лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q31q33 (вызов 1 из 2): перенос **Q31 → D12**
+  (`docs/decisions/D12-agent-chat-panel.md`, `Resolves: [Q31]`; слаг
+  `D12-agent-chat-panel`). Создан `docs/questions/Q31.md` (2026-09-26,
+  ⚪ оформление, UI-решение; «Перенос: 2026-09-29, блок «Notebook-функции»,
+  Q31+Q33»). Кросс-ссылки Q31↔Q33 живые в D12/Q31 (`[Q33](../questions/Q33.md)`,
+  `[D30](D30-execution-mechanism.md)` — появятся вызовом 2); пометок «ожидает
+  переноса» про Q33 в D12 нет. §10 №12 (`:835`): после `(Q31)` добавлено
+  `; полный контекст — [D12](decisions/D12-agent-chat-panel.md)` (второй столбец
+  и текст строки целы). Сводки: D12 в `decisions/README.md` (`:27`, первым до
+  D14; parenthetical `:18` «(Q31–Q41)» → «(Q32–Q41)»); Q31 в `TRACEABILITY.md`
+  (`:38`, после Q30) и `questions/README.md` (`:55`). Архив: Q31 (`:213`) →
+  указатель, метка «блок «Notebook-функции» (Q31+Q33)»; блок Q32 цел. Свип Q31:
+  `D31:151` («Q31+» → «Q32+»), `D58:103`, `D37:83-84/:112-113`, `Q19.md:12`,
+  `Q25.md:15`, `questions/README.md:43,:49` — Q31 живой ссылкой, прочие
+  Q34/Q35/Q36/Q37 остаются «ожидают переноса»; `features/README.md`/SPEC
+  bare-упоминания и `reviews/**` не трогал. Сверка §5.3 — ⚪: `src/` только
+  main/mcp/rest/core/lib (UI/чата нет); карта зон `features/README.md:322–329`
+  без UI-зоны; `check.test`/`Explanation` — предмет Q33/D30. Tasks: — (UI
+  Notebook вне `credo2`). `cargo` не запускался (D50); `features/**`/`CHANGELOG`/
+  `src`/`tests` не трогал. **Вызов 2 (тем же sessionID):** Q33 → D30
+  (`D30-execution-mechanism.md`), оживить ссылки на D12/Q31, свип Q33 (`D31:151`
+  → «Q32, Q34+», `decisions/README.md:18` → «(Q32, Q34–Q41)», `D54:133`,
+  `D34:421`, `Q12:14`, `questions/README.md:36,39`). Отчёт — лента
+  `.opencode/mail/service-migration-q31q33.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q31q33 (вызов 2 из 2; **блок «Notebook-функции»
+  закрыт**): перенос **Q33 → D30** (`docs/decisions/D30-execution-mechanism.md`,
+  `Resolves: [Q33]`; слаг `D30-execution-mechanism`; `Tasks: T-08 (открыта),
+  T-09 (открыта)`). Создан `docs/questions/Q33.md` (2026-09-26, 🟡 важно,
+  «Перенос: 2026-09-29, блок «Notebook-функции», Q31+Q33»). §10 №30 (`:853`) —
+  `(Q33; полный контекст — [D30](decisions/D30-execution-mechanism.md))`;
+  сводки: D30 в `decisions/README.md:41` (между D29 и D31), `:18` →
+  «(Q32, Q34–Q41)»; Q33 в `TRACEABILITY.md:39` (после Q31) и
+  `questions/README.md:56`. Архив `OPEN_QUESTIONS.md:284` → указатель (та же
+  метка). Свип Q33: `D54:133` → `[Q33]…; Q32 — ожидает переноса`,
+  `D34:421` → `[Q33] (draft-first)` (маркер снят целиком — иных ожидающих нет),
+  `D31:151` → «Q32, Q34+», `Q12.md:14` → `[Q33]; Q32 (ожидает)`,
+  `questions/README.md:36` → `[Q33]`. Сверка §5.3 — 🟡: `check.test` реализован
+  (`src/mcp.rs:143/:214–262`, `src/core.rs` `Explanation`/`evaluate_rule`) и
+  покрыт (`tests/mcp_draft.rs`, юнит-тесты `src/mcp.rs:817–870`); draft-first
+  (`src/mcp.rs:771–781`, `tests/mcp_draft.rs:367`); `check.run` отсутствует
+  (`tool_specs` `:470–530` без него; `VersionDeprecated` `:43–46` dead_code) → T-09;
+  материализация `.dar` при публикации отсутствует (`publish` `:282–341`) → T-08.
+  `cargo` не запускался (D50); `features/**`/`CHANGELOG`/`src`/`tests` не трогал.
+  **Итог блока:** Q31+Q33 закрыты (D12/D30); свободные ID — §10 **№59**, Q **Q57**;
+  `docs-writer`: шапки фич (`# D12 (Q31)` в `notebook_ui`/`agent_minimal`/
+  `inline_execution`; `# D30 (Q33)` в `inline_execution`/`agent_minimal`/
+  `draft`/`mcp_tools`), заметки `features/README.md:229/:240`, CHANGELOG, статусы
+  задач. Отчёт — лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q31q33 (пост-проверка сервисной сессии, до
+  приёмки): в 4 местах отделён перенесённый `[Q31]` от группы-перечня
+  «ожидают переноса» разделителем `;` — `D58:103`, `Q19.md:12`,
+  `questions/README.md:43` (Q19), `:49` (Q25). Контроль
+  `rg -n "Q3[13].{0,60}ожида" docs/questions docs/decisions docs/SPECIFICATION.md
+  docs/TRACEABILITY.md` — 5 совпадений, во всех `[Q31]`/`[Q33]` стоят отдельно
+  (`;`) перед маркером, маркер только у Q32/Q34+/Q36/Q37. `reviews/**`/
+  `analysis/**` не трогал; `cargo` не запускался (D50). Отчёт — та же лента
+  (секция «пост-проверка»); коммит — за `git`.
+- 2026-09-29 · service-migration-q31q33 (P3 приёмки закрыт адресно): в
+  `D30-execution-mechanism.md:7` `Affects` дополнен разделами SPEC —
+  `§2.2, §4.1, §4.2, §7 и §10` (было только §10), в согласовании с «Кратким
+  каноном» `:142-143` и «Следствиями» `:47-49`. Контроль `rg` по D30: `Affects`
+  `:7` и `Краткий канон` `:142-143` покрывают один набор разделов; `Спека` `:6` —
+  «§10, решение №30» (краткий канон, не менялся). `cargo` не запускался (D50);
+  границы — D30 + лента + память. Отчёт — та же лента (секция «P3»); коммит — за
+  `git`.
 

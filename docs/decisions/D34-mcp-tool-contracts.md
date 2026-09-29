@@ -418,7 +418,7 @@ JSON-контракты MCP-инструментов v0.1 фиксируются
   [Q42](../questions/Q42.md) / [D21](D21-core-semantics-v01.md) (схема
   объяснения); [Q16](../questions/Q16.md) / [D32](D32-test-gate-mvp.md)
   (тест-гейт); [Q18](../questions/Q18.md) / [D35](D35-semver-v01.md)
-  (semver), Q33 (draft-first) — ожидает переноса
+  (semver), [Q33](../questions/Q33.md) (draft-first)
 - Задачи: [T-04](../tasks/T-04-mcp-errors/README.md) (сделана),
   [T-05](../tasks/T-05-mcp-success-schemas/README.md) (открыта),
   [T-01](../tasks/T-01-draft-source-hash/README.md) (сделана),

@@ -351,3 +351,22 @@
   флаги REST, sidecar Notebook`. Осталось: `add` 27 → сверка staged (ровно 27:
   19 M + 8 A) → коммит локально, **без `push`** (сужение владельца). Хеш — не
   здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q31q33` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q31q33.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 26 `M` + 6 `??` =
+  32 пути, совпал; 33-й — чекпойнт `git.md` (этот). База HEAD `ce9f8d7`,
+  `develop`, ahead 1 от `origin/develop` (`bc76060`); коммита с целевым
+  сообщением нет. 33 пути: письмо `mail/service-migration-q31q33.md`,
+  `mail/service-migration-q27q30.md` (дозапись),
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D12-agent-chat-panel,D30-execution-mechanism,D31-check-create-contract,D34-mcp-tool-contracts,D37-client-explanation-deferred,D54-source-of-truth-flow,D58-workspace-data-dirs,README}.md`,
+  `docs/features/{README.md,agent_minimal,draft,inline_execution,mcp_tools,notebook_ui}.feature`,
+  `docs/questions/{Q12,Q19,Q25,Q31,Q33,README}.md`,
+  `docs/reviews/migration-q31q33-2026-09-29.md`. Сообщение —
+  `docs(D12, D30): перенос Q31, Q33 — Notebook-функции: панель чата, единый
+  механизм исполнения`. Осталось: `add` 33 → сверка staged (ровно 33: 27 M +
+  6 A) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует
+  `ce9f8d7` и новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом.
+  Веток/merge/тегов нет.
