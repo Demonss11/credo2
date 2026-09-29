@@ -261,6 +261,15 @@
   `checks/{name}/{version}` вместо `checks/{name}/{X}/{Y}/{Z}/`, покрыто
   [`T-06`](tasks/T-06-registry-path-xyz/README.md), открыта); статусы фич и
   счётчики `features/README.md` (47/278) не меняются.
+- **Перенос Q34 → D32** (миграция журнала, 29.09.2026; особый случай — расширение
+  решения): тесты в MVP — только локальный кэш `.dar-notebook/results-cache.json`
+  («быстрые прогоны» — черновики тестов; вне git, `.dar-notebook/` в `.gitignore`);
+  канонические `tests/*.тест` (code=doc) — вне MVP (v0.2); готовность к публикации —
+  факт успешного `check.test` на черновике (метка `last_test_checksum`/`tested_at`);
+  решение закреплено в [`D32`](decisions/D32-test-gate-mvp.md) (`Resolves: Q16, Q34`);
+  сверка с кодом — 🟡 (метка реализована, гейт публикации —
+  [`T-02`](tasks/T-02-test-gate/README.md), открыта); счётчики `features/README.md`
+  (47/278) не меняются.
 
 ### Процесс
 

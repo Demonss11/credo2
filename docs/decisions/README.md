@@ -15,7 +15,7 @@
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
 Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q34–Q41); при переносе записи получают
+решения ещё не перенесённых вопросов (Q35–Q41); при переносе записи получают
 D-файлы с этими номерами (прецедент — D32/D35).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
@@ -41,7 +41,7 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D29](D29-notebook-mcp-transport.md) | Транспорт MCP в Notebook — локальный sidecar по stdio (JSON-RPC 2.0), автозапуск; «только MCP»; внешний сервер — v0.2+ | [Q30](../questions/Q30.md) | 2026-09-26 | — | accepted |
 | [D30](D30-execution-mechanism.md) | Единый механизм исполнения из редактора — MCP `check.test` на черновике (draft-first); локального исполнения (`dar-core`) нет; `check.run` — [T-09](../tasks/T-09-check-run/README.md), материализация `.dar` — [T-08](../tasks/T-08-materialize-source-file/README.md) | [Q33](../questions/Q33.md) | 2026-09-26 | [T-08](../tasks/T-08-materialize-source-file/README.md), [T-09](../tasks/T-09-check-run/README.md) | accepted |
 | [D31](D31-check-create-contract.md) | Контракт `check.create` — `{name, source}` (оба обязательны); имя — из заголовка; «сохранить = обновить»; ответ `{status, name}` | [Q28](../questions/Q28.md) | 2026-09-26 | [T-03](../tasks/T-03-check-create/README.md) (сделана) | accepted |
-| [D32](D32-test-gate-mvp.md) | Тест-гейт публикации — метка теста в черновике | [Q16](../questions/Q16.md); Q34 (ожидает переноса) | 2026-09-26 | [T-02](../tasks/T-02-test-gate/README.md) | accepted |
+| [D32](D32-test-gate-mvp.md) | Тест-гейт публикации — метка теста в черновике | [Q16](../questions/Q16.md), [Q34](../questions/Q34.md) | 2026-09-26 | [T-02](../tasks/T-02-test-gate/README.md) | accepted |
 | [D34](D34-mcp-tool-contracts.md) | Контракты MCP-инструментов — общие правила, коды, инварианты, полные схемы | [Q29](../questions/Q29.md) | 2026-09-26 | [T-04](../tasks/T-04-mcp-errors/README.md) (сделана), [T-05](../tasks/T-05-mcp-success-schemas/README.md) (открыта) | accepted |
 | [D35](D35-semver-v01.md) | Semver v0.1 — числовое сравнение pre-release; build вне идентичности | [Q18](../questions/Q18.md) | 2026-09-26 | — | accepted |
 | [D36](D36-batch-deferred.md) | Массовый прогон (batch) — вне MVP, пост-MVP/v0.2 | [Q24](../questions/Q24.md) | 2026-09-26 | — | accepted |

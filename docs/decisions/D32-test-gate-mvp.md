@@ -2,17 +2,21 @@
 
 - **Статус:** accepted
 - **Дата:** 2026-09-26
-- **Resolves:** [Q16](../questions/Q16.md) (Q34 — ожидает переноса; линия §10
-  №32 общая)
+- **Resolves:** [Q16](../questions/Q16.md), [Q34](../questions/Q34.md)
 - **Спека:** [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №32
-- **Affects:** [`SPECIFICATION.md`](../SPECIFICATION.md) §4.2 (артефакты,
-  песочница), §4.3 (данные Notebook), §10;
+- **Affects:** [`SPECIFICATION.md`](../SPECIFICATION.md) §1.2 (тесты вне
+  `.dar`, Q34), §4.2 (артефакты, песочница), §4.3 (данные Notebook), §10;
   [`../features/publish.feature`](../features/publish.feature),
-  [`../features/test_draft.feature`](../features/test_draft.feature)
-  (правки — зона `docs-writer`);
+  [`../features/test_draft.feature`](../features/test_draft.feature),
+  [`../features/draft.feature`](../features/draft.feature),
+  [`../features/inline_execution.feature`](../features/inline_execution.feature),
+  [`../features/notebook_ui.feature`](../features/notebook_ui.feature)
+  (целевое состояние; правки — зона `docs-writer`);
+  [`../features/README.md`](../features/README.md) (заметки, счётчики);
   [`../../src/lib.rs`](../../src/lib.rs) (черновик, `make_draft`),
   [`../../src/mcp.rs`](../../src/mcp.rs) (`check.test`, `check.publish`)
-- **Tasks:** [T-02](../tasks/T-02-test-gate/README.md) (см. «Сверка с кодом»)
+- **Tasks:** [T-02](../tasks/T-02-test-gate/README.md) (открыта) — см.
+  «Сверка с кодом»
 
 ## Контекст
 
@@ -42,6 +46,10 @@
   изменении текста: отдельного сброса не требуется.
 - Гейт публикации опирается на факт прогона, а не на файл; тесты не засоряют
   workspace-репозиторий.
+- Тесты MVP живут **только** в локальном кэше Notebook («быстрые прогоны» —
+  черновики тестов); `.dar-notebook/` попадает в `.gitignore` workspace и в
+  workspace-репозиторий не версионируется (Q34; раскладка каталогов —
+  [D58](D58-workspace-data-dirs.md), Q19).
 - `draft.feature`/`publish.feature`/`test_draft.feature` приводятся к метке
   тестирования в черновике (учёт ведёт сервер, не UI-черновик); SPEC
   §4.2/§4.3 и §10 (решение №32) — правки `docs-writer`.
@@ -100,10 +108,10 @@
 
 ## Ссылки
 
-- Вопрос: [Q16](../questions/Q16.md)
+- Вопросы: [Q16](../questions/Q16.md), [Q34](../questions/Q34.md)
 - Связанные: [Q12](../questions/Q12.md) (источник истины, `source_hash`),
   [Q13](../questions/Q13.md) (артефакт публикации); [Q29](../questions/Q29.md);
-  Q34 (ожидает переноса)
+  [Q34](../questions/Q34.md) (тесты: кэш прогонов, `tests/*.тест` — вне MVP)
 - Задачи: [T-02](../tasks/T-02-test-gate/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №32
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

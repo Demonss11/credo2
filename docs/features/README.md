@@ -127,7 +127,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > `size`/`format` не вводятся, `stale`/`test_valid` — вычисляемые. Полные
 > схемы — Q29 (`../OPEN_QUESTIONS.md`).
 
-> **Решение Q34 (2026-09-26):** в MVP тесты — только локальный кэш
+> **Решение Q34 (2026-09-26; [Q34](../questions/Q34.md), [D32](../decisions/D32-test-gate-mvp.md)):** в MVP тесты — только локальный кэш
 > `.dar-notebook/results-cache.json` («быстрые прогоны» — черновики тестов;
 > вне git, `.credo/` и `.dar-notebook/` в `.gitignore`, Q19). Готовность к публикации —
 > успешный `check.test` (`last_test_checksum`/`tested_at`, Q16), а не файл
@@ -233,7 +233,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > `agent_minimal.feature`). Опубликованная версия — `check.run`
 > (в `credo2` ещё не реализован, `mcp_tools.feature`).
 
-> **Решение Q34 (2026-09-26):** «быстрые прогоны» из редактора —
+> **Решение Q34 (2026-09-26; [Q34](../questions/Q34.md), [D32](../decisions/D32-test-gate-mvp.md)):** «быстрые прогоны» из редактора —
 > черновики тестов в `.dar-notebook/results-cache.json` (вне git);
 > канонические `tests/*.тест` — v0.2 (`inline_execution.feature`).
 

@@ -228,42 +228,12 @@
 [`questions/Q33.md`](questions/Q33.md); решение —
 [`decisions/D30-execution-mechanism.md`](decisions/D30-execution-mechanism.md).
 
-### Q34. ✅ Тесты: внутри `.dar` или в `.dar-notebook/` (решено 2026-09-26)
+### Q34. ✅ Тесты: внутри `.dar` или в `.dar-notebook/` (решено 2026-09-26) → перенесён
 
-- **Расхождение:** SPEC §1.2: `.dar` — одновременно тест; §4.3: каталог
-  `tests/` с `*.тест`; `inline_execution.feature`: последние входные данные
-  и несколько наборов тестов сохраняются в `.dar-notebook/`
-  (`results-cache.json`), то есть вне git.
-- **Вопрос:** где канонические тесты и можно ли их версионировать?
-- **Рекомендация:** для MVP — тесты в `.dar-notebook/` (локально), формат
-  `tests/*.тест` не вводить; принцип «тест в файле» перенести в целевую
-  версию.
-- **Обновить:** `SPECIFICATION.md` §1.2/§4.3, `inline_execution.feature`.
-- **✅ Решение (2026-09-26):**
-  1. **В MVP тесты живут только в локальном кэше Notebook:**
-     `.dar-notebook/results-cache.json`. Они не версионируются в git.
-  2. **«Быстрые прогоны»** (ввёл JSON в UI → нажал «Выполнить»)
-     сохраняются в кэш для удобства повторного запуска. Это черновики
-     тестов.
-  3. **Канонические файлы тестов** (формат `tests/*.тест`, принцип
-     code=doc) — вне MVP, возвращаются в v0.2.
-  4. **Готовность правила к публикации** проверяется не наличием файла
-     теста, а фактом успешного `check.test` на черновике (Q16): сервер
-     хранит `last_test_checksum` и `tested_at`, публикация без успешного
-     теста отклоняется.
-  5. **`.dar-notebook/` — в `.gitignore`**, не попадает в
-     workspace-репозиторий.
-  - **Следствие для кода:** учёт `last_test_checksum`/`tested_at` и проверка
-    при публикации в `credo2` отсутствуют — отдельная задача (Q16);
-    в этих правках код не менялся.
-  - **Обновлено:** `features/inline_execution.feature` (кэш
-    `.dar-notebook/results-cache.json`, вне git), `features/publish.feature`
-    (`last_test_checksum`/`tested_at`, гейт публикации),
-    `features/test_draft.feature` (метка тестирования),
-    `features/notebook_ui.feature` (структура workspace без `tests/`,
-    `.gitignore`), `features/README.md` (счётчики, заметки),
-    `SPECIFICATION.md` §1.2/§4.2/§4.3 и §10 (решение №32);
-    `OPEN_QUESTIONS.md` Q16 (закрыт в рамках Q34).
+**Мигрирован 2026-09-29 (блок «Тесты»; решение — в рамках
+[`decisions/D32-test-gate-mvp.md`](decisions/D32-test-gate-mvp.md), Q16+Q34).**
+Вопрос — [`questions/Q34.md`](questions/Q34.md); решение —
+[`decisions/D32-test-gate-mvp.md`](decisions/D32-test-gate-mvp.md).
 
 ### Q35. ✅ Создание workspace и шаблоны (решено 2026-09-26)
 

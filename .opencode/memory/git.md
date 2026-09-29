@@ -386,3 +386,20 @@
   сверка staged (ровно 44: 40 M + 4 A) → коммит → проверки → `push origin develop`
   (таймаут ≥ 5 мин; публикует новый коммит). Хеш — не здесь (F43): вернуть
   `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q34` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q34.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 23 `M` + 3 `??` =
+  26 путей, совпал; посторонних нет; база HEAD `4af0b1f`, `develop`, синхрон с
+  `origin/develop`; коммита с целевым сообщением нет. 27-й — чекпойнт `git.md`
+  (этот). Пути: письмо `mail/service-migration-q34.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D14-published-artifact-canon,D31-check-create-contract,D32-test-gate-mvp,D58-workspace-data-dirs,README}.md`,
+  `docs/features/{README.md,inline_execution,notebook_ui,publish,test_draft}.feature`,
+  `docs/questions/{Q13,Q16,Q19,Q34,README}.md`,
+  `docs/reviews/migration-q34-2026-09-29.md`. Сообщение —
+  `docs(D32): перенос Q34 — тесты: кэш прогонов, тест-гейт (расширение D32)`.
+  Осталось: `add` 27 → сверка staged (ровно 27: 24 M + 3 A) → коммит →
+  проверки → `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит).
+  Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.

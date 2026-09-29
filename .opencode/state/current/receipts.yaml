@@ -491,3 +491,26 @@
     borders: "ok — 36 M + 3 ??; only docs/** journal + 3 role memories + feed; src/**, tests/**, Cargo.toml, docs/tasks/** (T-06 card untouched), docs/analysis/**, historical docs/reviews/** not touched"
   snapshot: "develop @ 61d6471 (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q34
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q34-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D32 (Q34)' comment line each, counters/composition unchanged (47/278 = features/README.md:309)"
+    special_case: "ok — no new D-file (git status: docs/decisions only 'M D32'; Q34.md untracked); note: literal probe 'rg --files docs/decisions | rg D34' is NOT empty due to pre-existing D34-mcp-tool-contracts.md (Q29, §10 row 34), unrelated to Q34"
+    d32_fields: "ok — :5 'Resolves: [Q16], [Q34]'; :18 'Tasks: T-02 (открыта)'; all 5 points of Q34 present (:38-40 cache results-cache.json, :39+:49-50 fast runs, :38/:107 tests/*.тест out of MVP, :30-34/:47 gate via check.test Q16, :50-52 .dar-notebook in .gitignore)"
+    affects: "ok — :7-8 §1.2/§4.2/§4.3/§10; :9-13 publish/test_draft/draft/inline_execution/notebook_ui; :15 features/README; :16-17 src/lib.rs+mcp.rs — covers 'Следствия' :44-55 and Q34.md:68-75; q31q33 P3 lesson not reproduced"
+    archive: "ok — git diff -U0 single hunk @@ -231,36 +231,6 @@; Q34 :231 pointer label 'блок «Тесты»; решение — в рамках D32, Q16+Q34' (:233-234), no full text; Q35 full :238-278 intact; Q32/Q33 pointers :219/:225 intact; numstat 6/36"
+    spec10: "ok — :855 'Q34, Q16; полный контекст — [D32]…' marker '(ожидает переноса)' removed; diff = exactly 1 line; neighbours :854 №31 / :856 №33 and column 2 intact"
+    decisions_readme: "ok — 43 table rows (rg -c '^\\| \\[D', D-rows :27-69); D32 :44 'Решает' = [Q16], [Q34]; parenthetical :18 = '(Q35–Q41)'; diff 2/2"
+    traceability: "ok — Q34 :41 after Q33 :40, before Q42 :42; D=D32, 4 features, T-02, resolved; 1/0"
+    questions_readme: "ok — Q34 row :58; sweep :40 (Q16) [Q34] live; :43 (Q19) [Q34] live + Q35 marker; 3/2"
+    sweep: "ok — rg 'ожида[ею]т переноса' (вне reviews/analysis): subjects only Q35–Q41; Q34 nowhere marked; D31:151 'Q35+ — ожидают переноса'; edits D14:148/D58:103/Q13:14/Q16:13/Q19:12 = marker -> live [Q34]"
+    crosslinks: "ok — D32:5/:111/:114 and Q34:3/:6/:11-14 live; targets Q34.md, D32, T-02, Q16, D58 exist; no broken links"
+    features: "ok — exactly 4 lines '# D32 (Q34)' no dups (inline_execution:12, notebook_ui:13, publish:18, test_draft:13; each 1/0); prior '# D32 (Q16)' (publish:16, test_draft:12) intact; notes :130/:236 with [Q34]/[D32]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q34 → D32' :264-272 right after Q32 (:247-263), before '### Процесс' :274; links live"
+    feed: "ok — service-migration-q34.md order opening :22 -> migrator :53 -> docs-writer :81; no orphan/out-of-order fragments"
+    borders: "ok — 20 M + 2 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/** (T-02 untouched), docs/analysis/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ 4af0b1f (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
