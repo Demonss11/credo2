@@ -15,8 +15,8 @@ docs/
   SPECIFICATION.md   # целевая архитектура; §10 — краткие формулировки решений
   GRAMMAR.md         # язык v0.1 (EBNF включён)
   CHANGELOG.md       # хронология прототипа
-  questions/         # Q1.md, Q2.md, … — по файлу на вопрос
-  decisions/         # D15-….md — по файлу на решение (Dn = № строки SPEC §10)
+  questions/         # Q1.md, Q2.md, … + README.md (сводка вопросов)
+  decisions/         # Dn-….md + README.md (сводка решений); Dn = № строки SPEC §10
   features/          # Gherkin-требования + README (статусы/приоритеты/счётчики)
   tasks/             # реестр задач по коду (сводка + карточки T-XX)
   analysis/          # досье analyst по задачам (улики решения, не канон; пишет analyst)
@@ -45,6 +45,7 @@ docs/
 | Задача | Куда |
 |---|---|
 | Понять, почему решение принято | [`TRACEABILITY.md`](TRACEABILITY.md) → D → Q |
+| Быстро обозреть принятые решения | [`decisions/README.md`](decisions/README.md) (сводка, не канон) |
 | Завести вопрос или решение | [`BRIEF.md`](BRIEF.md) §4–5 |
 | Решить, нужна ли задача по коду | [`BRIEF.md`](BRIEF.md) §5.3 (сверка с кодом) → [`tasks/README.md`](tasks/README.md) |
 | Понять, что и как реализовано | [`features/README.md`](features/README.md) |

@@ -434,3 +434,30 @@
   переноса» линеен — проверять и многострочной формой
   (`rg -n -U "Q1[6-9][^\n]*\n?[^\n]{0,60}ожида(ет|ют) переноса" docs`,
   ловит разрывы вроде `D54:132-133`).
+- **2026-09-29 · `service-decisions-readme` (чекпойнт + итог, без cargo):**
+  прочитаны лента `service-decisions-readme.md`, `questions/README.md` (образец),
+  новый `docs/decisions/README.md`, `docs/README.md`, `docs/CHANGELOG.md`,
+  `BRIEF.md:76-96,175,284-285`, `TRACEABILITY.md`, шапки 29 D-файлов (12
+  выборочно), `receipts.yaml`. Снимок: `develop`, HEAD `e141476` + рабочее
+  дерево (6 M + 2 `??`); `src`/`tests`/`Cargo.toml` нет → **cargo не
+  запускался — D50**; счётчики 47/278 = `features/README.md:309` не менялись.
+  Вердикт — **принято, замечаний нет**; P1/P2/P3 нет. Проверено: 29 строк
+  (`rg -c "^\| \[D"`) ↔ 29 D-файлов (glob), каждый один раз, порядок возрастает;
+  поля 12 D-файлов (D14/D16/D19/D21/D32/D35/D50/D52/D53/D54/D57/D58) = шапки;
+  темы из `# Dn:` (D40 «триггер» = `D40:23`); все ссылки живы (29 D,
+  Q1–Q19/Q42–Q56, T-02/06/07/08/10/11/12/13/14/16/17, `BRIEF.md`); шапка
+  зеркальна `questions/README.md`, статусы = `BRIEF.md:95-96`, §5.2 =
+  `BRIEF.md:175`; карта `:18-19` (выравнивание col 21) + `:48`; CHANGELOG
+  `:131-136` после Q16–Q19 (`:105-130`); границы — `docs/decisions/README.md`
+  (новый) + `docs/README.md` + `docs/CHANGELOG.md` + лента/память (включая 2
+  закрывающие записи Q16–Q19: `mail/service-migration-q16q19.md:160-170`,
+  `memory/service.md:236-242`). P3-кандидат (`decisions/README.md:17` — пропуски
+  номеров как «до-журнальные»): `migrator` уточнил `:17-19` (до-журнальные +
+  решения Q20–Q41, D-номера при переносе; прецедент D32/D35) **до отчёта**,
+  принято повторной адресной сверкой: абзац в новой редакции, таблица 29 строк
+  и шапка не двигались, 55 строк = 53 + 2. Отчёт
+  `docs/reviews/service-decisions-readme-2026-09-29.md`; квитанция
+  `service-decisions-readme` iteration 1 (`accepted`) — append. **Урок:**
+  отказ движка прав не симметричен: `git diff -- docs/README.md` проходит, а
+  `git diff -- .opencode/memory/...` и `git diff --stat` — нет (читать файлы
+  `read`-ом, объём — `rg -c "^"`); `tail` тоже вне allow-list.

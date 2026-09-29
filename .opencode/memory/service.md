@@ -231,3 +231,18 @@
   от origin), в пакет войдут 2 незакоммиченные записи Q12–Q15; лента
   `service-migration-q16q19`; маршрут migrator (2 вызова) → docs-writer →
   validator → git; `cargo` не запускается (D50).
+- 29.09.2026 · **service-migration-q16q19 — закрытие**: Q16–Q19 перенесены
+  (D32 🟡 — T-02; D57 🟡 — T-06/T-17; D35 ✅ — задач нет; D58 ⚪ — задач нет);
+  приёмка `validator` — **принято с первой итерации, замечаний нет**
+  (отчёт `docs/reviews/migration-q16q19-2026-09-29.md`, квитанция
+  `service-migration-q16q19` iteration 1). Коммит **`e141476`** (32 файла,
+  +1156/−183) в `develop`, **без push** (сужение владельца;
+  `origin/develop` = `711a3c8`, ahead 2: `5a7fb01`, `e141476`).
+  **Раздел 3 архива закрыт**; следующий — раздел 4 «REST API» (Q20–Q27);
+  ID: Q57, §10 №59.
+- 29.09.2026 · **service-decisions-readme**: старт по запросу владельца —
+  сводка `docs/decisions/README.md` (зеркально `questions/README.md`; не канон;
+  29 D-файлов D14…D58; колонки D/Тема/Решает/Дата/Задачи/Статус); маршрут
+  migrator → docs-writer (карта `docs/README.md` + CHANGELOG) → validator → git;
+  база `e141476` (ahead 2), в пакет войдут 2 закрывающие записи Q16–Q19;
+  `cargo` не запускается (D50).

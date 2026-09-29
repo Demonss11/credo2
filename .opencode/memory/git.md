@@ -266,3 +266,20 @@
   иммутабельность, semver, каталоги данных`. Осталось: `add` 32 → сверка staged
   (ровно 32) → коммит локально, **без `push`**. Хеш — не здесь (F43): вернуть
   ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-decisions-readme` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-decisions-readme.md` §«пакет подтверждён» —
+  дословно «Коммит + push»). Снимок до: 8 `M` (`mail/service-migration-q16q19.md`,
+  `memory/{docs-writer,migrator,service,validator}.md`, `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,README}.md`) + 3 `??` (`mail/service-decisions-readme.md`,
+  `docs/decisions/README.md`, `docs/reviews/service-decisions-readme-2026-09-29.md`);
+  9-й `M` — чекпойнт `git.md` (этот), итого 12. База HEAD `e141476`, `develop`,
+  ahead 2 от `origin/develop` (`711a3c8`); коммита с целевым сообщением нет.
+  12 путей: письмо `mail/service-decisions-readme.md`, `memory/git.md`,
+  `memory/{docs-writer,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/README.md`,
+  `docs/decisions/README.md` (новый), `docs/reviews/service-decisions-readme-2026-09-29.md`,
+  `mail/service-migration-q16q19.md`. Сообщение —
+  `docs: сводка решений — decisions/README.md (D14–D58)`. Осталось: `add` 12 →
+  сверка staged (ровно 12) → коммит → проверки → `push origin develop` (таймаут
+  ≥ 5 мин; публикует `5a7fb01`, `e141476` и новый коммит). Хеш — не здесь (F43):
+  вернуть `lead` ответом. Веток/merge/тегов нет.

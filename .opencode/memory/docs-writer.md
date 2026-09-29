@@ -106,6 +106,16 @@
   Счётчики 47/278 не менялись (правки фич — только комментарии, 0 удалений);
   `cargo`/git не запускались (D50). Остаток: сплошной обход ссылок не делался
   (только точечный) → приёмка `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-decisions-readme` · сопутствующие к сводке
+  `decisions/README.md` (`migrator`, 29 решений D14–D58; не канон):
+  `docs/README.md` :18–19 — в карте у `questions/` и `decisions/` указаны
+  `README.md` (сводки), строка `decisions/` переформулирована в `Dn-….md +
+  README.md (сводка решений)`; :48 — строка «Быстро обозреть принятые решения»
+  → `decisions/README.md` (сводка, не канон); `docs/CHANGELOG.md` :131–136 —
+  запись «Сводка решений `decisions/README.md`». Счётчики 47/278 не менялись
+  (`features/README.md:309`); журнал/`TRACEABILITY`/`SPECIFICATION`/`tasks`/
+  `BRIEF.md` не трогал; `cargo`/git не запускались (D50). Остаток: приёмка
+  `validator` (docs) → пакет `git`.
 - 2026-09-29 · операция `service-migration-q16q19` · сопутствующие к переносу
   Q16–Q19 → D32/D57/D35/D58: обратные ссылки `# Dn (Qx): …` (BRIEF §5.6 п.2) в
   шапках 7 фич `Affects` — D32 (Q16): `publish.feature:15`,

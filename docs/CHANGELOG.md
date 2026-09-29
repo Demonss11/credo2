@@ -128,6 +128,12 @@
   [`T-06`](tasks/T-06-registry-path-xyz/README.md) и
   [`T-17`](tasks/T-17-merge-command/README.md) (Q17); Q18/Q19 новых задач не
   порождают (сверка ✅/⚪).
+- **Сводка решений `decisions/README.md`** (2026-09-29): рабочий обзор
+  решений журнала — 29 записей D14–D58 (тема, решаемые вопросы, даты, задачи,
+  статус); не канон: текст решения — в `Dn-<слаг>.md`, формулировка —
+  `SPECIFICATION.md` §10, связи — `TRACEABILITY.md`; поддержка — `migrator`
+  при заведении нового `Dn` тем же изменением, что и файл
+  ([`decisions/README.md`](decisions/README.md)).
 
 ### Процесс
 

@@ -321,3 +321,21 @@
     borders: "ok — 19 M + 9 ??; docs/** only plus 4 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched; archive not extended; docs/reviews/** not modified"
   snapshot: "develop @ 5a7fb01 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-decisions-readme
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-decisions-readme-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    counters: "47 files / 278 scenarios = features/README.md:309, unchanged (docs-only package)"
+    rows: "29 = rg -c '^\\| \\[D' decisions/README.md; 29 D-files (glob), each once, ascending"
+    fields: "ok — 12 D-files checked (D14, D16, D19, D21, D32, D35, D50, D52, D53, D54, D57, D58): Статус/Дата/Resolves/Tasks = headers"
+    links: "ok — all targets exist (29 D, Q1–Q19/Q42–Q56, T-02/T-06/T-07/T-08/T-10/T-11/T-12/T-13/T-14/T-16/T-17, BRIEF)"
+    header: "ok — mirrors questions/README.md; statuses accepted · superseded by Dm · rejected = BRIEF.md:95-96; §5.2 = BRIEF.md:175"
+    map: "ok — docs/README.md:18-19 (сводки, alignment col 21) + :48 (decisions/README.md link live)"
+    changelog: "ok — entry :131-136 right after Q16–Q19 :105-130 in '### Документация', link live"
+    borders: "ok — only docs/decisions/README.md (new), docs/README.md, docs/CHANGELOG.md + mail/memory (incl. 2 Q16–Q19 closeout records); journal/TRACEABILITY/SPECIFICATION/tasks/BRIEF/src/tests/Cargo.toml untouched"
+    p3_closed: "yes — decisions/README.md:17-19 reworded by migrator before report (gap nature: pre-journal + pending Q20–Q41; D-numbers on migration, precedent D32/D35); table 29 rows and header unchanged, 55 lines = 53 + 2"
+  snapshot: "develop @ e141476 + working tree (2026-09-29)"
+  at: "2026-09-29"
