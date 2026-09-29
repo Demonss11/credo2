@@ -305,4 +305,39 @@
   `docs/reviews/**`. Фичи/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не
   запускался (D50). Повторная приёмка — `validator` `-r2`; отчёт — та же лента;
   коммит — за `git`.
+- 2026-09-29 · service-migration-q16q19 (вызов 1 из 2): перенос **Q16 → D32**
+  (`docs/decisions/D32-test-gate-mvp.md`, `Resolves: Q16`; строка §10 №32 уже
+  была — маркер `(Q34 (ожидает переноса), Q16; …[D32]…)`) и **Q17 → D57**
+  (`docs/decisions/D57-bare-git-immutability.md`, `Resolves: Q17`, новая §10
+  №57). Созданы `docs/questions/Q16.md` (🟡), `Q17.md` (🟡) — resolved, дата
+  2026-09-26; указатели в `OPEN_QUESTIONS.md` (блок **Q16–Q19**, :124/:129);
+  строки в `TRACEABILITY.md` (:23/:24) и `questions/README.md` (:40/:41).
+  Сверка §5.3 — Q16 🟡: метка теста ✅ (`src/lib.rs` 746–750/850–874;
+  `src/mcp.rs` 238–248, `draft_json` 439–453), гейт publish ⬜ (нет чтения
+  `last_test_checksum` в `src/mcp.rs:282-342`/`src/lib.rs:321-409`) → T-02
+  (новых задач нет; T-05 зависит); кэш `.dar-notebook/results-cache.json` — зона
+  Notebook v0.2. Q17 🟡: слой 2 ✅ (`src/lib.rs` 344–351, `create_ref` 169–180,
+  397–400), слой 1 плоский путь `checks/{name}/{vstr}` (342/383/462) → T-06,
+  слой 3 CAS-merge ⬜ → T-17. `features/**`/`src`/`tests`/`CHANGELOG` не трогал;
+  `cargo` не запускался (D50); shell одиночные. ID: заняты D32/D57; следующая
+  свободная §10 — **№58** (под Q19/D58 в вызове 2). Отчёт — лента
+  `.opencode/mail/service-migration-q16q19.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q16q19 (вызов 2 из 2): перенос **Q18 → D35**
+  (`docs/decisions/D35-semver-v01.md`, `Resolves: Q18`, строка §10 №35 уже
+  была — маркер `(Q18; …[D35]…)`) и **Q19 → D58**
+  (`docs/decisions/D58-workspace-data-dirs.md`, `Resolves: Q19`, новая §10
+  **№58**). Созданы `docs/questions/Q18.md`, `Q19.md` (⚪ оформление, resolved,
+  дата 2026-09-26); указатели в `OPEN_QUESTIONS.md` (блок **Q16–Q19**,
+  :134/:139); строки в `TRACEABILITY.md` (:25/:26) и `questions/README.md`
+  (:42/:43). Сверка §5.3 — Q18 ✅ (`src/core.rs` `compare_pre`/`compare_ident`
+  381–412, `Ord` 415–426, `PartialEq` без build 272–279, `as_storage` 343–351;
+  тесты 630–634/651–656/658–663/699–708; дубль build → `src/lib.rs` 344–351 +
+  `src/mcp.rs` 59/103); Q19 ⚪ (документная: `.credo/` — `src/lib.rs` 784–787;
+  SPEC §4.3 368–372; `notebook_ui.feature:40`). Задач не требуется (known —
+  T-05). Свип «ожидает переноса»: сняты пометки у Q18 в `Q13.md:14`,
+  `questions/README.md:37`, `D14:55,146-148` → живая ссылка; форма
+  `Q1[89] \(ожидает переноса\)` — пусто (reviews не трогал). Блок **Q16–Q19
+  закрыт**. `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не
+  запускался (D50); shell одиночные. ID: заняты D35/D58; следующий свободный —
+  §10 **№59** (D59), Q-номер **Q57**. Отчёт — та же лента; коммит — за `git`.
 

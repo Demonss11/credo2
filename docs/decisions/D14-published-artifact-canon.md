@@ -52,7 +52,7 @@
    Y = minor, Z = patch, без избыточности; публичный REST передаёт версию одной
    строкой, сервер маппит `{version}` → `{X}/{Y}/{Z}`. Pre-release
    (`1.0.0-rc.1`) — вне MVP (вариант пути
-   `checks/{name}/{X}/{Y}/{Z-prerelease}/`; итог Q18 (ожидает переноса):
+   `checks/{name}/{X}/{Y}/{Z-prerelease}/`; итог [Q18](../questions/Q18.md):
    публикация остаётся вне MVP, сравнение — числовое). Обновлены
    `storage_paths.feature` и фичи с путём, `SPECIFICATION.md` §10 (решения
    №14/№28).
@@ -143,9 +143,9 @@
 
 - Вопрос: [Q13](../questions/Q13.md)
 - Связанные: [Q7](../questions/Q7.md) («Следствие для кода», терминология),
-  [Q12](../questions/Q12.md) (источник истины), Q32 (структура пути), Q18
-  (pre-release), Q29 (контракт ответа публикации), Q34 (тест-гейт) — ожидают
-  переноса
+  [Q12](../questions/Q12.md) (источник истины), [Q18](../questions/Q18.md)
+  (pre-release); Q32 (структура пути), Q29 (контракт ответа публикации),
+  Q34 (тест-гейт) — ожидают переноса
 - Задачи: [T-06](../tasks/T-06-registry-path-xyz/README.md),
   [T-07](../tasks/T-07-meta-fields/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №14

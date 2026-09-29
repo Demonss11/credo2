@@ -102,6 +102,32 @@
   [`T-08`](tasks/T-08-materialize-source-file/README.md),
   [`T-06`](tasks/T-06-registry-path-xyz/README.md),
   [`T-07`](tasks/T-07-meta-fields/README.md), T-17).
+- **Перенос Q16–Q19 → D32, D57, D35, D58** (миграция журнала, 29.09.2026):
+  окончание блока «Хранилище, публикация, git». **Q16 → D32** — тест-гейт
+  публикации: готовность к публикации — факт успешного `check.test`, метка
+  теста (`last_test_checksum`/`tested_at`) хранится в черновике; публикация
+  без теста или при расхождении контрольной суммы отклоняется
+  (`publish_failed`); вопрос — [`questions/Q16.md`](questions/Q16.md),
+  решение — [`decisions/D32-test-gate-mvp.md`](decisions/D32-test-gate-mvp.md).
+  **Q17 → D57** — иммутабельность обеспечивает bare-git в три слоя (каталог
+  версии, отказ при повторной публикации, CAS при слиянии), без отдельного
+  механизма (`refs/rules/...`); вопрос —
+  [`questions/Q17.md`](questions/Q17.md), решение —
+  [`decisions/D57-bare-git-immutability.md`](decisions/D57-bare-git-immutability.md).
+  **Q18 → D35** — semver v0.1: pre-release сравнивается численно, build не
+  входит в идентичность версии и отбрасывается `as_storage`; вопрос —
+  [`questions/Q18.md`](questions/Q18.md), решение —
+  [`decisions/D35-semver-v01.md`](decisions/D35-semver-v01.md).
+  **Q19 → D58** — каталоги данных workspace `.credo/` (server) и
+  `.dar-notebook/` (Notebook) — в корне workspace, вне git (`.gitignore`);
+  вопрос — [`questions/Q19.md`](questions/Q19.md), решение —
+  [`decisions/D58-workspace-data-dirs.md`](decisions/D58-workspace-data-dirs.md).
+  Шапочные пометки D32/D57/D35/D58 добавлены в затронутые фичи
+  (`publish`/`test_draft`/`immutability`/`semver`/`deferred`/`storage_paths`/`notebook_ui`).
+  Задачи: [`T-02`](tasks/T-02-test-gate/README.md) (Q16, тест-гейт),
+  [`T-06`](tasks/T-06-registry-path-xyz/README.md) и
+  [`T-17`](tasks/T-17-merge-command/README.md) (Q17); Q18/Q19 новых задач не
+  порождают (сверка ✅/⚪).
 
 ### Процесс
 

@@ -301,3 +301,23 @@
     borders: "ok — 26 M + 11 ?? (vs iteration 1: +validator.md, +receipts.yaml, +r1 report); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched"
   snapshot: "develop @ 711a3c8 + working tree (2026-09-29, after rework)"
   at: "2026-09-29"
+
+- task: service-migration-q16q19
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q16q19-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:124/129/134/139 four pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q16–Q19)' (:126/131/136/141), no full texts (Q20 full text starts :148); numstat 19/173 (deletions only); single batch label Q16–Q19 in archive + 'Перенос' fields Q16.md:10/Q17.md:10/Q18.md:9/Q19.md:9"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' docs (+ multiline): Q16–Q19 nowhere pending; remaining = really unmigrated Q (Q22,Q23,Q29–Q35,Q36–Q39) + historical docs/reviews/**; SPEC:853 = 'Q34 (ожидает переноса), Q16'"
+    dfields: "ok — D32/D57/D35/D58: accepted, Дата 2026-09-26, Resolves Q16/Q17/Q18/Q19 (once each), Спека §10 №32/№57/№35/№58, Affects+Tasks filled; 'Сверка с кодом' D32 🟡, D57 🟡, D35 ✅, D58 ⚪; 'Задач не требуется' D35/D58, 'Задач новых не требуется' D32/D57 (покрытие T-02 / T-06+T-17)"
+    spec10: "ok — :853 №32 marker 'Q34 (ожидает переноса), Q16' + [D32], neighbours №31 :852/№33 :854 intact; :856 №35 with new [D35]; :878 №57 / :879 №58 unique after №56 :877; numstat SPEC 4/2"
+    consistency: "ok — Affects = TRACEABILITY Feature column: Q16 publish+test_draft = D32:10-11; Q17 immutability = D57:7 (features/README in Affects, not in column — as Q14/D55); Q18 semver+deferred+storage_paths = D35:8-10; Q19 notebook_ui = D58:9; tasks T-02 / T-06+T-17 / — / —"
+    headers: "ok — exactly 7 '# Dn (Qx)' lines in 7 features (publish:15, test_draft:11, immutability:7, semver:7, deferred:3, storage_paths:9, notebook_ui:11), inside comment header before 'Функция:', no duplicates; features +1/0 each; counters 47/278 = features/README.md:309 unchanged; Q17 note :136 ([D57]) + [T-06] :143-144"
+    changelog: "ok — 'Перенос Q16–Q19 → D32, D57, D35, D58' :105-130 inside '### Документация', right after Q12–Q15 entry :77-104, before '### Процесс' :132; entry links live"
+    bonus: "ok — Q13.md:14 + D14:55,146-148: 'Q18 (ожидает переноса)' → live [Q18](Q18.md); decision texts not rewritten"
+    task17: "ok — T-17 card 'Источник: D56 (Q15)' (tasks/README.md:51); listed under Q17 in TRACEABILITY:24 and D57:14 as layer-3 coverage, transparently attributed to Q15/[D56] (precedent T-01 in Q12, T-07 in Q7) — not a defect"
+    links: "ok — all link targets exist (Q16–Q19, D32/D35/D57/D58, T-01/T-02/T-05/T-06/T-17, D50/D52/D56, 13 features); Resolves/D IDs unique"
+    borders: "ok — 19 M + 9 ??; docs/** only plus 4 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched; archive not extended; docs/reviews/** not modified"
+  snapshot: "develop @ 5a7fb01 + working tree (2026-09-29)"
+  at: "2026-09-29"

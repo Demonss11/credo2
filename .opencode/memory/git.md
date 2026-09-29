@@ -248,3 +248,21 @@
   публикации, ветка, merge-шаг`. Осталось: `add` 39 → сверка staged (ровно 39)
   → коммит локально, **без `push`**. Хеш — не здесь (F43): вернуть ответом.
   Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q16q19` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q16q19.md` §«пакет подтверждён
+  (сужение: только коммит)» — дословно «Только коммит (без push)»; `push`
+  отменён). Снимок до: 21 `M` + 10 `??` = 31 путь, совпал; 32-й — чекпойнт
+  `git.md` (этот). База HEAD `5a7fb01`, `develop`, ahead 1 от `origin/develop`
+  (`711a3c8`); коммита с целевым сообщением нет. 32 пути: письмо
+  `mail/service-migration-q16q19.md`, `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/CHANGELOG.md`, `docs/OPEN_QUESTIONS.md`,
+  `docs/SPECIFICATION.md`, `docs/TRACEABILITY.md`,
+  `docs/decisions/{D14-published-artifact-canon,D32-test-gate-mvp,D35-semver-v01,D57-bare-git-immutability,D58-workspace-data-dirs}.md`,
+  `docs/features/README.md` + 7 `docs/features/*.feature` (deferred, immutability,
+  notebook_ui, publish, semver, storage_paths, test_draft),
+  `docs/questions/{Q13,Q16,Q17,Q18,Q19,README}.md`,
+  `docs/reviews/migration-q16q19-2026-09-29.md`. Сообщение —
+  `docs(D32, D57, D35, D58): перенос Q16–Q19 — тест-гейт, bare-git
+  иммутабельность, semver, каталоги данных`. Осталось: `add` 32 → сверка staged
+  (ровно 32) → коммит локально, **без `push`**. Хеш — не здесь (F43): вернуть
+  ответом. Веток/merge/тегов нет.
