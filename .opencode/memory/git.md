@@ -300,3 +300,20 @@
   аутентификация, конверт ошибок`. Осталось: `add` 32 → сверка staged (ровно 32)
   → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин; публикует новый
   коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q24q26` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q24q26.md` §«пакет подтверждён» —
+  дословно «Коммит + push»; сообщение
+  `docs(D36, D37, D24): перенос Q24–Q26 — границы MVP: batch, объяснение клиента, импорт/экспорт`).
+  Снимок до: 18 `M` + 8 `??` = 26 путей, совпал; 27-й — чекпойнт `git.md` (этот).
+  База HEAD `87cbe13`, `develop`, синхрон с `origin/develop`; коммита с целевым
+  сообщением нет. 27 путей: письмо `mail/service-migration-q24q26.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D22-rest-paths-canon,D24-import-export-deferred,D36-batch-deferred,D37-client-explanation-deferred,README}.md`,
+  `docs/features/{batch,client_explanation,import_export}.feature`,
+  `docs/questions/{Q20,Q21,Q23,Q24,Q25,Q26,README}.md`,
+  `docs/reviews/migration-q24q26-2026-09-29.md`. Осталось: `add` 27 → сверка
+  staged (ровно 27) → коммит → проверки → `push origin develop` (таймаут ≥ 5 мин;
+  публикует новый коммит). Хеш — не здесь (F43): вернуть `lead` ответом.
+  Веток/merge/тегов нет.

@@ -144,3 +144,16 @@
   инструкции только добавление D-строк. `cargo`/git не запускались (D50);
   журнал/`TRACEABILITY`/`SPECIFICATION`/`tasks`/`decisions/README.md` не трогал.
   Остаток: приёмка `validator` (docs) → пакет `git`.
+- 2026-09-29 · операция `service-migration-q24q26` · сопутствующие к переносу
+  Q24–Q26 → D36/D37/D24: обратные ссылки `# Dn (Qx): …` (BRIEF §5.6 п.2) в
+  шапках трёх фич — D36 (Q24): `batch.feature:9`; D37 (Q25):
+  `client_explanation.feature:10`; D24 (Q26): `import_export.feature:7`
+  (прежние D22/Q20-строки в `batch`/`import_export` сохранены, новые —
+  отдельными строками). Статусы ⏸/⏳ (`features/README.md` :274–276) на месте,
+  правок не требовалось. `docs/CHANGELOG.md` :161–182 — запись «Перенос
+  Q24–Q26 → D36, D37, D24» (связка «границы MVP», отложенные сценарии; ⚪,
+  задач не требуется). Счётчики 47/278 не менялись (`features/README.md:309`,
+  сверено чтением); ссылки D/Q живые (glob 6/6). `cargo`/git не запускались
+  (D50); `src/**`, `tests/**`, журнал, `TRACEABILITY`/`SPECIFICATION`/`tasks`/
+  `decisions/README.md` не трогал. Остаток: приёмка `validator` (docs) →
+  пакет `git`.

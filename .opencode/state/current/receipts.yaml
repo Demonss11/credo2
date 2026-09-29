@@ -360,3 +360,22 @@
     borders: "ok — 17 M + 9 ??; docs/** only plus 3 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched; archive not extended"
   snapshot: "develop @ 48c5b77 + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q24q26
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q24q26-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:168/173/178 pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q24–Q26)' (:170/175/180); no full texts (Q27 full from :183); numstat 14/119"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' docs (+ multiline): Q24–Q26 nowhere pending; remaining = unmigrated Q27–Q41 + historical docs/reviews/**"
+    dfields: "ok — D36/D37/D24: accepted; Resolves Q24/Q25/Q26 once each; Спека §10 №36/№37/№24; Affects+Tasks filled; 'Сверка с кодом' ⚪ not applicable with explicit 'Задач не требуется'"
+    spec10: "ok — :847 №24 [D24], :859 №36 [D36], :860 №37 [D37]; diff -U0 = 3 lines (links only); markers/neighbours intact; no-D rows reference only Q27–Q41 (parenthetical :18)"
+    consistency: "ok — Affects = TRACEABILITY Feature: Q24 batch.feature (:9), Q25 client_explanation.feature (:10), Q26 import_export.feature (:7, + D22 line :6); tasks '—'"
+    counters: "ok — 47 files / 278 scenarios = features/README.md:309; statuses ⏸/⏳ :274-276; features/README.md untouched"
+    decisions_readme: "ok — 36 rows (rg -c '^\\| \\[D'); D24 :35, D25 :36, D35 :39, D36 :40, D37 :41, D38 :42; parenthetical :18 'Q27–Q41'; 36 rows ↔ 36 D-files"
+    changelog: "ok — 'Перенос Q24–Q26 → D36, D37, D24' :161-182 after Q20–Q23 :137-160; links live"
+    links: "ok — all link targets exist; Resolves/D IDs unique; Q24/Q25/Q26 not pending anywhere"
+    borders: "ok — 16 M + 7 ??; docs/** only plus 3 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched"
+  snapshot: "develop @ 87cbe13 + working tree (2026-09-29)"
+  at: "2026-09-29"

@@ -158,6 +158,28 @@
   Шапочные пометки D22/D23/D26/D25 добавлены в затронутые фичи
   (`rest_api`/`evaluate`/`batch`/`import_export`/`manifest`/`dashboard`/`rest_auth`/`errors`).
   Сверка с кодом — ✅ по всем четырём, задач не требуется.
+- **Перенос Q24–Q26 → D36, D37, D24** (миграция журнала, 29.09.2026): связка
+  «границы MVP» — отложенные сценарии (batch, клиентское объяснение,
+  импорт/экспорт) вне MVP/v0.2. **Q24 → D36** — массовый прогон (batch) —
+  пост-MVP/v0.2; в v0.1 единица исполнения — атомарный `evaluate`, полный
+  прогон оркеструет клиент по манифесту, серверный агрегат не нужен; при
+  возврате — отдельный эндпоинт `POST /checks/{name}/versions/{version}/batch`,
+  ключи латиницей; вопрос — [`questions/Q24.md`](questions/Q24.md), решение —
+  [`decisions/D36-batch-deferred.md`](decisions/D36-batch-deferred.md).
+  **Q25 → D37** — клиентское объяснение — пост-MVP/v0.2; MCP-инструмент
+  `check.explain_client` в MVP не вводится (источника шаблона и «политики
+  кредитования» нет), сырьё MVP — `Explanation`; вопрос —
+  [`questions/Q25.md`](questions/Q25.md), решение —
+  [`decisions/D37-client-explanation-deferred.md`](decisions/D37-client-explanation-deferred.md).
+  **Q26 → D24** — импорт/экспорт `.dar` — вне MVP: при источнике истины
+  `rules/*.dar` (Q12) обмен вырождается в файловую копию/`git show` и
+  `check.create`, отдельный транспорт YAGNI; вопрос —
+  [`questions/Q26.md`](questions/Q26.md), решение —
+  [`decisions/D24-import-export-deferred.md`](decisions/D24-import-export-deferred.md).
+  Шапочные пометки D36/D37/D24 добавлены в затронутые фичи
+  (`batch`/`client_explanation`/`import_export`). Сверка с кодом — ⚪ «не
+  применимо» (решения об отсрочке), задач не требуется; статусы ⏸/⏳ и
+  счётчики `features/README.md` (47/278) не меняются.
 
 ### Процесс
 

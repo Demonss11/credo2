@@ -401,4 +401,37 @@
   (D50). **Блок Q20–Q23 закрыт** (D22/Q20, D23/Q21, D26/Q22, D25/Q23). ID:
   заняты D22/D23/D25/D26; далее §10 **№59**, Q-номер **Q57**. Отчёт — та же
   лента; коммит — за `git`.
+- 2026-09-29 · service-migration-q24q26 (вызов 1 из 2): перенос **Q24 → D36**
+  (`docs/decisions/D36-batch-deferred.md`, `Resolves: Q24`, §10 №36 — добавлена
+  D-ссылка) и **Q25 → D37** (`docs/decisions/D37-client-explanation-deferred.md`,
+  `Resolves: Q25`, §10 №37). Созданы `docs/questions/Q24.md`, `Q25.md` (дата
+  2026-09-26, ⚪ оформление, «Перенос: 2026-09-29, блок Q24–Q26»). Сводки:
+  D36/D37 в `decisions/README.md` (после D35, перед D38; **35 строк**,
+  parenthetical «Q24–Q41» → «Q26–Q41»); Q24/Q25 в `TRACEABILITY.md` и
+  `questions/README.md` (Feature — ровно `.feature` из `Affects`). Архив:
+  Q24/Q25 → указатели (метка «блок Q24–Q26»), Q26 полный — ждёт вызова 2.
+  Сверка §5.3 — обе ⚪ (отсрочка): `src/rest.rs` 19–31 без `.../batch`, поиск
+  по `src/` 0; фичи-шапки «ОТЛОЖЕНО», `features/README.md` ⏸/⏳ (275/276);
+  Tasks: —. Свип «ожидает переноса»: Q20/Q21/Q23 + `questions/README.md` —
+  Q24 живой ссылкой. SPEC §10 №36/№37 — D-ссылки (маркеры целы); OPEN_QUESTIONS
+  в SPEC — :507 Q29 (не трогать) и шапка (:816). `features/**`/`CHANGELOG`/
+  `src`/`tests` не трогал; `cargo` не запускался (D50). **Q26 → D24 (§10 №24)**
+  — вызов 2. Далее §10 **№59**, Q57. Отчёт — лента
+  `.opencode/mail/service-migration-q24q26.md`; коммит — за `git`.
+- 2026-09-29 · service-migration-q24q26 (вызов 2 из 2): перенос **Q26 → D24**
+  (`docs/decisions/D24-import-export-deferred.md`, `Resolves: Q26`, §10 №24 —
+  добавлена D-ссылка). Создан `docs/questions/Q26.md` (дата 2026-09-25,
+  ⚪ оформление, «Перенос: 2026-09-29, блок Q24–Q26»). Сводки: D24 в
+  `decisions/README.md` (между D23 и D25; **36 строк**; parenthetical
+  «Q26–Q41» → «Q27–Q41»); Q26 в `TRACEABILITY.md` и `questions/README.md`
+  (Feature — `import_export.feature`). Архив: Q26 → указатель, полного текста
+  нет. Сверка §5.3 — ⚪ (отсрочка): в `src/` нет `check.export_draft`/
+  `check.import`/`text/dar` (только «сторож»-комментарий `mcp.rs:597` + тест
+  `no_import_export_tools_q26`), `rest.rs` 19–31 без экспорта/импорта; шапка
+  фичи «ОТЛОЖЕНО», `features/README.md:274` ⏸/⏳; Tasks: —. Свип: Q26 — живой
+  ссылкой в Q20/Q24/D36/D22(Связанные)/`questions/README.md`. **Связка
+  Q24–Q26 закрыта** (D36/D37/D24). Дальше 4б-2 (Q27+Q30); §10 **№59**, Q57.
+  `features/**`/`CHANGELOG`/`src`/`tests` не трогал; `cargo` не запускался
+  (D50). Отчёт — лента `.opencode/mail/service-migration-q24q26.md`; коммит —
+  за `git`.
 
