@@ -308,3 +308,20 @@
   образцу D18/D33 (D-строка после Q-блоков). Журнал/SPEC/`TRACEABILITY`/`tasks`/
   `reviews`/`src`/`tests` не трогал. Остаток: приёмка `validator` (docs) → пакет
   `git`.
+- 2026-09-29 · операция `service-migration-q40q41` · сопутствующие к переносу
+  Q40+Q41 → D20/D60: `docs/features/README.md` — нота «Решения Q5/Q40» (`:14–15`)
+  дополнена `[Q40](../questions/Q40.md) → [D20](../decisions/D20-features-docs-dod.md)`
+  (после пары Q5/D19); `:285–286` — `(Q40)` → `([Q40], [D20])` по стилю ноты Q39
+  (`:256`). Обратные пометки `# D20 (Q40)`: `testing.feature:2` (после
+  `# language: ru`), `agents-cycle.feature:7` (в конец шапки, до `Функция:`;
+  `# D38`/`# D39` и строка `:6` целы). `docs/CHANGELOG.md:335–351` — запись
+  «Перенос Q40+Q41 → D20/D60» (Q40 — фичи-документация, DoD fmt/clippy/test --all
+  + ручной UI, `features_inventory.rs`, cucumber-rs v0.2; Q41 — «один факт — один
+  канон», таблица ролей документов, полный контекст D60; сверка ⚪, задач не
+  требуется). Проверки: ссылки 6/6 + `tests/features_inventory.rs` живы (glob);
+  счётчики 47/278 не менялись (`:313`); сценарии `testing` 5 / `agents-cycle` 7
+  без изменений; `# D20 (Q40)` по 1 на файл. `cargo`/git не запускались (D50);
+  журнал/BRIEF/`docs/README`/SPEC/`tasks`/`reviews`/`src`/`tests` не трогал.
+  Остаток: приёмка `validator` (отчёт `reviews/migration-q40q41-2026-09-29.md`) →
+  пакет `git` («Коммит + push»). Финишные формулировки «до конца миграции» —
+  отдельным блоком.

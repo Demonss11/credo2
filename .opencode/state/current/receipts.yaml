@@ -616,3 +616,28 @@
     borders: "ok — 17 M + 3 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/** not touched"
   snapshot: "develop @ 710eb7b (= origin/develop) + working tree (2026-09-29)"
   at: "2026-09-29"
+
+- task: service-migration-q40q41
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q40q41-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes are one '# D20 (Q40)' comment line each, scenarios/composition and counters unchanged (47/278 = features/README.md:313); review.md:36-39 exception not triggered"
+    journal: "ok — new Q40.md + Q41.md + new D20-features-docs-dod.md + D60-docs-ownership-sync.md; Resolves [Q40]/[Q41], dates 2026-09-24/2026-09-26, accepted; Tasks: — + 'Задач не требуется', 'Сверка с кодом' ⚪ (documented, Q40's machine part covered by tests/features_inventory.rs); migration label 'блок «Процесс», Q40+Q41'"
+    affects: "ok — D20:7-13 §8/§9/§10 + testing.feature + features/README + features_inventory.rs + ci.yml; D60:7-16 §6.1/§10 + AGENTS.md/docs/README.md/BRIEF/README links to journal; q31q33 P3 lesson not reproduced"
+    spec10: "ok — :843 row 20 '(Q40)' -> '(Q40; полный контекст — [D20]…)' diff exactly 1 line, neighbours №19 :842 / №21 :844 intact; new row №60 :883 right after №59 :882, before blank :884 + '---' :885/§11; §10 header :811 got [D60] link; numstat 3/2"
+    archive: "ok — git diff -U0 single hunk -272,73 +272,11; Q40 :272 / Q41 :278 -> pointers (Q39 style), order Q39->Q40->Q41 kept; no full texts; matrix ':286-297' intact; header :13-17 untouched; 42 pointers (rg -c '→ перенесён'); numstat 11/73"
+    decisions_readme: "ok — 49 table rows (rg -c '^\\| \\[D') = 49 D-files (rg --files); D20 :36 between D19 :35 and D21 :37; D60 :76 after D59 :75; rg 'ожида' empty; parenthetical :17-20 reformulated (no unmigrated left), :6-7 untouched"
+    traceability: "ok — Q40 :47 / Q41 :48 between Q39 :46 and Q42 :49; D=D20/D60, features live, Tasks —, resolved; 2/0"
+    questions_readme: "ok — Q40 :64 / Q41 :65 between Q39 :63 and Q42 :66; links live; 2/0"
+    sweep: "ok — rg 'ожида[ею]т переноса' outside reviews -> none; multiline rg -nU 'ожида[ею]т\\s+переноса' -g '!docs/reviews/**' -> empty; 'Q40+|Q41+' only block labels/archive pointers/CHANGELOG/reviews history; 'не перенес…' only finishing phrases decisions/README:7 + SPEC:815 (out of scope by owner decision)"
+    links: "ok — Q5.md:11 live [Q40]/[Q41]; D19 :58-59/:77-78/:118-119 live refs (texts not rewritten); D31 :151-153 marker removed -> live refs"
+    features: "ok — note :14-15 ([Q40]->[D20]) + :285-286; exactly one '# D20 (Q40)' line per file (testing.feature:2, agents-cycle.feature:7); scenarios 5/7 unchanged (rg 'Сценарий:'); counters :313 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q40+Q41 → D20/D60' :335-351 right after Q39 (:319-334), before '### Процесс' :353; links live"
+    p3: "docs/decisions/D20-features-docs-dod.md:81-82 — three features/README line refs stale after docs-writer inserts (:14-15 and :285-286): 'шапка Q5/Q40 (…:12–20)' -> block now :12–21; 'Инвентаризация фич (:331)' -> :333; 'no runner line (:284)' -> :285–286; docs/decisions/D60-docs-ownership-sync.md:107 — 'OPEN_QUESTIONS.md:341' no longer resolves (Q41 block replaced by pointer :278-282; :341 = matrix row 'Аутентификация | Q22'); same consequence in Q41.md:51-55; both one-line fixes for migrator"
+    p3_closure: "closed 2026-09-29 — D20:81-82 now ':12–21', ':333', ':285–286' (match features/README.md blocks); D60:107 archived number OPEN_QUESTIONS.md:341 replaced by live [Q41](../questions/Q41.md) (':51–55', Q41.md:51-55 holds 'Следствия (выполнено) … ADR-003'); rg ':12–20|:331|:284|OPEN_QUESTIONS\\.md:341' outside reviews -> empty; line counts D20 118 / D60 145 / Q41.md 59 unchanged (in-place edits); other refs intact; tracked-file numstat unchanged vs acceptance (only role memories + receipts); verdict stands (accepted_with_notes)"
+    crosslinks: "ok — D20/D60/Q40/Q41 mutual, SPEC/features/tests/ci.yml/AGENTS.md/docs-README/tasks-README/GRAMMAR/D6/D16/D17/D19/D21/D50/Q5/Q2/Q4 all exist; no broken links; no duplicate IDs"
+    borders: "ok — 15 M + 6 ??; only docs/** journal + 3 role memories + feed + report (+ pre-existing r3 handoff mail); src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/**, .github/**, BRIEF.md, docs/README.md untouched; finishing 'до конца миграции' formulations untouched"
+    feed: "ok — service-migration-q40q41.md order opening :26 -> migrator :76 -> docs-writer :126; no orphan/out-of-order fragments"
+  snapshot: "develop @ 8fa027e (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"

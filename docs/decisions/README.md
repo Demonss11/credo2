@@ -14,9 +14,10 @@
 
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
-Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q40–Q41); при переносе записи получают
-D-файлы с этими номерами (прецедент — D32/D35).
+Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения;
+при переносе записи получают D-файлы с этими номерами (прецеденты заполнения
+пропусков — D32/D35, D20/D60). Неперенесённых записей не осталось: все вопросы
+архива оформлены журналом (блок «Процесс», Q40+Q41, — последний).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
 
@@ -32,6 +33,7 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D17](D17-priority-out-of-mvp.md) | `Приоритет` вне MVP; синтаксис вернётся в v0.2 | [Q4](../questions/Q4.md) | 2026-09-24 | — | accepted |
 | [D18](D18-pipelines-out-lsp-mvp.md) | Конвейеры/скоринги/таблицы вне MVP (язык v0.1); LSP — в MVP: initialize, синхронизация, diagnostics, completion, hover, symbols, semanticTokens; formatting/definition/references — v0.2 | [Q36](../questions/Q36.md), [Q38](../questions/Q38.md) | 2026-09-24 | — | accepted |
 | [D19](D19-statuses-priorities-canon.md) | Две оси меток; единственный канон — `features/README.md` | [Q5](../questions/Q5.md), [Q6](../questions/Q6.md) (попутно) | 2026-09-24 | — | accepted |
+| [D20](D20-features-docs-dod.md) | `.feature` — документация, не исполняемая спецификация; DoD = `cargo fmt --check` + `cargo clippy -- -D warnings` + `cargo test --all` + ручной UI-прогон; cucumber-rs — v0.2 (backend); инвентаризация фич — `tests/features_inventory.rs` | [Q40](../questions/Q40.md) | 2026-09-24 | — | accepted |
 | [D21](D21-core-semantics-v01.md) | Семантика ядра v0.1 — строгие ошибки, словарь решений, канон объяснения | [Q8](../questions/Q8.md), [Q9](../questions/Q9.md), [Q10](../questions/Q10.md), [Q42](../questions/Q42.md) | 2026-09-24 | — | accepted |
 | [D22](D22-rest-paths-canon.md) | Канон REST-путей — `/checks/{name}/versions/{version}/...`; принцип атомарной композиции | [Q20](../questions/Q20.md) | 2026-09-25 | — | accepted |
 | [D23](D23-get-checks-manifest.md) | Схема `GET /checks` — манифест `{schema_version, count, service_hash, checks[]}`; `kind` не вводится | [Q21](../questions/Q21.md) | 2026-09-25 | — | accepted |
@@ -71,3 +73,4 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D57](D57-bare-git-immutability.md) | Иммутабельность версии — bare-git, без отдельного механизма | [Q17](../questions/Q17.md) | 2026-09-26 | [T-06](../tasks/T-06-registry-path-xyz/README.md), [T-17](../tasks/T-17-merge-command/README.md) | accepted |
 | [D58](D58-workspace-data-dirs.md) | Каталоги данных workspace — `.credo/` и `.dar-notebook/` | [Q19](../questions/Q19.md) | 2026-09-26 | — | accepted |
 | [D59](D59-workspace-templates.md) | Создание workspace и шаблоны — `rules/Пример.dar`, `README.md`, `.gitignore`; «Создать правило» пишет парсящийся шаблон | [Q35](../questions/Q35.md) | 2026-09-26 | — | accepted |
+| [D60](D60-docs-ownership-sync.md) | Владение документами и синхронизация — политика «один факт — один канон»: роли документов; статусы/числа только в `features/README.md`; новое решение — строка §10 + журнал (+ ADR при сквозном); расхождение с кодом — 🟡 + задача | [Q41](../questions/Q41.md) | 2026-09-26 | — | accepted |

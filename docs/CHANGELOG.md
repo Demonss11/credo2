@@ -332,6 +332,23 @@
   [`lsp_notebook.feature`](features/lsp_notebook.feature). Сверка с кодом — ⚪
   (LSP/Notebook — Фаза 2–3, задач не требуется); статусы и счётчики
   `features/README.md` (47/278) не меняются.
+- **Перенос Q40+Q41 → D20/D60** (миграция журнала, 29.09.2026): **Q40** — фичи
+  остаются документацией и чек-листами, а не исполняемой спецификацией: в MVP
+  cucumber-раннера нет, DoD — `cargo fmt --check` + `cargo clippy -- -D warnings`
+  + `cargo test --all` + ручной прогон UI-сценариев, внедрение cucumber-rs —
+  v0.2; структура и счётчики фич проверяются тестом
+  [`tests/features_inventory.rs`](../tests/features_inventory.rs). **Q41** —
+  политика «один факт — один канон» и таблица ролей документов (`docs/README.md`,
+  `AGENTS.md` §«Документы и решения»): вместо копии канона — ссылка. Вопросы —
+  [`questions/Q40.md`](questions/Q40.md),
+  [`questions/Q41.md`](questions/Q41.md); решения —
+  [`decisions/D20-features-docs-dod.md`](decisions/D20-features-docs-dod.md),
+  [`decisions/D60-docs-ownership-sync.md`](decisions/D60-docs-ownership-sync.md)
+  (полный контекст Q41 — D60). Шапочные пометки `# D20 (Q40)` добавлены в
+  [`testing.feature`](features/testing.feature) и
+  [`agents-cycle.feature`](features/agents-cycle.feature). Сверка с кодом — ⚪
+  (документная, задач не требуется); статусы и счётчики `features/README.md`
+  (47/278) не меняются.
 
 ### Процесс
 

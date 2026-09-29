@@ -478,3 +478,26 @@
   автоперезапуска`. Осталось: `add` 24 → сверка staged (ровно 24: 19 M + 5 A)
   → коммит → `push origin develop` (таймаут ≥ 5 мин; публикует новый коммит
   поверх `710eb7b`). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q40q41` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q40q41.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»). Снимок до: 17 `M` + 7 `??` =
+  24 пути, совпал; посторонних/пропавших нет; база HEAD `8fa027e`, `develop` =
+  `origin/develop` (синхрон); коммита с целевым сообщением нет (`--all` по
+  `Q40`/`D20`/`D60` — только исторический `7bca4d9 Q5Q40` и `491e153 (Q41)`,
+  целевого нет; `D20`/`D60` пусто). 25-й — чекпойнт `git.md` (этот, дозапись в
+  уже отслеживаемый файл; путей не добавляет). Состав (25): ленты
+  `.opencode/mail/service-handoff-2026-09-29-r3.md` (??),
+  `.opencode/mail/service-migration-q40q41.md` (??),
+  памяти `.opencode/memory/{docs-writer,git,migrator,service,validator}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D19-statuses-priorities-canon,D31-check-create-contract,README}.md`,
+  `docs/decisions/{D20-features-docs-dod,D60-docs-ownership-sync}.md` (??),
+  `docs/features/{README.md,agents-cycle.feature,testing.feature}`,
+  `docs/questions/{Q5,README}.md`, `docs/questions/{Q40,Q41}.md` (??),
+  `docs/reviews/migration-q40q41-2026-09-29.md` (??). Сообщение —
+  `docs(D20, D60): перенос Q40, Q41 — процесс: фичи-документация, владение
+  документами`. Осталось: `add` 25 → сверка staged (ровно 25: 18 `M`
+  [17 из снимка + чекпойнт `git.md`] + 7 `A`) → коммит → `push origin develop` (таймаут ≥ 5 мин;
+  публикует новый коммит поверх `8fa027e`). Хеш — не здесь (F43): вернуть `lead`
+  ответом. Веток/merge/тегов нет.
