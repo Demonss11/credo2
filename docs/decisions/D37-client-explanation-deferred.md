@@ -81,7 +81,7 @@
   [`client_explanation.feature`](../features/client_explanation.feature),
   3 сценария, статус ⏸, приоритет ⏳, «пост-MVP (Q25)».
 - **Зависимости** ([Q31](../questions/Q31.md) пересказ агентом; Q37 БД/справочники,
-  Q36 конвейеры — ожидают переноса); [Q10](Q10.md) и [Q4](Q4.md) закрыты
+  [Q36](../questions/Q36.md) (конвейеры)); [Q10](Q10.md) и [Q4](Q4.md) закрыты
   ([D21](D21-core-semantics-v01.md), [D17](D17-priority-out-of-mvp.md)).
 
 `cargo` не запускался (§5.3, [D50](D50-dod-by-package-scope.md)): решение не
@@ -109,8 +109,8 @@ MVP расхождений нет — кода нет и не планирует
 - Связанные: [D21](D21-core-semantics-v01.md) (схема `Explanation`, словарь
   решений), [D17](D17-priority-out-of-mvp.md) (`Приоритет` вне MVP),
   [D53](D53-error-messages-language.md) (язык текстов); [Q31](../questions/Q31.md)
-  (пересказ агентом), Q37 (БД/справочники), Q36 (конвейеры), Q10 (словарь
-  банка) — Q10 закрыт D21, Q37/Q36 ожидают переноса
+  (пересказ агентом), Q37 (БД/справочники), [Q36](../questions/Q36.md) (конвейеры), Q10 (словарь
+  банка) — Q10 закрыт D21, Q37 ожидает переноса
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №37;
   §4.5 (инструменты MVP)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

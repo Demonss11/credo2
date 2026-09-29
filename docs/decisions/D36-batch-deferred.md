@@ -97,8 +97,7 @@ MVP расхождений нет — кода нет и не планирует
   [D23](D23-get-checks-manifest.md) (манифест — основа клиентской оркестрации),
   [D25](D25-rest-error-envelope.md) (конверт ошибок),
   [D53](D53-error-messages-language.md) (язык ключей и текстов);
-  [Q26](../questions/Q26.md) (import/export); Q36 (конвейеры) — ожидает
-  переноса
+  [Q26](../questions/Q26.md) (import/export); [Q36](../questions/Q36.md) (конвейеры)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №36;
   §4.4 (MVP-минимум REST)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

@@ -406,8 +406,9 @@
 - 29.09.2026 · пакет `service-migration-q35` (прямо в `develop`, подтверждение
   владельца в `.opencode/mail/service-migration-q35.md` §«пакет подтверждён
   (коммит + push)» — дословно «Коммит + push»). Снимок до: 16 `M` + 5 `??` =
-  21 путь, совпал; посторонних нет; база HEAD `e0e06f7`, `develop`, ahead 1 от
-  `origin/develop` (`bc76060`); коммита с целевым сообщением нет (`--all` пусто).
+  21 путь, совпал; посторонних нет; база HEAD `e0e06f7`, `develop` = `origin/develop`
+  (синхрон; поправка сервисной сессии 29.09.2026 — ранее ошибочно «ahead 1 от
+  `origin/develop` (`bc76060`)»); коммита с целевым сообщением нет (`--all` пусто).
   22-й — чекпойнт `git.md` (этот). Пути: письмо `mail/service-migration-q35.md`,
   `mail/service-handoff-2026-09-29-r2.md` (ожидаемая с прошлой сессии),
   `memory/{docs-writer,git,migrator,service,validator}.md`,
@@ -419,5 +420,24 @@
   `docs/reviews/migration-q35-2026-09-29.md`. Сообщение —
   `docs(D59): перенос Q35 — создание workspace и шаблоны: Пример.dar, README.md,
   .gitignore`. Осталось: `add` 22 → сверка staged (ровно 22) → коммит →
-  проверки → `push origin develop` (таймаут ≥ 5 мин; публикует `e0e06f7` и новый
-  коммит). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+  проверки → `push origin develop` (таймаут ≥ 5 мин; публикует один новый
+  коммит — `e0e06f7..681c4b1`; поправка 29.09.2026). Хеш — не здесь (F43): вернуть `lead` ответом. Веток/merge/тегов нет.
+- 29.09.2026 · пакет `service-migration-q36q38` (прямо в `develop`, подтверждение
+  владельца в `.opencode/mail/service-migration-q36q38.md` §«пакет подтверждён
+  (коммит + push)» — дословно «Коммит + push»; поправка q35 — «Включить в пакет»).
+  Снимок до: 26 `M` + 5 `??` = 31 путь, совпал; посторонних нет; база HEAD
+  `681c4b1`, `develop` = `origin/develop` (синхрон); коммита с целевым сообщением
+  нет (`--all` пусто). Чекпойнт `git.md` — дозапись в уже отслеживаемый файл
+  (число путей не меняет, 31). Состав: `mail/service-migration-q35.md` (поправка
+  q35), `mail/service-migration-q36q38.md`,
+  `memory/{docs-writer,git,migrator,service,validator}.md`,
+  `state/current/receipts.yaml`, `docs/{CHANGELOG,OPEN_QUESTIONS,SPECIFICATION,TRACEABILITY}.md`,
+  `docs/decisions/{D17-priority-out-of-mvp,D22-rest-paths-canon,D31-check-create-contract,D36-batch-deferred,D37-client-explanation-deferred,D18-pipelines-out-lsp-mvp,README}.md`,
+  `docs/features/{README.md,graph_view,lsp}.feature`,
+  `docs/questions/{Q10,Q20,Q21,Q24,Q25,Q36,Q38,README}.md`,
+  `docs/reviews/migration-q36q38-2026-09-29.md`. Сообщение —
+  `docs(D18): перенос Q36, Q38 — конвейеры вне MVP; LSP-MVP:
+  diagnostics/completion/hover/symbols/semanticTokens`. Осталось: `add` 31 →
+  сверка staged (ровно 31) → коммит → `push origin develop` (таймаут ≥ 5 мин;
+  публикует новый коммит поверх `681c4b1`). Хеш — не здесь (F43): вернуть `lead`
+  ответом. Веток/merge/тегов нет.

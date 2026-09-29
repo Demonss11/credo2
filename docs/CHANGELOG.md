@@ -284,6 +284,23 @@
   (`notebook_ui`/`file_management`). Сверка с кодом — ⚪ (UI Notebook вне кода
   `credo2`, задач не требуется); статусы и счётчики `features/README.md`
   (47/278) не меняются.
+- **Перенос Q36, Q38 → D18** (миграция журнала, 29.09.2026): конвейеры,
+  скоринги и таблицы — вне MVP (язык v0.1 — одно правило в одном
+  `.dar`-файле; сценарий documentSymbol в [`lsp.feature`](features/lsp.feature)
+  — это workspace symbols, несколько открытых файлов; граф конвейера
+  [`graph_view.feature`](features/graph_view.feature) отложен ⏳, возврат в
+  v0.2 вместе с `Приоритет`, Q4); LSP входит в MVP — обязательный состав:
+  initialize/handshake, didOpen/didChange, diagnostics, completion (ключевые
+  слова + значения решений), hover, documentSymbol/workspaceSymbols,
+  semanticTokens; formatting/definition/references и completion полям — v0.2
+  (Q37); реализация — крейт `lsp-dar` поверх `parse_rule` (Фаза 2). Вопросы —
+  [`questions/Q36.md`](questions/Q36.md),
+  [`questions/Q38.md`](questions/Q38.md), решение —
+  [`decisions/D18-pipelines-out-lsp-mvp.md`](decisions/D18-pipelines-out-lsp-mvp.md).
+  Шапочные пометки `# D18 (Q36, Q38)` добавлены в затронутые фичи
+  (`lsp`/`graph_view`). Сверка с кодом — ⚪ (LSP-сервер и граф вне кода
+  `credo2`, задач не требуется); статусы и счётчики `features/README.md`
+  (47/278) не меняются.
 
 ### Процесс
 

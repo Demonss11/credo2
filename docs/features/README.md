@@ -80,7 +80,9 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > `editor.feature`, `lsp.feature`, `client_explanation.feature` относятся
 > к целевому состоянию v0.2.
 >
-> **Решения Q36/Q38 (2026-09-24):** конвейеры/скоринги/таблицы — вне MVP;
+> **Решения Q36/Q38 (2026-09-24; [Q36](../questions/Q36.md),
+> [Q38](../questions/Q38.md),
+> [D18](../decisions/D18-pipelines-out-lsp-mvp.md)):** конвейеры/скоринги/таблицы — вне MVP;
 > LSP — в MVP в составе diagnostics + completion + hover + symbols +
 > semanticTokens (SPEC §3.3), formatting/definition/references — v0.2.
 

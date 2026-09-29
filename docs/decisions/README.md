@@ -15,7 +15,7 @@
 **Каталог:** `docs/decisions/Dn-<слаг>.md`. `Dn` — номер строки решений в
 `SPECIFICATION.md` §10; номера не переиспользуются, слаг не переименовывается.
 Пропуски номеров — строки §10 без отдельного D-файла: до-журнальные решения и
-решения ещё не перенесённых вопросов (Q36–Q41); при переносе записи получают
+решения ещё не перенесённых вопросов (Q37, Q39–Q41); при переносе записи получают
 D-файлы с этими номерами (прецедент — D32/D35).
 
 **Статусы:** `accepted` · `superseded by Dm` · `rejected`.
@@ -29,6 +29,7 @@ D-файлы с этими номерами (прецедент — D32/D35).
 | [D15](D15-evolution-credo2.md) | Эволюция `credo2`, а не greenfield | [Q1](../questions/Q1.md) | 2026-09-24 | [T-10](../tasks/T-10-workspace-phase-0/README.md) | accepted |
 | [D16](D16-dsl-canon-regex-mvp.md) | Канон языка v0.1 — `GRAMMAR.md`; парсер MVP — regex-минимум | [Q2](../questions/Q2.md), [Q3](../questions/Q3.md) | 2026-09-24 | — | accepted |
 | [D17](D17-priority-out-of-mvp.md) | `Приоритет` вне MVP; синтаксис вернётся в v0.2 | [Q4](../questions/Q4.md) | 2026-09-24 | — | accepted |
+| [D18](D18-pipelines-out-lsp-mvp.md) | Конвейеры/скоринги/таблицы вне MVP (язык v0.1); LSP — в MVP: initialize, синхронизация, diagnostics, completion, hover, symbols, semanticTokens; formatting/definition/references — v0.2 | [Q36](../questions/Q36.md), [Q38](../questions/Q38.md) | 2026-09-24 | — | accepted |
 | [D19](D19-statuses-priorities-canon.md) | Две оси меток; единственный канон — `features/README.md` | [Q5](../questions/Q5.md), [Q6](../questions/Q6.md) (попутно) | 2026-09-24 | — | accepted |
 | [D21](D21-core-semantics-v01.md) | Семантика ядра v0.1 — строгие ошибки, словарь решений, канон объяснения | [Q8](../questions/Q8.md), [Q9](../questions/Q9.md), [Q10](../questions/Q10.md), [Q42](../questions/Q42.md) | 2026-09-24 | — | accepted |
 | [D22](D22-rest-paths-canon.md) | Канон REST-путей — `/checks/{name}/versions/{version}/...`; принцип атомарной композиции | [Q20](../questions/Q20.md) | 2026-09-25 | — | accepted |

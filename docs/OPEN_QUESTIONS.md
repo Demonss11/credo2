@@ -241,21 +241,11 @@
 [`questions/Q35.md`](questions/Q35.md); решение —
 [`decisions/D59-workspace-templates.md`](decisions/D59-workspace-templates.md).
 
-### Q36. ✅ Конвейеры: несколько правил в одном файле? (решено 2026-09-24)
+### Q36. ✅ Конвейеры: несколько правил в одном файле? (решено 2026-09-24) → перенесён
 
-- **Расхождение:** `lsp.feature` (documentSymbol) ожидает «Конвейер
-  ПотребКредит» с 3 правилами и 1 скорингом; SPEC §10 п. 14 — «одно
-  правило = один файл»; `graph_view.feature` (граф конвейера) — ⏳
-  отложен.
-- **Вопрос:** поддерживаем ли `Конвейер`/скоринг/таблицы в MVP?
-- **Рекомендация:** нет; убрать `Конвейер` из LSP-сценария (заменить на 3
-  отдельных файла), граф оставить отложенным.
-- **Обновить:** `lsp.feature`, `graph_view.feature`, SPEC §10.
-- **✅ Решение (2026-09-24):** конвейеры, скоринги и таблицы — вне MVP
-  (язык v0.1, `GRAMMAR.md` §1/§4). Сценарий documentSymbol в `lsp.feature`
-  трактуется как «несколько открытых файлов» (workspace symbols), граф —
-  остаётся отложенным (`graph_view.feature` ⏳). Возврат — v0.2 вместе с
-  `Приоритет` (Q4).
+**Мигрирован 2026-09-29 (блок «Конвейеры + LSP-состав», Q36+Q38).** Вопрос —
+[`questions/Q36.md`](questions/Q36.md); решение —
+[`decisions/D18-pipelines-out-lsp-mvp.md`](decisions/D18-pipelines-out-lsp-mvp.md).
 
 ### Q37. ✅ Реестр полей и типов для автодополнения (решено 2026-09-26)
 
@@ -301,25 +291,11 @@
     `features/README.md` (заметки, строки), `SPECIFICATION.md` §4.3 и §10
     (решение №33), `DECISIONS.md` (ADR-002: БД как источник данных).
 
-### Q38. ✅ Состав LSP сверх SPEC (решено 2026-09-24)
+### Q38. ✅ Состав LSP сверх SPEC (решено 2026-09-24) → перенесён
 
-- **Расхождение:** `lsp.feature` требует formatting, semanticTokens,
-  definition, references, documentSymbol, hover; `SPECIFICATION.md` §3.3/§5
-  перечисляет только диагностику, автодополнение и символы, а модули
-  `dar-core` — `completion.rs`/`explain.rs` без `format`/`tokens`.
-- **Вопрос:** какое подмножество LSP обязательно для MVP и где оно
-  реализуется?
-- **Рекомендация:** MVP — diagnostics + completion + semantic tokens;
-  остальное — целевом состоянии.
-- **✅ Решение (2026-09-24):** LSP входит в MVP (пользователь подтвердил).
-  Обязательный состав: initialize/handshake, синхронизация документов
-  (didOpen/didChange), diagnostics, completion (ключевые слова + значения
-  решений), hover по правилу, documentSymbol/workspaceSymbols (по одному
-  правилу в файле — см. Q36), semanticTokens. Реализация — крейт `lsp-dar`
-  поверх API `parse_rule` (Фаза 2). Вне MVP → v0.2: formatting, definition,
-  references, completion полям из реестра (Q37). Сценарии `lsp.feature` с
-  `Приоритет`, полями и конвейером помечаются как целевое состояние.
-- **Обновить:** `SPECIFICATION.md` §3.3/§5, `lsp.feature`, §8 (Фаза 2).
+**Мигрирован 2026-09-29 (блок «Конвейеры + LSP-состав», Q36+Q38).** Вопрос —
+[`questions/Q38.md`](questions/Q38.md); решение —
+[`decisions/D18-pipelines-out-lsp-mvp.md`](decisions/D18-pipelines-out-lsp-mvp.md).
 
 ### Q39. ✅ Поведение при падении LSP (решено 2026-09-26)
 

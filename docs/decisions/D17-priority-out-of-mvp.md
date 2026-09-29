@@ -104,7 +104,7 @@ MVP нет. Сопутствующее — актуализация устаре
 
 - Вопрос: [Q4](../questions/Q4.md)
 - Связанные: [Q3](../questions/Q3.md) / [D16](D16-dsl-canon-regex-mvp.md)
-  (канон языка v0.1), Q36 (конвейеры), Q38 (состав LSP)
+  (канон языка v0.1), [Q36](../questions/Q36.md) (конвейеры), [Q38](../questions/Q38.md) (состав LSP)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №17
 - Канон языка: [`GRAMMAR.md`](../GRAMMAR.md)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)
