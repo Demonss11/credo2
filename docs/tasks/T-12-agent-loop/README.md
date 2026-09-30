@@ -38,7 +38,7 @@
 - `.opencode/.gitignore` += `state/` (состояние — вне git);
 - фичи `docs/features/agents-*.feature` (6 файлов) + счётчики
   [`features/README.md`](../../features/README.md);
-- [`docs/README.md`](../../README.md); новый `docs/analysis/README.md`;
+- [`docs/README.md`](../../README.md);
   [`docs/CHANGELOG.md`](../../CHANGELOG.md); sweep формулировок эскалации у ролей.
 
 **W3 — reload, аудит, приёмка:**

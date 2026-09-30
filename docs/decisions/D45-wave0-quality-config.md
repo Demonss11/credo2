@@ -21,8 +21,8 @@
 открытой в `wave0-report.md` §6; 28.09.2026 владелец принял окончательные решения.
 Run 5 также вскрыл расхождения конфиг-пакета качества (F20/F23/F33) и
 невоспроизводимость B1 при зависимостях плагина в `.gitignore` (F29). Полный
-контекст — [Q50](../questions/Q50.md),
-[`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2, §4.6, §4.11.
+контекст — [Q50](../questions/Q50.md);
+меморандум W8, том 2 §2, §4.6, §4.11 (архив — git).
 
 ## Решение
 
@@ -61,8 +61,8 @@ Run 5 также вскрыл расхождения конфиг-пакета �
 Вердикт: ⚪ **не применимо** — решение о конфиге и правах агентов, продуктовое
 поведение не меняет. Что проверено (28.09.2026): состав прав и ролей резолвится
 движком (`opencode debug agents`); deny `execute` не ломает read/shell-путь
-(смоук — [`rights-probe-2026-09-28.md`](../analysis/rights-probe-2026-09-28.md)
-§2); `rustfmt --check src/mcp.rs` без edition падал, с `edition = "2024"` — чисто
+(смоук 28.09.2026, §2); `rustfmt --check src/mcp.rs` без edition падал, с
+`edition = "2024"` — чисто
 (F20). Полная приёмка конфиг-пакета (DoD: `fmt`/`clippy`/`test`) — за
 `validator`, не за `migrator`; здесь `cargo` не запускался. **Задача —** [`T-15`](../tasks/T-15-mcp-ready-process/README.md) (программа: волна 0
 — её фаза A, [D78](D78-t15-mcp-ready-program.md)); канон/конфиг внесены
@@ -81,7 +81,7 @@ Run 5 также вскрыл расхождения конфиг-пакета �
 
 - Вопрос: [Q50](../questions/Q50.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №45
-- Основание: [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §4.6,
-  §4.11; [`wave0-report.md`](../tasks/T-15-mcp-ready-process/wave0-report.md) §6
-- Пробы: [`rights-probe-2026-09-28.md`](../analysis/rights-probe-2026-09-28.md)
+- Основание: меморандум W8, том 2 §4.6, §4.11;
+  [`wave0-report.md`](../tasks/T-15-mcp-ready-process/wave0-report.md) §6
+- Пробы: 28.09.2026 (смоук deny `execute`; архив — git)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

@@ -9,8 +9,8 @@
 shell — это не их зона; роли только читают и цитируют уже готовые отчёты.
 
 **Что считается «хорошим» результатом.** Служебный отчёт-разбор в
-`docs/analysis/` (примеры: `T-04-run5-coder-session.md` …
-`T-04-run5-git-session.md`) + при необходимости — кандидат F-записи для
+`docs/analysis/` (имя: `<T-XX>-run<N>-<роль>-session.md`) + при необходимости —
+кандидат F-записи для
 `docs/analysis/findings-registry.md` (вносит `migrator`) и уточнение для
 меморандума прогона (вносит сервисная сессия).
 
@@ -31,7 +31,7 @@ node .opencode/scripts/session-analysis/agent-report.mjs ses_Корень git --
 ```
 
 Дальше: дополнить `*.draft.md` по шаблону
-[`docs/analysis/session-report-template.md`](../../../docs/analysis/session-report-template.md)
+[`session-report-template.md`](session-report-template.md)
 и сохранить как `docs/analysis/<T-XX>-run<N>-<роль>-session.md`.
 
 Опции: `--last` (только последняя сессия агента), `--list` (список без
@@ -59,7 +59,7 @@ node .opencode/scripts/session-analysis/analyze-session.mjs "$env:TEMP\opencode\
 node .opencode/scripts/session-analysis/fix-encoding.mjs путь\к\файлу.json --out путь\к\чистому.json
 
 # 4. Собрать служебный отчёт по шаблону:
-#    docs/analysis/session-report-template.md → docs/analysis/<T-XX>-run<N>-<роль>-session.md
+#    session-report-template.md → docs/analysis/<T-XX>-run<N>-<роль>-session.md
 ```
 
 Артефакты — **всегда вне репозитория** (temp-каталог); в git попадает только
@@ -152,11 +152,11 @@ node .opencode/scripts/session-analysis/agent-report.mjs --help
 
 ## Шаблон служебного отчёта
 
-Имя файла: `docs/analysis/<T-XX>-run<N>-<роль>-session.md`; примеры —
-`T-04-run5-coder-session.md` … `T-04-run5-git-session.md` (пять сессий Run 5).
+Имя файла: `docs/analysis/<T-XX>-run<N>-<роль>-session.md` (разборы пяти
+сессий Run 5 — в архиве git).
 
 Полный шаблон — инструкция, скелет для копирования, чек-лист и типовые ошибки:
-[`docs/analysis/session-report-template.md`](../../../docs/analysis/session-report-template.md).
+[`session-report-template.md`](session-report-template.md).
 Перед сдачей отчёта обязательно пройти его чек-лист. Черновик полного цикла
 (`*.draft.md`) уже содержит шапку и сводку по этому шаблону — остаётся
 дописать анализ (§4–§8) и перенести файл в `docs/analysis/`.

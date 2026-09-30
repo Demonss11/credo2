@@ -22,9 +22,8 @@ F17/F32 (бриф противоречил канону; цитаты не св�
 F19 (`git branch -vv` вне allowlist), F24 (срезанный вывод без протокола),
 F25 (сплит лент не сработал), F34 (бюджет чтения `analyst`), F35 (память `coder`
 противоречила канону роли), F36 (нет протокола эскалации при затыке). Полный
-контекст — [Q49](../questions/Q49.md),
-[`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2, §4.3–§4.5,
-§4.9–§4.14.
+контекст — [Q49](../questions/Q49.md);
+меморандум W8, том 2 §2, §4.3–§4.5, §4.9–§4.14 (архив — git).
 
 ## Решение
 
@@ -78,8 +77,8 @@ F25 (сплит лент не сработал), F34 (бюджет чтения 
 [`coder.md`](../../.opencode/agents/coder.md) 52,
 [`tester.md`](../../.opencode/agents/tester.md) 36; бюджет `analyst` ≤ 12
 ([`analyst.md`](../../.opencode/agents/analyst.md)); allowlist
-`git branch -vv` ([`git.md`](../../.opencode/agents/git.md), смоук —
-[`rights-probe-2026-09-28.md`](../analysis/rights-probe-2026-09-28.md) §2);
+`git branch -vv` ([`git.md`](../../.opencode/agents/git.md), смоук
+28.09.2026);
 правило «Бриф ↔ канон» и «Эскалация при затыке» в
 [`dispatch-loop.md`](../../.opencode/rules/dispatch-loop.md) (стр. 49, 55); правило
 среза — [`AGENTS.md`](../../AGENTS.md) (стр. 290–291); сплит лент —
@@ -101,6 +100,6 @@ F25 (сплит лент не сработал), F34 (бюджет чтения 
 
 - Вопрос: [Q49](../questions/Q49.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №44
-- Основание: [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2, §4;
-  пробы — [`rights-probe-2026-09-28.md`](../analysis/rights-probe-2026-09-28.md)
+- Основание: меморандум W8, том 2 §2, §4;
+  пробы прав 28.09.2026 (архив — git)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

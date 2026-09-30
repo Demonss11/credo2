@@ -1,6 +1,6 @@
 """Загрузка состояния цикла (`.opencode/state/current/*.yaml`).
 
-Формы данных и ограничения — досье `docs/analysis/pm-tool-design-2026-09-30.md`.
+Формы данных и ограничения — досье (архив — git).
 """
 
 from __future__ import annotations

@@ -15,8 +15,8 @@
 Продуктовый коммит Run 5 `3545afa` смешал код задачи и служебные файлы
 (`.opencode/memory/**`, `.opencode/mail/**`); канон это допускал (F22). Первый
 снапшот `state/**` вошёл в `a7eac82`, но правила коммита состояния не было (F30).
-Полный контекст — [Q51](../questions/Q51.md),
-[`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2, §4.8.
+Полный контекст — [Q51](../questions/Q51.md);
+меморандум W8, том 2 §2, §4.8 (архив — git).
 
 ## Решение
 
@@ -64,5 +64,5 @@
 
 - Вопрос: [Q51](../questions/Q51.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №46
-- Основание: [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §4.8
+- Основание: меморандум W8, том 2 §4.8 (архив — git)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

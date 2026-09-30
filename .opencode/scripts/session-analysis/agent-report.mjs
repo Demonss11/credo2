@@ -7,7 +7,7 @@
 //   ses_<ребёнок>.report.txt  — факты (analyze-session.mjs);
 //   ses_<ребёнок>.draft.md    — черновик служебного отчёта: факты заполнены,
 //                               оценка/выводы/предложения — по шаблону
-//                               docs/analysis/session-report-template.md.
+//                               session-report-template.md (рядом с тулкитом).
 //
 // Сессия ищется по транскрипту корня (вызовы инструмента `subagent`);
 // если у агента несколько сессий (resume, повторные пакеты) — обрабатываются
@@ -59,7 +59,7 @@ function usage() {
   node .opencode/scripts/session-analysis/agent-report.mjs ses_f1b8398d2ffe4VC7LhwgnYggwl tester
   node .opencode/scripts/session-analysis/agent-report.mjs ses_f1b8398d2ffe4VC7LhwgnYggwl git --last --fresh
 
-Дальше: дополнить черновик по docs/analysis/session-report-template.md и
+Дальше: дополнить черновик по session-report-template.md (рядом с тулкитом) и
 сохранить как docs/analysis/<T-XX>-run<N>-<роль>-session.md.`);
 }
 
@@ -223,7 +223,7 @@ function buildDraft(data, agentName, paths) {
   P(`# Разбор сессии \`${f.agent}\` — ${I.title || "(без названия)"} (черновик)`);
   P("");
   P("> Черновик `agent-report.mjs`: **факты автозаполнены**; оценку, выводы и");
-  P("> предложения дописать по шаблону `docs/analysis/session-report-template.md`.");
+  P("> предложения дописать по шаблону `session-report-template.md` (рядом с тулкитом).");
   P("> Итоговое имя: `docs/analysis/<T-XX>-run<N>-<роль>-session.md`.");
   P("> Улика, не канон (Q41); артефакты разбора — вне репозитория.");
   P("");
@@ -400,5 +400,5 @@ if (opts.json) {
     console.log(`    факты:   ${r.report}`);
     if (r.draft) console.log(`    черновик: ${r.draft}`);
   }
-  console.log("Дальше: дополнить черновик по docs/analysis/session-report-template.md.");
+  console.log("Дальше: дополнить черновик по session-report-template.md (рядом с тулкитом).");
 }

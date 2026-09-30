@@ -12,7 +12,7 @@
   нет; `.opencode/plugins/` нет; `instructions` в `opencode.json` — мёртвое
   поле (V2 не резолвит).
 - **Связано:** [карточка T-15](README.md); записка
-  [`../../analysis/mcp-ready-process.md`](../../analysis/mcp-ready-process.md)
+  [`mcp-ready-process.md`](mcp-ready-process.md)
   (§10, фазы A–E).
 
 ## 1. Цель и границы

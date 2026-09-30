@@ -43,8 +43,10 @@
   [D63](../../decisions/D63-journal-index-lifecycle.md)); запреты — номера
   строк, миграционные маркеры («ожидает переноса», `OPEN_QUESTIONS.md`, «до
   конца миграции»), ссылки канона на удаляемые/сессионные данные
-  (`.opencode/mail/**`, `.opencode/state/**`) ([D65](../../decisions/D65-reference-policy.md));
-  `docs/analysis/**` — допустим (провенанс);
+  (`.opencode/mail/**`, `.opencode/state/**`) и на файлы рабочих артефактов
+  (`docs/research/**`, `docs/reviews/**`, `docs/analysis/**`)
+  ([D65](../../decisions/D65-reference-policy.md)); проверяются адреса
+  конкретных файлов (упоминания папок как зон — не ссылки);
   исключение (whitelisted) — [`findings-registry.md`](../../analysis/findings-registry.md)
   (живой реестр находок, владелец `migrator`, [D48](../../decisions/D48-findings-registry-owner.md));
 - полнота задач: каждая `T-XX` из [`../../tasks/README.md`](../../tasks/README.md)

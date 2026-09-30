@@ -54,7 +54,7 @@
    ролей) и `.opencode/memory/<роль>.md`.
 4. Пройти `*.report.txt` и выписать факты: сегменты, финалы, отказы, срезы, числа.
 5. Сверить с артефактами: лента, `state/current/{progress,receipts}.yaml`,
-   досье, `docs/reviews/**`, коммиты (`git show --stat`).
+   досье, приёмка (архив — git), коммиты (`git show --stat`).
 6. Заполнить скелет (Часть II) — без пересказа, только факты с последствиями.
 7. Пройти чек-лист (Часть III) и проверить ссылки.
 
@@ -88,11 +88,7 @@
 
 - `docs/analysis/<T-XX>-run<N>-<роль>-session.md`; для отдельного пакета —
   уточнение в шапке (пример: сессия `git` с пакетом `branch_end`).
-- Примеры: [coder](T-04-run5-coder-session.md),
-  [tester](T-04-run5-tester-session.md),
-  [validator](T-04-run5-validator-session.md),
-  [auditor](T-04-run5-auditor-session.md),
-  [git](T-04-run5-git-session.md).
+- Примеры разборов (пять сессий Run 5) — архив git.
 
 ### 7. Вариации по роли (акцент §4)
 
@@ -115,8 +111,9 @@
 > транскрипт, <N> сообщений), сверенный с <лентой, памятью, досье, приёмкой,
 > квитанцией, коммитами>. Правки канона не содержит; предложения адресованы
 > сервисной сессии и `migrator`.
-> Связано: `<меморандум>` (<F-связки>); досье [`<T-XX>-<дата>.md`](<T-XX>-<дата>.md);
-> приёмка [`../reviews/<файл>`](../reviews/<файл>); лента [`.opencode/mail/<T-XX>.md`](../../.opencode/mail/<T-XX>.md);
+> Связано: `<меморандум>` (<F-связки>); досье
+> [`<T-XX>-<дата>.md`](../../../docs/analysis/<T-XX>-<дата>.md); приёмка (архив — git);
+> лента [`.opencode/mail/<T-XX>.md`](../../../.opencode/mail/<T-XX>.md);
 > коммит `<hash>`; парные разборы [<сессии>](<файл>).
 
 - **Дата разбора:** <ДД.ММ.ГГГГ>
@@ -198,7 +195,7 @@
 
 ## Приложение. Методика и артефакты разбора
 
-- Экспорт и разбор — [`.opencode/scripts/session-analysis/`](../../.opencode/scripts/session-analysis/):
+- Экспорт и разбор — `.opencode/scripts/session-analysis/` (эта папка):
   `agent-report.mjs` (полный цикл: корень + агент → JSON + факты + черновик),
   `find-subagents.mjs` (ID дочерних сессий), `export-session.mjs` (JSON),
   `analyze-session.mjs` (факты), `fix-encoding.mjs` (старые выгрузки).

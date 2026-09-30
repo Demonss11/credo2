@@ -14,8 +14,8 @@
 Run 4 (T-03 заново) дал две находки уровня канона процесса: F14 — `expect` плана
 шире канона роли `tester` (штатные `cargo check`/`cargo fmt --check` читались как
 нарушение запрета), F15 — дрейф `iteration`: номер участка плана использовался как
-значение `iteration` при `rework: 0`. Полный контекст — [Q47](../questions/Q47.md),
-[`memorandum-W8-run4.md`](../analysis/memorandum-W8-run4.md) §4.2, §5.1.
+значение `iteration` при `rework: 0`. Полный контекст — [Q47](../questions/Q47.md);
+меморандум W8, том 1 §4.2, §5.1 (архив — git).
 
 ## Решение
 
@@ -67,7 +67,6 @@ hard rules (стр. 44) и `iteration` — rework-цикл (стр. 133); фор
 
 - Вопрос: [Q47](../questions/Q47.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №42
-- Основание: [`memorandum-W8-run4.md`](../analysis/memorandum-W8-run4.md) §4.2,
-  §5.1; Run 5 — [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) (F15)
+- Основание: меморандум W8 (§4.2, §5.1 — том 1; F15 — том 2); архив — git
 - Предшествующее решение цикла: [D41](D41-dispatch-refinements.md)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

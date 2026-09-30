@@ -18,9 +18,8 @@
 `git log develop -50`. Полный контекст — [Q54](../questions/Q54.md).
 
 Смежный отказ `git diff -- .opencode/...` — не пробел прав, а известный квик
-dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/rights-matching-2026-09-27.md)
-§5; `review.md` §«Доступные команды»); каноническая форма `./…` и правило
-«сузь и повтори» применяются штатно.
+dot-пути после `--` (`review.md` §«Доступные команды»); каноническая форма
+`./…` и правило «сузь и повтори» применяются штатно.
 
 ## Решение
 
@@ -79,6 +78,6 @@ dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/righ
 
 - Вопрос: [Q54](../questions/Q54.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №49
-- Основание: [`rights-matching-2026-09-27.md`](../analysis/rights-matching-2026-09-27.md)
-  §5; лента `service-t11-closeout.md` (`.opencode/mail/**`)
+- Основание: пробы прав T-13 (27.09.2026; архив — git); лента
+  `service-t11-closeout.md` (`.opencode/mail/**`)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

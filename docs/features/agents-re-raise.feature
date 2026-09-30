@@ -1,6 +1,6 @@
 # language: ru
 # T-15 (проект): процесс, готовый к MCP — классификация re-plan (re-raise).
-# Основание: docs/analysis/mcp-ready-process.md; W8 §3 (цель конвергенции).
+# Основание: docs/tasks/T-15-mcp-ready-process/mcp-ready-process.md; W8 §3 (цель конвергенции).
 # Процесс агентов: структура re-plan.
 Функция: Классификация re-plan
   Чтобы метрика конвергенции отличала улучшение канона от переобучения,

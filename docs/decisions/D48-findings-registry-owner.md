@@ -16,8 +16,8 @@
 запрещал запись в `docs/analysis/**`, хотя инструкции меморандумов адресуют
 реестр именно `migrator`. Реестр — точка правды по ID находок, без роли-владельца
 он «зависает» между сервисной сессией и `migrator` (F39, аналог F16). Полный
-контекст — [Q53](../questions/Q53.md),
-[`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2 (F39), §5.7.
+контекст — [Q53](../questions/Q53.md);
+меморандум W8, том 2 §2 (F39), §5.7 (архив — git).
 
 ## Решение
 
@@ -58,6 +58,5 @@
 
 - Вопрос: [Q53](../questions/Q53.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №48
-- Основание: [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2
-  (F39), §5.7
+- Основание: меморандум W8, том 2 §2 (F39), §5.7 (архив — git)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

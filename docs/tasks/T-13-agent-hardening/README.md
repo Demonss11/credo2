@@ -16,9 +16,7 @@
 предложения W7 (доступы и команды, mail/memory, дисциплина цикла, гигиена и
 предусловия). Полный перечень решений — в [D41](../../decisions/D41-dispatch-refinements.md)
 и [D40](../../decisions/D40-scope-threshold.md); улики —
-[`W7-preRUN4_T-03.md`](../../analysis/W7-preRUN4_T-03.md) (§1–§8),
-[`memorandum-W6-run3.md`](../../analysis/memorandum-W6-run3.md),
-[`memorandum-W6-run3-it2.md`](../../analysis/memorandum-W6-run3-it2.md). Класс
+записка W7 (пред-Run-4, §1–§8), меморандумы W6 (27.09.2026; итерации 1–2). Класс
 задачи — **L** (канон `.opencode/**` и `AGENTS.md`, права, несколько подсистем),
 потому полный маршрут с аудитом `auditor` и приёмкой `validator`.
 
@@ -30,8 +28,8 @@
 **Research (P0, до правок):**
 
 - F4: мини-эксперимент «паттерн → команда → результат» по семантике матчинга
-  прав shell; выход — `docs/analysis/rights-matching-2026-09-27.md`, ссылка из
-  `dispatch-loop.md`.
+  прав shell; правила — `dispatch-loop.md` §«Команды и права», `review.md`
+  §«Доступные команды» (пробы — улика, архив — git).
 
 **Правки канона и прав:**
 
@@ -45,7 +43,7 @@
   `receipts.yaml`/`as_of` (`dispatch-loop.md`); memory-шаблон §2.2 («только
   роль»);
 - **P2:** финализация записи действия (F13); порог меморандума;
-  `docs/analysis/findings-registry.md`; `docs/analysis/run-checklist.md`;
+  `docs/analysis/findings-registry.md`;
   ссылка карточки T-03 ([`../T-03-check-create/README.md`](../T-03-check-create/README.md));
 - **пункт W7 §6 #17 (автопроверка списков команд) снять** — уже в каноне с
   [T-12](../T-12-agent-loop/README.md) (`review.md`, `auditor.md`, `AGENTS.md`,
@@ -62,19 +60,17 @@
 ## Критерий готовности
 
 - вердикты аудита `auditor` и приёмки `validator`;
-- артефакты на месте: `docs/analysis/rights-matching-2026-09-27.md`,
-  `findings-registry.md`, `run-checklist.md`;
+- артефакты на месте: `findings-registry.md`;
 - статусы задачи закрыты (карточка и сводка);
 - пакет закоммичен.
 
 ## Примечания
 
 - Пилотная ветка Run 3 откачена — `.opencode/mail/service-w7-rollback.md`;
-  лента Run 3 архивирована в
-  [`../../analysis/T-03-run3-mail-archive.md`](../../analysis/T-03-run3-mail-archive.md).
+  лента Run 3 архивирована (улика; архив — git).
 - **Run 4** (T-03 заново) — отдельным прогоном **после** T-13, вне объёма
   этой задачи.
-- Меморандумы W6 и `W7-preRUN4_T-03.md` — улики, входят в пакет W7.
+- Меморандумы W6 и записка W7 — улики, входят в пакет W7.
 - GRAMMAR §7 (F11) — отдельная задача [T-14](../T-14-grammar-message-sync/README.md).
 - Журнал: [D40](../../decisions/D40-scope-threshold.md),
   [D41](../../decisions/D41-dispatch-refinements.md) (сверка с кодом —

@@ -4,16 +4,16 @@
   правками `.opencode/rules/**` и `AGENTS.md` — отдельным пакетом).
 - **Дата:** 2026-09-27 · **Автор:** сессия `lead` по поручению владельца.
 - **Статус:** проект; внедрение — по решению владельца (журнал — `migrator`);
-  связана задача [T-15](../tasks/T-15-mcp-ready-process/README.md).
-- **Основание:** меморандум [`memorandum-W8-run4.md`](memorandum-W8-run4.md)
+  связана задача [T-15](README.md).
+- **Основание:** меморандум W8, том 1 (архив — git)
   §4–§7, §12; внешние аналитические записки `ext-an-W8-run4.md` и
   `ext-an-2-W8-run4.md` (2026-09-27, вне репозитория); целевая картина
   владельца: «сначала процесс, потом MCP».
-- **Связано:** [`run-checklist.md`](run-checklist.md),
-  [`findings-registry.md`](findings-registry.md),
-  [`../features/README.md`](../features/README.md) (секция «Процесс агентов»),
-  D39–D41; T-11, T-13; [`../../.opencode/rules/dispatch-loop.md`](../../.opencode/rules/dispatch-loop.md),
-  [`../../.opencode/rules/git-workflow.md`](../../.opencode/rules/git-workflow.md).
+- **Связано:** [`findings-registry.md`](../../analysis/findings-registry.md),
+  [`../../features/README.md`](../../features/README.md) (секция «Процесс агентов»),
+  D39–D41; T-11, T-13;
+  [`../../../.opencode/rules/dispatch-loop.md`](../../../.opencode/rules/dispatch-loop.md),
+  [`../../../.opencode/rules/git-workflow.md`](../../../.opencode/rules/git-workflow.md).
 
 ## 0. Назначение
 
@@ -25,7 +25,7 @@ query** над состоянием прогона. MCP не принимает 
 Последовательность (владелец): **сначала процесс — потом MCP**. Эта записка —
 шаг A плана: фиксирует целевую модель, схему состояния, каталог операций и
 критерии готовности; реализация — задача
-[T-15](../tasks/T-15-mcp-ready-process/README.md).
+[T-15](README.md).
 
 **Не входит:** разработка MCP-сервера (после заморозки — отдельная задача);
 продуктовые фичи CREDO; правки канона (этот документ — проект, не канон).
@@ -201,14 +201,14 @@ Run-часть журнала прогона после коммита прод�
 
 | Фаза | Содержание | Артефакты / гейт |
 |---|---|---|
-| **W0** | токен-гигиена (вне канона): конфиг, плагин-пилот, дисциплина | [`../tasks/T-15-mcp-ready-process/wave0-token-hygiene.md`](../tasks/T-15-mcp-ready-process/wave0-token-hygiene.md); замер до/после |
+| **W0** | токен-гигиена (вне канона): конфиг, плагин-пилот, дисциплина | [`wave0-token-hygiene.md`](wave0-token-hygiene.md); замер до/после |
 | **A** | документ, журнал, карточка | эта записка; Q/D (`migrator`); T-15 |
-| **B0** | инструментальная обвязка пилотов (вне канона, 28.09.2026): пробы плагинов, temp → служебная зона | [`../tasks/T-15-mcp-ready-process/wave0b-plugins.md`](../tasks/T-15-mcp-ready-process/wave0b-plugins.md) |
-| **B1** | пилоты на текущих правилах (факт 28.09.2026): Run 5 — T-04, класс **L** (S-пилот не состоялся); Run 6 — отложен, следующий — S или M — идёт с обвязкой B0 | факт и решения — [меморандум W8, т. 2](memorandum-W8-run5.md) (§6–§7); T-03 — регресс |
+| **B0** | инструментальная обвязка пилотов (вне канона, 28.09.2026): пробы плагинов, temp → служебная зона | [`wave0b-plugins.md`](wave0b-plugins.md) |
+| **B1** | пилоты на текущих правилах (факт 28.09.2026): Run 5 — T-04, класс **L** (S-пилот не состоялся); Run 6 — отложен, следующий — S или M — идёт с обвязкой B0 | факт и решения — меморандум W8, т. 2 (архив — git) (§6–§7); T-03 — регресс |
 | **C** | реализация: схема, `validate-state.mjs`, session-commit, re-raise, метрики, шаблоны, фичи; решения по обвязке B0 | пакет канона: сервисная сессия → аудит `auditor` → приёмка `validator` |
 | **D** | верификация: чек-лист §8; метрики обвязки B0; заморозка | D-запись; отчёт |
 | **E** | MCP: дизайн 6–10 инструментов по списку операций; референсы — kibi (traceability), Semantic Anchors (контракты), BRHP (validation signals), Telemetry DB (query-слой) | отдельная задача (после заморозки) |
-| **F** | инструменты владельца после заморозки (вне канона и MCP): Plannotator, нативные уведомления V2, доводка фасадов `/git/*` | [`../tasks/T-15-mcp-ready-process/README.md`](../tasks/T-15-mcp-ready-process/README.md) (фаза F) |
+| **F** | инструменты владельца после заморозки (вне канона и MCP): Plannotator, нативные уведомления V2, доводка фасадов `/git/*` | [`README.md`](README.md) (фаза F) |
 
 ## 11. Риски
 
@@ -258,14 +258,13 @@ Run-часть журнала прогона после коммита прод�
 
 ## Ссылки
 
-- Меморандум W8: [`memorandum-W8-run4.md`](memorandum-W8-run4.md) (§4.2 —
-  механика `iteration`; §7 — `steps`, merge, архив; §12 — чек-лист Run 5).
-- Задача: [`../tasks/T-15-mcp-ready-process/README.md`](../tasks/T-15-mcp-ready-process/README.md).
-- Фичи: [`../features/agents-state-schema.feature`](../features/agents-state-schema.feature),
-  [`agents-session-checkpoint.feature`](../features/agents-session-checkpoint.feature),
-  [`agents-re-raise.feature`](../features/agents-re-raise.feature),
-  [`agents-metrics.feature`](../features/agents-metrics.feature),
-  [`agents-mcp-readiness.feature`](../features/agents-mcp-readiness.feature).
-- Процесс: [`../../.opencode/rules/dispatch-loop.md`](../../.opencode/rules/dispatch-loop.md),
-  [`../../.opencode/rules/git-workflow.md`](../../.opencode/rules/git-workflow.md),
-  [`run-checklist.md`](run-checklist.md).
+- Меморандум W8, том 1 (архив — git): §4.2 — механика `iteration`; §7 —
+  `steps`, merge, архив; §12 — чек-лист Run 5.
+- Задача: [`README.md`](README.md).
+- Фичи: [`../../features/agents-state-schema.feature`](../../features/agents-state-schema.feature),
+  [`../../features/agents-session-checkpoint.feature`](../../features/agents-session-checkpoint.feature),
+  [`../../features/agents-re-raise.feature`](../../features/agents-re-raise.feature),
+  [`../../features/agents-metrics.feature`](../../features/agents-metrics.feature),
+  [`../../features/agents-mcp-readiness.feature`](../../features/agents-mcp-readiness.feature).
+- Процесс: [`../../../.opencode/rules/dispatch-loop.md`](../../../.opencode/rules/dispatch-loop.md),
+  [`../../../.opencode/rules/git-workflow.md`](../../../.opencode/rules/git-workflow.md).

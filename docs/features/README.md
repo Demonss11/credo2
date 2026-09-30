@@ -309,7 +309,7 @@ Notebook) и **процесс агентов** (канон и роли кома�
 > **Проект MCP-готовности (2026-09-27, T-15):** сценарии `agents-state-schema`,
 > `agents-session-checkpoint`, `agents-re-raise`, `agents-metrics`,
 > `agents-mcp-readiness` — целевое состояние процесса перед кристаллизацией
-> в MCP (основание — [`../analysis/mcp-ready-process.md`](../analysis/mcp-ready-process.md),
+> в MCP (основание — [`../tasks/T-15-mcp-ready-process/mcp-ready-process.md`](../tasks/T-15-mcp-ready-process/mcp-ready-process.md),
 > внешние записки). Статусы ⬜; подтверждение — прогонами.
 
 **Итого: 47 файлов, 278 сценариев** (backend — 27 файлов / 148 сценариев,

@@ -14,8 +14,8 @@
 Аудит T-04 (Run 5) стал P2-находкой F16: `auditor` не смог дописать отчёт в
 ленту — права позволяли `edit` только `.opencode/memory/auditor.md`. Канон
 (`AGENTS.md` §«Память и почта») требует, чтобы роли дописывали отчёт в ленту
-задачи сами. Полный контекст — [Q48](../questions/Q48.md),
-[`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2 (F16), §4.1, §4.2.
+задачи сами. Полный контекст — [Q48](../questions/Q48.md);
+меморандум W8, том 2 §2 (F16), §4.1, §4.2 (архив — git).
 
 ## Решение
 
@@ -59,6 +59,5 @@
 
 - Вопрос: [Q48](../questions/Q48.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №43
-- Основание: [`memorandum-W8-run5.md`](../analysis/memorandum-W8-run5.md) §2
-  (F16), §4.1, §4.2
+- Основание: меморандум W8, том 2 §2 (F16), §4.1, §4.2 (архив — git)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

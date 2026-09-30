@@ -16,7 +16,7 @@
 - **Связано:** [карточка T-15](README.md) (B0/B1, C–F); wave 0 A
   ([`wave0-token-hygiene.md`](wave0-token-hygiene.md),
   [`wave0-report.md`](wave0-report.md)); записка
-  [`../../analysis/mcp-ready-process.md`](../../analysis/mcp-ready-process.md) §10;
+  [`mcp-ready-process.md`](mcp-ready-process.md) §10;
   [D44](../../decisions/D44-run5-refinements.md),
   [D45](../../decisions/D45-wave0-quality-config.md).
 

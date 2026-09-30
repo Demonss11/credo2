@@ -11,8 +11,7 @@
   `.opencode/memory/lead.md`, `.opencode/memory/analyst.md`;
   `.opencode/.gitignore`;
   [`features/agents-cycle.feature`](../features/agents-cycle.feature) и другие
-  `agents-*.feature` (6 файлов); [`docs/README.md`](../README.md),
-  `docs/analysis/README.md` (new);
+  `agents-*.feature` (6 файлов); [`docs/README.md`](../README.md);
   [`docs/CHANGELOG.md`](../CHANGELOG.md)
 - **Tasks:** [T-12](../tasks/T-12-agent-loop/README.md)
 
