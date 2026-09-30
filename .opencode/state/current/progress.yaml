@@ -309,3 +309,10 @@
   action: complete
   result: "Fix после приёмки: дефолтные пути состояния/лент — от корня репозитория (find_repo_root/resolve_state_dir/resolve_mail_dir; `uv run pm-agents` работает из .opencode/scripts/pm); тест test_repo_root_resolution (8 passed); README — «Запуск из любого каталога»; контрольный прогон 405 событий/38 кейсов; приёмка validator (iteration 3, accepted, P1/P2/P3 нет); коммит 180a91a, push c137b63..180a91a origin develop (9 путей); отчёт docs/reviews/service-pm-tool-2026-09-30-fix.md"
   next: "— (фикс закрыт; открыто: MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-archive
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-archive (решение владельца): артефакты pm — .opencode/scripts/pm/output/ (вне git, локальный .gitignore) вместо TEMP; накопительный архив output/events.jsonl (слияние по стабильному ключу + номер повтора без дублей, идемпотентность +0 на повторном прогоне, tolerant-чтение/атомарная запись; фильтры --source/--since/--exclude-service — только срез отчёта; флаги --archive/--no-archive); clean-logs.mjs — best-effort снимок лент в архив перед удалением (--no-snapshot); README/AGENTS.md/git-workflow.md/D81 («Обновление 30.09.2026»); версия 0.2.0; тесты 15 passed; прогоны +412/+0. Аудит auditor (r1: P2/P3 → r2: P1/P2/P3 нет; agents-perms 11 из 18) → приёмка validator (r1 «принято с замечаниями» P3 Affects → r2 «принято», P3 закрыт). Коммит 6a0d342, push 180a91a..6a0d342 origin develop (22 пути)"
+  next: "— (волна закрыта; вне пакета: git check-ignore в allowlist auditor/validator — на усмотрение владельца; ключ архива без времени — кандидат в Q; MCP-интеграция pm — T-15, отдельно)"

@@ -24,6 +24,7 @@ def render_report_md(
     archive_path: Path | None,
     archive_added: int | None,
     archive_total: int | None,
+    archive_next: int | None,
     viz_done: bool,
     notes: list[str],
 ) -> str:
@@ -45,7 +46,8 @@ def render_report_md(
     if archive_path is not None:
         add(
             f"- Архив событий: `{archive_path}`"
-            f" (+{archive_added or 0} новых, всего {archive_total or 0})"
+            f" (+{archive_added or 0} новых, всего {archive_total or 0};"
+            f" следующее событие — №{archive_next or 0})"
         )
     else:
         add("- Архив событий: отключён (`--no-archive`)")

@@ -13,7 +13,8 @@
 
 **Артефакты — в `pm/output/`** (одна папка, файлы прогона перезаписываются;
 вне git — локальный `.gitignore`): `summary.md`, `metrics.json`,
-`dfg_edges.csv`, `variants.csv`, графики и архив событий `events.jsonl`.
+`dfg_edges.csv`, `variants.csv`, `events.csv` (пронумерованный журнал событий),
+графики и архив событий `events.jsonl`.
 В git попадает только итоговый отчёт `docs/analysis/` (копируется по решению).
 
 ## Установка и запуск
@@ -48,14 +49,23 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
   срез отчёта** — архив не режут; полный набор событий остаётся для будущих
   прогонов.
 - `--archive PATH` — свой файл архива; `--no-archive` — разовый прогон без
-  чтения и записи архива. Удалить файл = пересобрать архив с текущих источников.
+  чтения и записи архива (номера не присваиваются). Удалить файл = пересобрать
+  архив с текущих источников.
+- **Сквозная нумерация.** У каждого события — номер `n`: присваивается при
+  первом попадании в архив и не меняется; виден в `events.jsonl`, `events.csv`
+  и шапке отчёта. После очистки лент нумерация продолжается с последнего
+  заархивированного +1; `clean-logs.mjs` после снимка печатает номер
+  продолжения. Архив старого формата (без номеров) нумеруется по порядку при
+  первом прогоне; удаление файла архива сбрасывает нумерацию.
 - `clean-logs.mjs` перед удалением лент делает best-effort снимок
   (`uv run pm-agents --no-viz`; отключается флагом `--no-snapshot`). События из
-  лент, удалённых до первого прогона `pm`, восстановлению не подлежат.
+  лент, удалённых до первого прогона `pm` (или при сбое снимка), в архив не
+  попадают и номеров не получают.
 
 ## Что в отчёте
 
-- шапка: источники, каталог артефактов и состояние архива (+N новых, всего M);
+- шапка: источники, каталог артефактов и состояние архива (+N новых, всего M,
+  следующее событие — №K);
 - DFG: все переходы и «популярные» (порог `--threshold`);
 - варианты маршрутов (топ-10) и частоты активностей;
 - метрики приёмки (`accepted` / `accepted_with_notes` / `rework`), rework-rate,
@@ -72,7 +82,7 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
 | `src/pm_agents/io_state.py` | загрузка `progress`/`receipts`/`next_action` (строгая структура) |
 | `src/pm_agents/io_mail.py` | tolerant-парсер лент (`## <роль> · <дата> · <статус>`) |
 | `src/pm_agents/events.py` | модель event log: разбор источников и срез (финализация) |
-| `src/pm_agents/archive.py` | накопительный архив `output/events.jsonl` (слияние без дублей) |
+| `src/pm_agents/archive.py` | накопительный архив `output/events.jsonl` (слияние без дублей, сквозная нумерация) |
 | `src/pm_agents/mining.py` | DFG, варианты, метрики |
 | `src/pm_agents/viz.py` | PNG/HTML-визуализации (ленивые импорты, extra `viz`) |
 | `src/pm_agents/report.py` | markdown-отчёт (`summary.md` и stdout) |
@@ -82,7 +92,7 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
 ## Проверка
 
 ```powershell
-uv run pytest                      # expect: 15 passed
+uv run pytest                      # expect: 18 passed
 uv run pm-agents --help
 uv run pm-agents --no-viz --log-level ERROR
 ```

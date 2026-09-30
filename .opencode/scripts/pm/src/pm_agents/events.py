@@ -35,6 +35,7 @@ class Event:
     iteration: Any = None
     result: str = ""
     expect_match: Any = None
+    n: int = 0  # сквозной номер в архиве (0 — вне архива)
 
 
 @dataclass

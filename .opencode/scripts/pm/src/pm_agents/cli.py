@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .archive import ARCHIVE_FILENAME, merge_archive
+from .archive import ARCHIVE_FILENAME, merge_archive, next_number
 from .events import finalize_event_log, parse_events
 from .io_state import StateError
 from .mining import compute_metrics, compute_variants, discover_dfg
@@ -182,6 +182,7 @@ def main(argv: list[str] | None = None) -> int:
     archive_path: Path | None = None
     archive_added: int | None = None
     archive_total: int | None = None
+    archive_next: int | None = None
     merged_events = parsed_events
     if not args.no_archive:
         archive_path = args.archive or output_dir / ARCHIVE_FILENAME
@@ -191,10 +192,12 @@ def main(argv: list[str] | None = None) -> int:
             log.error("Архив недоступен: %s (разовый прогон — с --no-archive)", exc)
             return 2
         archive_total = len(merged_events)
+        archive_next = next_number(merged_events)
         log.info(
-            "Архив: +%d новых, всего %d событий (%s).",
+            "Архив: +%d новых, всего %d событий; следующее — №%d (%s).",
             archive_added,
             archive_total,
+            archive_next,
             archive_path,
         )
 
@@ -252,6 +255,36 @@ def main(argv: list[str] | None = None) -> int:
         ["variant", "count"],
         [[" -> ".join(sequence), count] for sequence, count in variants],
     )
+    _write_csv(
+        output_dir / "events.csv",
+        [
+            "n",
+            "date",
+            "source",
+            "case_id",
+            "activity",
+            "role",
+            "action",
+            "result",
+            "iteration",
+            "expect_match",
+        ],
+        [
+            [
+                event.n or "",
+                event.date.isoformat() if event.date else "",
+                event.source,
+                event.case_id,
+                event.activity,
+                event.role or "",
+                event.action,
+                event.result,
+                event.iteration if event.iteration is not None else "",
+                event.expect_match if event.expect_match is not None else "",
+            ]
+            for event in logbook.events
+        ],
+    )
 
     viz_done = False
     if not args.no_viz:
@@ -292,6 +325,7 @@ def main(argv: list[str] | None = None) -> int:
         archive_path=archive_path,
         archive_added=archive_added,
         archive_total=archive_total,
+        archive_next=archive_next,
         viz_done=viz_done,
         notes=notes,
     )

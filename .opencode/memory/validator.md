@@ -1453,3 +1453,28 @@
   частично-новому `D` надёжно изолирует `git diff` (номер хунков + `numstat`) плюс
   сверка `numstat` блоков кода с прежним снимком — «код не менялся» доказывается
   без повторного чтения всех файлов.
+- **2026-09-30 · `service-pm-numbering` (сквозная нумерация событий pm;
+  r1 + P3-закрытие, без cargo):** прочитаны лента, `D81:99-120`, `pm/README.md`,
+  `archive.py`, `events.py`, `cli.py`, `report.py`, `clean-logs.mjs`,
+  `test_pm_agents.py`, `pyproject.toml`/`__init__.py`/`uv.lock`,
+  `output/{events.jsonl,events.csv,summary.md}`, `receipts.yaml` (tail),
+  `review.md`. Снимок: `develop` @ `6a0d342` + рабочее дерево (13 M + 1 ?? на
+  r1); канон агентов/`src`/`tests`/`Cargo.toml` в диффе нет → **cargo не
+  запускался — D50**. Вердикт r1 — **принято с замечаниями**; P1/P2 нет;
+  **P3** `D81:110-111` — 8 полей `events.csv` против 10 в `cli.py:258-287` и
+  тесте `:286-288`. Проверено: `_row`/`_from_row`/`merge_archive` (legacy-
+  бэкфилл, `counter=max+1`, запись при `added or legacy`)/`next_number`;
+  `cli.py` лог «следующее — №N», `events.csv` (`event.n or ""` → пусто при
+  `--no-archive`), `report.py` шапка; `clean-logs.mjs` `lastArchiveNumber`
+  `:151-165` / `printArchiveContinuation` `:167-175`, dry-run `:210-218`,
+  реальный прогон `:228-229` (независимо от `--no-snapshot`), warn при сбое
+  `:140-148`; 18 тестов = `README.md:95`; архив 426 строк (`n`=1…426), CSV
+  427 строк, `summary.md:7` «+0 / 426 / №427»; версия 0.3.0. P3 закрыт
+  микроправкой `migrator` (D81 → 10 полей); дельта: `git diff -U0` D81 — один
+  хунк `@@ -98,0 +99,22 @@`, `numstat` 22/0 (было 21/0), `numstat` кода
+  идентичен r1 → **принято, замечаний нет**. Отчёт
+  `docs/reviews/service-pm-numbering-2026-09-30.md` (раздел «P3 закрыт»);
+  квитанции iteration 1 (`accepted_with_notes`, `p3: OPEN`) и 2 (`accepted`,
+  `p3_closure`) — append. **Урок:** сверка «код ↔ D ↔ тест» по **точному
+  перечислению колонок CSV** (не по смыслу) ловит дрейф схемы выгрузки; правка
+  канона одной строкой — адресная, без новой итерации.

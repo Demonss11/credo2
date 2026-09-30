@@ -6,7 +6,8 @@
 //            шапка до заголовка «## Чекпойнты» + «- Чекпойнтов ещё не было.»;
 //   mail   — удаляются ленты задач .opencode/mail/*.md (.gitkeep остаётся);
 //            перед удалением — best-effort снимок событий лент в архив pm
-//            (`uv run pm-agents --no-viz`), чтобы история не терялась.
+//            (`uv run pm-agents --no-viz`), чтобы история не терялась; после
+//            снимка печатается, с какого номера продолжится нумерация событий.
 //
 // Использование (из любого каталога):
 //   node .opencode/scripts/clean-logs.mjs [--dry-run] [--no-backup] [--no-snapshot]
@@ -74,7 +75,8 @@ function printUsage() {
 Почта:  .opencode/mail/*.md → удаляются (.gitkeep остаётся)
 Перед удалением лент — best-effort снимок событий в архив pm
 (uv run pm-agents --no-viz в .opencode/scripts/pm); сбой снимка —
-предупреждение, очистка продолжается. Отключить: --no-snapshot.`);
+предупреждение, очистка продолжается. Отключить: --no-snapshot.
+После снимка печатается, с какого номера продолжится нумерация событий.`);
 }
 
 function timestamp() {
@@ -146,6 +148,32 @@ function snapshotPm() {
   }
 }
 
+/** Последний номер события в архиве pm (best-effort). */
+function lastArchiveNumber() {
+  const archive = join(opencodeDir, 'scripts', 'pm', 'output', 'events.jsonl');
+  if (!existsSync(archive)) return null;
+  const lines = readFileSync(archive, 'utf8')
+    .split(/\r?\n/)
+    .filter((line) => line.trim() !== '');
+  if (lines.length === 0) return null;
+  try {
+    const n = Number(JSON.parse(lines[lines.length - 1]).n);
+    return Number.isInteger(n) && n > 0 ? n : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Печать: с какого номера продолжится нумерация событий после очистки. */
+function printArchiveContinuation(prefix = '') {
+  const last = lastArchiveNumber();
+  if (last === null) return;
+  console.log(
+    `${prefix}pm: события архива пронумерованы до №${last}; ` +
+      `после очистки нумерация продолжится с №${last + 1}.`
+  );
+}
+
 function makeBackup(files) {
   const dir = join(tmpdir(), 'opencode', `logs-backup-${timestamp()}`);
   for (const file of files) {
@@ -180,10 +208,13 @@ function main() {
   }
 
   if (dryRun) {
-    if (!noSnapshot && toDelete.length > 0) {
-      console.log(
-        '[dry-run] pm: был бы снимок лент в архив (uv run pm-agents --no-viz).'
-      );
+    if (toDelete.length > 0) {
+      if (!noSnapshot) {
+        console.log(
+          '[dry-run] pm: был бы снимок лент в архив (uv run pm-agents --no-viz).'
+        );
+      }
+      printArchiveContinuation('[dry-run] ');
     }
     console.log('Ничего не изменено (--dry-run).');
     return;
@@ -195,6 +226,7 @@ function main() {
   }
 
   if (!noSnapshot && toDelete.length > 0) snapshotPm();
+  if (toDelete.length > 0) printArchiveContinuation();
 
   for (const f of toReset) writeFileSync(f.path, f.content, 'utf8');
   for (const f of toDelete) rmSync(f.path);

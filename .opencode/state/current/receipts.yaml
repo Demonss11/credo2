@@ -1025,3 +1025,36 @@
     cargo: "not run (D50) — delta touches D81 only; uv/cargo not executed by the role"
   snapshot: "develop @ 180a91a + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-pm-numbering
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-pm-numbering-2026-09-30.md
+  dod:
+    borders: "ok — git status = 13 M + 1 ?? (M: clean-logs.mjs, pm/{README.md,pyproject.toml,uv.lock,__init__,archive,cli,events,report,tests/test_pm_agents}, D81, memory/migrator, state/current/progress; ??: mail/service-pm-numbering.md); AGENTS.md, .opencode/agents/**, .opencode/rules/**, opencode.json, src/**, tests/** (Rust), Cargo.toml untouched"
+    cargo: "not run (D50) — service-zone wave; src/tests/Cargo.toml absent from git status; counters/composition docs/features unchanged; uv/node unavailable to roles, run evidence is feed"
+    numbers: "ok — archive.py: _row writes n (:71), _from_row tolerant (:94,:108); merge_archive assigns counter=max(n)+1 on first hit, legacy backfill when any n<=0 and rewrite when added or legacy (:157-182); next_number=max+1 (:185-187); events.py n field (:38); cli log 'следующее — №N' (:196-202)"
+    csv: "ok — events.csv from logbook.events (:258-287), column n = event.n or \"\" (empty under --no-archive); 10-column header; report.py header 'следующее событие — №K' (:46-51)"
+    cleanlogs: "ok — lastArchiveNumber :151-165 (tolerant, last non-empty line), printArchiveContinuation :167-175; dry-run prints inside toDelete>0 with [dry-run] prefix :210-218; real run after snapshotPm :228-229 regardless of --no-snapshot; snapshot failure -> warn + continue :140-148"
+    tests: "ok — rg -c '^def test_' = 18; README:95 'expect: 18 passed'; +3 new tests: archive numbers stable/continue, legacy backfill, events.csv export (header pinned)"
+    artifacts: "ok — output/events.jsonl 426 lines, all contain \"n\", first n=1, last n=426; output/events.csv 427 lines (header+426); summary.md:7 '+0 новых, всего 426; следующее — №427'"
+    versions: "ok — 0.3.0: pyproject.toml:3, __init__.py:3, uv.lock:760; no 0.2.0 in pm"
+    decisions: "ok — D81 'Обновление 30.09.2026 (нумерация)' :99-119 added as one hunk (+21/0), §5 and prior update block intact; links pm-tool-design/TRACEABILITY/Q77 resolve; Affects unchanged"
+    evidence: "evidence level — feed :52-60 (uv run pytest 18 passed; real archive backfill #1-426, repeat +0; events.csv 426 rows; clean-logs --dry-run 'до №426; с №427'; scratch snapshot failure -> warn + 'до №41; с №42'; --no-snapshot prints without snapshot); node --check ok; live mail deletion not performed"
+    p3: "OPEN (non-blocking) — D81:110-111 enumerated 8 events.csv fields vs 10 in cli.py:258-287 / tests:286-288 (iteration, expect_match omitted); fix = one line (migrator)"
+    observations: "non-findings — D81:115 'текущий, 412 событий' describes pre-backfill state (archive now 426 numbered)"
+  snapshot: "develop @ 6a0d342 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-numbering
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-numbering-2026-09-30.md
+  dod:
+    delta: "ok — git diff -U0 D81 = single hunk @@ -98,0 +99,22 @@; numstat 22/0 (r1 21/0, +1 line exactly); lines 1-98 untouched; §5 and structure intact"
+    p3_closure: "closed — D81:110-112 'выгрузка' now lists 10 fields (…; итерация; expect_match) matching cli.py:259-271 header and tests/test_pm_agents.py:286-288"
+    code_unchanged: "ok — numstat identical to r1: clean-logs.mjs 38/6, pm/README.md 16/6, pyproject.toml 1/1, __init__.py 1/1, archive.py 27/3, cli.py 36/2, events.py 1/0, report.py 3/1, tests/test_pm_agents.py 55/0, uv.lock 1/1, progress.yaml 7/0; only memory/migrator 20->28 and D81 21->22"
+    borders: "ok — git status = 13 M + 2 ?? (+ validator's own report); src/**, tests/** (Rust), Cargo.toml, AGENTS.md, .opencode/agents/**, .opencode/rules/**, opencode.json untouched"
+    cargo: "not run (D50) — delta touches D81 only; uv/node not executed by the role"
+  snapshot: "develop @ 6a0d342 + working tree (2026-09-30)"
+  at: "2026-09-30"

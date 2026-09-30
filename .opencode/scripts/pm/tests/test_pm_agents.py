@@ -46,6 +46,11 @@ def _mail_archive_lines(output_dir: Path) -> int:
     return sum(1 for line in lines if '"source": "mail"' in line)
 
 
+def _archive_rows(output_dir: Path) -> list[dict]:
+    lines = (output_dir / "events.jsonl").read_text(encoding="utf-8").splitlines()
+    return [json.loads(line) for line in lines if line.strip()]
+
+
 def test_load_records_strict(tmp_path: Path) -> None:
     bad = tmp_path / "progress.yaml"
     bad.write_text("foo: bar\n", encoding="utf-8")
@@ -235,3 +240,53 @@ def test_custom_archive_path(tmp_path: Path) -> None:
     assert _run_cli(tmp_path, extra=["--archive", str(custom)]) == 0
     assert custom.exists()
     assert not (tmp_path / "events.jsonl").exists()
+
+
+def test_archive_numbers_stable_and_continue(tmp_path: Path) -> None:
+    assert _run_cli(tmp_path) == 0
+    rows = _archive_rows(tmp_path)
+    assert [row["n"] for row in rows] == list(range(1, len(rows) + 1))
+
+    assert _run_cli(tmp_path) == 0
+    assert _archive_rows(tmp_path) == rows
+
+    mail = tmp_path / "mail"
+    mail.mkdir()
+    (mail / "T-79.md").write_text("## coder · 30.09.2026 · готово\n", encoding="utf-8")
+    assert _run_cli(tmp_path, mail=mail) == 0
+    rows_after = _archive_rows(tmp_path)
+    assert len(rows_after) == len(rows) + 1
+    assert rows_after[-1]["n"] == len(rows) + 1
+
+
+def test_legacy_archive_backfilled(tmp_path: Path) -> None:
+    assert _run_cli(tmp_path) == 0
+    archive = tmp_path / "events.jsonl"
+    rows = _archive_rows(tmp_path)
+    for row in rows:
+        row.pop("n")
+    archive.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
+
+    assert _run_cli(tmp_path) == 0
+    backfilled = _archive_rows(tmp_path)
+    assert [row["n"] for row in backfilled] == list(range(1, len(rows) + 1))
+
+    assert _run_cli(tmp_path) == 0
+    assert _archive_rows(tmp_path) == backfilled
+
+
+def test_events_csv_export(tmp_path: Path) -> None:
+    assert _run_cli(tmp_path) == 0
+    csv_path = tmp_path / "events.csv"
+    assert csv_path.exists()
+    lines = csv_path.read_text(encoding="utf-8-sig").splitlines()
+    assert lines[0] == (
+        "n;date;source;case_id;activity;role;action;result;iteration;expect_match"
+    )
+    metrics = json.loads((tmp_path / "metrics.json").read_text(encoding="utf-8"))
+    assert len(lines) - 1 == metrics["total_events"]
+    numbers = [int(line.split(";")[0]) for line in lines[1:]]
+    assert sorted(numbers) == list(range(1, len(numbers) + 1))

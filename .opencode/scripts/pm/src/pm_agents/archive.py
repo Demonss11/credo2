@@ -5,6 +5,10 @@
 ключу — набор полей записи плюс номер повтора среди одинаковых. Повторный
 прогон на тех же данных архив не меняет; очистка лент (`clean-logs.mjs`) на
 историю в архиве не влияет.
+
+Сквозная нумерация: событие получает номер `n` при первом попадании в архив и
+не меняется; после очистки лент нумерация продолжается с последнего
+заархивированного + 1.
 """
 
 from __future__ import annotations
@@ -64,6 +68,7 @@ def _keyed(events: list[Event]) -> Iterator[tuple[Event, int]]:
 def _row(event: Event, occurrence: int) -> dict[str, Any]:
     return {
         "key": _key(event, occurrence),
+        "n": event.n,
         "source": event.source,
         "case_id": event.case_id,
         "activity": event.activity,
@@ -86,6 +91,7 @@ def _from_row(row: dict[str, Any]) -> Event:
         except ValueError:
             date = None
     role = row.get("role")
+    raw_n = row.get("n")
     return Event(
         seq=0,
         case_id=str(row.get("case_id") or ""),
@@ -99,6 +105,7 @@ def _from_row(row: dict[str, Any]) -> Event:
         iteration=row.get("iteration"),
         result=str(row.get("result") or ""),
         expect_match=row.get("expect_match"),
+        n=raw_n if isinstance(raw_n, int) and raw_n > 0 else 0,
     )
 
 
@@ -142,10 +149,20 @@ def _write(path: Path, events: list[Event]) -> None:
 def merge_archive(path: Path, new_events: list[Event]) -> tuple[list[Event], int]:
     """Сливает текущий разбор с архивом, дописывая только новые события.
 
-    Возвращает (все события: архив + новые, сколько добавлено). Повторный
-    вызов с теми же `new_events` не добавляет ничего.
+    Возвращает (все события: архив + новые, сколько добавлено). Новым событиям
+    присваивается сквозной номер `n` — продолжение нумерации архива. Архив без
+    номеров (старый формат) нумеруется по порядку и перезаписывается разово.
+    Повторный вызов с теми же `new_events` не добавляет ни событий, ни номеров.
     """
     existing = load_archive(path)
+    legacy = any(event.n <= 0 for event in existing)
+    counter = 1
+    for event in existing:
+        if event.n > 0:
+            counter = max(counter, event.n + 1)
+        else:
+            event.n = counter
+            counter += 1
     keys = {_key(event, occurrence) for event, occurrence in _keyed(existing)}
     counts: Counter[tuple[Any, ...]] = Counter()
     added: list[Event] = []
@@ -156,8 +173,15 @@ def merge_archive(path: Path, new_events: list[Event]) -> tuple[list[Event], int
         if key in keys:
             continue
         keys.add(key)
+        event.n = counter
+        counter += 1
         added.append(event)
     merged = [*existing, *added]
-    if added:
+    if added or legacy:
         _write(path, merged)
     return merged, len(added)
+
+
+def next_number(events: list[Event]) -> int:
+    """Следующий номер события архива (для отчёта и логов)."""
+    return max((event.n for event in events), default=0) + 1
