@@ -1211,3 +1211,25 @@
     tech: "git diff with multiple dot-paths under -- rejected by rights engine (known quirk); replaced with single-path calls; bare ./.opencode/memory/migrator.md dot-path rejected — './' form worked (numstat 19/0)"
   snapshot: "develop @ b04a77a (= origin/develop = HEAD) + working tree (2026-10-01)"
   at: "2026-10-01"
+
+- task: service-rules-revision
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-rules-revision-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/canon package: git diff --stat -- src tests Cargo.toml empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse develop origin/develop HEAD = 3821811 / 3821811 / 3821811"
+    diffs: "ok — git diff over 4 rules + AGENTS.md: only targeted edits (decorative Dn/Qn refs, history dates/probes/Run/BRIEF, F-decor, real-ID examples → templates); norms preserved, dups → domain links"
+    anchors: "ok — R2 dispatch-loop.md:39 (§Hard rules), R7 :59; F43 exactly one (git-workflow.md:77); T-18 journal.md:103 without ⬜; ⬜ only in legends/schema"
+    dedup: "ok — domains resolve: dispatch-loop.md §Команды и права (:66), §Hard rules (:37); git-workflow.md §Пакет (:59), §Минимальный цикл (:86); review.md §Хранение отчётов (:71)"
+    pathforms: "ok — дом ./form + git -C ban = dispatch-loop.md:68-75; review.md:106, git-workflow.md:95,151 reference it"
+    decisionrefs: "ok — rules hold only D82(journal:30), D65(journal:116,review:84,dispatch-loop:129), D48(journal:116,dispatch-loop:131) in 'основание — `Dn`' code form"
+    review_tech: "ok — review.md 'Доступные команды' (:88-101) + 'не проверено и почему' (:109-115) intact; match perms"
+    audit_findings: "ok — P2-1 journal.md:103 no ⬜; P2-2 D84:39-41,57-60,72,91-96 (R2/R7, R5 marks); P3 D84:26-27,51 code-form"
+    q80_d84: "ok — journal forms, Resolves Q80<->D84 mutual; TRACEABILITY.md:84 row Q80/D84 = done; catalogs questions/README.md:102, decisions/README.md:113 +1"
+    links: "ok — git ls-files confirms D65/D48/D82/D63/D50/T-18/findings-registry.md exist"
+    borders: "ok — git status --porcelain = 10 M + 3 ?? (own records: report+this receipt+memory/thread appends); git diff --stat -- ./.opencode/agents ./.opencode/rules/workspace.md ./.opencode/scripts empty; git diff --check empty"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "empty-path multi-path git diff --stat with 6 dot-paths rejected (known quirk) — replaced with single calls"
+  snapshot: "develop @ 3821811 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"

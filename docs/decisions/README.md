@@ -110,3 +110,4 @@
 | [D81](D81-pm-process-mining.md) | Инструмент `pm` — uv-проект process mining агентского процесса | [Q77](../questions/Q77.md) | 2026-09-30 | accepted |
 | [D82](D82-traceability-lifecycle-waves.md) | Жизненный цикл `TRACEABILITY` — `open` · `in work` · `done`, волны | [Q78](../questions/Q78.md) | 2026-10-01 | accepted |
 | [D83](D83-traceability-wave2.md) | Волна 2 `TRACEABILITY` — разбор `open`-строк отдельной задачей | [Q79](../questions/Q79.md) | 2026-10-01 | accepted |
+| [D84](D84-rules-revision.md) | Ревизия `.opencode/rules/**` — актуальная норма, ссылка на решение, без истории | [Q80](../questions/Q80.md) | 2026-10-01 | accepted |
