@@ -11,8 +11,7 @@
   `.github/workflows/ci.yml` (отдельный job `docs`, позже);
   `tests/docs_journal.rs` — link-check
   ([T-18](../tasks/T-18-docs-journal-test/README.md),
-  [D64](D64-journal-integrity-test.md)); обзор
-  [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md)
+  [D64](D64-journal-integrity-test.md))
 - **Tasks:** [T-19](../tasks/T-19-doc-quality-checks/README.md) (см. «Сверка с
   кодом»)
 
@@ -26,9 +25,8 @@
 [D64](D64-journal-integrity-test.md)) — один владелец уже назначен. Node-
 инфраструктура в `.opencode/` есть (`npm ci`, `clean-logs.mjs`,
 `agents-perms.mjs`). Опыт 29.09.2026: ссылочная гниль и ручное сжатие документов
-(`BRIEF.md`, историч., 395→304 строки). Обзор-основание —
-[`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md).
-Полный контекст — [Q62](../questions/Q62.md).
+(`BRIEF.md`, историч., 395→304 строки). Полный контекст —
+[Q62](../questions/Q62.md).
 
 ## Решение
 
@@ -85,8 +83,8 @@
   фиксирует link-check как v0.2-пункт.
 - **CI:** `.github/workflows/ci.yml` — единственный job `test` (Rust DoD);
   job `docs` не заведён.
-- **Опора:** обзор [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md)
-  (разделы «Рекомендации», «Архитектура внедрения», «Пилот»), проверки 29.09.2026.
+- **Опора:** обзор doc-quality-проверок (разделы «Рекомендации», «Архитектура
+  внедрения», «Пилот»), проверки 29.09.2026.
 
 `cargo` не запускался (§5.3, [D50](D50-dod-by-package-scope.md)): решение
 документно-инструментальное, кода прототипа не меняет; адресный прогон не
@@ -118,7 +116,6 @@ link-check фиксируется здесь и в карточке T-19 (кар
   пакета); [Q63](../questions/Q63.md) ([D67](D67-cspell-deferred.md), спелл-чек
   отложен); [Q64](../questions/Q64.md) ([D68](D68-changelog-handwritten.md),
   CHANGELOG рукописный)
-- Обзор: [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md)
 - Задача: [T-19](../tasks/T-19-doc-quality-checks/README.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №66
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

@@ -6,9 +6,8 @@
 - **Спека:** [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №68
 - **Affects:** [`CHANGELOG.md`](../CHANGELOG.md) (сохраняется рукописный канон;
   владелец [`docs-writer`](../../AGENTS.md));
-  [`D46`](D46-product-process-commits.md) (формат коммитов); обзор
-  [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md);
-  согласовано с [D66](D66-doc-quality-checks.md)
+  [`D46`](D46-product-process-commits.md) (формат коммитов); согласовано с
+  [D66](D66-doc-quality-checks.md)
 - **Tasks:** — (см. «Сверка с кодом»)
 
 ## Контекст
@@ -16,8 +15,8 @@
 Кандидат `generate_changelog` требует конвенции коммитов
 `[компонент] тип: описание`. У нас — `docs(D61–D65): …` (конвенция иная,
 [D46](D46-product-process-commits.md)) и рукописный [`CHANGELOG.md`](../CHANGELOG.md)
-(нарратив + ссылки; владелец `docs-writer`). Обзор отмечает конфликт с «один
-писатель на файл» и владением каноном, а не дубль. Полный контекст —
+(нарратив + ссылки; владелец `docs-writer`). Отмечен конфликт с «один
+писатель на файл» и владением каноном (не дубль). Полный контекст —
 [Q64](../questions/Q64.md).
 
 ## Решение
@@ -52,9 +51,8 @@
 - **Скрипта-генератора нет:** обзор `glob .opencode/scripts/**` →
   `clean-logs.mjs`, `agents-perms.mjs`, `session-analysis/**`;
   `generate_changelog.mjs` отсутствует.
-- **Опора:** обзор [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md)
-  — раздел «Не применимо и почему» (автогенерация → «один писатель на файл»,
-  владение `docs-writer`, иная конвенция).
+- **Опора:** обзор doc-quality-проверок — автогенерация отклонена («один
+  писатель на файл», владение `docs-writer`, иная конвенция).
 
 `cargo` не запускался (§5.3, [D50](D50-dod-by-package-scope.md)): решение
 документное, кода не касается; адресный прогон не требуется.
@@ -75,6 +73,5 @@
 - Связанные: [Q62](../questions/Q62.md)/[D66](D66-doc-quality-checks.md)
   (композит doc-quality); [D46](D46-product-process-commits.md) (формат коммитов);
   [D60](D60-docs-ownership-sync.md) («один факт — один канон», владение)
-- Обзор: [`doc-quality-checks-2026-09-29.md`](../research/doc-quality-checks-2026-09-29.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №68
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

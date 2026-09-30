@@ -7,4 +7,6 @@
 
 ## Чекпойнты
 
-- Чекпойнтов ещё не было.
+- 30.09.2026, `service-docs-lifecycle` №1: `docs/README.md:25–27` — формулировка
+  «рабочие артефакты» (`analysis/reviews/research`) по D65; `git grep "на них
+  ссылаются" -- docs/README.md` пусто; затронут ровно этот блок.

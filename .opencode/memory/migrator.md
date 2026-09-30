@@ -6,4 +6,15 @@
 
 ## Чекпойнты
 
-- Чекпойнтов ещё не было.
+- **30.09.2026, волна `service-docs-lifecycle`, операция №1 `research`:**
+  D65 — добавлено «Обновление 30.09.2026» (рабочие артефакты
+  `research`/`reviews`/`analysis` не канон; ссылки снимаются волнами;
+  `findings-registry.md` — особый случай). Сняты 18 ссылок на
+  `docs/research/doc-quality-checks-2026-09-29.md` в Q62/Q63/Q64,
+  D66/D67/D68, T-19. Проверка: `git grep "doc-quality-checks-2026-09-29" --
+  docs/questions docs/decisions docs/tasks` → пусто. Новых Q/D нет.
+  Грабли: `git grep "doc-quality-checks"` не пуст из-за slug'ов
+  `D66-doc-quality-checks`/`T-19-doc-quality-checks` — искать точный
+  суффикс `-2026-09-29`; в D68 разбивка строк контекста отличалась от брифа —
+  правка «по смыслу» с сохранением разметки; при удалении строки в шапке
+  T-19 номера строк сдвигаются (36→35).

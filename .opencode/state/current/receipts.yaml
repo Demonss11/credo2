@@ -1058,3 +1058,23 @@
     cargo: "not run (D50) — delta touches D81 only; uv/node not executed by the role"
   snapshot: "develop @ 6a0d342 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-docs-lifecycle
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    borders: "ok — git diff --stat -- src tests Cargo.toml empty; git status --porcelain .opencode/agents .opencode/rules AGENTS.md docs/features empty; git status = 12 M + ( D docs/research/doc-quality-checks-2026-09-29.md) + ?? .opencode/mail/service-docs-lifecycle.md, matches brief"
+    links: "ok — git grep 'doc-quality-checks-2026-09-29' -- docs = only docs/reviews/doc-tools-d66d68-2026-09-29.md:17,69 (wave №2 snapshot); git grep -e '\\.\\./research/' -- docs/questions docs/decisions docs/tasks docs/features docs/README.md empty (exit 1); residual 'research/' only zones/scope (README:22,25, D65:89, T-19:35)"
+    tails: "ok — no dangling 'Обзор:' tails; remaining 'обзор glob …' = scan fact, 'Опора: обзор doc-quality-проверок' = unnamed provenance, no address"
+    d65: "ok — 'Обновление 30.09.2026' at D65:88-99 clarifies п.4, п.4 (:46-69) intact; inner links live (../analysis/findings-registry.md exists, D48, D64, T-18); Сверка с кодом preserved"
+    catalogs_5_7: "ok — questions/README:84-86, decisions/README:95-97, TRACEABILITY:66-68 unchanged and consistent (Q62↔D66→T-19 ⬜, Q63↔D67, Q64↔D68); IDs not reused; no migration markers; statuses untouched; SPEC/CHANGELOG/features/README/findings-registry unchanged"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs twice = 'agents: 11 из 18 (--all — все)', no discrepancies; agents/rules untouched, no reload needed"
+    archive: "ok — git show develop:docs/research/doc-quality-checks-2026-09-29.md = full file in history (160 lines), deletion recoverable"
+    feed: "ok — order (opening → migrator → docs-writer → service zone → auditor) matches tree; count '18 links in 7 files' matches diff (Q62×2, Q63×2, Q64×1, D66×4, D67×4, D68×3, T-19×2); auditor P1/P2/P3 none"
+    tech: "git rev-parse develop origin/develop HEAD rejected by rights engine; replaced with git log --oneline -1 (base 9948ebf confirmed, == brief)"
+  snapshot: "develop @ 9948ebf (= origin/develop) + working tree (2026-09-30)"
+  at: "2026-09-30"

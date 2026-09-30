@@ -4,8 +4,7 @@
 - **Приоритет:** P3 (после демо, v0.1.x — процессная гигиена документации; продукт
   не меняет)
 - **Зависит от:** —
-- **Источник:** [D66](../../decisions/D66-doc-quality-checks.md) (Q62); опора —
-  обзор [`doc-quality-checks-2026-09-29.md`](../../research/doc-quality-checks-2026-09-29.md);
+- **Источник:** [D66](../../decisions/D66-doc-quality-checks.md) (Q62);
   связано: [D65](../../decisions/D65-reference-policy.md) (политика ссылок),
   [D64](../../decisions/D64-journal-integrity-test.md) (link-check — в T-18)
 
@@ -76,5 +75,3 @@ link-check — единый владелец Rust-тест `tests/docs_journal.r
   переписывается, связь фиксируется здесь.
 - **Пилот без `--fix`** — правка канон-файлов линтером без ревью отдельным
   решением не вводится.
-- Обзор: [`../../research/doc-quality-checks-2026-09-29.md`](../../research/doc-quality-checks-2026-09-29.md)
-  (разделы «Архитектура внедрения», «Пилот»).
