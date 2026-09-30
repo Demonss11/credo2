@@ -43,3 +43,12 @@
   validator git rev-parse (service-docs-lifecycle №2)`. Хеши — в ответе `lead`
   (не здесь). Осталось: `add` → сверка staged (12 `M` + 1 `A`) → `commit` →
   `push`. Удаления `docs/reviews/**` и карточки — не трогать (будущий пакет).
+- **30.09.2026, service-docs-lifecycle №2 — дельта allowlist**
+  (`ls-files`/`check-ignore`, служебная зона, режим «коммит + push» в `develop`):
+  подтверждение сверено по записи ленты («Коммит + push»); снимок 9 `M` + 1 `??`
+  = ровно пакет (плюс вне пакета 70 ` D docs/reviews/**`, 5 `M` карточек,
+  `findings-registry.md`, `memorandum-W8-run5.md`); `HEAD` `f28c8cb` = база
+  `origin/develop`. К коммиту — 11 путей (`./`-префикс, без `--`), сообщение
+  `docs(D49): права validator/auditor — git ls-files/check-ignore
+  (service-docs-lifecycle №2)`. Хеши — в ответе `lead` (не здесь). Осталось:
+  `add` → сверка staged (10 `M` + 1 `A`) → `commit` → `push`.

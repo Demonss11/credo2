@@ -22,6 +22,18 @@
   **Право `git rev-parse`** (D49, «Обновление» 30.09.2026): добавлено в allowlist —
   точная сверка базы: `git rev-parse develop origin/develop HEAD`; прежний обход
   (`git log --oneline -1` / `git show -s`) — резервный.
+- **30.09.2026 · service-docs-lifecycle №2 (дельта allowlist
+  `ls-files`/`check-ignore`)** — **принято**, P1/P2/P3 нет. База `develop` @
+  `f28c8cb` (= `origin/develop` = `HEAD`) + рабочее дерево. Границы чисты
+  (`src/tests/Cargo.toml/AGENTS.md` пусто); `.opencode/**` — 6 файлов дельты
+  (agents/{validator,auditor}, rules/review.md, memory/{migrator,auditor}, лента).
+  Права: `agents-perms.mjs` ×2 → `11 из 18`; `validator` +`git ls-files *`/
+  +`git check-ignore *` (:31–32), `auditor` +`git check-ignore *` (:25) —
+  совпадают с `review.md:89,96`; пробы `git ls-files` (путь) и `git check-ignore -v`
+  (exit 1) работают; D49 :50–57 — 8 строк «Обновления №2». Отчёт
+  `docs/reviews/service-docs-lifecycle-canon-2-2026-09-30.md`; квитанция
+  записана. `cargo` не запускался (D50). **Новые права:** `git ls-files *`,
+  `git check-ignore *` — сверка границ пакета / gitignore.
 - **30.09.2026 · service-docs-lifecycle №2 (`канон агентов`)** — **принято**,
   P1/P2/P3 нет; оба замечания аудита закрыты (P2 — §8 `journal.md` оговорка
   реестра `findings-registry.md`/D48; P3 — две точки `Q54.md:12,15`). База

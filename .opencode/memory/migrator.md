@@ -55,3 +55,32 @@
   снятия ссылок в итерации 1). Проверка: `git diff -- docs/questions/Q54.md` →
   ровно две добавленные точки (прочие строки diff — чужие снятия ссылок);
   `git status --porcelain` → Q54 изменён. Новых Q/D нет.
+- **30.09.2026, волна `service-docs-lifecycle`, операция №2, итерация 9
+  (реестр):** сняты 7 markdown-ссылок на удаляемый
+  `docs/reviews/git-efficiency-2026-09-30.md` в F49–F55
+  (`docs/analysis/findings-registry.md`) — имена сохранены текстом
+  (паттерн D61). Проверка: `git grep -n "reviews/git-efficiency" --
+  docs/analysis` → пусто; `git grep "git-efficiency-2026-09-30" --
+  docs/analysis` → 7 строк; `git diff --stat` → 7+/7−. Грабли: файл реестра
+  в CRLF (git предупреждает при касании), но `edit` с `replaceAll` нашёл
+  дословный фрагмент во всех 7 строках. Новых Q/D нет.
+- **30.09.2026, волна `service-docs-lifecycle`, операция №2, итерация 10 (W8*):**
+  затык — `edit` на `docs/analysis/memorandum-W8-run5.md` **отклонён правами**:
+  фронтматтер `migrator` даёт `edit` только на реестр `findings-registry.md`
+  внутри `docs/analysis/**`; остальное `docs/analysis/**` — зона `analyst`
+  (`.opencode/agents/analyst.md:9`). Бриф волны противоречил правам роли —
+  hard rule `dispatch-loop.md` («обход запрещён, эскалация — норма»). Что
+  успел (read-only): оба фрагмента дословны (`:650`, `:898`), файл в LF.
+  Правка не сделана; вопрос возвращён `lead`/сервисной сессии (исполнить
+  `analyst`'ом или расширить allowlist). Грабли: проверяй `permissions`
+  роли до правки — зона `docs/analysis/**` у `migrator` **уже** только
+  реестр, хотя §«Границы» роли это явно не проговаривает.
+- **30.09.2026, волна `service-docs-lifecycle`, операция №2, право
+  `ls-files`/`check-ignore`:** в D49 в конец «Следствий» добавлен второй пункт
+  «Обновление 30.09.2026» — `validator` +`git ls-files *`, +`git check-ignore *`;
+  `auditor` +`git check-ignore *` (поводы: `W8-config` 28.09.2026,
+  `service-pm-numbering` 30.09.2026). Правки канона ролей — сервисная сессия.
+  Проверка: `git diff -- docs/decisions/D49-...` → только 8 строк ожидаемого
+  пункта (прочих изменений D49 нет); `git status --porcelain` → D49 `M`.
+  Новых Q/D нет. Грабли те же: в `git status` видны чужие правки волны
+  (68 ` D docs/reviews/**`, 5 карточек, findings-registry, меморандум) — не трогать.

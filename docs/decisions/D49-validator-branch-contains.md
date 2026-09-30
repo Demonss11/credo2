@@ -47,6 +47,14 @@ dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/righ
   `git log -1`); право read-only, иных ролей не касается. Синхронизация:
   [`review.md`](../../.opencode/rules/review.md) §«Доступные команды», память
   `validator` (ловушка снята).
+- **Обновление 30.09.2026 — права `git ls-files *` и `git check-ignore *`
+  (дополняет п.1):** в allowlist `validator` добавлены read-only строки
+  `git ls-files *`, `git check-ignore *`; в allowlist `auditor` —
+  `git check-ignore *` (класс «границы пакета / gitignore»). Поводы — отказы
+  движка: `W8-config` 28.09.2026 (`ls-files`, обход rg+log);
+  `service-pm-numbering` 30.09.2026 (`check-ignore`, «на усмотрение владельца»
+  → решено владельцем). Синхронизация:
+  [`review.md`](../../.opencode/rules/review.md) §«Доступные команды».
 
 ## Сверка с кодом
 

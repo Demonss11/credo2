@@ -22,6 +22,7 @@ permissions:
   - { action: shell, resource: "git branch -l *", effect: allow }
   - { action: shell, resource: "git branch -a *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
+  - { action: shell, resource: "git check-ignore *", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs *", effect: allow }
   - { action: shell, resource: "opencode reload", effect: allow }

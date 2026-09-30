@@ -86,14 +86,14 @@
 ## Доступные команды
 
 - `validator`: `rg`, `git status|diff|log|show|grep`, `git branch --contains`,
-  `git rev-parse`, `cargo fmt|clippy|test`,
+  `git rev-parse`, `git ls-files`, `git check-ignore`, `cargo fmt|clippy|test`,
   `node .opencode/scripts/agents-perms.mjs`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
 - `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
 - `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`.
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
-  `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
+  `git check-ignore`, `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
 - `researcher`: `rg`.
 - `git`: `rg`, `git`-команды (изменяющие — `ask`),

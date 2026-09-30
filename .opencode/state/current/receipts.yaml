@@ -1101,3 +1101,21 @@
     tech: "git diff -- ./.opencode/rules/review.md ./.opencode/rules/journal.md ... (multiple dot-paths under --) and git diff --numstat -- .opencode rejected by rights engine; narrowed to single ./path / bare git diff --numstat (review.md §«Доступные команды» quirk)"
   snapshot: "develop @ 21c3c80 (= origin/develop = HEAD) + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-docs-lifecycle-canon-2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-canon-2-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    base: "ok — git rev-parse develop origin/develop HEAD = f28c8cb / f28c8cb / f28c8cb (matches brief)"
+    borders: "ok — git diff --stat -- src tests Cargo.toml AGENTS.md empty; .opencode/** modified = agents/validator.md, agents/auditor.md, rules/review.md, memory/migrator.md, memory/auditor.md, mail/service-docs-lifecycle.md only (delta); memory/validator.md untouched by delta"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; validator allow:git ls-files * + allow:git check-ignore * (validator.md:31-32); auditor allow:git check-ignore * (auditor.md:25); other roles unchanged; review.md:89 (validator +ls-files +check-ignore) and :96 (auditor +check-ignore) match frontmatters; probes: git ls-files <path> returns path, git check-ignore -v <path> exit 1"
+    d49: "ok — 8-line 'Обновление 30.09.2026 — права git ls-files */check-ignore * (дополняет п.1)' at D49:50-57, after first rev-parse update (:42-49); review.md §«Доступные команды» link live (review.md:86); no contradiction with п.1 (:27-29)"
+    memory_f35: "ok — migrator.md/auditor.md checkpoints append-only, agree with D49/frontmatters; no foreign records rewritten"
+    feed: "ok — delta entries in order (owner decision → migrator D49 → auditor audit); facts match tree (8 D49 lines, frontmatter lines, review.md lines); auditor P1/P2/P3 none"
+    out_of_scope: "68 D docs/reviews/**, T-01/T-11/T-12/T-13/T-16 cards, findings-registry.md (iter 9), memorandum-W8-run5.md (iter 10) — other wave operations, not in this acceptance"
+  snapshot: "develop @ f28c8cb (= origin/develop = HEAD) + working tree (2026-09-30)"
+  at: "2026-09-30"

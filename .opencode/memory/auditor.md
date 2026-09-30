@@ -29,3 +29,14 @@
   с несколькими dot-путями под `--` движок отклоняет (нужен `./`-префикс,
   одиночный путь за вызов); сверка ленты — чтением хвостами `offset`/`limit`
   (полное чтение дало срез ~32 КБ).
+- **30.09.2026, волна `service-docs-lifecycle`, операция №2 — allowlist
+  `ls-files`/`check-ignore` — аудит:** дельта (.opencode/agents/validator.md
+  +`git ls-files *` +`git check-ignore *`; auditor.md +`git check-ignore *`;
+  review.md §«Доступные команды» — обе строки; D49 — 8 строк «Обновления»).
+  Инструкция ↔ права: расхождений нет (`agents-perms.mjs` ×2 → `11 из 18`;
+  у validator `allow git ls-files *`/`check-ignore *`, у auditor — `check-ignore *`).
+  Находки: **нет**. Проба: `git check-ignore -v` у auditor работает (exit 1),
+  `git ls-files` отклонён (права нет — так и задумано). Границы целы
+  (`src/tests/Cargo.toml/AGENTS.md` пусто), `cargo` не запускался (D50).
+  Грабли: `git diff -- <дот-пути>` движок отклоняет — только `./`-префикс
+  (подтверждено снова); `git ls-files` в аудите недоступен (ожидаемо).

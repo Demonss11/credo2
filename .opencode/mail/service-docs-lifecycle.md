@@ -723,3 +723,261 @@
   validator git rev-parse (service-docs-lifecycle №2)`) → `git push origin develop`.
 - Дальше / риски: удаления `docs/reviews/**` (68) и карточки — не трогались
   (будущий пакет); хеши — в ответе `lead`.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — итерация 9 — диапазон
+
+- Диапазон итерации 9 — удаление 2 файлов `docs/reviews/`:
+  `git-efficiency-2026-09-30.md`, `service-docs-lifecycle-2026-09-30.md`
+  (архив — git).
+- Ссылки канона: нет ни на один из файлов. Особое: живой
+  `docs/analysis/findings-registry.md` — 7 ссылок F49–F55 на
+  `git-efficiency-2026-09-30.md`; снимаются точечно (`migrator`, имена
+  сохраняются — паттерн D61), чтобы не оставлять битых ссылок; полный разбор
+  реестра — волна №3.
+- receipts (`report:` ×3) — append-only; лента/память/`progress` — история.
+- Маршрут: `migrator` (реестр) → сервисная сессия (удаление) → проверки;
+  пакет `git` — по команде владельца.
+
+## migrator · 30.09.2026 · операция №2 — итерация 9 — готово
+
+- Сделано: в `docs/analysis/findings-registry.md` сняты 7 markdown-ссылок на
+  удаляемый `docs/reviews/git-efficiency-2026-09-30.md` — строки F49–F55,
+  фрагмент «закрыт … (принято `validator` — […](…))»; имена сохранены текстом
+  (`git-efficiency-2026-09-30.md`, паттерн D61), остальной текст строк и
+  окончания строк не тронуты. Сам файл отчёта не менялся.
+- Проверки: `git grep -n "reviews/git-efficiency" -- docs/analysis` → пусто
+  (exit 1); `git grep -n "git-efficiency-2026-09-30" -- docs/analysis` → 7 строк
+  F49–F55 (имена без ссылок); `git diff --stat -- docs/analysis/findings-registry.md`
+  → 7 insertions(+), 7 deletions(-); `git status --porcelain` → реестр `M` в
+  списке (плюс чужие правки волны — не трогал); `cargo` не запускался (D50).
+- Дальше / риски: `docs/reviews/git-efficiency-2026-09-30.md` и
+  `service-docs-lifecycle-2026-09-30.md` в git-статусе ещё не ` D` — удаление
+  выполняет сервисная сессия следующим шагом; битых ссылок в живом реестре нет.
+  Git предупреждает о CRLF→LF при следующем касании файла (файл в CRLF).
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — итерация 9 — готово
+
+- Удалены 2 файла `docs/reviews/` (диапазон владельца):
+  `git-efficiency-2026-09-30.md`, `service-docs-lifecycle-2026-09-30.md`
+  (архив — git).
+- Ссылки канона: нет. Живой реестр: 7 ссылок F49–F55 сняты (`migrator`, имена
+  сохранены — паттерн D61); битых ссылок в реестре нет. Остаются: receipts
+  (`report:` ×3 — append-only), лента/память/`progress` (история).
+- Проверки: `git grep` по ссылкам на имена диапазона (`reviews/...`) → пусто;
+  в папке осталось 3 файла: `W8-canon`, `W8-config`,
+  `service-docs-lifecycle-canon-2026-09-30.md` (отчёт приёмки служебной зоны);
+  `cargo` не запускался (D50).
+- Дальше: оставшиеся `W8-*` — по команде владельца; пакет `git` — по команде.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — итерация 10 — W8*: ссылки и разбор
+
+- Задача владельца: подчистить ссылки на `W8-canon-2026-09-28.md` /
+  `W8-config-2026-09-28.md`; озвучить проблемы, не задокументированные в
+  Q/задачах.
+- Ссылки: канон — нет. Остаются: `memorandum-W8-run5.md` — 1 markdown-ссылка
+  (:650) + 1 адрес в таблице (:898) → снимаются (`migrator`, имена
+  сохраняются); receipts (`report:` ×2 + тексты «since W8-…») — append-only;
+  лента — история; внутренняя ссылка W8-canon → W8-config (файлы в одном
+  диапазоне).
+- Разбор: P1/P2/P3 — нет в обоих отчётах; открытые F15/F26/F27 —
+  задокументированы (реестр + карточка T-15: B1-F15/B1-F26/B1-F27 ⏸, C9;
+  F15 — Q47/D42); техзаметки — `git rev-parse` закрыт сегодня (D49
+  «Обновление»), `git ls-files` — разовый обход, `opencode reload` — by design
+  (только `auditor`), CRLF-наблюдение — ожидаемое (F23 закрыт D43–D47).
+  Незадокументированных проблем, требующих Q/задач, не найдено.
+- Маршрут: `migrator` (меморандум) → проверки; пакет `git` — по команде.
+
+---
+
+## migrator · 30.09.2026 · операция №2 — итерация 10 — затык (нет права)
+
+- **Статус: не готово** — правка меморандума не выполнена: `edit` на
+  `docs/analysis/memorandum-W8-run5.md` **отклонён движком прав** (дважды,
+  обе правки). Причина: фронтматтер роли `migrator` даёт `edit` только на
+  `docs/questions/**`, `docs/decisions/**`, `docs/tasks/**`,
+  `docs/TRACEABILITY.md`, `docs/SPECIFICATION.md`,
+  `docs/analysis/findings-registry.md`, `.opencode/memory/migrator.md`,
+  `.opencode/mail/**` (`.opencode/agents/migrator.md:8–16`);
+  `docs/analysis/**` вне реестра — зона `analyst`
+  (`.opencode/agents/analyst.md:9`). Бриф (правка меморандума) противоречит
+  правам роли — hard rule `dispatch-loop.md` §«Hard rules» («требования брифа
+  сверяются и с `permissions` роли»; «обходной путь вместо эскалации запрещён»).
+- Что проверено (read-only, `rg`): оба фрагмента в меморандуме есть **дословно**:
+  `:650` и `:898`; файл — LF (маркеров `\r` нет), правка 1 может быть применена
+  дословно из брифа. Целевые строки верны, блокер — только права.
+- **Что нужно:** исполнить правку ролью с правом на `docs/analysis/**` —
+  `analyst` (по брифу брифа), либо сервисная сессия владельца; иначе —
+  расширить allowlist `migrator` на `docs/analysis/**` (решение владельца).
+  Диффы правок (дословно из брифа, применимы без изменений):
+  1. `:649–651` — `[`docs/reviews/W8-config-2026-09-28.md`](../reviews/…)` →
+     `` `W8-config-2026-09-28.md` `` (перенос строки `квитанция … в` / `receipts.yaml`).
+  2. `:898` — убрать `` (`docs/reviews/W8-config-2026-09-28.md`) `` из ячейки
+     статуса шага 5 (текст `✅ 28.09.2026: W8-config accepted; коммит 22f7683`).
+- Проверки брифа, которые я **не** мог дать: `git grep … -- docs/analysis` →
+  ссылки на `reviews/W8-config` **пока остаются** на `:650`,`:898`;
+  `git diff --stat -- docs/analysis/memorandum-W8-run5.md` → пусто (правок
+  нет); `git status --porcelain` → меморандум не изменён (в списке — только
+  чужие правки волны). `cargo` не запускался (D50).
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — итерация 10 — готово
+
+- Блокер `migrator` снят: правку выполнила сервисная сессия (право на
+  `docs/analysis/**` вне реестра — у `analyst`; бриф `migrator` был ошибочен —
+  «границы» роли в каноне верны, реестр — единственная зона в analysis).
+- Сделано (меморандум `docs/analysis/memorandum-W8-run5.md`): `:650` —
+  markdown-ссылка на `W8-config-2026-09-28.md` → имя текстом; `:898` — адрес в
+  таблице убран (паттерн D61).
+- Проверки: `git grep -n "reviews/W8-config" -- docs/analysis` → пусто;
+  `git diff --stat` → 3+/3−; канон не тронут; `cargo` не запускался (D50).
+- Дальше: `W8-canon`/`W8-config` — удаление по команде владельца; пакет `git`
+  — по команде.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — правка allowlist (`ls-files`/`check-ignore`)
+
+- Решение владельца (30.09.2026, `question`): чинить технические фрикции —
+  `validator` +`git ls-files *`, +`git check-ignore *`; `auditor` +
+  `git check-ignore *` (read-only; класс «границы пакета / gitignore»).
+- Поводы: `W8-config` (28.09.2026 — `git ls-files` вне allowlist, обход rg+log);
+  `service-pm-numbering` (30.09.2026 — `git check-ignore`, «на усмотрение
+  владельца» → решено).
+- Правки: `.opencode/agents/validator.md`, `.opencode/agents/auditor.md`
+  (фронтматтеры), `.opencode/rules/review.md` §«Доступные команды» (обе строки);
+  «Обновление» D49 — `migrator`.
+- Маршрут: `migrator` (D49) → `auditor` (инструкция ↔ права) → `validator` →
+  пакет `git` по гейту.
+
+## migrator · 30.09.2026 · операция №2 — право `ls-files`/`check-ignore` — готово
+
+- Сделано: в [D49](../../docs/decisions/D49-validator-branch-contains.md) в конец
+  раздела «Следствия», после пункта «Обновление 30.09.2026 — право
+  `git rev-parse *`», добавлен пункт «Обновление 30.09.2026 — права
+  `git ls-files *` и `git check-ignore *` (дополняет п.1)»: `validator` —
+  `git ls-files *`, `git check-ignore *`; `auditor` — `git check-ignore *`;
+  поводы — отказы движка (`W8-config` 28.09.2026 — `ls-files`, обход rg+log;
+  `service-pm-numbering` 30.09.2026 — `check-ignore`, «на усмотрение владельца»
+  → решено владельцем); синхронизация — `review.md` §«Доступные команды».
+  Остальной текст и окончания строк не тронуты.
+- Проверки: `git diff -- docs/decisions/D49-validator-branch-contains.md` →
+  добавлены только 8 строк ожидаемого пункта (прочих изменений D49 нет);
+  `git status --porcelain` → `docs/decisions/D49-validator-branch-contains.md`
+  в списке `M` (плюс чужие правки волны — не трогал); `cargo` не запускался
+  (D50).
+- Дальше / риски: служебные правки `.opencode/agents/{validator,auditor}.md`,
+  `review.md` сделаны сервисной сессией — дельт не требовалось; далее аудит
+  `auditor` (инструкция ↔ права) и приёмка `validator`; пакет `git` — по гейту.
+
+## auditor · 30.09.2026 · операция №2 — allowlist (`ls-files`/`check-ignore`) — аудит
+
+- Сделано/проверено (независимо, по дереву):
+  - **Инструкция ↔ права:** `git diff -- ./.opencode/agents/validator.md
+    ./.opencode/agents/auditor.md` → у `validator` добавлены ровно строки
+    `git ls-files *` и `git check-ignore *`, у `auditor` — ровно `git check-ignore *`;
+    иных изменений фронтматтеров нет. `review.md` §«Доступные команды»
+    (diff) — строка `validator` получила `git ls-files`, `git check-ignore`,
+    строка `auditor` — `git check-ignore`; сверка с фронтматтерами — точное
+    совпадение новых строк; список остальных ролей не тронут.
+    `node .opencode/scripts/agents-perms.mjs` ×2 → `agents: 11 из 18`; у
+    `validator` эффективно `allow git ls-files *`, `allow git check-ignore *`;
+    у `auditor` — `allow git check-ignore *`; расхождений автопроверки нет.
+  - **Поведенческая проба:** `git check-ignore -v .opencode/mail/service-docs-lifecycle.md`
+    → exit 1 (файл не игнорируется) — право `auditor` работает; `git ls-files`
+    у `auditor` ожидаемо отклонён (права нет — соответствует D49: аудитору
+    дано только `check-ignore`).
+  - **D49:** `git diff -- ./docs/decisions/D49-validator-branch-contains.md` →
+    в конец «Следствий» после пункта `git rev-parse *` добавлены ровно 8 строк
+    нового пункта «Обновление 30.09.2026 — права `git ls-files *`/`git check-ignore *`
+    (дополняет п.1)»; иных правок D49 нет. Противоречий с п.1 и первым
+    «Обновлением» (rev-parse) нет — оба помечены «дополняет п.1», права
+    read-only, разграничение ролей согласовано с фронтматтерами; ссылки
+    `review.md` — на существующий §«Доступные команды», живые.
+  - **Границы:** `git diff --stat -- src tests Cargo.toml AGENTS.md` → пусто;
+    `AGENTS.md` в `git status` не значится. В `.opencode/**` — только
+    `agents/validator.md`, `agents/auditor.md`, `rules/review.md`, `memory/migrator.md`,
+    `mail/service-docs-lifecycle.md`; прочие изменения дерева (68 ` D docs/reviews/**`,
+    5 карточек, `findings-registry.md`, меморандум) — иные операции волны, не
+    входят в дельту №2. `cargo` не запускался (D50).
+  - **Память (F35):** чекпойнт `migrator.md` (последний блок — право
+    `ls-files`/`check-ignore`) согласован с D49 и фронтматтерами; чужих записей
+    не переписано (append).
+  - **Лента:** записи дельты по порядку (сервисная сессия — решение владельца →
+    `migrator` D49 → аудит); факты сходятся с деревом (8 строк D49, строки
+    фронтматтеров, строки `review.md`).
+- Находки: **нет** (P1/P2/P3 отсутствуют).
+- Дальше / риски: дельта согласована, инструкция ↔ права — расхождений нет;
+  `validator` → приёмка, затем пакет `git` по гейту. `cargo` не запускался (D50).
+
+---
+
+## validator · 30.09.2026 · операция №2 — allowlist (`ls-files`/`check-ignore`) — принято
+
+- Сделано: приёмка дельты (`validator.md` +`git ls-files *`/`git check-ignore *`;
+  `auditor.md` +`git check-ignore *`; `review.md` §«Доступные команды»;
+  D49 «Обновление» №2; чекпойнты памяти; лента). Отчёт —
+  `docs/reviews/service-docs-lifecycle-canon-2-2026-09-30.md`; квитанция —
+  `receipts.yaml` (task `service-docs-lifecycle-canon-2`, iteration 1, accepted).
+- Проверки: `git rev-parse develop origin/develop HEAD` → `f28c8cb`×3;
+  `git diff --stat -- src tests Cargo.toml AGENTS.md` → пусто; `agents-perms.mjs`
+  ×2 → `11 из 18`, у `validator` `allow:git ls-files *`+`allow:git check-ignore *`,
+  у `auditor` `allow:git check-ignore *`, фронтматтеры ↔ `review.md` (:89/:96)
+  совпадают; пробы: `git ls-files <path>` → путь, `git check-ignore -v` → exit 1;
+  D49 `:50-57` — ровно 8 строк нового пункта, ссылка `review.md:86` живая;
+  `.opencode/**` — только 6 файлов дельты. `cargo` не запускался (D50).
+- Дальше / риски: **принято** (P1/P2/P3 нет). Вне приёмки — 68
+  ` D docs/reviews/**`, карточки T-01/T-11/T-12/T-13/T-16, реестр (итер. 9),
+  меморандум (итер. 10); далее пакет `git` по гейту.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №2 — подтверждение пакета (дельта allowlist)
+
+- Гейт пройден: владелец подтвердил **коммит + push** (`question`, ответ
+  «Коммит + push (Recommended)») — дельта прав (`ls-files`/`check-ignore`);
+  один коммит «канон + записи» (D75).
+- База: `develop` @ `f28c8cb` (= `origin/develop`); режим — коммит прямо в
+  `develop`, затем `git push origin develop`.
+- Пакет — 10 путей + запись роли `git` (F43, `memory/git.md`) = 11:
+  - `.opencode/agents/auditor.md`
+  - `.opencode/agents/validator.md`
+  - `.opencode/mail/service-docs-lifecycle.md`
+  - `.opencode/memory/auditor.md`
+  - `.opencode/memory/git.md` (чекпойнт роли `git`, новый до `add`)
+  - `.opencode/memory/migrator.md`
+  - `.opencode/memory/validator.md`
+  - `.opencode/rules/review.md`
+  - `.opencode/state/current/receipts.yaml`
+  - `docs/decisions/D49-validator-branch-contains.md`
+  - `docs/reviews/service-docs-lifecycle-canon-2-2026-09-30.md`
+- Сообщение коммита:
+  `docs(D49): права validator/auditor — git ls-files/check-ignore (service-docs-lifecycle №2)`.
+- Замечание: вне пакета — удаления `docs/reviews/**` (70, а не 68 — в записи
+  `validator` цифра из брифа устарела), карточки T-01/T-11/T-12/T-13/T-16,
+  реестр (итер. 9), меморандум (итер. 10); после `push` в отслеживаемые файлы
+  не пишем (хеши — ответом).
+
+---
+
+## git · 30.09.2026 · операция №2 — дельта allowlist — готово
+
+- Сверка (до `add`): подтверждение — запись ленты
+  «сервисная сессия · 30.09.2026 · операция №2 — подтверждение пакета
+  (дельта allowlist)» («Коммит + push»); `git status -sb` → 9 `M` пакета (1–4,
+  6–10) + 1 `??` (11) = ровно пакет; вне пакета — 70 ` D docs/reviews/**`,
+  5 `M` карточек T-01/T-11/T-12/T-13/T-16, `M` `findings-registry.md` и
+  `memorandum-W8-run5.md`; `git log -1 --oneline` → `f28c8cb` = база. Расхождений
+  со списком нет.
+- Сделано: F43-записи (эта запись + чекпойнт `memory/git.md`) → `add` 11 точными
+  путями (`./`-префикс, без `--`) → сверка staged (10 `M` + 1 `A`) → `commit`
+  (`docs(D49): права validator/auditor — git ls-files/check-ignore
+  (service-docs-lifecycle №2)`) → `git push origin develop`.
+- Дальше / риски: удаления `docs/reviews/**` (70), карточки, реестр, меморандум —
+  не трогались (будущие пакеты); хеши — в ответе `lead`.
