@@ -78,6 +78,7 @@
 | [Q74](questions/Q74.md) | [D78](decisions/D78-t15-mcp-ready-program.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | [`agents-state-schema.feature`](features/agents-state-schema.feature), [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature), [`agents-re-raise.feature`](features/agents-re-raise.feature), [`agents-metrics.feature`](features/agents-metrics.feature), [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
 | [Q75](questions/Q75.md) | [D79](decisions/D79-journal-canon-completeness.md) | resolved | — | — |
 | [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) ⬜ | — |
+| [Q77](questions/Q77.md) | [D81](decisions/D81-pm-process-mining.md) | resolved | — | — |
 
 Легенда жизненного цикла: `open` — ждёт решения · `resolved` — решение принято
 (задач не требуется) · `in work` — есть открытые задачи · `done` — задачи

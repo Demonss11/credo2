@@ -107,3 +107,4 @@
 | [D78](D78-t15-mcp-ready-program.md) | T-15 — программа «процесс, готовый к MCP» (фазы A–G) | [Q74](../questions/Q74.md) | 2026-09-30 | accepted |
 | [D79](D79-journal-canon-completeness.md) | Полнота задач — в канон журнала §7 | [Q75](../questions/Q75.md) | 2026-09-30 | accepted |
 | [D80](D80-features-visibility-completeness.md) | Полнота фич — каждая `*.feature` поимённо видна в TRACEABILITY | [Q76](../questions/Q76.md) | 2026-09-30 | accepted |
+| [D81](D81-pm-process-mining.md) | Инструмент `pm` — uv-проект process mining агентского процесса | [Q77](../questions/Q77.md) | 2026-09-30 | accepted |

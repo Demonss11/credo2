@@ -944,3 +944,34 @@
     feed: "ok — op6 opening (:800) -> migrator (:820) -> docs-writer (:845), route order"
   snapshot: "develop @ c0199d3 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-pm-tool-2026-09-30.md
+  dod:
+    borders: "ok — git status = 7 M + 6 ?? (M: AGENTS.md, docs/TRACEABILITY.md, questions/README.md, decisions/README.md, state/current/progress.yaml, memory/migrator.md, memory/auditor.md; ??: .opencode/scripts/pm/, Q77, D81, pm-tool-design-2026-09-30.md, pm-run-2026-09-30.md, mail/service-pm-tool.md); src/**, tests/**, Cargo.toml, next_action/current_state untouched"
+    cargo: "not run (D50) — git diff --stat 74a9d4e -- src tests Cargo.toml empty; uv unavailable to roles (evidence-level only)"
+    records: "ok — Q77 §4, D81 §4 (Resolves [Q77], Спека —, Tasks —, verdict ⚪ + §5.3 facts); D81 Следствия list --source/--since/--exclude-service (:55), rg 'format' in D81 empty; TRACEABILITY 77 Q rows, :81 Q77/D81 resolved, rg -c '^' = rg -c '\\r$' = 89, diff +1; catalogs 77/81; IDs unique"
+    canon: "ok — git diff AGENTS.md = exactly one changed line (map: +session-analysis/, +pm/); .opencode/agents/**, .opencode/rules/**, review.md untouched; independent agents-perms = 'agents: 11 из 18'"
+    project: "ok — pm/: pyproject.toml, uv.lock, README.md, .gitignore, 8 src modules, tests (test_pm_agents.py + fixtures); deps core pyyaml / extras viz+pm4py, no seaborn; CLI pm-agents; .gitignore covers mine_agents.py + .venv/__pycache__/*.egg-info/.pytest_cache/output; git status -uall shows 19 files to commit, draft absent (rg --files -u only); events.py:154-155 sorts undated last; 7 test functions incl. test_undated_events_sort_last"
+    evidence: "evidence level — uv sync x2, uv run pytest; run 394 events/38 cases, acceptance 82.1%/rework 17.9%; report pm-run-2026-09-30.md exists and agrees (:23 394/38, :82 82.1%/17.9%); runs executed by service session (roles have no uv)"
+    audit: "ok — first audit P1 none, P2 (draft not ignored) + P3-1/P3-2/P3-3 closed pointwise and confirmed by second auditor entry; feed order matches protocol (analyst -> migrator -> build -> auditor -> closure -> auditor)"
+    checklist_5_7: "ok — links live; statuses synced (Q77 resolved by D81 ↔ TRACEABILITY resolved ↔ catalogs; Tasks —); IDs not reused; no migration markers"
+    p2: "OPEN — .opencode/scripts/pm/README.md:62 '# expect: 6 passed' vs 7 test functions and feed evidence 'uv run pytest -> 7 passed' (service-pm-tool.md:139); README-code inconsistency (acceptance item 4). Fix: one line -> '# expect: 7 passed'"
+    observation: "non-finding — feed block 'migrator · аудит P3 — D81' (:49) precedes the audit (:84) it answers; main protocol chain order is correct (earlier auditor note about the service-session entry is resolved)"
+  snapshot: "develop @ 74a9d4e + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-tool-2026-09-30-r2.md
+  dod:
+    borders: "ok — git status = 9 M + 7 ?? (same set as end of r1; M includes memory/validator.md + receipts.yaml = validator's own writes); git diff --numstat 74a9d4e: AGENTS.md 1/1, TRACEABILITY 1/0, catalogs 1/0 each (unchanged vs r1); git diff --stat 74a9d4e -- src tests Cargo.toml empty"
+    cargo: "not run (D50) — docs/canon/scripts-only wave; uv unavailable to roles, run evidence is feed + report"
+    p2_closure: "closed — pm/README.md:62 now 'uv run pytest  # expect: 7 passed' (was 6); rg -c '^def test_' tests/test_pm_agents.py = 7 (incl. test_undated_events_sort_last); feed entry 'сервисная сессия · rework приёмки (P2) — README' (:172-177) present and matches the actual edit"
+    feed_order: "ok — analyst :23 -> migrator :35 -> build :49 -> auditor :71 -> migrator P3 D81 :119 -> closure :132 -> auditor closed :145 -> service session rework README :172 -> validator r1 :181; r1 observation about 'migrator · аудит P3 — D81' position is resolved (block now after the audit)"
+    observation: "non-finding — after block re-sorting, historical in-feed line refs are stale (auditor 'замечания закрыты' :165-168; validator r1 :209-213) and the rework entry (:172) precedes the validator r1 entry (:181) it answers; operational file, blocks self-describing, no action"
+  snapshot: "develop @ 74a9d4e + working tree (2026-09-30)"
+  at: "2026-09-30"

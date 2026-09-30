@@ -288,3 +288,10 @@
   action: complete
   result: "Операция №5 (закрытие P3): §7 journal.md — критерий полноты ссылкой на абзац «Полнота» (Q41), тест помечен планом (T-18 ⬜); «Обновление» в D79; метка плана в tasks/README:37; хронология ленты выправлена (op5 в конец). Протокол канона: аудит auditor (P1/P2 нет; P3 №5 закрыт правкой) → приёмка validator accepted (P1/P2/P3 нет); коммит c0199d3, push fab7e68..c0199d3 origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-5-2026-09-30.md"
   next: "— (операция №5 закрыта; открытых наблюдений волны нет; T-18 — реализация теста отдельной задачей)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 6
+  action: complete
+  result: "Операция №6: полнота фич — Q76/D80 (каждая *.feature поимённо в TRACEABILITY, wildcard снят; добор T-18). Закрыты 12 разрывов: 6 агентских D38/D39 → Q43/Q44, 5 T-15 → Q74/D78, manifest_sync → Q29/D34+Q32/D28, wasm → Q65/D69; заголовки wasm/manifest_sync + пометка в features/README. Приёмка validator accepted (features_inventory 4/4, 47/278); коммит 74a9d4e, push c0199d3..74a9d4e origin develop (17 путей); отчёт docs/reviews/service-doc-refactor-6-2026-09-30.md"
+  next: "— (операция №6 закрыта; T-18 — реализация теста (полнота задач и фич) отдельной задачей)"

@@ -115,3 +115,15 @@
   (17 точных путей) → staged-сверка (`--expect=17`) → `commit` →
   `push origin develop` (≥ 5 мин); post-push git-команд нет, хеши — в ответе
   `lead` (F43).
+- 30.09.2026 · **пакет `service-pm-tool`** (uv-проект process mining
+  `.opencode/scripts/pm`, коммит прямо в `develop`): подтверждение владельца
+  «Коммит + push» + судьба черновика («оставить локально вне git») — лента
+  `service-pm-tool`, запись «подтверждение пакета»; база `develop` =
+  `origin/develop` = `74a9d4e` (синхрон); дерево — 9 `M` + 8 `??`, посторонних
+  нет; `pm/` = 19 файлов (`mine_agents.py`/`.venv/` вне git). Пакет — 18 позиций
+  ленты (17 файлов + каталог `pm/`). Сообщение —
+  `chore(pm): uv-проект process mining агентов (D81)`.
+  Чекпойнт до `add`: записи F43 (лента + эта память) сделаны; дальше `add`
+  (точные пути из ленты) → staged-сверка (`git-check.mjs --staged`) → `commit` →
+  `push origin develop` (≥ 5 мин); post-push git-команд нет, хеши — в ответе
+  `lead` (F43).

@@ -268,3 +268,43 @@
   планом (`T-18` ⬜). Тех.: shell отклоняет `git diff` с незакавыченным путём
   `.opencode/rules/…` (с кавычками — ок); срез token-guard в ленте (~38/54 КБ).
   Отчёт — лента `service-doc-refactor.md`. Правок не вносил.
+- **30.09.2026 · аудит `service-pm-tool` (канон-правка `AGENTS.md` + uv-проект
+  `.opencode/scripts/pm/` по Q77/D81), без правок.** Бюджет: 17 файлов, 10 `rg`
+  (перебор против ориентира ~10 — предупредил владельца в отчёте). Канон:
+  `git diff AGENTS.md` — ровно одна строка (карта `.opencode/scripts/`, +`pm/`,
+  D81 п.7); `agents-perms.mjs` ×2 — «11 из 18», идентично; `agents/**`,
+  `rules/**`, `review.md` диффом не тронуты, права ролей не расширены (D81 п.6).
+  D81-соответствие: состав `pm/` (pyproject/uv.lock/src/tests/README/.gitignore)
+  и слои (`pyyaml` core; extra `viz`; extra `pm4py`; без `seaborn`) — ok; дефолт
+  вывода `tempfile` (`cli.py:29`). Код (чтением): `io_state` (StateError,
+  allow_single только next_action), `io_mail` (tolerant, алиас «сервисная
+  сессия»→service-session), `events` (`unknown-<idx>`, слияние (дата, источник,
+  индекс), синтетический ts), `mining` (`accepted_with_notes`=приёмка, очередь из
+  ключа `next`, позиции без «секунд»), `viz` (ленивые импорты + VizUnavailable),
+  `cli` (флаги `--source/--since/--exclude-service/--no-viz/--threshold`, UTF-8
+  stdout), README согласован, тесты 6 + фикстуры. Прогоны (`uv sync`/pytest 6/
+  394 события 38 кейсов 82.1%) — по ленте и `pm-run-2026-09-30.md`, ролью `uv`
+  не исполнялись (прав нет) — уровень «свидетельства». Записи: Q77/D81 по §4
+  (⚪, `Спека: —`, `Tasks: —`); TRACEABILITY 77 Q-строк, каталоги 77/81, ссылки
+  живые, ID не переиспользованы. Границы: 6 `M` + 6 `??`, `src/**`/`tests/**`/
+  `Cargo.toml`/`next_action|current_state|receipts` чисты. Вердикт: «Инструкция ↔
+  права: расхождений нет»; **P1 нет**. P2: черновик `mine_agents.py` (557 стр.) в
+  корне `pm/` не покрыт `.gitignore` → `git add .opencode/scripts/pm/` затянет его
+  (против «вне git»). P3: (1) строка карты `AGENTS.md:25` не называет
+  `session-analysis/`; (2) неразобранная дата сортируется в 1970
+  (`events.py:143/152`). Тех.: `glob` не видит hidden-каталоги (`.opencode/**`) —
+  карту снимал `rg --hidden --files`; `git ls-files` роли не разрешён. Отчёт —
+  лента `service-pm-tool.md`. Правок не вносил.
+- **30.09.2026 · адресная проверка закрытия P2/P3 `service-pm-tool`, без правок.**
+  ~8 файлов, 6 `rg`. **P2** — `pm/.gitignore` содержит `mine_agents.py`;
+  `rg --files` (игнор) файл скрывает, `-u` показывает (на диске цел) → в
+  untracked-наборе нет (прокси `git ls-files -o --exclude-standard`; ролью
+  недоступна). **P3-1** — `git diff --numstat AGENTS.md` `1 1`; строка карты
+  содержит `session-analysis/`; `agents/**`/`review.md`/`rules/**` не тронуты.
+  **P3-2** — `events.py:152–159` ключ `(e.date is None, …)` → бездатные в конец;
+  тестов 7 (+`test_undated_events_sort_last`). **P3-3** — D81 §«Следствия» `:55`
+  без `--format` (`rg "format"` пусто); D81 — `??`, git-diff неприменим. Прогон
+  7 passed — только по ленте («свидетельство»; `uv` не исполнялся). Вердикт:
+  **закрыто** (P2/P3-1/P3-2/P3-3); P1/P2 нет. Остаток (не находка): запись
+  сервисной сессии `:84` вставлена перед адресуемым аудитом `:96` (не append в
+  хвост) — читаемость. Отчёт — лента `service-pm-tool.md`.
