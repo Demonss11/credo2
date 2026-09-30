@@ -1,0 +1,15 @@
+- task: T-01
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/x.md
+  at: "2026-09-29"
+- task: T-01
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/y.md
+  at: "2026-09-29"
+- task: T-02
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/z.md
+  at: "2026-09-29"

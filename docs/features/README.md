@@ -10,16 +10,21 @@
 > рефакторинг `credo2` в workspace без изменения поведения (Фаза 0).
 >
 > **Решения Q5/Q40 (2026-09-24):** этот файл — единственный канон статусов и
-> приоритетов (SPEC §6 не дублирует таблицу). Статус реализации и приоритет
-> MVP — две независимые оси (см. ниже). Фичи — документация, а не исполняемая
-> спецификация: DoD — `cargo fmt --check`, `cargo clippy -- -D warnings`,
+> приоритетов (SPEC §6 не дублирует таблицу); перенос в журнал —
+> [Q5](../questions/Q5.md) → [D19](../decisions/D19-statuses-priorities-canon.md),
+> [Q40](../questions/Q40.md) → [D20](../decisions/D20-features-docs-dod.md).
+> Статус реализации и приоритет MVP — две независимые оси (см. ниже). Фичи —
+> документация, а не исполняемая спецификация: DoD — `cargo fmt --check`,
+> `cargo clippy -- -D warnings`,
 > `cargo test` + ручной прогон UI-сценариев; cucumber-rs — план v0.2.
 > Инвентаризация (структура файлов, счётчики) проверяется тестом
 > [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs).
 
-Требования разделены на две части: **backend** CREDO и **frontend** (UI DAR
-Notebook). Открытые расхождения с `SPECIFICATION.md` и кодом сведены в
-[`../OPEN_QUESTIONS.md`](../OPEN_QUESTIONS.md).
+Требования разделены на три части: **backend** CREDO, **frontend** (UI DAR
+Notebook) и **процесс агентов** (канон и роли команды). Открытые расхождения
+с `SPECIFICATION.md` и кодом сведены в журнале — [`questions/`](../questions/)
+(вопросы) → [`decisions/`](../decisions/) (решения); связи — в
+[`../TRACEABILITY.md`](../TRACEABILITY.md).
 
 ## Как читать
 
@@ -29,6 +34,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 - Каждый сценарий — кандидат в автотест (`Дано/Когда/Тогда/И`).
 - Статусы и приоритеты файлов живут только здесь; SPEC §6 ссылается сюда,
   план по фазам — SPEC §8.
+- Полнота: каждая фича поимённо представлена в [`../TRACEABILITY.md`](../TRACEABILITY.md) (колонка «Реализация») — правило [D80](../decisions/D80-features-visibility-completeness.md); машинная проверка — `tests/docs_journal.rs` (план — T-18 ⬜).
 
 ## Статусы и приоритеты
 
@@ -40,7 +46,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | Метка | Значение |
 |---|---|
 | ✅ | **Реализовано.** Поведение есть в `credo2`, сценарии не противоречат коду; для backend-зоны есть автотест либо явная пометка «ручной прогон» (см. «Соответствие коду»), UI проверяется вручную по сценарию |
-| 🟡 | **Частично.** Ядро реализовано, но часть сценариев расходится с кодом; расхождения перечислены в `OPEN_QUESTIONS.md` |
+| 🟡 | **Частично.** Ядро реализовано, но часть сценариев расходится с кодом; расхождения перечислены в журнале ([`questions/`](../questions/) → [`decisions/`](../decisions/)), связи — в [`../TRACEABILITY.md`](../TRACEABILITY.md) |
 | ⬜ | **План.** Не реализовано |
 | ⏸ | **Отложено.** Вне объёма MVP (v0.2+) |
 
@@ -65,18 +71,21 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`explain.feature`](explain.feature) | Объяснимость | 3 | ✅ | 🔴 | Поля объяснения: `rule_name`, `condition`, `actual_value` (латиница, Q42) |
 | [`errors.feature`](errors.feature) | Ошибки | 3 | 🟡 | 🔴 | «Неизвестное поле» и «Несовместимые типы» на исполнении (Q8/Q9); «Файл пуст» и ошибки типов на парсере — v0.2 |
 
-> **Решение Q3 (2026-09-24):** MVP использует regex-минимум — это и есть
+> **Решение Q3 (2026-09-24; [Q3](../questions/Q3.md), [D16](../decisions/D16-dsl-canon-regex-mvp.md)):** MVP использует regex-минимум — это и есть
 > язык v0.1, канонизированный в [`../GRAMMAR.md`](../GRAMMAR.md). Лексер и
 > полноценный AST — целевое состояние v0.2 (`lexer.feature`, сценарии AST в
 > `parser.feature`); LSP поверх стабильного API `parse_rule` без ожидания
 > AST (GRAMMAR.md §3). Приоритет `lexer` — ⏳.
 >
-> **Решение Q4 (2026-09-24):** `Приоритет` вне MVP — сценарии с
-> `Приоритет: 100;` в `parser.feature`, `execution.feature`,
-> `explain.feature`, `editor.feature`, `lsp.feature`,
-> `client_explanation.feature` относятся к целевому состоянию v0.2.
+> **Решение Q4 (2026-09-24; [Q4](../questions/Q4.md),
+> [D17](../decisions/D17-priority-out-of-mvp.md)):** `Приоритет` вне MVP —
+> сценарии с `Приоритет: 100;` в `parser.feature`, `execution.feature`,
+> `editor.feature`, `lsp.feature`, `client_explanation.feature` относятся
+> к целевому состоянию v0.2.
 >
-> **Решения Q36/Q38 (2026-09-24):** конвейеры/скоринги/таблицы — вне MVP;
+> **Решения Q36/Q38 (2026-09-24; [Q36](../questions/Q36.md),
+> [Q38](../questions/Q38.md),
+> [D18](../decisions/D18-pipelines-out-lsp-mvp.md)):** конвейеры/скоринги/таблицы — вне MVP;
 > LSP — в MVP в составе diagnostics + completion + hover + symbols +
 > semanticTokens (SPEC §3.3), formatting/definition/references — v0.2.
 
@@ -91,7 +100,7 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`immutability.feature`](immutability.feature) | Иммутабельность | 4 | 🟡 | 🟡 | Повторная публикация той же версии (`publish_failed`) и при существующей ветке (`create_ref` без перезаписи); параллельная публикация — один победитель; новая версия не изменяет старые артефакты (Q17); путь `{X}/{Y}/{Z}` ожидает кода (Q32) |
 | [`storage_paths.feature`](storage_paths.feature) | Хранилище версий | 5 | 🟡 | 🔴 | Версия = путь `checks/{name}/{X}/{Y}/{Z}/` (`rule.json`, `contract.json`, `meta.json`); раскладка semver (Q32) |
 
-> **Решение Q32 (2026-09-26):** структура реестра публикаций —
+> **Решение Q32 (2026-09-26; [Q32](../questions/Q32.md), [D28](../decisions/D28-two-git-contours.md)):** структура реестра публикаций —
 > `checks/{name}/{X}/{Y}/{Z}/` (X = major, Y = minor, Z = patch).
 > Публичный REST сохраняет канон Q20
 > (`/checks/{name}/versions/{version}/evaluate`); сервер внутренне маппит
@@ -121,22 +130,28 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 > (`decision`, `reason`, `message`) — русские; каноническое имя входных
 > данных — `input`; черновик не раскрывает внутренний `Rule`, поля
 > `size`/`format` не вводятся, `stale`/`test_valid` — вычисляемые. Полные
-> схемы — Q29 (`../OPEN_QUESTIONS.md`).
+> схемы — [Q29](../questions/Q29.md).
 
-> **Решение Q34 (2026-09-26):** в MVP тесты — только локальный кэш
+> **Решение Q34 (2026-09-26; [Q34](../questions/Q34.md), [D32](../decisions/D32-test-gate-mvp.md)):** в MVP тесты — только локальный кэш
 > `.dar-notebook/results-cache.json` («быстрые прогоны» — черновики тестов;
 > вне git, `.credo/` и `.dar-notebook/` в `.gitignore`, Q19). Готовность к публикации —
 > успешный `check.test` (`last_test_checksum`/`tested_at`, Q16), а не файл
 > теста. `tests/*.тест` (code=doc) — вне MVP (v0.2).
 
-> **Решение Q17 (2026-09-26):** иммутабельность — bare-git, без отдельного
+> **Решение Q17 (2026-09-26; [D57](../decisions/D57-bare-git-immutability.md)):** иммутабельность — bare-git, без отдельного
 > механизма версионирования: единица иммутабельности — каталог версии
 > `checks/{name}/{X}/{Y}/{Z}/` в `main`; отказ при повторной публикации —
 > `publish_failed` (§4.5, не HTTP 409), ветка создаётся атомарно
 > (`create_ref` без перезаписи); слияние — CAS через `credo merge` (Q15).
 > Иммутабельность — основа банковского аудита: действовавшая версия не
 > может быть перезаписана или подменена задним числом. Статус фичи — 🟡:
-> плоский путь `checks/{name}/{version}` в коде ожидает правки Q32.
+> плоский путь `checks/{name}/{version}` в коде ожидает правки
+> (Q32, [T-06](../tasks/T-06-registry-path-xyz/README.md)).
+
+> **Решение Q14 (2026-09-25; [D55](../decisions/D55-publish-branch-name.md)):**
+> имя ветки публикации — `publish/{name}-{version}` (например,
+> `publish/CreditAgeMin-2.0.0`); `checks/...` — путь артефакта внутри реестра,
+> а не имя ветки: пространства артефактов и доставки не смешиваются.
 
 ### REST API
 
@@ -200,13 +215,13 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`lsp.feature`](lsp.feature) | Language Server Protocol | 15 | ⬜ | 🔴 | Initialize, диагностика, completion, hover, definition, formatting, токены; автодополнение: ключевые слова + слова с точкой, без типов (Q37) |
 | [`lsp_notebook.feature`](lsp_notebook.feature) | LSP в Notebook (уточнения) | 8 | ⬜ | 🔴 | Sidecar-процесс, диагностика/completion в CodeMirror; падение: автоперезапуск с лимитом, повторный `didOpen`, деградация без LSP (Q39) |
 
-> **Решение Q30 (2026-09-26):** Notebook спавнит `credo-server` как
+> **Решение Q30 (2026-09-26; [Q30](../questions/Q30.md), [D29](../decisions/D29-notebook-mcp-transport.md)):** Notebook спавнит `credo-server` как
 > локальный sidecar через stdio (JSON-RPC 2.0) и запускает его
 > автоматически при старте (скрыто от пользователя); сервер работает в
 > режиме «только MCP» (Q27). `published-repo` локален; HTTP+SSE и внешний
 > сервер — вне MVP (v0.2+, multi-user).
 
-> **Решение Q32 (2026-09-26):** git-панель Notebook работает только с
+> **Решение Q32 (2026-09-26; [Q32](../questions/Q32.md), [D28](../decisions/D28-two-git-contours.md)):** git-панель Notebook работает только с
 > workspace-репозиторием; репозиторий публикаций — внутренняя деталь
 > сервера, виден read-only в панели «Версии» (манифест /
 > `check.list_published`). Переключение версий — выпадающий список в
@@ -216,32 +231,32 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 > черновике, созданном из буфера (Q33); публикация — файл на диске
 > (`agent_minimal.feature`).
 
-> **Решение Q33 (2026-09-26):** исполнение из редактора и агентом —
+> **Решение Q33 (2026-09-26; [Q33](../questions/Q33.md), [D30](../decisions/D30-execution-mechanism.md)):** исполнение из редактора и агентом —
 > единый механизм через MCP `check.test` на черновике; локального
 > исполнения через Tauri `dar-core` нет. Кнопка «Выполнить» активна
 > только при наличии черновика (`inline_execution.feature`,
 > `agent_minimal.feature`). Опубликованная версия — `check.run`
 > (в `credo2` ещё не реализован, `mcp_tools.feature`).
 
-> **Решение Q34 (2026-09-26):** «быстрые прогоны» из редактора —
+> **Решение Q34 (2026-09-26; [Q34](../questions/Q34.md), [D32](../decisions/D32-test-gate-mvp.md)):** «быстрые прогоны» из редактора —
 > черновики тестов в `.dar-notebook/results-cache.json` (вне git);
 > канонические `tests/*.тест` — v0.2 (`inline_execution.feature`).
 
-> **Решение Q31 (2026-09-26):** чат с агентом — правая панель основного
+> **Решение Q31 (2026-09-26; [Q31](../questions/Q31.md), [D12](../decisions/D12-agent-chat-panel.md)):** чат с агентом — правая панель основного
 > окна (третья колонка; видима по умолчанию, resize/toggle); чат общий
 > для workspace, агент получает контекст активного правила; результаты
 > `check.test` — инлайн в редакторе (подсветка условия + блок результата),
 > в чате — рассуждения и свёрнутые вызовы без JSON; отдельное окно
 > (Slack) — вне MVP.
 
-> **Решение Q37 (2026-09-26):** каталог `tables/` исключён (схема полей и
+> **Решение Q37 (2026-09-26; [Q37](../questions/Q37.md), [D33](../decisions/D33-fields-registry-source.md)):** каталог `tables/` исключён (схема полей и
 > словари — из БД; в MVP — `HashMap`/демо-конфиг, без явной схемы).
 > Автодополнение — ключевые слова языка + слова с точкой из открытых
 > файлов; типы полей не подсказываются (v0.2); словарь решений —
 > демо-конфиг системной таблицы банка (не хардкод); векторная БД и
 > абстракция источника — после MVP.
 
-> **Решение Q39 (2026-09-26):** падение LSP: fallback нет — при
+> **Решение Q39 (2026-09-26; [Q39](../questions/Q39.md), [D6](../decisions/D6-lsp-degradation.md)):** падение LSP: fallback нет — при
 > недоступности sidecar функции LSP недоступны, редактор работает как
 > текстовый (`dar-core` только через LSP, Q33). Автоперезапуск ограничен
 > тремя попытками подряд, далее — уведомление «Сервер языка недоступен» и
@@ -265,8 +280,41 @@ Notebook). Открытые расхождения с `SPECIFICATION.md` и ко
 | [`batch.feature`](batch.feature) | Массовый прогон | 3 | ⏸ | ⏳ | Прогон набора заявок, агрегация, частичные ошибки — пост-MVP (Q24) |
 | [`client_explanation.feature`](client_explanation.feature) | Объяснение для клиента | 3 | ⏸ | ⏳ | Человекочитаемый текст отказа/одобрения — пост-MVP (Q25) |
 
-**Итого: 36 файлов, 223 сценария** (backend — 27 файлов / 148 сценариев,
-frontend DAR Notebook — 9 файлов / 75 сценариев).
+### Процесс агентов
+
+> Канон — `../../AGENTS.md` §Рабочая группа агентов; методика —
+> `../../.opencode/rules/`. Проверяются ревью, аудитом и пилотом;
+> автоматического раннера нет ([Q40](../questions/Q40.md),
+> [D20](../decisions/D20-features-docs-dod.md)).
+
+| Файл | Категория | Сценариев | Статус | Приоритет | Что покрывает |
+|---|---|---:|---|---|---|
+| [`agents-cycle.feature`](agents-cycle.feature) | Цикл задачи | 7 | ✅ | 🔴 | loop-цикл: `lead` — диспетчер, `analyst` — досье и план `next_action.yaml`, полный маршрут `coder → rust-expert → tester → validator → docs-writer → git`; scope-решение — в журнал до исполнения; R2 (тесты — только `validator`); чекпойнт до тяжёлой операции; `steps` |
+| [`agents-rework.feature`](agents-rework.feature) | Возврат на доработку | 3 | 🟡 | 🔴 | Возврат `validator → lead → coder` с фактами; re-plan `analyst`, номер итерации в плане и ленте; повторная валидация `-rN`; порог существенности не меняется; возврат и `-r2` отработали в Run 4 (T-03); остаток — чистая механика D42 (`iteration 1→2`) — T-15 (B1-F15) |
+| [`agents-memory-mail.feature`](agents-memory-mail.feature) | Память и почта | 8 | ✅ | 🔴 | Память роли `.opencode/memory/<роль>.md`, лента задачи `.opencode/mail/T-XX.md`, один писатель, лимит `steps` и продолжение по `sessionID`; состояние `.opencode/state/current/` (`next_action`/`current_state` — `analyst`, `progress` — `lead`, `receipts` — `validator`), квитанция приёмки |
+| [`agents-git-approval.feature`](agents-git-approval.feature) | Git-процесс задачи | 5 | ✅ | 🔴 | Ветка `feature/T-XX-<слаг>` до работы (git-flow: `master`/`develop`/`feature`), пакет формируется при планировании и лежит в плане, подтверждение фиксирует `lead`, `git` сверяет ленту и состояние, merge `--no-ff` и удаление ветки, идемпотентность, push ≥ 5 минут |
+| [`agents-sized-routes.feature`](agents-sized-routes.feature) | Размерные маршруты | 6 | ✅ | 🟡 | Класс = максимум(объём, риск), фиксирует `analyst` в досье и плане; S — fast path `git` → `coder` → `validator` → `git` (`validator` обязателен), M/L — полный маршрут (L + аудит); guard «сценарии `features/` → не ниже M»; переопределение владельцем |
+| [`agents-audit.feature`](agents-audit.feature) | Аудит служебной зоны | 7 | ✅ | 🔴 | Авторство канона — сервисная сессия, `auditor` — независимая приёмка; сверка «инструкция ↔ права» с автопроверкой списка команд `review.md` ↔ фронтматтеры, сверка состояния и квитанций, подтверждения git, целостность памяти/почты, headless `--model --auto` |
+| [`agents-state-schema.feature`](agents-state-schema.feature) | Схема состояния | 4 | ⬜ | 🔴 | Поля, типы и инварианты (`iteration ≥ 1`, `rework = iteration − 1`), единый счётчик, `session_index`; валидатор `validate-state.mjs`; F15 |
+| [`agents-session-checkpoint.feature`](agents-session-checkpoint.feature) | Чекпойнт сессии | 4 | ⬜ | 🔴 | Session-commit в `process/runN` на границе сессии; правило останова (dispatch + запись + чекпойнт); восстановление по снапшоту; идемпотентность; F13 |
+| [`agents-re-raise.feature`](agents-re-raise.feature) | Классификация re-plan | 4 | ⬜ | 🟡 | Категории (`expect_mismatch`/`owner_override`/`plan_gap`/`role_failure`) и объект re-raise (`origin`, `failed_clause`, `fix`, `blocking`); owner override — вне метрики конвергенции |
+| [`agents-metrics.feature`](agents-metrics.feature) | Метрики процесса | 3 | ⬜ | 🟡 | Метрики прогона и очереди (`deferred_by_owner`, `blocked`) выводятся из состояния; метрика конвергенции без owner override; без ручных таблиц |
+| [`agents-mcp-readiness.feature`](agents-mcp-readiness.feature) | Готовность к MCP | 4 | ⬜ | 🟡 | Чек-лист заморозки (схема ≥2 прогона, ≤10 операций, идемпотентность, re-raise, метрики, ≥2 класса); границы MCP: storage/validation/query без решений |
+
+> **Пилоты состоялись (Run 4, Run 5):** Run 4 — T-03: возврат на доработку P1
+> и повторная приёмка `-r2`; Run 5 — T-04 (класс L). Статусы ✅/🟡 отражают факт
+> прогонов: ✅ — поведение подтверждено; 🟡 — структурная готовность, поведение
+> подтверждено не полностью (см. примечание строки).
+
+> **Проект MCP-готовности (2026-09-27, T-15):** сценарии `agents-state-schema`,
+> `agents-session-checkpoint`, `agents-re-raise`, `agents-metrics`,
+> `agents-mcp-readiness` — целевое состояние процесса перед кристаллизацией
+> в MCP (основание — [`../tasks/T-15-mcp-ready-process/mcp-ready-process.md`](../tasks/T-15-mcp-ready-process/mcp-ready-process.md),
+> внешние записки). Статусы ⬜; подтверждение — прогонами.
+
+**Итого: 47 файлов, 278 сценариев** (backend — 27 файлов / 148 сценариев,
+frontend DAR Notebook — 9 файлов / 75 сценариев, процесс агентов — 11 файлов /
+55 сценариев).
 
 ## Соответствие коду
 

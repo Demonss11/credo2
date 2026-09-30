@@ -6,6 +6,11 @@
 # x-api-key, текст 401 — «ошибка аутентификации: неверный или
 # отсутствующий x-api-key».
 # Q23 (решено 2026-09-25): конверт ошибки — {"error": {"code", "message"}}.
+# D53 (Q11): человекочитаемое — русский; машиночитаемое (коды, ключи, идентификаторы) — латиница
+# D22 (Q20): канонический путь REST — /checks/{name}/versions/{version}/... (сегмент /versions/ обязателен)
+# D23 (Q21): схема GET /checks — манифест name/active/supported/deprecated; версии по убыванию, active пуст, если все deprecated
+# D26 (Q22): аутентификация REST — заголовок x-api-key (ключ CREDO_API_KEY); открытые пути /health, /docs, /openapi.json
+# D25 (Q23): конверт ошибки REST — {"error": {"code", "message"}}; code — латиница snake_case, message — русский (401 — unauthorized)
 Функция: Исполнение опубликованных правил через REST
   Как внешняя система
   Я хочу вызывать опубликованные правила по HTTP

@@ -1,0 +1,9 @@
+task: T-02
+iteration: 1
+status: in_progress
+class: M
+acceptance: pending
+next:
+  - kind: dispatch
+    role: coder
+  - kind: complete

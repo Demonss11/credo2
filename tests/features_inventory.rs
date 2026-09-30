@@ -23,7 +23,8 @@ fn features_dir() -> PathBuf {
 }
 
 fn read(path: &Path) -> String {
-    fs::read_to_string(path).unwrap_or_else(|e| panic!("не читается {}: {e}", path.display()))
+    fs::read_to_string(path)
+        .unwrap_or_else(|e| panic!("не читается {}: {e}", path.display()))
 }
 
 /// Собирает все `*.feature` и проверяет их базовую структуру.
@@ -31,8 +32,12 @@ fn collect_features() -> Vec<FeatureFile> {
     let dir = features_dir();
     let mut files: Vec<FeatureFile> = fs::read_dir(&dir)
         .unwrap_or_else(|e| panic!("нет каталога {}: {e}", dir.display()))
-        .map(|entry| entry.expect("не читается запись каталога features").path())
-        .filter(|path| path.extension().and_then(|ext| ext.to_str()) == Some("feature"))
+        .map(|entry| {
+            entry.expect("не читается запись каталога features").path()
+        })
+        .filter(|path| {
+            path.extension().and_then(|ext| ext.to_str()) == Some("feature")
+        })
         .map(|path| {
             let name = path.file_name().unwrap().to_string_lossy().into_owned();
             let text = read(&path);
@@ -47,13 +52,17 @@ fn collect_features() -> Vec<FeatureFile> {
                 .lines()
                 .filter(|line| line.trim_start().starts_with("Функция:"))
                 .count();
-            assert_eq!(functions, 1, "{name}: должна быть ровно одна 'Функция:'");
+            assert_eq!(
+                functions, 1,
+                "{name}: должна быть ровно одна 'Функция:'"
+            );
 
             let scenarios = text
                 .lines()
                 .filter(|line| {
                     let line = line.trim_start();
-                    line.starts_with("Сценарий:") || line.starts_with("Структура сценария:")
+                    line.starts_with("Сценарий:")
+                        || line.starts_with("Структура сценария:")
                 })
                 .count();
             assert!(scenarios > 0, "{name}: нет ни одного сценария");
@@ -87,11 +96,12 @@ fn readme_counts(text: &str) -> BTreeMap<String, usize> {
             continue;
         }
 
-        let cells: Vec<&str> = line.trim_matches('|').split('|').map(str::trim).collect();
+        let cells: Vec<&str> =
+            line.trim_matches('|').split('|').map(str::trim).collect();
         assert!(cells.len() >= 3, "{name}: строка README короче таблицы");
-        let scenarios: usize = cells[2]
-            .parse()
-            .unwrap_or_else(|_| panic!("{name}: в README не число сценариев: {:?}", cells[2]));
+        let scenarios: usize = cells[2].parse().unwrap_or_else(|_| {
+            panic!("{name}: в README не число сценариев: {:?}", cells[2])
+        });
         assert!(
             counts.insert(name.to_string(), scenarios).is_none(),
             "{name}: в README несколько строк для одного файла"

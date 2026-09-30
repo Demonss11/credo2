@@ -1,0 +1,6 @@
+# .cargo/config.toml
+
+[target.'cfg(all())']
+rustflags = [
+    "-D", "warnings",
+]

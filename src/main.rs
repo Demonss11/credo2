@@ -83,7 +83,9 @@ async fn main() -> Result<()> {
             }
         }))
     } else {
-        tracing::info!("CREDO starting (REST disabled; use --rest or --addr to enable)");
+        tracing::info!(
+            "CREDO starting (REST disabled; use --rest or --addr to enable)"
+        );
         None
     };
 

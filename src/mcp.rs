@@ -1,10 +1,13 @@
-use crate::core::{Value, condition_to_string, contract_from_rule, evaluate_rule, parse_rule};
-use crate::{AppState, Draft, ServiceCache};
+use crate::core::{
+    Semver, Value, condition_to_string, contract_from_rule, evaluate_rule,
+    parse_rule,
+};
+use crate::{AppState, DeprecateError, Draft, ServiceCache};
 use rmcp::{
     handler::server::ServerHandler,
     model::{
-        CallToolRequestParams, CallToolResponse, CallToolResult, ErrorData, ListToolsResult,
-        PaginatedRequestParams, ServerConfig, Tool,
+        CallToolRequestParams, CallToolResponse, CallToolResult, ErrorData,
+        ListToolsResult, PaginatedRequestParams, ServerConfig, Tool,
     },
     service::{RequestContext, RoleServer},
 };
@@ -12,7 +15,10 @@ use serde_json::{Map, Value as JsonValue, json};
 use std::collections::HashMap;
 use std::sync::Arc;
 
-pub async fn run_stdio(state: Arc<AppState>, cache: Arc<ServiceCache>) -> anyhow::Result<()> {
+pub async fn run_stdio(
+    state: Arc<AppState>,
+    cache: Arc<ServiceCache>,
+) -> anyhow::Result<()> {
     let server = McpServer { state, cache };
     let service = rmcp::serve_server(server, rmcp::transport::stdio()).await?;
     service.waiting().await?;
@@ -25,89 +31,159 @@ struct McpServer {
     cache: Arc<ServiceCache>,
 }
 
-/// Ошибка вызова MCP-инструмента.
-///
-/// Общий конверт ошибок `{"error": {"code", "message"}}` (Q29, §4.5) вводится
-/// для всех инструментов задачей T-04; пока его отдаёт только `check.create`
-/// (`Envelope`), остальные инструменты сохраняют плоский формат
-/// `{"error": "<текст>"}` (`Message`).
-#[derive(Debug)]
-enum ToolError {
-    /// Плоское сообщение — обратная совместимость до T-04.
-    Message(String),
-    /// Канонический конверт `{"error": {"code", "message"}}` (§4.5).
-    Envelope { code: &'static str, message: String },
+/// Стабильные коды ошибок MCP-инструментов (Q29, §4.5). `code` — латиница
+/// `snake_case`, `message` — русский (Q11).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ErrorCode {
+    ValidationFailed,
+    DraftNotFound,
+    EvaluationFailed,
+    PublishFailed,
+    VersionNotFound,
+    /// Зарезервирован под исполнение deprecated-версии (`check.run`, Q33 —
+    /// вне MVP): в текущих MCP-путях не возникает.
+    #[allow(dead_code)]
+    VersionDeprecated,
+    DeprecationConflict,
+    ManifestError,
+    UnknownTool,
+    InternalError,
+}
+
+impl ErrorCode {
+    fn as_str(self) -> &'static str {
+        match self {
+            ErrorCode::ValidationFailed => "validation_failed",
+            ErrorCode::DraftNotFound => "draft_not_found",
+            ErrorCode::EvaluationFailed => "evaluation_failed",
+            ErrorCode::PublishFailed => "publish_failed",
+            ErrorCode::VersionNotFound => "version_not_found",
+            ErrorCode::VersionDeprecated => "version_deprecated",
+            ErrorCode::DeprecationConflict => "deprecation_conflict",
+            ErrorCode::ManifestError => "manifest_error",
+            ErrorCode::UnknownTool => "unknown_tool",
+            ErrorCode::InternalError => "internal_error",
+        }
+    }
+}
+
+/// Структурная ошибка инструмента MCP: код + русский текст. Рендерится в
+/// единый конверт `{"error":{"code","message"}}` (Q29, §4.5).
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct ToolError {
+    code: ErrorCode,
+    message: String,
 }
 
 impl ToolError {
-    /// Ошибка валидации параметров или `.dar`-текста (§4.5, код `validation_failed`).
-    fn validation(message: impl Into<String>) -> Self {
-        Self::Envelope {
-            code: "validation_failed",
+    fn new(code: ErrorCode, message: impl Into<String>) -> Self {
+        Self {
+            code,
             message: message.into(),
         }
     }
 
-    fn into_json(self) -> JsonValue {
-        match self {
-            Self::Message(m) => json!({ "error": m }),
-            Self::Envelope { code, message } => {
-                json!({ "error": { "code": code, "message": message } })
-            }
-        }
+    fn validation(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::ValidationFailed, message)
     }
-}
 
-impl From<String> for ToolError {
-    fn from(message: String) -> Self {
-        Self::Message(message)
+    /// `draft_not_found`; текст содержит «черновик не найден»
+    /// (`test_draft.feature`).
+    fn draft_not_found(name: &str) -> Self {
+        Self::new(
+            ErrorCode::DraftNotFound,
+            format!("черновик не найден: {name}"),
+        )
+    }
+
+    fn evaluation(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::EvaluationFailed, message)
+    }
+
+    fn publish(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::PublishFailed, message)
+    }
+
+    fn version_not_found(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::VersionNotFound, message)
+    }
+
+    fn deprecation_conflict(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::DeprecationConflict, message)
+    }
+
+    fn manifest_error(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::ManifestError, message)
+    }
+
+    fn unknown_tool(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::UnknownTool, message)
+    }
+
+    fn internal(message: impl Into<String>) -> Self {
+        Self::new(ErrorCode::InternalError, message)
+    }
+
+    /// Единый конверт ошибки MCP (Q29, §4.5).
+    fn to_json(&self) -> JsonValue {
+        json!({ "error": { "code": self.code.as_str(), "message": self.message } })
     }
 }
 
 impl McpServer {
-    async fn dispatch(&self, name: &str, args: JsonValue) -> Result<JsonValue, ToolError> {
+    async fn dispatch(
+        &self,
+        name: &str,
+        args: JsonValue,
+    ) -> Result<JsonValue, ToolError> {
         match name {
             "check.create" => self.create(args).await,
-            "check.list_drafts" => self.list_drafts().await.map_err(ToolError::from),
-            "check.get_draft" => self.get_draft(args).await.map_err(ToolError::from),
-            "check.test" => self.test(args).await.map_err(ToolError::from),
-            "check.delete_draft" => self.delete_draft(args).await.map_err(ToolError::from),
-            "check.publish" => self.publish(args).await.map_err(ToolError::from),
-            "check.deprecate" => self.deprecate(args).await.map_err(ToolError::from),
-            "check.list_published" => self.list_published().await.map_err(ToolError::from),
-            "check.rebuild_manifest" => self.rebuild_manifest().await.map_err(ToolError::from),
-            _ => Err(ToolError::from(format!("неизвестный инструмент: {name}"))),
+            "check.list_drafts" => self.list_drafts().await,
+            "check.get_draft" => self.get_draft(args).await,
+            "check.test" => self.test(args).await,
+            "check.delete_draft" => self.delete_draft(args).await,
+            "check.publish" => self.publish(args).await,
+            "check.deprecate" => self.deprecate(args).await,
+            "check.list_published" => self.list_published().await,
+            "check.rebuild_manifest" => self.rebuild_manifest().await,
+            _ => Err(ToolError::unknown_tool(format!(
+                "неизвестный инструмент: {name}"
+            ))),
         }
     }
 
-    /// `check.create` (Q28): обязательные `{name, source}`; `name` сверяется с
-    /// заголовком `Правило {name}`; повторный вызов перезаписывает черновик
-    /// («сохранить = обновить»).
     async fn create(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
-        let name = required_str(&args, "name")?;
-        let source = required_str(&args, "source")?;
-
+        // Q28: оба параметра обязательны; `name` сверяется с заголовком
+        // `Правило {name}` (GRAMMAR.md).
+        let name = args
+            .get("name")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| ToolError::validation("Нужен параметр 'name'"))?;
+        let source = args
+            .get("source")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| ToolError::validation("Нужен параметр 'source'"))?;
+        // Q29: невалидный `.dar`-текст — `validation_failed`.
         let rule = parse_rule(source).map_err(ToolError::validation)?;
         if rule.name != name {
             return Err(ToolError::validation(format!(
-                "Имя правила в source («{}») не совпадает с параметром name («{name}»)",
-                rule.name,
+                "Имя '{name}' не совпадает с заголовком '{}'",
+                rule.name
             )));
         }
-
         let existing = self.state.get_draft(&rule.name).await;
-        let draft = self
-            .state
-            .make_draft(source.to_string(), rule, existing.as_ref());
+        let draft =
+            self.state
+                .make_draft(source.to_string(), rule, existing.as_ref());
         let name = draft.name.clone();
         self.state
             .upsert_draft(draft)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| ToolError::internal(e.to_string()))?;
         Ok(json!({ "status": "ok", "name": name }))
     }
 
-    async fn list_drafts(&self) -> Result<JsonValue, String> {
+    async fn list_drafts(&self) -> Result<JsonValue, ToolError> {
         let ds = self.state.list_drafts().await;
         Ok(json!({
             "status": "ok",
@@ -122,36 +198,42 @@ impl McpServer {
         }))
     }
 
-    async fn get_draft(&self, args: JsonValue) -> Result<JsonValue, String> {
+    async fn get_draft(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'name'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'name'"))?;
         let d = self
             .state
             .get_draft(name)
             .await
-            .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
+            .ok_or_else(|| ToolError::draft_not_found(name))?;
         Ok(json!({ "status": "ok", "draft": draft_json(&self.state, &d) }))
     }
 
-    async fn test(&self, args: JsonValue) -> Result<JsonValue, String> {
+    async fn test(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'name'")?;
-        let input_json = args.get("input").ok_or("Нужен 'input'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'name'"))?;
+        let input_json = args
+            .get("input")
+            .ok_or_else(|| ToolError::validation("Нужен 'input'"))?;
         let input: HashMap<String, Value> =
-            serde_json::from_value(input_json.clone()).map_err(|e| format!("Ошибка входа: {e}"))?;
+            serde_json::from_value(input_json.clone()).map_err(|e| {
+                ToolError::validation(format!("Ошибка входа: {e}"))
+            })?;
         let d = self
             .state
             .get_draft(name)
             .await
-            .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
+            .ok_or_else(|| ToolError::draft_not_found(name))?;
         // Q8/Q9: ошибка исполнения (отсутствующее поле, несовместимые
-        // типы) возвращается как ошибка инструмента MCP.
+        // типы) возвращается как ошибка инструмента MCP с кодом
+        // `evaluation_failed` (Q29).
         // Q29: `stale` не блокирует `check.test`.
-        let e = evaluate_rule(&d.rule, &input).map_err(|e| e.to_string())?;
+        let e = evaluate_rule(&d.rule, &input)
+            .map_err(|e| ToolError::evaluation(e.to_string()))?;
 
         // Q16/Q34/Q29: успешный тест фиксирует метку `last_test_checksum`
         // (= `source_hash` на момент теста) и `tested_at`.
@@ -163,7 +245,7 @@ impl McpServer {
         self.state
             .upsert_draft(updated)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| ToolError::internal(e.to_string()))?;
 
         Ok(json!({
             "status": "ok",
@@ -179,38 +261,52 @@ impl McpServer {
         }))
     }
 
-    async fn delete_draft(&self, args: JsonValue) -> Result<JsonValue, String> {
+    async fn delete_draft(
+        &self,
+        args: JsonValue,
+    ) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'name'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'name'"))?;
         let removed = self
             .state
             .delete_draft(name)
             .await
-            .map_err(|e| e.to_string())?;
-        Ok(json!({ "status": if removed { "deleted" } else { "not_found" }, "name": name }))
+            .map_err(|e| ToolError::internal(e.to_string()))?;
+        Ok(
+            json!({ "status": if removed { "deleted" } else { "not_found" }, "name": name }),
+        )
     }
 
-    async fn publish(&self, args: JsonValue) -> Result<JsonValue, String> {
+    async fn publish(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'name'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'name'"))?;
         let version_raw = args
             .get("version")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'version'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'version'"))?;
         let by = args
             .get("published_by")
             .and_then(|v| v.as_str())
             .unwrap_or("ai-agent");
 
+        // Q29/§4.5: невалидная версия — `validation_failed`
+        // (mcp_tools.feature); проверяем до поиска черновика, чтобы код не
+        // зависел от его наличия.
+        Semver::parse(version_raw).map_err(|e| {
+            ToolError::validation(format!(
+                "невалидная версия {version_raw:?}: {e}"
+            ))
+        })?;
+
         let d = self
             .state
             .get_draft(name)
             .await
-            .ok_or_else(|| format!("Черновик '{name}' не найден"))?;
+            .ok_or_else(|| ToolError::draft_not_found(name))?;
 
         let repo = self.state.published_repo().to_path_buf();
         let rule = d.rule.clone();
@@ -224,8 +320,8 @@ impl McpServer {
             crate::publish(&repo, &rule, &contract, &version_s, &by_s)
         })
         .await
-        .map_err(|e| format!("join: {e}"))?
-        .map_err(|e| format!("{e}"))?;
+        .map_err(|e| ToolError::internal(format!("join: {e}")))?
+        .map_err(|e| ToolError::publish(e.to_string()))?;
 
         let branch = outcome.branch.clone();
         let repo_display = self.state.published_repo().display().to_string();
@@ -245,16 +341,24 @@ impl McpServer {
         }))
     }
 
-    async fn deprecate(&self, args: JsonValue) -> Result<JsonValue, String> {
+    async fn deprecate(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
         let name = args
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'name'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'name'"))?;
         let version = args
             .get("version")
             .and_then(|v| v.as_str())
-            .ok_or("Нужен 'version'")?;
+            .ok_or_else(|| ToolError::validation("Нужен 'version'"))?;
         let reason = args.get("reason").and_then(|v| v.as_str()).unwrap_or("");
+        // Q29/deprecation.feature: `reason` обязателен и непуст.
+        if reason.is_empty() {
+            return Err(ToolError::validation("Нужен непустой 'reason'"));
+        }
+        // Q29: невалидная версия — `validation_failed`.
+        Semver::parse(version).map_err(|e| {
+            ToolError::validation(format!("невалидная версия {version:?}: {e}"))
+        })?;
 
         let repo = self.state.published_repo().to_path_buf();
         let name_s = name.to_string();
@@ -265,13 +369,24 @@ impl McpServer {
             crate::deprecate(&repo, &name_s, &version_s, &reason_s)
         })
         .await
-        .map_err(|e| format!("join: {e}"))?
-        .map_err(|e| format!("{e}"))?;
+        .map_err(|e| ToolError::internal(format!("join: {e}")))?
+        .map_err(|e| {
+            let message = e.to_string();
+            match e {
+                DeprecateError::AlreadyDeprecated { .. } => {
+                    ToolError::deprecation_conflict(message)
+                },
+                DeprecateError::VersionNotFound { .. } => {
+                    ToolError::version_not_found(message)
+                },
+                DeprecateError::Other(_) => ToolError::internal(message),
+            }
+        })?;
 
         // Пересобираем манифест
         self.rebuild_manifest_inner()
             .await
-            .map_err(|e| format!("{e}"))?;
+            .map_err(|e| ToolError::manifest_error(e.to_string()))?;
 
         Ok(json!({
             "status": "deprecated",
@@ -281,7 +396,7 @@ impl McpServer {
         }))
     }
 
-    async fn list_published(&self) -> Result<JsonValue, String> {
+    async fn list_published(&self) -> Result<JsonValue, ToolError> {
         let checks = self.cache.checks().await;
         Ok(json!({
             "count": checks.len(),
@@ -295,11 +410,11 @@ impl McpServer {
         }))
     }
 
-    async fn rebuild_manifest(&self) -> Result<JsonValue, String> {
+    async fn rebuild_manifest(&self) -> Result<JsonValue, ToolError> {
         let (h, written) = self
             .rebuild_manifest_inner()
             .await
-            .map_err(|e| format!("{e}"))?;
+            .map_err(|e| ToolError::manifest_error(e.to_string()))?;
         Ok(json!({ "status": "ok", "service_hash": h, "written": written }))
     }
 
@@ -308,9 +423,11 @@ impl McpServer {
         let manifest = self.cache.manifest().await;
         let repo = self.state.published_repo().to_path_buf();
         let m = manifest.clone();
-        let written = tokio::task::spawn_blocking(move || crate::write_manifest_to_main(&repo, &m))
-            .await??
-            .is_some();
+        let written = tokio::task::spawn_blocking(move || {
+            crate::write_manifest_to_main(&repo, &m)
+        })
+        .await??
+        .is_some();
         Ok((manifest.service_hash, written))
     }
 }
@@ -334,7 +451,8 @@ fn required_str<'a>(args: &'a JsonValue, key: &str) -> Result<&'a str, ToolError
 /// только рендеренные строки, внутренний `Rule` не публикуется; `stale`
 /// и `test_valid` — вычисляемые.
 fn draft_json(state: &AppState, d: &Draft) -> JsonValue {
-    let test_valid = d.last_test_checksum.as_deref() == Some(d.source_hash.as_str());
+    let test_valid =
+        d.last_test_checksum.as_deref() == Some(d.source_hash.as_str());
     json!({
         "name": d.name,
         "source": d.source,
@@ -351,7 +469,12 @@ fn draft_json(state: &AppState, d: &Draft) -> JsonValue {
     })
 }
 
-fn make_tool(name: &str, description: &str, properties: JsonValue, required: Vec<&str>) -> Tool {
+fn make_tool(
+    name: &str,
+    description: &str,
+    properties: JsonValue,
+    required: Vec<&str>,
+) -> Tool {
     serde_json::from_value(json!({
         "name": name, "description": description,
         "inputSchema": { "type": "object", "properties": properties, "required": required }
@@ -363,13 +486,8 @@ fn tool_specs() -> Vec<Tool> {
     vec![
         make_tool(
             "check.create",
-            "Создать черновик: {name, source}. name должен совпадать с заголовком \
-             «Правило {name}» в source. Повторный вызов перезаписывает черновик. \
-             source: Правило Name { Если (Поле < 21) { Решение = Отказ; Причина = \"...\"; } }",
-            json!({
-                "name": { "type": "string" },
-                "source": { "type": "string" }
-            }),
+            "Создать черновик. name сверяется с заголовком в source: Правило Name { Если (Поле < 21) { Решение = Отказ; Причина = \"...\"; } }",
+            json!({ "name": { "type": "string" }, "source": { "type": "string" } }),
             vec!["name", "source"],
         ),
         make_tool("check.list_drafts", "Список черновиков", json!({}), vec![]),
@@ -427,9 +545,13 @@ fn tool_specs() -> Vec<Tool> {
     ]
 }
 
-fn response(value: JsonValue, is_error: bool) -> Result<CallToolResponse, ErrorData> {
-    let text = serde_json::to_string(&value)
-        .map_err(|e| ErrorData::internal_error(format!("serialize: {e}"), None))?;
+fn response(
+    value: JsonValue,
+    is_error: bool,
+) -> Result<CallToolResponse, ErrorData> {
+    let text = serde_json::to_string(&value).map_err(|e| {
+        ErrorData::internal_error(format!("serialize: {e}"), None)
+    })?;
     let r: CallToolResult = serde_json::from_value(json!({
         "content": [{ "type": "text", "text": text }],
         "isError": is_error
@@ -477,7 +599,7 @@ impl ServerHandler for McpServer {
             .unwrap_or_else(|| JsonValue::Object(Map::new()));
         match self.dispatch(&name, args).await {
             Ok(v) => response(v, false),
-            Err(e) => response(e.into_json(), true),
+            Err(e) => response(e.to_json(), true),
         }
     }
 }
@@ -491,7 +613,8 @@ mod tests {
     /// инструментов `check.import`/`check.export*` в `list_tools` быть не должно.
     #[test]
     fn no_import_export_tools_q26() {
-        let names: Vec<String> = tool_specs().iter().map(|t| t.name.to_string()).collect();
+        let names: Vec<String> =
+            tool_specs().iter().map(|t| t.name.to_string()).collect();
 
         assert!(!names.is_empty(), "list_tools пуст");
         for name in &names {
@@ -514,7 +637,8 @@ mod tests {
 
     fn new_server(dir: &std::path::Path) -> McpServer {
         let state = Arc::new(AppState::new(dir.to_path_buf(), None).unwrap());
-        let cache = ServiceCache::load(state.published_repo().to_path_buf()).unwrap();
+        let cache =
+            ServiceCache::load(state.published_repo().to_path_buf()).unwrap();
         McpServer { state, cache }
     }
 
@@ -689,6 +813,82 @@ mod tests {
         assert_eq!(d["stale"], json!(false));
     }
 
+    // ---------- T-03/Q28: {name, source} обязательны, name ↔ заголовок ----------
+
+    #[tokio::test]
+    async fn create_requires_name_param() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let err = srv
+            .dispatch("check.create", json!({ "source": SRC }))
+            .await
+            .unwrap_err();
+        assert_eq!(err.code, ErrorCode::ValidationFailed);
+        assert_eq!(err.message, "Нужен параметр 'name'");
+    }
+
+    #[tokio::test]
+    async fn create_rejects_name_title_mismatch() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let err = srv
+            .dispatch(
+                "check.create",
+                json!({ "name": "ДругоеИмя", "source": SRC }),
+            )
+            .await
+            .unwrap_err();
+        assert_eq!(err.code, ErrorCode::ValidationFailed);
+        assert!(err.message.contains("не совпадает"), "err = {err:?}");
+        assert!(err.message.contains("МинимальныйВозраст"), "err = {err:?}");
+        // Черновик при расхождении не создаётся.
+        let drafts =
+            srv.dispatch("check.list_drafts", json!({})).await.unwrap();
+        assert_eq!(drafts["count"], json!(0));
+    }
+
+    #[tokio::test]
+    async fn create_returns_status_and_name() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let created = srv
+            .dispatch(
+                "check.create",
+                json!({ "name": "МинимальныйВозраст", "source": SRC }),
+            )
+            .await
+            .unwrap();
+        assert_eq!(
+            created,
+            json!({ "status": "ok", "name": "МинимальныйВозраст" })
+        );
+    }
+
+    #[test]
+    fn check_create_tool_spec_requires_name_and_source() {
+        let tool = tool_specs()
+            .into_iter()
+            .find(|t| t.name == "check.create")
+            .expect("check.create должен быть в tool_specs");
+        let v = serde_json::to_value(&tool).unwrap();
+
+        let props = &v["inputSchema"]["properties"];
+        assert!(props.get("name").is_some(), "нет свойства name: {v}");
+        assert!(props.get("source").is_some(), "нет свойства source: {v}");
+        let required = v["inputSchema"]["required"]
+            .as_array()
+            .expect("required должен быть массивом");
+        for key in ["name", "source"] {
+            assert!(
+                required.iter().any(|x| x == key),
+                "required не содержит {key}: {v}"
+            );
+        }
+    }
+
     #[tokio::test]
     async fn list_drafts_has_canonical_fields_q29() {
         let t = tempfile::tempdir().unwrap();
@@ -824,5 +1024,100 @@ mod tests {
         assert_ne!(d["source_hash"], source_hash(SRC));
         // last_test_checksum сохранился, но метка недействительна.
         assert_eq!(d["test_valid"], json!(false));
+    }
+
+    // ---------- T-04/Q29: единый конверт ошибок и стабильные коды ----------
+
+    #[test]
+    fn error_codes_are_latin_snake_case_q29() {
+        let cases = [
+            (ErrorCode::ValidationFailed, "validation_failed"),
+            (ErrorCode::DraftNotFound, "draft_not_found"),
+            (ErrorCode::EvaluationFailed, "evaluation_failed"),
+            (ErrorCode::PublishFailed, "publish_failed"),
+            (ErrorCode::VersionNotFound, "version_not_found"),
+            (ErrorCode::VersionDeprecated, "version_deprecated"),
+            (ErrorCode::DeprecationConflict, "deprecation_conflict"),
+            (ErrorCode::ManifestError, "manifest_error"),
+            (ErrorCode::UnknownTool, "unknown_tool"),
+            (ErrorCode::InternalError, "internal_error"),
+        ];
+        assert_eq!(cases.len(), 10);
+        for (code, expected) in cases {
+            assert_eq!(code.as_str(), expected);
+            assert!(
+                code.as_str()
+                    .chars()
+                    .all(|c| c.is_ascii_lowercase() || c == '_'),
+                "код не snake_case латиницей: {}",
+                code.as_str()
+            );
+        }
+    }
+
+    #[test]
+    fn error_envelope_has_error_code_and_message_q29() {
+        for err in [
+            ToolError::validation("плохой вход"),
+            ToolError::draft_not_found("Нет"),
+            ToolError::evaluation("Неизвестное поле: X"),
+            ToolError::publish("дубль версии"),
+            ToolError::version_not_found("версия не найдена"),
+            ToolError::deprecation_conflict("уже помечена"),
+            ToolError::manifest_error("манифест не записан"),
+            ToolError::unknown_tool("неизвестный инструмент"),
+            ToolError::internal("внутренняя ошибка"),
+        ] {
+            let v = err.to_json();
+            assert_eq!(v["error"]["code"], err.code.as_str());
+            assert_eq!(v["error"]["message"], err.message);
+        }
+    }
+
+    #[tokio::test]
+    async fn unknown_tool_is_unknown_tool_code_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let err = srv.dispatch("check.nope", json!({})).await.unwrap_err();
+        assert_eq!(err.code, ErrorCode::UnknownTool);
+        assert!(
+            err.message.contains("неизвестный инструмент"),
+            "message = {}",
+            err.message
+        );
+    }
+
+    #[tokio::test]
+    async fn manifest_rebuild_failure_is_manifest_error_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        // Портим репозиторий публикаций: `.git` делает его рабочим —
+        // `ensure_repo` отказывает, `rebuild_manifest` не проходит.
+        std::fs::create_dir_all(srv.state.published_repo().join(".git"))
+            .unwrap();
+
+        let err = srv
+            .dispatch("check.rebuild_manifest", json!({}))
+            .await
+            .unwrap_err();
+        assert_eq!(err.code, ErrorCode::ManifestError);
+    }
+
+    #[tokio::test]
+    async fn sandbox_write_failure_is_internal_error_q29() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        // `sandbox.json` — каталог: запись песочницы падает.
+        std::fs::create_dir_all(srv.state.sandbox_path()).unwrap();
+
+        let err = srv
+            .dispatch(
+                "check.create",
+                json!({ "name": "МинимальныйВозраст", "source": SRC }),
+            )
+            .await
+            .unwrap_err();
+        assert_eq!(err.code, ErrorCode::InternalError);
     }
 }

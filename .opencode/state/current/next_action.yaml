@@ -1,0 +1,117 @@
+# Run 5 (2026-09-28), T-04 — конверт MCP §4.5. Участок №5: финализация.
+# Пишет analyst; одно решение за вызов; гейт пройден владельцем — очередь до complete.
+task: T-04
+iteration: 1
+status: in_progress
+progress_marker: run5_t04_finalize
+as_of: 2026-09-28
+class: L
+class_dispute: false
+class_note: >
+  Класс L подтверждён владельцем 2026-09-28 (гейт 1): контракт §4.5 + несколько
+  подсистем. Полный маршрут; auditor перед коммитом пройден (P1 нет), приёмка
+  (iteration 1, accepted) на месте. Исключений ролей нет.
+acceptance: accepted
+acceptance_report: docs/reviews/T-04-2026-09-28.md
+receipt: ".opencode/state/current/receipts.yaml (T-04, iteration 1, accepted)"
+owner_gate_completion: passed
+gate_answers: >
+  Полный пакет branch_end подтверждён (коммит + merge --no-ff в develop + push
+  develop и ветки + удаление ветки локально и на origin); push origin develop с
+  волной 0 (ahead 7) — разрешён.
+b1_fact: >
+  token-guard активен; вывод `cargo test --all` ≈7 КБ < порога 12 КБ — не срезан
+  (ожидаемо); срез подтверждён на diff src/mcp.rs ≈21 КБ.
+next:
+  - kind: dispatch
+    role: git
+    brief: >
+      Пакет branch_end для T-04 (L, приёмка принята, аудит пройден, гейт владельца
+      пройден). Идемпотентно, по одной команде за вызов:
+      (1) `git add` ровно 19 точными путями из package.add_paths (ниже);
+      (2) `git diff --cached --name-only` → сверить ровно 19 путей, состав = снимок
+      гейта (14 M + 5 ??); лишний/пропущенный путь → стоп без коммита;
+      (3) `git commit -m "code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов §4.5"`;
+      (4) `git switch develop` → `git pull origin develop` → `git merge --no-ff
+      feature/T-04-mcp-errors -m "Слияние feature/T-04-mcp-errors в develop"` →
+      `git push origin develop` (таймаут ≥5 мин; публикует и волну 0 — разрешено) →
+      `git branch -d feature/T-04-mcp-errors` → `git push origin --delete
+      feature/T-04-mcp-errors`;
+      (5) проверки: `git log -3 --oneline`, `git status -sb`, `git show --stat HEAD`.
+      Пути добавлять ТОЛЬКО из списка (пакет не расширять); `docs/features/README.md`
+      в списке нет — docs-writer его не менял; `tests/common/mod.rs` — точный файл.
+      При расхождении снимка и add_paths — остановиться и вернуть lead (re-plan),
+      коммит не делать.
+    expect: >
+      role=git отчёт: коммит создан на feature/T-04-mcp-errors; merge --no-ff в
+      develop создан (merge-commit, родитель — коммит задачи); `git push origin
+      develop` прошёл (old→new, включая волну 0, ahead 7); ветка удалена локально и
+      на origin; `git status -sb` показывает develop без незакоммиченного (рабочее
+      дерево чистое); в отчёте — хэши коммита и merge, состав staged = 19 путей.
+      Либо: git вернул расхождение/ошибку с точным фактом (команда → вывод) → lead
+      возвращает analyst (re-plan), без частичного коммита.
+    reason: >
+      Git-операции — только роль git (allowlist); пакет подтверждён владельцем один
+      раз (D38/R7), после чего исполняется буквально. push develop разрешён явно.
+    package:
+      kind: branch_end
+      branch: feature/T-04-mcp-errors
+      base: develop
+      note: >
+        Снимок гейта 2026-09-28: `git status --porcelain` = 19 путей (14 M + 5 ??),
+        полностью ⊆ add_paths; `docs/features/README.md` не менялся (не расхождение).
+      add_paths:
+        - .opencode/mail/service-mcp-ready-r2.md
+        - .opencode/mail/T-04.md
+        - .opencode/memory/analyst.md
+        - .opencode/memory/auditor.md
+        - .opencode/memory/coder.md
+        - .opencode/memory/docs-writer.md
+        - .opencode/memory/git.md
+        - .opencode/memory/tester.md
+        - .opencode/memory/validator.md
+        - docs/analysis/T-04-2026-09-28.md
+        - docs/CHANGELOG.md
+        - docs/reviews/T-04-2026-09-28.md
+        - docs/tasks/README.md
+        - docs/tasks/T-04-mcp-errors/README.md
+        - src/lib.rs
+        - src/mcp.rs
+        - tests/common/mod.rs
+        - tests/mcp_draft.rs
+        - tests/mcp_errors.rs
+      commit_message: "code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов §4.5"
+      steps:
+        - "git switch develop"
+        - "git pull origin develop"
+        - "git merge --no-ff feature/T-04-mcp-errors"
+        - "git push origin develop"
+        - "git branch -d feature/T-04-mcp-errors"
+        - "git push origin --delete feature/T-04-mcp-errors"
+  - kind: complete
+    brief: >
+      Только при выполненном expect действия `git` (коммит + merge --no-ff + push
+      develop + удаление ветки). Итог владельцу: T-04 закрыта — коммит <hash>,
+      merge <hash> в develop, push origin develop (включая волну 0); приёмка
+      docs/reviews/T-04-2026-09-28.md (107/0, 4/4); статусы ✅; P2 аудита (право
+      `auditor` на запись в ленту) вынесен в меморандум Run 5 — владелец правит
+      канон отдельно, T-04 не блокирует.
+    expect: >
+      Итог по T-04 зафиксирован lead (progress/лента); задача закрыта (complete).
+      Квитанция приёмки есть; expect действия git выполнен. Незакрытых действий
+      маршрута нет.
+    reason: >
+      `complete` допустим только при квитанции приёмки и выполненном пакете git
+      (AGENTS.md §Цикл задачи; dispatch-loop). P2 — вне T-04 (правка канона
+      владельцем).
+resume_hint: >
+  Run 5, T-04, участок №5 (маркер `run5_t04_finalize`). Гейт пройден: полный пакет
+  branch_end + push develop с волной 0 — разрешены. Ветка feature/T-04-mcp-errors
+  @0437799 в синхроне с origin; работа в рабочем дереве; снимок 19 путей ⊆ add_paths.
+  validator accepted (iteration 1); отчёт docs/reviews/T-04-2026-09-28.md; квитанция
+  в receipts.yaml; auditor — P1 нет, P2 (право auditor на ленту) — в меморандум Run 5;
+  docs-writer — статусы ✅, CHANGELOG, features/README.md не менялся.
+  Очередь: git (пакет branch_end, 19 путей, идемпотентно, одна команда за вызов) →
+  complete. Границы: inherited_boundaries [Q29, Q11, Q23, D40]; REST Q23 не трогать;
+  канон не править; новых Q/D нет. Риск: push origin develop публикует волну 0
+  (ahead 7) — санкционировано владельцем; при расхождении снимка на git — стоп/re-plan.

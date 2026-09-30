@@ -1,10 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "shell": "pwsh",
-  // V2: поле instructions не резолвится — инструкции идут из AGENTS.md.
-  "instructions": ["AGENTS.md"],
   // Сессия стартует с оркестратора рабочей группы
   "default_agent": "lead",
+  // Wave 0 T-15: автоформат через харнесс (без package.json активен только
+  // rustfmt для .rs; markdown/JSON не затрагиваются). Поле instructions
+  // убрано как мёртвое в V2 (AGENTS.md подхватывается автоматически).
+  "formatter": true,
 
   // Провайдер моделей
   "provider": {
@@ -28,10 +30,6 @@
           "name": "qwen/qwen3-coder-plus"
         }
       }
-    },
-    "opencode-go": {
-      // Оставляем только эти модели, остальные скрываются из /models
-      "whitelist": ["deepseek-v4.1-flash", "deepseek-v4-pro"]
     }
   },
 

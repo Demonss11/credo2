@@ -1,0 +1,339 @@
+# progress.yaml — журнал действий lead (append). Формат: одна запись на действие.
+# Pre-flight Run 4 (2026-09-27): журнал откаченного Run 3 очищен (улики:
+# docs/analysis/T-03-run3-mail-archive.md; тег archive/run3-T-03).
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 1
+  action: surface_to_user
+  question: "T-03 (класс M), Run 4: подтверждаете стартовый git-пакет ветки (feature/T-03-check-create от develop)?"
+  channel: question
+  result: "confirmed: «Подтверждаю пакет»"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: feature/T-03-check-create создана от develop @ bf56a4a и опубликована (upstream origin/feature/T-03-check-create); pull — Already up to date"
+  expect_match: true
+  next: "dispatch docs-writer (🚧)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 1
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-03 и строка сводки docs/tasks/README.md переведены в 🚧 (по 1 строке, diff чист)"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (coder → tester → validator)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: re-plan
+  role: analyst
+  result: "участок №2: coder → tester → validator (точка ветвления — отчёт validator); маркер run4_t03_impl; новых Q/D нет"
+  next: "dispatch coder"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: coder
+  result: "готово: create() валидирует name и сверяет с заголовком; tool_specs требует name+source; parse_rule — новое сообщение; юнит-тесты в модулях; cargo не запускался"
+  expect_match: true
+  next: "dispatch tester"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: tester
+  result: "готово: интеграционные тесты добавлены (draft.f/agent_minimal.f, +160 строк); src/**/канон не тронуты; тесты не запускались. Расхождение: отчёт фиксирует cargo check --all-targets + cargo fmt --check, expect требовал «cargo не запускался»"
+  expect_match: "partial (cargo clause: check/fmt выполнены; hard rule запрещает только cargo test)"
+  next: "re-plan analyst (несовпадение expect)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: re-plan
+  role: analyst
+  result: "участок №3: расхождение tester несущественно (F14 — expect у́же канона роли); очередь — dispatch validator (точка ветвления); новых Q/D нет"
+  next: "dispatch validator"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: validator
+  result: "rework: P1 — clippy::cmp_owned в src/mcp.rs:563 (тест check_create_tool_spec_requires_name_and_source); fmt pass; cargo test --all 90/0; features_inventory 4/4 (42/259); контракт check.create и граница D40/T-04 — ок; R2 закрыт; отчёт docs/reviews/T-03-2026-09-27.md; квитанция rework (iteration 2) в receipts.yaml"
+  expect_match: true
+  next: "re-plan analyst (rework → coder с фактами → повторная приёмка -r2)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: re-plan
+  role: analyst
+  result: "участок №4 (rework): очередь coder (одна строка src/mcp.rs:563) → validator (отчёт -r2); квитанция — append, iteration 2; новых Q/D нет"
+  next: "dispatch coder"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: coder
+  result: "готово: ровно одна правка src/mcp.rs:563 (t.name.to_string() → t.name, clippy::cmp_owned); иных файлов не тронуто; канон не изменён; cargo не запускался"
+  expect_match: true
+  next: "dispatch validator (повторная приёмка -r2)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: validator
+  round: r2
+  resume: true
+  result: "принято (accepted): отчёт docs/reviews/T-03-2026-09-27-r2.md; квитанция T-03 (iteration 2, accepted, report -r2) в receipts.yaml — append; fmt pass, clippy --all-targets -- -D warnings pass, cargo test --all 90/0; features_inventory 4/4 (42/259); P1/P2/P3 нет. Запись восстановлена при resume: вызов validator выполнен до обрыва сессии, запись lead отсутствовала (сверено: лента, отчёт, квитанция)"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (accept: docs-writer ✅ → surface_to_user → git → complete)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: re-plan
+  role: analyst
+  result: "участок №5 (accept — закрывающий): docs-writer ✅ → surface_to_user (гейт пакета branch_end) → git (коммит/merge --no-ff/push/удаление ветки); package.add_paths — 17 путей; current_state: phase closing, acceptance accepted, gate pending_user_confirmation; новых Q/D нет"
+  next: "dispatch docs-writer"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: docs-writer
+  result: "готово: ровно 3 правки — карточка docs/tasks/T-03-check-create/README.md и строка docs/tasks/README.md → ✅; docs/CHANGELOG.md — запись check.create {name,source} со ссылкой на отчёт -r2; docs/features/README.md не менялся; cargo не запускался"
+  expect_match: true
+  pre_gate: "add_paths (17) сверены со снимком git status --porcelain (13 M + 4 ?? = 17) — совпадение 1:1, лишних путей нет"
+  next: "surface_to_user (гейт пакета branch_end)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: surface_to_user
+  question: "T-03 (M), Run 4: подтверждаете пакет завершения branch_end (коммит + merge --no-ff в develop + push + удаление ветки)?"
+  channel: question
+  result: "СУЖЕНИЕ владельцем: «доведи задачу до push в удаленную ветку feature/T-03-check-create, а в develop не надо мерджить и удалять ветки» — остаётся коммит + push feature; merge в develop и удаление ветки отменены; git не вызывался"
+  next: "re-plan analyst (сужение пакета владельцем)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: git
+  package: branch_commit_push
+  result: "готово: коммит 7e94c79 «code(T-03): check.create {name, source}» (17 путей, +1190/−12) на feature/T-03-check-create; push bf56a4a..7e94c79 в origin/feature/T-03-check-create успешен; develop @ bf56a4a не тронут; ветка существует локально и на origin (не удалена); merge/delete не выполнялись (сужение владельцем)"
+  expect_match: true
+  next: "complete (очередь участка №6 исчерпана)"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: complete
+  result: "T-03 (M), Run 4 закрыта сужением владельца: коммит 7e94c79 отправлен в origin/feature/T-03-check-create; merge в develop и удаление ветки — deferred_by_owner; ветка остаётся незамерженной (develop @ bf56a4a без T-03); итог выдан владельцу"
+  next: "—"
+
+- at: "2026-09-27"
+  task: T-03
+  iteration: 2
+  action: dispatch
+  role: git
+  package: t03_merge
+  result: "готово (директива владельца «делаем merge»): process-коммит 8d9c9dc «chore: записи прогона Run 4 (T-03)»; merge --no-ff → 89ebd42 «Слияние feature/T-03-check-create в develop» (17 файлов, +1321/−12); push bf56a4a..89ebd42; ветка удалена local+origin (порядок 7↔8 без force — отказ -d из-за устаревшего upstream); develop содержит 7e94c79"
+  expect_match: true
+  next: "— (merge-долг снят; далее — по плану MCP-ready: журнал migrator → Run 5 / T-15)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт 1 Run 5: класс T-04 (L/M), стартовый пакет branch_start, служебные файлы R7-r2"
+  channel: question
+  result: "класс L подтверждён (полный маршрут + auditor; M-пилот для T-15 — другой задачей); пакет branch_start подтверждён полностью (с push -u ветки); служебные файлы R7-r2 — оставить на ветке задачи"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: feature/T-04-mcp-errors создана от develop @ 0437799 и опубликована (upstream origin/feature/T-04-mcp-errors, push -u успешен, синхрон); pull — Already up to date; develop ahead origin 7 не отправлен (волна 0 — историей ветки); рабочая «грязь» шире снимка (артефакты планирования: T-04.md, досье, память analyst) — не коммичены, ожидаемо"
+  expect_match: true
+  next: "dispatch docs-writer (🚧)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-04 и строка сводки docs/tasks/README.md → 🚧 (по 1 строке, diff чист); канон не тронут; cargo не запускался"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (реализация: coder → tester → validator → auditor → гейт)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: coder
+  result: "готово с scope-вопросом: конверт {error:{code,message}} и 10 кодов в src/mcp.rs (структурный ToolError/ErrorCode, рендер в call_tool), типизированный DeprecateError в src/lib.rs, юнит-тесты (в т.ч. error_codes_are_latin_snake_case_q29); RA diagnostics 0/0, формат сверен; cargo не запускался. Отклонение от брифа: check.delete_draft по отсутствующему черновику оставлен идемпотентным успехом (канон draft.feature: повторное удаление — не ошибка; Q29 §5; SPEC §4.5; тест delete_is_idempotent), код draft_not_found для него не задействован"
+  expect_match: "partial (scope-вопрос по delete_draft)"
+  next: "re-plan analyst (scope-вопрос)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: tester
+  result: "готово: tests/common/mod.rs (новый, общий MCP-каркас + assert_error_envelope), tests/mcp_draft.rs (каркас вынесен, коды зафиксированы, delete_is_idempotent усилен, +get_draft/Q8/Q9/input), tests/mcp_errors.rs (новый: publish_failed/draft_not_found/validation_failed/version_not_found/deprecation_conflict/unknown_tool); cargo fmt --check ok, cargo check --all-targets ok; cargo test не запускался; расхождения вне scope: delete_draft success-схема — T-05, test-гейт — T-02, version_deprecated — Q33. Примечание: сессия дважды упиралась в лимит шагов — продолжена по состоянию (тот же sessionID)"
+  expect_match: true
+  next: "dispatch validator (точка ветвления)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "принято (accepted): отчёт docs/reviews/T-04-2026-09-28.md; квитанция T-04 (iteration 1, accepted) в receipts.yaml; fmt pass, clippy --all-targets -- -D warnings pass, cargo test --all 107/0 (lib 54 + features_inventory 4 + mcp_draft 18 + mcp_errors 8 + publish 12 + rest 11), счётчики 47/278; P1/P2/P3 нет; src/rest.rs и src/core.rs не тронуты. B1: вывод cargo test (~7 КБ) ниже порога — не срезан, но плагин активен (diff src/mcp.rs ~21 КБ срезан, опущено ~8080 Б)"
+  expect_match: true
+  next: "re-plan analyst (accept: auditor → docs-writer ✅ → гейт пакета → git)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: auditor
+  result: "аудит пройден: P1/P3 нет; P2 — право auditor на запись в ленту (edit .opencode/mail/** отклонён правом; отчёт внесён lead релеем, кандидат в правку канона для Run 5-меморандума); канон не правился, роли в правах, память/почта append, отчёт + квитанция на месте, состав 17 путей совпал с досье, src/rest.rs и src/core.rs не тронуты; фронтматтеры ↔ review.md совпадают"
+  expect_match: true
+  next: "dispatch docs-writer (✅ + CHANGELOG)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-04 и строка сводки → ✅; CHANGELOG — запись T-04 (+ ломающее изменение конверта MCP) со ссылкой на отчёт; features/README.md не менялся (обоснование: ни одно требование §4.5 не переходит в ✅ только от T-04 — T-05/T-02/Q13/Q32/Q33); счётчики не тронуты; cargo не запускался"
+  expect_match: true
+  next: "surface_to_user (гейт пакета branch_end)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт branch_end: полный пакет завершения; push develop публикует волну 0 (develop ahead 7)"
+  channel: question
+  result: "полный пакет подтверждён (коммит + merge --no-ff в develop + push develop и ветки + удаление ветки); push develop с волной 0 разрешён; снимок 19 путей ⊆ add_paths"
+  next: "re-plan analyst (git + complete)"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "готово: коммит 3545afa «code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов §4.5» (19 файлов, +1706/−240); merge --no-ff → cd845d4 «Слияние feature/T-04-mcp-errors в develop» (родители 0437799 + 3545afa); push 3eb0856..cd845d4 origin develop (волна 0 опубликована — разрешено владельцем); ветка удалена local+origin (branch -d после push --delete, без force); дерево чистое, develop в синхроне"
+  expect_match: true
+  next: "complete"
+
+- at: "2026-09-28"
+  task: T-04
+  iteration: 1
+  action: complete
+  result: "T-04 (L), Run 5 закрыта: приёмка accepted (107/0; features_inventory 4/4, 47/278), аудит пройден (P1 нет; P2 — право auditor на ленту — в меморандум Run 5), статусы ✅, CHANGELOG; коммит 3545afa, merge cd845d4, develop отправлен (включая волну 0); P2 — правка канона владельцем отдельно"
+  next: "— (Run 5 закрыт; далее: меморандум Run 5, решение по P2, процессные записи)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 1
+  action: complete
+  result: "Сервисная волна service-doc-refactor: Q72/D76 — TRACEABILITY только ссылки Qn/Dn (формат применён ко всем 72 строкам), приёмка validator accepted (P1/P2/P3 нет); коммит 406575c, push 6182bb5..406575c origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-2026-09-30.md"
+  next: "— (операция №1 рефакторинга docs закрыта; далее — по запросу владельца)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 2
+  action: complete
+  result: "Операция №2: Q73/D77 (полнота задач — все T-XX видны через TRACEABILITY; добор проверок T-18) и Q74/D78 (T-15 — программа «процесс, готовый к MCP», фазы A–G); свип 19/19; приёмка validator (r1 rework по вердикту D78 → r2 accepted); коммит c8652c4, push 406575c..c8652c4 origin develop (18 путей); отчёты docs/reviews/service-doc-refactor-2-2026-09-30{,-r2}.md"
+  next: "— (операция №2 закрыта; открытый кандидат — T-15 в «Задачи» строк Q50/D45, Q51/D46 — по решению владельца)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 3
+  action: complete
+  result: "Операция №3: T-15 — в «Задачи» строк Q50/D45 и Q51/D46 (жизненный цикл resolved → in work); D45/D46 — поле Tasks, «Сверка с кодом» и «Обновление 30.09.2026» (фиксация связи с программой; новых Q/D нет); приёмка validator accepted (P1/P2/P3 нет); коммит 2f2140c, push c8652c4..2f2140c origin develop (10 путей); отчёт docs/reviews/service-doc-refactor-3-2026-09-30.md"
+  next: "— (операция №3 закрыта; открыто: journal.md §7 — внесение полноты в канон процесса, по решению владельца)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 4
+  action: complete
+  result: "Операция №4: полнота задач — в канон журнала §7 (Q75/D79); Affects D45/D46 дополнены TRACEABILITY.md; «Обновление» в D77. Протокол канона: аудит auditor (P1/P2 нет; 2 P3-наблюдения владельцу) → приёмка validator accepted; коммит fab7e68, push 2f2140c..fab7e68 origin develop (17 путей); отчёт docs/reviews/service-doc-refactor-4-2026-09-30.md"
+  next: "— (операция №4 закрыта; открыто: P3 аудита — на усмотрение владельца; T-18 — реализация теста)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 5
+  action: complete
+  result: "Операция №5 (закрытие P3): §7 journal.md — критерий полноты ссылкой на абзац «Полнота» (Q41), тест помечен планом (T-18 ⬜); «Обновление» в D79; метка плана в tasks/README:37; хронология ленты выправлена (op5 в конец). Протокол канона: аудит auditor (P1/P2 нет; P3 №5 закрыт правкой) → приёмка validator accepted (P1/P2/P3 нет); коммит c0199d3, push fab7e68..c0199d3 origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-5-2026-09-30.md"
+  next: "— (операция №5 закрыта; открытых наблюдений волны нет; T-18 — реализация теста отдельной задачей)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 6
+  action: complete
+  result: "Операция №6: полнота фич — Q76/D80 (каждая *.feature поимённо в TRACEABILITY, wildcard снят; добор T-18). Закрыты 12 разрывов: 6 агентских D38/D39 → Q43/Q44, 5 T-15 → Q74/D78, manifest_sync → Q29/D34+Q32/D28, wasm → Q65/D69; заголовки wasm/manifest_sync + пометка в features/README. Приёмка validator accepted (features_inventory 4/4, 47/278); коммит 74a9d4e, push c0199d3..74a9d4e origin develop (17 путей); отчёт docs/reviews/service-doc-refactor-6-2026-09-30.md"
+  next: "— (операция №6 закрыта; T-18 — реализация теста (полнота задач и фич) отдельной задачей)"
+
+- at: "2026-09-30"
+  task: service-pm-tool
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-tool: Q77/D81 — process mining инструмент `pm` (uv-проект .opencode/scripts/pm: core pyyaml, extras viz/pm4py; CLI pm-agents; 7 тестов); карта AGENTS.md (+pm/, +session-analysis/); отчёт первого прогона docs/analysis/pm-run-2026-09-30.md (394 события, 38 кейсов, приёмки 82.1%). Аудит auditor (P1 нет; P2/P3 закрыты адресно) → приёмка validator (r1 rework P2 README → r2 accepted); коммит c137b63, push 74a9d4e..c137b63 origin develop (36 файлов); черновик mine_agents.py оставлен локально вне git (решение владельца)"
+  next: "— (волна закрыта; открыто: MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-tool
+  iteration: 2
+  action: complete
+  result: "Fix после приёмки: дефолтные пути состояния/лент — от корня репозитория (find_repo_root/resolve_state_dir/resolve_mail_dir; `uv run pm-agents` работает из .opencode/scripts/pm); тест test_repo_root_resolution (8 passed); README — «Запуск из любого каталога»; контрольный прогон 405 событий/38 кейсов; приёмка validator (iteration 3, accepted, P1/P2/P3 нет); коммит 180a91a, push c137b63..180a91a origin develop (9 путей); отчёт docs/reviews/service-pm-tool-2026-09-30-fix.md"
+  next: "— (фикс закрыт; открыто: MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-archive
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-archive (решение владельца): артефакты pm — .opencode/scripts/pm/output/ (вне git, локальный .gitignore) вместо TEMP; накопительный архив output/events.jsonl (слияние по стабильному ключу + номер повтора без дублей, идемпотентность +0 на повторном прогоне, tolerant-чтение/атомарная запись; фильтры --source/--since/--exclude-service — только срез отчёта; флаги --archive/--no-archive); clean-logs.mjs — best-effort снимок лент в архив перед удалением (--no-snapshot); README/AGENTS.md/git-workflow.md/D81 («Обновление 30.09.2026»); версия 0.2.0; тесты 15 passed; прогоны +412/+0. Аудит auditor (r1: P2/P3 → r2: P1/P2/P3 нет; agents-perms 11 из 18) → приёмка validator (r1 «принято с замечаниями» P3 Affects → r2 «принято», P3 закрыт). Коммит 6a0d342, push 180a91a..6a0d342 origin develop (22 пути)"
+  next: "— (волна закрыта; вне пакета: git check-ignore в allowlist auditor/validator — на усмотрение владельца; ключ архива без времени — кандидат в Q; MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-numbering
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-numbering (решение владельца): сквозная нумерация событий архива (`n` — при первом попадании, не меняется; продолжение max+1; разовый бэкфилл старого архива по порядку), выгрузка output/events.csv (10 колонок: n..expect_match), clean-logs.mjs печатает продолжение нумерации после снимка (и в --dry-run); версия 0.3.0; тесты 18 passed; реальный архив №1–426 (+14, повторный прогон +0). Приёмка validator (r1: принято с замечаниями P3 — 8 полей CSV в D81 против 10 в коде → r2: принято, P3 закрыт, замечаний нет). Коммит 03c20d8, push 6a0d342..03c20d8 origin develop (18 путей); D81 — «Обновление 30.09.2026 (нумерация)»"
+  next: "— (волна закрыта; без изменений: наблюдение о ключе архива без времени — кандидат в Q; git check-ignore в allowlist validator/auditor — на усмотрение владельца; MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-cleanup
+  iteration: 1
+  action: complete
+  result: "Плановая очистка логов (запрос владельца): двухшаговый пакет git — коммит-подтверждение ba656e9 (лента service-cleanup-2026-09-30; подтверждение проверено из истории) → clean-logs.mjs (снимок лент в pm-архив: +5, всего 438, следующее — №439; продолжение нумерации напечатано) → коммит очистки 9948ebf (47 путей: 40 лент удалено, 7 памятей ролей сброшено); push 917c649..9948ebf origin develop; бэкап — %TEMP%/opencode/logs-backup-20260930-144238; содержимое лент остаётся в истории git и pm-архиве"
+  next: "— (очистка закрыта; далее — следующая задача по указанию владельца)"
+
+- at: "2026-09-30"
+  task: service-docs-lifecycle
+  iteration: 1
+  action: complete
+  result: "Волна service-docs-lifecycle, операция №1 (research): инвентаризация — единственный файл отработан (факты в Q62–Q64/D66–D68, задача T-19); политика — «Обновление 30.09.2026» в D65 (рабочие артефакты research/reviews/analysis: неактуальные удаляются, архив — git; канон не ссылается — факты в Q/D, задачах, фичах; ссылки снимаются волнами; реестр находок — волна analysis); снято 18 ссылок канона (Q62–Q64, D66–D68, T-19); файл docs/research/doc-quality-checks-2026-09-29.md удалён (архив — git); синхронизированы docs/README.md и память researcher; аудит auditor (P1/P2/P3 нет), приёмка validator (принято; отчёт docs/reviews/service-docs-lifecycle-2026-09-30.md, квитанция в receipts.yaml); пакет git — по гейту."
+  next: "— (операция №1 закрыта; далее — операции №2 reviews и №3 analysis по очереди в ленте service-docs-lifecycle)"

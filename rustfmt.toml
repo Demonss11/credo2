@@ -1,0 +1,15 @@
+# rustfmt.toml
+
+edition = "2024"
+
+# Максимальная ширина строки
+max_width = 80
+
+# Ширина отступа в пробелах
+tab_spaces = 4
+
+# Отступы в match-выражениях
+match_block_trailing_comma = true
+
+# Запрещает слияние атрибутов с элементами
+merge_derives = true

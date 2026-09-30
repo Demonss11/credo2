@@ -1,0 +1,23 @@
+- at: "2026-09-28"
+  task: T-01
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: ветка создана"
+  expect_match: true
+- at: "2026-09-28"
+  task: T-01
+  iteration: 1
+  action: dispatch
+  role: coder
+  result: "готово: код"
+  expect_match: "partial (scope-вопрос)"
+- at: "2026-09-29"
+  task: T-01
+  iteration: 1
+  action: complete
+  result: "T-01 закрыта"
+- at: "2026-09-29"
+  action: surface_to_user
+  question: "гейт?"
+  result: "подтверждено"

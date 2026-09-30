@@ -5,6 +5,9 @@
 # открытые пути /health, /docs, /openapi.json; без CREDO_API_KEY API открыт.
 # Q23 (решено 2026-09-25): конверт ошибки — {"error": {"code", "message"}};
 # код 401 — unauthorized.
+# D53 (Q11): человекочитаемое — русский; машиночитаемое (коды, ключи, идентификаторы) — латиница
+# D26 (Q22): аутентификация REST — заголовок x-api-key (ключ CREDO_API_KEY); открытые пути /health, /docs, /openapi.json
+# D25 (Q23): конверт ошибки REST — {"error": {"code", "message"}}; code 401 — unauthorized, message — русский
 Функция: Аутентификация REST
   Как инженер безопасности
   Я хочу защитить API ключом

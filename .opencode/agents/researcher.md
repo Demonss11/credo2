@@ -29,8 +29,8 @@ permissions:
 
 ## Порядок
 
-1. Прочитай свой файл памяти `.opencode/memory/researcher.md`; запрос ставит
-   `lead`, уточни границы темы — шире, чем нужно, не исследуй.
+1. Прочитай свою память `.opencode/memory/researcher.md`; запрос ставит `lead`,
+   уточни границы темы — шире, чем нужно, не исследуй.
 2. Читай канон проекта, чтобы отделять «применимо к CREDO» от общего:
    `docs/SPECIFICATION.md` (релевантные §), `docs/GRAMMAR.md`,
    `docs/features/README.md`.

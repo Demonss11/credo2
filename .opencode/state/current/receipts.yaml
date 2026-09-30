@@ -1,0 +1,1121 @@
+# Квитанции приёмки (append-only; пишет только validator).
+# Формат: task, iteration, verdict, report, dod, snapshot, at.
+# Pre-flight Run 4 (2026-09-27): квитанция откаченного Run 3 (T-03) удалена —
+# отчёт не существует; улики: docs/analysis/T-03-run3-mail-archive.md,
+# тег archive/run3-T-03.
+
+- task: T-12
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-12-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "78 passed / 0 failed"
+    features_inventory: "42 files / 259 scenarios"
+  snapshot: "feature/T-12-agent-loop, HEAD f06ff82 + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-13
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-13-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "78 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-13-agent-hardening, HEAD c212156 + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-03
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-03-2026-09-27.md
+  dod:
+    fmt: pass
+    clippy: "fail: cmp_owned src/mcp.rs:563"
+    test: "90 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-03-check-create, HEAD bf56a4a + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-03
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-03-2026-09-27-r2.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "90 passed / 0 failed"
+    features_inventory: "4/4 ok (42 files / 259 scenarios)"
+  snapshot: "feature/T-03-check-create, HEAD bf56a4a + working tree (2026-09-27)"
+  at: "2026-09-27"
+
+- task: T-04
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-04-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "feature/T-04-mcp-errors, HEAD 0437799 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: W8-config
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/W8-config-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: pass
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "develop, HEAD a7eac82 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: W8-canon
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/W8-canon-2026-09-28.md
+  dod:
+    fmt: "not rerun (src/tests unchanged since W8-config)"
+    clippy: "not rerun (src/tests unchanged since W8-config)"
+    test: "107 passed / 0 failed"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "develop, HEAD a7eac82 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: T-15-c13
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-15-c13-2026-09-28.md
+  dod:
+    fmt: "not rerun (src/tests unchanged since W8-canon; process package)"
+    clippy: "not rerun (src/tests unchanged since W8-canon; process package)"
+    test: "not rerun (src/tests unchanged since W8-canon; diff 22f7683..9006ca1 -- src tests empty)"
+    features_inventory: "not rerun (unchanged since W8-canon: 47 files / 278 scenarios)"
+  snapshot: "develop, HEAD 9006ca1 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: T-11-closeout
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/T-11-closeout-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (src/tests unchanged since W8-config; docs/process package)"
+    test: "not rerun full (src/tests unchanged since W8-config); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+  snapshot: "develop, HEAD bed3019 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: service-permissions
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-permissions-2026-09-28.md
+  dod:
+    debug_agents: "ok — validator resolves { shell, git branch --contains *, allow } (truncated ~36.9/51.4 KB, validator block read)"
+    smoke: "ok — git branch --contains 0a5832f → * develop, exp/agent-cycle-rerun, exp/agent-update-t15w0"
+    canon_diff: "ok — validator.md +1 line allowlist, review.md list synced; no other canon changes"
+    fmt: "not rerun (no Rust changes; canon/rights package)"
+    clippy: "not rerun (no Rust changes; canon/rights package)"
+    test: "not rerun (src/tests unchanged since W8-config: 107 passed / 47 files / 278 scenarios)"
+  snapshot: "develop, HEAD 6d4c840 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: service-canon-hygiene
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-canon-hygiene-2026-09-28.md
+  dod:
+    debug_agents: "one run, no reload; output truncated by token-guard (~36912/51378 B; lines 1551-2616 = migrator+validator); validator visible: cargo fmt|clippy|test + opencode debug agents + git branch --contains * (D49), external_directory deny; auditor block cut, full file outside role read zone -> auditor.execute=deny confirmed statically (auditor.md:32)"
+    rights: "ok — rg action:shell .opencode/agents: cargo test * only validator.md:20; rg -n 'action: shell' list matches review.md:80-91 for all 11 roles; no rights beyond D49/F45"
+    rules: "ok — R2 single definition dispatch-loop.md:43, refs validator.md:40/coder.md:54-55/tester.md:51-52/rust-expert.md:62/auditor.md:85 resolve; DoD single literal list AGENTS.md:304-306, refs review.md:49/validator.md:79-80"
+    registry: "ok — F45:53 / F46:54 match facts, \\| escaping, diff +2 lines, F40-F44 untouched"
+    borders: "ok — git status 11 M + 1 ??; docs only findings-registry.md; git diff -- src tests opencode.json empty"
+    fmt: "not rerun (no Rust changes; canon/process package)"
+    clippy: "not rerun (no Rust changes; canon/process package)"
+    test: "not rerun (src/tests unchanged since W8-config: 107 passed / 47 files / 278 scenarios)"
+  snapshot: "develop, HEAD e1e90d4 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: service-migration-q2q3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q2q3-2026-09-28.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since W8-config); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; .opencode/agents|rules untouched; archive not extended"
+    journal: "ok — Q2/Q3 pointers only in archive; D16=SPEC §10 №16; Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q↔D↔TRACEABILITY↔README↔§10 consistent; 3 headers # D16 (Q2, Q3); T-14 → §2"
+  snapshot: "develop, HEAD 491e153 + working tree (2026-09-28)"
+  at: "2026-09-28"
+
+- task: service-migration-q4
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q4-2026-09-29.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since 22f7683 — W8-config reformat); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; git diff 22f7683..HEAD -- src tests empty; .opencode/agents|rules untouched (only 3 memories changed)"
+    journal: "ok — Q4 pointer only in archive (OPEN_QUESTIONS.md:46-49); D17=SPEC §10 №17 (:838); Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q4↔D17↔TRACEABILITY:11↔questions/README:28↔§10 consistent; explain.feature no longer has Приоритет (fact verified); src/core.rs parse_rule has no Приоритет; GRAMMAR §4 (:91 ❌)/§5 (:97 v0.2); 4 headers # D17 (Q4) (parser/execution/editor/lsp) + client_explanation:8 (D17/Q36); slug D17-priority-out-of-mvp unique"
+  snapshot: "develop, HEAD f488085 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q5q6
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q5q6-2026-09-29.md
+  dod:
+    fmt: pass
+    clippy: "not rerun (no Rust changes; docs/migration package)"
+    test: "not rerun full (src/tests unchanged since 22f7683 — W8-config reformat; git diff 22f7683..HEAD -- src tests empty); targeted cargo test --test features_inventory 4/4 ok"
+    features_inventory: "4/4 ok (47 files / 278 scenarios)"
+    borders: "ok — git diff -- src tests AGENTS.md opencode.json empty; .opencode/agents|rules untouched; archive not extended (pointers only)"
+    journal: "ok — Q5/Q6 pointers only in archive (OPEN_QUESTIONS.md:51-54,60-64); D19=SPEC §10 №19 (:840); Resolves/Spec/Affects/Tasks filled; code-check ✅ + \"Задач не требуется\"; Q6 closed incidentally (not in Resolves; BRIEF §7 rule); Q↔D↔TRACEABILITY:12-13↔questions/README:29-30↔§10 consistent; slug D19-statuses-priorities-canon unique; SPEC §6.1/§6.2 reference README without duplicate table"
+  snapshot: "develop, HEAD 788aa4c + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-dod-scope
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-dod-scope-2026-09-29.md
+  dod:
+    cargo: "not run — D50 p.1: package without changes to src/**, tests/**, Cargo.toml; exception not triggered (cleared counters/scope of docs/features/** untouched)"
+    borders: "ok — 9 M + 3 ??; journal/canon-text/docs/memories only; src/**, tests/**, Cargo.toml, opencode.json, docs/features/** untouched; permissions/steps unchanged (diff hunks past frontmatter)"
+    canon: "ok — review.md:28-38 ↔ validator.md:87-89 ↔ BRIEF.md:253-256 ↔ SPEC §10 №50 (:871); Cargo.toml present in every package list; AGENTS.md §Сборка (:303-306) and dispatch-loop R2 (:43-44) not contradicting"
+    journal: "ok — Q55 ↔ D50 ↔ TRACEABILITY:26 ↔ questions/README:43 ↔ SPEC:871; D50 code-check ⚪ filled + tasks not required; IDs/slug unique; P3-1 (Cargo.toml + audit note) and P3-2 (service-session record, mail:195-215) closed"
+    debug_agents: "not run — no rights/steps changes; auditor run in same snapshot (mail:111-113)"
+  snapshot: "develop, HEAD 0ee25f5 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-agent-tools
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-agent-tools-2026-09-29.md
+  dod:
+    cargo: "not run — D50: package without changes to src/**, tests/**, Cargo.toml (git diff --stat -- src tests Cargo.toml empty); features exception not triggered (counter/composition unchanged: 47 files, 276+2=278 = features/README.md:303 verified by rg)"
+    smoke: "ok — default summary 'agents: 11 из 18' (validator: script + 'opencode debug agents' absent; 'cargo test *' only validator; auditor: script + 'opencode reload'); --role validator = frontmatter, steps=36; --grep cargo = 22 hits; --json ok; --help ok"
+    rights: "ok — review.md:86-97 matches all 11 frontmatters; --all --grep 'opencode debug agents' hits 0; --all --grep 'opencode reload' hits 1 (auditor)"
+    journal: "ok — Q56 (resolved by D51) ↔ D51 (Resolves/Spec §10 №51/Affects/Tasks:—) ↔ TRACEABILITY:27 ↔ questions/README:44 ↔ SPEC:872; OPEN_QUESTIONS untouched (new Q); IDs unique; 'Сверка с кодом' ⚪ + tasks not required; waypoint note 'на момент ревизии 29.09.2026' (D51:75-76); no '1.9 КБ' (6× '3–4 КБ')"
+    borders: "ok — 13 M + 4 ??; src/**, tests/**, Cargo.toml untouched; canon: validator.md:21-22, auditor.md:25-26,152,179, review.md:32,87,93, workspace.md:24-25, AGENTS.md:149-151; features: 2 scenario-step lines only"
+    exit_codes: "по исходнику 0/1/2 (agents-perms.mjs:48,69,78,121,130,146,159); инструментально не различимы — harness отдаёт 1 на неуспех (rg --nosuchflag → 1 вместо 2)"
+  snapshot: "develop, HEAD 01a70fd + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q7
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q7-2026-09-29.md
+  dod:
+    cargo: "not run — D50: package without changes to src/**, tests/**, Cargo.toml (git diff 22f7683..HEAD -- src tests empty; paths absent from git status); features exception not triggered (publish.feature: header comment only, 3+/1-, 'Сценарий:'=7 unchanged, features/README.md untouched)"
+    journal: "ok — Q7 pointer only in archive (OPEN_QUESTIONS.md:66-69, no full text); D52=SPEC §10 №52 (:873, unique, style ↔ №44-51); Resolves: Q7, Спека №52, Affects/Tasks filled; code-check ⚪ + facts (core.rs:71-81 CheckMeta w/o display_name/source_hash/compiler_version; lib.rs:526-539 ManifestEntry/service_hash; §11: 14 new + 2 refined articles); Q7↔D52↔TRACEABILITY:14↔questions/README:31↔§10 consistent; tasks not required (T-07 covers, tasks/README.md:49); slug unique; links live"
+    backrefs: "ok — publish.feature:7-11 [Q7]→[D52] header note; CHANGELOG.md:38-46 entry"
+    borders: "ok — 8 M + 3 ??; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended"
+    p3: "OPEN_QUESTIONS.md:66 pointer lacks topic/date vs neighbours Q4:46/Q5:51/Q6:60 — one-line migrator fix (BRIEF §7 literal form satisfied, non-blocker)"
+  snapshot: "develop, HEAD 5883a17 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q8q10q42
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q8q10q42-2026-09-29.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (git diff --name-only -- src tests Cargo.toml empty); features exception not triggered — docs/features/** edits are header comments only (5 files x 3 added lines, 0 deletions), no scenario line touched; counters/composition unchanged: 278 scenario lines / 47 files = features/README.md:303"
+    journal: "ok — only 4 pointers in archive (OPEN_QUESTIONS.md:75-88,137-140; no full texts, Q11 block untouched); D21 = SPEC §10 №21 (:842, row pre-existing, link appended, diff 1 line); Resolves: Q8, Q9, Q10, Q42; Спека/Affects filled; Tasks: — + explicit 'Задач не требуется' (:151); code-check ✅ + facts verified (core.rs:97 UnknownField, :100 TypeMismatch, :138 condition, :146 condition_to_string, :581 no priority, :201/:601 no \"Pass\"; tests q8/q9/q10/q42 at :507-604); errors.feature nuance (parser, v0.2) fixed (:139-145), out of MVP scope; Q↔D21↔TRACEABILITY:15-18↔questions/README:32-35↔§10 №21 consistent; dates 2026-09-24 kept; slug unique"
+    features_headers: "ok — exactly 5 '# D21 (Q8–Q10, Q42)' (errors:2-4, explain:2-4, explain_full:2-4, execution:4-6, test_draft:7-9); comment-only diff"
+    borders: "ok — 12 M + 6 ??; docs/** + 2 memories only; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended"
+    links: "fail — 6 dead relative links to unmigrated questions: Q8.md:57 and Q42.md:54 → [Q11](Q11.md); Q10.md:11,62 → [Q36](Q36.md)–[Q39](Q39.md); docs/questions has 26 files, Q11–Q41 not migrated; neighbour convention is plain ID text (Q7.md:11)"
+    p1: "Q8.md:57, Q42.md:54, Q10.md:11,62 — dead links → migrator removes markdown brackets (as Q7.md:11); review.md 'Что блокер' + BRIEF §5.7/§9"
+  snapshot: "develop, HEAD 8f0c9d9 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q8q10q42
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q8q10q42-2026-09-29-r2.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (git diff --name-only -- src tests Cargo.toml empty); features exception not triggered (docs/features/** unchanged since iteration 1; 278 scenario lines / 47 files = features/README.md:303)"
+    p1_closed: "ok — rg \"Q(11|36|39)\\.md\\)\" docs/questions empty; fixes only in 4 lines: Q8.md:57 'Q11 (ожидает переноса)', Q42.md:54 '(Q11 (ожидает переноса))', Q10.md:11 and :62 'Q36–Q39 (ожидают переноса)' (style = Q7.md:11); remaining matches only in iteration-1 report (validator zone)"
+    package_unchanged: "ok — git diff --stat per-file numbers identical to iteration 1 (CHANGELOG 16, OPEN_QUESTIONS 137, SPECIFICATION 2, TRACEABILITY 4, 5x features 3, questions/README 4); growth only in write zones (memory/validator +33, memory/migrator +9, receipts +14); Q9.md untouched (61 lines); D21 anchors :5/:22/:151 unchanged"
+    borders: "ok — 14 M + 7 ??; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched"
+  snapshot: "develop, HEAD 8f0c9d9 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q11
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q11-2026-09-29.md
+  dod:
+    cargo: "not run — D50 (also per instruction): package without changes to src/**, tests/**, Cargo.toml (narrowed git status empty); features exception not triggered — docs/features/** edits are header comments only (+1/0 in each of 4 files), counters/composition unchanged (47 files / 278 scenarios = features/README.md:303)"
+    journal: "ok — Q11 block cut from archive, pointer only (OPEN_QUESTIONS.md:90-93, diff 4+/46-, no full text, no hunk outside the block); Q11.md ID/date 2026-09-25 kept, fields filled, status 'resolved by D53'; D53 accepted, Resolves: Q11, Спека §10 №53, Affects filled, Tasks: — + explicit 'Задач не требуется'"
+    spec10: "ok — SPECIFICATION.md:874 is the only row 53 (50-53 unique), after №52, style ↔ neighbours, [D53] link live"
+    code_check: "✅ verified by rg — rest.rs:79,121,135,158,166,191,199 (canonical Russian texts, latin snake_case codes); mcp.rs:54-66 (10 codes), :43-46 VersionDeprecated #[allow(dead_code)] + Q33, :95/:149-151 Russian messages; lib.rs:427; tests: rest.rs:95 assert_error, common/mod.rs:222 'message не русский (Q11)', mcp_errors.rs:13"
+    consistency: "ok — Q11 ↔ D53 ↔ TRACEABILITY:18 ↔ questions/README:35 ↔ §10 №53 (status resolved, tasks —); slug D53-error-messages-language unique; links live"
+    bonus: "ok — Q8.md:57 and Q42.md:54: marks → [Q11](Q11.md), diff 1/-1 each, decisions' text not rewritten; links resolve"
+    headers: "ok — '# D53 (Q11): человекочитаемое — русский; …' exactly in 4 features (evaluate:9, rest_api:10, rest_auth:8, errors:5); CHANGELOG.md:63-76 entry"
+    borders: "ok — 13 M + 3 ??; docs/** (except tasks/**) + 2 memories + new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, docs/tasks/** untouched; archive not extended (deletions only)"
+    p3: "TRACEABILITY.md:18 Feature column omits errors.feature although D53:15-16 has it in Affects and errors.feature:5 carries the D53 backlink → one-directional traceability; one-line fix (docs-writer/lead)"
+  snapshot: "develop, HEAD c9193da + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q12q15
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q12q15-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — package without changes to src/**, tests/**, Cargo.toml (paths absent from git status); features exception not triggered — docs/features/** edits are header comments only (+16/-0 across 13 files, 0 deletions, no scenario touched) and the features/README.md:145-148 note; counter line :308 unchanged = 47 files / 278 scenarios (read)"
+    journal: "ok — archive: single hunk OPEN_QUESTIONS.md:104,129 -> :104,19, four blocks cut, four pointers with '-> перенесён' + 'Мигрирован 2026-09-29 (блок …)' (:104-107,:109-112,:114-117,:119-122), no full texts, no hunk outside the block; Q12-Q15 IDs/dates 2026-09-25 kept, Перенос 2026-09-29, links live"
+    decisions: "ok — D54/D14/D55/D56: accepted, Дата 2026-09-25, Resolves Q12/Q13/Q14/Q15, Спека §10 №54/№14/№55/№56, Affects+Tasks filled, 'Сверка с кодом' with verdicts 🟡/🟡/✅/🟡; facts verified by rg (lib.rs:342,383,397; mcp.rs:335-340 incl. manual git update-ref :337; core.rs:71-81 CheckMeta)"
+    spec10: "ok — :875 №54, :876 №55, :877 №56 unique (no other 54-56), :835 №14 got live [D14] link (numstat 4+/1-); style ↔ №52/№53"
+    consistency: "ok — Affects = TRACEABILITY Feature column: Q12 6 features = D54:9-14, Q13 5 = D14:10-14, Q14 2 (features/README not in column) = D55:7-9, Q15 3 = D56:9-11; statuses resolved; tasks T-16/T-08, T-06/T-07, —, T-17"
+    headers: "ok — exactly 16 '# Dn (Qx)' lines in 13 features (6×D54, 5×D14, 2×D55, 3×D56), no duplicates, inside the comment header before 'Функция:' (publish:12-14, publish_rules:2-4); CHANGELOG.md:77-104 inside '### Документация'"
+    task17: "ok — card docs/tasks/T-17-merge-command/README.md (status ⬜, Источник D56 (Q15), P2 + 'на подтверждение владельца', criterion ↔ git_integration.feature:42-48) + row tasks/README.md:51"
+    bonus: "ok — Q13 markers replaced by live links (Q7.md:11 1+/1-, Q11.md:10 2+/1-, questions/README rows Q7/Q11); decisions' text untouched"
+    borders: "ok — 24 M + 10 ??; docs/** only (plus 3 role memories and the new mail); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched; archive not extended"
+    links: "ok — all link targets exist (13 features, T-01/T-06/T-07/T-08/T-16/T-17, D14/D54/D55/D56, Q12-Q15); D IDs unique"
+    p2: "Q15 still listed as 'ожидают переноса' although migrated in this package: Q12.md:14, D54-source-of-truth-flow.md:130-132, questions/README.md:36 (expectation: [Q15](Q15.md) / plain ID outside the pending list, cf. Q7.md:11) — false status in canon, 3-line migrator fix; plural form also to check: rg 'ожида(ет|ют) переноса' docs"
+    p3_1: "OPEN_QUESTIONS.md:104,109 'блок Q12–Q15' vs :114,119 'блок Q14–Q15' — one package, two batch labels (non-blocker)"
+    p3_2: "TRACEABILITY.md:19 Tasks for Q12 omits T-01, while D54:18-21 names it and tasks/README.md:38 attributes T-01 to Q12 (one-line fix, optional)"
+  snapshot: "develop @ 711a3c8 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q12q15
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q12q15-2026-09-29-r2.md
+  dod:
+    cargo: "not run (D50) — rework touched only docs/questions, docs/decisions/D54, docs/OPEN_QUESTIONS, docs/TRACEABILITY (in-place line edits); src/**, tests/**, Cargo.toml absent from git status; features/CHANGELOG unchanged since iteration 1 (per-file numstat identical; counters 47/278 = features/README.md:308)"
+    p2_closed: "yes — Q15 removed from 'ожидают переноса', now a live link: Q12.md:13-14 ([Q13](Q13.md), [Q15](Q15.md); Q30, Q33, Q32, Q29 pending), D54-source-of-truth-flow.md:130-133 ([Q15](../questions/Q15.md) (merge в `main`); Q30/Q33/Q32/Q29 pending), questions/README.md:36 ([Q13](Q13.md), [Q15](Q15.md); Q30, Q33 pending); rg 'ожида(ет|ют) переноса' docs → Q12–Q15 nowhere under the mark (remaining = really unmigrated Q + historical docs/reviews/**)"
+    p3_1_closed: "yes — single label 'блок Q12–Q15': OPEN_QUESTIONS.md:106,111,116,121 + 'Перенос' in Q12.md:12, Q13.md:11, Q14.md:9, Q15.md:10; rg 'блок Q1[24]–Q1[35]' → exactly those 8, no Q12–Q13/Q14–Q15 left"
+    p3_2_closed: "yes — TRACEABILITY.md:19 Tasks for Q12 = T-16, T-08, T-01 (T-01 added, ↔ D54:18-21, tasks/README.md:38); Q13/Q14/Q15 lists match their D Tasks"
+    regressions: "none — git diff --numstat -- docs per-file identical to iteration 1 (CHANGELOG 28/0, OPEN_QUESTIONS 19/129, SPECIFICATION 4/1, TRACEABILITY 4/0, features/README 5/0, features +16/0, Q11 2/1, Q7 1/1, questions/README 6/2, tasks/README 1/0); rework edits are in-place line rewrites; archive pointers only (no full texts); §10 :835/:875/:876/:877 text unchanged; 16 feature headers unchanged; CHANGELOG:77 unchanged; line counts Q13/Q14/Q15/D14/D55/D56 = 75/49/71/153/92/125 as accepted, Q12 73, D54 138→139 (+1, explained by the 'Связанные' rewrap in the P2 fix)"
+    borders: "ok — 26 M + 11 ?? (vs iteration 1: +validator.md, +receipts.yaml, +r1 report); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched"
+  snapshot: "develop @ 711a3c8 + working tree (2026-09-29, after rework)"
+  at: "2026-09-29"
+
+- task: service-migration-q16q19
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q16q19-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:124/129/134/139 four pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q16–Q19)' (:126/131/136/141), no full texts (Q20 full text starts :148); numstat 19/173 (deletions only); single batch label Q16–Q19 in archive + 'Перенос' fields Q16.md:10/Q17.md:10/Q18.md:9/Q19.md:9"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' docs (+ multiline): Q16–Q19 nowhere pending; remaining = really unmigrated Q (Q22,Q23,Q29–Q35,Q36–Q39) + historical docs/reviews/**; SPEC:853 = 'Q34 (ожидает переноса), Q16'"
+    dfields: "ok — D32/D57/D35/D58: accepted, Дата 2026-09-26, Resolves Q16/Q17/Q18/Q19 (once each), Спека §10 №32/№57/№35/№58, Affects+Tasks filled; 'Сверка с кодом' D32 🟡, D57 🟡, D35 ✅, D58 ⚪; 'Задач не требуется' D35/D58, 'Задач новых не требуется' D32/D57 (покрытие T-02 / T-06+T-17)"
+    spec10: "ok — :853 №32 marker 'Q34 (ожидает переноса), Q16' + [D32], neighbours №31 :852/№33 :854 intact; :856 №35 with new [D35]; :878 №57 / :879 №58 unique after №56 :877; numstat SPEC 4/2"
+    consistency: "ok — Affects = TRACEABILITY Feature column: Q16 publish+test_draft = D32:10-11; Q17 immutability = D57:7 (features/README in Affects, not in column — as Q14/D55); Q18 semver+deferred+storage_paths = D35:8-10; Q19 notebook_ui = D58:9; tasks T-02 / T-06+T-17 / — / —"
+    headers: "ok — exactly 7 '# Dn (Qx)' lines in 7 features (publish:15, test_draft:11, immutability:7, semver:7, deferred:3, storage_paths:9, notebook_ui:11), inside comment header before 'Функция:', no duplicates; features +1/0 each; counters 47/278 = features/README.md:309 unchanged; Q17 note :136 ([D57]) + [T-06] :143-144"
+    changelog: "ok — 'Перенос Q16–Q19 → D32, D57, D35, D58' :105-130 inside '### Документация', right after Q12–Q15 entry :77-104, before '### Процесс' :132; entry links live"
+    bonus: "ok — Q13.md:14 + D14:55,146-148: 'Q18 (ожидает переноса)' → live [Q18](Q18.md); decision texts not rewritten"
+    task17: "ok — T-17 card 'Источник: D56 (Q15)' (tasks/README.md:51); listed under Q17 in TRACEABILITY:24 and D57:14 as layer-3 coverage, transparently attributed to Q15/[D56] (precedent T-01 in Q12, T-07 in Q7) — not a defect"
+    links: "ok — all link targets exist (Q16–Q19, D32/D35/D57/D58, T-01/T-02/T-05/T-06/T-17, D50/D52/D56, 13 features); Resolves/D IDs unique"
+    borders: "ok — 19 M + 9 ??; docs/** only plus 4 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json untouched; archive not extended; docs/reviews/** not modified"
+  snapshot: "develop @ 5a7fb01 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-decisions-readme
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-decisions-readme-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    counters: "47 files / 278 scenarios = features/README.md:309, unchanged (docs-only package)"
+    rows: "29 = rg -c '^\\| \\[D' decisions/README.md; 29 D-files (glob), each once, ascending"
+    fields: "ok — 12 D-files checked (D14, D16, D19, D21, D32, D35, D50, D52, D53, D54, D57, D58): Статус/Дата/Resolves/Tasks = headers"
+    links: "ok — all targets exist (29 D, Q1–Q19/Q42–Q56, T-02/T-06/T-07/T-08/T-10/T-11/T-12/T-13/T-14/T-16/T-17, BRIEF)"
+    header: "ok — mirrors questions/README.md; statuses accepted · superseded by Dm · rejected = BRIEF.md:95-96; §5.2 = BRIEF.md:175"
+    map: "ok — docs/README.md:18-19 (сводки, alignment col 21) + :48 (decisions/README.md link live)"
+    changelog: "ok — entry :131-136 right after Q16–Q19 :105-130 in '### Документация', link live"
+    borders: "ok — only docs/decisions/README.md (new), docs/README.md, docs/CHANGELOG.md + mail/memory (incl. 2 Q16–Q19 closeout records); journal/TRACEABILITY/SPECIFICATION/tasks/BRIEF/src/tests/Cargo.toml untouched"
+    p3_closed: "yes — decisions/README.md:17-19 reworded by migrator before report (gap nature: pre-journal + pending Q20–Q41; D-numbers on migration, precedent D32/D35); table 29 rows and header unchanged, 55 lines = 53 + 2"
+  snapshot: "develop @ e141476 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q20q23
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q20q23-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:148/153/158/163 four pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q20–Q23)' (:150/155/160/165); no full texts (Q24 full text starts :168); single hunk @@ -148,207 +148,19 @@ (deletions only Q20–Q23); numstat 17/205"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' docs (+ multiline): Q20–Q23 nowhere pending; remaining = really unmigrated Q (Q24,Q26,Q29–Q35,Q36–Q39) + historical docs/reviews/**"
+    dfields: "ok — D22/D23/D26/D25: accepted, Дата 2026-09-25, Resolves Q20/Q21/Q22/Q23 (once each), Спека §10 №22/№23/№26/№25, Affects+Tasks filled; 'Сверка с кодом' ✅ all four; 'Задач не требуется' all four"
+    spec10: "ok — :845 №22 [D22], :846 №23 [D23], :848 №25 [D25], :849 №26 [D26]; markers intact, neighbours №24 :847 / №27 :850 untouched; no new rows (all four numbers pre-existing)"
+    consistency: "ok — Affects = TRACEABILITY Feature column: Q20 rest_api/evaluate/batch/import_export; Q21 manifest/rest_api/evaluate/dashboard; Q22 rest_auth/evaluate; Q23 rest_api/evaluate/rest_auth/errors; tasks '—' all"
+    headers: "ok — exactly 14 '# Dn (Qx)' lines in 8 features (D22: rest_api:11/evaluate:10/batch:8/import_export:6; D23: rest_api:12/evaluate:11/manifest:2/dashboard:5; D26: evaluate:12/rest_auth:9; D25: rest_api:13/evaluate:13/rest_auth:10/errors:6), inside comment header before 'Функция:', no duplicates; features +N/0"
+    counters: "ok — 47 files / 278 scenarios = features/README.md:309 unchanged"
+    decisions_readme: "ok — 33 rows (rg -c '^\\| \\[D'); D22 :33, D23 :34, D25 :35, D26 :36 after D21 before D32, ascending; parenthetical :18 'Q24–Q41'; 33 rows ↔ 33 D-files"
+    changelog: "ok — 'Перенос Q20–Q23 → D22, D23, D26, D25' :137-160 inside '### Документация', right after Q16–Q19 :105-130, before '### Процесс' :162; entry links live"
+    bonus: "ok — SPEC §1.3.1 (OPEN_QUESTIONS→[D22]) + §4.4 ([D22]/[D23]); Q11.md:10-12 Q22/Q23 live links; D53:143-147 Q20/Q22/Q23 live links; decision texts not rewritten"
+    links: "ok — all link targets exist (Q20–Q23, D22/D23/D25/D26, D53, T-02); Resolves/D IDs unique"
+    borders: "ok — 17 M + 9 ??; docs/** only plus 3 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched; archive not extended"
+  snapshot: "develop @ 48c5b77 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q24q26
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q24q26-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:168/173/178 pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q24–Q26)' (:170/175/180); no full texts (Q27 full from :183); numstat 14/119"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' docs (+ multiline): Q24–Q26 nowhere pending; remaining = unmigrated Q27–Q41 + historical docs/reviews/**"
+    dfields: "ok — D36/D37/D24: accepted; Resolves Q24/Q25/Q26 once each; Спека §10 №36/№37/№24; Affects+Tasks filled; 'Сверка с кодом' ⚪ not applicable with explicit 'Задач не требуется'"
+    spec10: "ok — :847 №24 [D24], :859 №36 [D36], :860 №37 [D37]; diff -U0 = 3 lines (links only); markers/neighbours intact; no-D rows reference only Q27–Q41 (parenthetical :18)"
+    consistency: "ok — Affects = TRACEABILITY Feature: Q24 batch.feature (:9), Q25 client_explanation.feature (:10), Q26 import_export.feature (:7, + D22 line :6); tasks '—'"
+    counters: "ok — 47 files / 278 scenarios = features/README.md:309; statuses ⏸/⏳ :274-276; features/README.md untouched"
+    decisions_readme: "ok — 36 rows (rg -c '^\\| \\[D'); D24 :35, D25 :36, D35 :39, D36 :40, D37 :41, D38 :42; parenthetical :18 'Q27–Q41'; 36 rows ↔ 36 D-files"
+    changelog: "ok — 'Перенос Q24–Q26 → D36, D37, D24' :161-182 after Q20–Q23 :137-160; links live"
+    links: "ok — all link targets exist; Resolves/D IDs unique; Q24/Q25/Q26 not pending anywhere"
+    borders: "ok — 16 M + 7 ??; docs/** only plus 3 role memories and the new mail; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched"
+  snapshot: "develop @ 87cbe13 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q28q29
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q28q29-2026-09-29.md
+  dod:
+    cargo: "not run (D50)"
+    archive: "ok — OPEN_QUESTIONS.md:215/220 pointers '-> перенесён' with 'Мигрирован 2026-09-29 (блок Q28–Q29)' (:217/222); no full texts (Q27 :183, Q30 :225 intact); hunks @@ -215,345 +215,9 @@ and @@ -1050 +714 @@; numstat 10/346"
+    sweep: "ok/аномалия — rg 'ожида[ею]т переноса' docs: Q28/Q29 nowhere pending; real pending = Q27, Q30–Q41 + docs/reviews/**; false entry D34:420 'Q18 (semver)' (migrated to D35) -> P2"
+    dfields: "ok — D31/D34 accepted, Дата 2026-09-26, Resolves Q28/Q29 once, Спека §10 №31/№34, Affects+Tasks filled (T-03 done / T-04 done, T-05 open), 'Сверка с кодом' ✅ D31 / 🟡 D34"
+    spec10: "ok — :854 №31 [D31], :857 №34 [D34]; canon drift removed: 'полные схемы' single address D34 (SPEC :507/:525/:857), OPEN_QUESTIONS in SPEC only :816"
+    consistency: "ok — Affects = TRACEABILITY Feature = headers: Q28 draft/agent_minimal; Q29 mcp_tools/draft/test_draft/publish/deprecation; tasks T-03 / T-04+T-05"
+    headers: "ok — exactly 7 '# Dn (Qx)' lines in 6 features (draft two: D31:11, D34:12); +N/0 inserts"
+    counters: "ok — 47 files / 278 scenarios = features/README.md:309 unchanged"
+    decisions_readme: "ok — 38 rows (rg -c); D26:37 -> D31:38 -> D32:39 -> D34:40 -> D35:41; parenthetical :18 'Q27, Q30–Q41'; 38 rows <> 38 D-files"
+    changelog: "ok — 'Перенос Q28–Q29 → D31, D34' :183-205 after Q24–Q26 :161-182; links live"
+    feed: "ok — order service :26 -> migrator #1 :44 -> migrator #2 :80 -> docs-writer :126; 152 lines, no orphan fragments"
+    bonus: "ok — Q12/Q13/Q16/Q17/Q18/Q45 + D14/D32/D35/D40/D54/D57: only Q29 removed from 'ожидают переноса' -> live link; texts not rewritten"
+    borders: "ok — docs/** + 3 role memories + mail only; src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched"
+  snapshot: "develop @ 2e0edcb + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q28q29
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q28q29-2026-09-29-r2.md
+  dod:
+    cargo: "not run (D50)"
+    p2_closed: "ok — D34:420-421: Q18 -> [Q18]/[D35] live links, Q33 alone 'ожидает переноса'; rg 'ожида[ею]т переноса' D34 -> 1 match :421 (Q33); Q33 still full in archive (OPEN_QUESTIONS.md:360); rg 'Q18 (semver) — ожидают' docs -> empty"
+    regressions: "ok — D34 427->428 lines (+1, fix region only); anchors :1-419/:326/:390/:395/:422 intact; git diff --numstat identical to r1 for all tracked package files (OPEN_QUESTIONS 10/346, SPECIFICATION 5/5, TRACEABILITY 2/0, decisions/README 3/1, features 1/0 x5 + draft 2/0, CHANGELOG 23/0, Q12..Q18 1/1, Q45 2/2, questions/README 6/4, D14 2/2, D32 2/2, D35 2/1, D40 1/1, D54 3/3, D57 2/2); grew only memories (migrator 45->53) and my validator.md/receipts.yaml (outside package)"
+    borders: "ok — package 27 M + 5 ?? (plus my validator.md/receipts.yaml/report); src/**, tests/**, Cargo.toml, AGENTS.md, .opencode/agents|rules/**, opencode.json, tasks/**, BRIEF.md, features/README.md untouched"
+  snapshot: "develop @ 2e0edcb + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q27q30
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/migration-q27q30-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged"
+    archive: "ok — OPEN_QUESTIONS.md:183 Q27 / :203 Q30 pointers '-> перенесён' with label 'блок 4б-2 «Транспорт и запуск», Q27+Q30' (:185/:205); no full texts; Q28 :193/Q29 :198 pointers, Q31 :213/Q32 :248 full; two hunks (-180,33 +180,11; -222,36 +200,11); numstat 10/57"
+    sweep: "ok — rg 'ожида[ею]т переноса' docs (вне reviews): no Q27/Q30; subjects only Q31+ (Q32/33/34/35/36/37/39); fix D54:132-133, D56:120-121 confirmed (Q30 live link, Q33/Q32 and Q32 under marker)"
+    dfields: "ok — D27/D29: Resolves/Спека/Affects/Tasks filled, 'Сверка с кодом' ✅ with reading evidence, 'Задач не требуется' justified; src/main.rs and src/mcp.rs cites verified"
+    spec10: "ok — :850 №27 [D27], :852 №29 [D29]; markers (Q30)/(Q27) intact; neighbours intact (diff = 2 lines)"
+    consistency: "ok — Q27 TRACEABILITY :34 Feature '—'; Q30 :37 agent_minimal.feature; questions/README :51/:54; fields agree"
+    decisions_readme: "ok — 40 rows (rg -c); D27 :38 -> D29 :39 -> D31 :40; parenthetical :18 '(Q31–Q41)'"
+    crosslinks: "ok — Q27<->Q30 and D27<->D29 live both ways; all relative link targets of new/edited files resolve; no broken links"
+    features: "ok — exactly 1 '# D29 (Q30)' in agent_minimal.feature:13; features/README.md:213 note with [Q30]/[D29]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q27, Q30 → D27, D29' :206-223 after Q28–Q29 :183-205; links live"
+    feed: "ok — order opening :25 -> migrator #1 :53 -> #2 :100 -> post-fix :149 -> docs-writer :176; no orphan fragments; P3 count 34 vs actual 31"
+    p2: "D29-notebook-mcp-transport.md:7,40-41,68-71,105 — SPEC section<->line pairs shifted by one section (heading map: §2.2=127-142, §2.3=143-190, §4.1=253-280, §4.2=281-340); §2.3 (:267–270) impossible; Affects omits §4.2 (:303–317, Q30 ref :307); fix = migrator"
+    borders: "ok — 16 M + 6 ??; only block files + handoff mail + 3 role memories + feed; src/**, tests/**, Cargo.toml, docs/reviews/** (tracked) untouched"
+  snapshot: "develop @ bc76060 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q27q30
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/migration-q27q30-2026-09-29-r2.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged"
+    p2_closed: "ok — D29:7-8/41-42/70-77/110 pairs match heading map (§2.2=127-142, §2.3=143-190, §4.1=253-280, §4.2=281-340); all cited lines inside their sections (:134 :178 :182–187 :267–270 :303–317, Q30 ref :307, diagram :286, 'no code changes' :318–319); rg '§2.2 (:178|§2.3 (:267|§4.1 (:286|§4.1 (:306' docs .opencode/mail -> empty (historical snapshots only); feed :125/:131-132 aligned; D29 106->111 lines, anchors :1-33/:39-53/:55-108 intact"
+    p3_closed: "ok — feed :170 = '31 указатель (уточнено при rework)'; rg -c '→ перенесён' = 31, rg -c 'Мигрирован' = 31; other '34 указател' occurrences (:208/:245/:251) are finding quotes/fix notes"
+    regressions: "ok — git diff --numstat identical to r1 for all tracked package files (CHANGELOG 18/0, OPEN_QUESTIONS 10/57, SPECIFICATION 2/2, TRACEABILITY 2/0, D31 2/1, D54 2/2, D56 2/2, decisions/README 3/1, features/README 1/1, agent_minimal.feature 1/0, Q12 2/1, Q15 1/1, questions/README 4/2; memories docs-writer 12/0, service 26/0); changed only D29 (untracked ??), feed (??) and memory migrator 56->67; no new facts"
+    untouched: "ok — SPEC §10 :850/:852, decisions/README 40 rows, TRACEABILITY :34/:37, questions/README Q27 :51/Q30 :54, features counters :309 (47/278) + single '# D29 (Q30)', CHANGELOG :206-223 — same as r1"
+    links: "ok — D29 [Q30]/[Q27]/[D27]/[D54]/[D50]/feature refs resolve; no broken links"
+    borders: "ok — 18 M + 7 ??; new vs r1 only my docs/reviews reports; src/**, tests/**, Cargo.toml, docs/reviews/** (historical) untouched"
+  snapshot: "develop @ bc76060 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q31q33
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q31q33-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature counters/composition unchanged (only '# Dn (Qn)' comment lines)"
+    archive: "ok — OPEN_QUESTIONS.md:213 Q31 / :284 Q33 pointers '-> перенесён' with label 'блок «Notebook-функции», Q31+Q33' (:215/:286); no full texts; Q32 :219-282/Q34 :290 full; two hunks (-210,40 +210,11; -310,46 +281,11); numstat 10/74; rg -c '→ перенесён' = 33"
+    spec10: "ok — :835 №12 (Q31; [D12]), :853 №30 (Q33; [D30]); markers/second column/neighbours intact; diff = exactly 2 lines"
+    decisions_readme: "ok — 42 rows (rg -c '^\\| \\[D'); D12 :27 first (before D14 :28); D30 :41 between D29 :40 and D31 :42; ascending; parenthetical :18 = '(Q32, Q34–Q41)'; diff +3/-1"
+    traceability: "ok — Q31 :38, Q33 :39 added (+2/0); Features/Tasks match Affects: Q33 4 features + T-08/T-09, Q31 3 features tasks —"
+    questions_readme: "ok — Q31 :55, Q33 :56 (+5/-3); fields agree; sweep Q12 :36, Q19 :43, Q25 :49 live"
+    sweep: "ok — rg -U 'Q3[13]...ожида' docs (вне reviews/analysis): Q31/Q33 never 'ожидают переноса'; marker groups only Q32/Q34+/Q36/Q37; 4 mini-fixes (D58:103, Q19.md:12, questions/README:43/:49) confirmed"
+    dfields: "ok — D12/D30 full field set; Resolves [Q31]/[Q33]; Affects features match TRACEABILITY + 7 header lines; D30 Tasks T-08/T-09 (both open), D12 'Задач не требуется'; 'Сверка с кодом' ⚪ (D12) / 🟡 (D30) with verified evidence (src/mcp.rs:143/:214/:282/:470, VersionDeprecated :43-46, stale_false... :772; src/core.rs Explanation :136, evaluate_rule :153; tests/mcp_draft.rs :172/:352/:367)"
+    crosslinks: "ok — Q31<->Q33 and D12<->D30 live both ways; all relative targets of 4 new files resolve; no broken links"
+    features: "ok — exactly 7 '# D12 (Q31)'/`# D30 (Q33)` lines (notebook_ui:12, agent_minimal:14-15, inline_execution:10-11, draft:13, mcp_tools:9); prior Q/D lines intact; notes :229/:240 with [Qx]/[Dn]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q31, Q33 → D12, D30' :224-246 right after Q27/Q30 :206-223, before '### Процесс'; links live"
+    feed: "ok — order opening :26 -> migrator #1 :60 -> #2 :87 -> post-check :119 -> docs-writer :136; no orphan fragments; F43 records mail/service-migration-q27q30.md:304-316 + memory/service.md:316-328 match commit ce9f8d7 (27 files, ahead 1, no push)"
+    borders: "ok — 24 M + 5 ??; only docs/journal files + 2 feeds + 2 role memories; src/**, tests/**, Cargo.toml, docs/reviews/** (historical), docs/analysis/**, docs/tasks/** (T-08/T-09 cards untouched) not touched"
+    p3: "D30-execution-mechanism.md:7-13 (Affects) lists only SPEC §10 while the same decision canon covers §2.2/§4.1/§4.2/§7 (D30:47-49/:142-143, Q33.md:16-17); siblings list sections (D27:7-8, D29:7-10, D32:8-9, D36:7-10); fix = one line (migrator); non-blocking (info present in same file). D12:7-12 has no such gap (Q31 affects only §10)"
+  snapshot: "develop @ ce9f8d7 (ahead 1 of origin/develop bc76060) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q32
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q32-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D28 (Q32)' comment line each, counters/composition unchanged (47/278 = features/README.md:309)"
+    archive: "ok — OPEN_QUESTIONS.md:219-223 pointer with label 'блок «Git-контур», Q32'; no full text; Q34 full :231-/Q33 pointer :225-229 intact; numstat 5/64; single hunk"
+    spec10: "ok — :851 row 28 'Q32 (полный контекст — [D28](decisions/D28-two-git-contours.md)): …'; diff = exactly 1 line; neighbours :850 №27 / :852 №29 and column 2 intact"
+    decisions_readme: "ok — 43 rows (rg -c '^\\| \\[D'); D28 :40 between D27 :39 and D29 :41; parenthetical :18 = '(Q34–Q41)'; diff +2/-1"
+    traceability: "ok — Q32 :39 after Q31 :38, before Q33 :40; Features = 8, Tasks = T-06; +1/0"
+    questions_readme: "ok — Q32 :56 after Q31 :55, before Q33 :57; +7/-6 = new row + sweep :37,:39,:41,:42,:50,:54"
+    dfields: "ok — D28 full set (Статус/Дата/Resolves/Спека/Affects/Tasks); 'Сверка с кодом' 🟡 with verified evidence (src/lib.rs:342/:383/:462/:317, list_from_ref :241-248; src/mcp.rs:282/:344/:399/:413; src/rest.rs:25-29; tests/publish.rs, tests/rest.rs no path tests); Tasks T-06 open (card :3 ⬜, Источник Q13/Q32); 'Задач новых не требуется' :144-146"
+    sweep: "ok — rg 'ожида[ею]т переноса' + 'не перенес|осталось перенести|подлежат переносу' (вне reviews/analysis): subjects only Q34–Q41; Q31/Q32/Q33 not marked; extra fixes D14:50-51 live [Q32], D14:148 live [Q32] + Q34 marker; D31:151 'Q34+ — ожидают переноса'"
+    crosslinks: "ok — D28<->Q13/Q14/Q15/Q16/Q17/Q18/Q20/Q22/Q33/D14/D22/D26/D30/D32/D35/D50/D54/D56/D57/D58 live; back-refs D14:51, D24:84/:116, D29:107, D30:139, D31:151, D35:113, D54:133, D55:89, D56:121, D57:126; all targets exist; no broken links"
+    features: "ok — exactly 8 files with one '# D28 (Q32)' line, no dups (storage_paths:10, git_integration, agent_minimal, publish, publish_rules, immutability, deprecation, mcp_tools; each 1/0); prior heads intact; notes :98/:219 with [Q32]/[D28]; table '(Q32)' untouched; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q32 → D28' :247-263 right after Q31/Q33 (:246), before '### Процесс' :265; links live"
+    feed: "ok — service-migration-q32.md order opening :24 -> migrator :58 -> docs-writer :102; no orphan fragments; both extra fixes recorded (:75-79)"
+    borders: "ok — 36 M + 3 ??; only docs/** journal + 3 role memories + feed; src/**, tests/**, Cargo.toml, docs/tasks/** (T-06 card untouched), docs/analysis/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ 61d6471 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q34
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q34-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D32 (Q34)' comment line each, counters/composition unchanged (47/278 = features/README.md:309)"
+    special_case: "ok — no new D-file (git status: docs/decisions only 'M D32'; Q34.md untracked); note: literal probe 'rg --files docs/decisions | rg D34' is NOT empty due to pre-existing D34-mcp-tool-contracts.md (Q29, §10 row 34), unrelated to Q34"
+    d32_fields: "ok — :5 'Resolves: [Q16], [Q34]'; :18 'Tasks: T-02 (открыта)'; all 5 points of Q34 present (:38-40 cache results-cache.json, :39+:49-50 fast runs, :38/:107 tests/*.тест out of MVP, :30-34/:47 gate via check.test Q16, :50-52 .dar-notebook in .gitignore)"
+    affects: "ok — :7-8 §1.2/§4.2/§4.3/§10; :9-13 publish/test_draft/draft/inline_execution/notebook_ui; :15 features/README; :16-17 src/lib.rs+mcp.rs — covers 'Следствия' :44-55 and Q34.md:68-75; q31q33 P3 lesson not reproduced"
+    archive: "ok — git diff -U0 single hunk @@ -231,36 +231,6 @@; Q34 :231 pointer label 'блок «Тесты»; решение — в рамках D32, Q16+Q34' (:233-234), no full text; Q35 full :238-278 intact; Q32/Q33 pointers :219/:225 intact; numstat 6/36"
+    spec10: "ok — :855 'Q34, Q16; полный контекст — [D32]…' marker '(ожидает переноса)' removed; diff = exactly 1 line; neighbours :854 №31 / :856 №33 and column 2 intact"
+    decisions_readme: "ok — 43 table rows (rg -c '^\\| \\[D', D-rows :27-69); D32 :44 'Решает' = [Q16], [Q34]; parenthetical :18 = '(Q35–Q41)'; diff 2/2"
+    traceability: "ok — Q34 :41 after Q33 :40, before Q42 :42; D=D32, 4 features, T-02, resolved; 1/0"
+    questions_readme: "ok — Q34 row :58; sweep :40 (Q16) [Q34] live; :43 (Q19) [Q34] live + Q35 marker; 3/2"
+    sweep: "ok — rg 'ожида[ею]т переноса' (вне reviews/analysis): subjects only Q35–Q41; Q34 nowhere marked; D31:151 'Q35+ — ожидают переноса'; edits D14:148/D58:103/Q13:14/Q16:13/Q19:12 = marker -> live [Q34]"
+    crosslinks: "ok — D32:5/:111/:114 and Q34:3/:6/:11-14 live; targets Q34.md, D32, T-02, Q16, D58 exist; no broken links"
+    features: "ok — exactly 4 lines '# D32 (Q34)' no dups (inline_execution:12, notebook_ui:13, publish:18, test_draft:13; each 1/0); prior '# D32 (Q16)' (publish:16, test_draft:12) intact; notes :130/:236 with [Q34]/[D32]; counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q34 → D32' :264-272 right after Q32 (:247-263), before '### Процесс' :274; links live"
+    feed: "ok — service-migration-q34.md order opening :22 -> migrator :53 -> docs-writer :81; no orphan/out-of-order fragments"
+    borders: "ok — 20 M + 2 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/** (T-02 untouched), docs/analysis/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ 4af0b1f (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q35
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q35-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D59 (Q35)' comment line each, counters/composition unchanged (47/278 = features/README.md:309)"
+    journal: "ok — new Q35.md + new D59-workspace-templates.md; Resolves: [Q35] (D59:5); all 4 Q35 points + Следствие (:29-76): workspace rules//rules/Пример.dar/README.md/.gitignore (:29-36), rules/{Имя}.dar parsing template (:37-53), no draft on file create (:54-56), GRAMMAR v0.1 alignment (:57-58); Tasks: — (:17) + 'Задач не требуется' (:115-119) consistent with ⚪ 'Сверка с кодом' (:80, convention D58:58)"
+    affects: "ok — D59:7-16 §4.3+§10, both features, features/README notes, GRAMMAR.md §1; covers archive 'Обновить' and 'Следствия' :60-76; q31q33 P3 lesson not reproduced"
+    spec10: "ok — new row №59 :882 after №58 :881, before blank :883 + '---' :884; diff = exactly 1 line; style matches neighbours; [D59] link live"
+    decisions_readme: "ok — 44 table rows (rg -c '^\\| \\[D'), 44 D-files; D59 :70 right after D58 :69; parenthetical :18 = '(Q36–Q41)'; diff 2/1"
+    archive: "ok — git diff -U0 single hunk @@ -238,41 +238,5 @@; Q35 :238-242 pointer label 'блок «Создание workspace и шаблоны»', no full text; Q34 pointer :231-236 and Q36 full :244 intact; numstat 5/41"
+    traceability: "ok — Q35 :42 after Q34 :41, before Q42 :43; D=D59, 2 features, Tasks —, resolved; 1/0"
+    questions_readme: "ok — Q35 row :59; sweep :43 (Q19) [Q35] live; 2/1"
+    sweep: "ok — rg 'ожида[ею]т переноса' (decisions/questions/SPEC/TRACEABILITY): subjects only Q36–Q41; Q35 nowhere marked; edits D31:151 'Q36+', D58:103 / Q19:12 / questions/README:43 -> live [Q35]; SPEC :347/:351/:375 = canon, not markers"
+    crosslinks: "ok — D59<->Q35 live (:5/:138, Q35:3/:10/:86); targets Q35.md, D59, GRAMMAR §1, Q19/Q31/Q33/Q34, D12/D30/D32/D58/D50, T-10, features, TRACEABILITY exist; Q37 plain text (not yet migrated); no broken links"
+    features: "ok — exactly one '# D59 (Q35)' per file (notebook_ui:14, file_management:5; each 1/0), no dups; prior '# Q35' (notebook_ui:7, file_management:2) and '# D32 (Q34)' (notebook_ui:13) intact; features/README.md unchanged, counters :309 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q35 → D59' :273-286 right after Q34 (:264-272), before '### Процесс' :288; links live"
+    srccheck: "ok — D59 evidence verified (main.rs:32/:52-53; lib.rs:775/:784/:790/:798-799/:813-817; mcp.rs:777-778/:787/:806-808); ⚪ verdict credible"
+    feed: "ok — service-migration-q35.md order opening :24 -> migrator :53 -> docs-writer :83; no orphan/out-of-order fragments"
+    borders: "ok — 14 M + 4 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/** (T-10 untouched), docs/analysis/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ e0e06f7 + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q36q38
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q36q38-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D18 (...)' comment line each, counters/composition unchanged (47/278 = features/README.md:311)"
+    journal: "ok — new Q36.md + Q38.md + new D18-pipelines-out-lsp-mvp.md; Resolves: [Q36], [Q38] (D18:5); all points of both archive blocks transferred (Q36 15 lines -> Q36.md/D18:19-53; Q38 19 lines -> Q38.md/D18:23-53); Q36:8-9/Q38:8-9 migration label 'блок «Конвейеры + LSP-состав», Q36+Q38'"
+    affects: "ok — D18:7-14 SPEC §3.3/§5/§8/§10 + lsp.feature + graph_view.feature + features/README + GRAMMAR §1/§2/§4/§5; covers archive 'Обновить' and 'Следствия' :55-72; q31q33 P3 lesson not reproduced"
+    dfields: "ok — D18 status accepted, date 2026-09-24, Спека §10 №18; Tasks: — (:15) + 'Задач не требуется' (:107-111) consistent with ⚪ 'Сверка с кодом' (:76), convention D58:58/D59:80; no 'ожидает переноса' about Q36/Q38 in new files (only Q37/Q39)"
+    special_case: "ok — no new §10 row (№18 existed :841); new D18 closes numbering gap; neighbour rows №17 :840 / №19 :842 intact"
+    spec10: "ok — :841 diff = exactly 1 line; '(Q36, Q38; полный контекст — [D18]…)' added; style matches №16; link live"
+    decisions_readme: "ok — 45 table rows (rg -c '^\\| \\[D'), 45 D-files; D18 :32 between D17 :31 and D19 :33; parenthetical :18 = '(Q37, Q39–Q41)'; diff 2/1"
+    traceability: "ok — Q36 :43 and Q38 :44 between Q35 :42 and Q42 :45; Feature Q36 = lsp.feature + graph_view.feature, Q38 = lsp.feature; Tasks —, resolved; 2/0"
+    questions_readme: "ok — Q36 :60 / Q38 :61 between Q35 :59 and Q42 :62; sweeps Q20 :44 / Q21 :45 / Q24 :48 / Q25 :49 -> live [Q36], Q37 marker kept :49; 6/4"
+    archive: "ok — git diff -U0 two hunks -244,15 and -304,19; pointers :244-248 / :294-298 label 'блок «Конвейеры + LSP-состав»', no full text; Q37 full :250-293 and Q39 :300 intact; order kept; numstat 10/34"
+    sweep: "ok — rg 'ожида[ею]т переноса' (outside reviews): subjects only Q37, Q39–Q41 (+Q22:12/Q38:13 own); Q36/Q38 nowhere marked; edits D31:151 'Q37+', D36:100, D37:84/:113, Q10:11/:62 'Q37, Q39', Q20:13/Q21:13/Q24:14/Q25:15 -> live [Q36], D17:107/D22:148 live [Q36]/[Q38]"
+    p3: "docs/questions/Q25.md:15 — Q37 left without '(ожидает переноса)' after group marker 'Q37 …, Q36 … — ожидают переноса' narrowed to Q36; Q37 still in archive (OPEN_QUESTIONS:250); central markers intact (D31:151, D37:113, Q10:11/:62, questions/README:49, decisions/README:18); one-line fix for migrator"
+    p3_closure: "closed 2026-09-29 — Q25.md:15 now 'Q37 (БД/справочники) — ожидает переноса; [Q36](Q36.md) (конвейеры);'; numstat Q25 1/1 (only :15); sweep intact (Q25 single marker, Q37+ groups unchanged); package siblings not touched; verdict stands"
+    features: "ok — exactly 1 '# D18 (Q36, Q38)' (lsp.feature:6, Q37 comment :3-5 intact) and 1 '# D18 (Q36)' (graph_view.feature:2), each 1/0, no dups; note features/README:83-85 with live [Q36]/[Q38]/[D18]; counters :311 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q36, Q38 → D18' :287-303 right after Q35 (:273-286), before '### Процесс' :305; links live"
+    crosslinks: "ok — D18/Q36/Q38 mutual + Q4/D17/D22/D36/D37/D50/GRAMMAR/lsp.feature/lsp_notebook.feature/graph_view.feature/features-README/T-14/TRACEABILITY all exist; no broken links; no duplicate IDs"
+    pkg_q35: "ok — memory/git.md + mail/service-migration-q35.md = pre-existing q35 fix (ahead 1/bc76060), untouched by this block; memory/service.md holds both records"
+    feed: "ok — service-migration-q36q38.md order opening :29 -> migrator :65 -> docs-writer :91; no orphan/out-of-order fragments"
+    borders: "ok — 24 M + 4 ??; only docs/** journal + 4 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, docs/analysis/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ 681c4b1 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q37
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/migration-q37-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes only one '# D33 (Q37)' comment line each, counters/composition unchanged (47/278 = features/README.md:311)"
+    journal: "ok — new Q37.md + new D33-fields-registry-source.md; Resolves: [Q37] (D33:5); all 6 points + 'Следствие для кода' + 'Обновлено' transferred (archive 43 lines -> Q37.md:50-82 / D33:34-60); Q37:8-9 migration label 'блок «Реестр полей»'; D33 closes D32->D34 numbering gap"
+    affects: "ok — D33:7-16 SPEC §3.3/§4.3/§10 + lsp.feature + notebook_ui.feature + features/README + GRAMMAR.md + external DECISIONS.md; covers archive 'Обновить' and 'Следствия' :62-78; q31q33 P3 lesson not reproduced"
+    dfields: "ok — D33 status accepted, date 2026-09-26, Спека §10 №33; Tasks: — (:17) + 'Задач не требуется' (:125-129) consistent with ⚪ 'Сверка с кодом' (:82), convention D58:58/D59:80; no 'ожидает переноса' about Q37 in new files"
+    special_case: "ok — no new §10 row (№33 existed :856); new D33 closes numbering gap; neighbour rows №32 :855 / №34 :857 intact"
+    spec10: "ok — :856 diff = exactly 1 line; '(Q37; полный контекст — [D33]…)' added; style matches №27/№29; link live"
+    decisions_readme: "ok — 46 table rows (rg -c '^\\| \\[D'), 46 D-files; D33 :46 between D32 :45 and D34 :47; parenthetical :18 = '(Q39–Q41)'; diff 2/1"
+    traceability: "ok — Q37 :44 between Q36 :43 and Q38 :45; Feature = lsp.feature + notebook_ui.feature, Tasks —, resolved; 1/0"
+    questions_readme: "ok — Q37 :61 between Q36 :60 and Q38 :62; sweep Q25 :49 -> live [Q37] (marker removed); 2/1"
+    archive: "ok — git diff -U0 single hunk -250,43 +250,5; pointer :250-254 label 'блок «Реестр полей»', no full text; Q36 :244-248 / Q38 :256-260 pointers intact; Q39 full :262+; order Q35->Q36->Q37->Q38->Q39 kept; numstat 5/43"
+    sweep: "ok — rg 'ожида[ею]т переноса' (outside reviews): subjects only Q39 (D18:135, D31:151, Q10:12/:62, questions/README:46, Q38:13); Q40/Q41 unmarked; Q37 nowhere marked; own records Q22:12/Q38:13; edits D31:151 'Q39+', Q25:15 live, Q10:11/:62 live [Q37], D37:112-113 live [Q37]+closed, D18:135 live [Q37]+Q39 marker, Q38:12-13 live [Q37]; Q36.md clean"
+    features: "ok — exactly 1 '# D33 (Q37)' (lsp.feature:7, prior '# Q37' :3-5 and '# D18 (Q36, Q38)' :6 intact) and 1 (notebook_ui.feature:15, prior '# Q37' :9 / '# D59' :14 intact), each 1/0, no dups; note features/README:249 with live [Q37]/[D33], text not rewritten; counters :311 (47/278) unchanged"
+    client_explanation: "ok — not touched (git status); Q37 there is prose v0.2 dependency (:6), not in D33 Affects -> not addressee"
+    changelog: "ok — 'Перенос Q37 → D33' :304-318 right after Q36/Q38 (:287-303), before '### Процесс' :320; links live"
+    crosslinks: "ok — D33/Q37 mutual + Q9/Q10/Q34/Q36/Q38/D18/D21/D32/D50/GRAMMAR/lsp.feature/notebook_ui.feature/features-README/TRACEABILITY all exist; no broken links; no duplicate IDs"
+    feed: "ok — service-migration-q37.md order opening :25 -> migrator :59 -> docs-writer :93; no orphan/out-of-order fragments; no other mail/** touched"
+    borders: "ok — 18 M + 3 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ b536df0 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q39
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q39-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature change is one '# D6 (Q39)' comment line, counters/composition unchanged (47/278 = features/README.md:311)"
+    journal: "ok — new Q39.md + new D6-lsp-degradation.md; Resolves: [Q39] (D6:5), Спека §10 №6 (D6:6); all 4 points + 'Следствие для кода' + 'Обновлено' transferred (archive 38 lines -> Q39.md:50-80 / D6:31-68); Q39.md:8-9 migration label 'блок «LSP-поведение»'; D6 closes the D6 numbering gap"
+    affects: "ok — D6:7-14 SPEC §10 (№6, reformulated) + §3.3 + §5 + §8 + lsp_notebook.feature + features/README.md; covers archive 'Обновить' and 'Следствия' :54-68; q31q33 P3 lesson not reproduced"
+    dfields: "ok — D6 status accepted, date 2026-09-26, Спека §10 №6; Tasks: — (:15) + 'Задач не требуется' (:101-106) consistent with ⚪ 'Сверка с кодом' (:72), convention D58:58/D59:80; no 'ожидает переноса' about Q39 in new files (rg 'ожида' empty)"
+    special_case: "ok — no new §10 row (№6 existed :829); new D6 closes numbering gap; neighbours №5 :828 / №7 :830 intact"
+    spec10: "ok — :829 diff = exactly 1 line; '(Q39)' -> '(Q39; полный контекст — [D6](decisions/D6-lsp-degradation.md))'; decision text itself not rewritten; link live"
+    decisions_readme: "ok — 47 table rows (rg -c '^\\| \\[D'), 47 D-files; D6 is the FIRST table row :27 (before D12 :28); parenthetical :18 = '(Q40–Q41)'; diff 2/1"
+    traceability: "ok — Q39 :46 between Q38 :45 and Q42 :47; D = D6, Feature = lsp_notebook.feature, Tasks —, resolved; 1/0"
+    questions_readme: "ok — Q39 :63 between Q38 :62 and Q42 :64; Q22 line :46 cleared of the false Q39 node (special sweep); 2/1"
+    archive: "ok — git diff -U0 single hunk -262,38 +262,5; pointer :262-266 label 'блок «LSP-поведение»', no full text; Q36 :244-248 / Q37 :250-254 / Q38 :256-260 pointers intact; Q40 block full :272+; order Q35->...->Q39->Q40 kept; numstat 5/38"
+    sweep: "ok — rg 'ожида[ею]т переноса' (outside reviews, incl. multiline): exactly 1 — D31:151 'Q40+ — ожидают переноса' (subjects Q40/Q41); no Q39 markers anywhere; edits D31:151 'Q40+'"
+    special_sweep: "ok (accepted, no notes) — false OAuth/JWT/mTLS->Q39 binding removed: D26:25/:107/:115, Q22:11-12, questions/README:46 (node removed entirely, [Q23] left); (a) no live/marker OAuth<->Q39 refs left, (b) real Q39 markers intact (TRACEABILITY:46, questions/README:63, D18:135, Q10:12/:62, Q38:13), (c) decision texts only quote-edited, (d) source of error confirmed: 48c5b77:docs/OPEN_QUESTIONS.md:267 = 'OAuth/JWT/mTLS — вне v0.1, кандидаты v0.2+ (Q39).'"
+    features: "ok — exactly 1 added line '# D6 (Q39)' (lsp_notebook.feature:6; '# Q39' block :2-5 intact); 8 scenarios (Сценарий: 12/19/26/33/39/48/56/63) unchanged; note features/README:256 with live [Q39]/[D6] (Q37 style :249), text not rewritten; :213 untouched; counters :311 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q39 → D6' :319-334 right after Q37 (:304-318), before '### Процесс' :336; bonus note on removed OAuth binding (D26, Q22); links live"
+    crosslinks: "ok — D6/Q39 mutual + Q33/Q36/Q37/Q38/D18/D30/D33/D50/D58/GRAMMAR/lsp_notebook.feature/features-README/TRACEABILITY/tasks-README all exist; no broken links; no duplicate IDs"
+    p3: "docs/decisions/D6-lsp-degradation.md:91-93 — scenario line refs in lsp_notebook.feature are stale by +1 after docs-writer inserted '# D6 (Q39)' at :6 (HEAD: 38/47/55 -> now 39/48/56); 'Перезапуск' range also missed its last step at write time (:38-46 vs cited :38-45); one-line fix for migrator: :39-46, :48-54, :56-61"
+    p3_closure: "closed 2026-09-29 — D6:91-93 now ':39–46', ':48–54', ':56–61', matching actual ranges (Сценарий: at :39/:48/:56; last steps :46/:54/:61); old numbers gone (rg '38–45|47–53|55–60' -> 0); D6 136 lines (unchanged), only numbers edited; verdict stands (accepted_with_notes)"
+    feed: "ok — service-migration-q39.md order opening :29 -> migrator :59 -> docs-writer :82; no orphan/out-of-order fragments; no other mail/** touched"
+    borders: "ok — 17 M + 3 ??; only docs/** journal + 3 role memories + feed + report; src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/** not touched"
+  snapshot: "develop @ 710eb7b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-migration-q40q41
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/migration-q40q41-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; feature changes are one '# D20 (Q40)' comment line each, scenarios/composition and counters unchanged (47/278 = features/README.md:313); review.md:36-39 exception not triggered"
+    journal: "ok — new Q40.md + Q41.md + new D20-features-docs-dod.md + D60-docs-ownership-sync.md; Resolves [Q40]/[Q41], dates 2026-09-24/2026-09-26, accepted; Tasks: — + 'Задач не требуется', 'Сверка с кодом' ⚪ (documented, Q40's machine part covered by tests/features_inventory.rs); migration label 'блок «Процесс», Q40+Q41'"
+    affects: "ok — D20:7-13 §8/§9/§10 + testing.feature + features/README + features_inventory.rs + ci.yml; D60:7-16 §6.1/§10 + AGENTS.md/docs/README.md/BRIEF/README links to journal; q31q33 P3 lesson not reproduced"
+    spec10: "ok — :843 row 20 '(Q40)' -> '(Q40; полный контекст — [D20]…)' diff exactly 1 line, neighbours №19 :842 / №21 :844 intact; new row №60 :883 right after №59 :882, before blank :884 + '---' :885/§11; §10 header :811 got [D60] link; numstat 3/2"
+    archive: "ok — git diff -U0 single hunk -272,73 +272,11; Q40 :272 / Q41 :278 -> pointers (Q39 style), order Q39->Q40->Q41 kept; no full texts; matrix ':286-297' intact; header :13-17 untouched; 42 pointers (rg -c '→ перенесён'); numstat 11/73"
+    decisions_readme: "ok — 49 table rows (rg -c '^\\| \\[D') = 49 D-files (rg --files); D20 :36 between D19 :35 and D21 :37; D60 :76 after D59 :75; rg 'ожида' empty; parenthetical :17-20 reformulated (no unmigrated left), :6-7 untouched"
+    traceability: "ok — Q40 :47 / Q41 :48 between Q39 :46 and Q42 :49; D=D20/D60, features live, Tasks —, resolved; 2/0"
+    questions_readme: "ok — Q40 :64 / Q41 :65 between Q39 :63 and Q42 :66; links live; 2/0"
+    sweep: "ok — rg 'ожида[ею]т переноса' outside reviews -> none; multiline rg -nU 'ожида[ею]т\\s+переноса' -g '!docs/reviews/**' -> empty; 'Q40+|Q41+' only block labels/archive pointers/CHANGELOG/reviews history; 'не перенес…' only finishing phrases decisions/README:7 + SPEC:815 (out of scope by owner decision)"
+    links: "ok — Q5.md:11 live [Q40]/[Q41]; D19 :58-59/:77-78/:118-119 live refs (texts not rewritten); D31 :151-153 marker removed -> live refs"
+    features: "ok — note :14-15 ([Q40]->[D20]) + :285-286; exactly one '# D20 (Q40)' line per file (testing.feature:2, agents-cycle.feature:7); scenarios 5/7 unchanged (rg 'Сценарий:'); counters :313 (47/278) unchanged"
+    changelog: "ok — 'Перенос Q40+Q41 → D20/D60' :335-351 right after Q39 (:319-334), before '### Процесс' :353; links live"
+    p3: "docs/decisions/D20-features-docs-dod.md:81-82 — three features/README line refs stale after docs-writer inserts (:14-15 and :285-286): 'шапка Q5/Q40 (…:12–20)' -> block now :12–21; 'Инвентаризация фич (:331)' -> :333; 'no runner line (:284)' -> :285–286; docs/decisions/D60-docs-ownership-sync.md:107 — 'OPEN_QUESTIONS.md:341' no longer resolves (Q41 block replaced by pointer :278-282; :341 = matrix row 'Аутентификация | Q22'); same consequence in Q41.md:51-55; both one-line fixes for migrator"
+    p3_closure: "closed 2026-09-29 — D20:81-82 now ':12–21', ':333', ':285–286' (match features/README.md blocks); D60:107 archived number OPEN_QUESTIONS.md:341 replaced by live [Q41](../questions/Q41.md) (':51–55', Q41.md:51-55 holds 'Следствия (выполнено) … ADR-003'); rg ':12–20|:331|:284|OPEN_QUESTIONS\\.md:341' outside reviews -> empty; line counts D20 118 / D60 145 / Q41.md 59 unchanged (in-place edits); other refs intact; tracked-file numstat unchanged vs acceptance (only role memories + receipts); verdict stands (accepted_with_notes)"
+    crosslinks: "ok — D20/D60/Q40/Q41 mutual, SPEC/features/tests/ci.yml/AGENTS.md/docs-README/tasks-README/GRAMMAR/D6/D16/D17/D19/D21/D50/Q5/Q2/Q4 all exist; no broken links; no duplicate IDs"
+    borders: "ok — 15 M + 6 ??; only docs/** journal + 3 role memories + feed + report (+ pre-existing r3 handoff mail); src/**, tests/**, Cargo.toml, docs/tasks/**, historical docs/reviews/**, .github/**, BRIEF.md, docs/README.md untouched; finishing 'до конца миграции' formulations untouched"
+    feed: "ok — service-migration-q40q41.md order opening :26 -> migrator :76 -> docs-writer :126; no orphan/out-of-order fragments"
+  snapshot: "develop @ 8fa027e (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-step1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-q57q61-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; docs-only journal records; feature counters 47/278 = features/README.md:313 unchanged, review.md §«Порог существенности» exception not triggered"
+    journal: "ok — new Q57.md (48), Q58.md (45), Q59.md (45), Q60.md (41), Q61.md (41) by BRIEF.md §4/§5.1: Статус open, Дата 2026-09-29, Приоритет ⚪ оформление, Связано (live refs), Контекст/Вопрос/Варианты (а)/(б)/(в)/Рекомендация; no Перенос/Resolves/accepted/Итог fields; no D-files and no §10 rows (rg 'Q5[7-9]|Q6[01]' docs/SPECIFICATION.md docs/decisions -> empty)"
+    traceability: "ok — 5 rows :64-68 right after Q56 :63, before legend :70; D/Feature/Tasks '—', status open; Q-rows rg -c '^\\| \\[Q[0-9]+' -> 61 (was 56); 5/0"
+    questions_readme: "ok — 5 rows :81-85 after Q56 :80 (end of summary); Решение '—', open, cross-links; Q-rows -> 61; 61 Q-files (rg --files docs/questions -g 'Q*.md'); 5/0"
+    changelog: "ok — 'Чистка документации: заведены вопросы Q57–Q61' :352-363, in '### Документация' after Q40+Q41 entry :335-351, before '### Процесс' :365; links live (feed :353 ../.opencode/mail/service-docs-hygiene.md, Q-files :362-363 questions/Q5[7-9], Q6[01]); 12/0, no decision wording (':354' без решений)"
+    topics: "ok — Q57 archive/finish (deletion by BRIEF.md §7, verified :321), Q58 BRIEF.md, Q59 journal index/TRACEABILITY, Q60 integrity test tests/docs_journal.rs (BRIEF §9 :372), Q61 link policy; facts reproduced: BRIEF 395 lines / 11 OPEN_QUESTIONS refs, 42 Q-files with 'Перенос:', F46 findings-registry.md:54"
+    links: "ok — all targets in new Q-files exist (Qn.md, ../BRIEF.md, ../OPEN_QUESTIONS.md, ../SPECIFICATION.md, ../GRAMMAR.md, ../README.md, ../TRACEABILITY.md, ../decisions/README.md, ../decisions/D60-docs-ownership-sync.md, ../tasks/README.md, ../features/README.md, ../analysis/findings-registry.md, ../../AGENTS.md, ../../tests/features_inventory.rs, ../../.opencode/mail/service-docs-hygiene.md); 'Связано' cross-links symmetric"
+    borders: "ok — 5 M + 6 ??; only docs/CHANGELOG.md + docs/TRACEABILITY.md + docs/questions/README.md + 5 untracked Q + feed + 3 role memories; docs/OPEN_QUESTIONS.md, docs/decisions/**, docs/SPECIFICATION.md, docs/features/**, docs/BRIEF.md, docs/README.md, AGENTS.md, src/**, tests/**, historical docs/reviews/**, docs/tasks/** untouched; no cargo, no git mutations (read-only snapshots)"
+    note: "observation (not a finding): new records link the operation feed .opencode/mail/service-docs-hygiene.md, which clean-logs.mjs deletes (clean-logs.mjs:7,110-113) — precedent questions/README.md:80 (Q56); policy of references to working data is the subject of Q61/Q60, fixing now would prejudge Q61"
+  snapshot: "develop @ a7359fe (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-step3
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/docs-hygiene-d61d65-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); decisions/statuses/task only; feature counters 47/278 = features/README.md unchanged, review.md §«Порог существенности» exception not triggered"
+    journal: "ok — D61 (136 lines), D62 (105), D63 (106), D64 (120), D65 (131): accepted, 2026-09-29, Resolves one-to-one Q57->D61 ... Q61->D65, Спека §10 №61-65, Affects, Контекст/Решение/Следствия/Альтернативы/Сверка с кодом/Ссылки; verdicts ⚪ (:86/:63/:62/:85) and ⬜ + T-18 (D64:78, Tasks :15); D64 п.8 whitelist findings-registry (D48) = D65 п.4 exception"
+    spec10: "ok — rows 61-65 :884-888 right after №60 :883, before blank :889 + '---' :890/§11 :892; rg -c '^\\| 6[1-5] \\|' = 5; git diff = 5 insertions / 0 deletions, neighbours intact, style of neighbours, [D61]...[D65] links live"
+    statuses: "ok — Q57.md:3..Q61.md:3 'resolved by [D6x]' (1 line each); TRACEABILITY.md:64-68 D-links, 'resolved', Q60 Tasks [T-18], others '—', legend :70-73 intact, Q-rows 61; questions/README.md:81-85 5 cols, D-link + resolved, Q-rows 61, 61 Q-files"
+    decisions_readme: "ok — 54 table rows (rg -c '^\\| \\[D') = 54 D-files (rg --files); D61 :77 -> D65 :81 ascending after D60 :76; topics condensed (not copies of §10)"
+    task: "ok — docs/tasks/T-18-docs-journal-test/README.md: tester (:49), Источник D64 (Q60) (:10), depends after D61-D63/D65 (:6-9), v0.1/v0.2 scope, ⬜ P3; row docs/tasks/README.md:54 (P3, 'после D61–D63, D65', ⬜); card links live"
+    changelog: "ok — 'Решения D61–D65: гигиена docs' :364-385 in '### Документация' right after Q57-Q61 entry :352-363, before '### Процесс' :387; tests/docs_journal.rs is code-span (:375); links live (D61-D65 :380-384, Q57/Q61 :379, T-18 :376, D48 :378); 22/0"
+    borders: "ok — 16 M + 6 ??; git diff --stat empty for docs/OPEN_QUESTIONS.md, docs/BRIEF.md, docs/README.md, docs/features, docs/GRAMMAR.md, docs/tasks/T-16-stale-check-test, .opencode/agents; 42 Q-files with 'Перенос:' unchanged (rg -l = 42); feature counters 47/278 untouched (features/README.md not in git status); only expected journal/task files + feed + 3 role memories"
+    sweep: "ok — rg 'ожида(ет|ют) переноса' outside reviews/analysis: only T-18:36 and Q60:33 (both as lists of forbidden markers); Q57-Q61 nowhere marked as awaiting migration"
+    links: "ok — all targets of D61-D65 and T-18 exist (Dn/Qn, SPECIFICATION, BRIEF, GRAMMAR, README, CHANGELOG, TRACEABILITY, questions/README, decisions/README, tasks/README, T-16, T-18, features/, features/README.md, analysis/findings-registry.md, AGENTS.md, tests/features_inventory.rs, .opencode/agents/{migrator,docs-writer}.md, OPEN_QUESTIONS.md)"
+    p2: "docs/decisions/D65-reference-policy.md:58-60 and :98-100 — 'Существующие адреса mail/** в каноне' inventory incomplete: live canon mail links also in docs/questions/Q54.md:12,18 (service-t11-closeout.md), Q55.md:18 (service-dod-scope.md), Q56.md:20 (service-agent-tools.md), targets exist; plus docs/tasks/T-15-mcp-ready-process/wave0*.md. Execution per D65 (:80 '8 адресов') will not remove them and the D64 п.8 test (only whitelisted exception = findings-registry) will be red on them; clean-logs.mjs --mail-only deletes all mail/*.md (:107-113) -> broken canon links, F47 (D61:105-107, D65:75-76) closes only partially. Fix requires a scope decision (extend execution inventory OR declare exception for pre-2026-09-29 records in D65 п.4/D64 п.8) — hence P2, returned to lead"
+    p3: "docs/tasks/T-18-docs-journal-test/README.md:36-38 — v0.1 check list names the ban on canon links to .opencode/mail/**, .opencode/state/**, docs/analysis/** without the findings-registry whitelist exception of its source (D64:50-53 / D65:54-57); literal implementation yields false red on existing canon links to the registry; one-line fix for migrator"
+    tech: "token-guard cut the wide sweep 'rg \\.opencode/mail docs' (~15 KB omitted) — re-verified with narrow rg over docs/questions and docs/tasks, P2 does not depend on the cut; PowerShell does not expand '*' in rg paths (os error 123) — commands re-run with -g"
+  snapshot: "develop @ 04cd7bf (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-step3
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-d61d65-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); docs-only edits in r2 (D65, Q61, T-18 card), feature counters 47/278 untouched"
+    scope: "address-only re-acceptance after rework (migrator rework P2/P3, feed :404-446): (1) mail/** inventory completeness in D65, (2) Q61/D65/T-18 consistency (whitelist), (3) r2 edit borders; other -r1 zones not re-reviewed (verdict stands)"
+    p2_closure: "closed — independent sweep `rg -n \"]\\([^)]*opencode/mail/\"` over canon (outside reviews/**analysis/**) gives all markdown targets on .opencode/mail/*.md: Q54.md:12,18; Q55.md:18; Q56.md:20; Q57.md:12; Q58.md:9; Q59.md:11; Q60.md:11; Q61.md:10; questions/README.md:80; D49:69; D50:31,87,115; D51:32,107; CHANGELOG.md:353,365. D65:58-68 list matches file-by-file (Q54 x2, Q55, Q56, Q57-Q61, questions/README, D49, D50, D51, CHANGELOG) — no missing addresses; Q61.md:55-58 synchronised; D64 п.8 (:50-53) whitelist intact; non-link mentions verified separately (Q43:60, Q48:12,31, Q51:18, D38:45, D39:45, D43:1,23-24,46, D46:15,25, decisions/README:59, TRACEABILITY:55, SPECIFICATION:861,866,869) — forbidden patterns (mail/**, T-XX.md) or rule descriptions, not links; D65:65-66 note on D43 line (right mention, not feed address) correct; D65:69-72 scope note (T-15/historical zones outside canon) confirmed"
+    p3_closure: "closed — T-18/README.md:39-40 now carries the whitelisted exception findings-registry.md (migrator-owned registry, D48), consistent with D64:50-53 and D65:54-57"
+    borders: "ok — only expected files changed in r2: D65 (untracked, 131 -> 140 lines), Q61.md (+22/-2, 61 lines), T-18/README.md (+3); D64 not edited; git diff --numstat for D61-D64, SPECIFICATION, TRACEABILITY, questions/README, decisions/README, tasks/README, CHANGELOG, findings-registry byte-identical to -r1; git diff --stat for OPEN_QUESTIONS/BRIEF/docs-README/features/GRAMMAR/T-16/.opencode/agents empty; counters 47/278 untouched; links in new lines live; no cargo (D50), git read-only"
+  snapshot: "develop @ 04cd7bf (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 1
+  verdict: rework
+  report: (none — session cut by step limit; findings relayed to lead, feed records rework P2/P3)
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package; docs wave"
+    p2: "canon links to docs/analysis/** (~40: D40-D51, Q45-Q54, T-11/T-13, CHANGELOG) not covered by D65 п.4/D64 п.8 prohibition inventory — requires scope decision (extend sweep or add exception)"
+    p3: "D65 'Сверка с кодом' partial list (five Q-files Q57-Q61) vs corrected п.4; Q57:19,:66 and D61:27,:67 'BRIEF.md §7' criterion without 'историч.' mark"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/docs-hygiene-exec-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — no src/tests/Cargo.toml in package (git diff --numstat -- src tests Cargo.toml empty); docs-only edits; feature counters 47/278 = features/README.md:314 untouched"
+    scope: "address-only re-acceptance after rework (migrator rework P2/P3, feed :998-1028): (1) D64/D65/Q61/T-18 consistency (ban zone = mail/state; analysis admissible), (2) D65 full inventory, (3) Q57/D61 historical marks; other -r1 zones not re-reviewed (verdict stands)"
+    p2_closure: "closed — D64 п.8 (:50-55), D65 п.4 (:46-55), Q61:44-48, T-18:37-40 now allow canon links to docs/analysis/** as provenance (clean-logs.mjs cleans memory/mail only); whitelist findings-registry intact; ban zone = .opencode/mail/** + .opencode/state/**"
+    p3a_closure: "closed — D65 partial 'five Q-files' list replaced by the full inventory (:104-110); stale '8 адресов' counter removed (:86)"
+    p3b_closure: "closed — Q57:19,:67 and D61:27,:68 carry 'BRIEF.md §7, историч.; выполнен D61'"
+    p2_open: "BRIEF.md:292-295 (§8 anti-patterns) and SPECIFICATION.md:887 (§10 №64) / :888 (§10 №65) still forbid canon links to docs/analysis/** — contradict reworked D64 п.8/D65 п.4/Q61/T-18 (canon-vs-decision, Q41/D60); T-18 implementer reading §10 №64 would ban analysis links -> red on ~40 live canon links (D40-D51, Q45-Q54, T-11/T-13, CHANGELOG); fix = 3 mechanical edits, no scope choice"
+    invariants: "ok — archive absent (D), 42 «Перенос» = Q1-Q42 text-only, TRACEABILITY 61 rows + legend (Q|D|Жизненный цикл|Задачи|Реализация), questions/README 61 (Q|Тема|D), decisions/README 54 (D|Краткая тема|Решает|Дата|Статус), BRIEF 304, counters 47/278 (:314), no canon links to OPEN_QUESTIONS/.opencode/mail (only historic T-15/**), src/tests/Cargo.toml untouched, status set identical to -r1, no new files"
+    borders: "ok — rework touched only D64, D65, Q61, T-18, Q57, D61 (+ feed/memories); other files byte-identical to -r1 lens"
+    tech: "wide rg over docs cut by token-guard — narrowed by paths/-g; SPEC rows 887/888 confirmed unchanged vs 6ff997b via git diff -U0"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-docs-hygiene-exec
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/docs-hygiene-exec-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff --numstat -- src tests Cargo.toml empty; docs-only wave; feature counters 47/278 = features/README.md:314 untouched"
+    scope: "address-only closure of the residual -r2 P2: canonical formulations of 'время жизни адреса' synced; other zones not re-reviewed (r1/r2 verdicts stand)"
+    p2_closure: "closed — one rule in all six places: BRIEF.md:292-298 (§8), SPECIFICATION.md:887 (§10 №64) / :888 (§10 №65), D64:50-55 (п.8), D65:46-55 (п.4), Q61:44-48, T-18:37-40 — ban = .opencode/mail/** (clean-logs --mail-only) + .opencode/state/**; docs/analysis/** admissible as provenance; whitelist findings-registry.md (D48). No stale analysis ban left in canon (rg analysis/** over the six files = only 'допустим/провенанс' wordings)"
+    borders: "ok — git diff -U0 -- docs/SPECIFICATION.md = exactly 3 hunks (header :815-816 from r1; rows :887-888 from r3), no other lines; BRIEF 304 -> 307 (+3 = the single §8 bullet); git status --porcelain set identical to -r2, no new files except the validator report"
+    invariants: "ok — archive D; 42 «Перенос» = Q1-Q42 text-only; TRACEABILITY 61 Q-rows + legend (Q|D|Жизненный цикл|Задачи|Реализация); questions/README 61 (Q|Тема|D); decisions/README 54 (D|Краткая тема|Решает|Дата|Статус); §10 rows 61-65 = 5; counters 47/278 (:314); no canon markdown links to OPEN_QUESTIONS/.opencode/mail (only historic T-15/**); src/tests/Cargo.toml untouched; links in edited lines live"
+  snapshot: "develop @ 6ff997b (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-doc-tools-step2
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/doc-tools-d66d68-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff -- src tests Cargo.toml empty; docs/process wave; feature composition/counters unchanged (47/278 = features/README.md:314)"
+    dfiles: "ok — D66/D67/D68 (untracked) accepted, 2026-09-29, Resolves Q62/Q63/Q64 one-to-one, Спека §10 №66/67/68; D66 Tasks T-19 (+ link-check note in T-18), Сверка ⬜/задачи; D67/D68 Tasks '—' + 'Задач не требуется', Сверка ⚪; sections Контекст/Решение/Следствия/Сверка с кодом/Альтернативы/Ссылки"
+    spec10: "ok — rows 66-68 :889-891 right after №65 :888, ascending, [D66]/[D67]/[D68] links live; git diff -U0 = exactly +3 lines, 0 deletions, neighbours intact"
+    statuses: "ok — Q62/Q63/Q64.md:3 'resolved by [D66/D67/D68]'; TRACEABILITY :72-74 (Q62 in work + Tasks [T-19] ⬜, Q63/Q64 resolved + '—'), Q-rows 64, D63 legend intact; questions/README :84-86 D-links"
+    decisions_readme: "ok — 57 table rows (rg -c '^\\| \\[D') = 57 D-files (rg --files); D66 :81 -> D68 :83 after D65 :80, ascending; themes brief"
+    task: "ok — docs/tasks/T-19-doc-quality-checks/README.md (Источник D66 (Q62) :7, P3 :4, ⬜ :3, executor service session :67, link-check in T-18 :51/:71, pilot :44); row docs/tasks/README.md:55 after T-18 :54; links live"
+    changelog: "ok — 'Doc-quality проверки: вопросы Q62–Q64 и решения D66–D68' :412-430 in '### Документация' after D61–D65 exec :386-411, before '### Процесс' :432; 19/0 pure insert; links live"
+    mail_sweep: "ok — no markdown links to .opencode/mail/** in Q62-Q64/D66-D68/T-19 (rg ']\\\\([^)]*opencode/mail' empty); '.opencode/mail/**' only as code-span exclusion zone (T-19:34)"
+    docs_journal: "ok — rg ']\\\\([^)]*docs_journal' over new files + SPEC empty; tests/docs_journal.rs only as code-span (D66:12/:24/:44/:69/:83, Q62:20, T-19:20), per D64 convention"
+    links: "ok — all relative targets in new/changed files exist (Q62-64, D45/D46/D50/D60/D64/D65, T-18/T-19, BRIEF/SPEC/CHANGELOG/TRACEABILITY, research file, AGENTS.md, tasks/README)"
+    regressions: "ok — rg 'ожида(ет|ют) переноса' outside reviews: only marker descriptions T-18:36, Q60:33; no Q62-64/D66-68; counters 47/278 = features/README.md:314; archive docs/OPEN_QUESTIONS.md absent"
+    borders: "ok — 10 M + 9 ??; only docs/** journal + .opencode/mail feed + 4 role memories + report; src/**, tests/**, Cargo.toml, .opencode/agents|rules, AGENTS.md, docs/reviews/**, docs/analysis/** untouched; git read-only"
+    p3: "docs/research/doc-quality-checks-2026-09-29.md:8 — markdown link to .opencode/mail/service-doc-tools.md (deletable working data, clean-logs --mail-only); becomes broken at routine cleanup (F47 class); research zone is non-canon and outside doc-tool scope (T-19:33) -> P3 not P2; one-line fix for researcher: provenance as code-span name without URL, matching Q62-Q64 convention"
+    p3_closure: "closed 2026-09-29 (no new iteration) — researcher replaced the mail link at :8-9 with the URL-free name form: 'внутренний дайджест тулсета — операция `service-doc-tools` (`.opencode/mail/**` — рабочие данные, снят сервисной сессией 29.09.2026)'; rg ']\\\\([^)]*opencode/mail' docs/research -> empty; in-place edit (file 160 lines, 2-line block -> 2-line block), other links live (D64/D65/T-18/AGENTS.md/external https), single file in docs/research/**; package composition unchanged (git status --porcelain identical); cargo/git untouched (D50); verdict stands — accepted_with_notes (P3 closed)"
+  snapshot: "develop @ bfbfec5 (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-doc-rework-exec
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/doc-rework-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff --stat -- src tests Cargo.toml empty; docs/canon wave only"
+    d69: "ok — 11 retro-D (D1-D5, D7-D11, D13; rg -l 'оформлено ретроспективно' -> 12 incl. D69), all 11 have 'Сверка с кодом'; decisions/README.md 74 rows = 74 D-files; 'Спека: §10, №N' matches base §10 rows (git grep HEAD); Q65-Q70 resolved by D69-D74"
+    d70: "ok — SPEC 497 lines (was 924), §1-§11 sequential; §6 (371-389) and §11 (468-497) textually identical to base (git grep -A HEAD); §10 = pointer; provenance §1.3.1 -> D22 (Resolves Q20); no §10/OPEN_QUESTIONS/BRIEF in SPEC; relative links live (49 occurrences / 34 unique)"
+    d71: "ok — docs/BRIEF.md deleted; journal.md §1-§8; no live [](...BRIEF) links in canon (AGENTS.md, docs, .opencode/rules, .opencode/agents); D62 superseded by D71 (file :3-5,:7 + catalog :91); D66:37-38 BRIEF removed from doc-size exceptions; D60 table without §10"
+    d72: "ok — CHANGELOG.md 7 lines (title + code-only rule + empty 0.1.0); D68:36-38 added; AGENTS.md:172, docs-writer.md:84-85, docs/README.md:15 aligned"
+    d73: "ok — root README.md 42 lines, links live, no canon-table duplication; docs/README.md 48 lines, rg 'Q\\d|BRIEF' empty"
+    d74: "ok — GRAMMAR.md 78 lines; rg 'Q\\d+' empty; EBNF :9-25 and example :29-37 intact; rationale -> D-links"
+    regressions: "ok — Q-rows 70/70 (TRACEABILITY, questions/README); 47 feature files, features/README.md:314 47/278; sweep 'ожида(ет|ют) переноса' only prohibition descriptions (T-18:42, D64:49); docs/reviews/**, docs/analysis/** untouched; agents-perms 'agents: 11 из 18', rights/steps unchanged"
+    p2_1: ".opencode/rules/journal.md:4 — [D71](../docs/decisions/D71-journal-rules-relocation.md) resolves to .opencode/docs/… (rg --files .opencode -g 'docs/**' empty); expected live target, fix ../../docs/decisions/…"
+    p2_2: "docs/decisions/D60-docs-ownership-sync.md:44 — 'хронология прототипа' for CHANGELOG vs AGENTS.md:172 / D72 ('кодовые изменения продукта'); D60 table declared canonical (:33) and edited by the wave (:37 -> D70)"
+    p3_1: "titles with template artifact {}: docs/SPECIFICATION.md:1, docs/GRAMMAR.md:1 (same artifact fixed in README.md:1 by audit P3-3)"
+    p3_2: "stale 'Канон:' pointers to deleted docs/BRIEF.md: .opencode/memory/validator.md:3, migrator.md:3, docs-writer.md:3-4 (F35)"
+  snapshot: "develop, HEAD 75b078c (= origin/develop) + working tree (2026-09-29)"
+  at: "2026-09-29"
+
+- task: service-doc-rework-exec
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/doc-rework-2026-09-29.md
+  dod:
+    cargo: "not run (D50) — git diff --stat -- src tests Cargo.toml empty; wave fixes are docs/canon/memory only"
+    p2_1_closure: "closed — .opencode/rules/journal.md:4 now [D71](../../docs/decisions/D71-journal-rules-relocation.md); target exists (rg --files docs/decisions -g 'D71*'); from .opencode/rules/ two levels up -> repo root -> docs/decisions/; single link in file (rg ']\\\\([^)]*\\\\)' -> line 4)"
+    p2_2_closure: "closed — docs/decisions/D60-docs-ownership-sync.md:44 = 'кодовые изменения продукта ([D72](D72-changelog-full-cleanup.md)); принципы тестов соответствия'; aligned with AGENTS.md:172, docs/README.md:15, D72; no other edits in D60 (git diff -U0 -> :14/:37/:44 only)"
+    p3_1_closure: "closed — SPEC:1 '# DAR — Финальная проектная спецификация', GRAMMAR:1 '# GRAMMAR — каноническая грамматика DAR v0.1'; rg 'DAR \\{\\}' -> titles empty, remaining are body SPEC:15, ASCII frame :70, features/{lsp,lsp_notebook,lexer}.feature (non-title candidates)"
+    p3_2_closure: "closed — memory headers: validator.md:3 '.opencode/rules/review.md; .opencode/rules/journal.md §5.3/§7', migrator.md:3 '.opencode/rules/journal.md (§2 ID, §4 шаблоны, §5.3 сверка)', docs-writer.md:3-4 'docs/tasks/README.md, docs/features/README.md, .opencode/rules/journal.md §5.6/§7'; numstat validator 1/1, migrator/docs-writer header 1/1 + pre-existing chronicle; role frontmatter/rights unchanged"
+    borders: "ok — git status --porcelain: no new files/zones (same set + memory/validator.md from P3-2); fix files only; git read-only (status/diff/log/grep)"
+  snapshot: "develop, HEAD 75b078c (= origin/develop) + working tree (2026-09-29), after r1 P2/P3 closure"
+  at: "2026-09-29"
+
+- task: service-git-efficiency-exec
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/git-efficiency-2026-09-30.md
+  dod:
+    cargo: "not run (D50) — git diff --stat -- src tests Cargo.toml empty; canon/process wave (.opencode/** + journal docs); docs/features/** untouched, counters 47/278 unchanged"
+    d75_1: "ok — git.md:6 steps: 14; :30-31 allow git-check.mjs (+ *); :82-87 §«Минимальный цикл пакета» = reference to git-workflow.md §«Минимальный цикл `git`» + helper; :79-80 post-push ban"
+    d75_2: "ok — git-workflow.md:85-95 cycle (7 steps) + banned extras + ‘post-push git-команд нет’; :126-134 minimal idempotency check, --grep series banned; :68-70 lead prompt template (5 elements, no package restatement)"
+    d75_3: "ok — review.md:96-98 git has clean-logs.mjs + git-check.mjs; :99-100 autocheck; agents-perms.mjs x2 identical (‘agents: 11 из 18’), validator rights = review.md:86-87"
+    d75_4: "ok (code reading) — git-check.mjs:1-105 read-only (status -sb :51, log -1 :59, status --porcelain :64, diff --cached :87); imports node:* only; --expect mismatch -> fail -> exit 1 (:99-104); run → permission.rejected (not in validator allowlist)"
+    d75_5: "ok — memory/git.md 34 lines: reference :10-12 + lessons; cross-checked with git-workflow.md:85-95,126-146 and review.md:103-110 — no contradictions (F35)"
+    d75_6: "ok — Q71 resolved by D75; D75 accepted/Resolves/Спека:/Tasks: —; TRACEABILITY:75; decisions/README 75 = 75 D-files; questions/README 71; TRACEABILITY Q-rows 71; findings-registry:57-63 F49–F55 ‘закрывается D75’"
+    d75_7: "ok — git diff --shortstat 43 files (42 M + 1 D) + 31 untracked; src/**, tests/**, Cargo.toml untouched; relative links live; feed/memory (auditor/migrator/git) consistent"
+    p3: "docs/decisions/D75-git-lean-workflow.md:7-11 (Affects) omits AGENTS.md although :25 (scripts map, git-check.mjs) was edited by D75 п.5 closure (feed :318) — traceability gap, one-line fix for migrator; precedent D51:13-14 (service-agent-tools P3). Non-blocker."
+  snapshot: "develop @ 75b078c (= origin/develop) + working tree (2026-09-30); 43 tracked changes (42 M + 1 D) + 31 untracked"
+  at: "2026-09-30"
+
+- task: service-git-efficiency-exec
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/git-efficiency-2026-09-30.md
+  dod:
+    cargo: "not run (D50) — git diff --stat -- src tests Cargo.toml empty in working tree and across 75b078c..HEAD; docs/features/** untouched (counters 47/278 unchanged)"
+    git_md: "ok — git.md:6 steps: 18; :89-91 «Стартовое чтение — минимум» (memory tail, rule §«Минимальный цикл» + §«Пакет и подтверждение», feed tail; confirmation by exact address from lead prompt)"
+    git_workflow: "ok — :94-97 add forms (./ prefix, no --) + staged as separate step after add; :98-100 service waves (no task) — one commit (canon + records), separate chore(process) for code tasks (D46); :161-162 F22 exception for service waves; :68-71 strengthened lead template"
+    d75: "ok — :63-77 «Обновление 30.09.2026 (session-analysis)»: forms :64-67, start-up reading :68-70, steps 18 :71, template :72-73, wave practice :74-75, source facts/D65 :76-77 (no mail/** refs); :46-47 п.6 note «(уточнено 30.09.2026: 18 — см. «Следствия»)»; :7-12 Affects includes AGENTS.md"
+    rights: "ok — agents-perms.mjs x2 identical: agents 11 из 18; git steps=18; other roles unchanged (analyst 20, auditor 32, coder 52, docs-writer 20, lead 16, migrator 28, researcher 20, rust-expert 24, tester 36, validator 36); no new commands (add forms/staged/git-check.mjs already allowed)"
+    consistency: "ok — git-workflow.md:94-97 ↔ review.md:103-107 ↔ git.md:89-91; D46 exists; steps 18 agrees in git.md:6 and D75:71; role body ↔ frontmatter"
+    journal: "ok — F49–F55 closed (findings-registry:57-63 «закрыт 30.09.2026 (D75; …; принято validator)», report link live); rg «закрывается D75» empty; D75 Affects r1-P3 closed"
+    p3_closure: "closed — r1 P3 (D75:12 Affects + AGENTS.md); audit-of-refinements P3 #1 (D75:46 note «уточнено 30.09.2026: 18»); P3 #2 (git-workflow.md:161-162 F22 exception for service waves)"
+  snapshot: "develop @ 0872dfa (= origin/develop) + working tree (2026-09-30); 6 M (git.md, git-workflow.md, D75, feed service-git-efficiency.md, memories auditor/migrator)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = 7 paths (M: docs/TRACEABILITY.md, docs/questions/README.md, docs/decisions/README.md, .opencode/memory/migrator.md; ??: docs/questions/Q72.md, docs/decisions/D76-traceability-links-only.md, .opencode/mail/service-doc-refactor.md); docs/** only expected; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only)"
+    traceability: "ok — 72 Q rows (HEAD `| [Q`=71 + Q72); strict 5-col link-only format for all 72 rows (rg -v leaves only 12 non-rows: header 1-4, blank 77, legend 78-84); no ' — ' in Q/D cells; cols 3-5 unchanged vs HEAD: `| resolved |` 54/53 (+Q72), `| in work |` 14/14, `| done |` 4/4, open/dropped 0/0; ⬜ 15/15, 🚧 1/1, ✅ 8/8; ](features/ 43/43, ](tasks/ 19/19; Q6 :10 cols 3-5 verbatim = HEAD (marker removed); Q72 :76 = resolved|—|—; legend :78-82 = HEAD :77-81 verbatim + added sentence :82-84; CRLF: rg -c '^' = rg -c '\\r$' = 84 (final newline)"
+    journal: "ok — Q72/D76 fields+sections per journal §4 (Статус/Дата/Приоритет/Связано; Статус/Дата/Resolves/Спека/Affects/Tasks); D76 'Сверка с кодом' ⚪; Tasks: —; Спека: —; no §10 row (D70) — rg 'D76|Q72' docs/SPECIFICATION.md empty; IDs unique (single Q72.md / D76-traceability-links-only.md)"
+    catalogs: "ok — questions/README 72 Q-rows (Q72 :94, theme + [D76]); decisions/README 76 D-rows (D76 :105, theme/Решает/Дата/Статус accepted)"
+    links: "ok — all Q72/D76/TRACEABILITY/catalog targets exist (Q6/Q41/Q59/Q61, D19/D50/D60/D63/D64/D65, analysis/findings-registry.md F46:54, tasks/T-18-docs-journal-test/README.md, ../../.opencode/rules/journal.md); no absolute links (]( empty); no canon links to .opencode/mail|state (D65; decisions/README:72 is D43 plain text about edit right, unchanged)"
+    checklist_5_7: "ok — links live; statuses synced (Q72 'resolved by D76' ↔ D76 'Resolves: Q72' ↔ TRACEABILITY resolved ↔ catalogs); IDs not reused; no migration markers"
+    feed: "ok — migrator entry last in mail (:33-54); checkpoint at tail of memory/migrator.md (:1158-1175); step-limit break + continuation recorded (mail :50-53)"
+  snapshot: "develop @ 6182bb5 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op2
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-doc-refactor-2-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = 9 M + 4 ?? (M: docs/TRACEABILITY.md, questions/README.md, decisions/README.md, tasks/README.md, T-15 card, T-18 card, mail/service-doc-refactor.md, memory/migrator.md, state/current/progress.yaml [wave 1, out of scope]; ??: Q73, Q74, D77, D78); no stray paths; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only) — docs/features/** untouched, counters 47/278 unaffected -> no targeted features_inventory"
+    journal_q73_q74: "ok — §4 fields/sections; Q73 resolved by [D77] <-> D77 Resolves [Q73]; Q74 <-> D78 same; D77/D78 Affects/Tasks filled"
+    d78_verdict: "P2 — D78:56 has no verdict VALUE ('Вердикт и факты по §5.3'); rg -c 'Вердикт: (✅|🟡|⬜|⚪)' docs/decisions -g D*.md -g !D78* = 77/77; D78 = 0; phrase unique in journal; journal.md §1 + D64:41 (planned tests/docs_journal.rs check 4) affected"
+    traceability: "ok — 74 Q rows (Q73 :77, Q74 :78); git diff -U2 = exactly +2 lines after Q72, legend/prior rows intact; rg -c '^' = rg -c '\\r$' = 86 (CRLF + final newline); rows in work | [T-18] ⬜ | — and in work | [T-15] ⬜ | —"
+    catalogs: "ok — questions/README 74 Q rows (+Q73/Q74, 1:1 format); decisions/README 78 D rows (+D77/D78, accepted); Q files 74 / D files 78; Q73/Q74/D77/D78 unique (no reused IDs)"
+    tasks_readme: "ok — paragraph '**Полнота:**' (rule + D77/T-18 link) added; T-15 source '[D78] (Q74); записка …'; rg -n 'ID предварительные|Q/D — ' docs/tasks empty; diff +7/-1 only"
+    cards: "ok — T-15 source D78 (Q74), old phrases removed, criterion 'Q/D заведены … — ✅ (D78, 30.09.2026)', numbering note updated; T-18 source + 'дополнено [D77] (Q73) — полнота задач', v0.1 subpoint (forward/backward completeness + status sync); no other hunks"
+    sweep: "ok — 19/19 T-01..T-19 present at least once in TRACEABILITY (rg -o); marks match registry (✅: T-01,T-03,T-04,T-11,T-12,T-13; ⬜: other 13; repeated mentions consistent); card statuses spot-checked T-01 ✅ / T-13 ✅ / T-15 ⬜ / T-18 ⬜ / T-19 ⬜; all 19 cards exist -> links live"
+    d42_d48_t15: "facts found (D45:19 'Волна 0 (T-15)', D46:40 'session-commit T-15 фазы C', D44:88/D46:49/D47:51 'карточка T-15 (F26)') -> proposal recorded (non-blocker): consider [T-15] in Tasks of Q50/D45 and Q51/D46; rows Q47-Q53 left as is (D77:54-55)"
+    checklist_5_7: "ok — links live; Q<->D/TRACEABILITY/catalogs/registry/cards statuses synced; IDs not reused; no migration markers in new records; Q73/Q74/D77/D78 absent from SPECIFICATION/CHANGELOG/docs/README (no §10 row, D70)"
+    feed_memory: "ok — mail has both parts (chast 1 :140-166, chast 2 :170-192); memory/migrator.md checkpoints :1176-1209"
+  snapshot: "develop @ 406575c + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op2
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-2-2026-09-30-r2.md
+  dod:
+    cargo: "not run (D50, docs-only) — git diff --stat -- src tests Cargo.toml empty; targeted recheck only (r1 checks remain valid)"
+    p2_closure: "closed — rg -n 'Вердикт:' docs/decisions/D78-t15-mcp-ready-program.md = exactly 1 line (:56) 'Вердикт: ⚪ **не применимо** (документы/процесс) — процессная программа, продуктовый код не меняется. Факты по §5.3 (чтением, 30.09.2026):'; rg 'Вердикт и факты' docs/decisions docs/questions empty; aggregate rg -c 'Вердикт: (✅|🟡|⬜|⚪)' docs/decisions -g D*.md = 78/78 (was 77/77 + D78=0)"
+    d78_rest: "ok — read-through vs r1: r1 :56-57 two-line paragraph collapsed to :56; bullets :58-64, 'Задача' :66-67, Альтернативы :69-74, Ссылки :76-85 verbatim; file 86->85 lines (wrap merge, no text loss)"
+    borders: "ok — git status = 11 M + 5 ??; operation paths unchanged (9 M + 4 ??); extra = validator's own writes (memory/validator.md, receipts.yaml, report -r2 ??)"
+    docs_unchanged: "ok — numstat of operation docs identical to r1 (TRACEABILITY 2/0, questions/README 2/0, decisions/README 2/0, tasks/README 7/1, T-15 6/5, T-18 8/1); no new docs edits after r1"
+    feed: "ok — migrator rework entry (:232-244) after validator r1 entry (:196-228), chronological; lists same checks"
+  snapshot: "develop @ 406575c + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-3-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = exactly 6 M, no ??: docs/TRACEABILITY.md, docs/decisions/D45-wave0-quality-config.md, docs/decisions/D46-product-process-commits.md, mail/service-doc-refactor.md, memory/migrator.md, state/current/progress.yaml (op2 write, out of op3); no stray paths; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only)"
+    traceability: "ok — diff -U2 = +2/-2 only (Q50/Q51); :54-55 = 'in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | —'; 74 Q rows; T-15 exactly 3 rows (Q50, Q51, Q74); rg -c '^' = rg -c '\\r$' = 86; legend intact; aggregates resolved 52 + in work 18 + done 4 = 74"
+    d45: "ok — 3 hunks only: Tasks -> [T-15] (фаза A — волна 0); Следствия + 'Обновление 30.09.2026' bullet; 'Сверка с кодом' 'Задач не требуется' -> '**Задача —** T-15 (волна 0 — фаза A, D78)'; numstat 5/3; sections intact, rest verbatim"
+    d46: "ok — 3 hunks only: Tasks -> [T-15] (фаза C — session-commit); Следствия + 'Обновление 30.09.2026'; 'Сверка' -> '**Задача —** T-15 (фаза C — session-commit, D78)'; numstat 6/4; rg 'Задач не требуется' in D45/D46 empty"
+    consistency: "ok — T-15 ⬜ in TRACEABILITY :54,:55,:78 = tasks/README.md:53 = card :3 ('⬜ открыта') (D77 п.4); Q50:3 resolved by [D45], Q51:3 resolved by [D46]; lifecycle in work per D63 (precedent Q60/D64 T-18 ⬜); no new Q/D (last Q74/D78, no ?? paths); links live (D78, T-15 card, TRACEABILITY)"
+    checklist_5_7: "ok — links live; statuses/summaries synced; IDs not reused; no migration markers in changed files"
+    feed: "ok — op3 opening (:305) -> migrator op3 ready (:337) chronological (git op2 package entry :321 between, own operation)"
+    observation: "non-finding — D45/D46 Affects do not list TRACEABILITY.md although their rows changed; link documented by 'Обновление 30.09.2026' bullet; optional one-line addition"
+  snapshot: "develop @ c8652c4 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op4
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-4-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat 2f2140c -- src tests Cargo.toml empty; git status = 11 M + 2 ??; op4 = 8 M + 2 ?? (M: .opencode/rules/journal.md, docs/TRACEABILITY.md, D45, D46, D77, decisions/README.md, questions/README.md, mail feed; ??: Q75, D79); extra = role checkpoints (memory/migrator.md, memory/auditor.md) + progress.yaml (op3 write); .opencode/agents/** and review.md untouched"
+    cargo: "not run (D50, docs/canon-only)"
+    canon_7: "ok — git diff .opencode/rules/journal.md = one hunk, §7 only (:107-111); text matches D79 п.1 (each T-XX from tasks/README visible in TRACEABILITY at least one row; marks ⬜/🚧/✅ synced; links D77/D79); LF (rg -c '\\r$' = 0); sections §1-§8 intact (8 headings); links ../../docs/decisions/D77…/D79… resolve from .opencode/rules/"
+    records: "ok — Q75 §4 (fields+sections, ⚪), D79 §4 (Stats/Date/Resolves [Q75]/Спека —/Affects/Tasks —) with verdict ⚪ + §5.3 facts (:43-60)"
+    traceability: "ok — diff +1 line: :79 '| [Q75] | [D79] | resolved | — | — |' after Q74; 75 Q rows; rg -c '^' = rg -c '\\r$' = 87; legend untouched"
+    catalogs: "ok — questions/README 75 Q rows (+Q75), decisions/README 79 D rows (+D79); assignment said 80 — stale, D1–D79 = 79 (same as audit)"
+    d45_d46: "ok — Affects +1 line each (D45:15 / D46:10) with TRACEABILITY.md (Q50/D45, Q51/D46); one hunk each, no other edits"
+    d77: "ok — 'Обновление 30.09.2026' bullet (:56-58) records canon §7 edit via D79; п.6 not rewritten"
+    consistency: "ok — §7 ↔ D79 п.1 ↔ T-18 card :49-54 ↔ tasks/README 'Полнота' paragraph; D77 п.6 closed; Q75:3 <-> D79:5 pairity; IDs unique; no migration markers; checklist §5.7 ok"
+    audit_protocol: "ok — auditor entry (:483-538) before validation; independent agents-perms run = 'agents: 11 из 18' (matches audit x2); agents/** and review.md untouched"
+    feed: "ok — op4 opening (:408) -> migrator (:440) -> service session canon edit (:466) -> auditor (:483), protocol order"
+    p3_audit: "recorded as owner observations, non-blocking: (1) completeness criterion duplicated in journal.md §7 and tasks/README.md:34-38 (per D79 п.1/D77); (2) §7 mentions tests/docs_journal.rs which does not exist yet (pre-existing, T-18 ⬜) "
+  snapshot: "develop @ 2f2140c + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op5
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-5-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat fab7e68 -- src tests Cargo.toml empty; git status = 7 M, no ??: .opencode/rules/journal.md, docs/decisions/D79, docs/tasks/README.md, mail feed, memory/migrator.md, memory/auditor.md, state/current/progress.yaml (op4 write); .opencode/agents/** and review.md untouched; no new Q/D"
+    cargo: "not run (D50, docs/canon-only)"
+    canon_7: "ok — git diff fab7e68 -- ./.opencode/rules/journal.md = single §7 hunk (:105, :108); test marked '(план — T-18 ⬜; решение D64)'; criterion now a reference to 'абзац «Полнота» в docs/tasks/README.md' + D77/D79 links; rg 'хотя бы одной строкой' in journal.md empty; LF (rg -c '\\r$' = 0, 121 lines); sections §1-§8 intact; links ../../docs/decisions/D77…/D79… resolve"
+    single_source: "ok — criterion lives in docs/tasks/README.md:34-38 '**Полнота:**' only; §7 names subject + reference, no duplicated text (Q41); test-plan note present in both places"
+    d79: "ok — diff fab7e68 = +1 bullet in Следствия (:42) 'Обновление 30.09.2026 (закрытие P3 аудита операции №4)…'; link ../tasks/README.md resolves; no other edits"
+    tasks_readme: "ok — one changed line (:37, +1/-1) 'проверяет тест tests/docs_journal.rs (план — T-18 ⬜, D77)'; rg -c '^' = rg -c '\\r$' = 72 (CRLF + final newline); links live"
+    feed: "ok — op5 blocks once at the end: opening :622, migrator D79 :640, service session canon edit :655, auditor :670, migrator P3 tasks/README :717 (last); git diff fab7e68 = pure insertion +108 at end (no deletions, no duplicates above); op4 -> op5 order chronological"
+    consistency: "ok — §7 ↔ D77/D79 ↔ tasks/README 'Полнота' ↔ T-18 card v0.1 (:49-54) consistent; P3-1/P3-2 (op4) and P3 (op5) closed; checklist §5.7 ok (links live, statuses synced, IDs not reused, no migration markers)"
+    audit_protocol: "ok — auditor entry (:670-713) before validation, P1/P2 none; independent agents-perms run = 'agents: 11 из 18'; agents/** and review.md untouched"
+  snapshot: "develop @ fab7e68 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op6
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-6-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat c0199d3 -- src tests Cargo.toml empty; git status = 11 M + 2 ??, only expected paths (TRACEABILITY, questions/README, decisions/README, T-18 card, features/README, wasm.feature, manifest_sync.feature, mail feed, memory/migrator.md, memory/docs-writer.md, progress.yaml [op5 write]; ??: Q76, D80); src/**, tests/**, .opencode/rules|agents/** untouched"
+    cargo: "targeted only — cargo test --test features_inventory (features are the test fixtures); no full cargo test (no code, D50)"
+    test_features_inventory: "4/4 ok — feature_files_are_valid_documents, feature_files_match_readme_inventory, readme_totals_match_files, scenario_counts_match_readme; counters features/README :315 = 47 files / 278 scenarios confirmed"
+    traceability: "ok — 76 Q rows; rg -c '^' = rg -c '\\r$' = 88 (CRLF + final newline); rg 'agents-\\*|и др\\.' empty; :80 Q76/D80 = in work | [T-18] ⬜ | —; edits only in declared cells (Q29/Q32 +manifest_sync; Q65 wasm (retro D11, v0.2); Q74 five T-15 features; Q43/Q44 six agent features named)"
+    completeness_47: "ok — all 47 feature file names present in TRACEABILITY (12 previously missing: manifest_sync, wasm, 5 agent features hidden by wildcard, 5 T-15 features); mapping matches headers (agents-* have # D38 (Q43) + # D39 (Q44); T-15 features basis T-15; manifest_sync # D34 (Q29)/# D28 (Q32); wasm # D11 retro (D69:12 lists D11)); backward liveness holds"
+    records: "ok — Q76 §4 (⚪), D80 §4 (Resolves [Q76], Спека —, Tasks T-18, verdict ⚪ + §5.3 facts); catalogs 76 Q / 80 D rows, single occurrence each (IDs not reused)"
+    features: "ok — wasm.feature:2 '# D11…', manifest_sync.feature:2-3 '# D34 (Q29)…'/'# D28 (Q32)…'; first line '# language: ru', exactly one 'Функция:' in each; features/README +1 line 'Полнота' in 'Как читать', tables/counters untouched (diff +1)"
+    t18: "ok — Источник + '[D80] (Q76) — полнота фич' (:16); v0.1 subpoint (:56-60): every *.feature named in TRACEABILITY, no wildcards, backward liveness (D80)"
+    checklist_5_7: "ok — links live (Q76/D80, TRACEABILITY, features/README, T-18, D11, D34, D28, D69); statuses synced (Q76 resolved by D80 ↔ in work + T-18 ⬜ ↔ D80 accepted Tasks T-18); IDs not reused; no migration markers"
+    feed: "ok — op6 opening (:800) -> migrator (:820) -> docs-writer (:845), route order"
+  snapshot: "develop @ c0199d3 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-pm-tool-2026-09-30.md
+  dod:
+    borders: "ok — git status = 7 M + 6 ?? (M: AGENTS.md, docs/TRACEABILITY.md, questions/README.md, decisions/README.md, state/current/progress.yaml, memory/migrator.md, memory/auditor.md; ??: .opencode/scripts/pm/, Q77, D81, pm-tool-design-2026-09-30.md, pm-run-2026-09-30.md, mail/service-pm-tool.md); src/**, tests/**, Cargo.toml, next_action/current_state untouched"
+    cargo: "not run (D50) — git diff --stat 74a9d4e -- src tests Cargo.toml empty; uv unavailable to roles (evidence-level only)"
+    records: "ok — Q77 §4, D81 §4 (Resolves [Q77], Спека —, Tasks —, verdict ⚪ + §5.3 facts); D81 Следствия list --source/--since/--exclude-service (:55), rg 'format' in D81 empty; TRACEABILITY 77 Q rows, :81 Q77/D81 resolved, rg -c '^' = rg -c '\\r$' = 89, diff +1; catalogs 77/81; IDs unique"
+    canon: "ok — git diff AGENTS.md = exactly one changed line (map: +session-analysis/, +pm/); .opencode/agents/**, .opencode/rules/**, review.md untouched; independent agents-perms = 'agents: 11 из 18'"
+    project: "ok — pm/: pyproject.toml, uv.lock, README.md, .gitignore, 8 src modules, tests (test_pm_agents.py + fixtures); deps core pyyaml / extras viz+pm4py, no seaborn; CLI pm-agents; .gitignore covers mine_agents.py + .venv/__pycache__/*.egg-info/.pytest_cache/output; git status -uall shows 19 files to commit, draft absent (rg --files -u only); events.py:154-155 sorts undated last; 7 test functions incl. test_undated_events_sort_last"
+    evidence: "evidence level — uv sync x2, uv run pytest; run 394 events/38 cases, acceptance 82.1%/rework 17.9%; report pm-run-2026-09-30.md exists and agrees (:23 394/38, :82 82.1%/17.9%); runs executed by service session (roles have no uv)"
+    audit: "ok — first audit P1 none, P2 (draft not ignored) + P3-1/P3-2/P3-3 closed pointwise and confirmed by second auditor entry; feed order matches protocol (analyst -> migrator -> build -> auditor -> closure -> auditor)"
+    checklist_5_7: "ok — links live; statuses synced (Q77 resolved by D81 ↔ TRACEABILITY resolved ↔ catalogs; Tasks —); IDs not reused; no migration markers"
+    p2: "OPEN — .opencode/scripts/pm/README.md:62 '# expect: 6 passed' vs 7 test functions and feed evidence 'uv run pytest -> 7 passed' (service-pm-tool.md:139); README-code inconsistency (acceptance item 4). Fix: one line -> '# expect: 7 passed'"
+    observation: "non-finding — feed block 'migrator · аудит P3 — D81' (:49) precedes the audit (:84) it answers; main protocol chain order is correct (earlier auditor note about the service-session entry is resolved)"
+  snapshot: "develop @ 74a9d4e + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-tool-2026-09-30-r2.md
+  dod:
+    borders: "ok — git status = 9 M + 7 ?? (same set as end of r1; M includes memory/validator.md + receipts.yaml = validator's own writes); git diff --numstat 74a9d4e: AGENTS.md 1/1, TRACEABILITY 1/0, catalogs 1/0 each (unchanged vs r1); git diff --stat 74a9d4e -- src tests Cargo.toml empty"
+    cargo: "not run (D50) — docs/canon/scripts-only wave; uv unavailable to roles, run evidence is feed + report"
+    p2_closure: "closed — pm/README.md:62 now 'uv run pytest  # expect: 7 passed' (was 6); rg -c '^def test_' tests/test_pm_agents.py = 7 (incl. test_undated_events_sort_last); feed entry 'сервисная сессия · rework приёмки (P2) — README' (:172-177) present and matches the actual edit"
+    feed_order: "ok — analyst :23 -> migrator :35 -> build :49 -> auditor :71 -> migrator P3 D81 :119 -> closure :132 -> auditor closed :145 -> service session rework README :172 -> validator r1 :181; r1 observation about 'migrator · аудит P3 — D81' position is resolved (block now after the audit)"
+    observation: "non-finding — after block re-sorting, historical in-feed line refs are stale (auditor 'замечания закрыты' :165-168; validator r1 :209-213) and the rework entry (:172) precedes the validator r1 entry (:181) it answers; operational file, blocks self-describing, no action"
+  snapshot: "develop @ 74a9d4e + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/service-pm-tool-2026-09-30-fix.md
+  dod:
+    borders: "ok — git status = 5 M, no ??: .opencode/scripts/pm/{README.md, src/pm_agents/cli.py, tests/test_pm_agents.py}, mail/service-pm-tool.md, state/current/progress.yaml (lead's wave-complete record, out of this fix); git diff --stat c137b63 -- src tests Cargo.toml empty; git diff --stat c137b63 = exactly 5 files"
+    cargo: "not run (D50) — scripts-only fix; uv unavailable to roles, run evidence is feed"
+    cli: "ok — find_repo_root walks up (marker .opencode/state/current, :32-38); resolve_state_dir/resolve_mail_dir (:41-54) with DEFAULT_STATE_DIR/DEFAULT_MAIL_DIR; argparse defaults None (:68, :74) with updated help; main uses resolved values only (:147-148) in build_event_log (:151) and render_report_md (:223); rg 'args.state_dir|args.mail_dir' empty; error hint added (:160)"
+    tests: "ok — test_repo_root_resolution (:77) with monkeypatch.chdir on tmp repo; rg -c '^def test_' = 8"
+    readme: "ok — :62 'uv run pytest  # expect: 8 passed'; new 'Грабли' bullet 'Запуск из любого каталога' (marker, explicit --state-dir/--mail-dir outside repo)"
+    evidence: "evidence level — feed :280-293 (uv run pytest -> 8 passed; control run from pm/: 405 events / 38 cases, acceptance 81.0%, rework 19.0%); matches the diff (8 tests, root-based defaults); event growth vs first run (394->405) explained by records added after it (this feed, receipts/progress)"
+    checklist_5_7: "ok — README consistent with code (8 tests, run instructions); links live; no rights changes; no migration markers; exactly three pm/ files changed"
+    observation: "non-finding — feed fix entry inserted before the committed 'git · пакет выполняется' entry (base 74a9d4e, pre-fix package); git diff shows +17 inserted mid-file, not appended; blocks self-describing, reading-order only"
+  snapshot: "develop @ c137b63 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-archive
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-pm-archive-2026-09-30.md
+  dod:
+    borders: "ok — git status = 16 M + 2 ?? (M: AGENTS.md, git-workflow.md, clean-logs.mjs, pm/{README,pyproject.toml,uv.lock,__init__,cli,events,report,tests/test_pm_agents}, D81, memory/auditor, memory/migrator, memory/validator, state/current/progress; ??: mail/service-pm-archive.md, pm/src/pm_agents/archive.py); src/**, tests/** (Rust), Cargo.toml, opencode.json, .opencode/agents/**, review.md untouched"
+    cargo: "not run (D50) — scripts/docs/canon-only wave; src/tests/Cargo.toml absent from git status; no features counters/scenario changes; uv unavailable to roles, run evidence is feed"
+    decisions: "ok — (a) default_output_dir = <root>/.opencode/scripts/pm/output (cli.py:28-36, fallback parents[2]); (b) pm/.gitignore:5 'output/', output/ artifacts present but absent from git status; (c) merge_archive by stable key + occurrence (archive.py:28-63,142-163), unknown-<idx> zeroed only for source=progress (:34-36), write only when added (idempotent), atomic tmp+os.replace, tolerant load; clean-logs snapshotPm :126-147 called at :197 when !noSnapshot && toDelete>0, not in --dry-run (:182-190), failure -> console.warn (:138-143), --no-snapshot (:44,67)"
+    filters: "ok — parse_events without source (cli.py:173, both sources always), --source/--since/--exclude-service only in finalize_event_log (events.py:141-148); --archive (:187), --no-archive (:186); archive line in report header (report.py:45-51)"
+    tests: "ok — rg -c '^def test_' = 15; README:85 'expect: 15 passed'; tests genuinely assert archive idempotency, survival after mail removal, identical headings, accumulation, --since view-only, --no-archive, custom --archive"
+    canon: "ok — git diff AGENTS.md = exactly 1 changed line (map: +clean-logs snapshot/--no-snapshot, +pm/output), git-workflow.md +5 = one paragraph :176-180 inside section :167; wording matches code"
+    versions: "ok — 0.2.0: pyproject.toml:3, __init__.py:3, uv.lock:759-760"
+    rights: "ok — agents-perms = 'agents: 11 из 18'; git keeps node clean-logs.mjs, no uv added to any role; validator rights = review.md:86-87"
+    evidence: "evidence level — feed :61-71 (uv run pytest -> 15 passed; run1 +412, run2 +0; slice --source state --exclude-service +0, archive 412 lines; --dry-run/--no-snapshot/failure on scratch copy; live mail deletion not performed)"
+    audit: "ok — auditor r1 P1 none (P2 git-workflow/D81 transitive snapshot + P3 archive key) closed pointwise; auditor r2 P1/P2/P3 none, diff blocks unchanged after closure; r2 observation about D81:87-89 tense stands"
+    p3: "OPEN (non-blocking) — D81:7-10 Affects omits .opencode/scripts/clean-logs.mjs and .opencode/rules/git-workflow.md changed by the 30.09.2026 update (:79-89); traceability gap, fix = one bullet (migrator)"
+    observations: "non-findings — D81:87-89 present tense; archive key has no time so a new letter with identical name/date/status after clean-logs is indistinguishable from an archived one (candidate Q, low risk)"
+  snapshot: "develop @ 180a91a + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-archive
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-archive-2026-09-30-r2.md
+  dod:
+    delta: "ok — git diff docs/decisions/D81-pm-process-mining.md = only 2 hunks (@@ -5,8 +5,14 @@ Affects; @@ -58,6 +64,38 @@ update block insertion); §5 Решение (:23-48) and structure untouched"
+    p3_closure: "closed — Affects (:7-16) now lists [.opencode/scripts/clean-logs.mjs] (best-effort snapshot to pm archive — 'Обновление 30.09.2026') and [.opencode/rules/git-workflow.md] §«Подтверждение и очистка логов» (transitive snapshot); both links resolve (files exist, heading git-workflow.md:167); D number/status/Resolves unchanged"
+    tense: "closed — rg 'дополн' D81 = only :93-94 past tense ('уже дополнено сервисной сессией', 'дополнена сервисной сессией'); no 'дополняет' remains (auditor r2 observation)"
+    code_unchanged: "ok — numstat identical to r1: clean-logs.mjs 44/4, pm/README.md 36/10, pyproject.toml 1/1, __init__.py 1/1, cli.py 79/15, events.py 44/15, report.py 10/0, tests/test_pm_agents.py 127/1, uv.lock 1/1, AGENTS.md 1/1, git-workflow.md 5/0; D81 39/1 (was 32/0, +7/-1 = Affects only)"
+    borders: "ok — git status set same as r1 (+ validator's own report -r2, receipts.yaml, memory/validator.md); src/**, tests/** (Rust), Cargo.toml, opencode.json, .opencode/agents/**, review.md untouched"
+    cargo: "not run (D50) — delta touches D81 only; uv/cargo not executed by the role"
+  snapshot: "develop @ 180a91a + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-numbering
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-pm-numbering-2026-09-30.md
+  dod:
+    borders: "ok — git status = 13 M + 1 ?? (M: clean-logs.mjs, pm/{README.md,pyproject.toml,uv.lock,__init__,archive,cli,events,report,tests/test_pm_agents}, D81, memory/migrator, state/current/progress; ??: mail/service-pm-numbering.md); AGENTS.md, .opencode/agents/**, .opencode/rules/**, opencode.json, src/**, tests/** (Rust), Cargo.toml untouched"
+    cargo: "not run (D50) — service-zone wave; src/tests/Cargo.toml absent from git status; counters/composition docs/features unchanged; uv/node unavailable to roles, run evidence is feed"
+    numbers: "ok — archive.py: _row writes n (:71), _from_row tolerant (:94,:108); merge_archive assigns counter=max(n)+1 on first hit, legacy backfill when any n<=0 and rewrite when added or legacy (:157-182); next_number=max+1 (:185-187); events.py n field (:38); cli log 'следующее — №N' (:196-202)"
+    csv: "ok — events.csv from logbook.events (:258-287), column n = event.n or \"\" (empty under --no-archive); 10-column header; report.py header 'следующее событие — №K' (:46-51)"
+    cleanlogs: "ok — lastArchiveNumber :151-165 (tolerant, last non-empty line), printArchiveContinuation :167-175; dry-run prints inside toDelete>0 with [dry-run] prefix :210-218; real run after snapshotPm :228-229 regardless of --no-snapshot; snapshot failure -> warn + continue :140-148"
+    tests: "ok — rg -c '^def test_' = 18; README:95 'expect: 18 passed'; +3 new tests: archive numbers stable/continue, legacy backfill, events.csv export (header pinned)"
+    artifacts: "ok — output/events.jsonl 426 lines, all contain \"n\", first n=1, last n=426; output/events.csv 427 lines (header+426); summary.md:7 '+0 новых, всего 426; следующее — №427'"
+    versions: "ok — 0.3.0: pyproject.toml:3, __init__.py:3, uv.lock:760; no 0.2.0 in pm"
+    decisions: "ok — D81 'Обновление 30.09.2026 (нумерация)' :99-119 added as one hunk (+21/0), §5 and prior update block intact; links pm-tool-design/TRACEABILITY/Q77 resolve; Affects unchanged"
+    evidence: "evidence level — feed :52-60 (uv run pytest 18 passed; real archive backfill #1-426, repeat +0; events.csv 426 rows; clean-logs --dry-run 'до №426; с №427'; scratch snapshot failure -> warn + 'до №41; с №42'; --no-snapshot prints without snapshot); node --check ok; live mail deletion not performed"
+    p3: "OPEN (non-blocking) — D81:110-111 enumerated 8 events.csv fields vs 10 in cli.py:258-287 / tests:286-288 (iteration, expect_match omitted); fix = one line (migrator)"
+    observations: "non-findings — D81:115 'текущий, 412 событий' describes pre-backfill state (archive now 426 numbered)"
+  snapshot: "develop @ 6a0d342 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-numbering
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-numbering-2026-09-30.md
+  dod:
+    delta: "ok — git diff -U0 D81 = single hunk @@ -98,0 +99,22 @@; numstat 22/0 (r1 21/0, +1 line exactly); lines 1-98 untouched; §5 and structure intact"
+    p3_closure: "closed — D81:110-112 'выгрузка' now lists 10 fields (…; итерация; expect_match) matching cli.py:259-271 header and tests/test_pm_agents.py:286-288"
+    code_unchanged: "ok — numstat identical to r1: clean-logs.mjs 38/6, pm/README.md 16/6, pyproject.toml 1/1, __init__.py 1/1, archive.py 27/3, cli.py 36/2, events.py 1/0, report.py 3/1, tests/test_pm_agents.py 55/0, uv.lock 1/1, progress.yaml 7/0; only memory/migrator 20->28 and D81 21->22"
+    borders: "ok — git status = 13 M + 2 ?? (+ validator's own report); src/**, tests/** (Rust), Cargo.toml, AGENTS.md, .opencode/agents/**, .opencode/rules/**, opencode.json untouched"
+    cargo: "not run (D50) — delta touches D81 only; uv/node not executed by the role"
+  snapshot: "develop @ 6a0d342 + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-docs-lifecycle
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    borders: "ok — git diff --stat -- src tests Cargo.toml empty; git status --porcelain .opencode/agents .opencode/rules AGENTS.md docs/features empty; git status = 12 M + ( D docs/research/doc-quality-checks-2026-09-29.md) + ?? .opencode/mail/service-docs-lifecycle.md, matches brief"
+    links: "ok — git grep 'doc-quality-checks-2026-09-29' -- docs = only docs/reviews/doc-tools-d66d68-2026-09-29.md:17,69 (wave №2 snapshot); git grep -e '\\.\\./research/' -- docs/questions docs/decisions docs/tasks docs/features docs/README.md empty (exit 1); residual 'research/' only zones/scope (README:22,25, D65:89, T-19:35)"
+    tails: "ok — no dangling 'Обзор:' tails; remaining 'обзор glob …' = scan fact, 'Опора: обзор doc-quality-проверок' = unnamed provenance, no address"
+    d65: "ok — 'Обновление 30.09.2026' at D65:88-99 clarifies п.4, п.4 (:46-69) intact; inner links live (../analysis/findings-registry.md exists, D48, D64, T-18); Сверка с кодом preserved"
+    catalogs_5_7: "ok — questions/README:84-86, decisions/README:95-97, TRACEABILITY:66-68 unchanged and consistent (Q62↔D66→T-19 ⬜, Q63↔D67, Q64↔D68); IDs not reused; no migration markers; statuses untouched; SPEC/CHANGELOG/features/README/findings-registry unchanged"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs twice = 'agents: 11 из 18 (--all — все)', no discrepancies; agents/rules untouched, no reload needed"
+    archive: "ok — git show develop:docs/research/doc-quality-checks-2026-09-29.md = full file in history (160 lines), deletion recoverable"
+    feed: "ok — order (opening → migrator → docs-writer → service zone → auditor) matches tree; count '18 links in 7 files' matches diff (Q62×2, Q63×2, Q64×1, D66×4, D67×4, D68×3, T-19×2); auditor P1/P2/P3 none"
+    tech: "git rev-parse develop origin/develop HEAD rejected by rights engine; replaced with git log --oneline -1 (base 9948ebf confirmed, == brief)"
+  snapshot: "develop @ 9948ebf (= origin/develop) + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-docs-lifecycle-canon
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-canon-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    base: "ok — git rev-parse develop origin/develop HEAD = 21c3c80 / 21c3c80 / 21c3c80 (право git rev-parse * работает; ловушка из памяти validator снята)"
+    borders: "ok — git diff --stat -- src tests Cargo.toml empty; git diff --stat -- AGENTS.md empty; .opencode/** modified = docs-writer.md, validator.md, journal.md, review.md + memory auditor/git/migrator/validator + feed service-docs-lifecycle.md only"
+    rights: "ok — validator.md:29-30 git branch --contains * + git rev-parse * match review.md:88-89; agents-perms.mjs ×2 identical, agents 11 из 18, validator allow:git rev-parse *; other roles unchanged"
+    review_md: "ok — §«Хранение отчётов»: dropped (T-01-2026-09-26.md) example, «ссылка не ставится … (D65)» mirrors D65 «Обновление 30.09.2026»; §«Доступные команды» +git rev-parse; link ../../docs/decisions/D65-reference-policy.md live"
+    journal_8: "ok — P2 closed: added docs/research|reviews|analysis as «время жизни адреса» + exception findings-registry.md (D48); links docs/analysis/findings-registry.md and D48-findings-registry-owner.md live (glob)"
+    docs_writer: "ok — :69-71 «после приёмки»: ссылка на отчёт не ставится, ref review.md §«Хранение отчётов»; consistent with review.md/D65"
+    d49: "ok — «Обновление 30.09.2026 — право git rev-parse *» at D49:42-49, review.md + memory validator sync noted; no contradiction with п.1"
+    q54: "ok — P3 closed: git diff -U0 adds exactly two terminal dots at :12 (Связано) and :15 (Источник); other hunk lines = iteration-1 link removals (out of scope)"
+    no_stale_refs: "ok — git grep 'T-11-closeout-2026-09-28|T-01-2026-09-26|T-11-2026-09-26|T-12-2026-09-27|T-13-2026-09-27' -- docs/decisions docs/questions docs/tasks empty (exit 1)"
+    memory_f35: "ok — validator.md (ловушка->право git rev-parse) agrees with review.md/validator.md; git.md quoting agrees git-workflow.md; auditor.md/migrator.md checkpoints append-only; no foreign records rewritten"
+    feed: "ok — wave entries in order (iterations 1-8, canon sync, rev-parse right, audit, Q54 P3); facts match tree; open tails declared (68 D docs/reviews/**, T-01/T-11/T-12/T-13/T-16 — out of this acceptance)"
+    tech: "git diff -- ./.opencode/rules/review.md ./.opencode/rules/journal.md ... (multiple dot-paths under --) and git diff --numstat -- .opencode rejected by rights engine; narrowed to single ./path / bare git diff --numstat (review.md §«Доступные команды» quirk)"
+  snapshot: "develop @ 21c3c80 (= origin/develop = HEAD) + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-docs-lifecycle-canon-2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-canon-2-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    base: "ok — git rev-parse develop origin/develop HEAD = f28c8cb / f28c8cb / f28c8cb (matches brief)"
+    borders: "ok — git diff --stat -- src tests Cargo.toml AGENTS.md empty; .opencode/** modified = agents/validator.md, agents/auditor.md, rules/review.md, memory/migrator.md, memory/auditor.md, mail/service-docs-lifecycle.md only (delta); memory/validator.md untouched by delta"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; validator allow:git ls-files * + allow:git check-ignore * (validator.md:31-32); auditor allow:git check-ignore * (auditor.md:25); other roles unchanged; review.md:89 (validator +ls-files +check-ignore) and :96 (auditor +check-ignore) match frontmatters; probes: git ls-files <path> returns path, git check-ignore -v <path> exit 1"
+    d49: "ok — 8-line 'Обновление 30.09.2026 — права git ls-files */check-ignore * (дополняет п.1)' at D49:50-57, after first rev-parse update (:42-49); review.md §«Доступные команды» link live (review.md:86); no contradiction with п.1 (:27-29)"
+    memory_f35: "ok — migrator.md/auditor.md checkpoints append-only, agree with D49/frontmatters; no foreign records rewritten"
+    feed: "ok — delta entries in order (owner decision → migrator D49 → auditor audit); facts match tree (8 D49 lines, frontmatter lines, review.md lines); auditor P1/P2/P3 none"
+    out_of_scope: "68 D docs/reviews/**, T-01/T-11/T-12/T-13/T-16 cards, findings-registry.md (iter 9), memorandum-W8-run5.md (iter 10) — other wave operations, not in this acceptance"
+  snapshot: "develop @ f28c8cb (= origin/develop = HEAD) + working tree (2026-09-30)"
+  at: "2026-09-30"
