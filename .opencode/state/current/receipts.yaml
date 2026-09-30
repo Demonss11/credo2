@@ -1150,3 +1150,121 @@
     note: "не находка — прямой коммит в master = исключение из git-workflow.md:26–28, санкция владельца только в ленте (остаётся в коммите); develop сохраняет дубль-абзац и §10-пункт (выравнивание — отдельно)"
   snapshot: "master @ 9173fc4 (= origin/master) + working tree; develop @ 3d572f3 (= origin/develop) (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-review-links
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-review-links-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document package: git diff --stat -- src/tests/Cargo.toml/AGENTS.md empty; .opencode/agents|rules empty; features counters/composition untouched"
+    diff: "ok — git diff -- docs/tasks/T-03-check-create/README.md = one hunk, exactly 1 deletion, 0 additions (removed '- **Отчёт приёмки:** [.../reviews/T-03-2026-09-26.md]'); header, incl. '- **Источник:** Q28 (SPEC §10 №31).' (:6), intact (D70); --stat = 1 file changed, 1 deletion(-)"
+    links: "ok — git grep -n 'reviews/' -- docs/tasks = only zone mentions T-18 (47/64/75), T-19 (34); docs/questions empty; docs/decisions only zone mentions D64 (47/53), D65 (50/91), D66 (37); docs/features empty; docs/*.md only docs/README.md:21,25 (map/role of the zone); no address links to docs/reviews/** in canon"
+    address: "ok — git grep 'reviews/T-' -- docs = only inside docs/reviews/** (evidence snapshots), outside canon; git grep 'Отчёт приёмки' -- docs/tasks empty"
+    borders: "ok — git status --porcelain = M .opencode/memory/migrator.md, M .opencode/memory/validator.md (own checkpoint), M docs/tasks/T-03-check-create/README.md, ?? .opencode/mail/service-review-links.md; git diff --stat -- src/tests/Cargo.toml/AGENTS.md/.opencode/agents/.opencode/rules empty (single-path calls)"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git log -1 --oneline = b9fd791 ('Слияние master в develop (выравнивание веток)'); git rev-parse HEAD develop origin/develop = b9fd791 / b9fd791 / b9fd791"
+    evidence: "ok — docs/reviews/T-03-2026-09-26.md and -r2.md still present (evidence archive — git)"
+    tech: "git diff --stat -- src tests Cargo.toml AGENTS.md .opencode/agents .opencode/rules rejected by rights engine (multiple dot-paths under --, known quirk); replaced with single-path calls (all empty)"
+  snapshot: "develop @ b9fd791 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
+
+- task: service-lifecycle-w1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-lifecycle-w1-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/service package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; docs/features empty; SPECIFICATION.md/CHANGELOG.md empty; no features counter/composition change"
+    counters: "ok — rg -c lifecycle cells: open=27, in work=19, done=32; rg '| resolved ||| dropped |' empty (exit 1); rg '^.| (resolved|dropped|hold) |' empty"
+    layout: "ok — name-by-name vs feed: done 32 = wave-1 28 (Q5,Q6,Q27,Q40-Q42,Q47-Q49,Q52-Q59,Q61,Q64,Q66-Q72,Q75,Q77) + Q28,Q43-Q45; open 27 = wave-1 26 (Q2-Q4,Q8-Q11,Q14,Q18-Q26,Q30,Q31,Q35-Q39,Q63,Q65) + Q78; in work 19 untouched"
+    legend: "ok — TRACEABILITY.md:84-92 defines open/in work/done, 'resolved упразднён', dropped->done; preserves Задачи/Реализация/Q-D-column notes (D63,D76)"
+    journal: "ok — git diff -- ./.opencode/rules/journal.md: one hunk §3 (:31-33) summary cycle open/in work/done + D82 link; Q/D/task lines (:28-30) untouched (numstat 3/2)"
+    decisions: "ok — D63 append 'Обновление 01.10.2026' in Следствия (:59-63, 5/0), body (:33,:84) untouched; D64 append (:79-82, 4/0); bodies not rewritten"
+    t18: "ok — git diff T-18 = 3/1: check wording updated (:43-45) {open,in work,done}, in work => ⬜/🚧, done/open => no open tasks, resolved not allowed (D82 ref); Источник intact"
+    catalogs: "ok — questions/README.md +1 (:100 Q78 row), decisions/README.md +1 (:111 D82 row); reciprocal links"
+    qd_forms: "ok — Q78 status fields + sections, 'resolved by D82'; D82 Resolves Q78 (:5), Сверка с кодом ⚪ (:61), 'Задач не требуется' (:78); TRACEABILITY.md:82 Q78/D82 = open (tasks —, impl —); no session addresses (D65)"
+    borders: "ok — git status --porcelain = 8 M (memory/migrator, memory/auditor, rules/journal, TRACEABILITY, D63, D64, decisions/README, questions/README, T-18) + 3 ?? (feed, Q78, D82) + own validator.md/review; git diff --stat -- src tests Cargo.toml AGENTS.md empty; docs/features empty"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = cb7d159 / cb7d159 / cb7d159"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "git diff --numstat -- .opencode/rules/journal.md (bare dot-path under --) rejected by rights engine; replaced with ./path form (→3/2)"
+  snapshot: "develop @ cb7d159 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
+
+- task: service-lifecycle-w2-prep
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-lifecycle-w2-prep-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/service package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; no features counter/composition change; code untouched (migrator/service zone)"
+    counters: "ok — rg -c lifecycle cells: open=26, in work=21, done=32; rg -c '^| [Q' = 79 = 26+21+32; rg '| resolved ||| dropped |' only legend (:87-88) — dictionary {open,in work,done} intact"
+    rule: "ok — rg '\\| in work \\| —' empty (exit 1): every in work row has a task (D82 rule); done rows with tasks all ✅ (T-03,T-11-T-13)"
+    traceability: "ok — git diff: Q78/D82 open->in work + [T-20](…) ⬜; new row Q79/D83 in work + T-20 ⬜; legend untouched"
+    tasks_readme: "ok — git diff: +T-20 summary row (P3, [D83](…) (Q79), ⬜) + 'Исключение' ([D83]) paragraph on v0.2 tasks (mark 'v0.2', dep 'приёмка v0.1')"
+    catalogs: "ok — questions/README.md +1 (:101 Q79/D83), decisions/README.md +1 (:112 D83/Q79 accepted)"
+    q79: "ok — status 'resolved by D83', fields + sections per journal §4; links live"
+    d83: "ok — accepted, Resolves Q79 (:5), Спека — (:6), Affects (:7-10), Tasks T-20 (:11), 'Сверка с кодом' ⚪ (:61), 'Задач не требуется сверх T-20' (:80)"
+    t20: "ok — card: ⬜, P3, Источник D83 (Q79), связано D82 (Q78), criterion + D50 DoD note; status matches summary table (⬜)"
+    links: "ok — git ls-files confirms all referenced files exist (Q78,D82,D63-D65,D77,D50,T-18,tasks/README); relative depths valid ('../','../../')"
+    address: "ok — git grep '0opencode/mail|opencode/state|reviews/|research/|analysis/' over Q79/D83/T-20 empty (exit 1) (D65)"
+    untouched: "ok — git diff -- D82, D63, D64, T-18, ./.opencode/rules/journal.md all empty (bodies not rewritten)"
+    borders: "ok — git status --porcelain = M memory/migrator, TRACEABILITY, decisions/README, questions/README, tasks/README (5) + ?? feed, Q79, D83, T-20/ (4); plus own validator.md checkpoint"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = b04a77a / b04a77a / b04a77a; git branch --contains cb7d159 = develop (linear after w1)"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "git diff with multiple dot-paths under -- rejected by rights engine (known quirk); replaced with single-path calls; bare ./.opencode/memory/migrator.md dot-path rejected — './' form worked (numstat 19/0)"
+  snapshot: "develop @ b04a77a (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
+
+- task: service-rules-revision
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-rules-revision-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/canon package: git diff --stat -- src tests Cargo.toml empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse develop origin/develop HEAD = 3821811 / 3821811 / 3821811"
+    diffs: "ok — git diff over 4 rules + AGENTS.md: only targeted edits (decorative Dn/Qn refs, history dates/probes/Run/BRIEF, F-decor, real-ID examples → templates); norms preserved, dups → domain links"
+    anchors: "ok — R2 dispatch-loop.md:39 (§Hard rules), R7 :59; F43 exactly one (git-workflow.md:77); T-18 journal.md:103 without ⬜; ⬜ only in legends/schema"
+    dedup: "ok — domains resolve: dispatch-loop.md §Команды и права (:66), §Hard rules (:37); git-workflow.md §Пакет (:59), §Минимальный цикл (:86); review.md §Хранение отчётов (:71)"
+    pathforms: "ok — дом ./form + git -C ban = dispatch-loop.md:68-75; review.md:106, git-workflow.md:95,151 reference it"
+    decisionrefs: "ok — rules hold only D82(journal:30), D65(journal:116,review:84,dispatch-loop:129), D48(journal:116,dispatch-loop:131) in 'основание — `Dn`' code form"
+    review_tech: "ok — review.md 'Доступные команды' (:88-101) + 'не проверено и почему' (:109-115) intact; match perms"
+    audit_findings: "ok — P2-1 journal.md:103 no ⬜; P2-2 D84:39-41,57-60,72,91-96 (R2/R7, R5 marks); P3 D84:26-27,51 code-form"
+    q80_d84: "ok — journal forms, Resolves Q80<->D84 mutual; TRACEABILITY.md:84 row Q80/D84 = done; catalogs questions/README.md:102, decisions/README.md:113 +1"
+    links: "ok — git ls-files confirms D65/D48/D82/D63/D50/T-18/findings-registry.md exist"
+    borders: "ok — git status --porcelain = 10 M + 3 ?? (own records: report+this receipt+memory/thread appends); git diff --stat -- ./.opencode/agents ./.opencode/rules/workspace.md ./.opencode/scripts empty; git diff --check empty"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "empty-path multi-path git diff --stat with 6 dot-paths rejected (known quirk) — replaced with single calls"
+  snapshot: "develop @ 3821811 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
+
+- task: service-rules-revision-w2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-rules-revision-w2-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — canon/document package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = 52d8989 / 52d8989 / 52d8989"
+    diffs: "ok — git diff over 7 agents: only targeted decor removals (analyst -D48/-D39x2/-D40; docs-writer Q41->plain + -D72; lead -D39; migrator -OPEN_QUESTIONS/D61, -§10-history/D70x2, -D63, example Q6 при Q5->generalized; tester -Q8/Q9; auditor -Q41/-F35; validator -Q41); norms preserved; coder/rust-expert/researcher/git untouched"
+    anchor_r5: "ok — dispatch-loop.md:41-42 §Hard rules 'Чекпойнт перед тяжёлой операцией (R5)'; refs coder:52, tester:50, validator:58, AGENTS.md:135, memory/validator resolve; R2 pattern :39, R7 :61"
+    f43: "ok — rg '[DQF][0-9]' .opencode/agents -> only git.md:79 (F43, bearer, matches git-workflow.md:77)"
+    noise: "ok — rg 'Q8|Q9|Q41|D39|D40|D48|D61|D63|D70|D72|OPEN_QUESTIONS|§10|Q6 при Q5' over 7 cards empty (exit 1); rg 'проба|Run [0-9]|BRIEF|фаза C|перенесено|обновлено' over agents empty (exit 1)"
+    d84: "ok — one hunk +4 lines (:76-79), single bold bullet 'Обновление 01.10.2026', append-only; body/Решение/Следствия/Сверка intact; git grep 'opencode/mail|opencode/state' -> empty (exit 1, D65)"
+    borders: "ok — git status --porcelain = 7 M agents + M dispatch-loop.md + M D84 + M memory/{auditor,migrator} + ?? feed; no stray artifacts; git diff --check empty"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; review.md:86-104 <-> 11 frontmatters; frontmatters substantively unchanged (analyst comment :10 only)"
+    p3: "pre-existing, out of diff — coder:54/tester:51/rust-expert:62 R2 refs lack a verb ('см.'/'определение —'); not a blocker"
+    tech: "git diff with >=2 dot-paths under -- rejected ('Permission denied'); single-path calls used; git grep without -n rejected — rg used"
+  snapshot: "develop @ 52d8989 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
+
+- task: service-rules-revision-w2
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-rules-revision-w2-p3-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — canon-only quick fix: git diff --stat -- src tests Cargo.toml AGENTS.md empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = c8ffb0f / c8ffb0f / c8ffb0f (= w2 commit)"
+    diffs: "ok — git diff per card ./.opencode/agents/{coder,tester,rust-expert,validator}.md: exactly one hunk +1/-1 each, inserting 'см.' into '(R2 — `.opencode/rules/dispatch-loop.md` §«Hard rules»)' -> '(R2 — см. …)'; nothing else; numstat 1/1 x4"
+    p3_closed: "ok — rg '\\(R2 — `\\.opencode/rules/dispatch-loop\\.md` §«Hard rules»' .opencode/agents -> empty (exit 1); rg '\\(R2 — ' -> 4 hits all with 'см.' (validator:44, coder:54, rust-expert:62, tester:51)"
+    anchor_r2: "ok — target resolves: dispatch-loop.md:37 '## Hard rules' (§ holds w2 R5 anchor)"
+    borders: "ok — git status --porcelain = 4 M .opencode/agents/* + M .opencode/mail/service-rules-revision-w2.md (feed); no stray artifacts; git diff --check empty"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "bare .opencode/... dot-path under -- rejected ('Permission denied') — './'-prefixed form worked; 4-path single diff call rejected — per-path calls used"
+  snapshot: "develop @ c8ffb0f (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"

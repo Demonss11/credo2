@@ -40,7 +40,9 @@
   [`../../TRACEABILITY.md`](../../TRACEABILITY.md); вердикт «Сверка с кодом» в
   каждом `D`; согласованность `TRACEABILITY` (задачи `T-XX` существуют;
   жизненный цикл — из словаря
-  [D63](../../decisions/D63-journal-index-lifecycle.md)); запреты — номера
+  [D63](../../decisions/D63-journal-index-lifecycle.md) `{open, in work, done}`,
+  `in work` ⇒ есть ⬜/🚧-задача, `done`/`open` ⇒ открытых задач нет, `resolved`
+  не допускается ([D82](../../decisions/D82-traceability-lifecycle-waves.md))); запреты — номера
   строк, миграционные маркеры («ожидает переноса», `OPEN_QUESTIONS.md`, «до
   конца миграции»), ссылки канона на удаляемые/сессионные данные
   (`.opencode/mail/**`, `.opencode/state/**`) и на файлы рабочих артефактов

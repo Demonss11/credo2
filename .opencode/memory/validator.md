@@ -77,3 +77,153 @@
   **Урок:** при повторной приёмке канона доказывать закрытие через
   `git diff <новая-база> -- <файл>` — `develop`-дифф validator.md был решающим.
   `cargo` не запускался (D50).
+- **01.10.2026 · service-lifecycle-w2-prep (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`); пакет документно-служебный
+  (без T-XX). Что проверяю: (1) `git diff` TRACEABILITY (Q78/D82 → `in work`
+  +`T-20 ⬜`, новая строка Q79/D83), `tasks/README.md` (строка T-20 + абзац
+  «Исключение»/D83), `questions|decisions/README.md` (+1); (2) Q79/D83/T-20 —
+  формы, `Resolves`, «Сверка с кодом» ⚪, `Tasks: T-20`, критерий; D65; ссылки;
+  (3) счётчики: `open`=26, `in work`=21, `done`=32; словарь {open,in work,done};
+  (4) границы: `git status --porcelain` — 5 `M` + 4 `??` (до моих записей);
+  `git diff --stat -- src tests Cargo.toml AGENTS.md` пусто; (5)
+  `agents-perms.mjs` ×2 → 11 из 18; (6) `cargo` **не запускаю** (D50). Итог —
+  после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` @ `b04a77a`
+  (= `origin/develop` = `HEAD`); линейно после w1 (`cb7d159` ∈ `develop`,
+  `git log -3` → `b04a77a` поверх `cb7d159`). Счётчики `open`=26, `in work`=21,
+  `done`=32; `rg -c "^| \[Q"` = 79 (арифметика точна); `resolved`/`dropped` —
+  только легенда (:87–88); `| in work | —` пусто (каждое `in work` с задачей);
+  `done` с задачами — только ✅. Диффы: TRACEABILITY Q78/D82 `open`→`in work`
+  +`T-20 ⬜` + новая Q79/D83 `in work` +`T-20 ⬜`; `tasks/README.md` +T-20 и
+  абзац «Исключение» (D83); каталоги +1/+1; D82/D63/D64/T-18/`journal.md` пусто
+  (тела не переписаны). Q79/D83/T-20 — формы, ⚪, «Задач не требуется сверх
+  T-20»; ссылки живые (`git ls-files`); D65 чисто. Границы: 5 `M` + 4 `??` (до
+  моих записей) — ровно план; `src/tests/Cargo.toml/AGENTS.md` пусто; perms ×2 =
+  `11 из 18`; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-lifecycle-w2-prep-2026-10-01.md`; квитанция записана.
+  **Грабли:** многопутевой `git diff -- ...` с dot-путями отклонён (как и
+  раньше) — одиночные вызовы; голый `./.opencode/memory/migrator.md` под `--`
+  прошёл после `./`-формы (numstat 19/0).
+- **01.10.2026 · service-review-links №1 (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`, `HEAD` = `b9fd791`); правка
+  — удаление строки «Отчёт приёмки: …» из `docs/tasks/T-03-check-create/README.md`
+  (D65, `review.md` §«Хранение отчётов»). План: `git diff -- …` (1 удаление,
+  0 добавлений; «Источник» цел — D70); `git grep -n "reviews/" -- docs/tasks`
+  (только зоны T-18/T-19); адресные ссылки на `docs/reviews/**` по
+  questions/decisions/features/tasks/`docs/*.md` — пусто; `git status --porcelain`
+  (3 пути: T-03, memory/migrator, лента); границы `git diff --stat -- src tests
+  Cargo.toml AGENTS.md .opencode/agents .opencode/rules` — пусто; `cargo`
+  **не запускаю** (D50, пакет документный). Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. `git diff -- …` карточки →
+  1 удаление/0 добавлений, «Источник: Q28 …» (:6) цел (D70); `git grep
+  "reviews/" -- docs/tasks` → только зоны T-18 (47/64/75)/T-19 (34);
+  questions/features пусто, decisions — зоны (D64/D65/D66), `docs/*.md` —
+  только `README.md:21,25`; `reviews/T-` — только внутри `docs/reviews/**`;
+  `Отчёт приёмки` в `docs/tasks` нет; улики `T-03-2026-09-26{-r2}.md` на месте.
+  Ветка/база `develop...origin/develop`, `HEAD`/`develop`/`origin/develop` =
+  `b9fd791` (= план). Границы `src/tests/Cargo.toml/AGENTS.md/.opencode/agents/
+  rules` пусты (многоточечный `--stat` отклонён движком — одиночные вызовы).
+  Отчёт `docs/reviews/service-review-links-2026-10-01.md`; квитанция записана.
+  `cargo` не запускался (D50).
+  **Грабли:** `git diff --stat` с 6 путями (в т.ч. dot-paths) отклонён — уже
+  дважды; рабочий приём — одиночный путь на вызов. `receipts.yaml` — 1152
+  строки; хвост читать по `offset` (конец = запись `service-statuses-review`
+  iteration 2), `edit`-анкер — строка `report:` нужной итерации (дважды
+  повторяющиеся `snapshot`/`at` не уникальны).
+- **01.10.2026 · service-lifecycle-w1 (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`, `HEAD`/`develop` =
+  `b9fd791`); пакет документно-служебный (без T-XX). Что проверяю: (1)
+  `TRACEABILITY.md` — словарь {open,in work,done}, нет ячеек `resolved`/
+  `dropped`, счётчики 27/19/32, поимённая сверка раскладки с лентой, легенда;
+  (2) `git diff` по `.opencode/rules/journal.md` §3 (только пункт сводного
+  цикла), D63/D64 (append-«Обновления»), T-18, каталоги Q/D; тела решений не
+  переписаны; сессионных адресов нет (D65); (3) Q78/D82 — формы журнала,
+  `Resolves`, «Сверка с кодом» ⚪, «Задач не требуется», строка = `open`;
+  (4) границы `git status --porcelain` (8 `M` + 3 `??` до моих записей),
+  `git diff --stat -- src tests Cargo.toml AGENTS.md` пусто; (5)
+  `agents-perms.mjs` ×2 → 11 из 18; (6) DoD: `cargo` **не запускаю** (D50 —
+  пакет без `src/**`/`tests/**`/`Cargo.toml`/`features`-счётчиков). Итог —
+  после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` @ `cb7d159`
+  (= `origin/develop` = `HEAD`) + рабочее дерево. Счётчики `open` = 27,
+  `in work` = 19, `done` = 32; ячеек `resolved`/`dropped` нет; раскладка
+  поимённо = ленте (done-28 + Q28/Q43–Q45; open-26 + Q78); легенда точна.
+  `journal.md` §3 — один хунк 3/2 (+D82), строки :28–30 целы; D63/D64 —
+  append-«Обновления» 5/0 и 4/0, тела целы; T-18 3/1; каталоги +1/+1.
+  Q78/D82 — формы, ⚪, «Задач не требуется», строка = `open`, D65 чисто.
+  Границы: 8 `M` + 3 `??`; `src/tests/Cargo.toml/AGENTS.md`, `docs/features`
+  пусто; perms ×2 = `11 из 18`; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-lifecycle-w1-2026-10-01.md`; квитанция записана.
+  **Грабли:** голый dot-путь `.opencode/**` под `--` отклонён — форма
+  `./.opencode/...` проходит (подтверждено на journal.md, numstat 3/2).
+- **01.10.2026 · service-rules-revision (волна 1, чекпойнт ДО прогона):** база —
+  `develop...origin/develop` (сверю `HEAD`/`develop`); пакет документно-канонный
+  (без T-XX). Что проверяю: (1) `git diff` по 4 rules + `AGENTS.md` §«Служебная
+  зона и аудит» — только целевые правки, нормы/якоря целы; (2) `R2`/`R7`
+  (`dispatch-loop.md`), `F43` ровно один (`git-workflow.md`), `T-18` без `⬜`
+  (`journal.md` §7), `./`-формы и `git -C`, решения только `D82`/`D65`/`D48`;
+  (3) закрытие P2-1/P2-2/P3 аудита (journal §7; D84 R2/R7, R5-примечание,
+  код-форма, п.6, Следствия, Сверка); (4) Q80/D84 — формы, строка TRACEABILITY =
+  `done`, каталоги; (5) `agents-perms.mjs` ×2 → `11 из 18`; (6) границы:
+  10 `M` + 3 `??` (до моих записей), `git diff --stat -- src tests Cargo.toml`
+  пусто; `cargo` **не запускаю** (D50). Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` @ `3821811`
+  (= `origin/develop` = `HEAD`). Диффы 4 rules + `AGENTS.md` — только целевые
+  (снят декор `Dn/Qn`, история/даты/пробы/Run/BRIEF, F-декор, реальные ID в
+  примерах → шаблоны; дубли → ссылки). Якоря цели: R2 `dispatch-loop.md:39`,
+  R7 `:59`, `F43` ровно один (`git-workflow.md:77`), `T-18` без `⬜`
+  (`journal.md:103`), `./`-формы и `git -C` — дом `dispatch-loop.md:68–75`;
+  решения — только `D82`/`D65`/`D48` в формате «основание — `Dn`».
+  Находки аудита закрыты: P2-1 (нет `⬜`), P2-2/P3 (D84 :39–41,57–60,72,91–96,
+  :26–27,51). Q80/D84 — формы, `Resolves` взаимны, `TRACEABILITY.md:84` =
+  `done`, каталоги +1; ссылки живые (`git ls-files`). `agents-perms.mjs` ×2 =
+  `11 из 18` (идентично); `.opencode/agents`/`workspace.md`/`scripts` не
+  тронуты. Границы: 10 `M` + 3 `??` (ровно план), `git diff --check` пусто;
+  `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-rules-revision-2026-10-01.md`; квитанция записана.
+  **Грабли:** `git diff --stat` с 6 dot-путями отклонён (как и раньше) —
+  одиночные вызовы. `R5` — предсуществующий висячий якорь (метка ролей,
+  долг волны 2) — не блокер приёмки, зафиксировано в отчёте.
+  **Урок:** для канон-волн сверять «дом» дедуп-ссылок с фактическими
+  `##`-заголовками файлов (`rg "^## "`) — быстрая проверка резолвимости.
+- **01.10.2026 · service-rules-revision-w2 (волна 2: якорь R5 + agents/**,
+  чекпойнт ДО прогона):** база — `develop` = `origin/develop` = `HEAD` @
+  `52d8989` (сверено). Пакет канонно-документный (без T-XX). Что проверяю:
+  (1) `git diff ./.opencode/agents/<7>.md` — только целевые снятия (Q/D-декор,
+  F-декор, история, примеры), нормы и фронтматтеры целы; `git.md` — `F43`
+  (`:79`); (2) якорь `R5` — `dispatch-loop.md:41–42` в §«Hard rules»; резолв
+  ссылок `coder.md:52`, `tester.md:50`, `validator.md:58`, `AGENTS.md:135`,
+  память `validator`; (3) D84 — append-only «Обновление 01.10.2026», тело
+  цело, D65 (нет сессионных адресов); (4) `agents-perms.mjs` ×2 → `11 из 18`;
+  (5) границы: `git status --porcelain` = 9 `M` + 7 agents `M` + `M D84` +
+  `??` лента (до моих записей); `git diff --stat -- src tests Cargo.toml
+  AGENTS.md` пусто; `cargo` **не запускаю** (D50). Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` = `origin/develop`
+  = `HEAD` @ `52d8989`. Якорь `R5` — `dispatch-loop.md:41–42` §«Hard rules»
+  (паттерн R2 :39/R7 :61); ссылки `coder:52`, `tester:50`, `validator:58`,
+  `AGENTS.md:135`, память — резолвятся. 7 карточек — только целевые снятия,
+  нормы целы; `F43` — `git.md:79` (единственный `[DQF]\d`); шум-контроль по
+  Q/D-меткам, истории/пробам/Run/BRIEF — пусто; D84 +4 строки append-only,
+  тело цело, D65 чисто; perms ×2 = `11 из 18`; фронтматтеры по существу не
+  менялись (`analyst` — только комментарий :10). Границы ровно план; `cargo`
+  не запускался (D50). Отчёт `docs/reviews/service-rules-revision-w2-2026-10-01.md`;
+  квитанция записана. P3 (предсуществующее, вне диффа): `coder:54`/`tester:51`/
+  `rust-expert:62` — ссылки на R2 без глагола. **Грабли:** `git diff` с ≥2
+  dot-путями под `--` — «Permission denied» (третий раз); `git grep` без `-n`
+  правом отклонён — заменил `rg`.
+- **01.10.2026 · service-rules-revision-w2, iteration 2 (закрытие P3 — быстрая
+  правка):** **принято**, P1/P2/P3 нет. База `develop` @ `c8ffb0f`
+  (= `origin/develop` = `HEAD` — коммит волны 2 уже сделан `git`). Правка — канон
+  (`.opencode/agents/**`): в 4 карточках `(R2 — …)` → `(R2 — см. …)`
+  (`coder:54`, `tester:51`, `rust-expert:62`, `validator:44`). Каждый дифф ровно
+  `+1/−1` (numstat `1/1` ×4), нормы целы; `rg` без «см.» → пусто (exit 1); дом
+  `dispatch-loop.md:37` §«Hard rules» резолвится; perms ×2 = `11 из 18`; границы
+  4 `M` agents + `M` лента; `git diff --stat -- src tests Cargo.toml AGENTS.md`
+  пусто; `git diff --check` пусто; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-rules-revision-w2-p3-2026-10-01.md`; квитанция iteration 2
+  `accepted`. **Грабли:** голый dot-путь `.opencode/...` под `--` отклонён —
+  `./`-форма работает; 4-путевой `git diff` под `--` отклонён — диффы по одному
+  пути; `node -e` с кириллицей/`«»` в строке в shell — синтаксическая ошибка
+  (использовать `edit` для append-записей). **Урок:** для быстрых docs/canon-правок
+  порог достаточен: per-wave отчёт + `agents-perms` ×2 + адресные диффы; полный
+  DoD (`cargo`) не нужен при неизменных `src/tests/Cargo.toml` (D50).

@@ -351,3 +351,45 @@
   action: complete
   result: "Выравнивание веток по решению владельца («выравниваем»): коммит записей (chore(process): лента service-branch-align, progress, память git) в master + push origin master; develop (предок master) — слияние --no-ff master в develop («Слияние master в develop (выравнивание веток)») + push origin develop; деревья идентичны, develop опережает master на merge-коммит; в develop приехали T-03-код, R2-строка и правки канона (дубли/§10 сняты)."
   next: "— (ветки выровнены; волна service-branch-align закрыта)"
+
+- at: "2026-10-01"
+  task: service-review-links
+  iteration: 1
+  action: complete
+  result: "Снято отхождение от канона (запрос владельца, ветка develop): из карточки docs/tasks/T-03-check-create/README.md удалена строка «Отчёт приёмки: …» со ссылкой на docs/reviews/T-03-2026-09-26.md (канон review.md §«Хранение отчётов»/D65: ссылки на reviews из задач не допускаются; паттерн — почищенные карточки T-01/T-11/T-12/T-13/T-16); сверка: адресных ссылок на reviews в каноне больше нет (остались только упоминания зон). Приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-review-links-2026-10-01.md). Пакет git — по гейту (коммит + push develop)."
+  next: "— (правка закрыта; на master приедет с очередным слиянием develop→master)"
+
+- at: "2026-10-01"
+  task: service-lifecycle-w1
+  iteration: 1
+  action: complete
+  result: "Волна 1 жизненного цикла TRACEABILITY (решение владельца): словарь — open · in work · done (resolved упразднён; dropped в таблице не используется — снятое показывается done); разметка: 28 строк → done (применённые документно-процессные + Q27/Q42), 26 → open (v0.2, Notebook/LSP, частичные 🟡); in work (19) и done (Q28/Q43–Q45) не тронуты; журнал Q78/D82; канон: journal.md §3, «Обновления» D63/D64, карточка T-18, каталоги; строка Q78/D82 = open. Аудит auditor (P1/P2/P3 нет), приёмка validator (принято; отчёт docs/reviews/service-lifecycle-w1-2026-10-01.md). Волна 2 (разбор 26 open) — отдельной операцией. Пакет git — по гейту (коммит + push develop)."
+  next: "— (волна 1 закрыта; открыто: волна 2 — разбор open-строк)"
+
+- at: "2026-10-01"
+  task: service-lifecycle-w2-prep
+  iteration: 1
+  action: complete
+  result: "Подготовка волны 2 TRACEABILITY (решение владельца: «волну 2 будем делать не сейчас, а отдельной задачей»): Q79 (вопрос), D83 (процедура волны 2), T-20 (задача, P3, источник D83 (Q79)); сопутствующее: строки Q79/D83 и Q78/D82 в TRACEABILITY → in work с T-20 ⬜, каталоги Q/D, строка T-20 в сводке и «Исключение» в границах tasks/README (v0.2-задачи с пометой и зависимостью «приёмка v0.1»). Счётчики: open 26 / in work 21 / done 32. Аудит не требовался (документный пакет), приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-lifecycle-w2-prep-2026-10-01.md). Пакет git — по гейту (коммит + push develop)."
+  next: "— (подготовка закрыта; волна 2 — задача T-20 ⬜, исполнение отдельно)"
+
+- at: "2026-10-01"
+  task: service-rules-revision
+  iteration: 1
+  action: complete
+  result: "Ревизия .opencode/rules/** (Q80/D84, решение владельца): волна 1 — из 4 файлов (journal, review, dispatch-loop, git-workflow) снят шум: декоративные Dn/Qn-ссылки и исторические приписки (даты, «пробы T-13», «Run 3», BRIEF, «Обновление»), F-метки-декор, реальные ID в примерах → шаблоны; дедупликация (команды/пути/`git -C` — дом dispatch-loop §«Команды и права»; F43 — один якорь; дубли state/канон агентов сняты); несущие якоря сохранены (R2/R7, F43, T-18 без ⬜, D82/D65/D48 «основание — Dn»); норма-запрет — в AGENTS.md §«Служебная зона и аудит». Аудит auditor (P1 нет; P2-1/P2-2/P3 закрыты), приёмка validator (принято; отчёт docs/reviews/service-rules-revision-2026-10-01.md). Волна 2 (agents/** + висячий R5) — отдельно. Пакет git — по гейту (коммит + push develop)."
+  next: "— (волна 1 закрыта; открыто: волна 2 — agents/**)"
+
+- at: "2026-10-01"
+  task: service-rules-revision-w2
+  iteration: 1
+  action: complete
+  result: "Волна 2 ревизии канона агентов (Q80/D84): (1) якорь R5 определён — dispatch-loop.md §«Hard rules» («чекпойнт перед тяжёлой операцией»; ссылки ролей и AGENTS.md резолвятся); (2) .opencode/agents/** — 7 карточек: сняты декоративные Q/D-приписки и F-метки-декор (analyst D48/D39×2/D40; docs-writer Q41/D72; lead D39; migrator D61-история/§10-D70×2/D63/пример Q6-Q5; tester Q8/Q9; auditor Q41/F35; validator Q41); git.md — F43 сохранён; coder/rust-expert/researcher — чисто; (3) D84 — «Обновление 01.10.2026». Аудит auditor (P1/P2/P3 нет), приёмка validator (принято; отчёт docs/reviews/service-rules-revision-w2-2026-10-01.md). Пакет git — по гейту (коммит + push develop)."
+  next: "— (волна 2 закрыта; ревизия канона агентов завершена)"
+
+- at: "2026-10-01"
+  task: service-rules-revision-w2
+  iteration: 2
+  action: complete
+  result: "P3 волны 2 закрыт быстрой правкой (инструкция владельца): в 4 карточках добавлено «см.» в ссылке на R2 (coder:54, tester:51, rust-expert:62, validator:44 — четвёртая найдена при правке); нормы не менялись. Приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-rules-revision-w2-p3-2026-10-01.md, квитанция iteration 2). Пакет git — по гейту (коммит + push develop)."
+  next: "— (P3 закрыт; ревизия канона агентов завершена полностью)"

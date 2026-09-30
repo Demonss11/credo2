@@ -10,6 +10,9 @@
 > **Границы:** только следствия принятых решений для текущего прототипа.
 > Отложенное (v0.2: БД, LSP `lsp-dar`, Notebook, batch, explain_client,
 > импорт/экспорт, pre-release) — не здесь, а в фичах со статусом ⏸.
+> **Исключение** ([D83](../decisions/D83-traceability-wave2.md)): v0.2-следствия
+> принятых решений допускаются как задачи реестра — с пометой «v0.2» и
+> зависимостью «приёмка v0.1»; детализация остаётся в фичах со статусом ⏸.
 >
 > **Роль в политике Q41:** рабочий реестр; статусы задач — здесь и в
 > карточках, статусы требований — только в `../features/README.md`.
@@ -60,6 +63,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-09](T-09-check-run/README.md) | `check.run` — исполнение опубликованной версии | Q33 | P3 | T-06 | ⬜ |
 | [T-18](T-18-docs-journal-test/README.md) | Тест целостности журнала `tests/docs_journal.rs` (ID, парность, таблицы, запреты) | [D64](../decisions/D64-journal-integrity-test.md) (Q60) | P3 | после D61–D63, D65 | ⬜ |
 | [T-19](T-19-doc-quality-checks/README.md) | Doc-quality проверки: `doc-size` + `markdownlint-cli2`, композит `check` | [D66](../decisions/D66-doc-quality-checks.md) (Q62) | P3 | — | ⬜ |
+| [T-20](T-20-traceability-wave2/README.md) | Волна 2 `TRACEABILITY`: разбор `open`-строк | [D83](../decisions/D83-traceability-wave2.md) (Q79) | P3 | — | ⬜ |
 
 ## DoD для любой задачи
 
