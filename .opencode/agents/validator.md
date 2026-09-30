@@ -74,8 +74,7 @@ permissions:
   поля (`Resolves`, `Спека`, `Affects`, `Tasks`) заполнены верно;
 - у D есть вердикт «Сверка с кодом»; задачи созданы или явно «не требуется»;
 - `docs/TRACEABILITY.md` и каталоги (`questions/README.md`,
-  `decisions/README.md`) согласованы (без дублей полей);
-- строка `Dn` есть в `docs/SPECIFICATION.md` §10.
+  `decisions/README.md`) согласованы (без дублей полей).
 
 **Код (`T-XX`):**
 

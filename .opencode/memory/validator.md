@@ -44,5 +44,36 @@
   квитанция записана. `cargo` не запускался (D50).
   **Грабли:** `git diff` с несколькими dot-путями под `--` и `--numstat -- .opencode`
   движок отклоняет — одиночный `./`-путь или `git diff --numstat` без пути.
-  `receipts.yaml` крупный (`grep -n "^- task:"` → 64 записи), хвост читать по
+  `receipts.yaml` крупный (`grep -n "^- task:"` → 66 записей), хвост читать по
   `offset`.
+- **30.09.2026 · service-statuses-review (приёмка)** — **возврат (rework)**,
+  P1+P2. Отчёт `docs/reviews/service-statuses-review-2026-09-30.md`; квитанция
+  `service-statuses-review` iteration 1, rework. Пакет сам по себе собран верно
+  (диффы ±, границы чисты, права, записи append, P3 аудитора закрыт, DSH/D65 —
+  ок; `cargo` не запускался, D50). **P1 — ветка/база:** дерево на `master`
+  @ `9173fc4` (= `origin/master`), а лента (mail:34,148) называет коммит в
+  `develop` @ `3d572f3`; ветки разошлись по тем же файлам (`git diff --stat
+  develop HEAD`: migrator.md, validator.md, AGENTS.md, src/mcp.rs, tests/mcp_draft.rs)
+  → `git switch develop` с грязными файлами откажет, коммит на текущей ветке
+  уйдёт в `master` (git-workflow:26–28), на `develop` приехал бы лишний блок
+  «Цикл задачи»; анкер D38 верен только для master. **P2** — validator.md:52–67,
+  69–80 дубль «Цикл задачи». **Грабли:** `git branch --show-current` — нет в
+  allowlist `validator` (смотреть `git status -sb` / `git branch --contains`);
+  `git show -s --format=%ci <hash>` часть вызовов движок отклоняет (891 не прошёл,
+  acaf3ec прошёл) — не полагаться; сравнивать ветки — `git diff --stat develop HEAD`
+  (без путей). **Урок: перед приёмкой сервисной волны сверять ветку/базу
+  (`git status -sb` + `git rev-parse HEAD develop`) с планом — расхождение
+  master/develop ломает гейт.**
+- **30.09.2026 · service-statuses-review (повторная приёмка, r2)** — **принято**,
+  P1/P2 закрыты, P1/P2/P3 нет. База — `master` @ `9173fc4` (= `origin/master`) +
+  рабочее дерево; `develop` @ `3d572f3` (= `origin/develop`). Отчёт
+  `docs/reviews/service-statuses-review-2026-09-30-r2.md`; квитанция iteration 2
+  `accepted`. **Итог:** `git diff develop -- ./.opencode/agents/validator.md` →
+  только §10-ханк (блок-дубль на `develop` не приедет); `rg '^## Цикл задачи'` →
+  :52; validator.md `+1/−15`; migrator.md `+2/−7`; D38 `+7` (оба дубля), D70 `+8`;
+  границы `src/tests/Cargo.toml/AGENTS.md` пусты; `agents-perms` ×2 → `11 из 18`;
+  память append (F35); P1 закрыт решением владельца (база `master`, коммит в
+  `master` по гейту — исключение из git-workflow:26–28, санкция только в ленте).
+  **Урок:** при повторной приёмке канона доказывать закрытие через
+  `git diff <новая-база> -- <файл>` — `develop`-дифф validator.md был решающим.
+  `cargo` не запускался (D50).

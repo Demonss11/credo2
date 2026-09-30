@@ -432,6 +432,21 @@ impl McpServer {
     }
 }
 
+/// Обязательный непустой строковый параметр (`check.create`, Q28): отсутствие,
+/// не-строка и пустая строка — ошибка валидации `validation_failed`.
+fn required_str<'a>(args: &'a JsonValue, key: &str) -> Result<&'a str, ToolError> {
+    match args.get(key) {
+        Some(JsonValue::String(s)) if !s.trim().is_empty() => Ok(s),
+        Some(JsonValue::String(_)) => Err(ToolError::validation(format!(
+            "Параметр '{key}' не может быть пустым"
+        ))),
+        Some(_) => Err(ToolError::validation(format!(
+            "Параметр '{key}' должен быть строкой"
+        ))),
+        None => Err(ToolError::validation(format!("Нужен параметр '{key}'"))),
+    }
+}
+
 /// Канонический объект черновика для `check.get_draft` (Q29, §4.5):
 /// только рендеренные строки, внутренний `Rule` не публикуется; `stale`
 /// и `test_valid` — вычисляемые.
@@ -640,6 +655,134 @@ mod tests {
         srv.dispatch("check.get_draft", json!({ "name": "МинимальныйВозраст" }))
             .await
             .unwrap()
+    }
+
+    // ---------- T-03: check.create {name, source} (Q28) ----------
+
+    async fn create_named(
+        srv: &McpServer,
+        name: &str,
+        source: &str,
+    ) -> Result<JsonValue, ToolError> {
+        srv.dispatch("check.create", json!({ "name": name, "source": source }))
+            .await
+    }
+
+    /// Разворачивает ошибку в сообщение, требуя код `validation_failed`.
+    fn validation_message(err: ToolError) -> String {
+        match err {
+            ToolError::Envelope { code, message } => {
+                assert_eq!(code, "validation_failed");
+                message
+            }
+            ToolError::Message(m) => panic!("ожидался конверт validation_failed: {m}"),
+        }
+    }
+
+    #[tokio::test]
+    async fn create_name_matches_header_ok_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        let ok = create_named(&srv, "МинимальныйВозраст", SRC).await.unwrap();
+        assert_eq!(ok, json!({ "status": "ok", "name": "МинимальныйВозраст" }));
+    }
+
+    #[tokio::test]
+    async fn create_name_mismatch_is_validation_failed_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        let msg = validation_message(create_named(&srv, "ДругоеИмя", SRC).await.unwrap_err());
+        assert!(msg.contains("ДругоеИмя"), "нет входного name: {msg}");
+        assert!(
+            msg.contains("МинимальныйВозраст"),
+            "нет имени из source: {msg}"
+        );
+        // Черновик не создан.
+        assert!(
+            srv.dispatch("check.get_draft", json!({ "name": "ДругоеИмя" }))
+                .await
+                .is_err()
+        );
+    }
+
+    #[tokio::test]
+    async fn create_missing_or_empty_name_is_validation_failed_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+
+        let missing = srv
+            .dispatch("check.create", json!({ "source": SRC }))
+            .await
+            .unwrap_err();
+        assert!(validation_message(missing).contains("name"));
+
+        let empty = create_named(&srv, "", SRC).await.unwrap_err();
+        assert!(validation_message(empty).contains("name"));
+
+        let non_string = srv
+            .dispatch("check.create", json!({ "name": 42, "source": SRC }))
+            .await
+            .unwrap_err();
+        assert!(validation_message(non_string).contains("name"));
+    }
+
+    #[tokio::test]
+    async fn create_missing_source_is_validation_failed_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        let err = srv
+            .dispatch("check.create", json!({ "name": "МинимальныйВозраст" }))
+            .await
+            .unwrap_err();
+        assert!(validation_message(err).contains("source"));
+    }
+
+    #[tokio::test]
+    async fn create_invalid_source_is_validation_failed_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        let bad = "Если (Клиент.Возраст < 21) { Решение = Отказ; }";
+        let msg = validation_message(
+            create_named(&srv, "МинимальныйВозраст", bad)
+                .await
+                .unwrap_err(),
+        );
+        assert!(msg.contains("отсутствует заголовок правила"), "{msg}");
+        // Инвариант 1 (§4.5): черновик с невалидным текстом не создаётся.
+        assert!(srv.state.get_draft("МинимальныйВозраст").await.is_none());
+        assert_eq!(
+            srv.dispatch("check.list_drafts", json!({})).await.unwrap()["count"],
+            json!(0)
+        );
+    }
+
+    #[tokio::test]
+    async fn create_repeat_overwrites_draft_t03() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        // «Сохранить = обновить»: тот же name, новый source.
+        let new_src = SRC.replace("< 21", "< 18");
+        let again = create(&srv, &new_src).await;
+        assert_eq!(
+            again,
+            json!({ "status": "ok", "name": "МинимальныйВозраст" })
+        );
+
+        let d = &get_draft(&srv).await["draft"];
+        assert_eq!(d["source"], new_src);
+        assert_eq!(
+            srv.dispatch("check.list_drafts", json!({})).await.unwrap()["count"],
+            json!(1)
+        );
+    }
+
+    #[test]
+    fn validation_error_json_envelope_t03() {
+        let j = ToolError::validation("нет заголовка").into_json();
+        assert_eq!(j["error"]["code"], "validation_failed");
+        assert_eq!(j["error"]["message"], "нет заголовка");
     }
 
     #[tokio::test]

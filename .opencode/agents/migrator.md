@@ -71,9 +71,7 @@ permissions:
    `docs/tasks/T-XX-<слаг>/README.md` по образцу T-01…T-10
    (Источник — `Dn (Qx)`), строка в сводке `docs/tasks/README.md`.
    Иначе — строка «Задач не требуется: …» в D-файле, `Tasks: —`.
-6. Добавь строку решения в `docs/SPECIFICATION.md` §10 со ссылкой на D-файл
-   (если строки ещё нет).
-7. Смени статус вопроса на `resolved by Dn`; обнови `docs/TRACEABILITY.md`
+6. Смени статус вопроса на `resolved by Dn`; обнови `docs/TRACEABILITY.md`
    (колонки: `Q | D | Жизненный цикл | Задачи | Реализация`) и каталоги
    (`questions/README.md`, `decisions/README.md` — без дублей полей, D63).
 

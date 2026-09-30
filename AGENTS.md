@@ -300,7 +300,7 @@ await tools.credo.check_rebuild_manifest();
 ```sh
 cargo build --release
 
-# DoD прототипа (из корня репозитория):
+# DoD прототипа (из корня репозитория; полный прогон тестов — только validator, R2):
 cargo fmt --check
 cargo clippy --all-targets -- -D warnings
 cargo test --all
