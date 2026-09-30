@@ -316,3 +316,10 @@
   action: complete
   result: "Волна service-pm-archive (решение владельца): артефакты pm — .opencode/scripts/pm/output/ (вне git, локальный .gitignore) вместо TEMP; накопительный архив output/events.jsonl (слияние по стабильному ключу + номер повтора без дублей, идемпотентность +0 на повторном прогоне, tolerant-чтение/атомарная запись; фильтры --source/--since/--exclude-service — только срез отчёта; флаги --archive/--no-archive); clean-logs.mjs — best-effort снимок лент в архив перед удалением (--no-snapshot); README/AGENTS.md/git-workflow.md/D81 («Обновление 30.09.2026»); версия 0.2.0; тесты 15 passed; прогоны +412/+0. Аудит auditor (r1: P2/P3 → r2: P1/P2/P3 нет; agents-perms 11 из 18) → приёмка validator (r1 «принято с замечаниями» P3 Affects → r2 «принято», P3 закрыт). Коммит 6a0d342, push 180a91a..6a0d342 origin develop (22 пути)"
   next: "— (волна закрыта; вне пакета: git check-ignore в allowlist auditor/validator — на усмотрение владельца; ключ архива без времени — кандидат в Q; MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-numbering
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-numbering (решение владельца): сквозная нумерация событий архива (`n` — при первом попадании, не меняется; продолжение max+1; разовый бэкфилл старого архива по порядку), выгрузка output/events.csv (10 колонок: n..expect_match), clean-logs.mjs печатает продолжение нумерации после снимка (и в --dry-run); версия 0.3.0; тесты 18 passed; реальный архив №1–426 (+14, повторный прогон +0). Приёмка validator (r1: принято с замечаниями P3 — 8 полей CSV в D81 против 10 в коде → r2: принято, P3 закрыт, замечаний нет). Коммит 03c20d8, push 6a0d342..03c20d8 origin develop (18 путей); D81 — «Обновление 30.09.2026 (нумерация)»"
+  next: "— (волна закрыта; без изменений: наблюдение о ключе архива без времени — кандидат в Q; git check-ignore в allowlist validator/auditor — на усмотрение владельца; MCP-интеграция pm — T-15, отдельно)"
