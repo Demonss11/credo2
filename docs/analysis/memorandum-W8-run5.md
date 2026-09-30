@@ -647,8 +647,8 @@ edition 2024; `fn main()`; отступы выровнены); `rustfmt --check`
 закрыт).
 
 Приёмка (`validator`, 28.09.2026): **accepted** — отчёт
-[`docs/reviews/W8-config-2026-09-28.md`](../reviews/W8-config-2026-09-28.md),
-квитанция `W8-config` (iteration 1) в `receipts.yaml`; DoD: `fmt` pass,
+`W8-config-2026-09-28.md`, квитанция `W8-config` (iteration 1) в
+`receipts.yaml`; DoD: `fmt` pass,
 `clippy --all-targets -- -D warnings` pass, `test` 107/0, `features_inventory`
 4/4 (47/278); реформат — только форматирование (10 файлов, +335/−157).
 
@@ -895,7 +895,7 @@ ID — предварительные: в живом журнале послед
 | 2 | Решения владельца по драфту (формулировки; F26, F29, F34; аудит-микропроверка F35) | владелец | ✅ (28.09.2026) |
 | 3 | Пробы `git -C` (F38) + смоук deny `execute` | `tester`/`docs-writer`/`git`-сессии | ✅ (28.09.2026) |
 | 4 | D-записи (Q47*–Q53*) + реестр F15–F39 | `migrator` | ✅ (28.09.2026: Q47–Q53/D42–D48; реестр F15–F39) |
-| 5 | Конфиг-пакет «стиль/качество»: приёмка (`validator`) → коммит | `validator` → `git` | ✅ 28.09.2026: `W8-config` accepted (`docs/reviews/W8-config-2026-09-28.md`); коммит `22f7683` |
+| 5 | Конфиг-пакет «стиль/качество»: приёмка (`validator`) → коммит | `validator` → `git` | ✅ 28.09.2026: `W8-config` accepted; коммит `22f7683` |
 | 6 | Канон-пакет: правки §4.1–4.5, 4.7–4.16 + память `coder` (F35) → аудит → приёмка → коммит | сервисная сессия → `auditor` → `validator` → `git` | ✅ 28.09.2026: аудит (2 круга; 3×P3 закрыты), `W8-canon` accepted; коммиты `c0acfeb` (канон), `a2424b6` (журнал), `b1e1bbb` (процесс); push `a7eac82..b1e1bbb` |
 | 7 | T-15/доки: карточка (F26), `wave0-report` (F28), чек-лист фазы B, CHANGELOG | `docs-writer` | ✅ 28.09.2026 (правки вошли в `b1e1bbb`) |
 | 8 | Процессные записи (ленты/память/state) | `git` (процессный пакет) | ✅ подтверждён 28.09.2026 (коммит `chore(process): записи пакета w8_commits`) |

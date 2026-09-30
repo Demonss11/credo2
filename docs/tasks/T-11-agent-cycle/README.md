@@ -209,8 +209,7 @@ Q43) и закрывает дефекты первого прогона:
 
 - **Закрытие (2026-09-28).** Критерий готовности выполнен:
   1. цикл R1–R5 описан в каноне и ролях без дублей; права подтверждены машинно
-     (`opencode debug agents`) в отчёте r3 —
-     [`reviews/T-11-2026-09-26-r3.md`](../../reviews/T-11-2026-09-26-r3.md);
+     (`opencode debug agents`) в отчёте r3;
      повторные аудиты 28.09.2026 (W8) расхождений «инструкция ↔ права» не
      нашли ([`analysis/memorandum-W8-run5.md`](../../analysis/memorandum-W8-run5.md) §0);
   2. память 11 ролей и формат почты (`AGENTS.md` §«Память и почта») введены;
@@ -219,11 +218,8 @@ Q43) и закрывает дефекты первого прогона:
      [`analysis/memorandum-W8-run5.md`](../../analysis/memorandum-W8-run5.md) §0);
      буквальная имитация обрыва вынесена в T-15 (C3);
   3. пилот состоялся — Run 4, T-03: возврат на доработку P1
-     (`clippy::cmp_owned`) и повторная приёмка `-r2`; отчёты
-     [`reviews/T-03-2026-09-27.md`](../../reviews/T-03-2026-09-27.md) (rework) и
-     [`reviews/T-03-2026-09-27-r2.md`](../../reviews/T-03-2026-09-27-r2.md)
-     (accepted), квитанции `.opencode/state/current/receipts.yaml` (T-03,
-     iteration 2), разбор —
+     (`clippy::cmp_owned`) и повторная приёмка `-r2`; квитанции
+     `.opencode/state/current/receipts.yaml` (T-03, iteration 2), разбор —
      [`analysis/memorandum-W8-run4.md`](../../analysis/memorandum-W8-run4.md)
      §0, §9–§11;
   4. журнал Q43/D38 обновлён; коммиты `0a5832f` и `5019c45` ветки
