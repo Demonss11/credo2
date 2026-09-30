@@ -1119,3 +1119,34 @@
     out_of_scope: "68 D docs/reviews/**, T-01/T-11/T-12/T-13/T-16 cards, findings-registry.md (iter 9), memorandum-W8-run5.md (iter 10) — other wave operations, not in this acceptance"
   snapshot: "develop @ f28c8cb (= origin/develop = HEAD) + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-statuses-review
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-statuses-review-2026-09-30.md
+  dod:
+    cargo: "not run — D50: package without changes to src/**, tests/**, Cargo.toml, docs/features/** (git diff --stat -- src tests Cargo.toml AGENTS.md empty; .opencode/agents+memory, docs/decisions, docs/reviews, receipts only)"
+    content: "ok — git diff migrator.md +2/−7 (снят абзац-дубль «свой файл» −3, снят пункт §10 −2, перенумерация 6→5/7→6), validator.md +1/−2 (снят пункт «строка Dn в §10», «;»→«.»); D38 +4 и D70 +8 — по одному «Обновление 30.09.2026» в конце «Следствий», тело не переписано; фронтматтеры не тронуты; docs/TRACEABILITY.md не в диффе"
+    records: "ok — memory/migrator +30/−0, memory/auditor +27/−0 (append, F35); лента по порядку, факты сходятся; P3 аудитора закрыт (список «Порядок работы» 1–6)"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; validator allowlist ↔ review.md:88–90"
+    links: "ok — D70 Relative-Link ../tasks/T-18-docs-journal-test/README.md exists; только стабильные пути (D65); остатки §10 — исторические пояснения (migrator.md:47,87, journal.md:22)"
+    borders: "ok — 6 M + 1 ?? (migrator.md, validator.md, memory/{migrator,auditor}, D38, D70, mail) = состав пакета; «7 M» брифа — описка (путей 7)"
+    p1: "ветка/база: git status -sb → '## master...origin/master'; HEAD 9173fc4 ≠ develop 3d572f3, а лента (mail:34,148) называет коммит в develop; git diff --stat develop HEAD → migrator.md 7, validator.md 13, AGENTS.md 2, src/mcp.rs 143, tests/mcp_draft.rs 193. Последствия: git switch develop с грязными migrator.md/validator.md откажет; коммит без переключения уйдёт в master (git-workflow.md:26–28); диффы сняты против master, а develop получил бы лишний блок «Цикл задачи» в validator.md; анкер D38 («удалён дубль») верен только для master. → re-plan: владелец выбирает базу/ветку, дифф и записи переснимаются"
+    p2: ".opencode/agents/validator.md:52–67 и :69–80 — дубль раздела «Цикл задачи» (класс снятого дубля migrator) не снят → неоднозначная инструкция роли"
+  snapshot: "master @ 9173fc4 (= origin/master) + working tree; develop @ 3d572f3 (= origin/develop) (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-statuses-review
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-statuses-review-2026-09-30-r2.md
+  dod:
+    cargo: "not run — D50: document/service package (no src/**, tests/**, Cargo.toml; git diff --stat -- src tests Cargo.toml AGENTS.md empty)"
+    p1_closed: "ok — owner decision: base/branch = master, direct commit to master by gate; git status -sb → '## master...origin/master'; HEAD 9173fc4 = origin/master, develop 3d572f3 = origin/develop; git diff develop -- ./.opencode/agents/validator.md → only §10 hunk (no extra «Цикл задачи» block)"
+    p2_closed: "ok — rg '^## Цикл задачи' → one hit (:52); validator.md diff +1/−15 (−13 block :69–80, −1 §10 + punctuation), frontmatter untouched; retained version :52–67 (with receipts clause), ref ':60' → ':79' resolves"
+    content: "ok — migrator.md +2/−7 (dup −3, §10 −2, renumber 6→5/7→6); D38 +7 (one 'Обновление 30.09.2026', both dups, bodies untouched, stable paths only — D65); D70 +8 (one item); docs/TRACEABILITY.md not in status"
+    records: "ok — memory append-only: migrator +39/−0, auditor +43/−0, validator +19/−1; receipts +16/−0; feed in order (rework → owner decision → migrator D38 → δ-audit), facts match (D38 +7, D70 +8, migrator +2/−7)"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; review.md:88–90 ↔ validator frontmatter"
+    note: "не находка — прямой коммит в master = исключение из git-workflow.md:26–28, санкция владельца только в ленте (остаётся в коммите); develop сохраняет дубль-абзац и §10-пункт (выравнивание — отдельно)"
+  snapshot: "master @ 9173fc4 (= origin/master) + working tree; develop @ 3d572f3 (= origin/develop) (2026-09-30)"
+  at: "2026-09-30"
