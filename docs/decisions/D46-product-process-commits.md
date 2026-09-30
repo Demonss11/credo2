@@ -6,7 +6,8 @@
 - **Спека:** [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №46
 - **Affects:** [`git-workflow.md`](../../.opencode/rules/git-workflow.md)
   (§«Ограничения»; §«Формат коммитов»);
-  [`findings-registry.md`](../analysis/findings-registry.md)
+  [`findings-registry.md`](../analysis/findings-registry.md);
+  [`TRACEABILITY.md`](../TRACEABILITY.md) (строка Q51/D46 — связь с `T-15`)
 - **Tasks:** [T-15](../tasks/T-15-mcp-ready-process/README.md) (фаза C — session-commit; см. «Сверка с кодом»)
 
 ## Контекст

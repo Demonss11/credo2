@@ -267,3 +267,10 @@
   action: complete
   result: "Операция №2: Q73/D77 (полнота задач — все T-XX видны через TRACEABILITY; добор проверок T-18) и Q74/D78 (T-15 — программа «процесс, готовый к MCP», фазы A–G); свип 19/19; приёмка validator (r1 rework по вердикту D78 → r2 accepted); коммит c8652c4, push 406575c..c8652c4 origin develop (18 путей); отчёты docs/reviews/service-doc-refactor-2-2026-09-30{,-r2}.md"
   next: "— (операция №2 закрыта; открытый кандидат — T-15 в «Задачи» строк Q50/D45, Q51/D46 — по решению владельца)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 3
+  action: complete
+  result: "Операция №3: T-15 — в «Задачи» строк Q50/D45 и Q51/D46 (жизненный цикл resolved → in work); D45/D46 — поле Tasks, «Сверка с кодом» и «Обновление 30.09.2026» (фиксация связи с программой; новых Q/D нет); приёмка validator accepted (P1/P2/P3 нет); коммит 2f2140c, push c8652c4..2f2140c origin develop (10 путей); отчёт docs/reviews/service-doc-refactor-3-2026-09-30.md"
+  next: "— (операция №3 закрыта; открыто: journal.md §7 — внесение полноты в канон процесса, по решению владельца)"

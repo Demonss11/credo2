@@ -11,7 +11,8 @@
   [`git.md`](../../.opencode/agents/git.md); [`AGENTS.md`](../../AGENTS.md)
   §«Сборка, тесты и пересборка»; `rustfmt.toml`, `rust-toolchain.toml`,
   `.cargo/config.toml`, `.gitattributes`; `src/**`, `tests/**` (реформат);
-  [`findings-registry.md`](../analysis/findings-registry.md)
+  [`findings-registry.md`](../analysis/findings-registry.md);
+  [`TRACEABILITY.md`](../TRACEABILITY.md) (строка Q50/D45 — связь с `T-15`)
 - **Tasks:** [T-15](../tasks/T-15-mcp-ready-process/README.md) (фаза A — волна 0; см. «Сверка с кодом»)
 
 ## Контекст

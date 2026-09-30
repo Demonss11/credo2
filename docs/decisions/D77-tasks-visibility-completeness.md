@@ -53,6 +53,9 @@
   операции (часть 2).
 - Строки Q47–Q53 (D42–D48) не трогаются: проверка их связи с
   [`T-15`](../tasks/T-15-mcp-ready-process/README.md) по фактам — за `validator`.
+- **Обновление 30.09.2026:** полнота задач внесена в канон журнала (§7
+  [`journal.md`](../../.opencode/rules/journal.md)) —
+  [D79](D79-journal-canon-completeness.md).
 
 ## Сверка с кодом
 

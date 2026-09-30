@@ -94,3 +94,4 @@
 | [Q72](Q72.md) | TRACEABILITY: колонки Q и D — темы или только ссылки? | [D76](../decisions/D76-traceability-links-only.md) |
 | [Q73](Q73.md) | полнота реестра задач: видимость всех T-XX через TRACEABILITY | [D77](../decisions/D77-tasks-visibility-completeness.md) |
 | [Q74](Q74.md) | T-15: как оформляем программу «процесс, готовый к MCP»? | [D78](../decisions/D78-t15-mcp-ready-program.md) |
+| [Q75](Q75.md) | внесение полноты задач в канон `journal.md` §7 | [D79](../decisions/D79-journal-canon-completeness.md) |

@@ -889,3 +889,23 @@
     observation: "non-finding — D45/D46 Affects do not list TRACEABILITY.md although their rows changed; link documented by 'Обновление 30.09.2026' bullet; optional one-line addition"
   snapshot: "develop @ c8652c4 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-doc-refactor-op4
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-4-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat 2f2140c -- src tests Cargo.toml empty; git status = 11 M + 2 ??; op4 = 8 M + 2 ?? (M: .opencode/rules/journal.md, docs/TRACEABILITY.md, D45, D46, D77, decisions/README.md, questions/README.md, mail feed; ??: Q75, D79); extra = role checkpoints (memory/migrator.md, memory/auditor.md) + progress.yaml (op3 write); .opencode/agents/** and review.md untouched"
+    cargo: "not run (D50, docs/canon-only)"
+    canon_7: "ok — git diff .opencode/rules/journal.md = one hunk, §7 only (:107-111); text matches D79 п.1 (each T-XX from tasks/README visible in TRACEABILITY at least one row; marks ⬜/🚧/✅ synced; links D77/D79); LF (rg -c '\\r$' = 0); sections §1-§8 intact (8 headings); links ../../docs/decisions/D77…/D79… resolve from .opencode/rules/"
+    records: "ok — Q75 §4 (fields+sections, ⚪), D79 §4 (Stats/Date/Resolves [Q75]/Спека —/Affects/Tasks —) with verdict ⚪ + §5.3 facts (:43-60)"
+    traceability: "ok — diff +1 line: :79 '| [Q75] | [D79] | resolved | — | — |' after Q74; 75 Q rows; rg -c '^' = rg -c '\\r$' = 87; legend untouched"
+    catalogs: "ok — questions/README 75 Q rows (+Q75), decisions/README 79 D rows (+D79); assignment said 80 — stale, D1–D79 = 79 (same as audit)"
+    d45_d46: "ok — Affects +1 line each (D45:15 / D46:10) with TRACEABILITY.md (Q50/D45, Q51/D46); one hunk each, no other edits"
+    d77: "ok — 'Обновление 30.09.2026' bullet (:56-58) records canon §7 edit via D79; п.6 not rewritten"
+    consistency: "ok — §7 ↔ D79 п.1 ↔ T-18 card :49-54 ↔ tasks/README 'Полнота' paragraph; D77 п.6 closed; Q75:3 <-> D79:5 pairity; IDs unique; no migration markers; checklist §5.7 ok"
+    audit_protocol: "ok — auditor entry (:483-538) before validation; independent agents-perms run = 'agents: 11 из 18' (matches audit x2); agents/** and review.md untouched"
+    feed: "ok — op4 opening (:408) -> migrator (:440) -> service session canon edit (:466) -> auditor (:483), protocol order"
+    p3_audit: "recorded as owner observations, non-blocking: (1) completeness criterion duplicated in journal.md §7 and tasks/README.md:34-38 (per D79 п.1/D77); (2) §7 mentions tests/docs_journal.rs which does not exist yet (pre-existing, T-18 ⬜) "
+  snapshot: "develop @ 2f2140c + working tree (2026-09-30)"
+  at: "2026-09-30"
