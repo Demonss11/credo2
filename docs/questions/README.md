@@ -97,3 +97,4 @@
 | [Q75](Q75.md) | внесение полноты задач в канон `journal.md` §7 | [D79](../decisions/D79-journal-canon-completeness.md) |
 | [Q76](Q76.md) | полнота фич: видимость всех `*.feature` через TRACEABILITY | [D80](../decisions/D80-features-visibility-completeness.md) |
 | [Q77](Q77.md) | process-mining инструмент `pm`: состав, источники, место | [D81](../decisions/D81-pm-process-mining.md) |
+| [Q78](Q78.md) | жизненный цикл `TRACEABILITY`: как разгрести массу `resolved` | [D82](../decisions/D82-traceability-lifecycle-waves.md) |

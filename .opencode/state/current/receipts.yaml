@@ -1166,3 +1166,24 @@
     tech: "git diff --stat -- src tests Cargo.toml AGENTS.md .opencode/agents .opencode/rules rejected by rights engine (multiple dot-paths under --, known quirk); replaced with single-path calls (all empty)"
   snapshot: "develop @ b9fd791 (= origin/develop = HEAD) + working tree (2026-10-01)"
   at: "2026-10-01"
+
+- task: service-lifecycle-w1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-lifecycle-w1-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/service package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; docs/features empty; SPECIFICATION.md/CHANGELOG.md empty; no features counter/composition change"
+    counters: "ok — rg -c lifecycle cells: open=27, in work=19, done=32; rg '| resolved ||| dropped |' empty (exit 1); rg '^.| (resolved|dropped|hold) |' empty"
+    layout: "ok — name-by-name vs feed: done 32 = wave-1 28 (Q5,Q6,Q27,Q40-Q42,Q47-Q49,Q52-Q59,Q61,Q64,Q66-Q72,Q75,Q77) + Q28,Q43-Q45; open 27 = wave-1 26 (Q2-Q4,Q8-Q11,Q14,Q18-Q26,Q30,Q31,Q35-Q39,Q63,Q65) + Q78; in work 19 untouched"
+    legend: "ok — TRACEABILITY.md:84-92 defines open/in work/done, 'resolved упразднён', dropped->done; preserves Задачи/Реализация/Q-D-column notes (D63,D76)"
+    journal: "ok — git diff -- ./.opencode/rules/journal.md: one hunk §3 (:31-33) summary cycle open/in work/done + D82 link; Q/D/task lines (:28-30) untouched (numstat 3/2)"
+    decisions: "ok — D63 append 'Обновление 01.10.2026' in Следствия (:59-63, 5/0), body (:33,:84) untouched; D64 append (:79-82, 4/0); bodies not rewritten"
+    t18: "ok — git diff T-18 = 3/1: check wording updated (:43-45) {open,in work,done}, in work => ⬜/🚧, done/open => no open tasks, resolved not allowed (D82 ref); Источник intact"
+    catalogs: "ok — questions/README.md +1 (:100 Q78 row), decisions/README.md +1 (:111 D82 row); reciprocal links"
+    qd_forms: "ok — Q78 status fields + sections, 'resolved by D82'; D82 Resolves Q78 (:5), Сверка с кодом ⚪ (:61), 'Задач не требуется' (:78); TRACEABILITY.md:82 Q78/D82 = open (tasks —, impl —); no session addresses (D65)"
+    borders: "ok — git status --porcelain = 8 M (memory/migrator, memory/auditor, rules/journal, TRACEABILITY, D63, D64, decisions/README, questions/README, T-18) + 3 ?? (feed, Q78, D82) + own validator.md/review; git diff --stat -- src tests Cargo.toml AGENTS.md empty; docs/features empty"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = cb7d159 / cb7d159 / cb7d159"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "git diff --numstat -- .opencode/rules/journal.md (bare dot-path under --) rejected by rights engine; replaced with ./path form (→3/2)"
+  snapshot: "develop @ cb7d159 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"

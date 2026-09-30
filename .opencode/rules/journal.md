@@ -28,8 +28,9 @@
 - Q: `open` → `resolved by Dn` | `dropped`.
 - D: `accepted` → `superseded by Dm` | `rejected`.
 - Задача `T-XX`: ⬜ → 🚧 → ✅ (канон статусов — `docs/tasks/README.md`).
-- Сводный жизненный цикл — `docs/TRACEABILITY.md`: `open` · `resolved` ·
-  `in work` · `done` · `dropped`.
+- Сводный жизненный цикл — `docs/TRACEABILITY.md`: `open` · `in work` · `done`
+  (словарь обновлён [D82](../../docs/decisions/D82-traceability-lifecycle-waves.md);
+  `resolved` и `dropped` в таблице не используются).
 
 ## 4. Шаблоны
 

@@ -103,3 +103,29 @@
   строки; хвост читать по `offset` (конец = запись `service-statuses-review`
   iteration 2), `edit`-анкер — строка `report:` нужной итерации (дважды
   повторяющиеся `snapshot`/`at` не уникальны).
+- **01.10.2026 · service-lifecycle-w1 (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`, `HEAD`/`develop` =
+  `b9fd791`); пакет документно-служебный (без T-XX). Что проверяю: (1)
+  `TRACEABILITY.md` — словарь {open,in work,done}, нет ячеек `resolved`/
+  `dropped`, счётчики 27/19/32, поимённая сверка раскладки с лентой, легенда;
+  (2) `git diff` по `.opencode/rules/journal.md` §3 (только пункт сводного
+  цикла), D63/D64 (append-«Обновления»), T-18, каталоги Q/D; тела решений не
+  переписаны; сессионных адресов нет (D65); (3) Q78/D82 — формы журнала,
+  `Resolves`, «Сверка с кодом» ⚪, «Задач не требуется», строка = `open`;
+  (4) границы `git status --porcelain` (8 `M` + 3 `??` до моих записей),
+  `git diff --stat -- src tests Cargo.toml AGENTS.md` пусто; (5)
+  `agents-perms.mjs` ×2 → 11 из 18; (6) DoD: `cargo` **не запускаю** (D50 —
+  пакет без `src/**`/`tests/**`/`Cargo.toml`/`features`-счётчиков). Итог —
+  после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` @ `cb7d159`
+  (= `origin/develop` = `HEAD`) + рабочее дерево. Счётчики `open` = 27,
+  `in work` = 19, `done` = 32; ячеек `resolved`/`dropped` нет; раскладка
+  поимённо = ленте (done-28 + Q28/Q43–Q45; open-26 + Q78); легенда точна.
+  `journal.md` §3 — один хунк 3/2 (+D82), строки :28–30 целы; D63/D64 —
+  append-«Обновления» 5/0 и 4/0, тела целы; T-18 3/1; каталоги +1/+1.
+  Q78/D82 — формы, ⚪, «Задач не требуется», строка = `open`, D65 чисто.
+  Границы: 8 `M` + 3 `??`; `src/tests/Cargo.toml/AGENTS.md`, `docs/features`
+  пусто; perms ×2 = `11 из 18`; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-lifecycle-w1-2026-10-01.md`; квитанция записана.
+  **Грабли:** голый dot-путь `.opencode/**` под `--` отклонён — форма
+  `./.opencode/...` проходит (подтверждено на journal.md, numstat 3/2).
