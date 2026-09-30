@@ -12,7 +12,8 @@
 - **Источник:** [D64](../../decisions/D64-journal-integrity-test.md) (Q60);
   образец — [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs)
   ([D20](../../decisions/D20-features-docs-dod.md)/Q40); связано: D63, D65, D61;
-  дополнено [D77](../../decisions/D77-tasks-visibility-completeness.md) (Q73) — полнота задач
+  дополнено [D77](../../decisions/D77-tasks-visibility-completeness.md) (Q73) — полнота задач;
+  дополнено [D80](../../decisions/D80-features-visibility-completeness.md) (Q76) — полнота фич
 
 ## Контекст
 
@@ -52,6 +53,11 @@
   `TRACEABILITY` имеет карточку в `docs/tasks/`; статусные пометки ⬜/🚧/✅ в
   `TRACEABILITY` совпадают с реестром
   ([D77](../../decisions/D77-tasks-visibility-completeness.md));
+- полнота фич: каждая `*.feature` из [`../../features/README.md`](../../features/README.md)
+  встречается поимённо в [`../../TRACEABILITY.md`](../../TRACEABILITY.md) (колонка
+  «Реализация»); wildcard-обобщения (`agents-*`, «и др.») не допускаются; обратно —
+  каждый `*.feature` из `TRACEABILITY` существует
+  ([D80](../../decisions/D80-features-visibility-completeness.md));
 - **v0.2:** полный link-check относительных ссылок журнала (вне исторических зон
   `docs/reviews/**`, `docs/analysis/**`).
 

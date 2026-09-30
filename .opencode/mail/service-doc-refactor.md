@@ -794,3 +794,154 @@
   №5 — подтверждение пакета»), дополнен только `memory/git.md`.
 - Дальше / риски: после `push` в отслеживаемые файлы не пишу (F43); хеши
   коммита и результат `push` — в ответе `lead`.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №6 — открытие
+
+- Тема: полнота фич — все `*.feature` видны через `TRACEABILITY.md` поимённо.
+- Анализ владельца (подтверждён сверкой): 47 фич; поимённо в таблице — 35;
+  без имени — **12**: `manifest_sync`, `wasm`, 10 агентских (кроме
+  `agents-cycle`); у Q44 устаревший счётчик «`agents-*.feature` (6 файлов)»
+  (агентских файлов — 11).
+- Решения владельца (30.09.2026, `question`): **полный вариант** (правило +
+  поимённые правки + заголовки фич + пометка в `features/README` + добор
+  T-18); маппинг согласован: 6 D38/D39 → Q43+Q44; 5 «T-15» → Q74/D78;
+  `manifest_sync` → Q29/D34 + Q32/D28; `wasm` → Q65/D69.
+- Маршрут: `migrator` (Q76/D80, таблица, каталоги, карточка T-18) →
+  `docs-writer` (`features/README`, заголовки `wasm`/`manifest_sync`) →
+  `validator` (включая адресный `cargo test --test features_inventory`) →
+  пакет `git` по гейту.
+- Границы: `docs/**`; `.opencode/**`, `src/**`, `tests/**` не трогаются;
+  канон не меняется — аудит не требуется.
+
+---
+
+## migrator · 30.09.2026 · операция №6 — записи и таблица
+
+- Сделано: созданы `docs/questions/Q76.md` (⚪; сначала `resolved by [D80]`) и
+  `docs/decisions/D80-features-visibility-completeness.md` (`accepted`,
+  `Resolves: [Q76]`, `Спека: —`, `Tasks: T-18 (добор проверок)`);
+  `docs/TRACEABILITY.md`: Q43/Q44 — шесть агентских D38/D39 поимённо (wildcard
+  «`agents-*.feature`» и «(6 файлов)» убраны); Q29/D34 и Q32/D28 — +
+  `manifest_sync.feature`; Q74/D78 — пять фич `T-15`; Q65/D69 — `wasm.feature`
+  (ретро-линия D11); +строка Q76/D80; каталоги `questions/README.md` (+Q76),
+  `decisions/README.md` (+D80); карточка `T-18` — «Источник» + D80 (Q76),
+  v0.1-подпункт «полнота фич».
+- Проверки: `^\| \[Q` в `TRACEABILITY.md` = **76** (Q76 — `:80`); `agents-\*|и др\.`
+  → **пусто**; все 12 имён найдены (`manifest_sync`, `wasm`, 10 агентских);
+  `^` = `\r$` = **88** (CRLF, легенда `:82–88`); `questions/README.md` = **76**
+  Q-строк; `decisions/README.md` = **80** D-строк (D80 — `:109`); T-18 — оба
+  дополнения (`:16`, `:56–60`); ссылки Q76↔D80 живые; `docs/features/**` не
+  трогал (зона `docs-writer`); `git status --porcelain` — **6 M + 2 ??**
+  (TRACEABILITY, оба каталога, T-18, лента, `progress.yaml`; ?? Q76, D80);
+  `cargo` не запускался (D50).
+- Дальше / риски: `docs-writer` — пометка полноты в `features/README.md`,
+  заголовки `wasm`/`manifest_sync`; затем `validator` (адресный
+  `cargo test --test features_inventory`) → пакет `git` по гейту.
+
+---
+
+## docs-writer · 30.09.2026 · операция №6 — пометка полноты и заголовки
+
+- Сделано: `docs/features/wasm.feature:2` — `# D11: WASM — сначала нативный,
+  потом браузер; браузерная сборка — v0.2, вне MVP (ретро-D, оформлен D69)` (сверено
+  с [D11](../../docs/decisions/D11-wasm-native-first.md) §Решение/§Следствия);
+  `docs/features/manifest_sync.feature:2-3` — `# D34 (Q29): контракт
+  check.rebuild_manifest …` (§9 [D34](../../docs/decisions/D34-mcp-tool-contracts.md))
+  и `# D28 (Q32): синхронизация REST с published-repo после merge в main (кэш и
+  watcher; два git-контура)` (сверено с [D28](../../docs/decisions/D28-two-git-contours.md)
+  и сценариями файла: watcher/кэш/`rebuild_manifest`); `docs/features/README.md:37`
+  — пункт «Полнота» в §«Как читать» (ссылки `../TRACEABILITY.md`,
+  [D80](../../docs/decisions/D80-features-visibility-completeness.md), `tests/docs_journal.rs`, T-18 ⬜).
+- Проверки: `rg -n "D11" docs/features/wasm.feature` → **1** (`:2`);
+  `rg -n "D34|D28" docs/features/manifest_sync.feature` → **2** (`:2`, `:3`);
+  первая строка обоих файлов — `# language: ru` (комментарии добавлены ниже);
+  `rg -n "47 файлов, 278 сценариев" docs/features/README.md` → `:315` (счётчики и
+  таблицы не тронуты, вставка только в «Как читать»); `tests/features_inventory.rs`
+  требует первую строку `# language: ru` и ровно одну `Функция:` (чтение `:47–57`) —
+  не затронуто; `git diff --stat` — в моей части только три файла (+1/+2/+1 строк);
+  `cargo` не запускался (D50; адресный прогон — `validator`).
+- Дальше / риски: `validator` — приёмка docs + адресный
+  `cargo test --test features_inventory`; затем пакет `git` по гейту. Прочие
+  расхождения `git status` — зона `migrator` (Q76/D80, таблица, каталоги, T-18).
+
+---
+
+## validator · 30.09.2026 · операция №6 — принято
+
+- Сделано: приёмка «полноты фич» (`Q76`/`D80`) — поимённая трассировка всех
+  `*.feature`, снятие wildcard, заголовки `wasm`/`manifest_sync`, пометка
+  «Полнота» в `features/README`, добор `T-18`; адресный прогон
+  `cargo test --test features_inventory` (единственный допустимый — фичи —
+  фикстуры теста). Вердикт — **принято**, P1/P2/P3 нет; отчёт —
+  [`docs/reviews/service-doc-refactor-6-2026-09-30.md`](../../docs/reviews/service-doc-refactor-6-2026-09-30.md);
+  квитанция `service-doc-refactor-op6` iteration 1 (`accepted`) — append.
+- Проверки: `git diff --stat c0199d3 -- src tests Cargo.toml` пусто;
+  `git status` — 11 M + 2 ?? только ожидаемых путей (`??` Q76, D80);
+  `cargo test --test features_inventory` → **4/4 ok** (счётчики
+  `features/README:315` = **47 файлов / 278 сценариев** подтверждены);
+  TRACEABILITY — 76 Q-строк, `^`=`\r$`=88, `agents-\*|и др\.` пусто, строка
+  Q76/D80 `in work | [T-18] ⬜ | —`, правки только заявленных клеток; полнота
+  **47/47** (12 ранее отсутствовавших имён добавлены; маппинг = заголовки:
+  agents-* D38/D39, T-15 → Q74/D78, `manifest_sync` D34/D28, `wasm` D11 —
+  `D69:12` перечисляет D11); Q76/D80 по §4 (⚪, `Спека: —`, `Tasks: T-18`);
+  каталоги 76/80; первая строка обеих фич `# language: ru`, по одной `Функция:`,
+  таблицы/счётчики не тронуты; T-18 — «Источник» +D80 и v0.1-подпункт полноты
+  фич; §5.7 — ссылки живые, статусы синхронны, ID не переиспользованы, маркеров
+  нет; лента op6 — по маршруту (`:800` → `:820` → `:845`).
+- Дальше / риски: замечаний нет — операция №6 готова к пакету `git` по гейту.
+  Открытых наблюдений волны нет; `T-18` ⬜ — отдельная задача (машинная проверка
+  полноты задач и фич), не блокер.
+
+---
+
+## сервисная сессия · 30.09.2026 · операция №6 — подтверждение пакета
+
+- Гейт пройден: владелец подтвердил **коммит + push** (`question`, ответ
+  «Коммит + push (Recommended)») — операция №6 волны `service-doc-refactor`
+  (правило полноты фич + поимённая трассировка; канон агентов не меняется).
+- База: `develop` @ `c0199d3` (= `origin/develop`); режим — коммит прямо в
+  `develop` (как предыдущие волны), затем `git push origin develop`.
+- Пакет (16 путей операции + запись роли `git` по F43 = 17):
+  - `.opencode/mail/service-doc-refactor.md`
+  - `.opencode/memory/docs-writer.md`
+  - `.opencode/memory/git.md` (чекпойнт роли `git`, новый до `add`)
+  - `.opencode/memory/migrator.md`
+  - `.opencode/memory/validator.md`
+  - `.opencode/state/current/progress.yaml`
+  - `.opencode/state/current/receipts.yaml`
+  - `docs/TRACEABILITY.md`
+  - `docs/decisions/D80-features-visibility-completeness.md`
+  - `docs/decisions/README.md`
+  - `docs/features/README.md`
+  - `docs/features/manifest_sync.feature`
+  - `docs/features/wasm.feature`
+  - `docs/questions/Q76.md`
+  - `docs/questions/README.md`
+  - `docs/reviews/service-doc-refactor-6-2026-09-30.md`
+  - `docs/tasks/T-18-docs-journal-test/README.md`
+- Сообщение коммита:
+  `docs(Q76/D80): полнота фич — поимённая трассировка всех *.feature; заголовки и T-18`.
+- Замечание: запись роли `git` (лента + `memory/git.md`) формируется **до**
+  `add` и входит в коммит (F43); после `push` в отслеживаемые файлы не пишем
+  (хеши — ответом `lead`).
+
+---
+
+## git · 30.09.2026 · операция №6 — пакет выполняется
+
+- Сделано (до `add`): подтверждение сверено по записи ленты «операция №6 —
+  подтверждение пакета» (коммит + push, сообщение коммита — оттуда, Q41); база
+  `develop` = `origin/develop` = `c0199d3` (синхрон); состав дерева = ровно 16
+  путей операции из пакета (M 13: лента, `memory/docs-writer|migrator|validator`,
+  `state/current/progress|receipts`, `TRACEABILITY`, `decisions/README`,
+  `features/README`, `features/manifest_sync.feature`, `features/wasm.feature`,
+  `questions/README`, `tasks/T-18-docs-journal-test/README`; ?? 3: Q76, D80,
+  отчёт `reviews/…-6-…`), посторонних нет. Записи F43 (эта запись и
+  `memory/git.md`) сделаны **до** `add` и входят в коммит (F43).
+- Проверки: `git status -sb` → 16 путей, ветка без расхождения с `origin`;
+  `git log -1 --oneline` → `c0199d3 …` (совпало с базой пакета).
+- Дальше / риски: `add` 17 точных путей → staged-сверка
+  (`git-check.mjs --staged --expect=17`) → `commit` → `push origin develop`
+  (≥ 5 мин); post-push git-команд нет, хеши — в ответе `lead` (F43).

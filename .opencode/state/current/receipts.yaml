@@ -926,3 +926,21 @@
     audit_protocol: "ok — auditor entry (:670-713) before validation, P1/P2 none; independent agents-perms run = 'agents: 11 из 18'; agents/** and review.md untouched"
   snapshot: "develop @ fab7e68 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-doc-refactor-op6
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-6-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat c0199d3 -- src tests Cargo.toml empty; git status = 11 M + 2 ??, only expected paths (TRACEABILITY, questions/README, decisions/README, T-18 card, features/README, wasm.feature, manifest_sync.feature, mail feed, memory/migrator.md, memory/docs-writer.md, progress.yaml [op5 write]; ??: Q76, D80); src/**, tests/**, .opencode/rules|agents/** untouched"
+    cargo: "targeted only — cargo test --test features_inventory (features are the test fixtures); no full cargo test (no code, D50)"
+    test_features_inventory: "4/4 ok — feature_files_are_valid_documents, feature_files_match_readme_inventory, readme_totals_match_files, scenario_counts_match_readme; counters features/README :315 = 47 files / 278 scenarios confirmed"
+    traceability: "ok — 76 Q rows; rg -c '^' = rg -c '\\r$' = 88 (CRLF + final newline); rg 'agents-\\*|и др\\.' empty; :80 Q76/D80 = in work | [T-18] ⬜ | —; edits only in declared cells (Q29/Q32 +manifest_sync; Q65 wasm (retro D11, v0.2); Q74 five T-15 features; Q43/Q44 six agent features named)"
+    completeness_47: "ok — all 47 feature file names present in TRACEABILITY (12 previously missing: manifest_sync, wasm, 5 agent features hidden by wildcard, 5 T-15 features); mapping matches headers (agents-* have # D38 (Q43) + # D39 (Q44); T-15 features basis T-15; manifest_sync # D34 (Q29)/# D28 (Q32); wasm # D11 retro (D69:12 lists D11)); backward liveness holds"
+    records: "ok — Q76 §4 (⚪), D80 §4 (Resolves [Q76], Спека —, Tasks T-18, verdict ⚪ + §5.3 facts); catalogs 76 Q / 80 D rows, single occurrence each (IDs not reused)"
+    features: "ok — wasm.feature:2 '# D11…', manifest_sync.feature:2-3 '# D34 (Q29)…'/'# D28 (Q32)…'; first line '# language: ru', exactly one 'Функция:' in each; features/README +1 line 'Полнота' in 'Как читать', tables/counters untouched (diff +1)"
+    t18: "ok — Источник + '[D80] (Q76) — полнота фич' (:16); v0.1 subpoint (:56-60): every *.feature named in TRACEABILITY, no wildcards, backward liveness (D80)"
+    checklist_5_7: "ok — links live (Q76/D80, TRACEABILITY, features/README, T-18, D11, D34, D28, D69); statuses synced (Q76 resolved by D80 ↔ in work + T-18 ⬜ ↔ D80 accepted Tasks T-18); IDs not reused; no migration markers"
+    feed: "ok — op6 opening (:800) -> migrator (:820) -> docs-writer (:845), route order"
+  snapshot: "develop @ c0199d3 + working tree (2026-09-30)"
+  at: "2026-09-30"

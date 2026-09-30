@@ -281,3 +281,10 @@
   action: complete
   result: "Операция №4: полнота задач — в канон журнала §7 (Q75/D79); Affects D45/D46 дополнены TRACEABILITY.md; «Обновление» в D77. Протокол канона: аудит auditor (P1/P2 нет; 2 P3-наблюдения владельцу) → приёмка validator accepted; коммит fab7e68, push 2f2140c..fab7e68 origin develop (17 путей); отчёт docs/reviews/service-doc-refactor-4-2026-09-30.md"
   next: "— (операция №4 закрыта; открыто: P3 аудита — на усмотрение владельца; T-18 — реализация теста)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 5
+  action: complete
+  result: "Операция №5 (закрытие P3): §7 journal.md — критерий полноты ссылкой на абзац «Полнота» (Q41), тест помечен планом (T-18 ⬜); «Обновление» в D79; метка плана в tasks/README:37; хронология ленты выправлена (op5 в конец). Протокол канона: аудит auditor (P1/P2 нет; P3 №5 закрыт правкой) → приёмка validator accepted (P1/P2/P3 нет); коммит c0199d3, push fab7e68..c0199d3 origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-5-2026-09-30.md"
+  next: "— (операция №5 закрыта; открытых наблюдений волны нет; T-18 — реализация теста отдельной задачей)"

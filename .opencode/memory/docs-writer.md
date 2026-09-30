@@ -474,4 +474,16 @@
   `docs/features/{lsp,lsp_notebook,lexer}.feature` — не трогал, отмечены в ленте
   как кандидаты. Границы: только два титула; `cargo`/git не запускались (D50).
   Остаток: приёмка `validator` → пакет `git`.
+- 2026-09-30 · операция `service-doc-refactor` №6 (`docs-writer`-часть, D80/Q76):
+  `docs/features/wasm.feature:2` — `# D11: …` (ретро-D, D69); `docs/features/
+  manifest_sync.feature:2-3` — `# D34 (Q29): контракт check.rebuild_manifest …`,
+  `# D28 (Q32): синхронизация REST с published-repo после merge в main …`;
+  `docs/features/README.md:37` — пункт «Полнота» в §«Как читать» (TRACEABILITY,
+  D80, `tests/docs_journal.rs`, T-18 ⬜). Комментарии — после `# language: ru`
+  (первая строка не тронута — требование `features_inventory.rs`). Проверки:
+  `rg` D11 → 1, D34/D28 → 2; «47 файлов, 278 сценариев» (`:315`) на месте;
+  `git diff --stat` — только три файла; `cargo` не запускался (D50). Заголовки
+  фич — способ связи с `TRACEABILITY.md` (заголовок `# Dn (Qx)` как источник,
+  D80 п.2). Остаток: приёмка `validator` (адресный
+  `cargo test --test features_inventory`) → пакет `git`.
 

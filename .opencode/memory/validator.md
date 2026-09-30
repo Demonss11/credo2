@@ -1295,3 +1295,31 @@
   **Тех. заметка:** `git diff <base> -- .opencode/...` отклоняется движком прав
   (`Permission denied: shell`) — проходит форма `-- ./.opencode/...` (как у
   `auditor` в этом же прогоне).
+- **2026-09-30 · `service-doc-refactor` / операция №6 (полнота фич, Q76/D80;
+  чекпойнт до прогона):** прочитаны лента (`:727+`), `git diff c0199d3`
+  (TRACEABILITY, features, каталоги, T-18), `Q76`/`D80`, заголовки 13 фич,
+  `git status`. Снимок: `develop` @ `c0199d3` + рабочее дерево (11 M + 2 ??:
+  TRACEABILITY, оба каталога, карточка T-18, `features/README`, `wasm.feature`,
+  `manifest_sync.feature`, лента, памяти `migrator`/`docs-writer`,
+  `progress.yaml` №5; `??` Q76, D80). `git diff --stat c0199d3 -- src tests
+  Cargo.toml` пусто. Проверено чтением/`rg`: 76 Q-строк, `^`=`\r$`=88,
+  wildcard/«и др.» — пусто, все 47 имён фич в TRACEABILITY, каталоги 76/80,
+  T-18 «Источник» + D80 и v0.1-подпункт полноты фич, заголовки `wasm` (D11) и
+  `manifest_sync` (D34/D28), `features/README` +строка «Полнота», первая строка
+  обеих фич `# language: ru`, по одному `Функция:`. **Далее запускаю адресный
+  `cargo test --test features_inventory`** (единственный допустимый прогон —
+  фичи — фикстуры теста); ожидание 4/4 ok, 47 файлов / 278 сценариев.
+  **Итог: вердикт — принято, P1/P2/P3 нет.** `cargo test --test
+  features_inventory` → **4/4 ok** (`feature_files_are_valid_documents`,
+  `feature_files_match_readme_inventory`, `readme_totals_match_files`,
+  `scenario_counts_match_readme`; счётчики `features/README:315` = 47/278
+  подтверждены). Полнота 47/47: все имена фич в TRACEABILITY, 12 ранее
+  отсутствовавших добавлены; wildcard/«и др.» пусто; маппинг = заголовки
+  (agents-* D38/D39; T-15 → Q74/D78; `manifest_sync` D34/D28; `wasm` D11,
+  `D69:12` перечисляет D11); T-18 +D80 и v0.1-подпункт; каталоги 76/80; лента
+  op6 по маршруту. Отчёт `docs/reviews/service-doc-refactor-6-2026-09-30.md`;
+  квитанция `service-doc-refactor-op6` iteration 1 (`accepted`) — append.
+  **Приём:** для фич-правок (заголовки-комментарии) адресный
+  `features_inventory` — обязательная страховка: он проверяет `# language: ru`
+  первой строкой, ровно одну `Функция:`, счётчики README и инвентарь файлов,
+  т.е. ловит и структурные ошибки вставки, не только расхождение счётчиков.

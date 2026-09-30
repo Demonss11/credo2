@@ -1,4 +1,6 @@
 # language: ru
+# D34 (Q29): контракт check.rebuild_manifest — пересборка manifest.json в main и перезагрузка кэша
+# D28 (Q32): синхронизация REST с published-repo после merge в main (кэш и watcher; два git-контура)
 Функция: Синхронизация манифеста
   Как оператор сервиса
   Я хочу, чтобы REST подхватывал изменения после merge в main
