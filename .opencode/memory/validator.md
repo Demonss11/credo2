@@ -1392,3 +1392,64 @@
   resolved-значение уходит **во все** потребители (у нас — два: event log и
   отчёт), и что прежнее поведение вне репозитория сохранено (явные флаги +
   подсказка), а не потеряно.
+- **2026-09-30 · `service-pm-archive` (чекпойнт до прогона):** прочитаны лента
+  `service-pm-archive.md`, `review.md`, `archive.py`, `cli.py`, `events.py`,
+  `report.py`, `README.md`, `tests/test_pm_agents.py`, `clean-logs.mjs`,
+  `.gitignore`, `pyproject.toml`/`__init__.py`/`uv.lock`, `AGENTS.md` (дифф),
+  `git-workflow.md` (дифф, §«Подтверждение и очистка логов» `:167`), `D81`.
+  Снимок: `develop` @ `180a91a` + рабочее дерево (15 M + 2 `??`); `src`/`tests`/
+  `Cargo.toml` в `git status` нет → **cargo не запускается — D50** (правки
+  счётчиков/состава `docs/features/**` нет). Проверки (чтением): `output/` вне
+  git (в `git status` нет, файлы пакета на месте — 5 артефактов); `default_output_dir`
+  → `<root>/.opencode/scripts/pm/output` (`cli.py:28-36`, фолбэк `parents[2]`);
+  `_identity` (`archive.py:28-48`) — `unknown-<idx>` обнуляется только для
+  `source=="progress"`; ключ + номер повтора; `merge_archive` пишет только при
+  `added`; источники `parse_events` без `source` (`cli.py:173`), фильтры — в
+  `finalize_event_log`; `clean-logs.mjs:197` снимок при `!noSnapshot && toDelete>0`,
+  вне `--dry-run` (`:182-190`), сбой → `console.warn` (`:138-143`), `--no-snapshot`;
+  `rg -c "^def test_"` → **15**; README `:85` «expect: 15 passed»; версии 0.2.0
+  (`pyproject.toml:3`, `__init__.py:3`, `uv.lock:760`); канон-дифф точечный
+  (`AGENTS.md` 1/1; `git-workflow.md` +5 — один абзац); `agents/**`,
+  `opencode.json`, `review.md` не тронуты. Далее: `agents-perms.mjs` (права не
+  расширены), и запись отчёта/квитанции. `uv` не запускаю — свидетельства
+  прогонов (15 passed, +412/+0, архив 412) из ленты.
+- **2026-09-30 · `service-pm-archive` (итог, без cargo):** вердикт **принято с
+  замечаниями**; **P1/P2 нет**; **P3** `D81:7-10` (`Affects`) без
+  `.opencode/scripts/clean-logs.mjs` и `.opencode/rules/git-workflow.md` (блок
+  «Обновление 30.09.2026» `:79-89` меняет оба) — правка один буллет `migrator`,
+  не блокер. Проверено: (а) `default_output_dir` = `<root>/.opencode/scripts/pm/
+  output` (`cli.py:28-36`, фолбэк `parents[2]`); (б) `pm/.gitignore:5 output/` +
+  отсутствие `output/` в `git status` (артефакты на месте — 5 файлов);
+  (в) `merge_archive` (`archive.py:142-163`) по ключу `_identity`+повтор,
+  `unknown-<idx>` обнулён только для `progress` (`:34-36`), запись при `added`,
+  атомарно, tolerant; `clean-logs.mjs:197` при `!noSnapshot && toDelete>0`, вне
+  `--dry-run` (`:182-190`), сбой → warn (`:138-143`), `--no-snapshot`;
+  фильтры только срез (`cli.py:173`, `events.py:141-148`); тесты **15** =
+  README `:85`; версии **0.2.0** (`uv.lock:760`); канон-дифф `AGENTS.md` 1/1 +
+  `git-workflow.md` +5 (один абзац `:176-180`); `agents-perms` = `11 из 18`;
+  `src`/`tests`/`Cargo.toml` чисты → **cargo не запускался — D50**. Наблюдения
+  (не находки): D81:87-89 настоящее время; ключ архива без времени (новое
+  событие с тем же именем/датой/статусом после `clean-logs` неотличимо —
+  кандидат в `Q`). **Тех.:** `git check-ignore` вне allow-list `validator` →
+  чтение `.gitignore` + `git status`. Отчёт
+  `docs/reviews/service-pm-archive-2026-09-30.md`; квитанция
+  `service-pm-archive` iteration 1 (`accepted_with_notes`) — append. **Урок:**
+  при адресных сервисных волнах «код ↔ D-обновление ↔ канон» в `Affects`
+  попадают не все фактически правленные файлы (здесь `clean-logs.mjs` и
+  `git-workflow.md`) — держать как регулярный P3-кандидат.
+- **2026-09-30 · `service-pm-archive` — r2 (P3 закрыт, итог):** дельта-проход,
+  снимок тот же (`develop` @ `180a91a` + рабочее дерево). Вердикт **принято**,
+  P1/P2/P3 нет. P3 закрыт `migrator`: `D81:7-16` (`Affects`) + ссылки на
+  `.opencode/scripts/clean-logs.mjs` и `.opencode/rules/git-workflow.md`
+  §«Подтверждение и очистка логов» (`:167`) — обе резолвятся; тензе снят
+  (`rg "дополн"` → `:93-94` прошедшее время, «дополняет» нет). Регрессий нет:
+  `git diff` D81 — ровно 2 хунка (`Affects` + вставка блока обновления), §5
+  «Решение»/структура целы; `git diff --numstat` по коду `pm`/`clean-logs.mjs`/
+  `AGENTS.md`/`git-workflow.md` идентичен r1 (код после приёмки не менялся),
+  `D81 39/1` (было `32/0`); границы те же → **cargo не запускался — D50**.
+  Отчёт `docs/reviews/service-pm-archive-2026-09-30-r2.md`; квитанция
+  `service-pm-archive` iteration 2 (`accepted`, `p3_closure`) — append (iteration 1
+  с `p3: OPEN` не переписывалась — append-only). **Приём:** дельту по untracked/
+  частично-новому `D` надёжно изолирует `git diff` (номер хунков + `numstat`) плюс
+  сверка `numstat` блоков кода с прежним снимком — «код не менялся» доказывается
+  без повторного чтения всех файлов.

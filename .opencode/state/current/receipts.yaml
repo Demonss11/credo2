@@ -991,3 +991,37 @@
     observation: "non-finding — feed fix entry inserted before the committed 'git · пакет выполняется' entry (base 74a9d4e, pre-fix package); git diff shows +17 inserted mid-file, not appended; blocks self-describing, reading-order only"
   snapshot: "develop @ c137b63 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-pm-archive
+  iteration: 1
+  verdict: accepted_with_notes
+  report: docs/reviews/service-pm-archive-2026-09-30.md
+  dod:
+    borders: "ok — git status = 16 M + 2 ?? (M: AGENTS.md, git-workflow.md, clean-logs.mjs, pm/{README,pyproject.toml,uv.lock,__init__,cli,events,report,tests/test_pm_agents}, D81, memory/auditor, memory/migrator, memory/validator, state/current/progress; ??: mail/service-pm-archive.md, pm/src/pm_agents/archive.py); src/**, tests/** (Rust), Cargo.toml, opencode.json, .opencode/agents/**, review.md untouched"
+    cargo: "not run (D50) — scripts/docs/canon-only wave; src/tests/Cargo.toml absent from git status; no features counters/scenario changes; uv unavailable to roles, run evidence is feed"
+    decisions: "ok — (a) default_output_dir = <root>/.opencode/scripts/pm/output (cli.py:28-36, fallback parents[2]); (b) pm/.gitignore:5 'output/', output/ artifacts present but absent from git status; (c) merge_archive by stable key + occurrence (archive.py:28-63,142-163), unknown-<idx> zeroed only for source=progress (:34-36), write only when added (idempotent), atomic tmp+os.replace, tolerant load; clean-logs snapshotPm :126-147 called at :197 when !noSnapshot && toDelete>0, not in --dry-run (:182-190), failure -> console.warn (:138-143), --no-snapshot (:44,67)"
+    filters: "ok — parse_events without source (cli.py:173, both sources always), --source/--since/--exclude-service only in finalize_event_log (events.py:141-148); --archive (:187), --no-archive (:186); archive line in report header (report.py:45-51)"
+    tests: "ok — rg -c '^def test_' = 15; README:85 'expect: 15 passed'; tests genuinely assert archive idempotency, survival after mail removal, identical headings, accumulation, --since view-only, --no-archive, custom --archive"
+    canon: "ok — git diff AGENTS.md = exactly 1 changed line (map: +clean-logs snapshot/--no-snapshot, +pm/output), git-workflow.md +5 = one paragraph :176-180 inside section :167; wording matches code"
+    versions: "ok — 0.2.0: pyproject.toml:3, __init__.py:3, uv.lock:759-760"
+    rights: "ok — agents-perms = 'agents: 11 из 18'; git keeps node clean-logs.mjs, no uv added to any role; validator rights = review.md:86-87"
+    evidence: "evidence level — feed :61-71 (uv run pytest -> 15 passed; run1 +412, run2 +0; slice --source state --exclude-service +0, archive 412 lines; --dry-run/--no-snapshot/failure on scratch copy; live mail deletion not performed)"
+    audit: "ok — auditor r1 P1 none (P2 git-workflow/D81 transitive snapshot + P3 archive key) closed pointwise; auditor r2 P1/P2/P3 none, diff blocks unchanged after closure; r2 observation about D81:87-89 tense stands"
+    p3: "OPEN (non-blocking) — D81:7-10 Affects omits .opencode/scripts/clean-logs.mjs and .opencode/rules/git-workflow.md changed by the 30.09.2026 update (:79-89); traceability gap, fix = one bullet (migrator)"
+    observations: "non-findings — D81:87-89 present tense; archive key has no time so a new letter with identical name/date/status after clean-logs is indistinguishable from an archived one (candidate Q, low risk)"
+  snapshot: "develop @ 180a91a + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-pm-archive
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-pm-archive-2026-09-30-r2.md
+  dod:
+    delta: "ok — git diff docs/decisions/D81-pm-process-mining.md = only 2 hunks (@@ -5,8 +5,14 @@ Affects; @@ -58,6 +64,38 @@ update block insertion); §5 Решение (:23-48) and structure untouched"
+    p3_closure: "closed — Affects (:7-16) now lists [.opencode/scripts/clean-logs.mjs] (best-effort snapshot to pm archive — 'Обновление 30.09.2026') and [.opencode/rules/git-workflow.md] §«Подтверждение и очистка логов» (transitive snapshot); both links resolve (files exist, heading git-workflow.md:167); D number/status/Resolves unchanged"
+    tense: "closed — rg 'дополн' D81 = only :93-94 past tense ('уже дополнено сервисной сессией', 'дополнена сервисной сессией'); no 'дополняет' remains (auditor r2 observation)"
+    code_unchanged: "ok — numstat identical to r1: clean-logs.mjs 44/4, pm/README.md 36/10, pyproject.toml 1/1, __init__.py 1/1, cli.py 79/15, events.py 44/15, report.py 10/0, tests/test_pm_agents.py 127/1, uv.lock 1/1, AGENTS.md 1/1, git-workflow.md 5/0; D81 39/1 (was 32/0, +7/-1 = Affects only)"
+    borders: "ok — git status set same as r1 (+ validator's own report -r2, receipts.yaml, memory/validator.md); src/**, tests/** (Rust), Cargo.toml, opencode.json, .opencode/agents/**, review.md untouched"
+    cargo: "not run (D50) — delta touches D81 only; uv/cargo not executed by the role"
+  snapshot: "develop @ 180a91a + working tree (2026-09-30)"
+  at: "2026-09-30"

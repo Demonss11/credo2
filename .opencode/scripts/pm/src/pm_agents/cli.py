@@ -8,11 +8,11 @@ import datetime as dt
 import json
 import logging
 import sys
-import tempfile
 from pathlib import Path
 
 from . import __version__
-from .events import build_event_log
+from .archive import ARCHIVE_FILENAME, merge_archive
+from .events import finalize_event_log, parse_events
 from .io_state import StateError
 from .mining import compute_metrics, compute_variants, discover_dfg
 from .report import render_report_md
@@ -22,11 +22,18 @@ log = logging.getLogger("pm_agents")
 
 DEFAULT_STATE_DIR = Path(".opencode/state/current")
 DEFAULT_MAIL_DIR = Path(".opencode/mail")
+DEFAULT_PM_DIR = Path(".opencode/scripts/pm")
 
 
 def default_output_dir() -> Path:
-    """По умолчанию артефакты — вне репозитория (конвенция session-analysis)."""
-    return Path(tempfile.gettempdir()) / "opencode" / f"pm-{dt.date.today():%Y-%m-%d}"
+    """Каталог артефактов по умолчанию — `output/` внутри `pm` (вне git)."""
+    root = find_repo_root(Path.cwd())
+    pm_dir = (
+        root / DEFAULT_PM_DIR
+        if root is not None
+        else Path(__file__).resolve().parents[2]
+    )
+    return pm_dir / "output"
 
 
 def find_repo_root(start: Path) -> Path | None:
@@ -78,13 +85,25 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=None,
-        help="каталог артефактов (по умолчанию temp/opencode/pm-<дата>)",
+        help="каталог артефактов (по умолчанию .opencode/scripts/pm/output)",
+    )
+    parser.add_argument(
+        "--archive",
+        type=Path,
+        default=None,
+        metavar="PATH",
+        help="файл архива событий (по умолчанию <output-dir>/events.jsonl)",
+    )
+    parser.add_argument(
+        "--no-archive",
+        action="store_true",
+        help="разовый прогон без чтения и записи архива",
     )
     parser.add_argument(
         "--source",
         choices=("all", "state", "mail"),
         default="all",
-        help="источники событий (state = progress)",
+        help="срез отчёта по источникам (на архив не влияет)",
     )
     parser.add_argument(
         "--since",
@@ -124,17 +143,18 @@ def _write_csv(path: Path, header: list[str], rows: list[list[object]]) -> None:
         writer.writerows(rows)
 
 
-def _configure_stdout() -> None:
-    """Windows-консоль (cp1251) не должна падать на «×», «→» и т.п."""
-    try:
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except (AttributeError, OSError):  # pragma: no cover - зависит от окружения
-        pass
+def _configure_stdio() -> None:
+    """Windows-консоль/pipe (cp1251) не должна искажать «×», «→», кириллицу."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, OSError):  # pragma: no cover - зависит от окружения
+            pass
 
 
 def main(argv: list[str] | None = None) -> int:
+    _configure_stdio()
     args = parse_args(argv)
-    _configure_stdout()
     logging.basicConfig(
         level=getattr(logging, args.log_level),
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -147,10 +167,41 @@ def main(argv: list[str] | None = None) -> int:
     state_dir = resolve_state_dir(args.state_dir)
     mail_dir = resolve_mail_dir(args.mail_dir)
 
+    # Источники читаются всегда (оба), чтобы архив не терял события из-за
+    # фильтров среза: --source/--since/--exclude-service действуют ниже.
     try:
-        logbook = build_event_log(
+        parsed_events = parse_events(state_dir, mail_dir)
+    except (RuntimeError, StateError, OSError) as exc:
+        log.error(
+            "%s (подсказка: запускайте из репозитория или укажите "
+            "--state-dir/--mail-dir)",
+            exc,
+        )
+        return 2
+
+    archive_path: Path | None = None
+    archive_added: int | None = None
+    archive_total: int | None = None
+    merged_events = parsed_events
+    if not args.no_archive:
+        archive_path = args.archive or output_dir / ARCHIVE_FILENAME
+        try:
+            merged_events, archive_added = merge_archive(archive_path, parsed_events)
+        except OSError as exc:
+            log.error("Архив недоступен: %s (разовый прогон — с --no-archive)", exc)
+            return 2
+        archive_total = len(merged_events)
+        log.info(
+            "Архив: +%d новых, всего %d событий (%s).",
+            archive_added,
+            archive_total,
+            archive_path,
+        )
+
+    try:
+        logbook = finalize_event_log(
             state_dir,
-            mail_dir,
+            merged_events,
             source=args.source,
             include_service=not args.exclude_service,
             since=args.since,
@@ -173,6 +224,16 @@ def main(argv: list[str] | None = None) -> int:
         "События mail — только заголовки `## <роль> · <дата> · <статус>`; "
         "остальной текст лент не парсится.",
     ]
+    if archive_path is not None:
+        notes.append(
+            "Архив событий: повторный прогон на тех же данных добавляет 0 "
+            "событий; фильтры (--source/--since/--exclude-service) на архив "
+            "не влияют."
+        )
+    else:
+        notes.append(
+            "Прогон без архива (--no-archive): события только из текущих источников."
+        )
 
     (output_dir / "metrics.json").write_text(
         json.dumps(metrics, ensure_ascii=False, indent=2, default=str),
@@ -228,6 +289,9 @@ def main(argv: list[str] | None = None) -> int:
         state_dir=state_dir,
         mail_dir=mail_dir if args.source != "state" else None,
         output_dir=output_dir,
+        archive_path=archive_path,
+        archive_added=archive_added,
+        archive_total=archive_total,
         viz_done=viz_done,
         notes=notes,
     )

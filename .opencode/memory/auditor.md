@@ -308,3 +308,41 @@
   **закрыто** (P2/P3-1/P3-2/P3-3); P1/P2 нет. Остаток (не находка): запись
   сервисной сессии `:84` вставлена перед адресуемым аудитом `:96` (не append в
   хвост) — читаемость. Отчёт — лента `service-pm-tool.md`.
+- **30.09.2026 · аудит `service-pm-archive` (канон-правка `AGENTS.md:25` +
+  D81 «Обновление 30.09.2026»; `pm` 0.2.0, `clean-logs.mjs`), без правок.**
+  Бюджет: 14 файлов, 4 `rg`. `git status` — 13 `M` + 2 `??`; `agents/**`,
+  `rules/**`, `opencode.json`, `src/**`, `tests/**`, `Cargo.toml` диффом не
+  тронуты; `git diff AGENTS.md` — ровно `1 1` (строка `:25`); `agents-perms.mjs`
+  ×2 — «11 из 18», идентично; D81 — `+22/−0`, «Обновление» после §«Следствия»,
+  §5 не переписан, ссылки резолвятся, новых Q/D нет, TRACEABILITY чиста.
+  Механика D81-обновления ↔ код совпала: `cli.default_output_dir` → `pm/output`;
+  `archive.py` — ключ `_identity`+occurrence, `unknown-<idx>`→«» (`:35`),
+  tolerant `load_archive`, атомарный `_write` (tmp+`os.replace`), запись только
+  при `added>0`; `events.parse_events`/`finalize_event_log` (+`build_event_log`);
+  срез-фильтры после merge; `report` строка архива; версия 0.2.0 в трёх файлах;
+  тестов 15 (`rg -c "^def test_"`), README «expect: 15 passed»; `clean-logs`
+  снимок только при `toDelete>0`, не в `--dry-run`, opt-out `--no-snapshot`,
+  сбой → warning + продолжение, `spawnSync` без shell; `pm/.gitignore:5 output/`.
+  `cargo` не запускался (D50) — по ленте. Вердикт «Инструкция ↔ права:
+  расхождений нет»; **P1 нет**. P2: `git-workflow.md:173`/D81 §6 не отмечают
+  транзитивный `uv run pm-agents` из `clean-logs` (право роли `git`), при том что
+  D81:42 утверждает «у ролей нет `uv`». P3: D81:71 называет «кейс» частью ключа
+  архива, а `archive.py:35` для `unknown-<idx>` его обнуляет. Тех.: `git
+  check-ignore` — права нет (заменено чтением `.gitignore` + `git status`);
+  `auditor.md` срезан token-guard (~17.6 КБ). Отчёт — лента
+  `service-pm-archive.md`.
+- **30.09.2026 · повторный проход r2 по `service-pm-archive` (дельта P2/P3), без
+  правок.** Бюджет: 1 файл чтением (лента) + 7 shell/1 `rg`. Дельта:
+  `git-workflow.md:176–180` (`+5`) — новый абзац про best-effort снимок в §
+  «Подтверждение и очистка логов» (`:167`); сверено с `clean-logs.mjs:44,67,138–
+  143,182–190,197` — вызов только при непустом `toDelete`, не в `--dry-run`,
+  сбой → warning + продолжение, `--no-snapshot`; D81 `+32` (было `+22`) —
+  `unknown-<idx>` (`archive.py` `_identity` `case = ""`) + транзитивный снимок +
+  ссылка `../../.opencode/rules/git-workflow.md` (резолвится); §5 не переписан.
+  Инварианты: `git diff --stat` — блоки `pm/**`/`clean-logs.mjs` идентичны r1
+  (48/46/2/2/94/59/10/128/2), `AGENTS.md` `1 1`; `agents/**`/`opencode.json`/
+  `review.md`/`src/**`/`tests/**`/`Cargo.toml` чисты; `agents-perms.mjs` ×2 —
+  «11 из 18», идентично. Вердикт: «Инструкция ↔ права: расхождений нет»;
+  **P1/P2/P3 нет — P2/P3 r1 закрыты**. Наблюдение (не находка): D81 `:88`
+  наст. время «дополняет сервисная сессия» при уже сделанной строке `AGENTS.md`.
+  Отчёт — лента `service-pm-archive.md`.

@@ -3,14 +3,18 @@
 Инструмент постфактум-анализа процесса рабочей группы CREDO2: за один проход из
 состояния цикла (`.opencode/state/current/*`) и лент (`.opencode/mail/*.md`)
 строит event log и считает DFG переходов между ролями, варианты маршрутов и
-метрики приёмок. Решение — [D81](../../../docs/decisions/D81-pm-process-mining.md);
-дизайн — [досье](../../../docs/analysis/pm-tool-design-2026-09-30.md).
+метрики приёмок. События **накапливаются** в архиве между прогонами, поэтому
+очистка лент (`clean-logs.mjs`) историю не теряет. Решение —
+[D81](../../../docs/decisions/D81-pm-process-mining.md); дизайн —
+[досье](../../../docs/analysis/pm-tool-design-2026-09-30.md).
 
 **Кто запускает.** Владелец или сервисная сессия (`uv run`). У ролей рабочей
 группы нет `uv`/`node` в allowlist — это не их зона; роли читают готовые отчёты.
 
-**Артефакты — вне репозитория** (`%TEMP%\opencode\pm-<дата>\`, конвенция
-`session-analysis`); в git попадает только итоговый отчёт в `docs/analysis/`.
+**Артефакты — в `pm/output/`** (одна папка, файлы прогона перезаписываются;
+вне git — локальный `.gitignore`): `summary.md`, `metrics.json`,
+`dfg_edges.csv`, `variants.csv`, графики и архив событий `events.jsonl`.
+В git попадает только итоговый отчёт `docs/analysis/` (копируется по решению).
 
 ## Установка и запуск
 
@@ -18,13 +22,13 @@
 cd .opencode/scripts/pm
 uv sync                 # core: pyyaml; dev-группа: pytest
 uv sync --extra viz     # + networkx/matplotlib/plotly — графики
-uv run pm-agents        # артефакты → %TEMP%\opencode\pm-<дата>\
+uv run pm-agents        # артефакты → pm/output/
 ```
 
 Примеры:
 
 ```powershell
-# только состояние, без графиков, с фильтрами
+# только состояние в срезе отчёта, без графиков, с фильтрами
 uv run pm-agents --source state --no-viz --exclude-service --since 2026-09-27
 
 # свои каталоги и порог «популярных» переходов
@@ -32,8 +36,26 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
   --output-dir "$env:TEMP\opencode\pm-manual" --threshold 3
 ```
 
+## Архив событий
+
+- При каждом прогоне источники читаются заново (оба), найденные события
+  сливаются с архивом `output/events.jsonl` по стабильному ключу (источник,
+  кейс, роль/действие, дата, итерация, результат/статус, `expect_match` +
+  номер повтора) — **без дублей**; пишутся только новые события.
+- Повторный прогон на тех же данных добавляет `0` событий (идемпотентность);
+  одинаковые строки лент не «схлопываются» — номер повтора их различает.
+- Фильтры `--source` / `--since` / `--exclude-service` действуют **только на
+  срез отчёта** — архив не режут; полный набор событий остаётся для будущих
+  прогонов.
+- `--archive PATH` — свой файл архива; `--no-archive` — разовый прогон без
+  чтения и записи архива. Удалить файл = пересобрать архив с текущих источников.
+- `clean-logs.mjs` перед удалением лент делает best-effort снимок
+  (`uv run pm-agents --no-viz`; отключается флагом `--no-snapshot`). События из
+  лент, удалённых до первого прогона `pm`, восстановлению не подлежат.
+
 ## Что в отчёте
 
+- шапка: источники, каталог артефактов и состояние архива (+N новых, всего M);
 - DFG: все переходы и «популярные» (порог `--threshold`);
 - варианты маршрутов (топ-10) и частоты активностей;
 - метрики приёмки (`accepted` / `accepted_with_notes` / `rework`), rework-rate,
@@ -49,7 +71,8 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
 | `pyproject.toml` | uv-проект: зависимости слоями (core / `viz` / `pm4py`), CLI `pm-agents` |
 | `src/pm_agents/io_state.py` | загрузка `progress`/`receipts`/`next_action` (строгая структура) |
 | `src/pm_agents/io_mail.py` | tolerant-парсер лент (`## <роль> · <дата> · <статус>`) |
-| `src/pm_agents/events.py` | модель event log: слияние `progress` и `mail`, кейс = задача |
+| `src/pm_agents/events.py` | модель event log: разбор источников и срез (финализация) |
+| `src/pm_agents/archive.py` | накопительный архив `output/events.jsonl` (слияние без дублей) |
 | `src/pm_agents/mining.py` | DFG, варианты, метрики |
 | `src/pm_agents/viz.py` | PNG/HTML-визуализации (ленивые импорты, extra `viz`) |
 | `src/pm_agents/report.py` | markdown-отчёт (`summary.md` и stdout) |
@@ -59,7 +82,7 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
 ## Проверка
 
 ```powershell
-uv run pytest                      # expect: 8 passed
+uv run pytest                      # expect: 15 passed
 uv run pm-agents --help
 uv run pm-agents --no-viz --log-level ERROR
 ```
@@ -74,8 +97,11 @@ uv run pm-agents --no-viz --log-level ERROR
   `unknown-<idx>` (текущая задача из `next_action` не подставляется).
 - **Extra `viz`.** Без него графики пропускаются с предупреждением; core
   (метрики/CSV/JSON/markdown) работает всегда.
-- **Артефакты — вне репозитория.** Не коммитить `%TEMP%`-выгрузки; в git —
-  только итоговый отчёт.
+- **Артефакты — в `pm/output/`** (вне git); не коммитить выгрузки, в git —
+  только итоговый отчёт `docs/analysis/`.
+- **Архив — накопитель, state — как есть.** `receipts`/`next_action` читаются
+  из state без накопления; старые события живут в архиве, даже если журнал
+  усечён. Два одновременных прогона на одном архиве не поддерживаются.
 - **Запуск из любого каталога.** По умолчанию состояние и ленты ищутся **от
   корня репозитория** (по маркеру `.opencode/state/current`, вверх по дереву),
   поэтому `uv run pm-agents` работает и из `pm/`, и из корня; вне репозитория

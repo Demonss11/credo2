@@ -21,6 +21,9 @@ def render_report_md(
     state_dir: Path,
     mail_dir: Path | None,
     output_dir: Path,
+    archive_path: Path | None,
+    archive_added: int | None,
+    archive_total: int | None,
     viz_done: bool,
     notes: list[str],
 ) -> str:
@@ -39,6 +42,13 @@ def render_report_md(
         f"- Каталог артефактов: `{output_dir}`"
         + ("" if viz_done else " (без визуализаций)")
     )
+    if archive_path is not None:
+        add(
+            f"- Архив событий: `{archive_path}`"
+            f" (+{archive_added or 0} новых, всего {archive_total or 0})"
+        )
+    else:
+        add("- Архив событий: отключён (`--no-archive`)")
     add()
 
     kinds = metrics.get("case_kinds", {})

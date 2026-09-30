@@ -4,15 +4,19 @@
 // Что делает:
 //   memory — каждый .opencode/memory/<роль>.md возвращается к шаблону:
 //            шапка до заголовка «## Чекпойнты» + «- Чекпойнтов ещё не было.»;
-//   mail   — удаляются ленты задач .opencode/mail/*.md (.gitkeep остаётся).
+//   mail   — удаляются ленты задач .opencode/mail/*.md (.gitkeep остаётся);
+//            перед удалением — best-effort снимок событий лент в архив pm
+//            (`uv run pm-agents --no-viz`), чтобы история не терялась.
 //
 // Использование (из любого каталога):
-//   node .opencode/scripts/clean-logs.mjs [--dry-run] [--no-backup]
+//   node .opencode/scripts/clean-logs.mjs [--dry-run] [--no-backup] [--no-snapshot]
 //                                         [--memory-only | --mail-only]
 //
 // По умолчанию перед изменениями делается бэкап затрагиваемых файлов в
-// <temp>/opencode/logs-backup-<timestamp>.
+// <temp>/opencode/logs-backup-<timestamp>; сбой снимка pm — предупреждение,
+// очистка продолжается.
 
+import { spawnSync } from 'node:child_process';
 import {
   copyFileSync,
   existsSync,
@@ -37,6 +41,7 @@ if (args.has('--help') || args.has('-h')) {
 
 const dryRun = args.has('--dry-run');
 const noBackup = args.has('--no-backup');
+const noSnapshot = args.has('--no-snapshot');
 const memoryOnly = args.has('--memory-only');
 const mailOnly = args.has('--mail-only');
 
@@ -59,13 +64,17 @@ function printUsage() {
 Опции:
   --dry-run        показать план, ничего не менять
   --no-backup      не делать бэкап (по умолчанию — делается)
+  --no-snapshot    не делать снимок лент в архив pm (по умолчанию — делается)
   --memory-only    только память ролей
   --mail-only      только ленты задач
   --help, -h       эта справка
 
 Бэкап: <temp>/opencode/logs-backup-<YYYYMMDD-HHmmss>/
 Память: .opencode/memory/<роль>.md → шаблон с «${PLACEHOLDER}»
-Почта:  .opencode/mail/*.md → удаляются (.gitkeep остаётся)`);
+Почта:  .opencode/mail/*.md → удаляются (.gitkeep остаётся)
+Перед удалением лент — best-effort снимок событий в архив pm
+(uv run pm-agents --no-viz в .opencode/scripts/pm); сбой снимка —
+предупреждение, очистка продолжается. Отключить: --no-snapshot.`);
 }
 
 function timestamp() {
@@ -113,6 +122,30 @@ function planMail() {
     .map((name) => ({ path: join(mailDir, name), name, kind: 'delete' }));
 }
 
+/** Best-effort снимок событий лент в накопительный архив pm. */
+function snapshotPm() {
+  const pmDir = join(opencodeDir, 'scripts', 'pm');
+  if (!existsSync(join(pmDir, 'pyproject.toml'))) {
+    console.warn('pm: проект .opencode/scripts/pm не найден — снимок пропущен.');
+    return;
+  }
+  console.log('pm: снимок событий в архив (uv run pm-agents --no-viz)…');
+  const result = spawnSync('uv', ['run', 'pm-agents', '--no-viz'], {
+    cwd: pmDir,
+    stdio: 'inherit',
+    timeout: 300000,
+  });
+  if (result.error || result.status !== 0) {
+    const reason = result.error ? result.error.message : `код ${result.status}`;
+    console.warn(
+      `pm: снимок не удался (${reason}); ленты будут удалены без пополнения архива. ` +
+        'Повторить: uv run pm-agents; отключить: --no-snapshot.'
+    );
+  } else {
+    console.log('pm: снимок в архив выполнен.');
+  }
+}
+
 function makeBackup(files) {
   const dir = join(tmpdir(), 'opencode', `logs-backup-${timestamp()}`);
   for (const file of files) {
@@ -147,6 +180,11 @@ function main() {
   }
 
   if (dryRun) {
+    if (!noSnapshot && toDelete.length > 0) {
+      console.log(
+        '[dry-run] pm: был бы снимок лент в архив (uv run pm-agents --no-viz).'
+      );
+    }
     console.log('Ничего не изменено (--dry-run).');
     return;
   }
@@ -155,6 +193,8 @@ function main() {
     const dir = makeBackup([...toReset, ...toDelete]);
     console.log(`Бэкап: ${dir}`);
   }
+
+  if (!noSnapshot && toDelete.length > 0) snapshotPm();
 
   for (const f of toReset) writeFileSync(f.path, f.content, 'utf8');
   for (const f of toDelete) rmSync(f.path);

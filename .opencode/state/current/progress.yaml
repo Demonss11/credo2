@@ -302,3 +302,10 @@
   action: complete
   result: "Волна service-pm-tool: Q77/D81 — process mining инструмент `pm` (uv-проект .opencode/scripts/pm: core pyyaml, extras viz/pm4py; CLI pm-agents; 7 тестов); карта AGENTS.md (+pm/, +session-analysis/); отчёт первого прогона docs/analysis/pm-run-2026-09-30.md (394 события, 38 кейсов, приёмки 82.1%). Аудит auditor (P1 нет; P2/P3 закрыты адресно) → приёмка validator (r1 rework P2 README → r2 accepted); коммит c137b63, push 74a9d4e..c137b63 origin develop (36 файлов); черновик mine_agents.py оставлен локально вне git (решение владельца)"
   next: "— (волна закрыта; открыто: MCP-интеграция pm — T-15, отдельно)"
+
+- at: "2026-09-30"
+  task: service-pm-tool
+  iteration: 2
+  action: complete
+  result: "Fix после приёмки: дефолтные пути состояния/лент — от корня репозитория (find_repo_root/resolve_state_dir/resolve_mail_dir; `uv run pm-agents` работает из .opencode/scripts/pm); тест test_repo_root_resolution (8 passed); README — «Запуск из любого каталога»; контрольный прогон 405 событий/38 кейсов; приёмка validator (iteration 3, accepted, P1/P2/P3 нет); коммит 180a91a, push c137b63..180a91a origin develop (9 путей); отчёт docs/reviews/service-pm-tool-2026-09-30-fix.md"
+  next: "— (фикс закрыт; открыто: MCP-интеграция pm — T-15, отдельно)"

@@ -116,37 +116,48 @@ def _mail_events(entries: list[MailEntry]) -> list[Event]:
     ]
 
 
-def build_event_log(
+def parse_events(
+    state_dir: Path, mail_dir: Path | None, *, source: str = "all"
+) -> list[Event]:
+    """Разбор источников без фильтров среза (события «как есть» — для архива)."""
+    events: list[Event] = []
+    if source in ("all", "state"):
+        progress = load_records(state_dir / "progress.yaml", context="progress")
+        events.extend(_progress_events(progress))
+    if source in ("all", "mail") and mail_dir is not None:
+        events.extend(_mail_events(load_mail(mail_dir)))
+    return events
+
+
+def finalize_event_log(
     state_dir: Path,
-    mail_dir: Path | None = None,
+    events: list[Event],
     *,
     source: str = "all",
     include_service: bool = True,
     since: dt.date | None = None,
 ) -> EventLog:
-    """Строит событийный журнал из состояния и (опционально) лент."""
-    progress = load_records(state_dir / "progress.yaml", context="progress")
-    receipts = load_records(state_dir / "receipts.yaml", context="receipts")
-    next_action_records = load_records(
-        state_dir / "next_action.yaml", context="next_action", allow_single=True
-    )
-
-    events: list[Event] = []
-    if source in ("all", "state"):
-        events.extend(_progress_events(progress))
-    if source in ("all", "mail") and mail_dir is not None:
-        events.extend(_mail_events(load_mail(mail_dir)))
-
+    """Фильтры среза, порядок и синтетические метки времени; читает receipts/next_action."""
+    if source == "state":
+        events = [e for e in events if e.source == "progress"]
+    elif source == "mail":
+        events = [e for e in events if e.source == "mail"]
     if not include_service:
         events = [e for e in events if not e.case_id.startswith("service-")]
     if since is not None:
         events = [e for e in events if e.date is None or e.date >= since]
+
+    receipts = load_records(state_dir / "receipts.yaml", context="receipts")
+    next_action_records = load_records(
+        state_dir / "next_action.yaml", context="next_action", allow_single=True
+    )
 
     if not events:
         raise RuntimeError(
             "Event log пуст: нет событий (проверьте --source и фильтры)."
         )
 
+    events = list(events)
     for local_idx, event in enumerate(events):
         event.seq = local_idx
     events.sort(
@@ -174,4 +185,22 @@ def build_event_log(
         events=events,
         receipts=receipts,
         next_action=next_action_records[0] if next_action_records else None,
+    )
+
+
+def build_event_log(
+    state_dir: Path,
+    mail_dir: Path | None = None,
+    *,
+    source: str = "all",
+    include_service: bool = True,
+    since: dt.date | None = None,
+) -> EventLog:
+    """Совместимая обёртка: разбор источников + финализация (без архива)."""
+    return finalize_event_log(
+        state_dir,
+        parse_events(state_dir, mail_dir, source=source),
+        source=source,
+        include_service=include_service,
+        since=since,
     )
