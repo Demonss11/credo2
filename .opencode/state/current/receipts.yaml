@@ -1150,3 +1150,19 @@
     note: "не находка — прямой коммит в master = исключение из git-workflow.md:26–28, санкция владельца только в ленте (остаётся в коммите); develop сохраняет дубль-абзац и §10-пункт (выравнивание — отдельно)"
   snapshot: "master @ 9173fc4 (= origin/master) + working tree; develop @ 3d572f3 (= origin/develop) (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-review-links
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-review-links-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document package: git diff --stat -- src/tests/Cargo.toml/AGENTS.md empty; .opencode/agents|rules empty; features counters/composition untouched"
+    diff: "ok — git diff -- docs/tasks/T-03-check-create/README.md = one hunk, exactly 1 deletion, 0 additions (removed '- **Отчёт приёмки:** [.../reviews/T-03-2026-09-26.md]'); header, incl. '- **Источник:** Q28 (SPEC §10 №31).' (:6), intact (D70); --stat = 1 file changed, 1 deletion(-)"
+    links: "ok — git grep -n 'reviews/' -- docs/tasks = only zone mentions T-18 (47/64/75), T-19 (34); docs/questions empty; docs/decisions only zone mentions D64 (47/53), D65 (50/91), D66 (37); docs/features empty; docs/*.md only docs/README.md:21,25 (map/role of the zone); no address links to docs/reviews/** in canon"
+    address: "ok — git grep 'reviews/T-' -- docs = only inside docs/reviews/** (evidence snapshots), outside canon; git grep 'Отчёт приёмки' -- docs/tasks empty"
+    borders: "ok — git status --porcelain = M .opencode/memory/migrator.md, M .opencode/memory/validator.md (own checkpoint), M docs/tasks/T-03-check-create/README.md, ?? .opencode/mail/service-review-links.md; git diff --stat -- src/tests/Cargo.toml/AGENTS.md/.opencode/agents/.opencode/rules empty (single-path calls)"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git log -1 --oneline = b9fd791 ('Слияние master в develop (выравнивание веток)'); git rev-parse HEAD develop origin/develop = b9fd791 / b9fd791 / b9fd791"
+    evidence: "ok — docs/reviews/T-03-2026-09-26.md and -r2.md still present (evidence archive — git)"
+    tech: "git diff --stat -- src tests Cargo.toml AGENTS.md .opencode/agents .opencode/rules rejected by rights engine (multiple dot-paths under --, known quirk); replaced with single-path calls (all empty)"
+  snapshot: "develop @ b9fd791 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"

@@ -77,3 +77,29 @@
   **Урок:** при повторной приёмке канона доказывать закрытие через
   `git diff <новая-база> -- <файл>` — `develop`-дифф validator.md был решающим.
   `cargo` не запускался (D50).
+- **01.10.2026 · service-review-links №1 (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`, `HEAD` = `b9fd791`); правка
+  — удаление строки «Отчёт приёмки: …» из `docs/tasks/T-03-check-create/README.md`
+  (D65, `review.md` §«Хранение отчётов»). План: `git diff -- …` (1 удаление,
+  0 добавлений; «Источник» цел — D70); `git grep -n "reviews/" -- docs/tasks`
+  (только зоны T-18/T-19); адресные ссылки на `docs/reviews/**` по
+  questions/decisions/features/tasks/`docs/*.md` — пусто; `git status --porcelain`
+  (3 пути: T-03, memory/migrator, лента); границы `git diff --stat -- src tests
+  Cargo.toml AGENTS.md .opencode/agents .opencode/rules` — пусто; `cargo`
+  **не запускаю** (D50, пакет документный). Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. `git diff -- …` карточки →
+  1 удаление/0 добавлений, «Источник: Q28 …» (:6) цел (D70); `git grep
+  "reviews/" -- docs/tasks` → только зоны T-18 (47/64/75)/T-19 (34);
+  questions/features пусто, decisions — зоны (D64/D65/D66), `docs/*.md` —
+  только `README.md:21,25`; `reviews/T-` — только внутри `docs/reviews/**`;
+  `Отчёт приёмки` в `docs/tasks` нет; улики `T-03-2026-09-26{-r2}.md` на месте.
+  Ветка/база `develop...origin/develop`, `HEAD`/`develop`/`origin/develop` =
+  `b9fd791` (= план). Границы `src/tests/Cargo.toml/AGENTS.md/.opencode/agents/
+  rules` пусты (многоточечный `--stat` отклонён движком — одиночные вызовы).
+  Отчёт `docs/reviews/service-review-links-2026-10-01.md`; квитанция записана.
+  `cargo` не запускался (D50).
+  **Грабли:** `git diff --stat` с 6 путями (в т.ч. dot-paths) отклонён — уже
+  дважды; рабочий приём — одиночный путь на вызов. `receipts.yaml` — 1152
+  строки; хвост читать по `offset` (конец = запись `service-statuses-review`
+  iteration 2), `edit`-анкер — строка `report:` нужной итерации (дважды
+  повторяющиеся `snapshot`/`at` не уникальны).

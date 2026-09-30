@@ -351,3 +351,10 @@
   action: complete
   result: "Выравнивание веток по решению владельца («выравниваем»): коммит записей (chore(process): лента service-branch-align, progress, память git) в master + push origin master; develop (предок master) — слияние --no-ff master в develop («Слияние master в develop (выравнивание веток)») + push origin develop; деревья идентичны, develop опережает master на merge-коммит; в develop приехали T-03-код, R2-строка и правки канона (дубли/§10 сняты)."
   next: "— (ветки выровнены; волна service-branch-align закрыта)"
+
+- at: "2026-10-01"
+  task: service-review-links
+  iteration: 1
+  action: complete
+  result: "Снято отхождение от канона (запрос владельца, ветка develop): из карточки docs/tasks/T-03-check-create/README.md удалена строка «Отчёт приёмки: …» со ссылкой на docs/reviews/T-03-2026-09-26.md (канон review.md §«Хранение отчётов»/D65: ссылки на reviews из задач не допускаются; паттерн — почищенные карточки T-01/T-11/T-12/T-13/T-16); сверка: адресных ссылок на reviews в каноне больше нет (остались только упоминания зон). Приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-review-links-2026-10-01.md). Пакет git — по гейту (коммит + push develop)."
+  next: "— (правка закрыта; на master приедет с очередным слиянием develop→master)"
