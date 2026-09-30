@@ -72,19 +72,22 @@
 
 Отчёты приёмки хранятся в `docs/reviews/` — это улики, не канон:
 
-- имя файла: `<тип>-<id>-<дата>.md` (`T-01-2026-09-26.md`); повторная проверка —
+- имя файла: `<тип>-<id>-<дата>.md`; повторная проверка —
   `<тип>-<id>-<дата>-rN.md` (`-r2`, `-r3`, …); старые отчёты не перезаписываются;
 - пишет `validator` (его единственная зона записи) по запросу `lead`;
 - формат — шаблон отчёта выше, включая «Что проверено и ок»;
 - отчёт не дублирует карточку и журнал: там статусы, здесь доказательства
   (версия, команды, находки);
-- при закрытии задачи `docs-writer` ставит ссылку на отчёт из карточки,
-  если отчёт есть.
+- при закрытии задачи ссылка на отчёт из карточки **не ставится**: ссылки на
+  `docs/reviews/**` из вопросов, решений, задач, фич и кода не допускаются;
+  отчёт остаётся уликой (архив — git), факты и статусы — в каноне
+  ([D65](../../docs/decisions/D65-reference-policy.md)).
 
 ## Доступные команды
 
 - `validator`: `rg`, `git status|diff|log|show|grep`, `git branch --contains`,
-  `cargo fmt|clippy|test`, `node .opencode/scripts/agents-perms.mjs`.
+  `git rev-parse`, `cargo fmt|clippy|test`,
+  `node .opencode/scripts/agents-perms.mjs`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
 - `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.

@@ -27,6 +27,7 @@ permissions:
   - { action: shell, resource: "git show *", effect: allow }
   - { action: shell, resource: "git grep *", effect: allow }
   - { action: shell, resource: "git branch --contains *", effect: allow }
+  - { action: shell, resource: "git rev-parse *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "*", effect: deny }

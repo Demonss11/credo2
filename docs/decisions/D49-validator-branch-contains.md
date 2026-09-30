@@ -12,8 +12,7 @@
 ## Контекст
 
 При приёмке service-t11-closeout (28.09.2026) проверялось утверждение
-«коммиты `0a5832f`/`5019c45` влиты в `develop`»
-([`T-11-closeout-2026-09-28.md`](../reviews/T-11-closeout-2026-09-28.md), п. 4).
+«коммиты `0a5832f`/`5019c45` влиты в `develop`».
 Прямая команда `git branch --contains <коммит>` была отклонена движком прав —
 у роли `validator` нет паттернов `git branch`; проверка заменена косвенной
 `git log develop -50`. Полный контекст — [Q54](../questions/Q54.md).
@@ -40,6 +39,14 @@ dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/righ
   новую строку; ручного расхождения не возникает.
 - Приёмка (по запросу) проверяется смоуком `git branch --contains <коммит>` на
   ближайшем прогоне; сама приёмка права — только в периметре этой строки.
+- **Обновление 30.09.2026 — право `git rev-parse *` (дополняет п.1):** в
+  allowlist `validator` добавлена ещё одна read-only строка — `git rev-parse *`:
+  точная сверка базы приёмки (`git rev-parse develop origin/develop HEAD`).
+  Повод — повторяющиеся отказы движка при проверке базы
+  (`W8-config` 28.09.2026; `service-docs-lifecycle` №1 30.09.2026 — обход
+  `git log -1`); право read-only, иных ролей не касается. Синхронизация:
+  [`review.md`](../../.opencode/rules/review.md) §«Доступные команды», память
+  `validator` (ловушка снята).
 
 ## Сверка с кодом
 
@@ -64,7 +71,6 @@ dot-пути после `--` ([`rights-matching-2026-09-27.md`](../analysis/righ
 
 - Вопрос: [Q54](../questions/Q54.md)
 - Краткий канон: [`SPECIFICATION.md`](../SPECIFICATION.md) §10, решение №49
-- Основание: [`T-11-closeout-2026-09-28.md`](../reviews/T-11-closeout-2026-09-28.md)
-  п. 4; [`rights-matching-2026-09-27.md`](../analysis/rights-matching-2026-09-27.md)
+- Основание: [`rights-matching-2026-09-27.md`](../analysis/rights-matching-2026-09-27.md)
   §5; лента `service-t11-closeout.md` (`.opencode/mail/**`)
 - Связи: [`TRACEABILITY.md`](../TRACEABILITY.md)

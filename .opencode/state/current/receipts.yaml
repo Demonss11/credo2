@@ -1078,3 +1078,26 @@
     tech: "git rev-parse develop origin/develop HEAD rejected by rights engine; replaced with git log --oneline -1 (base 9948ebf confirmed, == brief)"
   snapshot: "develop @ 9948ebf (= origin/develop) + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-docs-lifecycle-canon
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-docs-lifecycle-canon-2026-09-30.md
+  dod:
+    fmt: "not run (D50) — no src/tests/Cargo.toml in package"
+    clippy: "not run (D50) — no src/tests/Cargo.toml in package"
+    test: "not run (D50) — no src/tests/Cargo.toml in package"
+    base: "ok — git rev-parse develop origin/develop HEAD = 21c3c80 / 21c3c80 / 21c3c80 (право git rev-parse * работает; ловушка из памяти validator снята)"
+    borders: "ok — git diff --stat -- src tests Cargo.toml empty; git diff --stat -- AGENTS.md empty; .opencode/** modified = docs-writer.md, validator.md, journal.md, review.md + memory auditor/git/migrator/validator + feed service-docs-lifecycle.md only"
+    rights: "ok — validator.md:29-30 git branch --contains * + git rev-parse * match review.md:88-89; agents-perms.mjs ×2 identical, agents 11 из 18, validator allow:git rev-parse *; other roles unchanged"
+    review_md: "ok — §«Хранение отчётов»: dropped (T-01-2026-09-26.md) example, «ссылка не ставится … (D65)» mirrors D65 «Обновление 30.09.2026»; §«Доступные команды» +git rev-parse; link ../../docs/decisions/D65-reference-policy.md live"
+    journal_8: "ok — P2 closed: added docs/research|reviews|analysis as «время жизни адреса» + exception findings-registry.md (D48); links docs/analysis/findings-registry.md and D48-findings-registry-owner.md live (glob)"
+    docs_writer: "ok — :69-71 «после приёмки»: ссылка на отчёт не ставится, ref review.md §«Хранение отчётов»; consistent with review.md/D65"
+    d49: "ok — «Обновление 30.09.2026 — право git rev-parse *» at D49:42-49, review.md + memory validator sync noted; no contradiction with п.1"
+    q54: "ok — P3 closed: git diff -U0 adds exactly two terminal dots at :12 (Связано) and :15 (Источник); other hunk lines = iteration-1 link removals (out of scope)"
+    no_stale_refs: "ok — git grep 'T-11-closeout-2026-09-28|T-01-2026-09-26|T-11-2026-09-26|T-12-2026-09-27|T-13-2026-09-27' -- docs/decisions docs/questions docs/tasks empty (exit 1)"
+    memory_f35: "ok — validator.md (ловушка->право git rev-parse) agrees with review.md/validator.md; git.md quoting agrees git-workflow.md; auditor.md/migrator.md checkpoints append-only; no foreign records rewritten"
+    feed: "ok — wave entries in order (iterations 1-8, canon sync, rev-parse right, audit, Q54 P3); facts match tree; open tails declared (68 D docs/reviews/**, T-01/T-11/T-12/T-13/T-16 — out of this acceptance)"
+    tech: "git diff -- ./.opencode/rules/review.md ./.opencode/rules/journal.md ... (multiple dot-paths under --) and git diff --numstat -- .opencode rejected by rights engine; narrowed to single ./path / bare git diff --numstat (review.md §«Доступные команды» quirk)"
+  snapshot: "develop @ 21c3c80 (= origin/develop = HEAD) + working tree (2026-09-30)"
+  at: "2026-09-30"

@@ -19,6 +19,18 @@
   — волна №2); D65:88–99 уточняет п.4, ссылки живые; каталоги/ID/статусы целы;
   perms ×2 = `11 из 18`; архив в git есть. Отчёт
   `docs/reviews/service-docs-lifecycle-2026-09-30.md`; квитанция записана.
-  **Ловушка роли:** движок прав блокирует `git rev-parse` (нет в allow-списке
-  `validator` — `review.md` даёт только `git branch --contains`); для проверки
-  базы использовать `git log --oneline -1` / `git show -s`.
+  **Право `git rev-parse`** (D49, «Обновление» 30.09.2026): добавлено в allowlist —
+  точная сверка базы: `git rev-parse develop origin/develop HEAD`; прежний обход
+  (`git log --oneline -1` / `git show -s`) — резервный.
+- **30.09.2026 · service-docs-lifecycle №2 (`канон агентов`)** — **принято**,
+  P1/P2/P3 нет; оба замечания аудита закрыты (P2 — §8 `journal.md` оговорка
+  реестра `findings-registry.md`/D48; P3 — две точки `Q54.md:12,15`). База
+  `develop` @ `21c3c80` (= `origin/develop` = `HEAD`) + рабочее дерево. Границы
+  чисты (`src/tests/Cargo.toml`, `AGENTS.md` пусто). Права: `agents-perms.mjs` ×2
+  → `11 из 18`, `validator` ↔ `review.md` совпадают (`git branch --contains`,
+  `git rev-parse`). Отчёт `docs/reviews/service-docs-lifecycle-canon-2026-09-30.md`;
+  квитанция записана. `cargo` не запускался (D50).
+  **Грабли:** `git diff` с несколькими dot-путями под `--` и `--numstat -- .opencode`
+  движок отклоняет — одиночный `./`-путь или `git diff --numstat` без пути.
+  `receipts.yaml` крупный (`grep -n "^- task:"` → 64 записи), хвост читать по
+  `offset`.
