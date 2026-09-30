@@ -187,3 +187,68 @@
 - Дальше: `add` 17 путей (`./`-префикс) → сверка staged (`git diff
   --cached --name-status`: 15 `M` + 2 `A`) → `commit` → `push origin develop`.
   Хеши — в ответе `lead` (F43).
+
+## сервисная сессия · 01.10.2026 · P3 закрыт (быстрая правка) — готово
+
+- Инструкция владельца: «сделай быструю правку» — закрыть P3 волны 2
+  («(R2 — …)» без служебного глагола).
+- Сделано: в 4 карточках добавлено «см.» в ссылке на `R2`: `coder.md:54`,
+  `tester.md:51`, `rust-expert.md:62`, `validator.md:44` (четвёртая — тот же
+  дефект, найден при правке; в P3 аудитора не значилась). Нормы не менялись —
+  только формулировка ссылки.
+- Проверки: `git diff` по 4 карточкам — только добавление «см.»; поиск
+  «(R2 — `.opencode/rules`» без «см.» → пусто; `cargo` не запускался (D50).
+- Дальше: приёмка `validator` (порог существенности: канон — новый отчёт +
+  `agents-perms` ×2) → гейт → `git`.
+
+## validator · 01.10.2026 · приёмка P3-правки (быстрая) — готово
+
+- **Вердикт: принято** (P1/P2/P3 нет). Версия: `develop` @ `c8ffb0f`
+  (= `origin/develop` = `HEAD`, коммит волны 2) + рабочее дерево. Отчёт
+  `docs/reviews/service-rules-revision-w2-p3-2026-10-01.md`; квитанция
+  `service-rules-revision-w2` iteration 2, accepted.
+- Сделано (проверено): `git diff` по каждой из 4 карточек (`./`-форма — иначе
+  движок отклоняет) → ровно один ханк `+1/−1`, только вставка «см.» в
+  `(R2 — …)`; `rg` ссылок `(R2 — `.opencode/rules/dispatch-loop.md` §«Hard
+  rules»)` без «см.» → пусто (exit 1); все 4 `(R2 — ` c «см.» (`validator:44`,
+  `coder:54`, `rust-expert:62`, `tester:51`); дом резолвится
+  (`dispatch-loop.md:37` `## Hard rules`).
+- Проверки: `node .opencode/scripts/agents-perms.mjs` ×2 → `agents: 11 из 18`,
+  идентично, фронтматтеры целы; границы `git status --porcelain` = 4 `M` agents
+  + `M` лента, посторонних нет; `git diff --stat -- src tests Cargo.toml
+  AGENTS.md` пусто; `git diff --check` пусто; `cargo` не запускался (D50).
+- Дальше: гейт `surface_to_user` → `git` (коммит «P3 закрыт» в `develop`).
+
+## сервисная сессия · 01.10.2026 · подтверждение пакета (гейт) — коммит + push + merge в master
+
+- Гейт пройден: владелец подтвердил **«commit — push — merge в master»**
+  (`question`, ответ «commit - pusth - merge в master») — операция
+  `service-rules-revision-w2`, закрытие P3.
+- База: `develop` @ `c8ffb0f` (= `origin/develop`); режим:
+  1) коммит «P3 закрыт» в `develop` + `git push origin develop`;
+  2) `git switch master` → `git merge --no-ff develop -m "Слияние develop в master"` → `git push origin master` (master @ `9173fc4` — предок `develop`, конфликтов нет; тег/CHANGELOG не требуются — синхронизация, не релиз).
+- Пакет коммита — 8 путей + записи `lead`/`git` = 10:
+  - `.opencode/agents/coder.md`, `.opencode/agents/rust-expert.md`,
+    `.opencode/agents/tester.md`, `.opencode/agents/validator.md`
+  - `.opencode/mail/service-rules-revision-w2.md` (лента)
+  - `.opencode/memory/git.md` (чекпойнт роли `git`, новый до `add`)
+  - `.opencode/memory/validator.md`
+  - `.opencode/state/current/progress.yaml`
+  - `.opencode/state/current/receipts.yaml`
+  - `docs/reviews/service-rules-revision-w2-p3-2026-10-01.md`
+- Сообщение коммита:
+  `docs(Q80/D84): канон ролей — «см.» в ссылках на R2 (P3, service-rules-revision-w2)`
+- Состояние: приёмка `validator` — принято (P1/P2/P3 нет).
+
+## git · 01.10.2026 · P3-коммит и merge master — готово
+
+- Подтверждение сверено по записи «сервисная сессия · 01.10.2026 · подтверждение
+  пакета (гейт) — коммит + push + merge в master»: состав 10 путей, режим
+  «коммит `develop` + push → merge `develop` → `master` + push».
+- База сверена: `## develop...origin/develop`, `HEAD` `c8ffb0f`; снимок
+  9 `M` + 1 `??` (отчёт приёмки — новый) = ровно пакет + мой чекпойнт = 10.
+- Записи до `add` (F43): этот отчёт и чекпойнт в памяти `git`.
+- Дальше: `add` 10 путей (`./`-префикс) → сверка staged
+  (`git diff --cached --name-status`: 9 `M` + 1 `A`) → `commit` →
+  `push origin develop` → `switch master` → `merge --no-ff develop` →
+  `push origin master`. Хеши — в ответе `lead` (F43).

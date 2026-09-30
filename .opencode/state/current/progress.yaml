@@ -386,3 +386,10 @@
   action: complete
   result: "Волна 2 ревизии канона агентов (Q80/D84): (1) якорь R5 определён — dispatch-loop.md §«Hard rules» («чекпойнт перед тяжёлой операцией»; ссылки ролей и AGENTS.md резолвятся); (2) .opencode/agents/** — 7 карточек: сняты декоративные Q/D-приписки и F-метки-декор (analyst D48/D39×2/D40; docs-writer Q41/D72; lead D39; migrator D61-история/§10-D70×2/D63/пример Q6-Q5; tester Q8/Q9; auditor Q41/F35; validator Q41); git.md — F43 сохранён; coder/rust-expert/researcher — чисто; (3) D84 — «Обновление 01.10.2026». Аудит auditor (P1/P2/P3 нет), приёмка validator (принято; отчёт docs/reviews/service-rules-revision-w2-2026-10-01.md). Пакет git — по гейту (коммит + push develop)."
   next: "— (волна 2 закрыта; ревизия канона агентов завершена)"
+
+- at: "2026-10-01"
+  task: service-rules-revision-w2
+  iteration: 2
+  action: complete
+  result: "P3 волны 2 закрыт быстрой правкой (инструкция владельца): в 4 карточках добавлено «см.» в ссылке на R2 (coder:54, tester:51, rust-expert:62, validator:44 — четвёртая найдена при правке); нормы не менялись. Приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-rules-revision-w2-p3-2026-10-01.md, квитанция iteration 2). Пакет git — по гейту (коммит + push develop)."
+  next: "— (P3 закрыт; ревизия канона агентов завершена полностью)"

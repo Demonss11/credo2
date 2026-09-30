@@ -211,3 +211,19 @@
   `rust-expert:62` — ссылки на R2 без глагола. **Грабли:** `git diff` с ≥2
   dot-путями под `--` — «Permission denied» (третий раз); `git grep` без `-n`
   правом отклонён — заменил `rg`.
+- **01.10.2026 · service-rules-revision-w2, iteration 2 (закрытие P3 — быстрая
+  правка):** **принято**, P1/P2/P3 нет. База `develop` @ `c8ffb0f`
+  (= `origin/develop` = `HEAD` — коммит волны 2 уже сделан `git`). Правка — канон
+  (`.opencode/agents/**`): в 4 карточках `(R2 — …)` → `(R2 — см. …)`
+  (`coder:54`, `tester:51`, `rust-expert:62`, `validator:44`). Каждый дифф ровно
+  `+1/−1` (numstat `1/1` ×4), нормы целы; `rg` без «см.» → пусто (exit 1); дом
+  `dispatch-loop.md:37` §«Hard rules» резолвится; perms ×2 = `11 из 18`; границы
+  4 `M` agents + `M` лента; `git diff --stat -- src tests Cargo.toml AGENTS.md`
+  пусто; `git diff --check` пусто; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-rules-revision-w2-p3-2026-10-01.md`; квитанция iteration 2
+  `accepted`. **Грабли:** голый dot-путь `.opencode/...` под `--` отклонён —
+  `./`-форма работает; 4-путевой `git diff` под `--` отклонён — диффы по одному
+  пути; `node -e` с кириллицей/`«»` в строке в shell — синтаксическая ошибка
+  (использовать `edit` для append-записей). **Урок:** для быстрых docs/canon-правок
+  порог достаточен: per-wave отчёт + `agents-perms` ×2 + адресные диффы; полный
+  DoD (`cargo`) не нужен при неизменных `src/tests/Cargo.toml` (D50).
