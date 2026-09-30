@@ -909,3 +909,20 @@
     p3_audit: "recorded as owner observations, non-blocking: (1) completeness criterion duplicated in journal.md §7 and tasks/README.md:34-38 (per D79 п.1/D77); (2) §7 mentions tests/docs_journal.rs which does not exist yet (pre-existing, T-18 ⬜) "
   snapshot: "develop @ 2f2140c + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-doc-refactor-op5
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-5-2026-09-30.md
+  dod:
+    borders: "ok — git diff --stat fab7e68 -- src tests Cargo.toml empty; git status = 7 M, no ??: .opencode/rules/journal.md, docs/decisions/D79, docs/tasks/README.md, mail feed, memory/migrator.md, memory/auditor.md, state/current/progress.yaml (op4 write); .opencode/agents/** and review.md untouched; no new Q/D"
+    cargo: "not run (D50, docs/canon-only)"
+    canon_7: "ok — git diff fab7e68 -- ./.opencode/rules/journal.md = single §7 hunk (:105, :108); test marked '(план — T-18 ⬜; решение D64)'; criterion now a reference to 'абзац «Полнота» в docs/tasks/README.md' + D77/D79 links; rg 'хотя бы одной строкой' in journal.md empty; LF (rg -c '\\r$' = 0, 121 lines); sections §1-§8 intact; links ../../docs/decisions/D77…/D79… resolve"
+    single_source: "ok — criterion lives in docs/tasks/README.md:34-38 '**Полнота:**' only; §7 names subject + reference, no duplicated text (Q41); test-plan note present in both places"
+    d79: "ok — diff fab7e68 = +1 bullet in Следствия (:42) 'Обновление 30.09.2026 (закрытие P3 аудита операции №4)…'; link ../tasks/README.md resolves; no other edits"
+    tasks_readme: "ok — one changed line (:37, +1/-1) 'проверяет тест tests/docs_journal.rs (план — T-18 ⬜, D77)'; rg -c '^' = rg -c '\\r$' = 72 (CRLF + final newline); links live"
+    feed: "ok — op5 blocks once at the end: opening :622, migrator D79 :640, service session canon edit :655, auditor :670, migrator P3 tasks/README :717 (last); git diff fab7e68 = pure insertion +108 at end (no deletions, no duplicates above); op4 -> op5 order chronological"
+    consistency: "ok — §7 ↔ D77/D79 ↔ tasks/README 'Полнота' ↔ T-18 card v0.1 (:49-54) consistent; P3-1/P3-2 (op4) and P3 (op5) closed; checklist §5.7 ok (links live, statuses synced, IDs not reused, no migration markers)"
+    audit_protocol: "ok — auditor entry (:670-713) before validation, P1/P2 none; independent agents-perms run = 'agents: 11 из 18'; agents/** and review.md untouched"
+  snapshot: "develop @ fab7e68 + working tree (2026-09-30)"
+  at: "2026-09-30"
