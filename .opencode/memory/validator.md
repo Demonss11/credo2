@@ -1163,3 +1163,25 @@
   **Приём:** партию «роль/правило/решение» удобно сверять одной осью
   (`steps` 18 ↔ `D75:71` ↔ `git.md:6`) плюс `agents-perms` как независимым
   подтверждением эффективных прав.
+- **2026-09-30 · `service-doc-refactor` (Q72 → D76, приёмка, без cargo):**
+  прочитаны лента `service-doc-refactor.md`, `journal.md` §4/§5.7, `review.md`,
+  `TRACEABILITY.md`, `Q72.md`, `D76-traceability-links-only.md`,
+  `questions/README.md`, `decisions/README.md`, память/лента `migrator`,
+  `receipts.yaml`. Снимок: `develop`, HEAD `6182bb5` + рабочее дерево (4 M + 3
+  `??` = 7 путей); `git diff --stat -- src tests Cargo.toml` пусто → **cargo не
+  запускался — D50** (документная волна). Вердикт — **принято, замечаний
+  нет**; P1/P2/P3 нет. Проверено: 72 строки Q (HEAD `| [Q`=71 + Q72); строгий
+  5-колоночный формат всех 72 (`rg -v` оставляет 12 «не-строк»); клетки Q/D без
+  « — »; колонки 3–5 = HEAD по агрегатам (`| resolved |` 54/53(+Q72), `| in
+  work |` 14/14, `| done |` 4/4, ⬜15/15, 🚧1/1, ✅8/8, `](features/` 43/43,
+  `](tasks/` 19/19); Q6 :10 дословно = HEAD (маркер «закрыт попутно» снят, канон
+  `Q6.md`/`D19` цел); Q72 :76 `resolved | — | —`; легенда :78–82 = HEAD
+  :77–81 дословно + предложение :82–84; CRLF/финал `^`=`\r$`=84; Q72/D76 §4
+  (поля+разделы), D76 ⚪, `Tasks: —`, §10 нет (D70); каталоги 72/76; ссылки
+  живые/относительные, без `mail`/`state` (`decisions/README:72` — плейнтекст
+  D43, не ссылка); лента и память `migrator` (запись + обрыв по шагам).
+  **Тех. заметка:** `git diff -L…` не поддерживается этой версией git
+  (`invalid option: -L…`), полный diff TRACEABILITY срезается token-guard —
+  колонки 3–5 брал агрегатами HEAD↔дерево + Q6 построчно. Отчёт
+  `docs/reviews/service-doc-refactor-2026-09-30.md`; квитанция
+  `service-doc-refactor` iteration 1 (`accepted`) — append.

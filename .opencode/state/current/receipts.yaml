@@ -822,3 +822,19 @@
     p3_closure: "closed — r1 P3 (D75:12 Affects + AGENTS.md); audit-of-refinements P3 #1 (D75:46 note «уточнено 30.09.2026: 18»); P3 #2 (git-workflow.md:161-162 F22 exception for service waves)"
   snapshot: "develop @ 0872dfa (= origin/develop) + working tree (2026-09-30); 6 M (git.md, git-workflow.md, D75, feed service-git-efficiency.md, memories auditor/migrator)"
   at: "2026-09-30"
+
+- task: service-doc-refactor
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = 7 paths (M: docs/TRACEABILITY.md, docs/questions/README.md, docs/decisions/README.md, .opencode/memory/migrator.md; ??: docs/questions/Q72.md, docs/decisions/D76-traceability-links-only.md, .opencode/mail/service-doc-refactor.md); docs/** only expected; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only)"
+    traceability: "ok — 72 Q rows (HEAD `| [Q`=71 + Q72); strict 5-col link-only format for all 72 rows (rg -v leaves only 12 non-rows: header 1-4, blank 77, legend 78-84); no ' — ' in Q/D cells; cols 3-5 unchanged vs HEAD: `| resolved |` 54/53 (+Q72), `| in work |` 14/14, `| done |` 4/4, open/dropped 0/0; ⬜ 15/15, 🚧 1/1, ✅ 8/8; ](features/ 43/43, ](tasks/ 19/19; Q6 :10 cols 3-5 verbatim = HEAD (marker removed); Q72 :76 = resolved|—|—; legend :78-82 = HEAD :77-81 verbatim + added sentence :82-84; CRLF: rg -c '^' = rg -c '\\r$' = 84 (final newline)"
+    journal: "ok — Q72/D76 fields+sections per journal §4 (Статус/Дата/Приоритет/Связано; Статус/Дата/Resolves/Спека/Affects/Tasks); D76 'Сверка с кодом' ⚪; Tasks: —; Спека: —; no §10 row (D70) — rg 'D76|Q72' docs/SPECIFICATION.md empty; IDs unique (single Q72.md / D76-traceability-links-only.md)"
+    catalogs: "ok — questions/README 72 Q-rows (Q72 :94, theme + [D76]); decisions/README 76 D-rows (D76 :105, theme/Решает/Дата/Статус accepted)"
+    links: "ok — all Q72/D76/TRACEABILITY/catalog targets exist (Q6/Q41/Q59/Q61, D19/D50/D60/D63/D64/D65, analysis/findings-registry.md F46:54, tasks/T-18-docs-journal-test/README.md, ../../.opencode/rules/journal.md); no absolute links (]( empty); no canon links to .opencode/mail|state (D65; decisions/README:72 is D43 plain text about edit right, unchanged)"
+    checklist_5_7: "ok — links live; statuses synced (Q72 'resolved by D76' ↔ D76 'Resolves: Q72' ↔ TRACEABILITY resolved ↔ catalogs); IDs not reused; no migration markers"
+    feed: "ok — migrator entry last in mail (:33-54); checkpoint at tail of memory/migrator.md (:1158-1175); step-limit break + continuation recorded (mail :50-53)"
+  snapshot: "develop @ 6182bb5 + working tree (2026-09-30)"
+  at: "2026-09-30"

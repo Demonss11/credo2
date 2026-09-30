@@ -91,3 +91,4 @@
 | [Q69](Q69.md) | `README`: корневой создать, `docs/README.md` отрефакторить | [D73](../decisions/D73-readme-entrypoints.md) |
 | [Q70](Q70.md) | `GRAMMAR`: нормативный фокус | [D74](../decisions/D74-grammar-normative-focus.md) |
 | [Q71](Q71.md) | работа роли `git`: сокращение шагов и токенов | [D75](../decisions/D75-git-lean-workflow.md) |
+| [Q72](Q72.md) | TRACEABILITY: колонки Q и D — темы или только ссылки? | [D76](../decisions/D76-traceability-links-only.md) |
