@@ -260,3 +260,10 @@
   action: complete
   result: "Сервисная волна service-doc-refactor: Q72/D76 — TRACEABILITY только ссылки Qn/Dn (формат применён ко всем 72 строкам), приёмка validator accepted (P1/P2/P3 нет); коммит 406575c, push 6182bb5..406575c origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-2026-09-30.md"
   next: "— (операция №1 рефакторинга docs закрыта; далее — по запросу владельца)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 2
+  action: complete
+  result: "Операция №2: Q73/D77 (полнота задач — все T-XX видны через TRACEABILITY; добор проверок T-18) и Q74/D78 (T-15 — программа «процесс, готовый к MCP», фазы A–G); свип 19/19; приёмка validator (r1 rework по вердикту D78 → r2 accepted); коммит c8652c4, push 406575c..c8652c4 origin develop (18 путей); отчёты docs/reviews/service-doc-refactor-2-2026-09-30{,-r2}.md"
+  next: "— (операция №2 закрыта; открытый кандидат — T-15 в «Задачи» строк Q50/D45, Q51/D46 — по решению владельца)"

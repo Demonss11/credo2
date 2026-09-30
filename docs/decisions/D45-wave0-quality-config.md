@@ -12,7 +12,7 @@
   §«Сборка, тесты и пересборка»; `rustfmt.toml`, `rust-toolchain.toml`,
   `.cargo/config.toml`, `.gitattributes`; `src/**`, `tests/**` (реформат);
   [`findings-registry.md`](../analysis/findings-registry.md)
-- **Tasks:** — (см. «Сверка с кодом»)
+- **Tasks:** [T-15](../tasks/T-15-mcp-ready-process/README.md) (фаза A — волна 0; см. «Сверка с кодом»)
 
 ## Контекст
 
@@ -53,6 +53,7 @@ Run 5 также вскрыл расхождения конфиг-пакета �
   -- -D warnings`; `cargo test --all` — зелёные; smoke харнесс-форматтера (сохранить
   файл с mixed-case импортами → `git diff` пуст).
 - Обновление доков T-15 (`wave0-report`, карточка) — за `docs-writer`.
+- **Обновление 30.09.2026:** связь с программой [`T-15`](../tasks/T-15-mcp-ready-process/README.md) зафиксирована (волна 0 — фаза A, [D78](D78-t15-mcp-ready-program.md)); в [`TRACEABILITY.md`](../TRACEABILITY.md) строка Q50/D45 — задачи `T-15 ⬜`, жизненный цикл `in work`.
 
 ## Сверка с кодом
 
@@ -62,8 +63,9 @@ Run 5 также вскрыл расхождения конфиг-пакета �
 (смоук — [`rights-probe-2026-09-28.md`](../analysis/rights-probe-2026-09-28.md)
 §2); `rustfmt --check src/mcp.rs` без edition падал, с `edition = "2024"` — чисто
 (F20). Полная приёмка конфиг-пакета (DoD: `fmt`/`clippy`/`test`) — за
-`validator`, не за `migrator`; здесь `cargo` не запускался. Задач не требуется:
-канон/конфиг внесены сервисной сессией 28.09.2026; доки T-15 — `docs-writer`.
+`validator`, не за `migrator`; здесь `cargo` не запускался. **Задача —** [`T-15`](../tasks/T-15-mcp-ready-process/README.md) (программа: волна 0
+— её фаза A, [D78](D78-t15-mcp-ready-program.md)); канон/конфиг внесены
+сервисной сессией 28.09.2026; доки T-15 — `docs-writer`.
 
 ## Альтернативы
 

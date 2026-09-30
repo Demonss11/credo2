@@ -7,7 +7,7 @@
 - **Affects:** [`git-workflow.md`](../../.opencode/rules/git-workflow.md)
   (§«Ограничения»; §«Формат коммитов»);
   [`findings-registry.md`](../analysis/findings-registry.md)
-- **Tasks:** — (см. «Сверка с кодом»)
+- **Tasks:** [T-15](../tasks/T-15-mcp-ready-process/README.md) (фаза C — session-commit; см. «Сверка с кодом»)
 
 ## Контекст
 
@@ -38,6 +38,7 @@
 - `state/**` перестаёт копиться как «рабочая грязь» — определён пакет и момент
   коммита.
 - Задел под session-commit T-15 фазы C; при его внедрении правило уточняется.
+- **Обновление 30.09.2026:** session-commit — фаза C программы [`T-15`](../tasks/T-15-mcp-ready-process/README.md) ([D78](D78-t15-mcp-ready-program.md)); в [`TRACEABILITY.md`](../TRACEABILITY.md) строка Q51/D46 — задачи `T-15 ⬜`, жизненный цикл `in work`.
 
 ## Сверка с кодом
 
@@ -45,9 +46,10 @@
 поведение не меняет. Что проверено (28.09.2026): тексты
 [`git-workflow.md`](../../.opencode/rules/git-workflow.md) — пункт «Продуктовый
 коммит задачи — без процессных файлов» (стр. 122), `state/**` в процессном пакете,
-строка формата `chore(process): …` (стр. 42). `cargo` не запускался. Задач не
-требуется: канон внесён сервисной сессией 28.09.2026; обновление карточки T-15
-(F26) — зона `docs-writer`.
+строка формата `chore(process): …` (стр. 42). `cargo` не запускался. **Задача —**
+[`T-15`](../tasks/T-15-mcp-ready-process/README.md) (фаза C — session-commit,
+[D78](D78-t15-mcp-ready-program.md)); канон внесён сервисной сессией 28.09.2026;
+обновление карточки T-15 (F26) — зона `docs-writer`.
 
 ## Альтернативы
 

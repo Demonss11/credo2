@@ -51,8 +51,8 @@
 | [Q47](questions/Q47.md) | [D42](decisions/D42-expect-iteration.md) | resolved | — | — |
 | [Q48](questions/Q48.md) | [D43](decisions/D43-auditor-mail.md) | resolved | — | — |
 | [Q49](questions/Q49.md) | [D44](decisions/D44-run5-refinements.md) | resolved | — | — |
-| [Q50](questions/Q50.md) | [D45](decisions/D45-wave0-quality-config.md) | resolved | — | — |
-| [Q51](questions/Q51.md) | [D46](decisions/D46-product-process-commits.md) | resolved | — | — |
+| [Q50](questions/Q50.md) | [D45](decisions/D45-wave0-quality-config.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | — |
+| [Q51](questions/Q51.md) | [D46](decisions/D46-product-process-commits.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | — |
 | [Q52](questions/Q52.md) | [D47](decisions/D47-git-refinements-run5.md) | resolved | — | — |
 | [Q53](questions/Q53.md) | [D48](decisions/D48-findings-registry-owner.md) | resolved | — | `analysis/findings-registry.md` |
 | [Q54](questions/Q54.md) | [D49](decisions/D49-validator-branch-contains.md) | resolved | — | — |

@@ -872,3 +872,20 @@
     feed: "ok — migrator rework entry (:232-244) after validator r1 entry (:196-228), chronological; lists same checks"
   snapshot: "develop @ 406575c + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-doc-refactor-op3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-3-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = exactly 6 M, no ??: docs/TRACEABILITY.md, docs/decisions/D45-wave0-quality-config.md, docs/decisions/D46-product-process-commits.md, mail/service-doc-refactor.md, memory/migrator.md, state/current/progress.yaml (op2 write, out of op3); no stray paths; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only)"
+    traceability: "ok — diff -U2 = +2/-2 only (Q50/Q51); :54-55 = 'in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | —'; 74 Q rows; T-15 exactly 3 rows (Q50, Q51, Q74); rg -c '^' = rg -c '\\r$' = 86; legend intact; aggregates resolved 52 + in work 18 + done 4 = 74"
+    d45: "ok — 3 hunks only: Tasks -> [T-15] (фаза A — волна 0); Следствия + 'Обновление 30.09.2026' bullet; 'Сверка с кодом' 'Задач не требуется' -> '**Задача —** T-15 (волна 0 — фаза A, D78)'; numstat 5/3; sections intact, rest verbatim"
+    d46: "ok — 3 hunks only: Tasks -> [T-15] (фаза C — session-commit); Следствия + 'Обновление 30.09.2026'; 'Сверка' -> '**Задача —** T-15 (фаза C — session-commit, D78)'; numstat 6/4; rg 'Задач не требуется' in D45/D46 empty"
+    consistency: "ok — T-15 ⬜ in TRACEABILITY :54,:55,:78 = tasks/README.md:53 = card :3 ('⬜ открыта') (D77 п.4); Q50:3 resolved by [D45], Q51:3 resolved by [D46]; lifecycle in work per D63 (precedent Q60/D64 T-18 ⬜); no new Q/D (last Q74/D78, no ?? paths); links live (D78, T-15 card, TRACEABILITY)"
+    checklist_5_7: "ok — links live; statuses/summaries synced; IDs not reused; no migration markers in changed files"
+    feed: "ok — op3 opening (:305) -> migrator op3 ready (:337) chronological (git op2 package entry :321 between, own operation)"
+    observation: "non-finding — D45/D46 Affects do not list TRACEABILITY.md although their rows changed; link documented by 'Обновление 30.09.2026' bullet; optional one-line addition"
+  snapshot: "develop @ c8652c4 + working tree (2026-09-30)"
+  at: "2026-09-30"
