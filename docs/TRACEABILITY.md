@@ -79,7 +79,8 @@
 | [Q75](questions/Q75.md) | [D79](decisions/D79-journal-canon-completeness.md) | done | — | — |
 | [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) ⬜ | — |
 | [Q77](questions/Q77.md) | [D81](decisions/D81-pm-process-mining.md) | done | — | — |
-| [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | open | — | — |
+| [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
+| [Q79](questions/Q79.md) | [D83](decisions/D83-traceability-wave2.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос

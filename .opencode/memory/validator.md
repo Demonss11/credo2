@@ -77,6 +77,33 @@
   **Урок:** при повторной приёмке канона доказывать закрытие через
   `git diff <новая-база> -- <файл>` — `develop`-дифф validator.md был решающим.
   `cargo` не запускался (D50).
+- **01.10.2026 · service-lifecycle-w2-prep (чекпойнт ДО прогона):** база —
+  `develop` (ожидаю `## develop...origin/develop`); пакет документно-служебный
+  (без T-XX). Что проверяю: (1) `git diff` TRACEABILITY (Q78/D82 → `in work`
+  +`T-20 ⬜`, новая строка Q79/D83), `tasks/README.md` (строка T-20 + абзац
+  «Исключение»/D83), `questions|decisions/README.md` (+1); (2) Q79/D83/T-20 —
+  формы, `Resolves`, «Сверка с кодом» ⚪, `Tasks: T-20`, критерий; D65; ссылки;
+  (3) счётчики: `open`=26, `in work`=21, `done`=32; словарь {open,in work,done};
+  (4) границы: `git status --porcelain` — 5 `M` + 4 `??` (до моих записей);
+  `git diff --stat -- src tests Cargo.toml AGENTS.md` пусто; (5)
+  `agents-perms.mjs` ×2 → 11 из 18; (6) `cargo` **не запускаю** (D50). Итог —
+  после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. База `develop` @ `b04a77a`
+  (= `origin/develop` = `HEAD`); линейно после w1 (`cb7d159` ∈ `develop`,
+  `git log -3` → `b04a77a` поверх `cb7d159`). Счётчики `open`=26, `in work`=21,
+  `done`=32; `rg -c "^| \[Q"` = 79 (арифметика точна); `resolved`/`dropped` —
+  только легенда (:87–88); `| in work | —` пусто (каждое `in work` с задачей);
+  `done` с задачами — только ✅. Диффы: TRACEABILITY Q78/D82 `open`→`in work`
+  +`T-20 ⬜` + новая Q79/D83 `in work` +`T-20 ⬜`; `tasks/README.md` +T-20 и
+  абзац «Исключение» (D83); каталоги +1/+1; D82/D63/D64/T-18/`journal.md` пусто
+  (тела не переписаны). Q79/D83/T-20 — формы, ⚪, «Задач не требуется сверх
+  T-20»; ссылки живые (`git ls-files`); D65 чисто. Границы: 5 `M` + 4 `??` (до
+  моих записей) — ровно план; `src/tests/Cargo.toml/AGENTS.md` пусто; perms ×2 =
+  `11 из 18`; `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-lifecycle-w2-prep-2026-10-01.md`; квитанция записана.
+  **Грабли:** многопутевой `git diff -- ...` с dot-путями отклонён (как и
+  раньше) — одиночные вызовы; голый `./.opencode/memory/migrator.md` под `--`
+  прошёл после `./`-формы (numstat 19/0).
 - **01.10.2026 · service-review-links №1 (чекпойнт ДО прогона):** база —
   `develop` (ожидаю `## develop...origin/develop`, `HEAD` = `b9fd791`); правка
   — удаление строки «Отчёт приёмки: …» из `docs/tasks/T-03-check-create/README.md`

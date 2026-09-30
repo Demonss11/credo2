@@ -1187,3 +1187,27 @@
     tech: "git diff --numstat -- .opencode/rules/journal.md (bare dot-path under --) rejected by rights engine; replaced with ./path form (→3/2)"
   snapshot: "develop @ cb7d159 (= origin/develop = HEAD) + working tree (2026-10-01)"
   at: "2026-10-01"
+
+- task: service-lifecycle-w2-prep
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-lifecycle-w2-prep-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — document/service package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; no features counter/composition change; code untouched (migrator/service zone)"
+    counters: "ok — rg -c lifecycle cells: open=26, in work=21, done=32; rg -c '^| [Q' = 79 = 26+21+32; rg '| resolved ||| dropped |' only legend (:87-88) — dictionary {open,in work,done} intact"
+    rule: "ok — rg '\\| in work \\| —' empty (exit 1): every in work row has a task (D82 rule); done rows with tasks all ✅ (T-03,T-11-T-13)"
+    traceability: "ok — git diff: Q78/D82 open->in work + [T-20](…) ⬜; new row Q79/D83 in work + T-20 ⬜; legend untouched"
+    tasks_readme: "ok — git diff: +T-20 summary row (P3, [D83](…) (Q79), ⬜) + 'Исключение' ([D83]) paragraph on v0.2 tasks (mark 'v0.2', dep 'приёмка v0.1')"
+    catalogs: "ok — questions/README.md +1 (:101 Q79/D83), decisions/README.md +1 (:112 D83/Q79 accepted)"
+    q79: "ok — status 'resolved by D83', fields + sections per journal §4; links live"
+    d83: "ok — accepted, Resolves Q79 (:5), Спека — (:6), Affects (:7-10), Tasks T-20 (:11), 'Сверка с кодом' ⚪ (:61), 'Задач не требуется сверх T-20' (:80)"
+    t20: "ok — card: ⬜, P3, Источник D83 (Q79), связано D82 (Q78), criterion + D50 DoD note; status matches summary table (⬜)"
+    links: "ok — git ls-files confirms all referenced files exist (Q78,D82,D63-D65,D77,D50,T-18,tasks/README); relative depths valid ('../','../../')"
+    address: "ok — git grep '0opencode/mail|opencode/state|reviews/|research/|analysis/' over Q79/D83/T-20 empty (exit 1) (D65)"
+    untouched: "ok — git diff -- D82, D63, D64, T-18, ./.opencode/rules/journal.md all empty (bodies not rewritten)"
+    borders: "ok — git status --porcelain = M memory/migrator, TRACEABILITY, decisions/README, questions/README, tasks/README (5) + ?? feed, Q79, D83, T-20/ (4); plus own validator.md checkpoint"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = b04a77a / b04a77a / b04a77a; git branch --contains cb7d159 = develop (linear after w1)"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; frontmatters untouched"
+    tech: "git diff with multiple dot-paths under -- rejected by rights engine (known quirk); replaced with single-path calls; bare ./.opencode/memory/migrator.md dot-path rejected — './' form worked (numstat 19/0)"
+  snapshot: "develop @ b04a77a (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
