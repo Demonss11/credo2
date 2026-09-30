@@ -295,3 +295,10 @@
   action: complete
   result: "Операция №6: полнота фич — Q76/D80 (каждая *.feature поимённо в TRACEABILITY, wildcard снят; добор T-18). Закрыты 12 разрывов: 6 агентских D38/D39 → Q43/Q44, 5 T-15 → Q74/D78, manifest_sync → Q29/D34+Q32/D28, wasm → Q65/D69; заголовки wasm/manifest_sync + пометка в features/README. Приёмка validator accepted (features_inventory 4/4, 47/278); коммит 74a9d4e, push c0199d3..74a9d4e origin develop (17 путей); отчёт docs/reviews/service-doc-refactor-6-2026-09-30.md"
   next: "— (операция №6 закрыта; T-18 — реализация теста (полнота задач и фич) отдельной задачей)"
+
+- at: "2026-09-30"
+  task: service-pm-tool
+  iteration: 1
+  action: complete
+  result: "Волна service-pm-tool: Q77/D81 — process mining инструмент `pm` (uv-проект .opencode/scripts/pm: core pyyaml, extras viz/pm4py; CLI pm-agents; 7 тестов); карта AGENTS.md (+pm/, +session-analysis/); отчёт первого прогона docs/analysis/pm-run-2026-09-30.md (394 события, 38 кейсов, приёмки 82.1%). Аудит auditor (P1 нет; P2/P3 закрыты адресно) → приёмка validator (r1 rework P2 README → r2 accepted); коммит c137b63, push 74a9d4e..c137b63 origin develop (36 файлов); черновик mine_agents.py оставлен локально вне git (решение владельца)"
+  next: "— (волна закрыта; открыто: MCP-интеграция pm — T-15, отдельно)"

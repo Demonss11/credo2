@@ -59,7 +59,7 @@ uv run pm-agents --state-dir .opencode/state/current --mail-dir .opencode/mail `
 ## Проверка
 
 ```powershell
-uv run pytest                      # expect: 7 passed
+uv run pytest                      # expect: 8 passed
 uv run pm-agents --help
 uv run pm-agents --no-viz --log-level ERROR
 ```
@@ -76,4 +76,8 @@ uv run pm-agents --no-viz --log-level ERROR
   (метрики/CSV/JSON/markdown) работает всегда.
 - **Артефакты — вне репозитория.** Не коммитить `%TEMP%`-выгрузки; в git —
   только итоговый отчёт.
+- **Запуск из любого каталога.** По умолчанию состояние и ленты ищутся **от
+  корня репозитория** (по маркеру `.opencode/state/current`, вверх по дереву),
+  поэтому `uv run pm-agents` работает и из `pm/`, и из корня; вне репозитория
+  укажите `--state-dir`/`--mail-dir` явно.
 - **Файлы — сервисная зона.** Правки — через сервисную сессию владельца.

@@ -275,6 +275,23 @@ uv-проект в `.opencode/scripts/pm`.
   `add` и входит в коммит (F43); после `push` в отслеживаемые файлы не пишем
   (хеши — ответом `lead`).
 
+---
+
+## сервисная сессия · 30.09.2026 · fix после приёмки: пути от корня репозитория
+
+- **Наблюдение владельца:** `uv run pm-agents` из `.opencode/scripts/pm` падал
+  «Event log пуст» — пути по умолчанию были относительны CWD.
+- **Правка:** `cli.py` — `find_repo_root()` (поиск вверх по маркеру
+  `.opencode/state/current`) + `resolve_state_dir()`/`resolve_mail_dir()`;
+  дефолты `--state-dir`/`--mail-dir` — от корня репозитория; в сообщении об
+  ошибке — подсказка про явные пути. README — пункт «Запуск из любого каталога»
+  и ожидание тестов.
+- **Проверки:** `uv run pytest` → **8 passed** (добавлен
+  `test_repo_root_resolution`); контрольный прогон **из `pm/`** — пути
+  `…\credo2\.opencode\state\current` и `…\mail` найдены, отчёт построен
+  (**405 событий, 38 кейсов**; приёмки 81.0%, rework 19.0%).
+- Дальше: адресная приёмка `validator` → пакет `git` по гейту.
+
 ## git · 30.09.2026 · пакет выполняется (коммит + push)
 
 - Сделано: сверены подтверждение (запись выше «подтверждение пакета») и
@@ -288,3 +305,72 @@ uv-проект в `.opencode/scripts/pm`.
   (`git-check.mjs --staged`) → `commit chore(pm): uv-проект process mining
   агентов (D81)` → `push origin develop` (≥ 5 мин); post-push git-команд нет,
   хеши — в ответе `lead` (F43).
+
+---
+
+## validator · 30.09.2026 · fix (пути от корня) — принято
+
+- Сделано: адресная приёмка пост-правки волны (после `c137b63`) — дефолтные
+  пути состояния/лент определяются от корня репозитория (`find_repo_root` по
+  маркеру `.opencode/state/current`, `resolve_state_dir`/`resolve_mail_dir`),
+  запуск `uv run pm-agents` из `.opencode/scripts/pm` больше не падает.
+  Вердикт — **принято**, P1/P2/P3 нет; отчёт —
+  [`docs/reviews/service-pm-tool-2026-09-30-fix.md`](../../docs/reviews/service-pm-tool-2026-09-30-fix.md);
+  квитанция `service-pm-tool` iteration 3 (`accepted`) — append.
+- Проверки: `git diff --stat c137b63 -- src tests Cargo.toml` пусто → cargo не
+  запускался (D50); `git status` — 5 M, `??` нет (три файла `pm/`, лента,
+  `progress.yaml` — запись `lead` о закрытии волны); `rg -n "expect:" pm/README`
+  → `8 passed`, `rg -c "^def test_"` → **8**; в `cli.py` — `find_repo_root`
+  вверх по дереву, дефолты argparse `None` (`:68`, `:74`), resolved-пути в
+  `build_event_log` (`:151`) и `render_report_md` (`:223`), сырых
+  `args.state_dir/args.mail_dir` не осталось, подсказка в ошибке (`:160`); тест
+  `test_repo_root_resolution` (`:77`); README — «Запуск из любого каталога».
+  Свидетельство (уровень «свидетельство», `uv` ролью не исполняется): лента
+  `:280-293` — `uv run pytest` → 8 passed; контрольный прогон **из `pm/`** —
+  пути найдены, **405 событий, 38 кейсов**, приёмки 81.0%; рост событий против
+  первого прогона объясним записями, добавленными после него. §5.7: README
+  согласован коду, ссылки живые, иные файлы `pm/` не тронуты (дифф ровно по
+  трём).
+- Дальше / риски: замечаний нет — правка готова к пакету `git` по гейту.
+  Наблюдение (не находка): запись fix вставлена **перед** закоммиченной
+  записью `git · пакет выполняется` (база `74a9d4e`), т.е. дифф — `+17` в
+  середину, не append; блоки самоописательны, влияние — только на порядок
+  чтения.
+
+---
+
+## сервисная сессия · 30.09.2026 · fix — подтверждение пакета
+
+- Гейт пройден: владелец подтвердил **коммит + push** (`question`, ответ
+  «Коммит + push (Recommended)») — фикс-пакет волны `service-pm-tool`.
+- База: `develop` @ `c137b63` (= `origin/develop`); режим — коммит прямо в
+  `develop`, затем `git push origin develop`.
+- Пакет (8 путей операции + запись роли `git` по F43 = 9):
+  - `.opencode/mail/service-pm-tool.md`
+  - `.opencode/memory/git.md` (чекпойнт роли `git`, новый до `add`)
+  - `.opencode/memory/validator.md`
+  - `.opencode/scripts/pm/README.md`
+  - `.opencode/scripts/pm/src/pm_agents/cli.py`
+  - `.opencode/scripts/pm/tests/test_pm_agents.py`
+  - `.opencode/state/current/progress.yaml`
+  - `.opencode/state/current/receipts.yaml`
+  - `docs/reviews/service-pm-tool-2026-09-30-fix.md`
+- Сообщение коммита:
+  `chore(pm): запуск из pm/ — пути состояния и лент от корня репозитория`.
+- Замечание: запись роли `git` (лента + `memory/git.md`) формируется **до**
+  `add` и входит в коммит (F43); после `push` в отслеживаемые файлы не пишем
+  (хеши — ответом `lead`).
+
+## git · 30.09.2026 · пакет выполняется (фикс, коммит + push)
+
+- Сделано: сверены подтверждение («сервисная сессия · 30.09.2026 · fix —
+  подтверждение пакета») и состояние: база `develop` = `origin/develop` =
+  `c137b63` (синхрон); дерево — 7 `M` + 1 `??` (лента, `memory/validator.md`,
+  три файла `pm/`, `progress.yaml`, `receipts.yaml`, отчёт ревью), состав =
+  пакету, посторонних нет; пакет — **9** путей (8 операции + эта память).
+- Проверки: `git status -sb`, `git log -1 --oneline` (`c137b63`); записи F43
+  (лента + `memory/git.md`) сделаны до `add`.
+- Дальше / риски: `add` 9 точными путями → staged-сверка → `commit
+  chore(pm): запуск из pm/ — пути состояния и лент от корня репозитория` →
+  `push origin develop` (≥ 5 мин); post-push git-команд нет, хеши — в ответе
+  `lead` (F43).

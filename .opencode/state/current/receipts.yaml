@@ -975,3 +975,19 @@
     observation: "non-finding — after block re-sorting, historical in-feed line refs are stale (auditor 'замечания закрыты' :165-168; validator r1 :209-213) and the rework entry (:172) precedes the validator r1 entry (:181) it answers; operational file, blocks self-describing, no action"
   snapshot: "develop @ 74a9d4e + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-pm-tool
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/service-pm-tool-2026-09-30-fix.md
+  dod:
+    borders: "ok — git status = 5 M, no ??: .opencode/scripts/pm/{README.md, src/pm_agents/cli.py, tests/test_pm_agents.py}, mail/service-pm-tool.md, state/current/progress.yaml (lead's wave-complete record, out of this fix); git diff --stat c137b63 -- src tests Cargo.toml empty; git diff --stat c137b63 = exactly 5 files"
+    cargo: "not run (D50) — scripts-only fix; uv unavailable to roles, run evidence is feed"
+    cli: "ok — find_repo_root walks up (marker .opencode/state/current, :32-38); resolve_state_dir/resolve_mail_dir (:41-54) with DEFAULT_STATE_DIR/DEFAULT_MAIL_DIR; argparse defaults None (:68, :74) with updated help; main uses resolved values only (:147-148) in build_event_log (:151) and render_report_md (:223); rg 'args.state_dir|args.mail_dir' empty; error hint added (:160)"
+    tests: "ok — test_repo_root_resolution (:77) with monkeypatch.chdir on tmp repo; rg -c '^def test_' = 8"
+    readme: "ok — :62 'uv run pytest  # expect: 8 passed'; new 'Грабли' bullet 'Запуск из любого каталога' (marker, explicit --state-dir/--mail-dir outside repo)"
+    evidence: "evidence level — feed :280-293 (uv run pytest -> 8 passed; control run from pm/: 405 events / 38 cases, acceptance 81.0%, rework 19.0%); matches the diff (8 tests, root-based defaults); event growth vs first run (394->405) explained by records added after it (this feed, receipts/progress)"
+    checklist_5_7: "ok — README consistent with code (8 tests, run instructions); links live; no rights changes; no migration markers; exactly three pm/ files changed"
+    observation: "non-finding — feed fix entry inserted before the committed 'git · пакет выполняется' entry (base 74a9d4e, pre-fix package); git diff shows +17 inserted mid-file, not appended; blocks self-describing, reading-order only"
+  snapshot: "develop @ c137b63 + working tree (2026-09-30)"
+  at: "2026-09-30"

@@ -29,6 +29,31 @@ def default_output_dir() -> Path:
     return Path(tempfile.gettempdir()) / "opencode" / f"pm-{dt.date.today():%Y-%m-%d}"
 
 
+def find_repo_root(start: Path) -> Path | None:
+    """Корень репозитория вверх по дереву (маркер — `.opencode/state/current`)."""
+    current = start.resolve()
+    for candidate in (current, *current.parents):
+        if (candidate / ".opencode" / "state" / "current").is_dir():
+            return candidate
+    return None
+
+
+def resolve_state_dir(explicit: Path | None) -> Path:
+    """`--state-dir` либо каталог состояния от корня репозитория."""
+    if explicit is not None:
+        return explicit
+    root = find_repo_root(Path.cwd())
+    return root / DEFAULT_STATE_DIR if root is not None else DEFAULT_STATE_DIR
+
+
+def resolve_mail_dir(explicit: Path | None) -> Path:
+    """`--mail-dir` либо каталог лент от корня репозитория."""
+    if explicit is not None:
+        return explicit
+    root = find_repo_root(Path.cwd())
+    return root / DEFAULT_MAIL_DIR if root is not None else DEFAULT_MAIL_DIR
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="pm-agents",
@@ -40,14 +65,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--state-dir",
         type=Path,
-        default=DEFAULT_STATE_DIR,
-        help="каталог состояния (progress/receipts/next_action)",
+        default=None,
+        help="каталог состояния (по умолчанию — от корня репозитория)",
     )
     parser.add_argument(
         "--mail-dir",
         type=Path,
-        default=DEFAULT_MAIL_DIR,
-        help="каталог лент (mail/*.md)",
+        default=None,
+        help="каталог лент (по умолчанию — от корня репозитория)",
     )
     parser.add_argument(
         "--output-dir",
@@ -119,16 +144,23 @@ def main(argv: list[str] | None = None) -> int:
     output_dir: Path = args.output_dir or default_output_dir()
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    state_dir = resolve_state_dir(args.state_dir)
+    mail_dir = resolve_mail_dir(args.mail_dir)
+
     try:
         logbook = build_event_log(
-            args.state_dir,
-            args.mail_dir,
+            state_dir,
+            mail_dir,
             source=args.source,
             include_service=not args.exclude_service,
             since=args.since,
         )
     except (RuntimeError, StateError) as exc:
-        log.error("%s", exc)
+        log.error(
+            "%s (подсказка: запускайте из репозитория или укажите "
+            "--state-dir/--mail-dir)",
+            exc,
+        )
         return 2
 
     dfg = discover_dfg(logbook)
@@ -193,8 +225,8 @@ def main(argv: list[str] | None = None) -> int:
         dfg_edges=dfg.edges,
         variants=variants,
         generated_at=dt.datetime.now(),
-        state_dir=args.state_dir,
-        mail_dir=args.mail_dir if args.source != "state" else None,
+        state_dir=state_dir,
+        mail_dir=mail_dir if args.source != "state" else None,
         output_dir=output_dir,
         viz_done=viz_done,
         notes=notes,

@@ -74,6 +74,22 @@ def test_undated_events_sort_last(tmp_path: Path) -> None:
     assert [event.activity for event in log.events] == ["git", "complete"]
 
 
+def test_repo_root_resolution(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from pm_agents.cli import find_repo_root, resolve_mail_dir, resolve_state_dir
+
+    root = tmp_path / "repo"
+    (root / ".opencode" / "state" / "current").mkdir(parents=True)
+    nested = root / ".opencode" / "scripts" / "pm"
+    nested.mkdir(parents=True)
+    monkeypatch.chdir(nested)
+
+    assert find_repo_root(Path.cwd()) == root.resolve()
+    assert resolve_state_dir(None) == root.resolve() / ".opencode" / "state" / "current"
+    assert resolve_mail_dir(None) == root.resolve() / ".opencode" / "mail"
+    explicit = Path("custom")
+    assert resolve_state_dir(explicit) == explicit
+
+
 def test_cli_end_to_end(tmp_path: Path) -> None:
     rc = main(
         [
