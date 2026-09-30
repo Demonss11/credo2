@@ -344,3 +344,10 @@
   action: complete
   result: "Волна service-statuses-review (30.09–01.10): (1) изучение идеи статуса hold/deferred в жизненном цикле TRACEABILITY — решение владельца: статусы не менять; (2) служебная правка канона ролей (база — master, решение владельца после P1 приёмки): сняты артефакты слияния 9173fc4 — дубль абзаца «Память и почта» (agents/migrator.md) и второй блок «Цикл задачи» (agents/validator.md); сняты устаревшие пункты о строке SPEC §10 (migrator.md, validator.md — таблица упразднена D70); «Обновления 30.09.2026» в D38/D70. Аудит auditor (финальный + δ: P1/P2/P3 нет; P3 нумерации закрыт по причине), приёмка validator (r1 rework: P1 база/ветка, P2 блок → r2 accepted). Развилка веток: develop — предок master, дубли только в master; выравнивание develop — отдельным решением. Пакет git — по гейту (коммит + push в master)."
   next: "— (волна закрыта; открыто: выравнивание develop — по решению владельца; статусы TRACEABILITY не менялись)"
+
+- at: "2026-10-01"
+  task: service-branch-align
+  iteration: 1
+  action: complete
+  result: "Выравнивание веток по решению владельца («выравниваем»): коммит записей (chore(process): лента service-branch-align, progress, память git) в master + push origin master; develop (предок master) — слияние --no-ff master в develop («Слияние master в develop (выравнивание веток)») + push origin develop; деревья идентичны, develop опережает master на merge-коммит; в develop приехали T-03-код, R2-строка и правки канона (дубли/§10 сняты)."
+  next: "— (ветки выровнены; волна service-branch-align закрыта)"

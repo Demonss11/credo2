@@ -62,3 +62,13 @@
   (service-statuses-review)`. Хеши — в ответе `lead` (не здесь). Осталось:
   `add` → сверка staged (10 `M` + 3 `A`) → `commit` → `push origin master`.
   Примечание: после `push` в отслеживаемые файлы не писать (F43).
+- **01.10.2026, service-branch-align** (служебная зона, режим «коммит + push»
+  в `master`, затем merge `master` → `develop` — санкция владельца
+  «выравниваем»): подтверждение сверено по записи ленты «открытие и пакет»;
+  снимок 1 `M` + 1 `??` = ровно пакет (ленты нет — новая, память — правка),
+  `HEAD` `3990700` = база `origin/master`, дерево до записей чистое. К коммиту —
+  3 пути (`./`-префикс, без `--`), сообщение
+  `chore(process): выравнивание develop по master — записи
+  (service-branch-align)`. Хеши — в ответе `lead` (не здесь). Осталось:
+  `add` → сверка staged (1 `A` + 2 `M`) → `commit` → `push origin master` →
+  `switch develop` → `merge --no-ff master` → `push origin develop`.
