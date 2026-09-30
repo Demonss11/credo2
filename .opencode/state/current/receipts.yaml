@@ -838,3 +838,37 @@
     feed: "ok — migrator entry last in mail (:33-54); checkpoint at tail of memory/migrator.md (:1158-1175); step-limit break + continuation recorded (mail :50-53)"
   snapshot: "develop @ 6182bb5 + working tree (2026-09-30)"
   at: "2026-09-30"
+
+- task: service-doc-refactor-op2
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-doc-refactor-2-2026-09-30.md
+  dod:
+    borders: "ok — git status --porcelain = 9 M + 4 ?? (M: docs/TRACEABILITY.md, questions/README.md, decisions/README.md, tasks/README.md, T-15 card, T-18 card, mail/service-doc-refactor.md, memory/migrator.md, state/current/progress.yaml [wave 1, out of scope]; ??: Q73, Q74, D77, D78); no stray paths; git diff --stat -- src tests Cargo.toml empty"
+    cargo: "not run (D50, docs-only) — docs/features/** untouched, counters 47/278 unaffected -> no targeted features_inventory"
+    journal_q73_q74: "ok — §4 fields/sections; Q73 resolved by [D77] <-> D77 Resolves [Q73]; Q74 <-> D78 same; D77/D78 Affects/Tasks filled"
+    d78_verdict: "P2 — D78:56 has no verdict VALUE ('Вердикт и факты по §5.3'); rg -c 'Вердикт: (✅|🟡|⬜|⚪)' docs/decisions -g D*.md -g !D78* = 77/77; D78 = 0; phrase unique in journal; journal.md §1 + D64:41 (planned tests/docs_journal.rs check 4) affected"
+    traceability: "ok — 74 Q rows (Q73 :77, Q74 :78); git diff -U2 = exactly +2 lines after Q72, legend/prior rows intact; rg -c '^' = rg -c '\\r$' = 86 (CRLF + final newline); rows in work | [T-18] ⬜ | — and in work | [T-15] ⬜ | —"
+    catalogs: "ok — questions/README 74 Q rows (+Q73/Q74, 1:1 format); decisions/README 78 D rows (+D77/D78, accepted); Q files 74 / D files 78; Q73/Q74/D77/D78 unique (no reused IDs)"
+    tasks_readme: "ok — paragraph '**Полнота:**' (rule + D77/T-18 link) added; T-15 source '[D78] (Q74); записка …'; rg -n 'ID предварительные|Q/D — ' docs/tasks empty; diff +7/-1 only"
+    cards: "ok — T-15 source D78 (Q74), old phrases removed, criterion 'Q/D заведены … — ✅ (D78, 30.09.2026)', numbering note updated; T-18 source + 'дополнено [D77] (Q73) — полнота задач', v0.1 subpoint (forward/backward completeness + status sync); no other hunks"
+    sweep: "ok — 19/19 T-01..T-19 present at least once in TRACEABILITY (rg -o); marks match registry (✅: T-01,T-03,T-04,T-11,T-12,T-13; ⬜: other 13; repeated mentions consistent); card statuses spot-checked T-01 ✅ / T-13 ✅ / T-15 ⬜ / T-18 ⬜ / T-19 ⬜; all 19 cards exist -> links live"
+    d42_d48_t15: "facts found (D45:19 'Волна 0 (T-15)', D46:40 'session-commit T-15 фазы C', D44:88/D46:49/D47:51 'карточка T-15 (F26)') -> proposal recorded (non-blocker): consider [T-15] in Tasks of Q50/D45 and Q51/D46; rows Q47-Q53 left as is (D77:54-55)"
+    checklist_5_7: "ok — links live; Q<->D/TRACEABILITY/catalogs/registry/cards statuses synced; IDs not reused; no migration markers in new records; Q73/Q74/D77/D78 absent from SPECIFICATION/CHANGELOG/docs/README (no §10 row, D70)"
+    feed_memory: "ok — mail has both parts (chast 1 :140-166, chast 2 :170-192); memory/migrator.md checkpoints :1176-1209"
+  snapshot: "develop @ 406575c + working tree (2026-09-30)"
+  at: "2026-09-30"
+
+- task: service-doc-refactor-op2
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-doc-refactor-2-2026-09-30-r2.md
+  dod:
+    cargo: "not run (D50, docs-only) — git diff --stat -- src tests Cargo.toml empty; targeted recheck only (r1 checks remain valid)"
+    p2_closure: "closed — rg -n 'Вердикт:' docs/decisions/D78-t15-mcp-ready-program.md = exactly 1 line (:56) 'Вердикт: ⚪ **не применимо** (документы/процесс) — процессная программа, продуктовый код не меняется. Факты по §5.3 (чтением, 30.09.2026):'; rg 'Вердикт и факты' docs/decisions docs/questions empty; aggregate rg -c 'Вердикт: (✅|🟡|⬜|⚪)' docs/decisions -g D*.md = 78/78 (was 77/77 + D78=0)"
+    d78_rest: "ok — read-through vs r1: r1 :56-57 two-line paragraph collapsed to :56; bullets :58-64, 'Задача' :66-67, Альтернативы :69-74, Ссылки :76-85 verbatim; file 86->85 lines (wrap merge, no text loss)"
+    borders: "ok — git status = 11 M + 5 ??; operation paths unchanged (9 M + 4 ??); extra = validator's own writes (memory/validator.md, receipts.yaml, report -r2 ??)"
+    docs_unchanged: "ok — numstat of operation docs identical to r1 (TRACEABILITY 2/0, questions/README 2/0, decisions/README 2/0, tasks/README 7/1, T-15 6/5, T-18 8/1); no new docs edits after r1"
+    feed: "ok — migrator rework entry (:232-244) after validator r1 entry (:196-228), chronological; lists same checks"
+  snapshot: "develop @ 406575c + working tree (2026-09-30)"
+  at: "2026-09-30"

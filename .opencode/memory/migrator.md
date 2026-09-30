@@ -1173,5 +1173,46 @@
   `TRACEABILITY.md`) — до создания Q72/D76; продолжение дописало запись,
   каталоги, отчёт. Отчёт — лента `.opencode/mail/service-doc-refactor.md`;
   коммит — за `git`.
+- 2026-09-30 · service-doc-refactor (**операция №2, часть 1 — записи**, готово):
+  созданы `docs/questions/Q73.md` (⚪ оформление; сразу `resolved by [D77]`) и
+  `docs/decisions/D77-tasks-visibility-completeness.md` (`accepted`,
+  `Resolves: [Q73]`, `Спека: —`, `Affects` — `tasks/README.md` (преамбула),
+  `T-18`, `TRACEABILITY.md`; `Tasks: T-18 (добор проверок)`); `docs/questions/Q74.md`
+  (🟡 важно; сразу `resolved by [D78]`) и
+  `docs/decisions/D78-t15-mcp-ready-program.md` (`accepted`, `Resolves: [Q74]`,
+  `Спека: —`, `Affects` — карточка T-15, `tasks/README.md`, `TRACEABILITY.md`;
+  `Tasks: T-15`). Содержание — решения владельца 30.09.2026
+  (`service-doc-refactor`, «операция №2 — открытие»). Проверки: ID свободны до
+  создания (glob `docs/questions/Q7*`, `docs/decisions/D7*` — Q73/Q74/D77/D78
+  отсутствуют); относительные ссылки 4 файлов разрешаются (чтением/glob: Q41/Q59/
+  Q60; D42–D48/D45/D50/D60/D63/D64; `tasks/README.md`; T-15/T-18;
+  `TRACEABILITY.md`; `analysis/mcp-ready-process.md`;
+  `analysis/findings-registry.md`; `.opencode/rules/journal.md`); поля/разделы —
+  по §4 `journal.md`; §10 не заводил (D70), «Спека: —». `cargo`/git не запускались
+  (D50). **Остаток (часть 2, отдельный вызов):** строки в `TRACEABILITY.md`
+  (Q73/D77, Q74/D78), каталоги `questions/README.md`/`decisions/README.md`,
+  `tasks/README.md` (T-15 источник → D78; преамбула — правило полноты), карточки
+  T-15/T-18. Отчёт — лента `.opencode/mail/service-doc-refactor.md`; коммит — за
+  `git`.
+- 2026-09-30 · service-doc-refactor (**операция №2, часть 2 — применение**,
+  готово): применены D77/D78 — `TRACEABILITY.md` +2 строки после Q72 (Q73/D77
+  `in work` → T-18 ⬜; Q74/D78 `in work` → T-15 ⬜); каталоги
+  `questions/README.md` (+Q73/Q74 → 74) и `decisions/README.md` (+D77/D78 → 78);
+  `docs/tasks/README.md` — абзац «**Полнота:**…» в преамбуле, строка T-15
+  источник → D78 (Q74); карточка T-15 — источник/критерий ✅/примечание;
+  карточка T-18 — «Источник» + D77 (Q73), подпункт «полнота задач» в v0.1.
+  Проверки: TRACEABILITY Q-строк **74**, `^`=`\r$`=**86** (CRLF целы);
+  `questions/README.md` 74, `decisions/README.md` 78; `ID предварительные|Q/D — `
+  в `docs/tasks` — пусто; ссылки живые; LF/CRLF не смешаны; `git status` — 9 M +
+  4 ?? (+ `M progress.yaml` волны 1, не трогал). `cargo` не запускался (D50).
+  Отчёт — лента `.opencode/mail/service-doc-refactor.md`. Дальше — приёмка
+  `validator` → пакет `git`; коммит — за `git`.
+- 2026-09-30 · service-doc-refactor (**операция №2 — rework, P2 закрыт**):
+  в `docs/decisions/D78-t15-mcp-ready-program.md` («Сверка с кодом») вступительный
+  абзац заменён на «Вердикт: ⚪ **не применимо** (документы/процесс) — процессная
+  программа, продуктовый код не меняется. Факты по §5.3 (чтением, 30.09.2026):»
+  (шаблон §4; было без явного «Вердикт:»). Список фактов и иные файлы не тронуты.
+  Проверки: `rg "Вердикт:"` → `:56` с ⚪; `rg "Вердикт и факты по §5.3"` — пусто.
+  `cargo` не запускался (D50). Отчёт — та же лента; коммит — за `git`.
 
 

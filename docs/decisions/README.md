@@ -103,3 +103,5 @@
 | [D74](D74-grammar-normative-focus.md) | `GRAMMAR` — нормативный минимум; rationale — ссылками | [Q70](../questions/Q70.md) | 2026-09-29 | accepted |
 | [D75](D75-git-lean-workflow.md) | Роль `git` — минимальный цикл, хелпер + allowlist, `steps` 28→14 | [Q71](../questions/Q71.md) | 2026-09-30 | accepted |
 | [D76](D76-traceability-links-only.md) | TRACEABILITY — только ссылки Qn/Dn; темы — в каталогах | [Q72](../questions/Q72.md) | 2026-09-30 | accepted |
+| [D77](D77-tasks-visibility-completeness.md) | Полнота задач — каждая T-XX видна в TRACEABILITY через пару Q/D | [Q73](../questions/Q73.md) | 2026-09-30 | accepted |
+| [D78](D78-t15-mcp-ready-program.md) | T-15 — программа «процесс, готовый к MCP» (фазы A–G) | [Q74](../questions/Q74.md) | 2026-09-30 | accepted |

@@ -92,3 +92,5 @@
 | [Q70](Q70.md) | `GRAMMAR`: нормативный фокус | [D74](../decisions/D74-grammar-normative-focus.md) |
 | [Q71](Q71.md) | работа роли `git`: сокращение шагов и токенов | [D75](../decisions/D75-git-lean-workflow.md) |
 | [Q72](Q72.md) | TRACEABILITY: колонки Q и D — темы или только ссылки? | [D76](../decisions/D76-traceability-links-only.md) |
+| [Q73](Q73.md) | полнота реестра задач: видимость всех T-XX через TRACEABILITY | [D77](../decisions/D77-tasks-visibility-completeness.md) |
+| [Q74](Q74.md) | T-15: как оформляем программу «процесс, готовый к MCP»? | [D78](../decisions/D78-t15-mcp-ready-program.md) |

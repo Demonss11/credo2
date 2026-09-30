@@ -74,6 +74,8 @@
 | [Q70](questions/Q70.md) | [D74](decisions/D74-grammar-normative-focus.md) | resolved | — | — |
 | [Q71](questions/Q71.md) | [D75](decisions/D75-git-lean-workflow.md) | resolved | — | — |
 | [Q72](questions/Q72.md) | [D76](decisions/D76-traceability-links-only.md) | resolved | — | — |
+| [Q73](questions/Q73.md) | [D77](decisions/D77-tasks-visibility-completeness.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) ⬜ | — |
+| [Q74](questions/Q74.md) | [D78](decisions/D78-t15-mcp-ready-program.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | — |
 
 Легенда жизненного цикла: `open` — ждёт решения · `resolved` — решение принято
 (задач не требуется) · `in work` — есть открытые задачи · `done` — задачи

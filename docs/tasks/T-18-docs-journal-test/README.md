@@ -11,7 +11,8 @@
   шапок и правил журнала)
 - **Источник:** [D64](../../decisions/D64-journal-integrity-test.md) (Q60);
   образец — [`../../tests/features_inventory.rs`](../../tests/features_inventory.rs)
-  ([D20](../../decisions/D20-features-docs-dod.md)/Q40); связано: D63, D65, D61
+  ([D20](../../decisions/D20-features-docs-dod.md)/Q40); связано: D63, D65, D61;
+  дополнено [D77](../../decisions/D77-tasks-visibility-completeness.md) (Q73) — полнота задач
 
 ## Контекст
 
@@ -45,6 +46,12 @@
   `docs/analysis/**` — допустим (провенанс);
   исключение (whitelisted) — [`findings-registry.md`](../../analysis/findings-registry.md)
   (живой реестр находок, владелец `migrator`, [D48](../../decisions/D48-findings-registry-owner.md));
+- полнота задач: каждая `T-XX` из [`../../tasks/README.md`](../../tasks/README.md)
+  встречается хотя бы в одной строке
+  [`../../TRACEABILITY.md`](../../TRACEABILITY.md); обратно — каждая `T-XX` в
+  `TRACEABILITY` имеет карточку в `docs/tasks/`; статусные пометки ⬜/🚧/✅ в
+  `TRACEABILITY` совпадают с реестром
+  ([D77](../../decisions/D77-tasks-visibility-completeness.md));
 - **v0.2:** полный link-check относительных ссылок журнала (вне исторических зон
   `docs/reviews/**`, `docs/analysis/**`).
 

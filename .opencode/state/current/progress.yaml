@@ -253,3 +253,10 @@
   action: complete
   result: "T-04 (L), Run 5 закрыта: приёмка accepted (107/0; features_inventory 4/4, 47/278), аудит пройден (P1 нет; P2 — право auditor на ленту — в меморандум Run 5), статусы ✅, CHANGELOG; коммит 3545afa, merge cd845d4, develop отправлен (включая волну 0); P2 — правка канона владельцем отдельно"
   next: "— (Run 5 закрыт; далее: меморандум Run 5, решение по P2, процессные записи)"
+
+- at: "2026-09-30"
+  task: service-doc-refactor
+  iteration: 1
+  action: complete
+  result: "Сервисная волна service-doc-refactor: Q72/D76 — TRACEABILITY только ссылки Qn/Dn (формат применён ко всем 72 строкам), приёмка validator accepted (P1/P2/P3 нет); коммит 406575c, push 6182bb5..406575c origin develop (11 путей); отчёт docs/reviews/service-doc-refactor-2026-09-30.md"
+  next: "— (операция №1 рефакторинга docs закрыта; далее — по запросу владельца)"
