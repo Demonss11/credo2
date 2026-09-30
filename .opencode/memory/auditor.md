@@ -129,3 +129,21 @@
   (1 место), даты/пробы/Run/BRIEF пусто. Грабли: `git diff --stat -- <дот-пути>`
   отклонён правами — только `git diff <одиночный путь>`; `git diff --stat` без
   путей прошёл. Бюджет: 10 чтений, 8 rg. `cargo` не запускался (D50).
+- **01.10.2026, `service-rules-revision-w2` (волна 2: якорь `R5` + 7 карточек
+  `.opencode/agents/**` по Q80/D84; D84 «Обновление») — аудит:** пакет (7 agents —
+  только целевые снятия Q/D-декора и F-метки-декора, нормы целы; `analyst` −D48/
+  D39×2/D40, `docs-writer` −Q41/D72, `lead` −D39, `migrator` −история
+  `OPEN_QUESTIONS`/D61/§10-история/D70×2/D63/пример «Q6 при Q5»→обобщён,
+  `tester` −Q8/Q9-примеры, `auditor` −Q41/F35, `validator` −Q41; `F43` сохранён;
+  `dispatch-loop.md:41` +2 строки — дом `R5`; D84:76–79 +4 строки; память
+  `migrator` append). Итог: **P1/P2/P3 нет**; вердикт — готова к приёмке
+  `validator`. Инструкция ↔ права: расхождений нет (`agents-perms.mjs` ×2 →
+  `11 из 18`; `review.md:86–104` ↔ 11 фронтматтеров; `analyst` `+4/−4` — только
+  комментарий прав, effective права те же). Ссылки `R5` (`coder:52`,`tester:50`,
+  `validator:58`,`AGENTS.md:135`, память `validator`) резолвятся. Границы:
+  `git status` — 7 `M` agents, `M dispatch-loop.md`, `M D84`, `M memory/migrator`,
+  `?? лента`; `git diff --stat -- src tests Cargo.toml AGENTS.md` пусто; `cargo`
+  не запускался (D50). `[DQF]\d` в agents → пусто. Грабли: `git diff` с ≥2
+  dot-путями под `--` отклонён («Permission denied») — по одному пути;
+  `git grep` без `-n` отклонён — инструмент `grep`. Бюджет: 9 чтений, 8 rg;
+  чекпойнт в память — до дописывания отчёта (R5 соблюдён, нарушать не стал).

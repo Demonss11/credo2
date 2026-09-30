@@ -1233,3 +1233,22 @@
     tech: "empty-path multi-path git diff --stat with 6 dot-paths rejected (known quirk) — replaced with single calls"
   snapshot: "develop @ 3821811 (= origin/develop = HEAD) + working tree (2026-10-01)"
   at: "2026-10-01"
+
+- task: service-rules-revision-w2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-rules-revision-w2-2026-10-01.md
+  dod:
+    cargo: "not run (D50) — canon/document package: git diff --stat -- src tests Cargo.toml AGENTS.md empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = 52d8989 / 52d8989 / 52d8989"
+    diffs: "ok — git diff over 7 agents: only targeted decor removals (analyst -D48/-D39x2/-D40; docs-writer Q41->plain + -D72; lead -D39; migrator -OPEN_QUESTIONS/D61, -§10-history/D70x2, -D63, example Q6 при Q5->generalized; tester -Q8/Q9; auditor -Q41/-F35; validator -Q41); norms preserved; coder/rust-expert/researcher/git untouched"
+    anchor_r5: "ok — dispatch-loop.md:41-42 §Hard rules 'Чекпойнт перед тяжёлой операцией (R5)'; refs coder:52, tester:50, validator:58, AGENTS.md:135, memory/validator resolve; R2 pattern :39, R7 :61"
+    f43: "ok — rg '[DQF][0-9]' .opencode/agents -> only git.md:79 (F43, bearer, matches git-workflow.md:77)"
+    noise: "ok — rg 'Q8|Q9|Q41|D39|D40|D48|D61|D63|D70|D72|OPEN_QUESTIONS|§10|Q6 при Q5' over 7 cards empty (exit 1); rg 'проба|Run [0-9]|BRIEF|фаза C|перенесено|обновлено' over agents empty (exit 1)"
+    d84: "ok — one hunk +4 lines (:76-79), single bold bullet 'Обновление 01.10.2026', append-only; body/Решение/Следствия/Сверка intact; git grep 'opencode/mail|opencode/state' -> empty (exit 1, D65)"
+    borders: "ok — git status --porcelain = 7 M agents + M dispatch-loop.md + M D84 + M memory/{auditor,migrator} + ?? feed; no stray artifacts; git diff --check empty"
+    rights: "ok — agents-perms.mjs ×2 identical, agents 11 из 18; review.md:86-104 <-> 11 frontmatters; frontmatters substantively unchanged (analyst comment :10 only)"
+    p3: "pre-existing, out of diff — coder:54/tester:51/rust-expert:62 R2 refs lack a verb ('см.'/'определение —'); not a blocker"
+    tech: "git diff with >=2 dot-paths under -- rejected ('Permission denied'); single-path calls used; git grep without -n rejected — rg used"
+  snapshot: "develop @ 52d8989 (= origin/develop = HEAD) + working tree (2026-10-01)"
+  at: "2026-10-01"
