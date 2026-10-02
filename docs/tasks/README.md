@@ -66,7 +66,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-20](T-20-traceability-wave2/README.md) | Волна 2 `TRACEABILITY`: разбор `open`-строк | [D83](../decisions/D83-traceability-wave2.md) (Q79) | P3 | — | ✅ |
 | [T-21](T-21-mcp-test-struct-api/README.md) | Unit-тесты `src/mcp.rs`: struct-API `ToolError`, dead `required_str` | T-04 (post-accept); Q29, [D34](../decisions/D34-mcp-tool-contracts.md) | P3 | T-04 | ✅ |
 | [T-22](T-22-mcp-draft-test-fix/README.md) | Интеграционные тесты `tests/mcp_draft.rs`: снять E0425 (`Value`) и E0061 ×3 (`mcp.create`) | T-04 (post-accept); Q29, [D34](../decisions/D34-mcp-tool-contracts.md) | P3 | — | ✅ |
-| [T-24](T-24-rest-cli-contour-test/README.md) | Интеграционный тест CLI-контура REST (`--rest`/`--addr`, `--api-key`/`CREDO_API_KEY`, открытый режим, `--no-rest`) | Q22, [D26](../decisions/D26-rest-auth-x-api-key.md) | P3 | — | ⬜ |
+| [T-24](T-24-rest-cli-contour-test/README.md) | Интеграционный тест CLI-контура REST (`--rest`/`--addr`, `--api-key`/`CREDO_API_KEY`, открытый режим, `--no-rest`) | Q22, [D26](../decisions/D26-rest-auth-x-api-key.md) | P3 | — | ✅ |
 
 ## DoD для любой задачи
 

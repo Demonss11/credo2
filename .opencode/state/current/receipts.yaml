@@ -1548,3 +1548,33 @@
     closure_note: "Q78/Q79 → done must keep visible [T-20] ✅ (not —), else D77 part of the same test fails (tasks/README: T-20 ✅ not visible)"
   snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
   at: "2026-10-02"
+
+- task: T-24
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-24-2026-10-02.md
+  dod:
+    fmt: pass
+    clippy: "fail — tests/rest_cli.rs:47 clippy::collapsible_if (rust-1.96.0, -D warnings); could not compile test target rest_cli"
+    test: "141 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11, rest_cli 6, doc 0)"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    coverage: "ok — 6/6 card §«Что сделать» п.1 points: start/ready /health; --api-key 401/200; env CREDO_API_KEY; open demo mode; open paths /health,/docs,/openapi.json; clap conflict --no-rest+--rest/--addr; contract matches src/main.rs:17-37, src/rest.rs:63-85,:96-106; tests green"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml features docs empty; git diff --check empty; tracked tests untouched; ?? tests/rest_cli.rs; Cargo.toml/dev-deps unchanged"
+    p1: "OPEN — collapsible_if fix in tests/rest_cli.rs:47 (let-chain), zone tester; then re-run clippy -> re-acceptance -r2"
+  snapshot: "feature/T-24-rest-cli-contour-test (= origin/…) @ caac10d (= develop = origin/develop, no commits) + working tree (tests/rest_cli.rs untracked) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-24
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-24-2026-10-02-r2.md
+  dod:
+    fmt: pass
+    clippy: "pass — tests/rest_cli.rs:47 let-chain; P1 (collapsible_if) closed; test target rest_cli compiles"
+    test: "141 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11, rest_cli 6, doc 0)"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    coverage: "ok — 6/6 card §«Что сделать» п.1 points: start/ready /health polling; --api-key 401/200; env CREDO_API_KEY; open demo mode; open paths /health,/docs,/openapi.json (D26); clap conflict --no-rest+--rest/--addr; contract matches src/main.rs:17-37, src/rest.rs:63-85,:96-106; tests green"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml features docs empty; git diff --check empty; tracked tests untouched; ?? tests/rest_cli.rs; Cargo.toml/dev-deps unchanged; canon untouched"
+    p1_closure: "ok — tests/rest_cli.rs:47 collapsed to let-chain if let Ok((200, body)) = request(...) && body.contains(\"ok\") { return; }; same logic; no other edits"
+  snapshot: "feature/T-24-rest-cli-contour-test (= origin/…) @ caac10d (= develop = origin/develop, no commits) + working tree (tests/rest_cli.rs untracked) (2026-10-02)"
+  at: "2026-10-02"

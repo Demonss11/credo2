@@ -27,6 +27,33 @@
 
 ## Чекпойнты
 
+- **02.10.2026, branch_end T-24** (лента `T-24.md`, пакет 20 путей): ветка
+  `feature/T-24-rest-cli-contour-test` = origin (коммитов нет); база develop =
+  origin/develop = `caac10d`. Подтверждение владельца — лента §«гейт пакета —
+  подтверждён» (дословно «Подтверждаю пакет (Recommended)»; `progress.yaml`).
+  Снимок совпал с `package.add_paths` — 15 `M` + 5 `??` = 20 (5 ??:
+  `mail/T-24.md`, `docs/analysis/T-24-2026-10-02.md`,
+  `docs/reviews/T-24-2026-10-02.md`, `docs/reviews/T-24-2026-10-02-r2.md`,
+  `tests/rest_cli.rs`). Чекпойнт и отчёт в ленту — до `add` (F43). Осталось:
+  `add` точными путями (20) → staged-сверка (15 M + 5 A) → коммит «code(T-24):
+  интеграционный тест CLI-контура REST» → `switch develop` → `pull origin
+  develop` → merge `--no-ff` «Слияние feature/T-24-rest-cli-contour-test в
+  develop» → `push origin develop` → удаление ветки (local + origin). `master`
+  не трогается. Риск: `push origin --delete` под гардом CCSN — не обходить,
+  эскалировать (прецедент T-20).
+- **02.10.2026, branch_start T-24** (лента `T-24.md`, действие плана
+  `branch_start`; класс S): база `develop` = `origin/develop` = `HEAD` = `caac10d`
+  (проверено `git rev-parse develop origin/develop HEAD`). Подтверждение
+  владельца — лента `T-24.md`, секция «гейт ветки — подтверждён» (дословно
+  «Подтверждаю ветку и порядок (Recommended)»); продублировано в `progress.yaml`
+  (02.10, `owner_response`). Дерево: 3 M F43-подхвата T-20 (`mail/T-20.md`,
+  `memory/service.md`, `state/current/progress.yaml`) + 2 M записей плана
+  (`current_state.yaml`, `next_action.yaml`) + 2 ?? (`mail/T-24.md`,
+  `docs/analysis/T-24-2026-10-02.md`) — переносятся в ветку как есть, не
+  коммитятся. Чекпойнт и отчёт в ленту — до операции (F43-паттерн).
+  Осталось: `switch develop` → `pull origin develop` → `switch -c
+  feature/T-24-rest-cli-contour-test develop` → `push -u origin
+  feature/T-24-rest-cli-contour-test`. `master` не трогается; коммитов нет.
 - **02.10.2026, branch_end T-20** (лента `T-20.md`, пакет 20 путей): база
   `develop` = `origin/develop` = `HEAD` = `d414998`; ветка
   `feature/T-20-traceability-wave2`. Подтверждение владельца — лента, секция

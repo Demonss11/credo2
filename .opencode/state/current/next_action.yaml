@@ -1,183 +1,147 @@
-# 2026-10-02, T-20 (волна 2 TRACEABILITY), гейт пакета (branch_end).
-# Участки №1–№3 завершены: применение (26 строк), фикс ссылки T-24:53,
-# синхронизация TRACEABILITY:82,:83; validator -r3 — accepted. Класс L.
-# Пакет T-20 сверен со снимком git status --porcelain (20 путей, точный
-# add_paths ниже). Ветка feature/T-20-traceability-wave2 от develop @ d414998.
-task: T-20
+# 2026-10-02, T-24 (S-пилот, F26/F27): интеграционный тест CLI-контура REST на
+# реальном бинарнике. Класс S (директива владельца + карточка «ожидаемо S»;
+# прецедент T-21/T-22).
+# ФИНАЛЬНЫЙ УЧАСТОК (iteration 2, rework = 1, D42). Приёмка закрыта: validator
+# `-r2` — accepted (fmt pass; clippy pass — P1 iteration 1 закрыт; cargo test
+# --all 141/0, rest_cli 6/6, features_inventory 4/4; покрытие 6/6; границы
+# чисты); квитанция T-24 (iteration 2, accepted) в receipts.yaml; отчёт
+# docs/reviews/T-24-2026-10-02-r2.md.
+# Закрытие статусов исполнено: docs-writer — T-24 `✅ сделана` (карточка +
+# docs/tasks/README.md, features/ и CHANGELOG не тронуты); migrator —
+# docs/TRACEABILITY.md:26 Q22/D26 `in work` → `done` + видимая `[T-24] ✅`
+# (D77/D82; F57). pre_gate пройден: свежий снимок
+# `git status --porcelain -uall` = 15 M + 5 ?? = 20 = package.add_paths 1:1.
+# Гейт пакета branch_end подтверждён владельцем 02.10 (owner_response дословно
+# «Подтверждаю пакет (Recommended)»; progress surface_to_user + лента §«гейт
+# пакета — подтверждён»). acceptance: accepted, phase: closing.
+# Остаток: git (branch_end: commit → merge --no-ff в develop → push origin
+# develop → удаление ветки local+origin; master не трогаем) → complete.
+# Новых Q/D нет.
+task: T-24
 task_kind: task
-iteration: 3
-status: awaiting_user
-progress_marker: t20_package_gate
+iteration: 2
+status: in_progress
+progress_marker: t24_closeout_git
 as_of: 2026-10-02
-class: L
+class: S
 class_dispute: false
 class_note: >
-  L — правка канона журнала/реестра (26 строк TRACEABILITY + T-24 + реестр).
-  Маршрут участков: migrator → validator (×2) → migrator (закрытие) → auditor
-  → owner-gate ПАКЕТА → git (branch_end) → complete.
+  S не пересматривается: завершение — git-пакет по уже подтверждённым путям;
+  поведение src/** и канон агентов не затрагиваются. Guard «features/ → не ниже
+  M» не триггерится (features/ не меняется). Приёмка пройдена (validator -r2,
+  accepted) — R2/D50 закрыт.
 branch:
-  name: feature/T-20-traceability-wave2
+  name: feature/T-24-rest-cli-contour-test
   base: develop
-  base_head: d414998
+  base_head: caac10d
+  published: true
+  commits: 0
   note: >
-    Ветка создана и опубликована (git branch_start): от develop @ d414998,
-    upstream установлен, коммитов нет.
+    Ветка = origin/feature/T-24-rest-cli-contour-test, коммитов нет; develop/
+    master не тронуты (развилка ветки на origin, divergence-маркеров нет).
+    Гейты ветки и пакета закрыты владельцем.
 scope_constraints:
-  - "Участок №3 — ровно две статусные ячейки: docs/TRACEABILITY.md:82,:83 (Q78/Q79) — [T-20] ⬜ → [T-20] 🚧 (равенство с реестром docs/tasks/README.md:66). Сверить иные пары «реестр ↔ TRACEABILITY» — validator подтвердил, что расхождение ровно одно."
-  - "Зона migrator: docs/TRACEABILITY.md, docs/tasks/** (T-24, T-20, сводка)."
-  - "При закрытии Q78/Q79 → done сохранить видимую [T-20] ✅ (не —): иначе сработает D77-часть tests/docs_journal.rs."
-  - "Q78/D82 и Q79/D83 → done на шаге закрытия, после ✅ T-20 (D82: done не допускает открытых задач); до этого остаются in work."
-  - "src/**, tests/**, Cargo.toml не трогать; канон агентов и .opencode/rules/** не трогать; cargo не запускать (D50 — адресная документная сверка)."
-  - "F43-подхват: M .opencode/mail/service-mcp-ready-r8.md, M .opencode/memory/service.md — включить в целевой коммит; staged сверить."
+  - "Завершение — только git-операции с подтверждённым пакетом branch_end (20 путей); новых правок файлов нет."
+  - "docs/features/README.md и docs/CHANGELOG.md не трогать."
+  - "src/**, Cargo.toml, tests/**, канон агентов — без правок."
+  - "master не трогать; после push в отслеживаемые файлы не писать (F43) — хеши в ответе lead."
+  - "`git push origin --delete` при блокировке гардом CCSN (`git.push-delete`) не обходить: зафиксировать факт и эскалировать владельцу (прецедент T-20)."
 route_exclusions:
-  - "docs-writer — не нужен: карточки T-24/T-20 и строки TRACEABILITY — зона migrator."
-  - "coder, rust-expert, tester — не нужны: src/**, tests/** не меняются (T-24 заводится, не исполняется)."
-  - "researcher — не триггерится: внешних зависимостей нет (Q81 — отдельный вход)."
+  - "coder/rust-expert — не нужны: src/** и Cargo.toml не меняются."
+  - "tester/validator — не нужны: приёмка завершена (accepted), доработок нет."
+  - "docs-writer/migrator — не нужны: закрытие статусов/трассировки исполнено (T-24 ✅; Q22 done; D77/D82; F57)."
+  - "researcher — не триггерится: внешних зависимостей нет."
+  - "auditor — не нужен: класс S, канон не затронут (AGENTS §Размерные маршруты)."
 package:
   mode: branch_end
-  note: >
-    Точный пакет (сверен со снимком git status --porcelain: 20 путей = 14 M +
-    6 ??; все относятся к T-20/подхвату, посторонних нет). Порядок завершения:
-    git add точными add_paths (F43 — чужие пути не подмешивать; staged сверить)
-    → commit на ветке feature/T-20-traceability-wave2 → switch develop →
-    merge --no-ff feature/T-20-traceability-wave2 → push origin develop →
-    удаление ветки (local + origin). master не трогаем (если владелец не решит
-    иначе — отражается в гейте).
   add_paths:
-    - docs/TRACEABILITY.md
-    - docs/tasks/T-24-rest-cli-contour-test/README.md
-    - docs/tasks/README.md
-    - docs/tasks/T-20-traceability-wave2/README.md
-    - docs/analysis/T-20-2026-10-02.md
-    - docs/reviews/T-20-2026-10-02.md
-    - docs/reviews/T-20-2026-10-02-r2.md
-    - docs/reviews/T-20-2026-10-02-r3.md
     - .opencode/mail/T-20.md
-    - .opencode/state/current/next_action.yaml
+    - .opencode/mail/T-24.md
+    - .opencode/memory/analyst.md
+    - .opencode/memory/docs-writer.md
+    - .opencode/memory/git.md
+    - .opencode/memory/migrator.md
+    - .opencode/memory/service.md
+    - .opencode/memory/tester.md
+    - .opencode/memory/validator.md
     - .opencode/state/current/current_state.yaml
+    - .opencode/state/current/next_action.yaml
     - .opencode/state/current/progress.yaml
     - .opencode/state/current/receipts.yaml
-    - .opencode/memory/migrator.md
-    - .opencode/memory/validator.md
-    - .opencode/memory/analyst.md
-    - .opencode/memory/auditor.md
-    - .opencode/memory/git.md
-    - .opencode/mail/service-mcp-ready-r8.md
-    - .opencode/memory/service.md
+    - docs/analysis/T-24-2026-10-02.md
+    - docs/reviews/T-24-2026-10-02.md
+    - docs/reviews/T-24-2026-10-02-r2.md
+    - docs/tasks/README.md
+    - docs/tasks/T-24-rest-cli-contour-test/README.md
+    - docs/TRACEABILITY.md
+    - tests/rest_cli.rs
+  note: >
+    Пакет подтверждён владельцем 02.10 без изменений (pre_gate: 15 M + 5 ?? =
+    20 = add_paths 1:1). Один коммит на ветке («code(T-24): интеграционный тест
+    CLI-контура REST») → merge --no-ff в develop («Слияние
+    feature/T-24-rest-cli-contour-test в develop») → push origin develop →
+    удаление ветки local+origin; master не трогаем. F43-подхват T-20 и
+    process-записи прогона — тем же пакетом (прецедент T-20/T-21).
 next:
-  - kind: dispatch
-    role: migrator
-    brief: >-
-      Rework P1 (участок №3). Ровно две ячейки: docs/TRACEABILITY.md:82,:83
-      (Q78/D82 и Q79/D83) — статус в колонке «Задачи» [T-20] ⬜ → [T-20] 🚧
-      (равенство с реестром docs/tasks/README.md:66 «T-20 🚧»). Жизненный цикл
-      Q78/Q79 оставить in work. Дополнительно сверить прочие пары «реестр ↔
-      TRACEABILITY» (validator подтвердил: расхождение ровно одно). Иных строк
-      не трогать.
-    expect: >
-      role=migrator: TRACEABILITY:82,:83 — [T-20] 🚧 (совпадает с реестром);
-      прочие пары сверены; изменены ровно две ячейки; cargo не запускался.
-    reason: >
-      Статусная ячейка TRACEABILITY — представление реестра (journal.md §6);
-      docs/TRACEABILITY.md — зона migrator; тест docs_journal (T-18).
-  - kind: dispatch
-    role: validator
-    brief: >-
-      Повторная адресная приёмка (участок №3, `-r3`; D50, без cargo):
-      подтвердить, что TRACEABILITY:82,:83 = реестр (T-20 🚧), расхождений по
-      всем парам нет; фикс P2 (ссылка T-24:53) сохраняется; иных регрессий нет.
-      Отчёт docs/reviews/T-20-2026-10-02-r3.md; квитанция accepted в
-      receipts.yaml.
-    expect: >
-      role=validator: P1 закрыт, парность «реестр ↔ TRACEABILITY» полная; отчёт
-      -r3 создан; квитанция accepted; иначе — rework. Код не запускался (D50);
-      статусы T-20 не менялись (зона migrator).
-    reason: >
-      validator — обязательный арбитр (R2); повторная приёмка после rework.
-  - kind: dispatch
-    role: migrator
-    brief: >-
-      Закрытие статусов (после ✅ validator -r3). Ровно: (1) T-20 🚧→✅ в сводке
-      docs/tasks/README.md и карточке docs/tasks/T-20-traceability-wave2/README.md.
-      (2) Только теперь Q78/D82 и Q79/D83 → done в docs/TRACEABILITY.md, сохранив
-      **видимую** [T-20] ✅ в колонке «Задачи» (не «—») — иначе сработает
-      D77-часть tests/docs_journal.rs (D82: done не допускает открытых задач).
-      Одновременно со статусом T-20 ✅. Иных строк не трогать.
-    expect: >
-      role=migrator: T-20 ✅ в сводке и карточке; TRACEABILITY:82,:83 — done с
-      видимой [T-20] ✅; иных изменений, кроме своей памяти и ленты, нет;
-      cargo не запускался.
-    reason: >
-      Статусы задач/строк TRACEABILITY — зона migrator; D82 + D77 (видимость
-      задачи у закрытой строки).
-  - kind: dispatch
-    role: auditor
-    brief: >-
-      Финальный аудит пакета (класс L, до коммита): независимо проверить —
-      TRACEABILITY:82,:83 синхронизированы (T-20 ✅, видимая [T-20] ✅ при done),
-      реестр совпадает; T-20 ✅ в сводке и карточке; ссылка T-24:53 исправлена;
-      границы соблюдены (TRACEABILITY + tasks/** + state/почта/память/досье),
-      иных изменений нет; сверить «инструкция ↔ права».
-    expect: >
-      role=auditor: расхождений нет (или перечень); права/зона соблюдены;
-      вердикт до коммита.
-    reason: >
-      L — полный маршрут + auditor до коммита, исключений нет
-      (AGENTS.md §Размерные маршруты; dispatch-loop.md §«Маршрут и scope»).
-  - kind: surface_to_user
-    brief: >-
-      Owner-gate ПАКЕТА (после accepted validator -r3). Подтвердите пакет T-20
-      (20 путей, сверены со снимком): docs/TRACEABILITY.md,
-      docs/tasks/T-24-rest-cli-contour-test/README.md, docs/tasks/README.md,
-      docs/tasks/T-20-traceability-wave2/README.md,
-      docs/analysis/T-20-2026-10-02.md, docs/reviews/T-20-2026-10-02.md и -r2/-r3,
-      .opencode/mail/T-20.md,
-      .opencode/state/current/{next_action,current_state,progress,receipts}.yaml,
-      память ролей (analyst, auditor, git, migrator, validator, service),
-      F43-подхват (.opencode/mail/service-mcp-ready-r8.md,
-      .opencode/memory/service.md). Порядок: коммит на ветке
-      feature/T-20-traceability-wave2 → merge --no-ff в develop → push origin
-      develop → удаление ветки (local + origin). master не трогаем (если владелец
-      не решит иначе). База develop = origin/develop = d414998.
-    expect: >
-      user: подтверждает пакет и порядок (или сужает/отменяет); при
-      подтверждении lead фиксирует пакет в ленте до вызова git.
-    reason: >
-      Гейт пакетного подтверждения после приёмки (AGENTS.md; dispatch-loop.md).
   - kind: dispatch
     role: git
     brief: >-
-      Пакет T-20 (branch_end): git add точными путями (F43 — чужие пути не
-      подмешивать; staged сверить) → commit → switch develop → merge --no-ff
-      feature/T-20-traceability-wave2 → push origin develop → push origin
-      --delete + branch -d feature/T-20-traceability-wave2. Записи роли — до
-      add (F43); push с таймаутом ≥ 5 мин.
+      branch_end (пакет подтверждён владельцем 02.10, лента §«гейт пакета —
+      подтверждён»; progress surface_to_user, channel: question, owner_response
+      дословно). Исполнить ровно:
+      (1) `git add` ровно 20 путями из package.add_paths (ни одного лишнего);
+      (2) staged-сверка: ожидание 15 M + 5 A (5 ??: mail/T-24.md, docs/analysis/
+      T-24-2026-10-02.md, docs/reviews/T-24-2026-10-02.md, docs/reviews/
+      T-24-2026-10-02-r2.md, tests/rest_cli.rs) — расхождение: стоп, без
+      обходов;
+      (3) коммит сообщением «code(T-24): интеграционный тест CLI-контура REST»;
+      (4) `switch develop` → `pull origin develop` → merge `--no-ff` ветки с
+      сообщением «Слияние feature/T-24-rest-cli-contour-test в develop»;
+      (5) `push origin develop` (таймаут ≥ 5 мин);
+      (6) удаление ветки local + origin (`push origin --delete`); master не
+      трогать.
+      Если `git push origin --delete` заблокирован гардом CCSN
+      (`git.push-delete`) — обходов НЕ применять: зафиксировать факт
+      (local удалена? origin осталась?) и вернуть lead для эскалации владельцу
+      (прецедент T-20). До операции — F43-отчёт в ленту; после push в
+      отслеживаемые файлы не писать (хеши — в ответе lead).
     expect: >
-      role=git: коммит в develop только со своими путями; develop =
-      origin/develop; ветка удалена; хеши — в ответе.
+      role=git: коммит создан из 20 путей (15 M staged + 5 A); ветка влита в
+      develop через --no-ff («Слияние feature/T-24-rest-cli-contour-test в
+      develop»); `push origin develop` выполнен; ветка удалена local+origin;
+      master не тронут; отчёт в ленте. При блокировке push --delete —
+      expect_match false, зафиксировать и эскалировать (re-plan → surface_to_user).
     reason: >
-      Завершение задачи — подтверждённый пакет (git-workflow.md).
+      R7/git-workflow §«Пакет и подтверждение»; подтверждение владельца есть;
+      прецедент T-20/T-21.
   - kind: complete
     brief: >-
-      T-20 закрыта: 26 open-строк волны 2 переведены (9 done / 1 in work с
-      T-24 / 16 open v0.2), Q81 open; T-20 ✅; Q78/Q79 → done с видимой [T-20] ✅;
-      develop = origin/develop; дерево чистое.
+      После полного closeout (git branch_end исполнен целиком: коммит + merge
+      --no-ff + push develop + ветка удалена) — закрыть T-24 и дать владельцу
+      короткий итог: T-24 закрыта (S-пилот F26/F27; тест tests/rest_cli.rs;
+      приёмка -r2 accepted 141/0), квитанция в receipts.yaml, Q22 → done с
+      видимой [T-24] ✅; хеши коммита/merge — в ответе. `complete` не исполнять,
+      если push --delete заблокирован (задача не закрыта полностью).
     expect: >
-      lead: коммит в develop, ветка удалена; задача закрыта (complete).
+      T-24 закрыта; итог выдан владельцу; git-факты (commit/merge/push/удаление
+      ветки) зафиксированы.
     reason: >
-      Квитанция accepted validator -r3; очередь участка №3 исчерпана.
+      dispatch-loop §«Hard rules»: `complete` — только после полного closeout;
+      без квитанции accepted не исполняется (квитанция есть).
 resume_hint: >
-  T-20 (2026-10-02), iteration 3, статус awaiting_user, маркер
-  t20_package_gate — гейт ПАКЕТА (branch_end). Участки №1–№3 завершены:
-  применение (26 строк TRACEABILITY: 9 done / Q22 in work + T-24 / 16 open /
-  Q81 open), фикс ссылки T-24:53, синхронизация TRACEABILITY:82,:83; validator
-  -r3 — accepted; T-20 ✅; Q78/Q79 → done с видимой [T-20] ✅. Ветка
-  feature/T-20-traceability-wave2 от develop @ d414998. Следующее действие —
-  surface_to_user (гейт пакета: 20 путей, сверены со снимком), затем git
-  (коммит на ветке → merge --no-ff в develop → push origin develop → удаление
-  ветки local+origin; master не трогаем) → complete. Границы: TRACEABILITY +
-  tasks/** (T-24, T-20, сводка) + досье/почта/память/state; src/**/tests/**
-  Cargo.toml и канон агентов не тронуты; cargo не запускался (D50).
-  F43-подхват: .opencode/mail/service-mcp-ready-r8.md,
-  .opencode/memory/service.md.
-inherited_boundaries: [D50, D77, D82, D83, D26, F43]
+  T-24 (02.10.2026), iteration 2 (rework 1, D42), статус in_progress, маркер
+  t24_closeout_git — S-пилот (F26/F27): интеграционный тест CLI-контура REST.
+  Приёмка validator `-r2` — accepted (fmt/clippy/test зелёные, P1 закрыт; 141/0,
+  rest_cli 6/6); квитанция (iteration 2, accepted) в receipts.yaml. Закрытие
+  статусов исполнено (docs-writer T-24 ✅; migrator Q22 done, видимая [T-24] ✅).
+  pre_gate пройден (20 = add_paths 1:1); гейт пакета branch_end подтверждён
+  владельцем дословно «Подтверждаю пакет (Recommended)». Остаток: `dispatch git`
+  (branch_end: git add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24):
+  интеграционный тест CLI-контура REST» → switch develop → merge --no-ff
+  «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop →
+  удаление ветки local+origin; master не трогаем; блокировка
+  `git push origin --delete` гардом CCSN — не обходить, эскалировать владельцу,
+  прецедент T-20) → `complete`. База develop = origin/develop = caac10d.
+  package.add_paths = 20 путей (15 M + 5 ??); расхождений среза нет.
+  Новых Q/D нет.
+inherited_boundaries: [Q22, D26, D27, Q27, D77, D82, D50, D83, F43, F57]
