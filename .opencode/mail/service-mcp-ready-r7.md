@@ -128,6 +128,53 @@ C10). Предмет: перенос CC Safety Net (кандидат B0-i5, ве
 - База: `develop` = `origin/develop` = `606055f`; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет P2-2)
+
+- Коммит **`e861bba`** (7 файлов: 6 `M` + 1 `A`; +246/−1) → push
+  `606055f..e861bba` в `origin/develop`; ветки не создавались; master не
+  трогался; дерево чистое.
+
+## сервисная сессия · 02.10.2026 · CCSN + P2-2 — итог
+
+- **CC Safety Net включён** (коммит `606055f`): `cc-safety-net` 2.5.1,
+  глобальный конфиг (object-форма, `options.shell=powershell`), пресет
+  **standard**; doctor — OpenCode Detected|Configured|Verified, self-test 3/3;
+  проба — `git clean -fdx` BLOCKED (`git.clean-force`), allow-поток ок; аудит
+  `~\.cc-safety-net\logs` (копия `target/wave0b-csn/`); параллельно закоммичены
+  записи о закрытии полигона B0-own.
+- **P2-2** (коммит `e861bba`): снято инертное правило `read deny **/target/**`
+  в `.opencode/agents/auditor.md`; аудит — расхождений нет; приёмка — принято
+  (полный DoD 135/0).
+- **Открытые пункты:** вопрос paranoid CCSN (`Remove-Item -Recurse -Force` —
+  standard не блокирует; в CREDO закрыт `wave0-guard`); нюанс
+  `--force-with-lease` под policy `git push *--force*` (кандидат на уточнение);
+  улики/логи CCSN — в `target/wave0b-csn/`.
+- Дальше по T-15: «чистый» S-прогон (F26/F27) или фаза C (C1).
+
+## сервисная сессия · 02.10.2026 · F63 — проверка и закрытие
+
+- Вопрос владельца: задача под F63 или закрыть тут. **Проверка:** CCSN
+  (глобальный, standard) анализирует shell: `ccsn explain "Get-Content .env"`
+  и `"Get-Content …\.ssh\known_hosts"` → **BLOCKED** (`secret-protection`);
+  живая проба в полигоне `wave0b-c10` (без плагинов CREDO): `Get-Content .env`
+  → **BLOCKED by CC Safety Net** (`secret.basename.env`, hard_stop).
+- **Вывод:** остаток F63 (shell-чтение `.env`/`.ssh` вне CREDO) **закрыт
+  включением CCSN**; в CREDO дублируется `wave0-guard`. Задача не требуется —
+  статус F63 в реестре → «закрыт 02.10.2026».
+- Улика: `target/wave0b-csn/f63-shell-secret-deny.jsonl`.
+
+## сервисная сессия · 02.10.2026 · гейт F63 пройден
+
+- Владелец подтвердил (**question**): «Коммит + push develop».
+- Пакет — 4 пути + запись роли `git` (F43) = 5: `M` —
+  `docs/analysis/findings-registry.md` (F63 закрыт),
+  `.opencode/mail/service-mcp-ready-r7.md`,
+  `.opencode/memory/{migrator,service}.md`; + `.opencode/memory/git.md`.
+- Сообщение: `docs(T-15): F63 закрыт — CCSN standard покрывает shell-чтение
+  секретов глобально`.
+- База: `develop` = `origin/develop` = `e861bba`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (CCSN включён: карточка/отчёт)
 
 - Сделано: две мини-правки по включению CC Safety Net. `docs/tasks/T-15-mcp-ready-process/README.md`, строка **C10** сводной таблицы: «CC Safety Net — позже» → «CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1)» (остальной текст строки сохранён). `docs/tasks/T-15-mcp-ready-process/wave0b-report.md` §4, пункт про CC Safety Net: в конец дописано «— **исполнено 02.10.2026** (v2.5.1; пресет standard; перенос — после аудита)». Иных строк/файлов не трогал.
@@ -265,5 +312,35 @@ C10). Предмет: перенос CC Safety Net (кандидат B0-i5, ве
 - Сообщение: `chore(agents): auditor — снято инертное правило read deny
   **/target/** (P2-2); приёмка`. Ожидаемая staged-сверка: **6 `M` + 1 `A`**.
 - Осталось: `add` 7 путей → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
+  отслеживаемые файлы не писать (F43).
+
+## migrator · 02.10.2026 · готово (F63 закрыт)
+
+- Сделано (одна строка): `docs/analysis/findings-registry.md`, строка **F63** —
+  статус «открыт (остаток; вход CCSN/расширения правил)» → «закрыт 02.10.2026:
+  CCSN standard (secret.*) блокирует shell-чтение `.env`/`.ssh` глобально; в CREDO
+  дублируется `wave0-guard`; улика — `target/wave0b-csn/f63-shell-secret-deny.jsonl`».
+  Источник/суть/связи строки сохранены. Источник — лента r7 §«F63 — проверка и
+  закрытие» (:154–164), решение владельца «закрыть тут», задача не заводится.
+- Проверки: `git diff -- docs/analysis/findings-registry.md` → ровно один ханк,
+  одна строка (F63 1+/1−), прочие строки реестра не тронуты; `git diff --check --
+  docs/analysis/findings-registry.md` пусто; `git diff --numstat -- src tests
+  Cargo.toml` пусто; `cargo` не запускал (D50).
+- Дальше / риски: коммит не делал (гейт впереди).
+
+## git · 02.10.2026 · план пакета (F63)
+
+- Подтверждение сверено по ленте — §«гейт F63 пройден» (:166–176), ответ
+  владельца «Коммит + push develop». База: `develop` = `origin/develop` = `HEAD`
+  = `e861bba`; ветки нет, master не трогаем.
+- Снимок: 4 `M` = ровно пакет 4 путей + этот чекпойнт `memory/git.md` (F43) = 5.
+- К коммиту — 5 путей (`./`-префикс, без `--`):
+  `docs/analysis/findings-registry.md`, `.opencode/mail/service-mcp-ready-r7.md`,
+  `.opencode/memory/migrator.md`, `.opencode/memory/service.md`,
+  `.opencode/memory/git.md`.
+- Сообщение: `docs(T-15): F63 закрыт — CCSN standard покрывает shell-чтение
+  секретов глобально`. Ожидаемая staged-сверка: **5 `M`**.
+- Осталось: `add` 5 путей → `diff --cached --name-status` → `commit` →
   `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
   отслеживаемые файлы не писать (F43).

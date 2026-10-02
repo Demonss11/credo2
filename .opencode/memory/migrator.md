@@ -500,3 +500,16 @@
   отделять; правки — узкими построчными якорями (таблицы реестра/TRACEABILITY),
   F15-строка уникальна по `memo W8 т.1`. Отчёт — в ленте `service-t15-run-review`.
   Коммит не делал (гейт впереди; маршрут L: auditor → validator → гейт → git).
+- **02.10.2026, сервисная операция `service-mcp-ready-r7` (F63 закрыт):** одна
+  правка — `docs/analysis/findings-registry.md`, строка **F63**: статус
+  «открыт (остаток; вход CCSN/расширения правил)» → «закрыт 02.10.2026: CCSN
+  standard (secret.*) блокирует shell-чтение `.env`/`.ssh` глобально; в CREDO
+  дублируется `wave0-guard`; улика `target/wave0b-csn/f63-shell-secret-deny.jsonl`»
+  (источник/суть/связи сохранены). Источник — лента r7 §«F63 — проверка и
+  закрытие», решение владельца «закрыть тут», задача не заводится. Проверки:
+  `git diff -- findings-registry.md` → один ханк, F63 1+/1−; `git diff --check`
+  по файлу пусто; `git diff --numstat -- src tests Cargo.toml` пусто; `cargo` не
+  запускал (D50). Грабли: `git status`/`git diff` по `.opencode/**`-путям —
+  shell allowlist отклоняет; правил узким построчным якорем (уникальный хвост
+  «shell-чтение `.env`/`.ssh` вне CREDO — остаток | открыт …»). Отчёт — в ленте
+  `service-mcp-ready-r7.md`. Коммит не делал (гейт впереди).

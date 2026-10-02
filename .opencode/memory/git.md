@@ -403,3 +403,17 @@
   (`./`-префикс, без `--`) → `diff --cached --name-status` → `commit` →
   `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
   отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r7 F63 — закрытие (CCSN standard покрывает
+  shell-чтение секретов глобально)** (служебная волна, режим «коммит + push»
+  прямо в `develop`; ветки нет, master не трогаем). Подтверждение сверено по
+  ленте `.opencode/mail/service-mcp-ready-r7.md` — §«гейт F63 пройден» (:166–176),
+  ответ владельца «Коммит + push develop». База: `develop` = `origin/develop` =
+  `HEAD` = `e861bba`; дерево — снимок 4 `M` = ровно пакет 4 путей (+ этот
+  чекпойнт, F43) = 5. К коммиту — 5 путей (`./`-префикс, без `--`):
+  `docs/analysis/findings-registry.md`, `.opencode/mail/service-mcp-ready-r7.md`,
+  `.opencode/memory/migrator.md`, `.opencode/memory/service.md`,
+  `.opencode/memory/git.md`. Сообщение: `docs(T-15): F63 закрыт — CCSN standard
+  покрывает shell-чтение секретов глобально`. Ожидаемая staged-сверка: 5 `M`.
+  Осталось: `add` 5 путей → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
+  отслеживаемые файлы не писать (F43).

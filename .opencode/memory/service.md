@@ -122,3 +122,9 @@
   (копия `target/wave0b-csn/`). Нюанс: policy матчит и `--force-with-lease`
   (кандидат на уточнение). Дальше: auditor → validator → коммит записей.
   Пресет — standard; paranoid — отдельный вопрос.
+- 02.10.2026, CCSN + P2-2 завершены: коммиты `606055f` (CCSN standard +
+  закрытие полигона записями) и `e861bba` (снято инертное правило
+  `read deny **/target/**` в `auditor.md`; аудит/приёмка — чисто, DoD 135/0).
+  Открытые пункты: paranoid CCSN (standard не блокирует `Remove-Item
+  -Recurse -Force` — в CREDO закрыт `wave0-guard`), `--force-with-lease`
+  под policy (кандидат). Дальше по T-15: чистый S-прогон / C1.
