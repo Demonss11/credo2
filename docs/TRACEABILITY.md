@@ -51,8 +51,8 @@
 | [Q47](questions/Q47.md) | [D42](decisions/D42-expect-iteration.md) | done | — | — |
 | [Q48](questions/Q48.md) | [D43](decisions/D43-auditor-mail.md) | done | — | — |
 | [Q49](questions/Q49.md) | [D44](decisions/D44-run5-refinements.md) | done | — | — |
-| [Q50](questions/Q50.md) | [D45](decisions/D45-wave0-quality-config.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | — |
-| [Q51](questions/Q51.md) | [D46](decisions/D46-product-process-commits.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | — |
+| [Q50](questions/Q50.md) | [D45](decisions/D45-wave0-quality-config.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | — |
+| [Q51](questions/Q51.md) | [D46](decisions/D46-product-process-commits.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | — |
 | [Q52](questions/Q52.md) | [D47](decisions/D47-git-refinements-run5.md) | done | — | — |
 | [Q53](questions/Q53.md) | [D48](decisions/D48-findings-registry-owner.md) | done | — | `analysis/findings-registry.md` |
 | [Q54](questions/Q54.md) | [D49](decisions/D49-validator-branch-contains.md) | done | — | — |
@@ -75,7 +75,7 @@
 | [Q71](questions/Q71.md) | [D75](decisions/D75-git-lean-workflow.md) | done | — | — |
 | [Q72](questions/Q72.md) | [D76](decisions/D76-traceability-links-only.md) | done | — | — |
 | [Q73](questions/Q73.md) | [D77](decisions/D77-tasks-visibility-completeness.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
-| [Q74](questions/Q74.md) | [D78](decisions/D78-t15-mcp-ready-program.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | [`agents-state-schema.feature`](features/agents-state-schema.feature), [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature), [`agents-re-raise.feature`](features/agents-re-raise.feature), [`agents-metrics.feature`](features/agents-metrics.feature), [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
+| [Q74](questions/Q74.md) | [D78](decisions/D78-t15-mcp-ready-program.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | [`agents-state-schema.feature`](features/agents-state-schema.feature), [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature), [`agents-re-raise.feature`](features/agents-re-raise.feature), [`agents-metrics.feature`](features/agents-metrics.feature), [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
 | [Q75](questions/Q75.md) | [D79](decisions/D79-journal-canon-completeness.md) | done | — | — |
 | [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
 | [Q77](questions/Q77.md) | [D81](decisions/D81-pm-process-mining.md) | done | — | — |

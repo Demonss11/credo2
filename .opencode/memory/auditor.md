@@ -165,3 +165,20 @@
   `agents-perms.mjs` не гонял — фронтматтеры не в диффе (вне пакета). Бюджет:
   11 чтений, 4 rg, 5 shell. Отчёт — в ленте `service-traceability-closeout.md`
   (append), чекпойнт — здесь (append).
+- **02.10.2026, сервисная операция `service-t15-run-review` (T-15, ревизия прогона
+  02.10; класс L, до коммита) — аудит:** пакет `migrator` (4 файла:
+  `docs/TRACEABILITY.md` 3 ячейки :54/:55/:78 ⬜→🚧; `docs/tasks/README.md` T-15
+  ⬜→🚧; карточка T-15 статус 🚧 + пометки F26/F27/F15 + B1-* «· данные 02.10» +
+  ссылка на 6 отчётов; `findings-registry.md` F15/F26/F27 + F58–F61 после F57).
+  Итог: **P1/P2 нет**; **P3** — `findings-registry.md:70` (F58): пропущен
+  `validator` 1×36 (T-21 r1), факт есть в ленте `service-t15-run-review.md:67` →
+  дополнить перечень. Инструкция ↔ права: канон агентов/rules не менялся (дифф);
+  `agents-perms.mjs` не гонялся (фронтматтеры не в диффе). Зона `migrator`
+  покрывает TRACEABILITY/findings/tasks (`:12/:14/:11`). F58–F61 уникальны; связи
+  C1/C3/C6/C7/C9/C12/B0-own-P5, F13/F18 резолвятся; 6 отчётов существуют. Логика
+  `docs_journal.rs` (без запуска): 🚧=🚧, `in work` при открытой T-15 законно,
+  новых адресов/маркеров нет. Границы: `git diff --numstat src tests Cargo.toml`
+  пусто; 3 чужих M-файла (service.md, progress.yaml, service-traceability-closeout.md)
+  не в аудите. `cargo` не запускался (D50). Грабли: `git diff --stat -- .opencode/agents`
+  (и любые ≥2 dot-путей под `--`) движок отклоняет — только одиночный путь; полный
+  `git diff --stat` без путей прошёл. Бюджет: ~6 файлов чтения, 6 rg, ~10 shell.

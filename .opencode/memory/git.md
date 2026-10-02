@@ -222,3 +222,23 @@
   `push origin develop` → `switch master` → `pull origin master` → `merge --no-ff
   develop` → `push origin master` → `switch develop`. Хеши — в ответе `lead`
   (не здесь). После push в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-t15-run-review** (служебная волна, режим «коммит + push»
+  прямо в `develop`, затем merge develop → master). Подтверждение сверено по
+  ленте `.opencode/mail/service-t15-run-review.md` — §«гейт пакета пройден»
+  (:85–88), ответ владельца «Коммит + develop + master (Recommended)» (дубль —
+  `progress.yaml` :879). База: `develop` = `origin/develop` = `98f7225`;
+  `master` = `origin/master` = `e696e77`; дерево — снимок 11 `M` + 8 `??` = 19
+  путей, ровно пакет. К коммиту — 20 путей (19 пакета + этот чекпойнт, F43):
+  `docs/TRACEABILITY.md`, `docs/analysis/findings-registry.md`,
+  `docs/tasks/README.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `.opencode/memory/{service,migrator,auditor,validator,git}.md`,
+  `.opencode/state/current/{progress,receipts}.yaml`,
+  `.opencode/mail/{service-traceability-closeout,service-t15-run-review}.md`,
+  `docs/analysis/T-15-run-2026-10-02-{build,analyst,tester,migrator,validator,git}-session.md`,
+  `docs/reviews/service-t15-run-review-2026-10-02.md`. Сообщение:
+  `docs(T-15): разбор прогона 02.10 (B1: F26/F27/F15), F58–F61, статусы T-15
+  (service-t15-run-review)`. Осталось: `add` 20 путей (`./`-префикс, без `--`) →
+  `diff --cached --name-status` (12 `M` + 8 `A`) → `commit` → `push origin develop`
+  → `switch master` → `pull origin master` → `merge --no-ff develop` →
+  `push origin master` → `switch develop`. Хеши — в ответе `lead` (не здесь).
+  После push в отслеживаемые файлы не писать (F43).

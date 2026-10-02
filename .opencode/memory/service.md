@@ -9,4 +9,16 @@
 
 ## Чекпойнты
 
-- Чекпойнтов ещё не было.
+- 02.10.2026, service-t15-run-review (открыта): ревизия прогона 02.10
+  (`ses_f0494cafcffettc8f9kGoillc4`, верхний уровень `build` + выборка ролей
+  analyst/tester/migrator/validator/git) — улики через
+  `.opencode/scripts/session-analysis/`, отчёты в `docs/analysis/`; решения
+  владельца: выборка, F26/F27 открыты до чистого S-прогона, форма — сервисная.
+  Лента — `.opencode/mail/service-t15-run-review.md`.
+- 02.10.2026, service-t15-run-review (разбор готов): 6 отчётов
+  `docs/analysis/T-15-run-2026-10-02-*`; ключевое — 4 упора лимита lead 16 +
+  пустой финал (5 прерываний владельца), F15 подтверждён (iteration=участок,
+  -rN без инкремента), атрибуция build≠lead, прогон ≈ $1.41; кандидаты
+  F58–F62 предложены `migrator`. Дальше: migrator → auditor → validator →
+  гейт → git. Грабли: вывод `node` в консоли — mojibake (лечится UTF-8
+  OutputEncoding); кириллические имена в путях — ок через `%TEMP%`.
