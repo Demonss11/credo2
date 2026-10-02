@@ -1,7 +1,7 @@
 # T-15 · B0-own — мини-волна своей обвязки (P1–P5)
 
-- **Статус:** 🚧 BO-i1 (28.09.2026) и BO-i2 (02.10.2026) выполнены;
-  BO-i3…BO-i7 — по подтверждению владельца. Не канон; канон, `.opencode/**` и
+- **Статус:** 🚧 BO-i1 (28.09.2026), BO-i2 и BO-i3 (02.10.2026) выполнены;
+  BO-i4…BO-i7 — по подтверждению владельца. Не канон; канон, `.opencode/**` и
   `opencode.json` репозитория не менялись.
 - **Назначение:** рабочий журнал мини-волны B0-own к [`wave0b-report.md`](wave0b-report.md)
   §4/§6: собственные V2-плагины/скрипт вместо чужих V1-плагинов — P1
@@ -213,6 +213,48 @@
 - **Дальше:** BO-i3 — следующая P из очереди (§4): P1 `wave0-observe`
   (старт — по подтверждению владельца); вердикт P2 — вход C10 (решение
   «включить/отклонить» — фаза C/владелец).
+
+### BO-i3 · `wave0-observe`: наблюдаемость субагентов · 02.10.2026
+
+- **Цель:** события субагентских/родительских сессий → JSONL + сводка
+  (вход C/D); проверить фильтр потока (BO-i1: серверный, часть событий с
+  `location=null`), агрегат и доставку сводки родителю.
+- **Механика:** плагин `.opencode/plugins/wave0b-own-observe.ts` —
+  `ctx.event.subscribe()`; фильтр «location == каталог полигона или известный
+  `sessionID`»; агрегат `wave0b-own-observe-summary.json`; сводка родителю —
+  `ctx.session.prompt` (режим `journal+summary`, дебаунс 5 с тишины); маркер
+  `wave0b-own-observe.json`, журнал `wave0b-own-observe.jsonl`. Полигон,
+  OpenCode 2.0.22, модель та же; конфиг полигона не менялся.
+- **Факты (O1–O3; улики `target/wave0b-own-i3/`):**
+  - O1 (одиночная сессия): полный цикл в журнале (29 строк) — `session.created`
+    → `inbox.enqueued/delivered` → `execution.started` → `instructions.updated`
+    → `usage.updated` → `renamed` → `step.started/streamed/ended` →
+    `reasoning.*` → `text.*` → `execution.succeeded`.
+  - `ctx.session.list` — **не функция** (ошибка в журнале): список сессий у
+    плагина недоступен — только CLI/HTTP (§7 шпаргалки) или события.
+  - O2 (субагент `general`): дочерний `session.created` несёт **`parentID` и
+    `agent=general`** (+`model`); дальнейшие события ребёнка без `parentID`
+    (связка — по `created`); агрегат: родитель — tools `{subagent:1, shell:1}`,
+    ребёнок — `{shell:1}`; новые типы: `session.tool.input.started/ended`,
+    `session.tool.called/progress/success`, `shell.created`, `shell.exited`;
+    registry-события (`model.updated` и др.) приходят с location = каталог
+    плагина.
+  - O3 (`journal+summary`): через 5 с тишины — `summary.prompt ok:true`
+    (shape `text`); **доставка подтверждена** экспортом родителя
+    (`target/wave0b-own-i3/ses_parent-O3.json` — текст сводки в транскрипте).
+  - Чужие сессии не попали (фильтр работает); `projectID` temp-полигона —
+    `global` (фильтр по проекту ненадёжен; только location/`sessionID`).
+- **Вердикт:** 🟢 — журнал + агрегат + сводка родителю работают; фильтр
+  location/`sessionID` корректен.
+- **Доработки для переноса:** `sh_*` (shell) не считать сессиями; корневой
+  `agent` — из `step.started`/экспорта (в `session.created` только `model`);
+  сводка — эвристика по тишине (события `idle` в потоке нет); дельты
+  (`reasoning.delta`/`text.delta`) для продакшена семплировать (журнал
+  O1–O3 — ~71 КБ).
+- **Откат:** полигон целиком после BO-i7; улики — вне git.
+- **Дальше:** BO-i4 — P4 `metrics-report.mjs` (отчёты из `stats`/`export`,
+  свёртка по цепочкам роль/модель); P5 `wave0-attribution` частично перекрыт
+  (агент/модель/иерархия — уже в P1) — решить на BO-i7.
 
 ## Откат полигона (после BO-i7)
 

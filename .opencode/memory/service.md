@@ -41,3 +41,12 @@
   `opencode reload` в полигоне сбрасывает MCP-каталог общей сессии (дважды,
   восстановился). Журнал — `wave0b-own.md` §BO-i2. Дальше: BO-i3
   (P1 `wave0-observe`) — по подтверждению владельца.
+- 02.10.2026, BO-i2 закоммичен: `85658fd` → origin/develop (8 путей).
+  BO-i3 открыт: плагин `wave0b-own-observe` (события сессий → JSONL, сводка,
+  опция родителю); улики `target/wave0b-own-i3/`.
+- 02.10.2026, BO-i3 (готово, вердикт 🟢): журнал событий сессий + агрегат
+  (parentID/agent/tools) + сводка родителю (`ctx.session.prompt ok:true`,
+  доставка подтверждена экспортом). Факты: `ctx.session.list` у плагина нет;
+  `projectID` temp = `global`; `sh_*` — не сессии; корневой agent — из
+  step/экспорта. Журнал — `wave0b-own.md` §BO-i3. Дальше: BO-i4 — P4
+  `metrics-report.mjs` (по подтверждению владельца).

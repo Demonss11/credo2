@@ -259,3 +259,18 @@
   без `--`) → `diff --cached --name-status` → `commit` → `push origin develop`.
   Хеши — в ответе `lead` (не здесь). После push в отслеживаемые файлы не писать
   (F43); BO-i3 — отдельным действием.
+- **02.10.2026, service-mcp-ready-r5 BO-i3 — wave0-observe** (служебная волна,
+  режим «коммит + push» прямо в `develop`; ветки нет, master не трогаем).
+  Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r5.md` —
+  §«гейт пакета BO-i3 пройден» (:115–125), ответ владельца «Коммит BO-i3 +
+  BO-i4». База: `develop` = `origin/develop` = `85658fd`; дерево — снимок
+  5 `M` = ровно пакет 5 путей (+ этот чекпойнт). К коммиту — 6 путей (5 пакета +
+  этот чекпойнт, F43): `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/migrator.md`, `.opencode/memory/service.md`,
+  `.opencode/memory/git.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`. Сообщение:
+  `chore(process): T-15 B0-own BO-i3 — wave0-observe: пробы, вердикт, карточка P1`.
+  Ожидаемая staged-сверка: 5 `M` + 1 `A`. Осталось: `add` 6 путей (`./`-префикс,
+  без `--`) → `diff --cached --name-status` → `commit` → `push origin develop`.
+  Хеши — в ответе `lead` (не здесь). После push в отслеживаемые файлы не писать
+  (F43).

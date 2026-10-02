@@ -75,6 +75,55 @@ allow-поток без изменений; поведение с `--auto`; ау
   master не трогаем (merge — очередной волной).
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет BO-i2)
+
+- Коммит **`85658fd`** (8 путей: 7 `M` + 1 `A`; +268/−5) → push
+  `fed94d6..85658fd` в `origin/develop`; ветки не создавались; master не
+  трогался; дерево чистое.
+
+## сервисная сессия · 02.10.2026 · BO-i3 открытие (P1 `wave0-observe`)
+
+- **Цель:** наблюдаемость субагентов — события сессий (родитель/ребёнок) →
+  JSONL + сводка по сессиям (вход C/D).
+- **Механика:** плагин `wave0b-own-observe.ts` — `ctx.event.subscribe()` с
+  фильтром по location/известным `sessionID` (BO-i1: поток серверный,
+  `usage/execution` приходят с `location=null`); агрегат
+  `wave0b-own-observe-summary.json`; сводка родителю (опция) — попытка
+  `ctx.session.prompt` с логированием результата; проверка нативного
+  `session.list` (фильтр `parentID`).
+- **Пробы:** O1 — загрузка/маркер; O2 — субагент `general` + маркеры
+  родителя; O3 — режим `journal+summary` (сводка родителю).
+- **Улики:** `target/wave0b-own-i3/`; конфиг полигона не меняем (reload не
+  нужен — правки плагинов подхватывает watcher).
+
+## сервисная сессия · 02.10.2026 · BO-i3 исполнен — вердикт 🟢
+
+- **Пробы:** O1 — полный жизненный цикл сессии в журнале (29 строк);
+  O2 — субагент `general`: дочерний `session.created` с `parentID`+`agent`,
+  агрегат родитель/ребёнок, tools `{subagent,shell}`; O3 — `journal+summary`:
+  `summary.prompt ok:true`, доставка сводки подтверждена экспортом родителя.
+- **Факты:** `ctx.session.list` у плагина **нет** (список — CLI/HTTP или
+  события); `projectID` temp — `global`; registry-события — с location
+  плагина; новые типы (`session.tool.*`, `shell.created/exited`).
+- **Вердикт:** 🟢 (журнал + агрегат + сводка родителю). Доработки: `sh_*`
+  не считать сессиями; корневой agent — из step/экспорта; дельты семплировать.
+- **Улики:** `target/wave0b-own-i3/` (плагин, журнал 71 КБ, агрегат, маркер,
+  экспорт родителя O3). Журнал — `wave0b-own.md` §BO-i3.
+- **Дальше:** BO-i4 — P4 `metrics-report.mjs` (по подтверждению владельца);
+  P5 — решить на BO-i7 (частично перекрыт).
+
+## сервисная сессия · 02.10.2026 · гейт пакета BO-i3 пройден
+
+- Владелец подтвердил (**question**): «Коммит BO-i3 + BO-i4» — коммит записей
+  BO-i3 и push `develop`; затем BO-i4.
+- Пакет (5 путей + запись роли `git`, F43): `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service}.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`; + `.opencode/memory/git.md`.
+- Сообщение коммита: `chore(process): T-15 B0-own BO-i3 — wave0-observe: пробы,
+  вердикт, карточка P1`.
+- База: `develop` = `origin/develop` = `85658fd`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (BO-i2: карточка P2)
 
 - Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
@@ -102,3 +151,29 @@ allow-поток без изменений; поведение с `--auto`; ау
   карточка P2`. Ожидаемо: 7 `M` + 1 `A`; далее `commit` → `push origin develop`.
 - Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
   файлы не пишу; BO-i3 — отдельным действием.
+
+## migrator · 02.10.2026 · готово (BO-i3: карточка P1)
+
+- Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
+  сводной таблицы «Реестр задач T-15» — **B0-own-P1** статус
+  `⬜` → `🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат +
+  сводка родителю; перенос — после аудита`.
+- Проверки: `git diff -- <README>` → ровно один ханк/одна строка (194);
+  `git diff --check` пусто. `cargo` не запускал (D50).
+- Дальше / риски: коммит — за ролью `git` (гейт); иных строк/файлов не трогал.
+
+## git · 02.10.2026 · план пакета (BO-i3)
+
+- Сделано (до `add`, F43): чекпойнт в `.opencode/memory/git.md` и эта запись —
+  часть пакета. Подтверждение сверено по §«гейт пакета BO-i3 пройден»
+  (:115–125), ответ владельца «Коммит BO-i3 + BO-i4».
+- База: `develop` = `origin/develop` = `85658fd`; ветки нет (прямая правка),
+  master не трогаем. Снимок 5 `M` = ровно пакет 5 путей (+ мой чекпойнт).
+- К коммиту — 6 путей: `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,git}.md`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`.
+- Сообщение: `chore(process): T-15 B0-own BO-i3 — wave0-observe: пробы, вердикт,
+  карточка P1`. Ожидаемо: 5 `M` + 1 `A`; далее `commit` → `push origin develop`.
+- Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
+  файлы не пишу.
