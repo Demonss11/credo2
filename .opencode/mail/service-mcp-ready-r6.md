@@ -87,6 +87,53 @@ B0-own: BO-i2 дал вердикт по механизму, P2 отложен �
 - База: `develop` = `origin/develop` = `dace3eb`; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет C10)
+
+- Коммит **`142458d`** (13 файлов: 9 `M` + 4 `A`; +533/−7) → push
+  `dace3eb..142458d` в `origin/develop`; ветки не создавались; master не
+  трогался; дерево чистое.
+
+## сервисная сессия · 02.10.2026 · C10 завершён
+
+- **Итог C10:** глобально — 4 точных правила (`read:*.env`, `read:*/.ssh/*`,
+  `shell:git push *--force*`, `shell:git reset --hard*`); служебная зона —
+  плагин `wave0-guard` (P2 перенесён; якорные deny + аудит
+  `target/wave0-guard.jsonl`; внешние правки — аудит). **CC Safety Net** —
+  отдельным решением позже.
+- **Находки:** P11/P12 (широкие shell-паттерны ловят упоминания — сужено),
+  P13 (plugin outside-edit блокировал служебную запись — переведён в аудит);
+  reload общего сервиса — churn MCP-каталога (восстанавливается).
+- **Проверки:** force/reset → policy; `.env` (repo) → плагин; упоминания —
+  разрешены; allow-поток — ок; приёмка `validator` — принято (P1/P2/P3 нет).
+- **Коммит:** `142458d` (включая F43-остаток r5); глобальный конфиг — вне
+  репозитория (служебная зона владельца).
+- **Дальше по T-15:** «чистый» S-прогон (F26/F27) или фаза C (C1 — схема
+  состояния); P2-перенос закрыт, полигон — до заморозки.
+
+## сервисная сессия · 02.10.2026 · хвосты BO-i2/C10 — F62–F66
+
+- Решение владельца: внести наблюдения B0-own §4 и находки C10 (P11–P13) в
+  реестр находок сейчас, одним пакетом (`migrator`), и закоммитить.
+- Состав: F62 (широкие shell-паттерны матчат упоминания — сужено в C10),
+  F63 (read-политики обходятся shell; остаток — shell-чтение `.env` вне CREDO),
+  F64 (guard deny вне location ломал служебные записи — переведён в аудит),
+  F65 (`opencode reload` в локации → churn MCP-каталога общей сессии),
+  F66 (эксплуатационные грабли B0-own: watcher-дубли, `stats`/`projectID`,
+  npm-шим/DEP0190, отказ модели от деструктивной пробы, `sh_*`).
+- Карточка: `B0-own-P2` — дополнить «закрыт (C10)».
+
+## сервисная сессия · 02.10.2026 · пакет F62–F66 — гейт пройден (коммит)
+
+- Подтверждение владельца (question): «Внести F62–F66 сейчас … и коммит/пуш
+  develop».
+- Пакет — 5 путей + запись роли `git` (F43): `M` —
+  `docs/analysis/findings-registry.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `.opencode/mail/service-mcp-ready-r6.md`, `.opencode/memory/{migrator,service}.md`;
+  + `.opencode/memory/git.md`.
+- Сообщение: `docs(T-15): findings F62–F66 (C10/B0-own) + B0-own-P2 закрыт (C10)`.
+- База: `develop` = `origin/develop` = `142458d`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (C10: карточка)
 
 - **Сделано:** две правки в сводной таблице «Реестр задач T-15»
@@ -139,8 +186,36 @@ B0-own: BO-i2 дал вердикт по механизму, P2 отложен �
 - **Дальше:** гейт пакета подтверждается владельцем, затем `dispatch git`
   (коммит + push `develop`).
 
-## git � 02.10.2026 � ���� ������ (C10)
+## git � 02.10.2026 � ���� ������ (C10)
 
-- �������: ������������� ��������� � ������ ������ C10 �������� (:74�88), ������� + push develop�; ���� develop = origin/develop = HEAD = dace3eb; ������ git status -sb = 8 M + 3 ?? = ����� ����� 12 ����� (+ �������� memory/git.md, F43).
-- � ������� � 13 ����� (.opencode/plugins/wave0-guard.ts, .opencode/mail/service-mcp-ready-r6.md, docs/reviews/service-c10-policies-2026-10-02.md, .opencode/mail/service-mcp-ready-r5.md, .opencode/memory/{migrator,service,validator,git}.md, .opencode/state/current/receipts.yaml, docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}); ��������� chore(process): T-15 C10 � policies (4 ������) + ������ wave0-guard (P2); ������; ��������� staged-������ 9 M + 4 A.
-- ��������: dd > ������ staged > commit > push origin develop; ����� ���, master �� �������. ���� � � ������ lead (F43).
+- �������: ������������� ��������� � ������ ������ C10 �������� (:74�88), ������� + push develop�; ���� develop = origin/develop = HEAD = dace3eb; ������ git status -sb = 8 M + 3 ?? = ����� ����� 12 ����� (+ �������� memory/git.md, F43).
+- � ������� � 13 ����� (.opencode/plugins/wave0-guard.ts, .opencode/mail/service-mcp-ready-r6.md, docs/reviews/service-c10-policies-2026-10-02.md, .opencode/mail/service-mcp-ready-r5.md, .opencode/memory/{migrator,service,validator,git}.md, .opencode/state/current/receipts.yaml, docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}); ��������� chore(process): T-15 C10 � policies (4 ������) + ������ wave0-guard (P2); ������; ��������� staged-������ 9 M + 4 A.
+- ��������: dd > ������ staged > commit > push origin develop; ����� ���, master �� �������. ���� � � ������ lead (F43).
+
+## migrator · 02.10.2026 · готово (F62–F66)
+
+- **Сделано:** `docs/analysis/findings-registry.md` — после F61 добавлены 5
+  записей F62–F66 (стиль таблицы; ID уникальны, после F61); карточка
+  `docs/tasks/T-15-mcp-ready-process/README.md` — строка B0-own-P2: в ячейку
+  статуса дописано ` · закрыт (C10)` (текст BO-i2 сохранён). Иных строк/файлов
+  не трогал.
+- **Проверки:** `git diff -- <2 файла>` → ровно целевые правки (F61-строка без
+  изменений, +5 строк; B0-own-P2 1+/1−); `git diff --check` по этим файлам →
+  пусто; ID F62–F66 уникальны (grep `^\| F6[2-6] ` → 5); `cargo` не запускал
+  (D50).
+- **Дальше / риски:** приёмка `validator` (пакет хвостов F62–F66) → гейт →
+  коммит; границ не нарушал (только `docs/analysis/**`, `docs/tasks/**`).
+
+## git · 02.10.2026 · план пакета (F62–F66)
+
+- Сделано: подтверждение сверено по §«пакет F62–F66 — гейт пройден (коммит)»
+  (:125–135), ответ владельца «Внести F62–F66 сейчас … и коммит/пуш develop».
+  `git status -sb` → `## develop...origin/develop` + 5 `M` = ровно пакет;
+  `HEAD` = `origin/develop` = develop = `142458d`.
+- Проверки: `rev-parse HEAD origin/develop develop` → `142458d` (трижды);
+  `git log -1 --oneline` → `142458d chore(process): T-15 C10 — policies
+  (4 точных) + плагин wave0-guard (P2); приёмка`.
+- Дальше / риски: `add` 6 путей (`./`-префикс, без `--`) → `diff --cached
+  --name-status` (ожидается 6 `M`) → `commit -m "docs(T-15): findings F62–F66
+  (C10/B0-own) + B0-own-P2 закрыт (C10)"` → `push origin develop`. Хеши — в
+  ответе `lead`; после push в отслеживаемые файлы не пишу (F43).

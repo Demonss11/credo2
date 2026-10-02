@@ -356,3 +356,18 @@
   `add` 13 путей (`./`-префикс, без `--`) → `diff --cached --name-status` →
   `commit` → `push origin develop`. Хеши — в ответе `lead` (не здесь). После push
   в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r6 — хвосты F62–F66 (C10/B0-own)** (служебная
+  волна, режим «коммит + push» прямо в `develop`; ветки нет, master не трогаем).
+  Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r6.md`
+  — §«пакет F62–F66 — гейт пройден (коммит)» (:125–135), ответ владельца
+  «Внести F62–F66 сейчас … и коммит/пуш develop». База: `develop` = `origin/develop`
+  = `HEAD` = `142458d`; дерево — снимок 5 `M` = ровно пакет 5 путей (+ этот
+  чекпойнт, F43). К коммиту — 6 путей: `docs/analysis/findings-registry.md`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `.opencode/mail/service-mcp-ready-r6.md`,
+  `.opencode/memory/migrator.md`, `.opencode/memory/service.md`,
+  `.opencode/memory/git.md`. Сообщение:
+  `docs(T-15): findings F62–F66 (C10/B0-own) + B0-own-P2 закрыт (C10)`.
+  Ожидаемая staged-сверка: 6 `M`. Осталось: `add` 6 путей (`./`-префикс, без `--`)
+  → `diff --cached --name-status` → `commit` → `push origin develop`. Хеши — в
+  ответе `lead` (не здесь). После push в отслеживаемые файлы не писать (F43).
