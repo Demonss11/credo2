@@ -3,10 +3,11 @@
 - **Статус:** 🚧 BO-i1 (28.09.2026), BO-i2…BO-i6 (02.10.2026) выполнены,
   отчёт [`wave0b-own-report.md`](wave0b-own-report.md) создан; **перенос
   P1/P3/P4 исполнен 02.10.2026** (`.opencode/plugins/wave0-observe.ts`,
-  `.opencode/scripts/{session-checkpoint,metrics-report}.mjs`); **P2 — после
-  решения C10**; полигон сохранён до заморозки. Не канон; канон, `.opencode/**`
-  и `opencode.json` репозитория не менялись (кроме перенесённых артефактов —
-  служебная зона, решение владельца).
+  `.opencode/scripts/{session-checkpoint,metrics-report}.mjs`); **P2 перенесён
+  02.10.2026 в рамках C10** (`.opencode/plugins/wave0-guard.ts`, якорные
+  правила + аудит; глобальные policies — 4 точных); полигон сохранён до
+  заморозки. Не канон; канон, `.opencode/**` и `opencode.json` репозитория не
+  менялись (кроме перенесённых артефактов — служебная зона, решение владельца).
 - **Назначение:** рабочий журнал мини-волны B0-own к [`wave0b-report.md`](wave0b-report.md)
   §4/§6: собственные V2-плагины/скрипт вместо чужих V1-плагинов — P1
   `wave0-observe`, P2 `wave0-guard`, P3 `wave0-checkpoint`, P4

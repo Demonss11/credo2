@@ -358,6 +358,26 @@ allow-поток без изменений; поведение с `--auto`; ау
 - База: `develop` = `origin/develop` = `ac5d382`; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет переноса B0-own)
+
+- Коммит **`dace3eb`** (13 файлов: 9 `M` + 4 `A`; +802/−6) → push
+  `ac5d382..dace3eb` в `origin/develop`; ветки не создавались; master не
+  трогался; дерево чистое.
+
+## сервисная сессия · 02.10.2026 · B0-own завершён
+
+- Мини-волна закрыта: BO-i1…BO-i7 (P1–P5) выполнены, отчёт и аудит — в git;
+  перенос **P1/P3/P4** в служебную зону исполнен и закоммичен (`dace3eb`):
+  - P1 — `.opencode/plugins/wave0-observe.ts` (журнал `target/wave0-observe.jsonl`,
+    ротация, сводка при `WAVE0_OBSERVE_SUMMARY=1`);
+  - P3 — `.opencode/scripts/session-checkpoint.mjs`;
+  - P4 — `.opencode/scripts/metrics-report.mjs`;
+  - P2 — после решения C10; P5 — свёрнут (опция в P1); полигон сохранён
+    до заморозки.
+- **Дальше по T-15** (выбор владельца): «чистый» S-прогон (fast path D39;
+  F26/F27), фаза C (C1 схема, C10 — в т.ч. P2/policies), BO-i7-откат полигона —
+  после заморозки.
+
 ## migrator · 02.10.2026 · готово (BO-i2: карточка P2)
 
 - Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка

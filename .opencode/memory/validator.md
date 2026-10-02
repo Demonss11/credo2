@@ -475,3 +475,29 @@
   квитанция `accepted` (iteration 1) записана.
   **Грабли памяти:** в файле дубль абзаца «Урок: … номерами строк» (:389 и
   :453) — старый артефакт; для append нужен уникальный якорь.
+- **02.10.2026 · service-c10 (приёмка C10: `policies` + перенос P2 `wave0-guard`):**
+  база `develop` = `origin/develop` = `HEAD` = `dace3eb` (ветки нет, прямая
+  правка; `git status -sb` → `## develop...origin/develop`). **Итог: принято,
+  P1/P2/P3 нет.** Плагин `.opencode/plugins/wave0-guard.ts` = заявленному: id
+  `wave0-guard`; якорные shell-deny (push force/-f, reset --hard, чтение
+  `.env` кроме `.env.example`, `.ssh`, `Remove-Item -Recurse -Force`);
+  **внешние правки — аудит `outside-edit`, не deny (P13, :96–107)**; журнал
+  `target/wave0-guard.jsonl` (bounded, ротация `.1` при `>8 МБ` каждые 200
+  appends, `catch`). Глобальная копия — ровно 4 правила (совпадают с лентой/
+  памятью/карточкой). Улики P1–P14 + `wave0-guard-journal-sample.jsonl`
+  подтверждают: force/reset/env — блок; упоминания (`echo "check .env mention"`)
+  — allow; P13 виден до/после правки (:19 deny → :29 аудит). Записи согласованы;
+  карточка C10 ✅ + B0-own-P2 `· перенесён 02.10 (C10)`. Границы: `src/tests/
+  Cargo.toml/AGENTS.md` пусто, канон/`opencode.json`/decisions|questions/
+  TRACEABILITY не в статусе, `git diff --check` пусто; `/target` в `.gitignore:1`;
+  `agents-perms.mjs` → `11 из 18`. **`cargo` не запускал (D50).** Отчёт
+  `docs/reviews/service-c10-policies-2026-10-02.md`; квитанция `accepted`
+  (`service-c10`, iteration 1).
+  **Грабли/уроки:** (1) снимок пакета включает F43-остаток прошлой операции —
+  `M .opencode/mail/service-mcp-ready-r5.md` (+20: хвост B0-own `dace3eb`);
+  фиксировать как «не мой», из пакета не исключать (прецедент
+  `service-t15-run-review`). (2) `git diff -- <один dot-путь>` движок
+  отклоняет — работает `git diff ./<путь>` и `git diff --stat` без путей.
+  (3) **глобальный `~/.config/opencode/opencode.jsonc` — вне репо/прав**;
+  приёмка опирается на in-repo копию `target/**` + улики проб.
+  **Право:** `git rev-parse` подтверждения базы (D49).

@@ -1408,3 +1408,21 @@
     not_checked: "лог ~/.local/share/opencode/log/opencode.log — вне прав (external_directory); компенсирован plugin.start+event; прогон скриптов node — вне прав validator, смоук сервисной сессии"
   snapshot: "develop @ ac5d382 (= origin/develop = HEAD) + working tree (service-b0-own-transfer uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-c10
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c10-policies-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    plugin: "ok — .opencode/plugins/wave0-guard.ts: id wave0-guard (:23); якорные shell-правила fail-closed git push --force (:57-60)/-f (:65-68)/git reset --hard (:61-64)/shell-чтение .env кроме .env.example (:69-76)/.ssh (:77-83)/Remove-Item -Recurse -Force (:84-87); read:*.env deny кроме .env.example (:89-95); внешние правки — АУДИТ outside-edit без why (:96-107, P13); журнал target/wave0-guard.jsonl appendFileSync + ротация .1 при >8 МБ каждые 200 appends (:20,:31-33); catch не ломает permission-поток (:38-40)"
+    global_config: "ok — in-repo копия target/wave0b-own-i7/c10-final-global.jsonc: ровно 4 правила (:10-13) read:*.env, read:*/.ssh/*, shell:git push *--force*, shell:git reset --hard*; оригинал ~/.config/opencode/opencode.jsonc вне репо (служебная зона владельца)"
+    probes_evidence: "ok — c10-probes.md P1-P14 (force/reset/env blocked; .env.example allowed; P4 shell-обход read .ssh; P11/P12 ложные широких паттернов; P13 outside-location deny→аудит); wave0-guard-journal-sample.jsonl: plugin.start v2.0.22 (:1-2), deny force-flag (:7), allow упоминаний echo (:9,:34), deny outside-location (:19 до правки), outside-edit аудит (:29 после правки), allow записи конфига (:30), deny secrets-env (:39), deny git-reset-hard (:40)"
+    records: "ok — лента service-mcp-ready-r6.md:44-64 §C10 включено; memory/service.md:99-104; memory/migrator.md:9-20; карточка README.md C10 ⬜→✅ (1+/1−) + B0-own-P2 · перенесён 02.10 (C10) (1+/1−); wave0b-own.md:3-10 статус; wave0b-own-report.md:58 §3"
+    borders: "ok — git diff --stat -- src tests Cargo.toml AGENTS.md пусто; agents/rules/opencode.json/decisions/questions/TRACEABILITY не в статусе; git diff --check пусто; /target в .gitignore:1 (журнал вне git)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs → agents: 11 из 18"
+    branch: "ok — git rev-parse HEAD develop origin/develop = dace3eb ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r5.md (F43-остаток прошлой операции, не мой), M .opencode/memory/migrator.md, M .opencode/memory/service.md, M docs/tasks/T-15-mcp-ready-process/README.md, M .../wave0b-own-report.md, M .../wave0b-own.md; ?? .opencode/mail/service-mcp-ready-r6.md, ?? .opencode/plugins/wave0-guard.ts"
+    not_checked: "глобальный ~/.config/opencode/opencode.jsonc — вне репо/прав; пробы P1-P14 — улики сервисной сессии (in-repo копии), живой прогон не повторял"
+  snapshot: "develop @ dace3eb (= origin/develop = HEAD) + working tree (service-c10 uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"

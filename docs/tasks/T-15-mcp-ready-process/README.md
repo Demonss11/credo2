@@ -192,7 +192,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-i8 | Отчёт и финализация B0 | B0 | ✅ 28.09 · коммит `cafc4c4` | `wave0b-report` |
 | B0-own-i1 | Каркас и разведка V2-API (BO-i1) | B0-own | ✅ 28.09 | `wave0b-own` |
 | B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | 🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат + сводка родителю; перенос — после аудита · перенесён 02.10 → `.opencode/plugins/wave0-observe.ts` | `wave0b-report` §4 |
-| B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) | `wave0b-report` §4 |
+| B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) · перенесён 02.10 (C10) | `wave0b-report` §4 |
 | B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | 🟢 BO-i5 (02.10) — вердикт: сводка останова (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита (вход C9) · перенесён 02.10 → `.opencode/scripts/session-checkpoint.mjs` | `wave0b-report` §4 |
 | B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) · перенесён 02.10 → `.opencode/scripts/metrics-report.mjs` | `wave0b-report` §4 |
 | B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | 🟢 BO-i6 (02.10) — вердикт: свернуть (покрыто P1/P4 + context-хук) | `wave0b-report` §4 |
@@ -210,7 +210,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | C7 | Шаблон самоотчёта; фичи/счётчики | C | ⬜ | — |
 | C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
 | C9 | Правило останова ведущего | C | ⏸ ждёт F27 | W8 §7 |
-| C10 | `policies`-страховки | C | ⬜ | wave0 §3.5 |
+| C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — позже | wave0 §3.5 |
 | C11 | B2 — условие возврата (`codemode:false`) | C | ⏸ | F28/D45 |
 | C12 | Дробление L-вызова | C | ⬜ | разбор `coder` §6.4 |
 | C13 | Хвостовые записи пакета (F43) | C | ✅ принято (`T-15-c13`, 28.09.2026); коммит — по подтверждению | F43; найдено 28.09.2026 |

@@ -339,3 +339,20 @@
   9 `M` + 4 `A`. Осталось: `add` 13 путей (`./`-префикс, без `--`) →
   `diff --cached --name-status` → `commit` → `push origin develop`. Хеши — в
   ответе `lead` (не здесь). После push в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r6 C10 — policies + плагин wave0-guard**
+  (служебная волна, режим «коммит + push» прямо в `develop`; ветки нет, master
+  не трогаем). Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r6.md`
+  — §«гейт пакета C10 пройден» (:74–88), ответ владельца «Коммит + push develop».
+  База: `develop` = `origin/develop` = `dace3eb`; дерево — снимок 8 `M` + 3 `??`
+  = ровно пакет 12 путей (+ этот чекпойнт, F43). К коммиту — 13 путей:
+  `.opencode/plugins/wave0-guard.ts`, `.opencode/mail/service-mcp-ready-r6.md`,
+  `docs/reviews/service-c10-policies-2026-10-02.md`,
+  `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,validator,git}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}`.
+  Сообщение: `chore(process): T-15 C10 — policies (4 точных) + плагин
+  wave0-guard (P2); приёмка`. Ожидаемая staged-сверка: 9 `M` + 4 `A`. Осталось:
+  `add` 13 путей (`./`-префикс, без `--`) → `diff --cached --name-status` →
+  `commit` → `push origin develop`. Хеши — в ответе `lead` (не здесь). После push
+  в отслеживаемые файлы не писать (F43).
