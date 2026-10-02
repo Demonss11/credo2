@@ -417,3 +417,17 @@
   Осталось: `add` 5 путей → `diff --cached --name-status` → `commit` →
   `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
   отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r7 F65 — закрытие (reload-эффект подтверждён
+  на 2.0.22)** (служебная волна, режим «коммит + push» прямо в `develop`; ветки
+  нет, master не трогаем). Подтверждение сверено по ленте
+  `.opencode/mail/service-mcp-ready-r7.md` — §«F65 закрыт (факт-чек версии)»
+  (:202–220), ответ владельца (:212) «Коммит + push develop». База: `develop` =
+  `origin/develop` = `HEAD` = `ef39b33`; дерево — снимок 4 `M` = ровно пакет
+  4 путей (+ этот чекпойнт, F43) = 5. К коммиту — 5 путей (`./`-префикс, без
+  `--`): `docs/analysis/findings-registry.md`,
+  `.opencode/mail/service-mcp-ready-r7.md`, `.opencode/memory/{migrator,service}.md`,
+  `.opencode/memory/git.md`. Сообщение: `docs(T-15): F65 закрыт — reload-эффект
+  подтверждён на 2.0.22, принято в практику`. Ожидаемая staged-сверка: 5 `M`.
+  Осталось: `add` 5 путей → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push
+  в отслеживаемые файлы не писать (F43).
