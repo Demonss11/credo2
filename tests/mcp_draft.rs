@@ -16,7 +16,7 @@
 mod common;
 
 use common::*;
-use serde_json::json;
+use serde_json::{Value, json};
 
 const SRC: &str = "Правило МинимальныйВозраст { Если (Клиент.Возраст < 21) { \
                    Решение = Отказ; Причина = \"Возраст меньше 21\"; } }";
@@ -508,7 +508,8 @@ fn create_validation_failed_envelope_t03() {
 
     // Невалидный source: нет заголовка «Правило {name}».
     let bad = "Если (Клиент.Возраст < 21) { Решение = Отказ; }";
-    let (err, payload) = mcp.call("check.create", json!({ "name": NAME, "source": bad }));
+    let (err, payload) =
+        mcp.call("check.create", json!({ "name": NAME, "source": bad }));
     assert!(err, "ожидалась ошибка: {payload}");
     assert_eq!(payload["error"]["code"], "validation_failed", "{payload}");
     let message = payload["error"]["message"].as_str().unwrap_or_default();
@@ -600,7 +601,7 @@ fn create_empty_or_nonstring_params_rejected_t03() {
 fn create_name_mismatch_keeps_existing_draft_t03() {
     let t = temp_workspace();
     let mut mcp = Mcp::start(t.path());
-    mcp.create(SRC);
+    mcp.create(NAME, SRC);
 
     create_rejected(&mut mcp, json!({ "name": "ДругоеИмя", "source": SRC }));
 
@@ -621,10 +622,11 @@ fn create_name_mismatch_keeps_existing_draft_t03() {
 fn create_invalid_source_keeps_existing_draft_t03() {
     let t = temp_workspace();
     let mut mcp = Mcp::start(t.path());
-    mcp.create(SRC);
+    mcp.create(NAME, SRC);
 
     let bad = "Если (Клиент.Возраст < 18) { Решение = Отказ; }";
-    let message = create_rejected(&mut mcp, json!({ "name": NAME, "source": bad }));
+    let message =
+        create_rejected(&mut mcp, json!({ "name": NAME, "source": bad }));
     assert!(
         message.contains("отсутствует заголовок правила"),
         "сообщение: {message}"
@@ -644,9 +646,10 @@ fn create_invalid_source_keeps_existing_draft_t03() {
 fn create_upsert_replaces_single_draft_t03() {
     let t = temp_workspace();
     let mut mcp = Mcp::start(t.path());
-    mcp.create(SRC);
+    mcp.create(NAME, SRC);
 
-    let (err, resp) = mcp.call("check.create", json!({ "name": NAME, "source": SRC_V2 }));
+    let (err, resp) =
+        mcp.call("check.create", json!({ "name": NAME, "source": SRC_V2 }));
     assert!(!err, "{resp}");
     assert_eq!(resp, json!({ "status": "ok", "name": NAME }), "{resp}");
 
@@ -677,7 +680,8 @@ fn create_success_shape_and_source_verbatim_t03() {
     let mut mcp = Mcp::start(t.path());
     let padded = format!("\n  {SRC}  \n");
 
-    let (err, resp) = mcp.call("check.create", json!({ "name": NAME, "source": padded }));
+    let (err, resp) =
+        mcp.call("check.create", json!({ "name": NAME, "source": padded }));
     assert!(!err, "{resp}");
     assert_eq!(resp, json!({ "status": "ok", "name": NAME }), "{resp}");
 
