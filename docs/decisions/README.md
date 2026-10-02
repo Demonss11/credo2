@@ -112,3 +112,4 @@
 | [D83](D83-traceability-wave2.md) | Волна 2 `TRACEABILITY` — разбор `open`-строк отдельной задачей | [Q79](../questions/Q79.md) | 2026-10-01 | accepted |
 | [D84](D84-rules-revision.md) | Ревизия `.opencode/rules/**` — актуальная норма, ссылка на решение, без истории | [Q80](../questions/Q80.md) | 2026-10-01 | accepted |
 | [D85](D85-sverka-snapshot-scope.md) | «Сверка с кодом» `D`-файла — датированный снимок для номеров строк, адреса строги | [Q82](../questions/Q82.md) | 2026-10-02 | accepted |
+| [D86](D86-state-schema.md) | Схема состояния процесса — отдельный канон, модель D42 | [Q83](../questions/Q83.md) | 2026-10-02 | accepted |

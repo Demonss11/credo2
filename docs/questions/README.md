@@ -102,3 +102,4 @@
 | [Q80](Q80.md) | шум в `.opencode/rules/**`: ссылки на решения и исторические приписки | [D84](../decisions/D84-rules-revision.md) |
 | [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |
 | [Q82](Q82.md) | «Сверка с кодом» D-файлов — датированный снимок или живой канон для запретов D64/D65? | [D85](../decisions/D85-sverka-snapshot-scope.md) |
+| [Q83](Q83.md) | схема состояния процесса: место и модель (F15) | [D86](../decisions/D86-state-schema.md) |

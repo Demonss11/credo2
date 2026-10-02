@@ -84,6 +84,7 @@
 | [Q80](questions/Q80.md) | [D84](decisions/D84-rules-revision.md) | done | — | `.opencode/rules/**`, `AGENTS.md` §«Служебная зона и аудит» (волна 1) |
 | [Q81](questions/Q81.md) | — | open | — | — |
 | [Q82](questions/Q82.md) | [D85](decisions/D85-sverka-snapshot-scope.md) | done | — | — |
+| [Q83](questions/Q83.md) | [D86](decisions/D86-state-schema.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/state-schema.md` (новый канон), `dispatch-loop.md`, `AGENTS.md` (карта) |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос

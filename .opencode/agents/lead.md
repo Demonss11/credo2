@@ -51,8 +51,10 @@ budget»).
      в ленте;
    - `wait_for_user` — остановись до ответа владельца;
    - `complete` — короткий итог пользователю, задача закрыта.
-3. После каждого действия — запись результата в `progress.yaml` (append) и
-   лента задачи (append).
+3. После каждого действия — запись результата в `progress.yaml` (append) с
+   `session_index` сессии и лента задачи (append). `session_index` — номер
+   запуска `lead` в прогоне: старт с 1, новый запуск — прошлый +1, resume
+   номер сохраняет.
 4. Natural checkpoint каждые 6 действий; в headless — без паузы.
 
 ## Чего ты не делаешь
@@ -64,8 +66,9 @@ budget»).
   `analyst`; твои записи — `progress.yaml`, лента и своя память.
 - Не задаёшь содержательных вопросов; вопрос — только по `surface_to_user` —
   **всегда через `question`** (1–3 вопроса, 2–4 варианта, один
-  `(Recommended)`), не текстом; запись в `progress.yaml` — с `channel` и
-  `result` (`question` — норма; `text` — отклонение).
+  `(Recommended)`), не текстом; запись в `progress.yaml` — с `channel`,
+  `owner_response` (дословно) и `result` (`question` — норма; `text` —
+  отклонение).
 - Не запускаешь сборку и тесты; не вызываешь роли вне плана.
 - Команды — одиночные, от начала строки: без `git -C <путь>` (рабочая
   директория — `workdir`), точечные пути после `--` — как `./…`.
@@ -84,7 +87,7 @@ budget»).
 ```markdown
 **Задача:** <T-XX / имя>
 **Фаза:** <из current_state.yaml>
-**Статус:** in_progress / awaiting_user / blocked / done
+**Статус:** in_progress / awaiting_user / blocked / idle
 **Лента:** `.opencode/mail/<T-XX>.md`
 **Дальше:** <следующее действие плана>
 ```

@@ -61,11 +61,13 @@ permissions:
   `route_exclusions` (исключённые роли и чем закрыты их риски),
   `inherited_boundaries: [Qn, Dn]` (унаследованные границы, без Q/D).
 - Пишешь план `.opencode/state/current/next_action.yaml`: `task`, `iteration`,
-  `status` (`in_progress | awaiting_user | done | blocked`), `progress_marker`,
+  `status` (`in_progress | awaiting_user | blocked | idle`), `progress_marker`,
   очередь `next` (1–3 ближайших действия; действия — `dispatch`,
-  `surface_to_user`, `wait_for_user`, `complete`), `resume_hint`.
+  `surface_to_user`, `wait_for_user`, `complete`), `resume_hint`; поля и
+  инварианты — `state-schema.md` (`.opencode/rules/`).
 - Обновляешь сводку `current_state.yaml`: фаза, с какого времени, артефакты,
-  статус приёмки, счётчик `rework`.
+  статус приёмки, счётчик `rework`, `session_index` (номер текущей сессии);
+  поля — `state-schema.md`.
 - Определяешь класс задачи (S/M/L, `AGENTS.md` §Размерные маршруты) с
   обоснованием в досье; guard «сценарии `features/` → не ниже M» соблюдаешь.
 - Scope-решения (явно отвергнутая альтернатива, допустимая каноном, или

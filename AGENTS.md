@@ -21,10 +21,10 @@
 | `tests/` | интеграционные тесты: `publish.rs`, `rest.rs`, `features_inventory.rs` |
 | `docs/` | документация: SPEC, GRAMMAR, журнал Q/D, требования, задачи, досье `docs/analysis/`; карта — `docs/README.md` |
 | `.opencode/agents/` | рабочая группа агентов (ниже) |
-| `.opencode/rules/` | правила ролей: `git-workflow.md`, `journal.md`, `review.md`, `workspace.md`, `dispatch-loop.md` |
+| `.opencode/rules/` | правила ролей: `git-workflow.md`, `journal.md`, `review.md`, `workspace.md`, `dispatch-loop.md`, `state-schema.md` |
 | `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей (перед удалением лент — best-effort снимок событий в архив `pm`, отключается `--no-snapshot`); `agents-perms.mjs` — машинная сверка прав; `git-check.mjs` — read-only сводка состояния git (роль `git`); `session-analysis/` — постфактум-разбор сессий агентов (запуск — владелец/сервисная сессия); `pm/` — process mining агентского процесса (uv-проект; артефакты и архив — `pm/output/`, вне git; запуск — владелец/сервисная сессия; D81) |
 | `.opencode/memory/`, `.opencode/mail/` | операционные данные ролей: память и лента задач (в git, не канон) |
-| `.opencode/state/` | состояние цикла: `next_action`/`current_state`/`progress`/`receipts` (трекается с 28.09.2026; канон — `dispatch-loop.md`) |
+| `.opencode/state/` | состояние цикла: `next_action`/`current_state`/`progress`/`receipts` (трекается с 28.09.2026; канон — `dispatch-loop.md`, схема — `.opencode/rules/state-schema.md`) |
 | `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
 | `target/release/credo2.exe` | бинарник MCP/REST |
 | `.credo/` | данные CREDO: песочница и bare-git публикаций (вне git) |

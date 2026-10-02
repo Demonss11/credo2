@@ -1464,3 +1464,37 @@
     worktree: "ok — снимок: M .opencode/agents/auditor.md, M .opencode/mail/service-mcp-ready-r7.md, M .opencode/memory/auditor.md (+ записи приёмки: ?? docs/reviews/service-permissions-auditor-target-2026-10-02.md, M memory/validator.md, M receipts.yaml)"
   snapshot: "develop @ 606055f (= origin/develop = HEAD) + working tree (service-permissions-auditor-target uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: T-15-c1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-15-c1-2026-10-02.md
+  dod:
+    cargo: "ran for full R2 — fmt pass; clippy --all-targets -D warnings pass; test --all 135 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11)"
+    borders: "ok — git status --porcelain = 10 M + 4 ?? (M: agents/analyst.md, agents/lead.md, rules/dispatch-loop.md, AGENTS.md, docs/TRACEABILITY.md, docs/decisions/README.md, docs/questions/README.md, T-15 README, memory/migrator.md, memory/auditor.md; ??: rules/state-schema.md, D86, Q83, mail/service-mcp-ready-r8.md); git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; docs/features empty (counters unaffected)"
+    schema: "ok — state-schema.md covers C1: 4 artifacts (next_action/current_state/progress/receipts), fields/types/required per artifact, writer/reader table, 7 invariants, session_index (своя секция), owner_response дословно (своя секция); next_action.status enum without done; progress.action includes wait_for_user (:97); idle defined (:48)"
+    d42: "ok — iteration only rework (rework = iteration − 1), participant addressed by progress_marker/resume_hint, no section field (:18-63, 121-126, 90-95); matches D42 and D86 «Альтернативы»"
+    dispatch: "ok — dispatch-loop.md:96-97 (channel/owner_response), :103-104 (schema ref), :105-107 (receipts authority), :154-155 (session_index); enums align with lead.md:50-53 actions"
+    feature: "ok — agents-state-schema.feature 4 scenarios covered (canon 4 artifacts + validate-state.mjs contract, iteration/rework invariants, drift rejection, journal extension)"
+    journal: "ok — Q83:3 resolved by D86 ↔ D86:5 Resolves Q83; D86 Спека — (D70 pointer), Сверка ⚪; catalogs questions/README:105 + decisions/README:115 (1 line each); TRACEABILITY:87 Q83: D86 / in work / T-15 🚧; T-15 card C1 🚧 (:204); F15 not closed (correct)"
+    roles: "ok — analyst.md:64 enum status in_progress|awaiting_user|blocked|idle (no done), :69 session_index; lead.md:55 session_index, :67-69 channel+owner_response+result, :88 idle; AGENTS.md map :24 rules incl state-schema.md, :27 state schema ref"
+    d65_d85: "ok — no file:line addresses and no .opencode/mail/state addresses in state-schema.md/D86/Q83; state-schema.md:18 is the artifact-location path (not a citation); relative links live (D42/D70/D78/Q47/findings-registry/mcp-ready-process/T-15 exist)"
+    p3_closure: "closed — audit-1 P3 (idle undefined) -> state-schema.md:48 «активной работы нет»; audit-2 P3 (lead.md:88 done) -> line reads in_progress / awaiting_user / blocked / idle"
+    audit: "ok — auditor two passes (L): P1/P2 none after fix; P2-1 (D86 Affects) closed :8-12; P2-2 (wait_for_user) closed :97; agents-perms.mjs ok (11 из 18); no canon edits by validator"
+  snapshot: "develop = origin/develop = 2f5544c + working tree (C1 package uncommitted, service wave no branch) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-15-c1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-15-c1-2026-10-02-r2.md
+  dod:
+    cargo: "not run — package does not touch src/**/tests/**/Cargo.toml (review.md §«Возврат на доработку», D50); prior full run T-15-c1 135/0 was over-scope (recorded in feed r8)"
+    borders: "ok — git status --porcelain = known C1 M/?? + M .opencode/memory/service.md (service-session checkpoint on owner remarks, memory not canon) + ?? mail/service-mcp-ready-r8.md; git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; no stray paths"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; command list matches review.md §«Доступные команды»; frontmatter unchanged -> no opencode reload (F65)"
+    delta_schema: "ok — state-schema.md «Когда читать» :3-7 lists analyst (artifact sections + invariants) and validator only, auditor by schema-audit need; lead/git/others explicitly do not read"
+    delta_lead: "ok — lead.md :54-57 inline session_index (start 1, new run +1, resume keeps number); :69-71 inline channel/owner_response/result; reference to state-schema.md removed (rg -> only analyst.md:67,70)"
+    prior_edits: "in force — state-schema.md:98 action enum includes wait_for_user; :49 idle defined; D86:11 Affects lists analyst.md+lead.md; lead.md:90 status template idle"
+    consistency: "ok — no conflict with D86/D42/dispatch-loop.md/journal.md; Q83<->D86 paired; TRACEABILITY Q83: D86 / in work / T-15; catalogs synchronized; D86 Сверка; links live; no file:line addresses (D65/D85)"
+  snapshot: "develop = origin/develop = 2f5544c + working tree (C1 package deferred_by_owner, uncommitted; canon delta for r8 owner remarks) (2026-10-02)"
+  at: "2026-10-02"
