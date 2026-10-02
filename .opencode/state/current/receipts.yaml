@@ -1593,3 +1593,17 @@
     p3: "OPEN (not blocker) — docs/tasks/T-15-mcp-ready-process/README.md:225 (C14) «Источник» называет разбор по имени без ссылки; соответствует стилю карточки; закрыть при следующей правке (аудит r9)"
   snapshot: "develop = origin/develop @ 6c28e51 + working tree (service package uncommitted) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-c9-c12
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c9-c12-2026-10-02.md
+  dod:
+    cargo: "not run (D50 + решение владельца 02.10.2026 «тесты только при правках кода») — src/**, tests/**, Cargo.toml не менялись (git diff --numstat -- src tests Cargo.toml пусто); docs/features/** не тронуты"
+    d88_vs_fact: "ok — 6 пунктов: lead.md:6 steps=24 | dispatch-loop.md:49-51 правило останова | lead.md:59-61 + dispatch-loop.md:33-35 + AGENTS.md:105-107 (1 запись/действие + сегментный итог) | analyst.md:67-68,:86-89 + dispatch-loop.md:29-32 (глубокий план) | lead.md:50-51 + analyst.md:90-92 + dispatch-loop.md:36-37 (resume без analyst) | dispatch-loop.md:39-41 (дробление) | analyst.md:93-94 + dispatch-loop.md:169-171 (сплит 300)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; lead [primary] steps=24 (reload применён); AGENTS.md 24 = frontmatter 24 = runtime 24; право-дрейфа нет"
+    journal: "ok — Q85<->D88 парны (Q85.md:3 resolved by D88; D88:5 Resolves Q85); каталоги questions/README.md:107, decisions/README.md:117; TRACEABILITY.md:89 Q85: D88 / in work / T-15 🚧; карточка T-15:220 C9 🚧 :223 C12 🚧 (service-mcp-ready-r10); ссылки живы; номеров строк нет"
+    gates_static: "ok — docs_journal.rs (D50, без прогона): Q<->D/каталоги/TRACEABILITY lifecycle+task parity зелёные по чтению; T-15 registry tasks/README.md:56 🚧 = TRACEABILITY [T-15] 🚧"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/agents/{lead,analyst}.md, .opencode/rules/dispatch-loop.md, AGENTS.md, docs/{questions,decisions}/** (+README), docs/TRACEABILITY.md, карточка T-15, память, лента r9/r10; иной канон, src/**, tests/**, Cargo.toml не тронуты"
+  snapshot: "develop = origin/develop @ af53e23 + working tree (service package uncommitted) (2026-10-02)"
+  at: "2026-10-02"

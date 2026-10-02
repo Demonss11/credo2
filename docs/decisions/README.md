@@ -114,3 +114,4 @@
 | [D85](D85-sverka-snapshot-scope.md) | «Сверка с кодом» `D`-файла — датированный снимок для номеров строк, адреса строги | [Q82](../questions/Q82.md) | 2026-10-02 | accepted |
 | [D86](D86-state-schema.md) | Схема состояния процесса — отдельный канон, модель D42 | [Q83](../questions/Q83.md) | 2026-10-02 | accepted |
 | [D87](D87-t24-pilot-fixes.md) | Правки по итогам S-пилота T-24 — права, CCSN-хвост, state hygiene, модель `lead` | [Q84](../questions/Q84.md) | 2026-10-02 | accepted |
+| [D88](D88-c9-c12-loop-tuning.md) | C9/C12 — лимит и записи `lead`, политика re-plan, дробление вызовов | [Q85](../questions/Q85.md) | 2026-10-02 | accepted |

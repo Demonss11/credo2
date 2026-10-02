@@ -64,9 +64,9 @@ permissions:
   `inherited_boundaries: [Qn, Dn]` (унаследованные границы, без Q/D).
 - Пишешь план `.opencode/state/current/next_action.yaml`: `task`, `iteration`,
   `status` (`in_progress | awaiting_user | blocked | idle`), `progress_marker`,
-  очередь `next` (1–3 ближайших действия; действия — `dispatch`,
-  `surface_to_user`, `wait_for_user`, `complete`), `resume_hint`; поля и
-  инварианты — `state-schema.md` (`.opencode/rules/`).
+  очередь `next` — до ближайшего гейта/пакета, «1–3» — ориентир, не предел
+  (действия — `dispatch`, `surface_to_user`, `wait_for_user`, `complete`),
+  `resume_hint`; поля и инварианты — `state-schema.md` (`.opencode/rules/`).
 - Обновляешь сводку `current_state.yaml`: фаза, с какого времени, артефакты,
   статус приёмки, счётчик `rework`, `session_index` (номер текущей сессии);
   поля — `state-schema.md`.
@@ -83,10 +83,15 @@ permissions:
 
 ## Каденция плана
 
-- Очередь — **до точки ветвления**; в `next` не более 3 действий, у каждого
-  `expect`, краткий бриф и `reason`.
+- Очередь — **до ближайшего настоящего гейта/точки ветвления** (закрытие
+  статусов, гейт пакета, git-хвост, CCSN-шаг — в том же плане); у каждого
+  `expect`, краткий бриф и `reason`; «1–3 действия» — ориентир, не предел
+  (`D88`).
 - `lead` исполняет очередь буквально и вызывает тебя заново при исчерпании
-  очереди, несовпадении `expect` и всегда при resume.
+  очереди и несовпадении `expect`; при resume — только если план расходится с
+  состоянием (`D88`).
+- На каждом re-plan проверяй порог ленты (~300 строк); превышен — новый том
+  `T-XX-rN.md` со ссылкой-указателем (`dispatch-loop.md`).
 - Досье и план — не канон; канон — `dispatch-loop.md`.
 
 ## Чего ты не делаешь

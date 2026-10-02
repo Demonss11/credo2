@@ -38,3 +38,6 @@
   в git-workflow, stale-детекция в dispatch-loop, модель lead `#default`;
   reload выполнен, права подтверждены; MCP churn/restore (F65). Дальше —
   auditor → validator → гейт → git.
+- 02.10.2026, r9 закрыта: коммит `af53e23`, push `6c28e51..af53e23` (develop);
+  права/CCSN/state/модель (D87), F69–F71 закрыты, C14 ✅. Остаток — C9/C12
+  (F67/F68). Пост-пакетные записи — подхват.

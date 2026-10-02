@@ -3,7 +3,7 @@ description: "Loop-диспетчер цикла CREDO: исполняет next_
 mode: primary
 model: opencode-go/deepseek-v4.1-flash
 color: "#ff6b6b"
-steps: 16
+steps: 24
 permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: ".opencode/memory/lead.md", effect: allow }
@@ -46,8 +46,9 @@ budget»).
 ## Цикл
 
 1. Прочитай `.opencode/state/current/next_action.yaml` и `current_state.yaml`.
-   Плана нет, очередь пуста, `expect` не совпал с отчётом роли или resume —
-   вызови `analyst` (новый вызов, свежий контекст).
+   Плана нет, очередь пуста или `expect` не совпал с отчётом роли — вызови
+   `analyst` (новый вызов, свежий контекст). При resume сверь план с состоянием
+   сам; `analyst` — только при расхождении (`D88`).
 2. Исполняй действия очереди по одному (таблица — `dispatch-loop.md`):
    - `dispatch` — вызови роль с брифом из плана; после отчёта — следующее
      действие или re-plan в точке ветвления;
@@ -55,10 +56,11 @@ budget»).
      в ленте;
    - `wait_for_user` — остановись до ответа владельца;
    - `complete` — короткий итог пользователю, задача закрыта.
-3. После каждого действия — запись результата в `progress.yaml` (append) с
-   `session_index` сессии и лента задачи (append). `session_index` — номер
-   запуска `lead` в прогоне: старт с 1, новый запуск — прошлый +1, resume
-   номер сохраняет.
+3. После каждого действия — **одна запись** в `progress.yaml` (append) с
+   `session_index` сессии. Лента задачи — отчёты ролей + твой **сегментный
+   итог** (один на запуск: сделано / дальше / риски), обязателен перед
+   остановкой. `session_index` — номер запуска `lead` в прогоне: старт с 1,
+   новый запуск — прошлый +1, resume номер сохраняет.
 4. Natural checkpoint каждые 6 действий; в headless — без паузы.
 
 ## Чего ты не делаешь
