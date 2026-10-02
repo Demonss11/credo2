@@ -1,141 +1,88 @@
-# current_state.yaml — 2026-10-02, участок №9 (закрытия; re-plan после
-# исчерпания очереди участка №8). Обе приёмки = accepted: validator T-21 -r3
-# (полный DoD зелёный — fmt/clippy --all-targets/test --all 135 passed / 0;
-# диф src/mcp.rs 12/18 не изменён с -r1/-r2; поведение T-04/Q29 сохранено;
-# отчёт docs/reviews/T-21-2026-10-02-r3.md; квитанция accepted iteration 1) и
-# validator T-18 -r2 (docs_journal 14/14; отчёт docs/reviews/T-18-2026-10-02-r2.md;
-# квитанция accepted iteration 1). T-22 подтверждён в -r3 (mcp_draft 25/0);
-# отдельной приёмки/квитанции нет — закрывается по факту -r3 в своём пакете.
-# Ветки T-18/T-21/T-22 — все на 5786875 = develop = origin/develop; коммитов
-# нет; рабочая ветка feature/T-22-mcp-draft-test-fix. Дерево смешанное (F43).
-# Решено: docs-writer (✅ T-21/T-18/T-22 + CHANGELOG) → owner-gate (один
-# комбинированный вопрос на 3 пакета + финальный merge develop→master) → git
-# (3 пакета: commit → merge --no-ff → push → удаление ветки; затем merge
-# develop→master + push origin master) → complete.
+# current_state.yaml — 2026-10-02, участок №10 (service-traceability-closeout).
+# Причина: при закрытии T-18/T-21/T-22 закоммичен develop 71ece40 и выполнен
+# merge древ→master (c6ebc41), но docs/TRACEABILITY.md не синхронизирован с
+# реестром: Q29 (T-21/T-22 ⬜≠✅), Q60/Q73/Q76 (T-18 🚧≠✅). После ✅ T-18
+# открытых задач в Q60/Q73/Q76 нет ⇒ жизненный цикл in work→done. Следствие:
+# tests/docs_journal.rs — traceability_tasks_exist_and_match_registry (L592);
+# полный DoD на develop/master сейчас красный. Класс L (канон журнала).
+# Новых Q/D нет; находка F57. Правку ведёт migrator, аудит — auditor (L),
+# арбитр — validator (полный DoD), затем owner-gate пакета и git.
 as_of: 2026-10-02
-operation: T-21
+operation: T-23
 kind: task
-task: T-21
-task_note: "T-21 (S), T-18 (M), T-22 (S) — закрытие: обе приёмки accepted, статусы ✅ и CHANGELOG, три раздельных git-пакета, complete (F43)"
+task: T-23
+task_note: "T-23 (L) — синхронизация TRACEABILITY с реестром после закрытия T-18/T-21/T-22; F57; ветка/прямая правка — решение владельца"
 iteration: 1
-phase: closing
-class: S
+phase: planning
+class: L
 class_dispute: false
-status: in_progress
-progress_marker: closeout_t21_t18_t22
-acceptance: accepted
-acceptance_reports:
-  t21: docs/reviews/T-21-2026-10-02-r3.md   # accepted, iteration 1 (квитанция в receipts.yaml)
-  t18: docs/reviews/T-18-2026-10-02-r2.md   # accepted, iteration 1 (квитанция в receipts.yaml)
-  t22: docs/reviews/T-21-2026-10-02-r3.md   # DoD закрыт сквозным зелёным test --all; отдельной квитанции нет
-rework: 3   # зафиксированы rework-отчёты: T-21 -r1/-r2, T-18 iteration 1
+status: awaiting_user
+progress_marker: traceability_closeout_sync
+acceptance: pending
+acceptance_reports: {}
+rework: 0
 artifacts:
-  mail: .opencode/mail/T-21.md
-  mail_t18: .opencode/mail/T-18.md
-  mail_t22: .opencode/mail/T-22.md
-  dossier: docs/analysis/T-21-2026-10-02.md
-  dossier_t18: docs/analysis/T-18-2026-10-02.md
-  card_t21: docs/tasks/T-21-mcp-test-struct-api/README.md
-  card_t18: docs/tasks/T-18-docs-journal-test/README.md
-  card_t22: docs/tasks/T-22-mcp-draft-test-fix/README.md
-  code_t21: src/mcp.rs   # принят -r3 (12/18, байт-в-байт); в пакет T-21
-  test_t18: tests/docs_journal.rs   # принят -r2 (14/14); в пакет T-18
-  test_t22: tests/mcp_draft.rs   # подтверждён -r3 (25/0); в пакет T-22
-  reviews_t21: [docs/reviews/T-21-2026-10-02.md, docs/reviews/T-21-2026-10-02-r2.md, docs/reviews/T-21-2026-10-02-r3.md]
-  reviews_t18: [docs/reviews/T-18-2026-10-02.md, docs/reviews/T-18-2026-10-02-r2.md]
-  changelog: docs/CHANGELOG.md   # docs-writer внёс записи T-21/T-18/T-22 (путь M в снимке 2026-10-02)
-route_pending: [docs-writer (✅+CHANGELOG), surface_to_user (owner-gate ×3 + master-мерж), git (3 пакета + merge develop→master), complete]
-packages:
-  t21:
-    branch: feature/T-21-mcp-test-struct-api
-    commit: "code(T-21): struct-API ToolError в unit-тестах src/mcp.rs"
-    add_paths:
-      - src/mcp.rs
-      - docs/tasks/T-21-mcp-test-struct-api/README.md
-      - docs/tasks/README.md
-      - docs/reviews/T-21-2026-10-02.md
-      - docs/reviews/T-21-2026-10-02-r2.md
-      - docs/reviews/T-21-2026-10-02-r3.md
-      - docs/analysis/T-21-2026-10-02.md
-      - .opencode/mail/T-21.md
-      - .opencode/memory/coder.md
-      - .opencode/memory/validator.md
-      - .opencode/memory/analyst.md
-      - .opencode/memory/docs-writer.md
-      - .opencode/memory/git.md
-      - .opencode/state/current/progress.yaml
-      - .opencode/state/current/receipts.yaml
-      - docs/CHANGELOG.md
-  t18:
-    branch: feature/T-18-docs-journal-test
-    commit: "code(T-18): тест целостности журнала tests/docs_journal.rs"
-    add_paths:
-      - tests/docs_journal.rs
-      - docs/TRACEABILITY.md
-      - docs/questions/README.md
-      - docs/questions/Q48.md
-      - docs/questions/Q56.md
-      - docs/questions/Q82.md
-      - docs/decisions/README.md
-      - docs/decisions/D14-published-artifact-canon.md
-      - docs/decisions/D39-loop-dispatcher.md
-      - docs/decisions/D51-agent-tools-token-hygiene.md
-      - docs/decisions/D64-journal-integrity-test.md
-      - docs/decisions/D85-sverka-snapshot-scope.md
-      - docs/analysis/findings-registry.md
-      - docs/analysis/T-18-2026-10-02.md
-      - docs/tasks/T-18-docs-journal-test/README.md
-      - docs/tasks/README.md
-      - docs/reviews/T-18-2026-10-02.md
-      - docs/reviews/T-18-2026-10-02-r2.md
-      - .opencode/mail/T-18.md
-      - .opencode/mail/service-question-kodaskills.md
-      - .opencode/memory/tester.md
-      - .opencode/memory/migrator.md
-      - .opencode/state/current/progress.yaml
-      - .opencode/state/current/receipts.yaml
-      - .opencode/state/current/current_state.yaml
-      - .opencode/state/current/next_action.yaml
-      - docs/CHANGELOG.md
-  t22:
-    branch: feature/T-22-mcp-draft-test-fix
-    commit: "code(T-22): снятие ошибок компиляции tests/mcp_draft.rs"
-    add_paths:
-      - tests/mcp_draft.rs
-      - docs/tasks/T-22-mcp-draft-test-fix/README.md
-      - docs/tasks/README.md
-      - .opencode/mail/T-22.md
-      - .opencode/memory/tester.md
-      - docs/CHANGELOG.md
-package_base: 5786875
-branch: feature/T-22-mcp-draft-test-fix
-branch_t18: feature/T-18-docs-journal-test
-branch_t21: feature/T-21-mcp-test-struct-api
-branch_t22: feature/T-22-mcp-draft-test-fix
-branch_published: true   # все три опубликованы, в синхроне; коммитов нет
-mixed_worktree: true     # пути T-18 + src/mcp.rs T-21 + tests/mcp_draft.rs T-22; F43
-gate_pending: "owner-gate (один комбинированный вопрос на 3 пакета + финальный merge develop→master)"
-master_merge: >
-  Указание владельца (2026-10-02, session): после трёх пакетов — финальный шаг
-  git switch master → git merge --no-ff develop -m "Слияние develop в master" →
-  git push origin master (прецедент сервисных волн). Входит в комбинированный
-  owner-gate; ветки задач к этому моменту уже удалены, develop = origin/develop.
+  mail: .opencode/mail/service-traceability-closeout.md
+  dossier: docs/analysis/T-23-2026-10-02.md
+  traceability: docs/TRACEABILITY.md   # M (будет правка migrator)
+  findings: docs/analysis/findings-registry.md   # +F57
+  audit_reports: []   # auditor до коммита (класс L)
+  acceptance_reports: []
+route_pending:
+  - "surface_to_user (owner-gate СТАРТА: вариант А ветка feature/T-23-traceability-closeout-sync от develop 71ece40 ИЛИ вариант Б прямая правка)"
+  - "git branch_start (только вариант А)"
+  - "migrator (4 строки TRACEABILITY + F57)"
+  - "auditor (L, до коммита)"
+  - "validator (полный DoD, accepted)"
+  - "surface_to_user (owner-gate ПАКЕТА: коммит в develop + merge develop→master)"
+  - "git (коммит → merge --no-ff → push → [удаление ветки] → merge develop→master → push master)"
+  - "complete"
+route_exclusions:
+  - "docs-writer — карточки/реестр/CHANGELOG уже ✅"
+  - "coder, rust-expert, tester — src/**/tests/**/Cargo.toml не меняются"
+  - "researcher — внешних зависимостей нет"
+package:
+  mode: branch_end
+  add_paths_planned:
+    - docs/TRACEABILITY.md
+    - docs/analysis/findings-registry.md
+    - docs/analysis/T-23-2026-10-02.md        # досье операции (?? ; прецедент T-18/T-21)
+    - docs/reviews/T-23-2026-10-02.md
+    - .opencode/mail/service-traceability-closeout.md
+    - .opencode/mail/T-18.md                 # F43-остаток (M)
+    - .opencode/state/current/progress.yaml  # F43-остаток (M)
+    - .opencode/state/current/next_action.yaml
+    - .opencode/state/current/current_state.yaml
+    - .opencode/state/current/receipts.yaml
+    - .opencode/memory/migrator.md
+    - .opencode/memory/validator.md
+    - .opencode/memory/auditor.md
+  note: "Сверка add_paths со снимком git status --porcelain (owner-gate пакета): снимок 13 путей (10 M + 3 ??); пакет покрывает снимок — расхождение устранено включением досье docs/analysis/T-23-2026-10-02.md (?? ; прецедент — досье T-18/T-21 входили в свои пакеты). После коммита дерево чистое."
+base:
+  develop: 71ece40   # = origin/develop
+  master: c6ebc41    # содержит merge develop; origin/master
+branch:
+  name: feature/T-23-traceability-closeout-sync
+  base: develop
+  base_head: 71ece40
+  published: false
+  note: "Вариант А — ветка от develop 71ece40; вариант Б — правка на develop служебной сессией."
+worktree_remainder: >
+  F43-остаток пост-пакетных записей на develop: M .opencode/mail/T-18.md,
+  M .opencode/state/current/progress.yaml — включить в целевой коммит T-23.
 snapshot_check: >
-  Снимок 2026-10-02: 42 пути (27 M + 15 ??). Union трёх add_paths + процессные
-  пути роли git (memory/git.md, F43) покрывает снимок; три ранее непокрытых
-  пути — .opencode/memory/analyst.md, .opencode/memory/docs-writer.md,
-  .opencode/memory/git.md — включены в первый пакет T-21 (конвенция участка:
-  общие процессные файлы фиксируются первым коммитом). После трёх коммитов
-  рабочее дерево чистое (сверх F43-остатков расхождений нет).
+  Снимок git status --porcelain на 2026-10-02 (до правок migrator): 2 пути
+  (M .opencode/mail/T-18.md, M .opencode/state/current/progress.yaml). После
+  правок участка добавить TRACEABILITY, findings-registry, отчёт validator,
+  записи ролей/state; сверить staged перед коммитом.
 constraints:
-  - "Обе приёмки accepted: T-21 -r3 (полный DoD 135/0; диф src/mcp.rs 12/18 не изменён) и T-18 -r2 (docs_journal 14/14). T-22 — DoD закрыт сквозным зелёным test --all в -r3 (mcp_draft 25/0); отдельной приёмки/квитанции нет."
-  - "Примечание среды: PowerShell NativeCommandError при 2>&1 — артефакт stderr cargo, не провал (проверено -r3 --quiet)."
-  - "F43: пакеты T-21/T-18/T-22 раздельны; общие файлы (docs/tasks/README.md, docs/CHANGELOG.md, state/current/*.yaml, memory/*.md) правятся подряд и фиксируются первым коммитом (T-21); T-18/T-22 подхватывают остаток; сверка staged перед каждым коммитом."
-  - "Полнота покрытия: union трёх add_paths + memory/git.md (F43) = снимок 42 пути (27 M + 15 ??); непокрытые memory/analyst.md, memory/docs-writer.md, memory/git.md добавлены в первый пакет T-21; после трёх коммитов дерево чистое."
-  - "Owner-gate: один комбинированный вопрос на три пакета И финальный merge develop→master (F43 раздельность сохранена); add_paths сверяются со снимком git status --porcelain до гейта."
-  - "git: для каждой ветки commit своих путей → merge --no-ff в develop → push origin develop → удаление ветки; порядок T-21 → T-18 → T-22; затем финальный шаг (указание владельца 2026-10-02): git switch master → merge --no-ff develop → push origin master. develop = 5786875; ветки в синхроне."
-  - "Канон агентов и .opencode/rules/** не править; cargo не запускать (D50); внешних зависимостей нет (researcher/auditor не нужны)."
+  - "Канон правки — только docs/TRACEABILITY.md (Q29/Q60/Q73/Q76) + docs/analysis/findings-registry.md (F57); плюс отчёт validator, почта, память ролей, state/current/**."
+  - "Q29: T-21/T-22 ⬜→✅; жизненный цикл in work (T-05 ⬜). Q60/Q73/Q76: T-18 🚧→✅ и in work→done (D82, tests/docs_journal.rs:564)."
+  - "Новых Q/D нет; F57 — находка. Иных строк TRACEABILITY не трогать."
+  - "src/**/tests/**/Cargo.toml не трогать; канон агентов и .opencode/rules/** не трогать; cargo — только validator (R2/D50)."
+  - "Порядок канона: owner-gate СТАРТА → [git branch_start] → migrator → auditor → validator (accepted) → owner-gate ПАКЕТА → git (коммит/merge/push/master) → complete."
+  - "F43: чужие пути не подмешивать; F43-остаток (mail/T-18.md, progress.yaml) — в целевой коммит; сверка staged перед коммитом."
 resume:
-  tester_session_t18: ses_f045ce490ffe7XnmTS0eBleSkQ
-  migrator_session: ses_f045464abffeq3vy19owOudSKh
-inherited_boundaries: [D50, D34, F43]
+  analyst_session: current
+  note: "Продолжение — по этому снимку; лента service-traceability-closeout.md."
+inherited_boundaries: [D50, D34, D82, F43]

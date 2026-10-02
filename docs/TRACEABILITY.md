@@ -30,7 +30,7 @@
 | [Q26](questions/Q26.md) | [D24](decisions/D24-import-export-deferred.md) | open | — | [`import_export.feature`](features/import_export.feature) (целевое v0.2) |
 | [Q27](questions/Q27.md) | [D27](decisions/D27-rest-launch-address.md) | done | — | — |
 | [Q28](questions/Q28.md) | [D31](decisions/D31-check-create-contract.md) | done | [T-03](tasks/T-03-check-create/README.md) ✅ | [`draft.feature`](features/draft.feature), [`agent_minimal.feature`](features/agent_minimal.feature) |
-| [Q29](questions/Q29.md) | [D34](decisions/D34-mcp-tool-contracts.md) | in work | [T-04](tasks/T-04-mcp-errors/README.md) ✅, [T-05](tasks/T-05-mcp-success-schemas/README.md) ⬜, [T-21](tasks/T-21-mcp-test-struct-api/README.md) ⬜, [T-22](tasks/T-22-mcp-draft-test-fix/README.md) ⬜ | [`mcp_tools.feature`](features/mcp_tools.feature), [`draft.feature`](features/draft.feature), [`test_draft.feature`](features/test_draft.feature), [`publish.feature`](features/publish.feature), [`deprecation.feature`](features/deprecation.feature), [`manifest_sync.feature`](features/manifest_sync.feature) |
+| [Q29](questions/Q29.md) | [D34](decisions/D34-mcp-tool-contracts.md) | in work | [T-04](tasks/T-04-mcp-errors/README.md) ✅, [T-05](tasks/T-05-mcp-success-schemas/README.md) ⬜, [T-21](tasks/T-21-mcp-test-struct-api/README.md) ✅, [T-22](tasks/T-22-mcp-draft-test-fix/README.md) ✅ | [`mcp_tools.feature`](features/mcp_tools.feature), [`draft.feature`](features/draft.feature), [`test_draft.feature`](features/test_draft.feature), [`publish.feature`](features/publish.feature), [`deprecation.feature`](features/deprecation.feature), [`manifest_sync.feature`](features/manifest_sync.feature) |
 | [Q30](questions/Q30.md) | [D29](decisions/D29-notebook-mcp-transport.md) | open | — | [`agent_minimal.feature`](features/agent_minimal.feature) |
 | [Q31](questions/Q31.md) | [D12](decisions/D12-agent-chat-panel.md) | open | — | [`notebook_ui.feature`](features/notebook_ui.feature), [`agent_minimal.feature`](features/agent_minimal.feature), [`inline_execution.feature`](features/inline_execution.feature) |
 | [Q32](questions/Q32.md) | [D28](decisions/D28-two-git-contours.md) | in work | [T-06](tasks/T-06-registry-path-xyz/README.md) ⬜ | [`storage_paths.feature`](features/storage_paths.feature), [`git_integration.feature`](features/git_integration.feature), [`agent_minimal.feature`](features/agent_minimal.feature), [`publish.feature`](features/publish.feature), [`publish_rules.feature`](features/publish_rules.feature), [`immutability.feature`](features/immutability.feature), [`deprecation.feature`](features/deprecation.feature), [`mcp_tools.feature`](features/mcp_tools.feature), [`manifest_sync.feature`](features/manifest_sync.feature) |
@@ -61,7 +61,7 @@
 | [Q57](questions/Q57.md) | [D61](decisions/D61-archive-removal.md) | done | — | — |
 | [Q58](questions/Q58.md) | [D62](decisions/D62-brief-journal-rules.md) | done | — | — |
 | [Q59](questions/Q59.md) | [D63](decisions/D63-journal-index-lifecycle.md) | done | — | — |
-| [Q60](questions/Q60.md) | [D64](decisions/D64-journal-integrity-test.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) 🚧 | — |
+| [Q60](questions/Q60.md) | [D64](decisions/D64-journal-integrity-test.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
 | [Q61](questions/Q61.md) | [D65](decisions/D65-reference-policy.md) | done | — | — |
 | [Q62](questions/Q62.md) | [D66](decisions/D66-doc-quality-checks.md) | in work | [T-19](tasks/T-19-doc-quality-checks/README.md) ⬜ | — |
 | [Q63](questions/Q63.md) | [D67](decisions/D67-cspell-deferred.md) | open | — | — |
@@ -74,10 +74,10 @@
 | [Q70](questions/Q70.md) | [D74](decisions/D74-grammar-normative-focus.md) | done | — | — |
 | [Q71](questions/Q71.md) | [D75](decisions/D75-git-lean-workflow.md) | done | — | — |
 | [Q72](questions/Q72.md) | [D76](decisions/D76-traceability-links-only.md) | done | — | — |
-| [Q73](questions/Q73.md) | [D77](decisions/D77-tasks-visibility-completeness.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) 🚧 | — |
+| [Q73](questions/Q73.md) | [D77](decisions/D77-tasks-visibility-completeness.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
 | [Q74](questions/Q74.md) | [D78](decisions/D78-t15-mcp-ready-program.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) ⬜ | [`agents-state-schema.feature`](features/agents-state-schema.feature), [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature), [`agents-re-raise.feature`](features/agents-re-raise.feature), [`agents-metrics.feature`](features/agents-metrics.feature), [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
 | [Q75](questions/Q75.md) | [D79](decisions/D79-journal-canon-completeness.md) | done | — | — |
-| [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | in work | [T-18](tasks/T-18-docs-journal-test/README.md) 🚧 | — |
+| [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
 | [Q77](questions/Q77.md) | [D81](decisions/D81-pm-process-mining.md) | done | — | — |
 | [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
 | [Q79](questions/Q79.md) | [D83](decisions/D83-traceability-wave2.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
