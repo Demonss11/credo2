@@ -114,6 +114,14 @@
   правки канона сервисной сессией → `opencode reload` → `auditor` →
   `validator`. F58/F67/F68 — открыты до приёмки.
 
+- 02.10.2026, T-16 синк ячейки: `docs/TRACEABILITY.md:16` (Q12/D54)
+  `[T-16] ⬜` → `🚧` — в равенство с реестром (`tasks/README.md:57` T-16 🚧),
+  тест T-18 `traceability_tasks_exist_and_match_registry`. Строка Q12 осталась
+  `in work` (T-08 ⬜ не закрыта), T-08 ⬜ / T-01 ✅ не тронуты. Проверки:
+  `--numstat` 1/1, `git diff` — одна строка, `--check` пусто; `cargo` не
+  запускался (D50; адресный прогон — `validator`). Файлы: только
+  `docs/TRACEABILITY.md` (+ лента T-16). Новых Q/D/F нет. Следующее: `coder`.
+
 - 02.10.2026, закрытие r10 (T-15 C9/C12, приёмка `validator` accepted
   `service-c9-c12`): карточка T-15 — C9/C12 → ✅ 02.10 (`service-c9-c12`; D88)
   (baseline C9 был `⏸ ждёт F27`, 🚧 не был закоммичен — правка сразу на ✅);
@@ -125,8 +133,73 @@
   Новых Q/D/задач нет. Файлы: карточка T-15, findings-registry. Следующее:
   гейт пакета → `git` (develop, сервисный) → `complete`.
 
+- 02.10.2026, T-16 базовый P1 (участок `t16_baseline_p1`, resume после лимита):
+  сняты 7 D65-адресов на сессионный разбор T-24 из журнала — Q84/Q85
+  («Связано»), D87 («Контекст»/«Сверка»/«Ссылки»), D88 («Сверка»/«Ссылки»);
+  факты остались в реестре F67–F72. Заведена **T-25** (карточка
+  `T-25-d65-analysis-addresses`, класс S/P1/⬜, источник Q61/D65 + базовый P1
+  T-16 + F73); строки в `tasks/README.md` (P1, после T-16) и `TRACEABILITY.md`
+  (Q61/D65, `[T-25] ⬜`); **F73** в `findings-registry.md` (последняя F72,
+  статус «открыт → задача T-25»). Проверки: по 4 файлам адресов
+  `docs/analysis/<file>` нет (только whitelisted `../analysis/findings-registry.md`);
+  `git diff --check` пусто; `git diff --numstat` — целевые файлы/строки; `cargo`
+  не запускался (D50). Файлы: Q84, Q85, D87, D88, tasks/README, tasks/T-25,
+  TRACEABILITY, findings-registry (+ лента/память). `src/tests/state/канон` не
+  тронуты; пакет отдельный от T-16 (F43). Новых Q/D нет. Следующее: адресная
+  проверка `docs_journal` (`validator`) → `-r2` приёмка T-16; F73 закроется
+  приёмкой T-25.
+  **Грабля:** baseline Q84/Q85/D87/D88 = коммиты T-15 r9/r10 (`af53e23`/`2958bf5`)
+  — `git diff` покажет ровно правки адресов; карточка T-25 untracked (`??`),
+  `git diff` по ней пуст — сверять чтением.
+
+- 02.10.2026, T-16 базовый P1 (участок `t16_baseline_p1_lifecycle`, rework
+  адресной проверки `validator`): `docs/TRACEABILITY.md:65` (Q61/D65) lifecycle
+  `done` → `in work` — открытая T-25 ⬜ не допускается при `done`
+  (`traceability_lifecycle_matches_task_openness`, `tests/docs_journal.rs`; D82
+  §Следствия:55-56; прецедент Q12/D54 при T-16 🚧). Ячейка `[T-25] ⬜` сохранена;
+  файловые статусы Q61/D65 не менялись (D82 §4). Проверки: `git diff` по
+  TRACEABILITY — ровно строка Q61/D65 (одна ячейка lifecycle), `--check` пусто,
+  `cargo` не запускался (D50). Файлы: только `docs/TRACEABILITY.md` (+ лента/память).
+  Новых Q/D/F нет. Следующее: `validator` адресно `cargo test --test docs_journal`
+  (ожидается 14/0) → `-r2` приёмка T-16.
+  **Грабля:** `git diff` по TRACEABILITY в этой незакоммиченной ветке тянет и
+  правку T-16-ячейки (⬜→🚧, ранний сегмент) — судить о моей правке по локализации
+  (строка Q61).
+
+- 02.10.2026, T-16 closeout (приёмка `validator` accepted -r3): `docs/TRACEABILITY.md:16`
+  (Q12/D54) ячейка `[T-16] 🚧` → `✅` — в равенство с реестром
+  (`tasks/README.md:57` T-16 ✅, docs-writer). Строка Q12 осталась `in work`
+  (T-08 ⬜), T-08 ⬜ / T-01 ✅ не тронуты. H7 (`findings-registry.md:25`)
+  закрыт: «открыт → задача T-16 заведена» → «закрыт приёмкой T-16 (02.10.2026,
+  accepted -r3; `cargo test --all` 145/0)», источник скорректирован (коррекция:
+  приёмка T-16, не удалять связи), связь `T-16 (Q12, test_draft.feature)`
+  сохранена. Q61/D65 и T-25 **не трогал**. Проверки: `git diff --check` пусто;
+  `--unified=0` по TRACEABILITY — :16 (моя) + :65 (Q61/D65, предсуществующая
+  правка участка `t16_baseline_p1_lifecycle`, не моя), `--numstat` 2/2 (не 1/1
+  — baseline не чист). `cargo` не запускался (D50; адресно — `validator`).
+  Файлы: `docs/TRACEABILITY.md`, `findings-registry.md` (+ лента/память).
+  Новых Q/D/F нет. Следующее: `surface_to_user` (пакет) → `git branch_end` →
+  `complete`. **Грабли:** в несохранённой ветке baseline TRACEABILITY уже грязен
+  (Q61/D65), поэтому numstat больше моих правок — судить по локализации. Q61 не
+  откатывать (запрет + нужна `docs_journal`); пакеты T-16/S-P1(T-25) раздельны
+  (F43).
+
 ## Заметки
 
 - `git status --porcelain` в этой задаче показывает и рабочие пути других
   ролей (state, почта, память) — их не трогать; `docs/analysis/T-20-…` уже был
   untracked (аналитик), не мой.
+
+- 02.10.2026, T-25 closeout (совмещённый пакет T-16+T-25, mixed worktree,
+  HEAD @ 2958bf5): `docs/TRACEABILITY.md:65` (Q61/D65) — ячейка задач
+  `[T-25] ⬜`→`✅` и lifecycle `in work`→`done` (единственная задача линии ✅,
+  открытых нет; в отличие от Q12/D54, где `in work` из-за T-08 ⬜). Сверено
+  чтением: реестр `tasks/README.md:58` = ✅, карточка `T-25-…/README.md:3` =
+  «✅ сделана». Проверки: `git diff --check` пусто; `-U0` по TRACEABILITY —
+  :65 (моя) + :16 (T-16-closeout, предсуществующая, не тронута); `--numstat`
+  2/2 (не 1/1 — baseline несёт T-16). `cargo` не запускался (D50; адресный
+  `docs_journal` — `validator`, ориентир 14/0). Файл только TRACEABILITY
+  (+лента/память). Новых Q/D нет. Следующее: гейт пакета `surface_to_user` →
+  `git branch_end` (hunk-разбор TRACEABILITY: :16 T-16 / :65 T-25).
+  **Грабля:** в этой ветке baseline TRACEABILITY уже содержит правку :16
+  (T-16) — numstat > моей правки; судить по локализации.

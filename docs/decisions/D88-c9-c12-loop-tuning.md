@@ -79,8 +79,7 @@ S-пилот T-24 (02.10.2026) прошёл, но «чистым» не был: 
   отсутствовали (поиск по дереву); последние занятые — Q84/D87; нумерация
   сквозная (§2 [`journal.md`](../../.opencode/rules/journal.md)).
 - **Основания:** F58/F67/F68 в
-  [`findings-registry.md`](../analysis/findings-registry.md) и разбор
-  `docs/analysis/T-24-run-2026-10-02-lead-session.md` — чтением.
+  [`findings-registry.md`](../analysis/findings-registry.md) — чтением.
 - **Периметр правок:** `.opencode/agents/{lead,analyst}.md`,
   `.opencode/rules/dispatch-loop.md`, `AGENTS.md` (§«Лимиты шагов»,
   §«Память и почта») — зона сервисной сессии; правки вносятся отдельно.
@@ -107,8 +106,7 @@ S-пилот T-24 (02.10.2026) прошёл, но «чистым» не был: 
 
 - Вопрос: [Q85](../questions/Q85.md)
 - Основания: F58/F67/F68 в
-  [`findings-registry.md`](../analysis/findings-registry.md); разбор
-  `docs/analysis/T-24-run-2026-10-02-lead-session.md`; вариант лимита — W8 §7
+  [`findings-registry.md`](../analysis/findings-registry.md); вариант лимита — W8 §7
   (записка [`mcp-ready-process.md`](../tasks/T-15-mcp-ready-process/mcp-ready-process.md));
   [D78](D78-t15-mcp-ready-program.md) (программа T-15)
 - Смежное: [D87](D87-t24-pilot-fixes.md) (правки по T-24, r9 — права/CCSN/

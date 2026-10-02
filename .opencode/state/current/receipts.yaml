@@ -1607,3 +1607,73 @@
     borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/agents/{lead,analyst}.md, .opencode/rules/dispatch-loop.md, AGENTS.md, docs/{questions,decisions}/** (+README), docs/TRACEABILITY.md, карточка T-15, память, лента r9/r10; иной канон, src/**, tests/**, Cargo.toml не тронуты"
   snapshot: "develop = origin/develop @ af53e23 + working tree (service package uncommitted) (2026-10-02)"
   at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-16-2026-10-02.md
+  dod:
+    fmt: pass
+    clippy: "pass — cargo clippy --all-targets -- -D warnings"
+    test: "FAIL — lib 63 passed / 0 failed (both T-16 unit tests ok); docs_journal 13 passed / 1 FAILED (no_addresses_to_removable_or_session_data, tests/docs_journal.rs:889); run stopped at docs_journal — mcp_draft/mcp_errors/publish/rest/rest_cli/features_inventory not reached in this run"
+    features_inventory: "not run in this run (stopped at docs_journal)"
+    p1: "OPEN — RED DoD (review.md:55). Defect is BASELINE, not T-16: D65 session-data addresses in docs/questions/Q84.md:11, Q85.md:12, docs/decisions/D87-t24-pilot-fixes.md:22,:74,:100, D88-c9-c12-loop-tuning.md:83,:111 → docs/analysis/T-24-run-2026-10-02-lead-session.md; files untouched by T-16 (numstat empty), last touched by af53e23 (T-15 r9) and 2958bf5 (T-15 r10), both ancestors of branch base; journal_files() scans only questions/decisions"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path + is_stale on helper (:819-825); src/mcp.rs:224-246 test() stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); draft text/hash not mutated"
+    coverage: "ok — scenario test_draft.feature :55-61 fully covered: stale (mcp_draft.rs:226 / mcp.rs:1002), not blocked (:235 / :1011), executes file text (:239-244 condition <18 matched false / :1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278 / mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml untouched; git diff --check empty; T-02/T-08 not implemented; canon/rights (.opencode/**, AGENTS.md) untouched; foreign service files not mixed"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature has 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-16-2026-10-02-r2.md
+  dod:
+    fmt: pass
+    clippy: "pass — cargo clippy --all-targets -- -D warnings"
+    test: "FAIL — cargo test --all (exit 1) on mcp_draft: 26 passed / 1 FAILED (stale_test_executes_file_text_q12_t16, tests/mcp_draft.rs:244). Other targets: lib 63/0, main 0/0, docs_journal 14/0 (baseline P1 cleared), features_inventory 4/0; separate run — mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0. Total 144 passed / 1 failed"
+    features_inventory: "4/4 ok"
+    p1: "OPEN — RED DoD (review.md:55), defect of the T-16 TEST, not baseline. tests/mcp_draft.rs:244 asserts decision==\"пусто\"; actual \"\". Canon D21:61-62 (\"\" in JSON explanation), Q10, src/core.rs:585-594 (unmatched_rule_has_empty_decision_q10 asserts \"\"); literal \"пусто\" is unique in repo and absent from HEAD:tests/mcp_draft.rs; sibling unit src/mcp.rs:1011-1018 does not assert decision. Fix (tester, one line): \"пусто\" → \"\". Code src/** correct — do not change"
+    baseline_p1: "CLEARED — docs_journal 14/0; TRACEABILITY.md:65 Q61/D65 lifecycle in work + [T-25] ⬜ (parity with registry :58)"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path; is_stale on helper (:819-825); src/mcp.rs:232-244 stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); marks :254-258 from draft"
+    coverage: "ok except :244 — scenario test_draft.feature:55-61 all three Then confirmed (mcp_draft.rs:226,:235,:239-243; unit mcp.rs:1002,:1011,:1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278; unit mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml and src/core.rs untouched; git diff --check empty; T-02/T-08 not implemented; canon/rights (AGENTS.md, opencode.json, .opencode/agents|rules) untouched; foreign service files (mail/service-mcp-ready-r10.md, memory/service.md) outside T-16"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-16-2026-10-02-r3.md
+  dod:
+    fmt: "pass — cargo fmt --check (no output, exit 0)"
+    clippy: "pass — cargo clippy --all-targets -- -D warnings (Finished, 0 warnings)"
+    test: "pass — cargo test --all (exit 0), 145 passed / 0 failed; breakdown: lib 63/0, main 0/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 27/0, mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0, doc 0/0"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    p1_closure: "ok — tests/mcp_draft.rs:244 now assert_eq!(tested[\"decision\"], \"\", \"{tested}\"); literal \"пусто\" removed (rg '\"пусто\"' *.rs -> no matches); stale_test_executes_file_text_q12_t16 green in mcp_draft 27/0; numstat unchanged (src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0)"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path; is_stale on helper (:819-825); src/mcp.rs:232-244 stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); marks :254-258 from draft; contract unchanged"
+    coverage: "ok — scenario test_draft.feature:55-61 fully covered: stale (mcp_draft.rs:226 / mcp.rs:1002), not blocked (:235 / :1011), executes file text (:239-243 condition <18 matched false / :1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278 / mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml/core.rs/SPECIFICATION/D34 untouched; git diff --check empty; T-02/T-08 cards unchanged (registry :49,:61 ⬜); canon/rights (.opencode/agents|rules, AGENTS.md, opencode.json) untouched; foreign service files (mail/service-mcp-ready-r10.md, memory/service.md) and S-branch T-25 files (Q84/Q85/D87/D88/tasks/T-25-*) present in worktree but outside T-16"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+    baseline_p1: "CLEARED — docs_journal 14/0; TRACEABILITY.md:65 Q61/D65 lifecycle in work + [T-25] ⬜"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-25
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-25-2026-10-02.md
+  dod:
+    test: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.09s); key no_addresses_to_removable_or_session_data ok, traceability_tasks_exist_and_match_registry ok"
+    scope: "S, document-only by T-25 — src/**, tests/**, Cargo.toml not touched by T-25 (D50); full DoD not run, targeted docs_journal per task"
+    addresses: "ok — D65 address docs/analysis/T-24-run-2026-10-02-lead-session.md removed from Q84/Q85/D87/D88; no direct docs/analysis/<file>.md addresses in journal_files (questions/decisions/TRACEABILITY/tasks README/features README/SPECIFICATION), only whitelist findings-registry.md and placeholders (** , <T-XX>)"
+    traceability: "ok — TRACEABILITY.md:65 Q61/D65 in work + [T-25] ⬜ = tasks/README.md:58 T-25 ⬜; card docs/tasks/T-25-d65-analysis-addresses/README.md present, ⬜, source Q61/D65 + P1 T-16 + F73; F73 in findings-registry.md:85"
+    borders: "ok — git diff --check empty; git diff --numstat -- src tests Cargo.toml only T-16 (src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0); Cargo.toml/core.rs untouched; T-16 closeout paths (CHANGELOG, T-16 card, TRACEABILITY:16, registry:57) outside T-25; shared tasks/README.md needs hunk split at commit"
+    canon: "ok — .opencode/** and AGENTS.md untouched by T-25; D87/D88 wording preserved (only address removed)"
+  snapshot: "feature/T-25-d65-analysis-addresses (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (mixed_worktree) (2026-10-02)"
+  at: "2026-10-02"
