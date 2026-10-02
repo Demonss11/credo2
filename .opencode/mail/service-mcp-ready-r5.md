@@ -318,6 +318,46 @@ allow-поток без изменений; поведение с `--auto`; ау
 - Следующее действие — `dispatch git` (пакет записей), затем перенос P1/P3/P4
   в `.opencode/plugins|scripts` (сервисная сессия) и отдельный пакет переноса.
 
+## сервисная сессия · 02.10.2026 · перенос P1/P3/P4 исполнен
+
+- **P1** → `.opencode/plugins/wave0-observe.ts` (id `wave0-observe`): журнал
+  `target/wave0-observe.jsonl` (bounded: ротация в `.1` при > 8 МБ), агрегат
+  `target/wave0-observe-summary.json`; сводка родителю — только при
+  `WAVE0_OBSERVE_SUMMARY=1`; фильтр location/known-sessionID. Проверено:
+  `loading plugin` + журнал пишет события текущей сессии репозитория.
+- **P3** → `.opencode/scripts/session-checkpoint.mjs` (доработка: файлы
+  «изменённые/прочитанные»); проверено на `tester` T-18 (3 изменённых / 44
+  прочитанных, resume-путь, метрики).
+- **P4** → `.opencode/scripts/metrics-report.mjs`; проверено (stats/list).
+- **P2** — не переносится (ждёт решения C10); **P5** — свёрнут (опция в P1).
+- Полигон `%TEMP%\opencode\wave0b-own` сохранён до заморозки (решение
+  владельца).
+- Дальше: `validator` (приёмка переноса) → коммит пакета переноса.
+
+## validator · 02.10.2026 · принято (перенос B0-own) — см. секцию роли ниже
+
+- Вердикт: **принято, P1/P2/P3 нет**; отчёт
+  `docs/reviews/service-b0-own-transfer-2026-10-02.md`, квитанция
+  `service-b0-own-transfer` (iteration 1, accepted) в `receipts.yaml`.
+- Проверки: артефакты соответствуют заявленному; смоук-улики in-repo
+  (`plugin.start` + `event` с sid текущей сессии; checkpoint 3/44); границы
+  чисты; `cargo` не запускался (D50); лог вне прав — компенсирован in-repo.
+
+## сервисная сессия · 02.10.2026 · гейт пакета переноса пройден
+
+- Владелец подтвердил (**question**): «Коммит + push develop (Recommended)».
+- Пакет — 12 путей + запись роли `git` (F43) = 13: `??` —
+  `.opencode/plugins/wave0-observe.ts`, `.opencode/scripts/{session-checkpoint,metrics-report}.mjs`,
+  `docs/reviews/service-b0-own-transfer-2026-10-02.md`; `M` —
+  `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,validator}.md`,
+  `.opencode/state/current/receipts.yaml`, `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}`,
+  `.opencode/memory/git.md`.
+- Сообщение коммита: `chore(process): T-15 B0-own — перенос P1/P3/P4 в служебную
+  зону (wave0-observe, session-checkpoint, metrics-report)`.
+- База: `develop` = `origin/develop` = `ac5d382`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (BO-i2: карточка P2)
 
 - Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
@@ -456,3 +496,65 @@ allow-поток без изменений; поведение с `--auto`; ау
   отчёт, аудит`. Ожидаемо: 7 `M` + 1 `A`; далее `commit` → `push origin develop`.
 - Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
   файлы не пишу; перенос P1/P3/P4 — отдельным пакетом (сервисная сессия).
+
+## migrator · 02.10.2026 · готово (перенос P1/P3/P4: карточка)
+
+- Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` три строки сводной
+  таблицы «Реестр задач T-15» — в ячейки статуса дописан хвост (существующий
+  текст сохранён): **B0-own-P1** `· перенесён 02.10 → .opencode/plugins/wave0-observe.ts`;
+  **B0-own-P3** `· перенесён 02.10 → .opencode/scripts/session-checkpoint.mjs`;
+  **B0-own-P4** `· перенесён 02.10 → .opencode/scripts/metrics-report.mjs`.
+- Проверки: `git diff -- <README>` → ровно 3 строки (P1/P3/P4, по 1+/1−);
+  `git diff --check` пусто. `cargo` не запускал (D50).
+- Дальше / риски: коммит — за ролью `git` (гейт); иных строк/файлов не трогал.
+
+## validator · 02.10.2026 · принято (перенос B0-own)
+
+- **Вердикт:** принято; P1/P2/P3 нет. Отчёт
+  `docs/reviews/service-b0-own-transfer-2026-10-02.md`; квитанция `accepted`
+  (task `service-b0-own-transfer`, iteration 1) записана в
+  `.opencode/state/current/receipts.yaml`.
+- **База/версия:** `develop` = `origin/develop` = `HEAD` = `ac5d382` (ветки
+  нет, прямая правка; снимок 02.10.2026).
+- **Артефакты = заявленному:** плагин `Plugin.define({id:"wave0-observe"})`,
+  ротация `.1` при `>8 МБ` (каждые 200 appends), агрегат
+  `target/wave0-observe-summary.json`, сводка только `WAVE0_OBSERVE_SUMMARY=1`,
+  фильтр `loc===dir`/known-sid; P3 — changed (`edit/write/patch`+`snapshot.files`)
+  /read + resume + `shell:win32`; P4 — stats/list/`--chain` + `shell:win32`.
+- **Улики in-repo:** `target/wave0-observe.jsonl` — `plugin.start` (v2.0.22,
+  directory = repo) + `event` (root `ses_f03ba898…`, дети `migrator`/`validator`
+  с `parentID`); агрегат жив; `checkpoint-tester-T18.md` — «изменённые (3)/
+  прочитанные (44)». Лог `~/.local/share/opencode/log/opencode.log` — вне прав
+  (`external_directory`), компенсирован in-repo уликами.
+- **Границы чисты:** статус — только 6 `M` (лента, `memory/{migrator,service}`,
+  карточка T-15, `wave0b-own.md`, `wave0b-own-report.md`) + 3 `??`
+  (`.opencode/plugins/wave0-observe.ts`, `scripts/session-checkpoint.mjs`,
+  `scripts/metrics-report.mjs`); `src/tests/Cargo.toml/AGENTS.md/opencode.json/
+  .opencode/agents|rules/docs/decisions|questions/docs/TRACEABILITY.md` — не
+  затронуты; `git diff --check` пусто; `target/` в `.gitignore:1`.
+- **Права:** `agents-perms.mjs` ×2 → `11 из 18`. `cargo` не запускался (D50).
+- **Дальше:** гейт пакета подтверждается владельцем (состав — в отчёте
+  §«Состав пакета для гейта»), затем `dispatch git` (коммит + push `develop`).
+
+## git · 02.10.2026 · план пакета (перенос B0-own)
+
+- Сделано (до `add`, F43): чекпойнт в `.opencode/memory/git.md` и эта запись —
+  часть пакета. Подтверждение сверено по §«гейт пакета переноса пройден»
+  (:346–359), ответ владельца «Коммит + push develop».
+- База: `develop` = `origin/develop` = `ac5d382`; ветки нет (прямая правка),
+  master не трогаем. Снимок `git status` = 8 `M` + 4 `??` = ровно пакет
+  12 путей (+ мой чекпойнт, F43).
+- К коммиту — 13 путей (`./`-префикс, без `--`):
+  `.opencode/plugins/wave0-observe.ts`,
+  `.opencode/scripts/session-checkpoint.mjs`,
+  `.opencode/scripts/metrics-report.mjs`,
+  `docs/reviews/service-b0-own-transfer-2026-10-02.md`,
+  `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,validator,git}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}`.
+- Сообщение: `chore(process): T-15 B0-own — перенос P1/P3/P4 в служебную зону
+  (wave0-observe, session-checkpoint, metrics-report)`. Ожидаемо: 9 `M` + 4 `A`;
+  далее `commit` → `push origin develop`.
+- Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
+  файлы не пишу.

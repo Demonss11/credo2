@@ -79,3 +79,10 @@
   ребёнок с `info.agent`, root — без; `session list` без agent; хранилище
   top-level `build` (F60). P5 закрывается как покрытое P1/P4. Дальше BO-i7 —
   отчёт мини-волны (`wave0b-own-report.md`), ревью, аудит перед переносом.
+- 02.10.2026, BO-i6/i7 закоммичены (`ac5d382`); аудит — P1/P2 чисто, P3
+  закрыт; решение владельца «Без P2 до C10»: перенос **P1/P3/P4 исполнен** —
+  `.opencode/plugins/wave0-observe.ts` (bounded `target/wave0-observe.jsonl`,
+  сводка при `WAVE0_OBSERVE_SUMMARY=1`), `.opencode/scripts/session-checkpoint.mjs`
+  (файлы изменённые/прочитанные), `.opencode/scripts/metrics-report.mjs`;
+  P2 — после C10; полигон сохранён до заморозки; проверки — плагин пишет
+  события, скрипты прогнаны. Дальше: validator → коммит переноса.

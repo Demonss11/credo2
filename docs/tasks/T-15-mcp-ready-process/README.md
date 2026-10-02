@@ -191,10 +191,10 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-i7 | Handoff | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
 | B0-i8 | Отчёт и финализация B0 | B0 | ✅ 28.09 · коммит `cafc4c4` | `wave0b-report` |
 | B0-own-i1 | Каркас и разведка V2-API (BO-i1) | B0-own | ✅ 28.09 | `wave0b-own` |
-| B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | 🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат + сводка родителю; перенос — после аудита | `wave0b-report` §4 |
+| B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | 🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат + сводка родителю; перенос — после аудита · перенесён 02.10 → `.opencode/plugins/wave0-observe.ts` | `wave0b-report` §4 |
 | B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) | `wave0b-report` §4 |
-| B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | 🟢 BO-i5 (02.10) — вердикт: сводка останова (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита (вход C9) | `wave0b-report` §4 |
-| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) | `wave0b-report` §4 |
+| B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | 🟢 BO-i5 (02.10) — вердикт: сводка останова (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита (вход C9) · перенесён 02.10 → `.opencode/scripts/session-checkpoint.mjs` | `wave0b-report` §4 |
+| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) · перенесён 02.10 → `.opencode/scripts/metrics-report.mjs` | `wave0b-report` §4 |
 | B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | 🟢 BO-i6 (02.10) — вердикт: свернуть (покрыто P1/P4 + context-хук) | `wave0b-report` §4 |
 | B0-own-i7 | Отчёт и финализация мини-волны | B0-own | ✅ 02.10 | wave0b-own-report.md |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |

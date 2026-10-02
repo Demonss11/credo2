@@ -6,6 +6,20 @@
 
 ## Чекпойнты
 
+- **02.10.2026, сервисная операция `service-mcp-ready-r5` (перенос P1/P3/P4:
+  карточка):** три правки в `docs/tasks/T-15-mcp-ready-process/README.md` —
+  в ячейки статуса строк сводной таблицы дописан хвост `· перенесён 02.10 →
+  <путь>` (существующий текст сохранён): **B0-own-P1** →
+  `.opencode/plugins/wave0-observe.ts`; **B0-own-P3** →
+  `.opencode/scripts/session-checkpoint.mjs`; **B0-own-P4** →
+  `.opencode/scripts/metrics-report.mjs`. Иных строк/файлов не трогал.
+  Проверки: `git diff -- <README>` → ровно 3 строки (P1/P3/P4, по 1+/1−);
+  `git diff --check` пусто; `cargo` не запускал (D50). Источник — лента
+  `service-mcp-ready-r5.md` §«перенос P1/P3/P4 исполнен» (решение владельца
+  «Без P2 до C10»). Грабли: правка узким построчным якорем (строки уникальны
+  по `B0-own-P{1,3,4}`); отчёт — в ленте `service-mcp-ready-r5.md`. Коммит не
+  делал (гейт впереди).
+
 - **02.10.2026, сервисная операция `service-mcp-ready-r5` (BO-i6/i7: карточка
   P5 + отчёт):** три правки в `docs/tasks/T-15-mcp-ready-process/README.md` —
   (1) сводная таблица «Реестр задач T-15», **B0-own-P5**: `⬜` → `🟢 BO-i6

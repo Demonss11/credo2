@@ -320,3 +320,22 @@
   без `--`) → `diff --cached --name-status` → `commit` → `push origin develop`.
   Хеши — в ответе `lead` (не здесь). После push в отслеживаемые файлы не писать
   (F43); перенос P1/P3/P4 — отдельным пакетом (сервисная сессия).
+- **02.10.2026, service-mcp-ready-r5 — перенос P1/P3/P4 (B0-own)** (служебная
+  волна, режим «коммит + push» прямо в `develop`; ветки нет, master не трогаем).
+  Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r5.md` —
+  §«гейт пакета переноса пройден» (:346–359), ответ владельца «Коммит + push
+  develop». База: `develop` = `origin/develop` = `ac5d382`; дерево — снимок
+  8 `M` + 4 `??` = ровно пакет 12 путей (+ этот чекпойнт, F43). К коммиту —
+  13 путей: `.opencode/plugins/wave0-observe.ts`,
+  `.opencode/scripts/session-checkpoint.mjs`,
+  `.opencode/scripts/metrics-report.mjs`,
+  `docs/reviews/service-b0-own-transfer-2026-10-02.md`,
+  `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,validator,git}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own.md,wave0b-own-report.md}`.
+  Сообщение: `chore(process): T-15 B0-own — перенос P1/P3/P4 в служебную зону
+  (wave0-observe, session-checkpoint, metrics-report)`. Ожидаемая staged-сверка:
+  9 `M` + 4 `A`. Осталось: `add` 13 путей (`./`-префикс, без `--`) →
+  `diff --cached --name-status` → `commit` → `push origin develop`. Хеши — в
+  ответе `lead` (не здесь). После push в отслеживаемые файлы не писать (F43).

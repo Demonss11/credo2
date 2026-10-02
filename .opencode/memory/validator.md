@@ -451,3 +451,27 @@
   `git rev-parse HEAD develop origin/develop` ×3 (все равны) — отсутствие
   ветки не означает отсутствие базы; адресную приёмку строить таблицей
   «строка ↔ реестр ↔ легенда» с номерами строк.
+- **02.10.2026 · service-b0-own-transfer (перенос P1/P3/P4):** база `develop` =
+  `origin/develop` = `HEAD` = `ac5d382` (ветки нет, прямая правка). Снимок:
+  6 `M` (лента, `memory/{migrator,service}`, карточка T-15, `wave0b-own.md`,
+  `wave0b-own-report.md`) + 3 `??` (`plugins/wave0-observe.ts`,
+  `scripts/session-checkpoint.mjs`, `scripts/metrics-report.mjs`).
+  **Итог:** **принято**, P1/P2/P3 нет. Границы чисты (`src/tests/Cargo.toml/
+  AGENTS.md/opencode.json/agents|rules/decisions|questions/TRACEABILITY` —
+  пусто; `git diff --check` пусто; 3 `??` в `.opencode/plugins|scripts` —
+  легитимны). Артефакты = заявленное: `Plugin.define({id:"wave0-observe"})`;
+  ротация `.1` при `>8 МБ` (каждые 200 appends); агрегат
+  `target/wave0-observe-summary.json`; сводка `ctx.session.prompt` только при
+  `WAVE0_OBSERVE_SUMMARY=1`; фильтр `loc===dir`/known-sid. P3 —
+  changed(CHANGE_TOOLS+snapshot)/read, resume-путь, `shell: win32`. P4 —
+  stats/list/`--chain`, `shell: win32`. Улики in-repo: `plugin.start` ×N +
+  `event` (root `ses_f03ba898…`, дети `migrator`/`validator` с `parentID`),
+  агрегат жив; `checkpoint-tester-T18.md` 3/44. Записи согласованы (лента,
+  журнал §Статус, отчёт «Обновление 02.10.2026», карточка :194/:196/:197).
+  `agents-perms` ×2 = `11 из 18`. **Лог `~/.local/share/opencode/log/
+  opencode.log` — вне прав (`external_directory`); улика «loading plugin» не
+  прочитана, компенсирована in-repo `plugin.start`+`event`.** `cargo` не
+  запускал (D50). Отчёт `docs/reviews/service-b0-own-transfer-2026-10-02.md`;
+  квитанция `accepted` (iteration 1) записана.
+  **Грабли памяти:** в файле дубль абзаца «Урок: … номерами строк» (:389 и
+  :453) — старый артефакт; для append нужен уникальный якорь.

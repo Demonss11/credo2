@@ -1391,3 +1391,20 @@
     worktree: "ok — 4 целевых M (docs/TRACEABILITY.md, docs/analysis/findings-registry.md, docs/tasks/README.md, docs/tasks/T-15-mcp-ready-process/README.md); M памяти .opencode/memory/{auditor,migrator,service,validator}.md; M state/progress.yaml; F43-остаток M mail/service-traceability-closeout.md; ?? лента mail/service-t15-run-review.md; ?? 6 отчётов docs/analysis/T-15-run-2026-10-02-*-session.md; ?? отчёт reviews"
   snapshot: "develop @ 98f7225 (= origin/develop = HEAD) + working tree (service-t15-run-review uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-b0-own-transfer
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b0-own-transfer-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    artifacts_transfer: "ok — P1 .opencode/plugins/wave0-observe.ts (id wave0-observe; ротация target/wave0-observe.jsonl в .1 при >8 МБ каждые 200 appends; агрегат target/wave0-observe-summary.json; сводка ctx.session.prompt только WAVE0_OBSERVE_SUMMARY=1; фильтр location===dir/known-sid); P3 .opencode/scripts/session-checkpoint.mjs (changed=edit/write/patch+snapshot.files, read=прочее с path; resume-путь; shell:win32); P4 .opencode/scripts/metrics-report.mjs (stats --json, session list, --chain по маркеру <subagent sessionID=>; shell:win32)"
+    smоuk_evidence: "ok (in-repo, target/** вне git) — target/wave0-observe.jsonl: plugin.start (v2.0.22, directory=repo) ×N + event root ses_f03ba898cffel2M28KDlhJPlX4; агрегат: root + дети migrator/validator с parentID; target/wave0b-own-transfer/checkpoint-tester-T18.md: «Файлы изменённые (3)» / «прочитанные (44)»"
+    records: "ok — лента service-mcp-ready-r5.md:321–335 §«перенос P1/P3/P4 исполнен»; журнал wave0b-own.md:3–9 (перенос исполнен, P2 после C10); отчёт wave0b-own-report.md:89–92 («Обновление 02.10.2026»); карточка README.md:194/:196/:197 хвост «перенесён 02.10 → путь» (по 1+/1−, текст сохранён)"
+    borders: "ok — git status --porcelain: только 6 M (лента, memory/{migrator,service}, карточка, wave0b-own.md, wave0b-own-report.md) + 3 ?? (.opencode/plugins|scripts); src/tests/Cargo.toml/AGENTS.md/opencode.json/.opencode/agents|rules/docs/decisions|questions/docs/TRACEABILITY.md — не в статусе; git diff --check пусто; target/ в .gitignore:1"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs ×2 → 11 из 18; .opencode/package.json: @opencode/plugin ^2.0.18"
+    branch: "ok — git rev-parse HEAD develop origin/develop = ac5d382a… ×3; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r5.md, M .opencode/memory/migrator.md, M .opencode/memory/service.md, M docs/tasks/T-15-mcp-ready-process/README.md, M docs/tasks/T-15-mcp-ready-process/wave0b-own-report.md, M docs/tasks/T-15-mcp-ready-process/wave0b-own.md; ?? .opencode/plugins/wave0-observe.ts, ?? .opencode/scripts/metrics-report.mjs, ?? .opencode/scripts/session-checkpoint.mjs"
+    not_checked: "лог ~/.local/share/opencode/log/opencode.log — вне прав (external_directory); компенсирован plugin.start+event; прогон скриптов node — вне прав validator, смоук сервисной сессии"
+  snapshot: "develop @ ac5d382 (= origin/develop = HEAD) + working tree (service-b0-own-transfer uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
