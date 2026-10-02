@@ -101,3 +101,4 @@
 | [Q79](Q79.md) | волна 2 `TRACEABILITY`: как разобрать оставшиеся `open`-строки | [D83](../decisions/D83-traceability-wave2.md) |
 | [Q80](Q80.md) | шум в `.opencode/rules/**`: ссылки на решения и исторические приписки | [D84](../decisions/D84-rules-revision.md) |
 | [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |
+| [Q82](Q82.md) | «Сверка с кодом» D-файлов — датированный снимок или живой канон для запретов D64/D65? | [D85](../decisions/D85-sverka-snapshot-scope.md) |
