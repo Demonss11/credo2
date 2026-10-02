@@ -143,3 +143,64 @@
   (service-question-kodaskills)`. Хеши — в ответе `lead` (не здесь). Осталось:
   `add` → сверка staged (9 `M` + 3 `A`) → `commit` → `push origin develop`.
   Примечание: после `push` в отслеживаемые файлы не писать (F43).
+- **02.10.2026, T-18 branch_start** (`feature/T-18-docs-journal-test`, режим
+  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
+  `.opencode/mail/T-18.md` — «lead · 2026-10-02 · гейт ветки пройден
+  (surface_to_user)», ответ владельца «Создать ветку + push (Recommended)»;
+  база `HEAD` `5786875` = `origin/develop` (`## develop...origin/develop`).
+  Снимок дерева (не трогается): 4 `M` (mail/service-question-kodaskills,
+  state/current_state, state/next_action, state/progress) + 2 `??`
+  (mail/T-18.md, docs/analysis/T-18-2026-10-02.md) — остаются в дереве, их
+  подхватит пакет branch_end. Осталось: `switch -c
+  feature/T-18-docs-journal-test develop` → `push -u origin
+  feature/T-18-docs-journal-test`. `--force`/`reset --hard`/`rebase`/удаление
+  веток запрещены; база не совпала бы — стоп и возврат `lead` (re-plan).
+- **02.10.2026, T-21 branch_start** (`feature/T-21-mcp-test-struct-api`, режим
+  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
+  `.opencode/mail/T-18.md` — «lead · 2026-10-02 · гейт T-21 пройден
+  (surface_to_user)», ответ владельца «Ветка + порядок (Recommended)»; база
+  `HEAD` `5786875` = `origin/develop` (`## develop...origin/develop`).
+  Рабочее дерево — незакоммиченные пути T-18 в ветке
+  `feature/T-18-docs-journal-test`; не коммитить, не сбрасывать (пакет
+  branch_end T-18). Осталось: `switch -c
+  feature/T-21-mcp-test-struct-api develop` → `push -u origin
+  feature/T-21-mcp-test-struct-api`. `--force`/`reset --hard`/`rebase`/удаление
+  веток запрещены; база не совпала бы — стоп и возврат `lead` (re-plan).
+- **02.10.2026, T-22 branch_start** (`feature/T-22-mcp-draft-test-fix`, режим
+  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
+  `.opencode/mail/T-18.md` (строки 171–177) — «lead · 2026-10-02 · гейт T-22
+  пройден (surface_to_user)», ответ владельца «Ветка T-22 + порядок
+  (Recommended)»; база `HEAD` `5786875` = `origin/develop` (обе сверены
+  `rev-parse`). Текущая ветка — `feature/T-21-mcp-test-struct-api` на `5786875`;
+  дерево смешанное (23 `M` + 10 `??`; незакоммиченные пути T-18/T-21) — рабочие
+  пути не трогать, не коммитить, не сбрасывать. Осталось: `switch -c
+  feature/T-22-mcp-draft-test-fix develop` → `push -u origin
+  feature/T-22-mcp-draft-test-fix` → отчёт в ленту T-22 (открыть) + дописать
+  чекпойнт. `--force`/`reset --hard`/`rebase`/удаление веток запрещены;
+  `develop` не трогать; база не совпала бы — стоп и возврат `lead` (re-plan).
+  **ГОТОВО:** ветка создана от `5786875` и опубликована
+  (`push -u origin feature/T-22-mcp-draft-test-fix`, `* [new branch]`, upstream
+  установлен); коммитов нет; `develop` не тронут; рабочее дерево сохранено
+  (23 `M` + 10 `??`); отчёт в ленте `T-22.md`.
+- **02.10.2026, T-21/T-18/T-22 closeout + master** (три feature-ветки на
+  `5786875` = `develop` = `origin/develop`, коммитов нет; порядок T-21 → T-18 →
+  T-22; режим «commit + merge --no-ff + push + delete branch», финал — merge
+  develop → master). Подтверждение сверено по ленте `.opencode/mail/T-21.md` —
+  «lead · 2026-10-02 · гейт пройден (surface_to_user) — 3 пакета + master»,
+  ответ владельца «Подтверждаю: 3 пакета + master (Recommended)» (и одноимённая
+  запись в `.opencode/mail/T-18.md`). Составы пакетов (add_paths) — в записи
+  гейта: T-21 = 16 путей, T-18 = 27 путей, T-22 = 6 путей; общие файлы
+  (`docs/tasks/README.md`, `docs/CHANGELOG.md`, `state/current/progress.yaml`,
+  `receipts.yaml`, `memory/tester.md`) фиксируются первым коммитом (T-21), при
+  поздних switch откатываются к базе и в staged не появляются — штатно (F43).
+  Снимок 42 пути (27 `M` + 15 `??`) покрыт union'ом. К коммитам — точные пути
+  пакетов (`./`-префикс, без `--`), сообщения:
+  `code(T-21): struct-API ToolError в unit-тестах src/mcp.rs`,
+  `code(T-18): тест целостности журнала tests/docs_journal.rs`,
+  `code(T-22): снятие ошибок компиляции tests/mcp_draft.rs`. Записи роли git
+  (этот чекпойнт + отчёт в ленту T-21) — один раз до первого `add` (F43).
+  Осталось: T-21 add→staged-сверка→commit→switch develop→pull→merge --no-ff→push
+  develop→delete branch (local+origin); то же T-18, T-22; затем `switch master` →
+  `pull origin master` → `merge --no-ff develop` → `push origin master` → `switch
+  develop`. Хеши — в ответе `lead` (не здесь). После финального push в
+  отслеживаемые файлы не писать.

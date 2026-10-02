@@ -1287,3 +1287,78 @@
     links: "ok — D82-traceability-lifecycle-waves.md and Q79.md exist (git ls-files); material URL verbatim https://github.com/XCode-NLP/KodaSkills/tree/main/skills"
   snapshot: "develop @ c2f905f (= origin/develop = HEAD) + working tree (2026-10-02)"
   at: "2026-10-02"
+
+- task: T-21
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-21-2026-10-02.md
+  dod:
+    cargo: "RED — fmt --check exit 1 (tests/mcp_draft.rs:508,624,646,677), clippy --all-targets exit 1 (tests/docs_journal.rs:168 dead_code d; tests/mcp_draft.rs E0425+E0061x3), test --all не компилируется (те же 5 в tests/**); cargo test --lib -> 61 passed/0 failed; cargo clippy --lib -D warnings -> ok"
+    branch: "ok — git status -sb = '## feature/T-21-mcp-test-struct-api...origin/feature/T-21-mcp-test-struct-api'; git rev-parse HEAD develop origin/develop = 5786875/5786875/5786875; коммитов нет"
+    borders: "ok — git status --porcelain -- src Cargo.toml = M src/mcp.rs only; git diff --numstat -- src/mcp.rs = 12/18; git diff --stat -- tests Cargo.toml empty; git diff HEAD -- tests empty"
+    scope_diff: "ok — только src/mcp.rs: validation_message struct-API (err.code/err.message), into_json->to_json (:777), required_str задействован в create (:158-159)"
+    unit_tests: "ok — cargo test --lib 61/61 (mcp::tests::validation_error_json_envelope_t03, create_requires_name_param, create_missing_or_empty_name_is_validation_failed_t03 и др.)"
+    behavior_t04_q29: "ok — required_str None -> 'Нужен параметр <key>' (прежний текст), не-строка и пустая строку -> validation_failed; код Q29 §4.5 неизменен; отказ на '' — намерение Q28/D31, ожидается закоммиченным tests/mcp_draft.rs::create_empty_or_nonstring_params_rejected_t03"
+    tests_remainder: "5 errors, all tests/**, none by T-21: mcp_draft.rs:543:41 E0425, :603/624/647:9 E0061 (tracked, = HEAD @ develop 5786875, last commit 9173fc4) — предсуществующие; docs_journal.rs:168:5 dead_code d — T-18 (untracked, шапка T-18)"
+  snapshot: "feature/T-21-mcp-test-struct-api @ 5786875 (= develop = origin/develop) + mixed working tree (T-18 paths uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-21
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-21-2026-10-02-r2.md
+  dod:
+    cargo: "RED — fmt --check exit 0; clippy --all-targets exit 1 (единственная ошибка tests/docs_journal.rs:168:5 dead_code d); test --all exit 1 (не компилируется единственная цель docs_journal); cargo test --lib 61/0; test --test mcp_draft 25/0; publish 12/0; rest 11/0; features_inventory 4/0"
+    branch: "ok — база 5786875 (= develop = origin/develop), коммитов нет; ветки T-18/T-21/T-22 на 5786875; текущая рабочая ветка feature/T-22-mcp-draft-test-fix"
+    borders: "ok — git diff --numstat -- src/mcp.rs = 12/18; src/mcp.rs — единственный изменённый путь src/**; Cargo.toml/Cargo.lock не тронуты; tests/docs_journal.rs untracked не тронут (T-18)"
+    t21_diff_unchanged: "ok — git diff -- src/mcp.rs байт-в-байт как в -r1 (validation_message struct-API, into_json->to_json :777, required_str в create :158-159)"
+    unit_tests: "ok — cargo test --lib 61/61 (все mcp::tests)"
+    behavior_t04_q29: "ok — required_str (:431-445) код validation_failed во всех ветках; None -> 'Нужен параметр <key>' (прежний текст); отказ на '' — намерение Q28/D31"
+    t22_fix_confirmed: "ok — git diff -- tests/mcp_draft.rs 12/8 (Value import, 3x create(NAME,SRC), rustfmt); cargo test --test mcp_draft 25/0; ассерты не ослаблены"
+    tests_remainder: "1 error, вне scope T-21: tests/docs_journal.rs:168:5 dead_code d — T-18 (untracked, шапка :8,:25); ошибки mcp_draft.rs -r1 (E0425, E0061x3) устранены T-22"
+  snapshot: "base 5786875 (= develop = origin/develop) + mixed working tree (T-18/T-21/T-22 uncommitted; current branch feature/T-22-mcp-draft-test-fix) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-18
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-18-2026-10-02.md
+  dod:
+    cargo: "RED — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; test --all exit 1: src/lib.rs 61/0, tests/docs_journal.rs 8 passed/6 failed; отдельно mcp_draft 25/0, publish 12/0, rest 11/0, features_inventory 4/0"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 5786875/5786875/5786875; коммитов нет; рабочая ветка feature/T-22-mcp-draft-test-fix (дерево общее)"
+    borders: "ok — git diff --numstat -- src/mcp.rs = 12/18 (T-21 не переправлен); -- tests/mcp_draft.rs = 12/8 (T-22-фикс); tests/docs_journal.rs untracked (??) — T-18"
+    test_not_weakened: "ok — dead_code TraceRow.d (:168) снят усилением: добавлен traceability_rows_reference_existing_decisions (:506-523), читает row.d; let _ = row.d; нет"
+    test_defects: "5 ложных красных в tests/docs_journal.rs (зона tester): (1) field_line :109-113 не триммит значение → questions_have_decision_or_exception :353 на Q1; (2) cell_task_statuses :206-234 не понимает ID T-XX (дефис) → traceability_tasks_exist_and_match_registry :581 (T-01/D77) + traceability_lifecycle_matches_task_openness :535 (Q1 in work); (3) section() :146-152 ловит inline `## Сверка с кодом` в D64:83 → every_decision_has_code_review_verdict :472; (4) feature_tokens/feature_registry :237-249/:285-297 не нормализуют префикс features/ → features_are_named_in_traceability_and_exist :613 (testing.feature, TRACEABILITY:44)"
+    canon_defect: "P2 — docs/decisions/D39-loop-dispatcher.md :44-45,:56-57,:61 адресует .opencode/state/current/*.yaml — нарушение D65 п.4; вне вычистки T-18 → через migrator"
+    green_checks: "ok — ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, decisions_are_listed_in_catalog, decisions_have_existing_question_or_retro_exception, traceability_lifecycle_uses_canon_dictionary, no_migration_markers_in_live_journal, no_line_number_addresses_in_live_journal, traceability_rows_reference_existing_decisions"
+  snapshot: "base 5786875 (= develop = origin/develop) + working tree (tests/docs_journal.rs untracked, T-18) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-18
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-18-2026-10-02-r2.md
+  dod:
+    cargo: "GREEN — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; test --all exit 0: src/lib.rs 61/0, tests/docs_journal.rs 14/14, features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0, rest 11/0, doc-tests 0/0"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 5786875/5786875/5786875; коммитов нет; рабочая ветка feature/T-22-mcp-draft-test-fix"
+    borders: "ok — git diff --numstat -- src/mcp.rs = 12/18 (= -r1, байт-в-байт, T-21 не изменён); -- tests/mcp_draft.rs = 12/8 (= -r1, T-22 не изменён); -- docs/decisions/D39-loop-dispatcher.md = 4/4 (P2-фикс); git status --porcelain -- src Cargo.toml Cargo.lock = M src/mcp.rs only"
+    test_not_weakened: "ok — 42 assert; правки только в парсерах; dead_code TraceRow.d снят усилением (traceability_rows_reference_existing_decisions :506-523, читает row.d); проверки (1)-(8) целы, 14/14"
+    r1_closed: "ok — P1-1 field_line триммит (:110-116); P1-2 cell_task_statuses понимает T-XX/статус по всей ячейке (:216-260); P1-3 section — заголовок в начале строки (:152-162); P1-4 normalize_feature (:265-270) в feature_tokens/feature_registry; P2-1 D39 (docs/decisions/D39-loop-dispatcher.md:45,56,61) — зона .opencode/state/**"
+  snapshot: "base 5786875 (= develop = origin/develop) + working tree (tests/docs_journal.rs untracked, T-18; D39 P2-fix) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-21
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-21-2026-10-02-r3.md
+  dod:
+    cargo: "GREEN — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; test --all все цели ok, 135 passed/0 failed: lib 61/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0, rest 11/0, main/doc-tests 0"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 5786875/5786875/5786875; коммитов нет; рабочая ветка feature/T-22-mcp-draft-test-fix; ветки T-18/T-21/T-22 на 5786875"
+    borders: "ok — git diff --numstat -- src/mcp.rs = 12/18; src/mcp.rs — единственный изменённый путь src/**; Cargo.toml/Cargo.lock не тронуты"
+    t21_diff_unchanged: "ok — git diff -- src/mcp.rs blob 43f752e..f560749, байт-в-байт как -r1/-r2 (validation_message struct-API, into_json->to_json :777, required_str в create :158-159)"
+    behavior_t04_q29: "ok — required_str (:431-445) код validation_failed во всех ветках; None -> 'Нужен параметр <key>' (прежний текст, create_requires_name_param цел); отказ на '' — намерение Q28/D31, покрыто create_empty_or_nonstring_params_rejected_t03"
+    unit_tests: "ok — lib 61/0, все mcp::tests (validation_error_json_envelope_t03, create_requires_name_param, create_missing_or_empty_name_is_validation_failed_t03 и др.)"
+    tests_green: "ok — tests/** зелёный: docs_journal 14/0 (T-18 фикс: TraceRow +lifecycle/tasks/realization :179-181, row.d :549), mcp_draft 25/0 (T-22 фикс)"
+    false_exit1: "ok — PowerShell 2>&1 печатает NativeCommandError (exit 1) из-за stderr cargo; cargo test --all --quiet чист, все цели ok"
+  snapshot: "base 5786875 (= develop = origin/develop) + mixed working tree (T-18/T-21/T-22 uncommitted; current branch feature/T-22-mcp-draft-test-fix) (2026-10-02)"
+  at: "2026-10-02"
