@@ -1376,3 +1376,18 @@
     worktree: "ok — M docs/TRACEABILITY.md 4/4, M docs/analysis/findings-registry.md 1/0, F43-остаток (mail/T-18.md 12/0, progress.yaml 44/0), записи ролей/state; ?? лента service-traceability-closeout.md, досье T-23-2026-10-02.md"
   snapshot: "develop @ 71ece40 (= origin/develop = HEAD) + working tree (T-23 uncommitted, вариант Б без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-t15-run-review
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-t15-run-review-2026-10-02.md
+  dod:
+    cargo: "GREEN — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; test --all exit 0: 135 passed/0 failed (lib 61/0, docs_journal 14/14, features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0, rest 11/0, doc-tests 0/0); traceability_tasks_exist_and_match_registry (:592) и traceability_lifecycle_matches_task_openness (:564) — зелёные; 0 ignored"
+    traceability_3_cells: "ok — TRACEABILITY :54 Q50/D45, :55 Q51/D46, :78 Q74/D78: T-15 ⬜→🚧; иных правок нет; статус = реестр tasks/README.md:56 (T-15 🚧) = карточка (:3 🚧); in work законен (🚧 открыт, docs_journal.rs:573)"
+    task_card: "ok — статус 🚧; F26 (:74–78)/F27 (:79–83)/F15 (:84–89) — данные 02.10, чекбоксы [ ] не менялись (⏸); сводка B1-F26/F27/F15 «⏸ · данные 02.10» (:200–202); ссылка на 6 отчётов (:277)"
+    findings_registry: "ok — F15 :27, F26 :38, F27 :39 обновлены; F58–F61 добавлены после F57 (:70–73); ID уникальны; F58 содержит validator 1×36 (P3 аудита закрыт); старые строки F1–F57 не переписаны (дифф 3 замены + 4 добавления)"
+    borders: "ok — git diff --check пусто; git diff --numstat -- src tests Cargo.toml пусто; .opencode/agents, .opencode/rules, AGENTS.md, opencode.json — пусто; docs/decisions/docs/questions в диффе нет (новых Q/D нет)"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 98f72256… ×3; ветки нет (прямая правка)"
+    worktree: "ok — 4 целевых M (docs/TRACEABILITY.md, docs/analysis/findings-registry.md, docs/tasks/README.md, docs/tasks/T-15-mcp-ready-process/README.md); M памяти .opencode/memory/{auditor,migrator,service,validator}.md; M state/progress.yaml; F43-остаток M mail/service-traceability-closeout.md; ?? лента mail/service-t15-run-review.md; ?? 6 отчётов docs/analysis/T-15-run-2026-10-02-*-session.md; ?? отчёт reviews"
+  snapshot: "develop @ 98f7225 (= origin/develop = HEAD) + working tree (service-t15-run-review uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"

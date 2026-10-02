@@ -428,6 +428,25 @@
   `git diff --check` пусто. База `develop` = `origin/develop` = `HEAD` =
   `71ece40`; ветки нет (вариант Б; `progress.yaml:798` — «Вариант Б: прямая
   правка»). Квитанция `accepted` (iteration 1) записана.
+- **02.10.2026 · service-t15-run-review (приёмка, L-пакет документов) —
+  чекпойнт ДО прогона:** база `develop` = `origin/develop` = `HEAD` = `98f7225`
+  (ветки нет). Адресно: TRACEABILITY 3 ячейки (:54/:55/:78) T-15 ⬜→🚧 = реестр
+  🚧; карточка T-15 🚧, F26/F27/F15 «⏸ · данные 02.10» (чекбоксы не менялись),
+  6 отчётов; F58–F61 после F57, F58 +`validator` 1×36; границы чисты
+  (`src/tests/Cargo.toml` пусто, канон агентов/rules/AGENTS/opencode.json пусто,
+  `git diff --check` пусто). Запускаю полный DoD (135/0, docs_journal 14/14).
+  **Итог (после):** **принято**, P1/P2/P3 нет. Полный DoD зелёный: `fmt --check`
+  exit 0, `clippy --all-targets -- -D warnings` exit 0, `test --all` exit 0 —
+  **135/0** (lib 61/0, `docs_journal` **14/14**, features_inventory 4/0,
+  mcp_draft 25/0, mcp_errors 8/0, publish 12/0, rest 11/0, doc 0/0); 0 ignored.
+  TRACEABILITY ровно 3 ячейки (:54/:55/:78) ⬜→🚧 = реестр = карточка; `in work`
+  законен; F58–F61 после F57, F58 +`validator` 1×36; старые строки целы; границы
+  (src/tests/Cargo.toml, канон, check) чисты. Отчёт
+  `docs/reviews/service-t15-run-review-2026-10-02.md`; квитанция `accepted`
+  (iteration 1) записана. **Урок:** при ревизии прогона целевой пакет может
+  включать F43-остаток чужих сервисных записей (`service-traceability-closeout.md`,
+  `progress.yaml`) — фиксировать их как «не мои» в отчёте, но не исключать из
+  пакета, если так решено владельцем (лента :22–24).
   **Урок:** при прямой правке канона «вариант Б» ветку/базу подтверждать
   `git rev-parse HEAD develop origin/develop` ×3 (все равны) — отсутствие
   ветки не означает отсутствие базы; адресную приёмку строить таблицей

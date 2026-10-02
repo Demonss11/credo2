@@ -834,3 +834,47 @@
   channel: question
   result: "confirmed: «Подтверждаю: коммит + develop + master (Recommended)»"
   next: "dispatch git (вариант Б: коммит на develop → push → merge develop→master → push master)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: коммит 98f7225 «docs(T-23): синхронизация TRACEABILITY (статусы T-18/T-21/T-22, жизненный цикл Q60/Q73/Q76) + F57» — 14 путей (11 M + 3 A; staged сверен, чужих нет); push 71ece40..98f7225 в origin/develop; merge --no-ff develop → master e696e77 («Слияние develop в master»), push c6ebc41..e696e77; develop = origin/develop = 98f7225; master = origin/master = e696e77; дерево чистое; записи роли вошли в коммит (F43)"
+  expect_match: true
+  next: "complete"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: complete
+  result: "T-23 закрыта: TRACEABILITY синхронизирован (Q29: T-21/T-22 ✅, in work; Q60/Q73/Q76: T-18 ✅, done); F57 заведена; полный DoD зелёный (135/0, docs_journal 14/14 — красные проверки снова зелёные); коммит 98f7225 в develop, merge e696e77 в master; дерево чистое. Пост-пакетные записи (progress/лента) — F43-догрузка следующим плановым пакетом"
+  next: "— (T-23 закрыта; develop = 98f7225, master = e696e77)"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: dispatch
+  role: migrator
+  result: "готово: по разбору прогона 02.10 (6 отчётов docs/analysis/T-15-run-2026-10-02-*): реестр находок — F15/F26/F27 уточнены (данные собраны; F26/F27 остаются открытыми — решение владельца), добавлены F58 (серия упоров в лимиты — вход C9/C12), F59 (пустой финал — C3/C9), F60 (атрибуция build≠lead — P5/C6), F61 (шумные обёртки на лимите — C7); карточка T-15 — статус 🚧 в работе, у пунктов F26/F27/F15 пометки о данных 02.10, ссылка на 6 отчётов; docs/tasks/README.md T-15 ⬜→🚧; TRACEABILITY строки 54/55/78 T-15 ⬜→🚧. Проверки: git diff --check пусто; дифф — только 4 целевых файла; src/tests/Cargo.toml не тронуты; cargo не запускался (D50); новых Q/D нет"
+  expect_match: true
+  next: "dispatch auditor (L — аудит до коммита)"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "принято (P1/P2/P3 нет): полный DoD зелёный — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; cargo test --all 135 passed / 0 failed (docs_journal 14/14 — traceability_tasks_exist_and_match_registry и traceability_lifecycle_matches_task_openness зелёные; features_inventory 4/0). Адресно: 3 ячейки TRACEABILITY (54/55/78) ↔ реестр (T-15 🚧) ↔ карточка; F58–F61 уникальны, P3 аудита (F58: +validator 1×36) закрыт; границы: src/tests/Cargo.toml и канон агентов не тронуты; новых Q/D нет. Артефакты: отчёт docs/reviews/service-t15-run-review-2026-10-02.md; квитанция accepted (iteration 1) в receipts.yaml; лента + память"
+  expect_match: true
+  pre_gate: "git status --porcelain — 19 путей (11 M + 8 ??) сверены с пакетом: M docs/TRACEABILITY.md, docs/analysis/findings-registry.md, docs/tasks/README.md, docs/tasks/T-15-mcp-ready-process/README.md; M .opencode/memory/{service,migrator,auditor,validator}.md, .opencode/state/current/{progress,receipts}.yaml, .opencode/mail/service-traceability-closeout.md (F43-остаток); ?? .opencode/mail/service-t15-run-review.md, docs/analysis/T-15-run-2026-10-02-{build,analyst,tester,migrator,validator,git}-session.md, docs/reviews/service-t15-run-review-2026-10-02.md"
+  next: "surface_to_user (гейт пакета: коммит в develop + push; master — по решению)"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт пакета service-t15-run-review: 19 путей (4 целевых канон-файла, 6 отчётов разбора, отчёт приёмки, лента, память ролей, state, F43-остаток); коммит в develop + push + merge develop→master"
+  channel: question
+  result: "confirmed: «Коммит + develop + master (Recommended)»"
+  next: "dispatch git (коммит 19+1 путей → push develop → merge develop→master → push master)"
