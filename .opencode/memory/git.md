@@ -388,3 +388,18 @@
   → `commit` → `push origin develop`. Хеши — в ответе `lead` (не здесь). После push
   в отслеживаемые файлы не писать (F43); правка `auditor.md` (P2-2) — отдельным
   шагом канона.
+- **02.10.2026, service-mcp-ready-r7 P2-2 — снятие инертного правила `auditor.md`**
+  (служебная волна, режим «коммит + push» прямо в `develop`; ветки нет, master не
+  трогаем). Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r7.md`
+  — §«P2-2: гейт пройден» (:112–129), ответ владельца «Коммит + push develop».
+  База: `develop` = `origin/develop` = `HEAD` = `606055f`; дерево — снимок
+  5 `M` + 1 `??` = ровно пакет 6 путей (+ этот чекпойнт, F43) = 7. К коммиту —
+  7 путей (`./`-префикс, без `--`): `.opencode/agents/auditor.md`,
+  `.opencode/mail/service-mcp-ready-r7.md`, `.opencode/memory/{auditor,validator}.md`,
+  `.opencode/state/current/receipts.yaml`, `.opencode/memory/git.md`,
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`. Сообщение:
+  `chore(agents): auditor — снято инертное правило read deny **/target/** (P2-2);
+  приёмка`. Ожидаемая staged-сверка: 6 `M` + 1 `A`. Осталось: `add` 7 путей
+  (`./`-префикс, без `--`) → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
+  отслеживаемые файлы не писать (F43).

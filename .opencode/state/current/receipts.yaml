@@ -1447,3 +1447,20 @@
     not_checked: "глобальный ~/.config/opencode/opencode.jsonc и ~/.cc-safety-net/** — вне репо/прав; живые пробы CCSN не повторял (улики-копии in-repo); rg по .env/.ssh в target/** отклонён wave0-guard (подтверждение контура C10)"
   snapshot: "develop @ 38800cb (= origin/develop = HEAD) + working tree (service-ccsn uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-permissions-auditor-target
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-permissions-auditor-target-2026-10-02.md
+  dod:
+    diff: "ok — git diff .opencode/agents/auditor.md = ровно 1 удалённая строка '- { action: read, resource: \"**/target/**\", effect: deny }' (блок read после edit); numstat 0/1; тело (:37-202) и остальной фронтматтер (:1-35) целы; прочие deny сохранены"
+    refs: "ok — rg 'target/\\*\\*|\\*\\*/target' .opencode/rules AGENTS.md .opencode/agents/auditor.md пусто; ссылок на снятое правило в каноне нет; остальные **/target/** — фронтматтеры других ролей"
+    audit: "ok — auditor (лента r7:178-215) P1 нет, P2 нет, P3=1 (reload); P3 закрыт записью ленты r7 §P2-2: применение (reload) (:105-110); memory/auditor.md append (:221-236)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs ×2 → agents: 11 из 18 стабильно; shell-allowlist auditor без изменений; review.md:95-96 совпадает"
+    borders: "ok — git status -sb = только M .opencode/agents/auditor.md, M .opencode/mail/service-mcp-ready-r7.md, M .opencode/memory/auditor.md; git diff --stat -- src tests Cargo.toml AGENTS.md пусто; git diff --check пусто; numstat лента 62/0, память 16/0 (append)"
+    records: "ok — лента r7 §P2-2: снятие (:95-103) + применение/reload (:105-110); память auditor append; состав записей согласован"
+    cargo: "ran for full R2 — fmt pass; clippy --all-targets -D warnings pass (0 warnings); test --all 135 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11); продуктовый код не затронут (D50 would excuse, run for completeness)"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 606055f… ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка); master не трогается"
+    worktree: "ok — снимок: M .opencode/agents/auditor.md, M .opencode/mail/service-mcp-ready-r7.md, M .opencode/memory/auditor.md (+ записи приёмки: ?? docs/reviews/service-permissions-auditor-target-2026-10-02.md, M memory/validator.md, M receipts.yaml)"
+  snapshot: "develop @ 606055f (= origin/develop = HEAD) + working tree (service-permissions-auditor-target uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"

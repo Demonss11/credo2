@@ -8,7 +8,6 @@ permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: ".opencode/memory/auditor.md", effect: allow }
   - { action: edit, resource: ".opencode/mail/**", effect: allow }
-  - { action: read, resource: "**/target/**", effect: deny }
   - { action: read, resource: ".git/**", effect: deny }
   - { action: read, resource: "**/node_modules/**", effect: deny }
   - { action: read, resource: "Cargo.lock", effect: deny }

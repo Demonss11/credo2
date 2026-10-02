@@ -531,3 +531,23 @@
   плагином `wave0-guard: ssh-read` — правило живое, подтверждение; для приёмки
   читать конфиг через `read`/`rg policies|plugins`. `git diff -U0 ./<путь>` (флаг до
   пути) — рабочий для локального контекста; `--stat/--numstat` — без путей после `--`.
+- **02.10.2026 · service-permissions-auditor-target (приёмка P2-2) — чекпойнт ДО прогона:**
+  база `develop` = `origin/develop` = `HEAD` = `606055f` (ветки нет; `git status -sb`
+  → `## develop...origin/develop`). Снимок: 3 `M` — `.opencode/agents/auditor.md`,
+  `.opencode/mail/service-mcp-ready-r7.md`, `.opencode/memory/auditor.md`.
+  `git diff ./auditor.md` → ровно `-1` строка `read deny **/target/**`; тело и
+  остальной фронтматтер целы; `numstat` → `0 1` auditor.md, `62 0` лента,
+  `16 0` память auditor (append). Границы: `src tests Cargo.toml AGENTS.md` пусто;
+  `git diff --check` пусто. Ссылок на снятое правило в `.opencode/rules`,
+  `AGENTS.md`, теле — нет. План: `agents-perms.mjs` ×2 → `11 из 18`; записи
+  (лента r7 правка/reload, память auditor). `cargo` **не запускаю** (D50; канон
+  агентов, продуктовый код не затронут). Итог — после прогона.
+  **Итог (после):** **принято, P1/P2/P3 нет.** База `606055f` ×3. Дифф `0 1` —
+  ровно снятие `read deny **/target/**`; тело/остальной фронтматтер целы. P3 аудита
+  (reload) закрыт записью ленты r7 §«P2-2: применение (reload)» (:105–110);
+  `agents-perms.mjs` ×2 → `11 из 18`; ссылок `target`/`**/target/**` в каноне нет.
+  Границы чисты; записи append (лента +62, память auditor +16). Отчёт
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`; квитанция
+  `accepted` (`service-permissions-auditor-target`, iteration 1). `cargo` не запускался (D50).
+  **Грабли:** `git diff .<path>` (без `./`) — рабочий; `git diff -- .opencode/...`
+  движок отклоняет.

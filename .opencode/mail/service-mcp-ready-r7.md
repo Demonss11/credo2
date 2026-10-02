@@ -86,6 +86,48 @@ C10). Предмет: перенос CC Safety Net (кандидат B0-i5, ве
 - База: `develop` = `origin/develop` = `38800cb`; master не трогаем.
 - Следующее действие — `dispatch git`; затем правка `auditor.md` (P2-2).
 
+## git · 02.10.2026 · готово (пакет CCSN)
+
+- Коммит **`606055f`** (13 файлов: 11 `M` + 2 `A`; +465/−6) → push
+  `38800cb..606055f` в `origin/develop`; ветки не создавались; master не
+  трогался; дерево чистое.
+
+## сервисная сессия · 02.10.2026 · P2-2: снятие инертного правила `auditor.md`
+
+- Решение владельца (question): «Убрать правило» — `.opencode/agents/auditor.md`
+  строка 11 `read deny **/target/**` снимается: паттерн инертен для корневого
+  `target/**` (требует сегмент перед `target/`), а чтение улик `target/**`
+  необходимо протоколу аудита (B0-own/C10-аудиты им пользовались).
+- Протокол канона: правка (сервисная сессия) → независимый аудит `auditor` →
+  приёмка `validator` → гейт → коммит.
+- Дальше: правка файла → `auditor`.
+
+## сервисная сессия · 02.10.2026 · P2-2: применение (reload)
+
+- Правка внесена (снята строка `read deny **/target/**`); **`opencode reload`
+  выполнен** (02.10.2026, после правки) — фронтматтер применён; runtime:
+  чтение `target/**` доступно (подтверждено аудитом).
+- Дальше: `validator` (приёмка) → гейт → коммит.
+
+## сервисная сессия · 02.10.2026 · P2-2: гейт пройден
+
+- `auditor`: P1/P2 нет; P3 (запись о reload) закрыт; «инструкция ↔ права» —
+  расхождений нет (`agents-perms.mjs` ×2 → `11 из 18`).
+- `validator`: **принято** (P1/P2/P3 нет; полный DoD — 135/0); отчёт
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`, квитанция
+  `service-permissions-auditor-target` (iteration 1, accepted) в `receipts.yaml`.
+- Владелец подтвердил (**question**): «Коммит + push develop».
+- Пакет — 6 путей + запись роли `git` (F43) = 7: `M` —
+  `.opencode/agents/auditor.md`, `.opencode/mail/service-mcp-ready-r7.md`,
+  `.opencode/memory/{auditor,validator}.md`,
+  `.opencode/state/current/receipts.yaml`; `??` —
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`;
+  + `.opencode/memory/git.md`.
+- Сообщение: `chore(agents): auditor — снято инертное правило read deny
+  **/target/** (P2-2); приёмка`.
+- База: `develop` = `origin/develop` = `606055f`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (CCSN включён: карточка/отчёт)
 
 - Сделано: две мини-правки по включению CC Safety Net. `docs/tasks/T-15-mcp-ready-process/README.md`, строка **C10** сводной таблицы: «CC Safety Net — позже» → «CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1)» (остальной текст строки сохранён). `docs/tasks/T-15-mcp-ready-process/wave0b-report.md` §4, пункт про CC Safety Net: в конец дописано «— **исполнено 02.10.2026** (v2.5.1; пресет standard; перенос — после аудита)». Иных строк/файлов не трогал.
@@ -149,5 +191,79 @@ C10). Предмет: перенос CC Safety Net (кандидат B0-i5, ве
 - Сообщение: `chore(process): T-15 — CC Safety Net включён (standard) + полигон
   B0-own закрыт (записи); приёмка`. Ожидаемая staged-сверка: **11 `M` + 2 `A`**.
 - Осталось: `add` 13 путей → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
+  отслеживаемые файлы не писать (F43).
+
+## auditor · 02.10.2026 · готово (аудит P2-2 auditor.md)
+
+- **Аудит:** снятие правила `read deny **/target/**` из `.opencode/agents/auditor.md`
+  (решение владельца «Убрать правило»; прецедент — P2-аудит CCSN, `auditor.md:11`).
+- **Вердикт: P1 нет. P2 нет. P3 — 1 (вне диффа).** Снятие подтверждено;
+  расхождений «инструкция ↔ права» нет.
+- **Дифф (подтверждено):** `git diff -- .opencode/agents/auditor.md` — ровно одна
+  удалённая строка `- { action: read, resource: "**/target/**", effect: deny }`
+  (из блока read после `edit`); иных строк не тронуто, тело/остальной фронтматтер
+  целы. `git diff --stat` → `auditor.md | 1 -` (+ чужой ханк ленты).
+- **Обоснование (подтверждено):** паттерн `**/target/**` требует сегмент перед
+  `target/` → для корневого `target/**` инертен (чтение `target/wave0b-*` этой
+  сессией проходит). После снятия открыт только корневой `target/**` (уже был
+  доступен, улики аудита `target/wave0b-own-i*`/`target/wave0b-csn/**` читаемы —
+  протоколом востребованы); остальные deny сохранены: `.git/**`,
+  `**/node_modules/**`, `Cargo.lock`, `.credo/**`, shell-allowlist (`*` deny).
+  Ничего сверх прежнего не открыто.
+- **«Инструкция ↔ права»:** ссылок на снятое правило в каноне нет — в
+  `.opencode/rules/**`, `AGENTS.md` и теле `auditor.md` совпадений
+  `**/target/**`/`target` нет (остальные `**/target/**` — фронтматтеры других
+  ролей, не затронуты). `node .opencode/scripts/agents-perms.mjs` ×2 → стабильно
+  `agents: 11 из 18`; `auditor` shell-allowlist без изменений; список команд
+  `review.md:95–96` совпадает с фронтматтером (read-права в него не входят).
+- **Границы (независимо):** `git status --porcelain` → только
+  `.opencode/agents/auditor.md` и `.opencode/mail/service-mcp-ready-r7.md`;
+  `git diff --numstat -- src tests Cargo.toml` пусто; `git diff --check` пусто.
+  Правка `auditor.md` — единственная в служебной зоне; `cargo` не запускался (D50).
+- **P3 (вне диффа):** в ленте нет явной записи о `opencode reload` для этой
+  правки: единственные `reload` — стр. 23 (CCSN-проба) и стр. 120 («reload не
+  требуется» — для пакета CCSN **до** этой правки). Фактически правка применена
+  (runtime: чтение `target/wave0b-csn/` и `target/wave0b-own-i*` доступно, deny
+  снят). Правка одной строки: дописать в запись сервисной сессии (стр. ~103)
+  «→ `opencode reload`» либо явно «reload выполнен». Последствие — только
+  прослеживаемость; право/поведение корректны.
+- **Машинно/технически:** `git diff -- <1 dot-путь>` прошёл; `git diff -- <2
+  dot-путей>` и `Get-ChildItem` — отклонены (узкий allowlist, ожидаемо). Бюджет:
+  ~12 файлов чтения, 5 rg, ~8 shell.
+- **Дальше:** приёмка `validator` → гейт → коммит (P3 — по усмотрению пакета).
+
+## validator · 02.10.2026 · принято (P2-2 auditor.md)
+
+- **Вердикт: принято, P1/P2/P3 нет.** Отчёт
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`; квитанция
+  `accepted` (`service-permissions-auditor-target`, iteration 1) в `receipts.yaml`.
+- **Предмет:** `git diff .opencode/agents/auditor.md` → ровно одна удалённая строка
+  `- { action: read, resource: "**/target/**", effect: deny }`; тело и остальной
+  фронтматтер целы; прочие deny сохранены. Ссылок на снятое правило в
+  `.opencode/rules`/`AGENTS.md`/теле нет.
+- **Аудит:** `auditor` — P1 нет, P2 нет; P3 (нет явной записи `reload`) **закрыт**
+  записью ленты r7 §«P2-2: применение (reload)» (:105–110). Память `auditor` — append.
+- **Права:** `agents-perms.mjs` ×2 → `11 из 18`; `review.md:95–96` совпадает.
+- **Границы:** только `auditor.md` + лента r7 + память `auditor` (append);
+  `src/tests/Cargo.toml/AGENTS.md` пусто; `git diff --check` пусто.
+- **DoD (R2):** `cargo fmt --check` pass; `clippy -D warnings` pass; `cargo test --all`
+  — **135 passed / 0 failed**. `cargo` запускался для полноты (D50 допускал пропуск:
+  продуктовый код не затронут). База `develop` = `origin/develop` = `HEAD` = `606055f`.
+
+## git · 02.10.2026 · план пакета (P2-2)
+
+- Подтверждение сверено по ленте — §«P2-2: гейт пройден» (:112–129), ответ
+  владельца «Коммит + push develop». База: `develop` = `origin/develop` = `HEAD`
+  = `606055f`; ветки нет, master не трогаем.
+- Снимок: 5 `M` + 1 `??` = ровно пакет 6 путей (отчёт приёмки — новый) + этот
+  чекпойнт `memory/git.md` (F43) = 7.
+- К коммиту — 7 путей (`./`-префикс, без `--`): `.opencode/agents/auditor.md`,
+  `.opencode/mail/service-mcp-ready-r7.md`, `.opencode/memory/{auditor,validator}.md`,
+  `.opencode/state/current/receipts.yaml`, `.opencode/memory/git.md`,
+  `docs/reviews/service-permissions-auditor-target-2026-10-02.md`.
+- Сообщение: `chore(agents): auditor — снято инертное правило read deny
+  **/target/** (P2-2); приёмка`. Ожидаемая staged-сверка: **6 `M` + 1 `A`**.
+- Осталось: `add` 7 путей → `diff --cached --name-status` → `commit` →
   `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
   отслеживаемые файлы не писать (F43).
