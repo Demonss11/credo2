@@ -1498,3 +1498,53 @@
     consistency: "ok — no conflict with D86/D42/dispatch-loop.md/journal.md; Q83<->D86 paired; TRACEABILITY Q83: D86 / in work / T-15; catalogs synchronized; D86 Сверка; links live; no file:line addresses (D65/D85)"
   snapshot: "develop = origin/develop = 2f5544c + working tree (C1 package deferred_by_owner, uncommitted; canon delta for r8 owner remarks) (2026-10-02)"
   at: "2026-10-02"
+
+- task: T-20
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-20-2026-10-02.md
+  dod:
+    cargo: "not run — D50 + решение владельца 02.10.2026 «тесты только при правках кода»; src/**, tests/**, Cargo.toml не менялись (git diff --numstat -- src tests Cargo.toml пусто)"
+    traceability_done: "ok — 9 строк done без открытых задач: Q8 (:12), Q9 (:13), Q10 (:14), Q11 (:15) — D21/D53, Q14 (:18) — D55, Q18 (:22) — D35, Q20 (:24) — D22, Q21 (:25) — D23, Q23 (:27) — D25; колонка «Задачи» — —"
+    traceability_inwork: "ok — Q22 (:26) in work + T-24 ⬜; Q78 (:82)/Q79 (:83) in work + T-20 ⬜ — корректно до ✅ T-20 (D82: done не допускает открытых задач)"
+    traceability_open: "ok — 16 строк open v0.2 без задач: Q2–Q4 (:6–8), Q19 (:23), Q24–Q26 (:28–30), Q30 (:34), Q31 (:35), Q35–Q39 (:39–43), Q63 (:67), Q65 (:69); Q81 (:85) open (—/—); rg -c 'open |' = 17 = 16 + Q81; 9+1+16 = 26"
+    legend: "ok — легенда :89–97 (open/in work/done; in work ⇒ открытая задача; done/open ⇒ открытых задач нет; resolved упразднён) соблюдена"
+    t24: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md: источник Q22/D26 (+связь Q27/D27), зона tests/**, исполнитель tester, P3, ⬜, класс ожидаемо S; строка сводки tasks/README.md:69; видимость через TRACEABILITY Q22:26 (D77); номера строк отсутствуют (rg ':[0-9]{2,}' пусто)"
+    t20_status: "ok — 🚧 в сводке tasks/README.md:66 и в карточке :3; согласовано"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; канон агентов (.opencode/rules|agents/**, AGENTS.md, opencode.json) не тронут; правки — зона migrator (docs/TRACEABILITY.md, docs/tasks/**)"
+    branch: "ok — feature/T-20-traceability-wave2, git rev-parse HEAD = d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, коммитов нет)"
+    p2: "OPEN — docs/tasks/T-24-rest-cli-contour-test/README.md:53 ссылка [D50](../D50-dod-by-package-scope.md) резолвится в docs/tasks/D50-dod-by-package-scope.md (файла нет); верно ../../decisions/D50-dod-by-package-scope.md (как T-20:54,:64); битая ссылка — блокер review.md §«Что блокер»; правка одна строка"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-20
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-20-2026-10-02-r2.md
+  dod:
+    cargo: "not run (D50) — admissible: docs-only package, src/tests/Cargo.toml unchanged (git diff --numstat -- src tests Cargo.toml empty)"
+    link_fix_p2: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md:53 now [D50](../../decisions/D50-dod-by-package-scope.md); target docs/decisions/D50-dod-by-package-scope.md exists; all other card links live (D26, D27, ../README.md, T-21, T-22, .opencode/rules/journal.md)"
+    traceability: "P1 OPEN — docs/TRACEABILITY.md:82,:83 Q78/Q79 task cell [T-20] ⬜ vs docs/tasks/README.md:66 T-20 🚧; traceability_tasks_exist_and_match_registry (tests/docs_journal.rs:592, assert :610–613) requires exact match -> red (else 24 registry/trace pairs match); introduced by участок №1, missed by iteration 1 (receipt :1509 recorded ⬜ as correct); fix = ⬜→🚧 in both rows (migrator, 2 chars)"
+    borders: "ok — canon (.opencode/rules|agents/**, AGENTS.md, opencode.json) and src/tests/Cargo.toml untouched; changes = docs/** + role state/memory/mail"
+    branch: "ok — feature/T-20-traceability-wave2, HEAD d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, no commits)"
+    closure_note: "Q78/Q79 -> done must keep visible [T-20] ✅ (not —), else D77 part of the same test fails"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-20
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/T-20-2026-10-02-r3.md
+  dod:
+    cargo: "not run (D50) — docs-only package, src/tests/Cargo.toml unchanged (git diff --numstat -- src tests Cargo.toml empty)"
+    fix_p1: "ok — docs/TRACEABILITY.md:82,:83 (Q78/D82, Q79/D83) task cell [T-20] → 🚧; matches docs/tasks/README.md:66 (T-20 🚧) and T-20 card README.md:3 (🚧 в работе); gate tests/docs_journal.rs:592 traceability_tasks_exist_and_match_registry (assert :610–613) statically green (D50, no run)"
+    fix_p2_in_force: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md:53 [D50](../../decisions/D50-dod-by-package-scope.md); target docs/decisions/D50-dod-by-package-scope.md exists; other card links live (D26, D27, ../README.md, T-21, T-22, .opencode/rules/journal.md)"
+    traceability_pairs: "ok — 23/23 registry tasks visible in TRACEABILITY; 0 status mismatches (T-20 leveled)"
+    regression_done: "ok — 9 done without open tasks: Q8–Q11 (D21/D53), Q14 (D55), Q18 (D35), Q20 (D22), Q21 (D23), Q23 (D25); none with open task"
+    regression_inwork_open: "ok — Q22 (:26) in work + T-24 ⬜; Q78 (:82)/Q79 (:83) in work + T-20 🚧 (correct until ✅ T-20, D82); 16 open v0.2 (no tasks); Q81 (:85) open; rg -c 'open |' = 17 = 16 + Q81; no done-with-open-task, no in-work-without-open-task"
+    t20_status: "ok — 🚧 in summary tasks/README.md:66 and card :3"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; canon (.opencode/rules|agents/**, AGENTS.md, opencode.json) and src/tests/Cargo.toml untouched; changes = docs/** + role state/memory/mail"
+    branch: "ok — feature/T-20-traceability-wave2, HEAD d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, no commits)"
+    closure_note: "Q78/Q79 → done must keep visible [T-20] ✅ (not —), else D77 part of the same test fails (tasks/README: T-20 ✅ not visible)"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"

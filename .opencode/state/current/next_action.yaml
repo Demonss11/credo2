@@ -1,190 +1,183 @@
-# 2026-10-02, T-23 (service-traceability-closeout), участок №10.
-# Причина: отход от канона при закрытии T-18/T-21/T-22 — docs/TRACEABILITY.md
-# не синхронизирован с реестром (journal.md §6: TRACEABILITY — представление,
-# статусы берутся из tasks/README.md). Расхождения: Q29 (T-21/T-22 ⬜≠✅),
-# Q60/Q73/Q76 (T-18 🚧≠✅; после ✅ открытых задач нет ⇒ жизненный цикл
-# in work→done). Следствие: tests/docs_journal.rs — traceability_tasks_exist_
-# and_match_registry (L592) красный, а также lifecycle (L564) после правки
-# статуса T-18. Полный DoD на develop 71ece40 / master c6ebc41 сейчас красный.
-# Класс L (канон журнала). Новых Q/D нет (применение словаря D82); находка F57.
-# Ветка: feature/T-23-traceability-closeout-sync от develop 71ece40.
-# Порядок (канон): стартовый гейт (ветка) → git branch_start → migrator →
-# auditor (L, до коммита) → validator (полный DoD, accepted) → owner-gate пакета
-# → git (коммит/merge/push/master) → complete.
-task: T-23
+# 2026-10-02, T-20 (волна 2 TRACEABILITY), гейт пакета (branch_end).
+# Участки №1–№3 завершены: применение (26 строк), фикс ссылки T-24:53,
+# синхронизация TRACEABILITY:82,:83; validator -r3 — accepted. Класс L.
+# Пакет T-20 сверен со снимком git status --porcelain (20 путей, точный
+# add_paths ниже). Ветка feature/T-20-traceability-wave2 от develop @ d414998.
+task: T-20
 task_kind: task
-iteration: 1
+iteration: 3
 status: awaiting_user
-progress_marker: traceability_closeout_sync
+progress_marker: t20_package_gate
 as_of: 2026-10-02
 class: L
 class_dispute: false
 class_note: >
-  L — правка канона журнала (docs/TRACEABILITY.md), включая смысловые
-  жизненные циклы Q60/Q73/Q76 (in work→done). Полный маршрут + auditor до
-  коммита. researcher не триггерится (внешних зависимостей нет).
+  L — правка канона журнала/реестра (26 строк TRACEABILITY + T-24 + реестр).
+  Маршрут участков: migrator → validator (×2) → migrator (закрытие) → auditor
+  → owner-gate ПАКЕТА → git (branch_end) → complete.
 branch:
-  name: feature/T-23-traceability-closeout-sync
+  name: feature/T-20-traceability-wave2
   base: develop
-  base_head: 71ece40   # develop = origin/develop; master = c6ebc41
+  base_head: d414998
   note: >
-    Развилка на старте: ветка (канонично, git-flow) ИЛИ прямая правка
-    служебной сессией — решение владельца (owner-gate старта). При ветке:
-    git branch_start от develop 71ece40, затем merge --no-ff в develop.
+    Ветка создана и опубликована (git branch_start): от develop @ d414998,
+    upstream установлен, коммитов нет.
 scope_constraints:
-  - "Канон правки — только docs/TRACEABILITY.md (4 строки: Q29/Q60/Q73/Q76) и docs/analysis/findings-registry.md (новая запись F57). Плюс отчёт validator (docs/reviews/**), почта (mail), память ролей, state/current/**."
-  - "Q29: T-21 ⬜→✅, T-22 ⬜→✅; жизненный цикл остаётся in work (T-05 ⬜ — открыта)."
-  - "Q60/Q73/Q76: T-18 🚧→✅; жизненный цикл in work→done (единственная задача закрыта; open/done не допускают открытых задач — D82, tests/docs_journal.rs:564)."
-  - "F57 в findings-registry: источник — разбор отхода 2026-10-02; суть — маршрут закрытия не включал синхронизацию TRACEABILITY; статус — закрывается этим пакетом; связи Q60/D64, Q73/D77, Q76/D80, Q29/D34."
-  - "Новых Q/D не заводить: жизненный цикл — применение словаря D82 к закрытой задаче, не новое решение."
-  - "src/**, tests/**, Cargo.toml не трогать; канон агентов и .opencode/rules/** не трогать; cargo — только validator (R2/D50)."
-  - "F43-остаток на develop включается в целевой коммит: M .opencode/mail/T-18.md, M .opencode/state/current/progress.yaml (плюс файлы этого участка). Сверять staged перед коммитом."
-  - "Гейт: owner-gate СТАРТА (ветка или прямая правка) — отдельно и первым; owner-gate ПАКЕТА — только после accepted validator (канон: приёмка → гейт → git). Финальный merge develop→master входит в гейт пакета."
+  - "Участок №3 — ровно две статусные ячейки: docs/TRACEABILITY.md:82,:83 (Q78/Q79) — [T-20] ⬜ → [T-20] 🚧 (равенство с реестром docs/tasks/README.md:66). Сверить иные пары «реестр ↔ TRACEABILITY» — validator подтвердил, что расхождение ровно одно."
+  - "Зона migrator: docs/TRACEABILITY.md, docs/tasks/** (T-24, T-20, сводка)."
+  - "При закрытии Q78/Q79 → done сохранить видимую [T-20] ✅ (не —): иначе сработает D77-часть tests/docs_journal.rs."
+  - "Q78/D82 и Q79/D83 → done на шаге закрытия, после ✅ T-20 (D82: done не допускает открытых задач); до этого остаются in work."
+  - "src/**, tests/**, Cargo.toml не трогать; канон агентов и .opencode/rules/** не трогать; cargo не запускать (D50 — адресная документная сверка)."
+  - "F43-подхват: M .opencode/mail/service-mcp-ready-r8.md, M .opencode/memory/service.md — включить в целевой коммит; staged сверить."
 route_exclusions:
-  - "docs-writer — не нужен: карточки T-18/T-21/T-22, реестр и CHANGELOG уже ✅ (закрытие ранее)."
-  - "coder, rust-expert, tester — не нужны: src/**, tests/**, Cargo.toml не меняются."
-  - "researcher — не триггерится: внешних зависимостей нет."
+  - "docs-writer — не нужен: карточки T-24/T-20 и строки TRACEABILITY — зона migrator."
+  - "coder, rust-expert, tester — не нужны: src/**, tests/** не меняются (T-24 заводится, не исполняется)."
+  - "researcher — не триггерится: внешних зависимостей нет (Q81 — отдельный вход)."
 package:
   mode: branch_end
   note: >
-    Один пакет: docs/TRACEABILITY.md + docs/analysis/findings-registry.md +
-    F43-остаток (mail/T-18.md, progress.yaml) + записи ролей/state участка +
-    отчёт validator. Точная сверка add_paths со снимком git status --porcelain
-    — на шаге owner-gate пакета (перед вызовом git).
+    Точный пакет (сверен со снимком git status --porcelain: 20 путей = 14 M +
+    6 ??; все относятся к T-20/подхвату, посторонних нет). Порядок завершения:
+    git add точными add_paths (F43 — чужие пути не подмешивать; staged сверить)
+    → commit на ветке feature/T-20-traceability-wave2 → switch develop →
+    merge --no-ff feature/T-20-traceability-wave2 → push origin develop →
+    удаление ветки (local + origin). master не трогаем (если владелец не решит
+    иначе — отражается в гейте).
+  add_paths:
+    - docs/TRACEABILITY.md
+    - docs/tasks/T-24-rest-cli-contour-test/README.md
+    - docs/tasks/README.md
+    - docs/tasks/T-20-traceability-wave2/README.md
+    - docs/analysis/T-20-2026-10-02.md
+    - docs/reviews/T-20-2026-10-02.md
+    - docs/reviews/T-20-2026-10-02-r2.md
+    - docs/reviews/T-20-2026-10-02-r3.md
+    - .opencode/mail/T-20.md
+    - .opencode/state/current/next_action.yaml
+    - .opencode/state/current/current_state.yaml
+    - .opencode/state/current/progress.yaml
+    - .opencode/state/current/receipts.yaml
+    - .opencode/memory/migrator.md
+    - .opencode/memory/validator.md
+    - .opencode/memory/analyst.md
+    - .opencode/memory/auditor.md
+    - .opencode/memory/git.md
+    - .opencode/mail/service-mcp-ready-r8.md
+    - .opencode/memory/service.md
 next:
-  - kind: surface_to_user
-    brief: >-
-      Owner-gate СТАРТА (T-23, класс L): подтвердите маршрут исправления
-      отхода TRACEABILITY. Вариант А (канонично): ветка
-      feature/T-23-traceability-closeout-sync от develop 71ece40 → migrator →
-      auditor → validator → гейт пакета → git (merge --no-ff в develop +
-      финальный merge develop→master). Вариант Б: прямая правка служебной
-      сессией без ветки (быстрее, но менее канонично). Подтвердите вариант и
-      объём: TRACEABILITY (Q29/Q60/Q73/Q76) + F57 + F43-остаток. Правки ровно:
-      Q29 — T-21/T-22 ⬜→✅ (жизненный цикл in work); Q60/Q73/Q76 — T-18 🚧→✅
-      и in work→done.
-    expect: >
-      user: подтверждает вариант А или Б и объём; при А — lead фиксирует
-      стартовый пакет в ленте до вызова git.
-    reason: >
-      Git-гейт старта обязателен (AGENTS.md §Гейт пакетного подтверждения;
-      git-workflow.md §«Старт задачи»); класс L — канон журнала.
-  - kind: dispatch
-    role: git
-    brief: >-
-      Только при варианте А: git branch_start — создать
-      feature/T-23-traceability-closeout-sync от develop @ 71ece40 и
-      опубликовать upstream. При варианте Б — действие пропускается
-      (правка ведётся на develop служебной сессией).
-    expect: >
-      role=git: ветка создана от 71ece40, upstream установлен (или действие
-      пропущено по варианту Б).
-    reason: >
-      Ветка feature/T-XX-<слаг> создаётся до работы (git-workflow.md).
   - kind: dispatch
     role: migrator
     brief: >-
-      Правка канона журнала. Ровно: (1) docs/TRACEABILITY.md — Q29 (L33):
-      T-21 ⬜→✅, T-22 ⬜→✅, жизненный цикл оставить in work (T-05 ⬜);
-      Q60 (L64) / Q73 (L77) / Q76 (L80): T-18 🚧→✅ и жизненный цикл
-      in work→done. Других строк не трогать. (2) docs/analysis/
-      findings-registry.md — новая запись F57 (после F56): источник «разбор
-      отхода, 2026-10-02»; суть «маршрут закрытия T-18/T-21/T-22 не включал
-      синхронизацию TRACEABILITY со статусами реестра; docs_journal красный»;
-      статус «закрывается пакетом T-23»; связи «Q60/D64; Q73/D77; Q76/D80;
-      Q29/D34». Сверить формулировки жизненного цикла с легендой TRACEABILITY
-      (done — задача закрыта). Новых Q/D не заводить.
+      Rework P1 (участок №3). Ровно две ячейки: docs/TRACEABILITY.md:82,:83
+      (Q78/D82 и Q79/D83) — статус в колонке «Задачи» [T-20] ⬜ → [T-20] 🚧
+      (равенство с реестром docs/tasks/README.md:66 «T-20 🚧»). Жизненный цикл
+      Q78/Q79 оставить in work. Дополнительно сверить прочие пары «реестр ↔
+      TRACEABILITY» (validator подтвердил: расхождение ровно одно). Иных строк
+      не трогать.
     expect: >
-      role=migrator: TRACEABILITY — ровно 4 строки (Q29/Q60/Q73/Q76):
-      T-21/T-22 ✅, T-18 ✅, Q60/Q73/Q76 = done; F57 добавлена; иных строк/
-      файлов, кроме своей памяти и ленты, не тронуто; cargo не запускался.
+      role=migrator: TRACEABILITY:82,:83 — [T-20] 🚧 (совпадает с реестром);
+      прочие пары сверены; изменены ровно две ячейки; cargo не запускался.
     reason: >
-      docs/TRACEABILITY.md и findings-registry.md — зона migrator
-      (AGENTS.md §Рабочая группа; journal.md §6 — синхронность представления).
+      Статусная ячейка TRACEABILITY — представление реестра (journal.md §6);
+      docs/TRACEABILITY.md — зона migrator; тест docs_journal (T-18).
+  - kind: dispatch
+    role: validator
+    brief: >-
+      Повторная адресная приёмка (участок №3, `-r3`; D50, без cargo):
+      подтвердить, что TRACEABILITY:82,:83 = реестр (T-20 🚧), расхождений по
+      всем парам нет; фикс P2 (ссылка T-24:53) сохраняется; иных регрессий нет.
+      Отчёт docs/reviews/T-20-2026-10-02-r3.md; квитанция accepted в
+      receipts.yaml.
+    expect: >
+      role=validator: P1 закрыт, парность «реестр ↔ TRACEABILITY» полная; отчёт
+      -r3 создан; квитанция accepted; иначе — rework. Код не запускался (D50);
+      статусы T-20 не менялись (зона migrator).
+    reason: >
+      validator — обязательный арбитр (R2); повторная приёмка после rework.
+  - kind: dispatch
+    role: migrator
+    brief: >-
+      Закрытие статусов (после ✅ validator -r3). Ровно: (1) T-20 🚧→✅ в сводке
+      docs/tasks/README.md и карточке docs/tasks/T-20-traceability-wave2/README.md.
+      (2) Только теперь Q78/D82 и Q79/D83 → done в docs/TRACEABILITY.md, сохранив
+      **видимую** [T-20] ✅ в колонке «Задачи» (не «—») — иначе сработает
+      D77-часть tests/docs_journal.rs (D82: done не допускает открытых задач).
+      Одновременно со статусом T-20 ✅. Иных строк не трогать.
+    expect: >
+      role=migrator: T-20 ✅ в сводке и карточке; TRACEABILITY:82,:83 — done с
+      видимой [T-20] ✅; иных изменений, кроме своей памяти и ленты, нет;
+      cargo не запускался.
+    reason: >
+      Статусы задач/строк TRACEABILITY — зона migrator; D82 + D77 (видимость
+      задачи у закрытой строки).
   - kind: dispatch
     role: auditor
     brief: >-
-      Аудит пакета правки канона (класс L, до коммита): независимо проверить
-      корректность 4 строк TRACEABILITY против реестра docs/tasks/README.md и
-      легенды жизненного цикла (Q60/Q73/Q76 = done — следствие ✅ T-18 и
-      D82), запись F57; сверить «инструкция ↔ права» (зона migrator покрывает
-      оба файла); подтвердить, что иных изменений нет.
+      Финальный аудит пакета (класс L, до коммита): независимо проверить —
+      TRACEABILITY:82,:83 синхронизированы (T-20 ✅, видимая [T-20] ✅ при done),
+      реестр совпадает; T-20 ✅ в сводке и карточке; ссылка T-24:53 исправлена;
+      границы соблюдены (TRACEABILITY + tasks/** + state/почта/память/досье),
+      иных изменений нет; сверить «инструкция ↔ права».
     expect: >
       role=auditor: расхождений нет (или перечень); права/зона соблюдены;
       вердикт до коммита.
     reason: >
-      L — полный маршрут + auditor до коммита (AGENTS.md §Размерные маршруты).
-  - kind: dispatch
-    role: validator
-    brief: >-
-      Приёмка-арбитр. Адресно: сверить 4 строки TRACEABILITY с реестром и
-      жизненным циклом; прогнать полный DoD (R2/D50) — cargo fmt --check,
-      cargo clippy --all-targets -- -D warnings, cargo test --all; главное —
-      tests/docs_journal.rs снова зелёный (ожидается 14/0 в составе 135/0).
-      Отчёт в docs/reviews/<тип>-T-23-<дата>.md; квитанция принятия в
-      receipts.yaml.
-    expect: >
-      role=validator: docs_journal зелёный, полный DoD 135/0; отчёт создан;
-      квитанция accepted; иначе — rework с точным перечнем.
-    reason: >
-      validator — обязательный арбитр (R2); именно его тест кодирует нарушение.
+      L — полный маршрут + auditor до коммита, исключений нет
+      (AGENTS.md §Размерные маршруты; dispatch-loop.md §«Маршрут и scope»).
   - kind: surface_to_user
     brief: >-
-      Owner-gate ПАКЕТА (после accepted validator): подтвердите коммит пакета
-      T-23 точными путями (docs/TRACEABILITY.md, docs/analysis/
-      findings-registry.md, docs/analysis/T-23-2026-10-02.md — досье операции,
-      F43-остаток .opencode/mail/T-18.md +
-      .opencode/state/current/progress.yaml, записи ролей/state участка, отчёт
-      validator) → merge --no-ff в develop → push origin develop →
-      [удаление feature/T-23-…, если вариант А] → финальный merge
-      develop→master → push origin master. add_paths сверены со снимком
-      git status --porcelain.
+      Owner-gate ПАКЕТА (после accepted validator -r3). Подтвердите пакет T-20
+      (20 путей, сверены со снимком): docs/TRACEABILITY.md,
+      docs/tasks/T-24-rest-cli-contour-test/README.md, docs/tasks/README.md,
+      docs/tasks/T-20-traceability-wave2/README.md,
+      docs/analysis/T-20-2026-10-02.md, docs/reviews/T-20-2026-10-02.md и -r2/-r3,
+      .opencode/mail/T-20.md,
+      .opencode/state/current/{next_action,current_state,progress,receipts}.yaml,
+      память ролей (analyst, auditor, git, migrator, validator, service),
+      F43-подхват (.opencode/mail/service-mcp-ready-r8.md,
+      .opencode/memory/service.md). Порядок: коммит на ветке
+      feature/T-20-traceability-wave2 → merge --no-ff в develop → push origin
+      develop → удаление ветки (local + origin). master не трогаем (если владелец
+      не решит иначе). База develop = origin/develop = d414998.
     expect: >
-      user: подтверждает пакет и master-мерж (или сужает/отменяет); при
+      user: подтверждает пакет и порядок (или сужает/отменяет); при
       подтверждении lead фиксирует пакет в ленте до вызова git.
     reason: >
-      Гейт пакетного подтверждения после приёмки (AGENTS.md; dispatch-loop.md);
-      master-мерж — прецедент закрытия T-21/T-18/T-22.
+      Гейт пакетного подтверждения после приёмки (AGENTS.md; dispatch-loop.md).
   - kind: dispatch
     role: git
     brief: >-
-      Пакет T-23: git add точными путями (F43 — чужие пути не подмешивать,
-      staged сверить; включить досье docs/analysis/T-23-2026-10-02.md —
-      покрыть снимок 13 путей) → commit "docs(T-23): синхронизация TRACEABILITY
-      (статусы T-18/T-21/T-22, жизненный цикл Q60/Q73/Q76) + F57" →
-      (вариант А) switch develop → merge --no-ff feature/T-23-traceability-
-      closeout-sync → push origin develop → push origin --delete + branch -d
-      → затем switch master → merge --no-ff develop -m "Слияние develop в
-      master" → push origin master; (вариант Б) commit на develop → push
-      origin develop → switch master → merge --no-ff develop → push origin
-      master. Записи роли — до add (F43); push с таймаутом ≥ 5 мин.
+      Пакет T-20 (branch_end): git add точными путями (F43 — чужие пути не
+      подмешивать; staged сверить) → commit → switch develop → merge --no-ff
+      feature/T-20-traceability-wave2 → push origin develop → push origin
+      --delete + branch -d feature/T-20-traceability-wave2. Записи роли — до
+      add (F43); push с таймаутом ≥ 5 мин.
     expect: >
       role=git: коммит в develop только со своими путями; develop =
-      origin/develop; master содержит merge develop и запушен; ветка удалена
-      (вариант А); хеши — в ответе.
+      origin/develop; ветка удалена; хеши — в ответе.
     reason: >
       Завершение задачи — подтверждённый пакет (git-workflow.md).
   - kind: complete
     brief: >-
-      T-23 закрыта: TRACEABILITY синхронизирован с реестром, жизненный цикл
-      Q60/Q73/Q76 = done, F57 заведена; docs_journal и полный DoD зелёные;
-      develop = origin/develop, master = origin/master; дерево чистое.
+      T-20 закрыта: 26 open-строк волны 2 переведены (9 done / 1 in work с
+      T-24 / 16 open v0.2), Q81 open; T-20 ✅; Q78/Q79 → done с видимой [T-20] ✅;
+      develop = origin/develop; дерево чистое.
     expect: >
-      lead: коммит в develop, master merge запушен; задача закрыта (complete).
+      lead: коммит в develop, ветка удалена; задача закрыта (complete).
     reason: >
-      Квитанция accepted validator; очередь участка №10 исчерпана.
+      Квитанция accepted validator -r3; очередь участка №3 исчерпана.
 resume_hint: >
-  Участок №10 (2026-10-02), T-23, iteration 1, статус awaiting_user, маркер
-  traceability_closeout_sync. Отход: TRACEABILITY не синхронизирован при
-  закрытии T-18/T-21/T-22. Правки: Q29 T-21/T-22 ⬜→✅ (in work); Q60/Q73/Q76
-  T-18 🚧→✅ и in work→done; F57. Класс L, route_exclusions: docs-writer/coder/
-  rust-expert/tester/researcher. Порядок канона: owner-gate СТАРТА (вариант А
-  ветка feature/T-23-traceability-closeout-sync от develop 71ece40 ИЛИ
-  вариант Б прямая правка) → git branch_start (только А) → migrator → auditor
-  → validator (полный DoD, accepted) → owner-gate ПАКЕТА → git → complete.
-  База: develop = origin/develop = 71ece40; master = origin/master = c6ebc41;
-  F43-остаток M .opencode/mail/T-18.md, M .opencode/state/current/progress.yaml
-  включить в целевой коммит. Границы: только TRACEABILITY + findings-registry
-  (+ отчёт/почта/память/state); src/**/tests/**/Cargo.toml и канон агентов не
-  трогать; cargo — только validator (R2/D50). Новых Q/D нет.
-inherited_boundaries: [D50, D34, D82, F43]
+  T-20 (2026-10-02), iteration 3, статус awaiting_user, маркер
+  t20_package_gate — гейт ПАКЕТА (branch_end). Участки №1–№3 завершены:
+  применение (26 строк TRACEABILITY: 9 done / Q22 in work + T-24 / 16 open /
+  Q81 open), фикс ссылки T-24:53, синхронизация TRACEABILITY:82,:83; validator
+  -r3 — accepted; T-20 ✅; Q78/Q79 → done с видимой [T-20] ✅. Ветка
+  feature/T-20-traceability-wave2 от develop @ d414998. Следующее действие —
+  surface_to_user (гейт пакета: 20 путей, сверены со снимком), затем git
+  (коммит на ветке → merge --no-ff в develop → push origin develop → удаление
+  ветки local+origin; master не трогаем) → complete. Границы: TRACEABILITY +
+  tasks/** (T-24, T-20, сводка) + досье/почта/память/state; src/**/tests/**
+  Cargo.toml и канон агентов не тронуты; cargo не запускался (D50).
+  F43-подхват: .opencode/mail/service-mcp-ready-r8.md,
+  .opencode/memory/service.md.
+inherited_boundaries: [D50, D77, D82, D83, D26, F43]

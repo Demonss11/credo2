@@ -27,6 +27,29 @@
 
 ## Чекпойнты
 
+- **02.10.2026, branch_end T-20** (лента `T-20.md`, пакет 20 путей): база
+  `develop` = `origin/develop` = `HEAD` = `d414998`; ветка
+  `feature/T-20-traceability-wave2`. Подтверждение владельца — лента, секция
+  «гейт пакета — подтверждён» (дословно «Коммит + merge в develop
+  (Recommended)»); порядок там же. Снимок совпал с пакетом — 14 `M` + 6 `??` =
+  20. Чекпойнт и отчёт в ленту — до `add` (F43). Осталось: `add` точными путями
+  (20) → `diff --cached --name-status` (ожидание 14 M + 6 A) → `commit` →
+  `switch develop` → `merge --no-ff` → `push origin develop` → удаление ветки
+  (origin + local). `master` не трогается; сообщение — `docs(T-20): волна 2
+  TRACEABILITY — разбор 26 open-строк (9 done, T-24, 16 open v0.2); приёмка`.
+- **02.10.2026, branch_start T-20** (лента `T-20.md`, действие плана
+  `branch_start`): база `develop` = `origin/develop` = `d414998` (C1); проверено
+  `rev-parse develop` = `rev-parse origin/develop`. Подтверждение владельца —
+  лента `T-20.md`, секция «гейт предложений — подтверждён» (дословно
+  «Подтверждаю расклад (Recommended)»), далее в той же секции — «dispatch git
+  (branch_start feature/T-20-traceability-wave2)». Дерево: незакоммиченные
+  рабочие пути T-20 (M service-mcp-ready-r8.md, M memory/analyst.md,
+  M memory/service.md, M state/current/{current_state,next_action,progress}.yaml,
+  ?? mail/T-20.md, ?? docs/analysis/T-20-2026-10-02.md) — переносятся в ветку
+  как есть, не коммитятся. Чекпойнт и отчёт в ленту — до операции (F43-паттерн).
+  Осталось: `switch -c feature/T-20-traceability-wave2 develop` →
+  `push -u origin feature/T-20-traceability-wave2`. `master` не трогается;
+  коммитов нет (`package.mode` — `branch_end`).
 - **02.10.2026, пакет C1 (T-15, фаза C, схема состояния)** — сервисная лента
   `service-mcp-ready-r8`: база `develop` = `origin/develop` = `2f5544c`;
   подтверждение владельца — лента, секция «гейт возобновлён — „коммить"»

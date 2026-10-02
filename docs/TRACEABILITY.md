@@ -9,22 +9,22 @@
 | [Q5](questions/Q5.md) | [D19](decisions/D19-statuses-priorities-canon.md) | done | — | [`features/README.md`](features/README.md) (статусы, приоритеты, счётчики) |
 | [Q6](questions/Q6.md) | [D19](decisions/D19-statuses-priorities-canon.md) | done | — | [`features/README.md`](features/README.md) (счётчики; проверка — [`../tests/features_inventory.rs`](../tests/features_inventory.rs)) |
 | [Q7](questions/Q7.md) | [D52](decisions/D52-glossary-terms-canon.md) | in work | [T-07](tasks/T-07-meta-fields/README.md) ⬜ | — |
-| [Q8](questions/Q8.md) | [D21](decisions/D21-core-semantics-v01.md) | open | — | [`errors.feature`](features/errors.feature), [`explain_full.feature`](features/explain_full.feature) |
-| [Q9](questions/Q9.md) | [D21](decisions/D21-core-semantics-v01.md) | open | — | [`errors.feature`](features/errors.feature) |
-| [Q10](questions/Q10.md) | [D21](decisions/D21-core-semantics-v01.md) | open | — | [`execution.feature`](features/execution.feature), [`test_draft.feature`](features/test_draft.feature) |
-| [Q11](questions/Q11.md) | [D53](decisions/D53-error-messages-language.md) | open | — | [`evaluate.feature`](features/evaluate.feature), [`rest_api.feature`](features/rest_api.feature), [`rest_auth.feature`](features/rest_auth.feature), [`errors.feature`](features/errors.feature) |
+| [Q8](questions/Q8.md) | [D21](decisions/D21-core-semantics-v01.md) | done | — | [`errors.feature`](features/errors.feature), [`explain_full.feature`](features/explain_full.feature) |
+| [Q9](questions/Q9.md) | [D21](decisions/D21-core-semantics-v01.md) | done | — | [`errors.feature`](features/errors.feature) |
+| [Q10](questions/Q10.md) | [D21](decisions/D21-core-semantics-v01.md) | done | — | [`execution.feature`](features/execution.feature), [`test_draft.feature`](features/test_draft.feature) |
+| [Q11](questions/Q11.md) | [D53](decisions/D53-error-messages-language.md) | done | — | [`evaluate.feature`](features/evaluate.feature), [`rest_api.feature`](features/rest_api.feature), [`rest_auth.feature`](features/rest_auth.feature), [`errors.feature`](features/errors.feature) |
 | [Q12](questions/Q12.md) | [D54](decisions/D54-source-of-truth-flow.md) | in work | [T-16](tasks/T-16-stale-check-test/README.md) ⬜, [T-08](tasks/T-08-materialize-source-file/README.md) ⬜, [T-01](tasks/T-01-draft-source-hash/README.md) ✅ | [`draft.feature`](features/draft.feature), [`test_draft.feature`](features/test_draft.feature), [`publish.feature`](features/publish.feature), [`notebook_ui.feature`](features/notebook_ui.feature), [`editor.feature`](features/editor.feature), [`file_management.feature`](features/file_management.feature) |
 | [Q13](questions/Q13.md) | [D14](decisions/D14-published-artifact-canon.md) | in work | [T-06](tasks/T-06-registry-path-xyz/README.md) ⬜, [T-07](tasks/T-07-meta-fields/README.md) ⬜ | [`publish.feature`](features/publish.feature), [`storage_paths.feature`](features/storage_paths.feature), [`publish_rules.feature`](features/publish_rules.feature), [`immutability.feature`](features/immutability.feature), [`mcp_tools.feature`](features/mcp_tools.feature) |
-| [Q14](questions/Q14.md) | [D55](decisions/D55-publish-branch-name.md) | open | — | [`publish.feature`](features/publish.feature), [`publish_rules.feature`](features/publish_rules.feature) |
+| [Q14](questions/Q14.md) | [D55](decisions/D55-publish-branch-name.md) | done | — | [`publish.feature`](features/publish.feature), [`publish_rules.feature`](features/publish_rules.feature) |
 | [Q15](questions/Q15.md) | [D56](decisions/D56-merge-step.md) | in work | [T-17](tasks/T-17-merge-command/README.md) ⬜ | [`git_integration.feature`](features/git_integration.feature), [`publish_rules.feature`](features/publish_rules.feature), [`deferred.feature`](features/deferred.feature) |
 | [Q16](questions/Q16.md) | [D32](decisions/D32-test-gate-mvp.md) | in work | [T-02](tasks/T-02-test-gate/README.md) ⬜ | [`publish.feature`](features/publish.feature), [`test_draft.feature`](features/test_draft.feature) |
 | [Q17](questions/Q17.md) | [D57](decisions/D57-bare-git-immutability.md) | in work | [T-06](tasks/T-06-registry-path-xyz/README.md) ⬜, [T-17](tasks/T-17-merge-command/README.md) ⬜ | [`immutability.feature`](features/immutability.feature) |
-| [Q18](questions/Q18.md) | [D35](decisions/D35-semver-v01.md) | open | — | [`semver.feature`](features/semver.feature), [`deferred.feature`](features/deferred.feature), [`storage_paths.feature`](features/storage_paths.feature) |
+| [Q18](questions/Q18.md) | [D35](decisions/D35-semver-v01.md) | done | — | [`semver.feature`](features/semver.feature), [`deferred.feature`](features/deferred.feature), [`storage_paths.feature`](features/storage_paths.feature) |
 | [Q19](questions/Q19.md) | [D58](decisions/D58-workspace-data-dirs.md) | open | — | [`notebook_ui.feature`](features/notebook_ui.feature) |
-| [Q20](questions/Q20.md) | [D22](decisions/D22-rest-paths-canon.md) | open | — | [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`batch.feature`](features/batch.feature), [`import_export.feature`](features/import_export.feature) |
-| [Q21](questions/Q21.md) | [D23](decisions/D23-get-checks-manifest.md) | open | — | [`manifest.feature`](features/manifest.feature), [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`dashboard.feature`](features/dashboard.feature) |
-| [Q22](questions/Q22.md) | [D26](decisions/D26-rest-auth-x-api-key.md) | open | — | [`rest_auth.feature`](features/rest_auth.feature), [`evaluate.feature`](features/evaluate.feature) |
-| [Q23](questions/Q23.md) | [D25](decisions/D25-rest-error-envelope.md) | open | — | [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`rest_auth.feature`](features/rest_auth.feature), [`errors.feature`](features/errors.feature) |
+| [Q20](questions/Q20.md) | [D22](decisions/D22-rest-paths-canon.md) | done | — | [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`batch.feature`](features/batch.feature), [`import_export.feature`](features/import_export.feature) |
+| [Q21](questions/Q21.md) | [D23](decisions/D23-get-checks-manifest.md) | done | — | [`manifest.feature`](features/manifest.feature), [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`dashboard.feature`](features/dashboard.feature) |
+| [Q22](questions/Q22.md) | [D26](decisions/D26-rest-auth-x-api-key.md) | in work | [T-24](tasks/T-24-rest-cli-contour-test/README.md) ⬜ | [`rest_auth.feature`](features/rest_auth.feature), [`evaluate.feature`](features/evaluate.feature) |
+| [Q23](questions/Q23.md) | [D25](decisions/D25-rest-error-envelope.md) | done | — | [`rest_api.feature`](features/rest_api.feature), [`evaluate.feature`](features/evaluate.feature), [`rest_auth.feature`](features/rest_auth.feature), [`errors.feature`](features/errors.feature) |
 | [Q24](questions/Q24.md) | [D36](decisions/D36-batch-deferred.md) | open | — | [`batch.feature`](features/batch.feature) (целевое v0.2) |
 | [Q25](questions/Q25.md) | [D37](decisions/D37-client-explanation-deferred.md) | open | — | [`client_explanation.feature`](features/client_explanation.feature) (целевое v0.2) |
 | [Q26](questions/Q26.md) | [D24](decisions/D24-import-export-deferred.md) | open | — | [`import_export.feature`](features/import_export.feature) (целевое v0.2) |
@@ -79,8 +79,8 @@
 | [Q75](questions/Q75.md) | [D79](decisions/D79-journal-canon-completeness.md) | done | — | — |
 | [Q76](questions/Q76.md) | [D80](decisions/D80-features-visibility-completeness.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
 | [Q77](questions/Q77.md) | [D81](decisions/D81-pm-process-mining.md) | done | — | — |
-| [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
-| [Q79](questions/Q79.md) | [D83](decisions/D83-traceability-wave2.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
+| [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | done | [T-20](tasks/T-20-traceability-wave2/README.md) ✅ | — |
+| [Q79](questions/Q79.md) | [D83](decisions/D83-traceability-wave2.md) | done | [T-20](tasks/T-20-traceability-wave2/README.md) ✅ | — |
 | [Q80](questions/Q80.md) | [D84](decisions/D84-rules-revision.md) | done | — | `.opencode/rules/**`, `AGENTS.md` §«Служебная зона и аудит» (волна 1) |
 | [Q81](questions/Q81.md) | — | open | — | — |
 | [Q82](questions/Q82.md) | [D85](decisions/D85-sverka-snapshot-scope.md) | done | — | — |
