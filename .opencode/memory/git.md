@@ -303,3 +303,20 @@
   Ожидаемая staged-сверка: 6 `M`. Осталось: `add` 6 путей (`./`-префикс, без `--`)
   → `diff --cached --name-status` → `commit` → `push origin develop`. Хеши — в
   ответе `lead` (не здесь). После push в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r5 BO-i6/i7 — wave0-attribution (свёрнут), отчёт,
+  аудит** (служебная волна, режим «коммит + push» прямо в `develop`; ветки нет,
+  master не трогаем). Подтверждение сверено по ленте
+  `.opencode/mail/service-mcp-ready-r5.md` — §«гейт BO-i6/i7 пройден (коммит +
+  перенос)» (:306–319), ответ владельца «Без P2 до C10». База: `develop` =
+  `origin/develop` = `e740603`; дерево — снимок 6 `M` + 1 `??` = ровно пакет
+  7 путей (+ этот чекпойнт, F43). К коммиту — 8 путей: `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/auditor.md`, `.opencode/memory/migrator.md`,
+  `.opencode/memory/service.md`, `.opencode/memory/git.md`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own-report.md`. Сообщение:
+  `chore(process): T-15 B0-own BO-i6/i7 — wave0-attribution (свёрнут), отчёт, аудит`.
+  Ожидаемая staged-сверка: 7 `M` + 1 `A`. Осталось: `add` 8 путей (`./`-префикс,
+  без `--`) → `diff --cached --name-status` → `commit` → `push origin develop`.
+  Хеши — в ответе `lead` (не здесь). После push в отслеживаемые файлы не писать
+  (F43); перенос P1/P3/P4 — отдельным пакетом (сервисная сессия).

@@ -70,3 +70,12 @@
   `command.list` видит), форма `{info,template}` ломает list; запуск команды
   из headless не проверялся. Журнал — `wave0b-own.md` §BO-i5. Дальше: BO-i6 —
   P5 attribution (решить: подтвердить/свернуть) или подготовка BO-i7.
+- 02.10.2026, продолжение (решение владельца «продолжаем»): BO-i6 открыт —
+  проба context-хука (атрибуция role/model родитель/субагент), сверка с
+  export/session list (дефект root: agent=build в хранилище, export root — без
+  agent); улики `target/wave0b-own-i6/`; далее BO-i7 (отчёт мини-волны).
+- 02.10.2026, BO-i6 (готово, вердикт 🟢 «свернуть P5»): context-хук —
+  родитель build, субагент general (онлайн-атрибуция работает); export:
+  ребёнок с `info.agent`, root — без; `session list` без agent; хранилище
+  top-level `build` (F60). P5 закрывается как покрытое P1/P4. Дальше BO-i7 —
+  отчёт мини-волны (`wave0b-own-report.md`), ревью, аудит перед переносом.

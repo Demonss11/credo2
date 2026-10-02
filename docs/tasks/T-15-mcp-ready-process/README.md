@@ -195,7 +195,8 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) | `wave0b-report` §4 |
 | B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | 🟢 BO-i5 (02.10) — вердикт: сводка останова (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита (вход C9) | `wave0b-report` §4 |
 | B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) | `wave0b-report` §4 |
-| B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | 🟢 BO-i6 (02.10) — вердикт: свернуть (покрыто P1/P4 + context-хук) | `wave0b-report` §4 |
+| B0-own-i7 | Отчёт и финализация мини-волны | B0-own | ✅ 02.10 | wave0b-own-report.md |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |
 | B1-F26 | S/M-прогон + fast path S (D39) | B1 | ⏸ · данные 02.10 | F26; решение 28.09 |
 | B1-F27 | Прогон с ведущим `lead` (лимит 16) | B1 | ⏸ · данные 02.10 | F27 |
@@ -274,6 +275,8 @@ state; без записи верни «нужно подтверждение»,
 - Внешние записки (`ext-an`, `ext-an-2`) — вне репозитория; ссылки по имени.
 - Связанные артефакты: меморандум W8 (§4–§7, §12; архив — git),
   `findings-registry.md`, записка [`mcp-ready-process.md`](mcp-ready-process.md).
+- Отчёт мини-волны B0-own — [`wave0b-own-report.md`](wave0b-own-report.md)
+  (итоги BO-i1…BO-i6; перенос механизмов — после аудита и решения владельца).
 - Разбор прогона 02.10.2026 — `docs/analysis/T-15-run-2026-10-02-{build,analyst,tester,migrator,validator,git}-session.md` (6 отчётов; вход фаз C/D).
 - Решения (владелец, 2026-09-27): process-commit — роль `git` по «постоянному»
   пакету, микро-роль не вводится; фасад — команды OpenCode; в перспективе
