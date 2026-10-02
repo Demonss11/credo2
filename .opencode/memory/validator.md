@@ -227,3 +227,170 @@
   (использовать `edit` для append-записей). **Урок:** для быстрых docs/canon-правок
   порог достаточен: per-wave отчёт + `agents-perms` ×2 + адресные диффы; полный
   DoD (`cargo`) не нужен при неизменных `src/tests/Cargo.toml` (D50).
+- **02.10.2026 · T-21 (приёмка, класс S) — чекпойнт ДО прогона:** база-ветка
+  `feature/T-21-mcp-test-struct-api` от `develop` @ `5786875` (коммитов нет);
+  дерево смешанное (пути T-18 некоммитнуты + `src/mcp.rs` T-21). Что проверяю:
+  (1) `git status -sb`/`git diff --stat -- tests Cargo.toml`; (2) `src/mcp.rs` —
+  struct-API (`err.code`/`err.message`), `to_json`, `required_str` в `create`;
+  (3) поведение T-04/Q29 (прежде `''` принималось) + `create_requires_name_param`;
+  (4) полный DoD: `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
+  `cargo test --all` — тяжёлый, отчёт в ленту ДО; (5) точный остаток ошибок
+  `tests/**` (файл+код) при красном. Отчёт `docs/reviews/T-21-2026-10-02.md`,
+  квитанция append. Итог — после прогона.
+  **Итог (после):** **rework (iteration 1)** — красный DoD (review.md:55), но
+  дифф T-21 **корректен и в границах**; правок `src/mcp.rs` не требуется.
+  Ветка `feature/T-21-mcp-test-struct-api` @ `5786875` (= `develop` =
+  `origin/develop`, коммитов нет). `git diff --numstat -- src/mcp.rs` = `12/18`;
+  `git status --porcelain -- src Cargo.toml` = только `M src/mcp.rs`;
+  `git diff --stat -- tests Cargo.toml` и `git diff HEAD -- tests` пусто;
+  `Cargo.toml`/`Cargo.lock` не тронуты. `required_str` (:158–159, :431–445) —
+  контракт T-04/Q29 сохранён (код `validation_failed` во всех ветках; отказ на
+  `''` — намерение Q28/D31). **`cargo test --lib` → 61/0 (unit-тесты
+  `src/mcp.rs` зелёные)**; `cargo clippy --lib -- -D warnings` → ok.
+  **Красное — только `tests/**`, вне scope T-21: 5 ошибок** —
+  `tests/mcp_draft.rs:543:41` E0425 + `:603/624/647:9` E0061 (tracked, `git diff
+  HEAD -- tests` пусто ⇒ предсуществующие, база `develop` @ `5786875`, последний
+  коммит файла `9173fc4`; файл внутренне противоречив: часть вызовов
+  `mcp.create(SRC)` 1-arg против `common/mod.rs:148` 2-arg) Первая причина
+  E0425: `use serde_json::json;` без `Value`. `tests/docs_journal.rs:168:5`
+  dead_code `d` — файл T-18 (untracked, шапка :8,:25). Отчёт
+  `docs/reviews/T-21-2026-10-02.md`; квитанция `rework`. **Урок:** при смешанном
+  дереве (T-18+T-21) красный `tests/**` атрибутируется по `git diff HEAD --
+  tests` (пусто ⇒ предсуществующее) + шапке untracked-файла (T-18); вердикт по
+  сквозному DoD — rework с P2 «вне scope», не правка чужого `src/**`.
+- **02.10.2026 · T-21 (-r2, повторная приёмка) — чекпойнт ДО прогона:** база
+  `5786875` (= `develop` = `origin/develop`); все ветки (T-18/T-21/T-22) на этом
+  коммите, коммитов нет. Внимание: текущая рабочая ветка —
+  `feature/T-22-mcp-draft-test-fix` (создана под T-22), `feature/T-21-...`
+  содержится в HEAD; дифф T-21 (`src/mcp.rs`) — тот же. Что проверяю:
+  (1) `git diff -- src/mcp.rs` = `12/18`, байт-в-байт как в -r1 (не изменён);
+  (2) `git diff -- tests/mcp_draft.rs` = T-22-фикс (`Value`-импорт, 3×1-arg
+  `mcp.create(SRC)` → `create(NAME, SRC)`, rustfmt); тесты не ослаблены;
+  (3) `tests/docs_journal.rs` (T-18) не тронут; (4) полный DoD:
+  `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
+  `cargo test --all`. Отчёт `docs/reviews/T-21-2026-10-02-r2.md`, квитанция
+  append. Итог — после прогона.
+  **Итог (после):** **rework (iteration 1 -r2)** — красный DoD, **единственный
+  остаток `tests/docs_journal.rs:168:5` dead_code `d`** (файл T-18, untracked,
+  шапка :8,:25), вне scope T-21. Ошибки `tests/mcp_draft.rs` из -r1
+  (E0425 + E0061×3) **устранены T-22-фиксом** (`git diff -- tests/mcp_draft.rs`
+  = `12/8`: `use serde_json::{Value, json}`, 3×`create(NAME,SRC)`, rustfmt;
+  `cargo test --test mcp_draft` 25/0). Дифф T-21 `src/mcp.rs` = `12/18`,
+  **байт-в-байт как -r1**; `cargo fmt --check` exit 0; `test --lib` 61/0;
+  `publish` 12/0; `rest` 11/0; `features_inventory` 4/0. Поведение T-04/Q29
+  сохранено. Отчёт `docs/reviews/T-21-2026-10-02-r2.md`; квитанция `rework`.
+  **Грабли/факт:** текущая рабочая ветка была `feature/T-22-...` (не T-21) —
+  все ветки на `5786875`, дерево общее, дифф T-21 идентичен; вердикт по
+  сквозному DoD снова `rework` (T-21 нельзя принять, пока T-18 красный), фикс
+  чужой зоны — следующим шагом очереди (T-18). **Урок:** «-r2 после чужого
+  фикса» ≠ автоматический accepted: перепроверять ВЕСЬ остаток `tests/**`
+  (одна чужая ошибка = rework + точная атрибуция).
+- **02.10.2026 · T-21 (-r3, повторная приёмка) — чекпойнт ДО прогона:** база
+  `5786875` (= `develop` = `origin/develop`); рабочие ветки T-18/T-21/T-22 на этом
+  коммите, текущая — `feature/T-22-mcp-draft-test-fix`; дерево содержит все фиксы
+  (T-18/T-21/T-22 некоммитнуты). Что проверяю: (1) `git diff -- src/mcp.rs` =
+  `12/18`, байт-в-байт как -r1/-r2 (blob `43f752e..f560749`); (2) T-18-фикс: в
+  `tests/docs_journal.rs` `TraceRow` +`lifecycle/tasks/realization`, `row.d`
+  читается (:549) — dead_code снят; (3) полный DoD: `cargo fmt --check`,
+  `cargo clippy --all-targets -- -D warnings`, `cargo test --all`. Отчёт
+  `docs/reviews/T-21-2026-10-02-r3.md`, квитанция append. Итог — после прогона.
+  **Итог (после):** **принято (iteration 1 accepted)**, P1/P2/P3 нет.
+  `cargo fmt --check` exit 0; `cargo clippy --all-targets -- -D warnings` exit 0;
+  `cargo test --all` — все цели ok, **135 passed/0 failed** (lib 61/0,
+  docs_journal 14/0, features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0,
+  publish 12/0, rest 11/0). Дифф T-21 `src/mcp.rs` = `12/18`, **байт-в-байт как
+  -r1/-r2** (blob `43f752e..f560749`); поведение T-04/Q29 сохранено. Отчёт
+  `docs/reviews/T-21-2026-10-02-r3.md`; квитанция `accepted`. **Грабли (важно):**
+  PowerShell при `cargo test --all 2>&1` печатает `NativeCommandError` и exit 1
+  из-за записи cargo в stderr — это НЕ провал; проверять результат по
+  `test result: ok` или повтором `cargo test --all --quiet` (там чисто).
+  **Факт:** серия -r1/-r2/-r3 показала модель приёмки «сквозной DoD»: чужая
+  зона (`tests/**`) держала rework, пока T-18/T-22 не закрылись; `src/mcp.rs`
+  ни разу не переправлялся.
+- **02.10.2026 · service-question-kodaskills (приёмка Q81, документный пакет)** —
+  **принято**, P1/P2/P3 нет. База `develop` @ `c2f905f` (= `origin/develop` = `HEAD`).
+  Q81 — следующий свободный после Q80 (Q82 нет, `git ls-files docs/questions`);
+  форма §4 (поля Статус/Дата/Приоритет/Связано; разделы Контекст/Вопрос/Варианты/
+  Рекомендация), `open`; строки `questions/README.md:103` и
+  `TRACEABILITY.md:85` согласованы (`Q81 | — | open | — | —`), D = `—`, задач нет.
+  Тело Q81 ссылается на `D82`/`Q79` как трактовку `open` — это нормативная ссылка,
+  не `Resolves`; §8 «Q без D» снят обоснованием «решение не принято» (§3/D82).
+  D65 — сессионных адресов нет; `:\d+` в Q81 нет; `Resolves`/`T-` нет;
+  `rg Q81 docs/decisions|tasks|features` пусто. Границы: `src/tests/Cargo.toml`
+  не тронуты; docs-диффы ровно +1/+1; `git diff --check` пусто; `git status` —
+  целевые + штатные state analyst/lead. `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-question-kodaskills-2026-10-02.md`; квитанция iteration 1
+  `accepted`. **Грабли:** `git ls-files docs/questions` показывает только
+  tracked-файлы — новый Q81 там отсутствует, это ожидаемо (номер проверяется по
+  максимуму tracked + наличие/отсутствие Q82).
+- **02.10.2026 · T-18 (приёмка, M) — чекпойнт ДО прогона:** база `5786875`
+  (= `develop` = `origin/develop`); дерево смешанное (пути T-18 + T-21 +
+  T-22), коммитов нет; рабочая ветка `feature/T-22-...`, но приёмка T-18 —
+  по артефактам дерева. Внимание: тест T-18 (`tests/docs_journal.rs`,
+  untracked) — первый прогон; `d`-фикс участка №5 присутствует (:511 `match
+  row.d`). Проверяю: (1) `git diff --numstat -- src/mcp.rs` = `12/18`,
+  `-- tests/mcp_draft.rs` = `12/8` (не переправлены); (2) тест не ослаблен
+  (D64/D77/D80/D82); канон вычищен (D85/F56); (3) полный DoD:
+  `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
+  `cargo test --all`. Отчёт `docs/reviews/T-18-2026-10-02.md`; квитанция
+  append (T-18). Итог — после прогона.
+  **Итог (после):** **rework.** `cargo test --all` exit 1: fmt/clippy exit 0;
+  lib 61/0; `tests/docs_journal.rs` 8 passed / **6 failed**. Отдельные цели:
+  mcp_draft 25/0, publish 12/0, rest 11/0, features_inventory 4/0 (зелёные).
+  **5 из 6 красных — дефекты самого теста T-18** (ложные): (1)
+  `field_line` (tests/docs_journal.rs:109-113) не срезает ведущий пробел →
+  `starts_with`-гейт `:349-354` падает на Q1 (`resolved by …` с пробелом);
+  (2) `cell_task_statuses` (:206-234) не понимает ID `T-XX` (дефис после `T`)
+  → пустой набор задач → красные `:581` (T-01/D77) и `:535` (Q1 `in work`);
+  (3) `section()` (:146-152) ловит inline `` `## Сверка с кодом` `` в ноте
+  D64:83 → секция обрезана → `:472` (D64 без «Вердикт:»); (4) `feature_tokens`/
+  `feature_registry` (:237-249/:285-297) не нормализуют префикс `features/` →
+  `:613` (`testing.feature`, TRACEABILITY:44 зовёт `features/testing.feature`).
+  **1 реальный канон-дефект:** D39 (`:44-45,56-57,61`) адресует
+  `.opencode/state/current/*.yaml` — нарушение D65 п.4, вне вычистки T-18 →
+  через `migrator`. Тест не ослаблен (dead_code снят усилением :506-523).
+  Диффы T-21 (`src/mcp.rs` 12/18) и T-22 (`tests/mcp_draft.rs` 12/8) не
+  переправлены. База `5786875` ×3. Отчёт `docs/reviews/T-18-2026-10-02.md`;
+  квитанция `rework` записана. **Урок:** первый прогон нового машинного гейта
+  проверять на ложные срабатывания разбора (trim полей, `T-` дефис, `find`
+  заголовка vs inline, нормализация префиксов) — «тест не ослаблен» ≠ «тест
+  корректен»; красный DoD с 5/6 ложными = rework в зоне `tester`, не правка
+  канона «под тест».
+- **02.10.2026 · T-18 (-r2, повторная приёмка) — чекпойнт ДО прогона:** база
+  `5786875` (= `develop` = `origin/develop`); дерево смешанное (T-18+T-21+T-22),
+  коммитов нет; рабочая ветка `feature/T-22-...`. Проверено чтением:
+  P1-1 `field_line` триммит (:110-116); P1-2 `cell_task_statuses` понимает
+  `T-XX` (:221-260); P1-3 `section` ищет заголовок в начале строки (:152-162);
+  P1-4 `normalize_feature` (:265-270) применён в `feature_tokens`/
+  `feature_registry`; D39 (:45,56,61) — зона `.opencode/state/**` (гейт exempt);
+  все `T-XX` в TRACEABILITY — markdown-ссылки (парсер корректен). Границы:
+  `git diff --numstat -- src/mcp.rs` = `12/18`, `-- tests/mcp_draft.rs` = `12/8`.
+  Запускаю полный DoD: `fmt --check`, `clippy --all-targets -- -D warnings`,
+  `test --all`. Отчёт `docs/reviews/T-18-2026-10-02-r2.md`; квитанция append.
+  Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. Полный DoD зелёный:
+  `fmt --check` exit 0; `clippy --all-targets -- -D warnings` exit 0;
+  `test --all` exit 0 — lib 61/0, **docs_journal 14/14**, features_inventory
+  4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0, rest 11/0, doc 0/0.
+  Четыре P1-дефекта разбора закрыты (правки в парсерах, проверки целы,
+  42 `assert`); канон-дефект D39 снят (D39 = 4/4, зона `.opencode/state/**`).
+  Тест не ослаблен (dead_code снят усилением :506-523). Границы: `src/mcp.rs`
+  12/18 (= -r1, байт-в-байт), `tests/mcp_draft.rs` 12/8 (= -r1);
+  `Cargo.toml`/`Cargo.lock` не тронуты. База `5786875` ×3. Отчёт
+  `docs/reviews/T-18-2026-10-02-r2.md`; квитанция `accepted` (iteration 1)
+  записана. **Урок:** повторная приёмка нового гейта подтверждает не только
+  «зелёный DoD», но и неослабленность — сверять, что правки локализованы в
+  разборе, а число/тела проверок сохранены; при accepted фиксировать
+  неизменность чужих диффов (T-21/T-22).
+- **02.10.2026 · T-18 (-r2, повторная приёмка) — чекпойнт ДО прогона:** база
+  `5786875` (= `develop` = `origin/develop`); дерево смешанное (T-18+T-21+T-22),
+  коммитов нет; рабочая ветка `feature/T-22-...`. Проверено чтением:
+  P1-1 `field_line` триммит (:110-116); P1-2 `cell_task_statuses` понимает
+  `T-XX` (:221-260); P1-3 `section` ищет заголовок в начале строки (:152-162);
+  P1-4 `normalize_feature` (:265-270) применён в `feature_tokens`/
+  `feature_registry`; D39 (:45,56,61) — зона `.opencode/state/**` (гейт exempt);
+  все `T-XX` в TRACEABILITY — markdown-ссылки (парсер корректен). Границы:
+  `git diff --numstat -- src/mcp.rs` = `12/18`, `-- tests/mcp_draft.rs` = `12/8`.
+  Запускаю полный DoD: `fmt --check`, `clippy --all-targets -- -D warnings`,
+  `test --all`. Отчёт `docs/reviews/T-18-2026-10-02-r2.md`; квитанция append.
+  Итог — после прогона.

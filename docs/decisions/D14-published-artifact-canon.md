@@ -68,9 +68,9 @@
   [T-06](../tasks/T-06-registry-path-xyz/README.md) (путь) и
   [T-07](../tasks/T-07-meta-fields/README.md) (поля `meta.json`).
 - **«Следствие для кода» (зафиксировано 2026-09-26, [Q7](../questions/Q7.md)):**
-  метаданные не соответствуют канону — `CheckMeta` (`src/core.rs:70-81`) пишет
+  метаданные не соответствуют канону — `CheckMeta` (`src/core.rs`) пишет
   только `name`, `version`, `published_at`, `published_by`, `checksum`
-  (+ `deprecated_at`/`deprecation_reason`; запись — `src/lib.rs:373-381`),
+  (+ `deprecated_at`/`deprecation_reason`; запись — `src/lib.rs`),
   канонические `display_name`, `source_hash`, `compiler_version` не
   записываются — сценарий «Публикация сохраняет метаданные»
   ([`publish.feature`](../features/publish.feature)) ожидает кода. Покрыто

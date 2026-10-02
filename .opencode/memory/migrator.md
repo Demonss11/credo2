@@ -6,6 +6,104 @@
 
 ## Чекпойнты
 
+- **02.10.2026, T-18 участок №8 — ГОТОВО (канон-дефект D39, P2-1):** в
+  `docs/decisions/D39-loop-dispatcher.md` сняты три адреса
+  `.opencode/state/current/*.yaml` (D65 п.4): стр. 45 (права `lead`) →
+  `.opencode/state/**` (файл `progress.yaml`); стр. 56–57 (права `analyst`) →
+  `.opencode/state/**` (файлы `next_action.yaml`, `current_state.yaml`); стр. 61
+  (каталог состояния) — `.opencode/state/current/` → `.opencode/state/**`
+  (каталог `current/`). Диф ровно 4+/4−, только D39. Проверки:
+  `grep "\.opencode/state"` по D39 → 3 совпадения, все зона `.opencode/state/**`
+  (placeholder `**` — exempt); `git diff --check` пусто; `git diff --stat` —
+  D39 4+/4−; адресный grep по `docs/decisions` → только D38 `T-XX.md`
+  (placeholder); номерных адресов в D39 нет. `cargo` не запускал (D50);
+  `src/**`, `tests/**`, `Cargo.toml` не тронуты; чужие пути (T-18/T-21/T-22) не
+  тронуты. Грабли: правки CRLF-безопасны узкими односрочными якорями; форма
+  «зона `**` + имена файлов отдельно» сохраняет поэлементные права, не ловясь
+  гейтом (name=`**` → placeholder).
+
+- **02.10.2026, T-21 участок №6 — ГОТОВО (задача T-22, post-accept дефект T-04,
+  линия Q29/[D34]):** создана `docs/tasks/T-22-mcp-draft-test-fix/README.md`
+  (Источник — T-04 post-accept; Q29/D34 (линия контракта T-03/T-04); P3; ⬜;
+  Зависит от —; «Что сделать» — (1) E0425 `Value` не в scope → `use
+  serde_json::{json, Value}`; (2) E0061 ×3 — `mcp.create(SRC)` →
+  `mcp.create(NAME, SRC)` под сигнатуру `tests/common/mod.rs` `create(&mut,name,source)`;
+  границы — только `tests/mcp_draft.rs`; исполнитель `tester`; тест не
+  ослабляется). Строка T-22 в `docs/tasks/README.md` (после T-21; Источник
+  `T-04 (post-accept); Q29, D34`; ⬜; Зависит от —). T-22 добавлена в «Задачи»
+  строки Q29/D34 в `docs/TRACEABILITY.md` (рядом с T-04/T-05/T-21; жизненный
+  цикл `in work` сохранён). Новых Q/D/F нет. Факты сверены чтением
+  `tests/mcp_draft.rs`: `use serde_json::json` (`:19`), `Value` в сигнатуре
+  `create_rejected` (`:543`) без импорта; `mcp.create(SRC)` на `:603/:624/:647`;
+  `Mcp::create(&mut self, name, source)` — `tests/common/mod.rs` (функция
+  `create`). Проверки: `git status --porcelain` → мои целевые (2 `M`:
+  TRACEABILITY, tasks/README) + `?? docs/tasks/T-22-.../`, остальное — чужие
+  рабочие пути (T-18/T-21: `M src/mcp.rs`, `?? tests/docs_journal.rs`);
+  `git diff --check` пусто; `git diff` целевой (2 ханка); карточка без номеров
+  строк/сессионных адресов (grep `:\d+|\.opencode/(mail|memory|state)` → пусто);
+  относительные ссылки целы (glob: T-04 card, D34, tasks/README, T-21 card,
+  journal.md); совместимость с тестом `tests/docs_journal.rs`: `task_registry`
+  (`| [T-`, статус — последняя ячейка ⬜), `traceability_rows` (`| [Q`, T-22 в
+  Q29-строке ⬜ = реестр), `traceability_lifecycle_matches_task_openness`
+  (`in work` ⊃ открытая T-21/T-22), `task_card_exists` (папка `T-22-` + README).
+  `cargo` не запускал (D50); `tests/**`, `src/**`, `Cargo.toml`, канон не
+  тронуты. Грабли: TRACEABILITY-строки только `| [Q` (D77 — «видна хотя бы в
+  одной Q-строке») — T-22 с источником-задачей пришлось вешать на строку линии
+  Q29/D34, а не заводить отдельную (как T-21); `src/mcp.rs` и
+  `tests/docs_journal.rs` в дереве — чужие (T-21/T-18), не мои, не трогать.
+  Отчёт — в ленте T-21. Коммит не делал (гейт F43: пакеты T-18/T-21/T-22
+  раздельны).
+- **02.10.2026, T-18 участок №4 — ГОТОВО (задача T-21, post-accept T-04):**
+  создана `docs/tasks/T-21-mcp-test-struct-api/README.md` (Источник — T-04
+  post-accept, линия Q29/[D34]; P3; ⬜; «Что сделать» — `validation_message`
+  E0223/E0599, `into_json`→`to_json` E0599, dead `required_str`; границы —
+  только `src/**` ветки T-21). Строка T-21 в `docs/tasks/README.md` (стр. 67;
+  Источник `T-04 (post-accept); Q29, D34`; статус ⬜). T-21 добавлена в
+  «Задачи» строки `Q29/D34` в `docs/TRACEABILITY.md` (проброс T-04 → T-21;
+  жизненный цикл `in work` сохранён). Новых Q/D/F нет. Проверки: `git status
+  --porcelain` → `?? docs/tasks/T-21-mcp-test-struct-api/` + целевые `M`
+  (TRACEABILITY, tasks/README) и чужие рабочие; `git diff --check` пусто;
+  карточка без номеров строк/удаляемых адресов; тест-парсер сходится
+  (`task_registry`: `| [T-`, статус из последней ячейки; `traceability_rows`:
+  `| [Q`, T-21 в Q29-строке ⬜ = реестр). Факты кода сверены чтением
+  `src/mcp.rs`: `struct ToolError` (73), `to_json` (128), `validation_message`
+  (672–680: `ToolError::Envelope`/`ToolError::Message`), `into_json` (783),
+  `required_str` (437; вызовов нет). `cargo` не запускал (D50); `tests/**`,
+  `src/**`, `Cargo.toml`, канон не тронуты. Грабли: TRACEABILITY-строки только
+  `| [Q`, поэтому задачу с источником-задачей пришлось вешать на строку линии
+  Q29/D34, а не заводить отдельную (тест D77 требует «видна хотя бы в одной
+  Q-строке»); «Источник» колонки реестра не проверяется тестом, но §8 журнала
+  запрещает номера строк — карточка ссылается по символам.
+- **02.10.2026, T-18 участок №3 — ГОТОВО (журнальные дефекты + scope):**
+  сделано всё: (а) `TRACEABILITY` стр. 64/77/80 T-18 `⬜`→`🚧`; (б) сняты
+  адреса `.opencode/mail/*.md` — Q48:11 (`T-04.md`), Q56:68 (`service-dod-scope.md`),
+  D51:84 (`service-dod-scope.md`); сняты номера строк вне «Сверки» — D14:71,73
+  (`src/core.rs`, `src/lib.rs`); (в) созданы `docs/questions/Q82.md` (вариант (б))
+  и `docs/decisions/D85-sverka-snapshot-scope.md` (`Спека: —`, `Tasks: —`, сверка ⚪);
+  строки Q82/D85 в `questions/README.md`, `decisions/README.md`,
+  `TRACEABILITY.md` (жизненный цикл `done`); `F56` в findings-registry; аннотация
+  «Обновление 02.10.2026» в D64. Проверки: `git status --porcelain` (мои —
+  TRACEABILITY, findings-registry, D14, D51, D64, decisions/README, questions/README,
+  Q48, Q56, + `??` Q82, D85); `git diff --check` → пусто; `grep` адресов
+  `.opencode/mail|state/файл` и `docs/(research|reviews|analysis)/файл` по Q82/D85/
+  D64/findings → пусто (Q43 `T-XX.md` и D85 `*.md` — placeholder, exempt); номера
+  строк — только внутри «Сверки» (D85:96 exempt). `cargo` не запускал (D50).
+  Тест/`src/**`/`Cargo.toml` не тронуты. Коммит не делал (гейт).
+  **Грабли:** `edit` многострочным `oldString` на Q56 не нашёл из-за CRLF —
+  помогли две односрочные правки; D85:92–94 и Q82:36 в первой редакции содержали
+  адреса, которые гейт бы поймал (само-применимость) — переписал на зону/
+  placeholder до финала.
+- **02.10.2026, T-18 участок №3 (журнальные дефекты + scope):** начато. План:
+  (а) `TRACEABILITY` строки 64/77/80 T-18 `⬜`→`🚧`; (б) Q48:11 убрать адрес
+  `.opencode/mail/T-04.md`; (в) завести Q82/D85 по scope-вопросу «Сверка с кодом».
+  **Установлено чтением теста `tests/docs_journal.rs`:** `live_text` (641–654)
+  применяется ТОЛЬКО в гейте номеров строк (698); адресный гейт (819) — по
+  сырому тексту, без исключения «Сверка с кодом». Значит:
+  номера строк в «Сверке» не гейтятся (снимок), адреса — гейтятся. Дефекты под
+  тест: адресные — Q48:11, Q56:68, D51:84 (все `.opencode/mail/*.md`);
+  номерные вне «Сверки» — D14:71,73. Решение: подтвердить carve-out номеров как
+  снимок; адреса — строго (D64 п.1.8/D65 п.4), чистить. Следующее: правки + Q82/D85.
+
 - **30.09.2026, волна `service-docs-lifecycle`, операция №1 `research`:**
   D65 — добавлено «Обновление 30.09.2026» (рабочие артефакты
   `research`/`reviews`/`analysis` не канон; ссылки снимаются волнами;
@@ -207,3 +305,17 @@
   Грабли: `git grep -n "R5" -- .opencode/rules/dispatch-loop.md` **отклонён
   правами** (shell allowlist) — подтверждать якорь инструментом `grep`, не
   shell. Коммит не делал (гейт).
+- **02.10.2026, сервисная операция `service-question-kodaskills` (только Q81):**
+  создан `docs/questions/Q81.md` — статус `open`, тема «применимость внешнего
+  материала KodaSkills (`skills`) к CREDO»; поля §4 (Связано: —), разделы
+  Контекст/Вопрос/Варианты (а/б/в)/Рекомендация; URL материала
+  `github.com/XCode-NLP/KodaSkills/tree/main/skills` на месте. Dn и T-XX не
+  заводились (ограничение владельца). Строки Q81 в `questions/README.md`
+  (D = —) и `TRACEABILITY.md` (Q81 | — | open | — | —). Проверки:
+  `git status --porcelain` → только целевые + чужие state-файлы analyst;
+  `git diff --check` пусто; `grep` Q81 по `docs/` → 3 ожидаемые; сессионных
+  адресов нет (D65); `resolved|dropped` в новых строках нет (только легенда);
+  счётчиков open/in work/done нет — не обновлялись; `cargo` не запускал (D50).
+  Обоснование `open` («решение не принято», §3, D82/Q79) — в «Рекомендации»,
+  чтобы §8 «Q без D» не читался антипаттерном. Отчёт — в ленте
+  `service-question-kodaskills`. Коммит не делал (гейт впереди).
