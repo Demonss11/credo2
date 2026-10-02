@@ -173,6 +173,59 @@ allow-поток без изменений; поведение с `--auto`; ау
 - База: `develop` = `origin/develop` = `9a811b4`; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет BO-i4)
+
+- Коммит **`11110bd`** (6 файлов: 6 `M`; +147/−3) → push `9a811b4..11110bd`
+  в `origin/develop`.
+
+## сервисная сессия · 02.10.2026 · BO-i5 открытие (P3 `wave0-checkpoint`)
+
+- **Цель:** структурная сводка останова/обрыва (Handoff): цель · статус ·
+  файлы · риски/открытые вопросы · resume-путь (вход C9).
+- **Механика:** скрипт `session-checkpoint.mjs` (`session export` → сводка md);
+  проба нативного resume (`--session`/`--continue`/`--fork`); попытка
+  регистрации команды плагином (`ctx.command.transform`, формы — defensive).
+- **Пробы:** T1 — полигон (цепочка O2); T2 — `tester` T-18 (стоп по лимиту);
+  T3 — resume `--session`; C1 — команда.
+- **Улики:** `target/wave0b-own-i5/`.
+
+## сервисная сессия · 02.10.2026 · BO-i5 исполнен — вердикт 🟢
+
+- **C1 (команда):** `ctx.command.transform` → `editor.add({name, description,
+  template})` — ok; `command.list()` возвращает `["init","review","checkpoint",
+  "checkpoint3"]`; форма `{info, template}` ломает `command.list`
+  («Schema validation failed») — не использовать; запуск команды из headless
+  не проверялся.
+- **T1 (полигон):** сводка O2 — цель/статус/файлы (snapshot)/инструменты/
+  resume — корректно.
+- **T2 (реальный стоп, `tester` T-18):** сводка поймала цель (бриф), статус
+  (rework -r2), 44 файла, 18 строк-маркеров, инструменты (read×60, shell×32,
+  edit×23…), resume-команду — пригодно для C9.
+- **T3 (resume):** `opencode run --session <id>` продолжил ту же сессию
+  (2 промпта, succeeded) — нативный путь восстановления подтверждён.
+- **Вердикт:** 🟢 (сводка + resume; регистрация команды — форма подтверждена,
+  запуск — за кадром headless).
+- **Доработки для переноса:** разделять файлы «изменённые/прочитанные»;
+  уточнить маркеры (ловят «открытых задач»); статус обрезается; первый
+  промпт субагента содержит преамбулу.
+- **Улики:** `target/wave0b-own-i5/` (скрипт, T1/T2-сводки, журнал C1,
+  плагин, экспорт resume). Журнал — `wave0b-own.md` §BO-i5.
+- **Дальше:** BO-i6 — P5 `wave0-attribution` (решить: подтвердить/свернуть —
+  агент/модель/иерархия уже в P1/P4) либо подготовка BO-i7 (отчёт+ревью);
+  решение владельца.
+
+## сервисная сессия · 02.10.2026 · гейт пакета BO-i5 пройден (коммит; пауза)
+
+- Владелец подтвердил (**question**): «Коммит BO-i5, пауза» — коммит записей
+  BO-i5 и push `develop`; BO-i6/BO-i7 — позже.
+- Пакет (5 путей + запись роли `git`, F43): `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service}.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`; + `.opencode/memory/git.md`.
+- Сообщение коммита: `chore(process): T-15 B0-own BO-i5 — wave0-checkpoint:
+  пробы, вердикт, карточка P3`.
+- База: `develop` = `origin/develop` = `11110bd`; master не трогаем.
+- Следующее действие — `dispatch git`; после — пауза (BO-i6/BO-i7 позже).
+
 ## migrator · 02.10.2026 · готово (BO-i2: карточка P2)
 
 - Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
@@ -251,3 +304,31 @@ allow-поток без изменений; поведение с `--auto`; ау
   карточка P4`. Ожидаемо: 5 `M` + 1 `A`; далее `commit` → `push origin develop`.
 - Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
   файлы не пишу.
+
+## migrator · 02.10.2026 · готово (BO-i5: карточка P3)
+
+- Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
+  сводной таблицы «Реестр задач T-15» — **B0-own-P3** статус
+  `⬜` → `🟢 BO-i5 (02.10) — вердикт: сводка останова
+  (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита
+  (вход C9)`.
+- Проверки: `git diff -- <README>` → ровно один ханк/одна строка (196);
+  `git diff --check` пусто. `cargo` не запускал (D50).
+- Дальше / риски: коммит — за ролью `git` (гейт); иных строк/файлов не трогал.
+
+## git · 02.10.2026 · план пакета (BO-i5)
+
+- Сделано (до `add`, F43): чекпойнт в `.opencode/memory/git.md` и эта запись —
+  часть пакета. Подтверждение сверено по §«гейт пакета BO-i5 пройден (коммит;
+  пауза)» (:217–227), ответ владельца «Коммит BO-i5, пауза». База: `develop` =
+  `origin/develop` = `11110bd`; ветки нет (прямая правка), master не трогаем.
+  Снимок `git status` = 5 `M` = ровно пакет 5 путей (+ мой чекпойнт).
+- К коммиту — 6 путей (`./`-префикс, без `--`):
+  `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,git}.md`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`.
+- Сообщение: `chore(process): T-15 B0-own BO-i5 — wave0-checkpoint: пробы,
+  вердикт, карточка P3`. Ожидаемо: 6 `M`; далее `commit` → `push origin develop`.
+- Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
+  файлы не пишу; BO-i6/BO-i7 — пауза.

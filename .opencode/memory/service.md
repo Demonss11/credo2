@@ -60,3 +60,13 @@
   объект, stats без --days — всё, дети — по маркеру в экспорте root.
   Журнал — `wave0b-own.md` §BO-i4. Дальше: BO-i5 — P3 `wave0-checkpoint`
   (по подтверждению владельца).
+- 02.10.2026, BO-i4 закоммичен: `11110bd` → origin/develop (6 путей).
+  BO-i5 открыт: скрипт `session-checkpoint.mjs` (сводка останова: цель/статус/
+  файлы/риски/resume), проба resume `--session`, попытка регистрации команды
+  плагином; улики `target/wave0b-own-i5/`.
+- 02.10.2026, BO-i5 (готово, вердикт 🟢): сводка останова (T2 на tester T-18 —
+  цель/статус/файлы/маркеры/resume) + resume `--session` подтверждён;
+  команда регистрируется (`editor.add({name,description,template})`,
+  `command.list` видит), форма `{info,template}` ломает list; запуск команды
+  из headless не проверялся. Журнал — `wave0b-own.md` §BO-i5. Дальше: BO-i6 —
+  P5 attribution (решить: подтвердить/свернуть) или подготовка BO-i7.
