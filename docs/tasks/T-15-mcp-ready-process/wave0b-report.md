@@ -84,7 +84,7 @@ cc-safety-net`; side effect пробы — `~/.cc-safety-net/` (`logs/`, `compil
   форме (конфликт с префиксными allowlist'ами ролей).
 - CC Safety Net → кандидат на перенос: `opencode plugin add cc-safety-net@latest`,
   `options.shell = "powershell"`, пресет standard; решить вопрос paranoid
-  (`Remove-Item -Recurse -Force`); перенос — после `auditor`.
+  (`Remove-Item -Recurse -Force`); перенос — **исполнено 02.10.2026** (v2.5.1; пресет standard; аудит переноса — `service-mcp-ready-r7`).
 - Наблюдаемость субагентов (Subagent Reporter) → `--format json` (NDJSON) или
   собственный V2-плагин по образцу `token-guard`; атрибуция роль/модель (Agent
   Identity) → собственный V2-плагин либо нативные данные сессии (проверить в C).

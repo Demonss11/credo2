@@ -1,0 +1,153 @@
+# service-mcp-ready-r7 — лента операции: T-15, CC Safety Net (перенос)
+
+Открыта: 02.10.2026. **Сервисная операция** (продолжение программы T-15; после
+C10). Предмет: перенос CC Safety Net (кандидат B0-i5, вердикт 🟢) — решение
+владельца 28.09.2026 «позже, отдельным шагом; пресет **standard**»; сейчас —
+«делаем CC Safety Net».
+
+**Входы:** [`wave0b-probes.md`](../../docs/tasks/T-15-mcp-ready-process/wave0b-probes.md)
+§B0-i5 (v2.4.11; форма `opencode plugin add cc-safety-net@latest` +
+`options.shell = "powershell"`; standard; вопрос paranoid — в C);
+[`wave0b-report.md`](../../docs/tasks/T-15-mcp-ready-process/wave0b-report.md)
+§4/§6; текущий контур C10 (4 правила + `wave0-guard`).
+
+**Рамка:** правка — служебная зона (глобальный конфиг + npm-плагин); канон
+агентов не правится; `cargo` не запускается (D50); улики — `target/wave0b-csn/`.
+
+## сервисная сессия · 02.10.2026 · открытие
+
+- Текущее состояние: `opencode plugin list` — token-guard, wave0-guard,
+  wave0-observe (local); CC Safety Net не установлен; `~/.cc-safety-net/`
+  существует (compile-cache + logs — след пробы B0-i5).
+- План: бэкап глобального конфига → `opencode plugin add cc-safety-net@latest`
+  → `options.shell = "powershell"` (object-форма) → reload → пробы
+  (dangerous/allow/аудит) → `auditor` (перенос после аудита, B0-i5) →
+  `validator` → гейт → коммит записей.
+
+## сервисная сессия · 02.10.2026 · установка и проверки — готово
+
+- **Установка:** `opencode plugin add cc-safety-net@latest` → в глобальном
+  конфиге `plugins` (object-форма с `options.shell = "powershell"`);
+  `opencode plugin list` → `cc-safety-net 2.5.1`; лог — `loading plugin`
+  (без WARN); бэкап конфига — `target/wave0b-csn/global-before.jsonc`,
+  после — `global-after.jsonc`.
+- **Диагностика:** `ccsn doctor` — OpenCode **Detected | Configured |
+  Verified**, self-test 3/3; `ccsn status` — level **standard**, policy
+  `~\.cc-safety-net\policy.json`; CLI — в кэше
+  (`~\.cache\opencode\npm\cc-safety-net@latest\…\.bin\ccsn.cmd`), на PATH нет.
+- **Живая проба** (scratch git-репо): `git clean -fdx` → **BLOCKED by CC
+  Safety Net** (`Rule: git.clean-force`, intent use_alternative, подсказка
+  `git clean -n`); `echo CSN-OK` — allow; модель сама использовала безопасный
+  `git clean -ndx`; файл `untracked.txt` не удалён.
+- **Аудит:** `~\.cc-safety-net\logs\<проект>\<год-месяц>\<дата>-<сессия>.jsonl`
+  — `decision/ruleId/intent/cwd` для deny и allow; копия —
+  `target/wave0b-csn/logs/` (включая след B0-i5, v2.4.11).
+- **Наблюдения:** (1) CCSN покрывает то, чего нет в C10-контуре (например,
+  `git clean -fdx`); (2) где пересекается — первыми срабатывают наши policies
+  (финальны: `git push *--force*`, `read:*.env`); (3) нюанс: policy
+  `shell:git push *--force*` матчит и `--force-with-lease` (рекомендацию CCSN)
+  — в CREDO заблокирован: строгость, кандидат на уточнение; (4) аудит CCSN
+  пишет и allow-строки (прунинг есть — `.last-prune`).
+- **Дальше:** `auditor` (перенос B0-i5 — после аудита) → `validator` → гейт →
+  коммит записей.
+
+## auditor · 02.10.2026 · аудит переноса — P1 нет; P2/P3 (см. секцию роли)
+
+- **P1** — нет. **P2-1** (отчёт §4 CCSN — самопротиворечие) и **P3** (строка
+  guard в B0-own отчёте — CCSN смешан с C10) — **закрыты** правками `migrator`.
+  **P2-2** — `.opencode/agents/auditor.md:11` `read deny **/target/**`
+  инертно для корневого `target/**` — решение владельца: **убрать правило**
+  (отдельным шагом канона).
+- Подтверждено: 4 правила C10 целы; `plugins` object-форма; doctor OpenCode
+  Detected|Configured|Verified, self-test 3/3, v2.5.1; проба deny/allow +
+  аудит; границы чисты; `agents-perms.mjs` ×2 → `11 из 18`.
+
+## validator · 02.10.2026 · принято (CCSN)
+
+- Вердикт: **принято, P1/P2/P3 нет**; отчёт
+  `docs/reviews/service-ccsn-2026-10-02.md`, квитанция `service-ccsn`
+  (iteration 1, accepted) в `receipts.yaml`; `cargo` не запускался (D50).
+
+## сервисная сессия · 02.10.2026 · гейт пакета CCSN пройден
+
+- Владелец подтвердил (**question**): «Коммит + push develop»; по P2-2 —
+  «Убрать правило» (правка `auditor.md` — отдельным шагом канона: правка →
+  аудит → приёмка → коммит).
+- Пакет — 12 путей + запись роли `git` (F43) = 13: `??` —
+  `.opencode/mail/service-mcp-ready-r7.md`,
+  `docs/reviews/service-ccsn-2026-10-02.md`; `M` —
+  `.opencode/mail/service-mcp-ready-r6.md` (записи полигона),
+  `.opencode/memory/{auditor,migrator,service,validator}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own-report.md,wave0b-own.md,wave0b-report.md}`,
+  `.opencode/memory/git.md`.
+- Сообщение: `chore(process): T-15 — CC Safety Net включён (standard) + полигон
+  B0-own закрыт (записи); приёмка`.
+- База: `develop` = `origin/develop` = `38800cb`; master не трогаем.
+- Следующее действие — `dispatch git`; затем правка `auditor.md` (P2-2).
+
+## migrator · 02.10.2026 · готово (CCSN включён: карточка/отчёт)
+
+- Сделано: две мини-правки по включению CC Safety Net. `docs/tasks/T-15-mcp-ready-process/README.md`, строка **C10** сводной таблицы: «CC Safety Net — позже» → «CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1)» (остальной текст строки сохранён). `docs/tasks/T-15-mcp-ready-process/wave0b-report.md` §4, пункт про CC Safety Net: в конец дописано «— **исполнено 02.10.2026** (v2.5.1; пресет standard; перенос — после аудита)». Иных строк/файлов не трогал.
+- Проверки: `git diff -- <2 файла>` → ровно 2 правки (C10 1+/1−; report 1+/1−); `git diff --check` по ним пусто; `git diff --numstat -- src tests Cargo.toml` пусто; `cargo` не запускал (D50).
+- Дальше / риски: коммит не делал (гейт впереди).
+
+## auditor · 02.10.2026 · готово (аудит переноса CCSN)
+
+- **Аудит:** перенос CC Safety Net (T-15; `service-mcp-ready-r7`; B0-i5 «перенос — после аудита»). Предмет — глобальный конфиг (копии `target/wave0b-csn/global-before|after.jsonc`), установка/диагностика (`ccsn-status.txt`, `ccsn-doctor.txt`), пробы (`target/wave0b-csn/logs/**`), записи (лента r7, карточка T-15, `wave0b-report.md` §4, память `service`), границы.
+- **Вердикт: P1 нет. P2 — 2 (одна вне диффа переноса), P3 — 1 (вне диффа).**
+- **P2:** `docs/tasks/T-15-mcp-ready-process/wave0b-report.md:87` — правка этого шага даёт противоречие: «перенос — после `auditor` — **исполнено 02.10.2026** (…; перенос — после аудита)». Хвост «(перенос — после аудита)» повторяет снятое условие → улика противоречит себе. Правка: убрать хвост.
+- **P2 (права, вне диффа переноса):** `.opencode/agents/auditor.md:11` `read deny **/target/**` — правило **инертно** для корневого `target/**`: чтение `target/wave0b-csn/**` этой сессией прошло, тогда как `read .git/**` (стр. 12) отклонён. Последствие: страховка не страхует; а если бы сработала — заблокировала бы чтение улик аудита в `target/`, требуемое протоколом (B0-own, CCSN). Нужно уточнение владельца: чинить паттерн или снять правило. Пре-существующее, не из переноса.
+- **P3 (вне диффа):** `docs/tasks/T-15-mcp-ready-process/wave0b-own-report.md:58` — CCSN-строку связывает с C10-артефактами («CC Safety Net — … исполнено: перенесён, 4 точных правила глобально + плагин `wave0-guard`»); фактический перенос CCSN — запись `plugins` в глобальном конфиге, а 4 правила + guard — C10. Кандидат на уточнение при следующей правке отчёта.
+- **Проверки (подтверждено):** before/after — C10 4 правила дословно целы; после — добавлен только блок `plugins` (object-форма `package` + `options.shell=powershell`). `ccsn-status.txt`: level standard, policy `~\.cc-safety-net\policy.json`. `ccsn-doctor.txt`: OpenCode Detected|Configured|Verified, self-test 3/3, v2.5.1, preset standard. Проба (scratch-сессия): deny `git clean -fdx` (`git.clean-force`, intent `use_alternative`) + allow `echo CSN-OK` + allow `git clean -ndx`; аудит пишет allow-строки; след B0-i5 (v2.4.11, `.../wave0b-probe/2026-09/`) сохранён.
+- **Границы (независимо):** `git status --porcelain` → изменены только `docs/tasks/T-15-…/{README,wave0b-report,wave0b-own-report,wave0b-own}.md`, `.opencode/mail/service-mcp-ready-r6.md`, `.opencode/memory/{migrator,service}.md`; `?? mail/r7`. `git diff --numstat -- src tests Cargo.toml AGENTS.md opencode.json` пусто; `.opencode/agents`/`rules` в `status` нет; `grep` CCSN по `src`/`tests`/`opencode.json` — 0. Цело.
+- **Машинно:** `node .opencode/scripts/agents-perms.mjs` ×2 → `11 из 18`, состав стабилен; фронтматтеры не менялись (reload не требуется).
+- **Нюансы вердикта (приняты, не находки):** policy `shell:git push *--force*` матчит и `--force-with-lease` — кандидат на уточнение (уже в ленте/памяти); аудит-журнал растёт (allow-строки; прунинг `.last-prune` есть); `ccsn` не на PATH (путь в кэше — корректен); `doctor` печатает Node-ассерт (`ccsn-doctor.txt:103–109`) при exit 1 — косметика.
+- **Техническая проблема:** `shell` роли — узкий allowlist; `Get-ChildItem …` и `git diff -- <≥2 dot-путей>` отклонены (ожидаемо); прямые `git status`/`git diff <1 путь>`/`node agents-perms.mjs` доступны. Бюджет: ~20 чтений (вкл. каталоги/логи), 0 агентных `rg`-обёрток; ≤ 15 файлов каталогов не считая.
+- **Дальше:** `validator` → гейт → коммит записей. Правки P2/P3 — в пакет той же сервисной сессии (одна строка каждая); P2-права (`auditor.md:11`) — отдельным решением владельца.
+
+## migrator · 02.10.2026 · P2/P3 аудита CCSN — готово
+
+- Сделано (две строки по аудиту, иных изменений нет): (P2-1) `docs/tasks/T-15-mcp-ready-process/wave0b-report.md` §4 — хвост CCSN-пункта приведён к непротиворечивому: «перенос — **исполнено 02.10.2026** (v2.5.1; пресет standard; аудит переноса — `service-mcp-ready-r7`).» (снят повтор условия «после `auditor`»/«после аудита»). (P3) `docs/tasks/T-15-mcp-ready-process/wave0b-own-report.md` — строка guard (P2): CCSN отделён от C10-артефактов: «… — **CC Safety Net включён 02.10.2026 (v2.5.1, standard; `service-mcp-ready-r7`)**; C10 — 4 точных правила глобально + плагин `wave0-guard` (якорные правила)».
+- Проверки: `git diff -- <2 файла>` → целевые правки (guard P2 1+/1−; report CCSN-строка 1+/1−); `git diff --check` по обоим пусто; `git diff --numstat -- src tests Cargo.toml` пусто; `cargo` не запускал (D50).
+- Нюанс: в `wave0b-own-report.md` в дереве есть **чужой** ханк («откат полигона» `[ ]`→`[x]`, стр. ~87) — не моя правка, существовала до сессии; мой дифф по этому файлу — только строка guard (P2).
+- Дальше / риски: P2-права (`.opencode/agents/auditor.md:11`, `read deny **/target/**`) — отдельным решением владельца (вне этого пакета). Коммит не делал (гейт впереди).
+
+## validator · 02.10.2026 · принято (CCSN)
+
+- **Вердикт:** принято, P1/P2/P3 нет. Отчёт `docs/reviews/service-ccsn-2026-10-02.md`;
+  квитанция `accepted` (`service-ccsn`, iteration 1) в `receipts.yaml`.
+- **База:** `develop` = `origin/develop` = `HEAD` = `38800cb` (ветки нет, прямая
+  правка). Снимок пакета: 8 `M` + `?? .opencode/mail/service-mcp-ready-r7.md`.
+- **CCSN:** before→after конфига = ровно блок `plugins` (object-форма,
+  `options.shell=powershell`); 4 C10-правила дословно целы. Улики: `ccsn-doctor`
+  Detected|Configured|Verified / self-test 3/3; `ccsn-status` standard; логи —
+  deny `git clean -fdx` (`git.clean-force`, `use_alternative`), allow `echo CSN-OK`,
+  allow `git clean -ndx`; след B0-i5 (v2.4.11) сохранён.
+- **Записи:** карточка C10, `wave0b-report.md` §4 (без самопротиворечия),
+  `wave0b-own-report.md` §3 (CCSN ≠ C10) + §5 (полигон), `wave0b-own.md`
+  §«Откат полигона», память `{service,migrator,auditor}` — согласованы.
+- **Границы:** `src/tests/Cargo.toml/AGENTS.md/opencode.json/agents|rules` пусто;
+  `git diff --check` пусто (CRLF-warning только на r6); `agents-perms.mjs` → `11 из 18`.
+- **Известный пункт (вне пакета):** P2-2 `.opencode/agents/auditor.md:11`
+  `read deny **/target/**` инертно — решение владельца.
+- **`cargo` не запускался** (D50; продуктовый код не затронут).
+
+## git · 02.10.2026 · план пакета (CCSN)
+
+- Подтверждение сверено по ленте — §«гейт пакета CCSN пройден» (:71–87), ответ
+  владельца «Коммит + push develop». База: `develop` = `origin/develop` = `HEAD`
+  = `38800cb`; ветки нет, master не трогаем.
+- Снимок: 9 `M` + 2 `??` = ровно пакет 12 путей (лента r7 и отчёт CCSN — новые)
+  + этот чекпойнт `memory/git.md` (F43) = 13. `wave0b-own.md` — в пакете (входит
+  в 12).
+- К коммиту — 13 путей (`./`-префикс, без `--`): `.opencode/mail/service-mcp-ready-r7.md`,
+  `docs/reviews/service-ccsn-2026-10-02.md`, `.opencode/mail/service-mcp-ready-r6.md`,
+  `.opencode/memory/{auditor,migrator,service,validator,git}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own-report.md,wave0b-own.md,wave0b-report.md}`.
+- Сообщение: `chore(process): T-15 — CC Safety Net включён (standard) + полигон
+  B0-own закрыт (записи); приёмка`. Ожидаемая staged-сверка: **11 `M` + 2 `A`**.
+- Осталось: `add` 13 путей → `diff --cached --name-status` → `commit` →
+  `push origin develop`. Хеши — в ответе `lead` (не здесь). После push в
+  отслеживаемые файлы не писать (F43).

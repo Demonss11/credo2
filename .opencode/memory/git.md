@@ -371,3 +371,20 @@
   Ожидаемая staged-сверка: 6 `M`. Осталось: `add` 6 путей (`./`-префикс, без `--`)
   → `diff --cached --name-status` → `commit` → `push origin develop`. Хеши — в
   ответе `lead` (не здесь). После push в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r7 CCSN — перенос + закрытие полигона B0-own**
+  (служебная волна, режим «коммит + push» прямо в `develop`; ветки нет, master
+  не трогаем). Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r7.md`
+  — §«гейт пакета CCSN пройден» (:71–87), ответ владельца «Коммит + push develop».
+  База: `develop` = `origin/develop` = `HEAD` = `38800cb`; дерево — снимок
+  9 `M` + 2 `??` = ровно пакет 12 путей (+ этот чекпойнт, F43) = 13. К коммиту —
+  13 путей: `.opencode/mail/service-mcp-ready-r7.md`,
+  `docs/reviews/service-ccsn-2026-10-02.md`, `.opencode/mail/service-mcp-ready-r6.md`,
+  `.opencode/memory/{auditor,migrator,service,validator,git}.md`,
+  `.opencode/state/current/receipts.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/{README.md,wave0b-own-report.md,wave0b-own.md,wave0b-report.md}`.
+  Сообщение: `chore(process): T-15 — CC Safety Net включён (standard) + полигон
+  B0-own закрыт (записи); приёмка`. Ожидаемая staged-сверка: 11 `M` + 2 `A`.
+  Осталось: `add` 13 путей (`./`-префикс, без `--`) → `diff --cached --name-status`
+  → `commit` → `push origin develop`. Хеши — в ответе `lead` (не здесь). После push
+  в отслеживаемые файлы не писать (F43); правка `auditor.md` (P2-2) — отдельным
+  шагом канона.

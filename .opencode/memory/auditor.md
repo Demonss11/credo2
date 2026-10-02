@@ -193,3 +193,30 @@
   `11 из 18`; `src/tests/Cargo.toml` пусто; `cargo` не запускался (D50).
   Грабли: роль остановлена лимитом шагов — отчёт в ленте и чекпойнт здесь
   оформила сервисная сессия по поручению роли.
+- **02.10.2026, сервисная операция `service-mcp-ready-r7` (T-15, перенос CC Safety
+  Net; до коммита) — аудит:** предмет — глобальный конфиг (копии
+  `target/wave0b-csn/global-before|after.jsonc`), диагностика
+  (`ccsn-status.txt`/`ccsn-doctor.txt`), пробы (`target/wave0b-csn/logs/**`),
+  записи (лента r7, карточка T-15 C10, `wave0b-report.md` §4, память `service`),
+  границы. Итог: **P1 нет; P2 — 2, P3 — 1.** **P2 (в диффе):**
+  `wave0b-report.md:87` — «исполнено 02.10.2026 (… перенос — после аудита)»:
+  хвост повторяет снятое условие → улика противоречит себе. **P2 (права, вне
+  диффа):** `.opencode/agents/auditor.md:11` `read deny **/target/**` **инертно**
+  для корневого `target/**` — чтение `target/wave0b-csn/**` прошло, а
+  `read .git/**` (:12) отклонён; если бы сработало — блокировало бы улики аудита
+  (нужно уточнение владельца: чинить паттерн или снять). **P3 (вне диффа):**
+  `wave0b-own-report.md:58` связывает CCSN с C10-артефактами (перенос CCSN =
+  запись `plugins`, а 4 правила + `wave0-guard` = C10). Подтверждено:
+  before/after — 4 правила C10 целы, добавлен только `plugins` (object-форма);
+  status standard/policy-path; doctor OpenCode Detected|Configured|Verified,
+  self-test 3/3; проба deny `git clean -fdx` (`git.clean-force`) + allow
+  `echo CSN-OK`/`git clean -ndx`, allow-строки в аудите, след B0-i5 v2.4.11 цел.
+  Границы: `git status` — только mail/memory/docs (4 док + 3 рабочих);
+  `git diff --numstat -- src tests Cargo.toml AGENTS.md opencode.json` пусто;
+  CCSN-строк в `src`/`tests`/`opencode.json` — 0. `agents-perms.mjs` ×2 →
+  `11 из 18`. Нюансы (приняты): `*--force*` матчит `--force-with-lease`;
+  рост аудит-журнала (`.last-prune` есть); `ccsn` не на PATH; Node-ассерт
+  doctor (косметика). Грабли: `shell` роли — allowlist; `Get-ChildItem` и
+  `git diff -- <≥2 dot-путей>` отклонены, а одиночные `git status`/`git diff
+  <путь>` доступны; `read` каталогов работает, `read **/target/**` **не**
+  блокируется (дефект :11). Бюджет: ~20 чтений, 0 агентных `rg`-обёрток.

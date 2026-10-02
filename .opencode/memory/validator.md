@@ -501,3 +501,33 @@
   (3) **глобальный `~/.config/opencode/opencode.jsonc` — вне репо/прав**;
   приёмка опирается на in-repo копию `target/**` + улики проб.
   **Право:** `git rev-parse` подтверждения базы (D49).
+
+- **02.10.2026 · service-ccsn (приёмка CCSN, перенос T-15):** — чекпойнт ДО прогона:
+  база `develop` = `origin/develop` = `HEAD` = `38800cb` (ветки нет; `git status -sb`
+  → `## develop...origin/develop`). Снимок: 8 `M` (лента `service-mcp-ready-r6.md`,
+  `memory/{auditor,migrator,service}`, `docs/tasks/T-15-.../{README,wave0b-own-report,
+  wave0b-own,wave0b-report}.md`) + `?? .opencode/mail/service-mcp-ready-r7.md`.
+  Целевые правки: README C10 `позже`→`включён 02.10 (standard, cc-safety-net 2.5.1)`;
+  report §4 CCSN `перенос — после auditor`→`исполнено 02.10.2026 (… аудит — r7)`;
+  own-report §3 guard P2 CCSN отделён от C10 + §5 полигон `[ ]`→`[x]`; own.md
+  §Откат полигона. Улики `target/wave0b-csn/`: `global-before/after.jsonc`
+  (before→after = только блок `plugins` object-форма с `options.shell=powershell`;
+  4 C10-правила дословно целы), `ccsn-status.txt` (standard, policy),
+  `ccsn-doctor.txt` (Detected|Configured|Verified, self-test 3/3, v2.5.1),
+  `logs/**` (deny `git clean -fdx` `git.clean-force` intent use_alternative, allow
+  `echo CSN-OK`, allow `git clean -ndx`, + след B0-i5 v2.4.11). План: границы,
+  записи, `agents-perms` ×2, `git diff --check`. `cargo` **не запускаю** (D50).
+  Итог — после прогона.
+- **Итог (после):** **принято, P1/P2/P3 нет.** База `38800cb` ×3; перед/после
+  конфига — ровно `+6` строк `plugins`; C10 4 правила целы. Живые улики deny/allow
+  + след B0-i5 на месте; записи согласованы (лента r7 §установка/§аудитор/§мигрант,
+  карточка, память). Границы чисты (`src/tests/Cargo.toml/AGENTS.md/opencode.json/
+  agents|rules` пусто; `git diff --check` — только CRLF-warning r6); `agents-perms`
+  → `11 из 18`. P2 аудита (`.opencode/agents/auditor.md:11` инертное
+  `read deny **/target/**`) — вне пакета, известный пункт владельцу.
+  Отчёт `docs/reviews/service-ccsn-2026-10-02.md`; квитанция `accepted`
+  (`service-ccsn`, iteration 1). `cargo` не запускался (D50).
+  **Грабли:** `rg` по паттерну, содержащему `.env`/`.ssh` (в `target/**`), отклонён
+  плагином `wave0-guard: ssh-read` — правило живое, подтверждение; для приёмки
+  читать конфиг через `read`/`rg policies|plugins`. `git diff -U0 ./<путь>` (флаг до
+  пути) — рабочий для локального контекста; `--stat/--numstat` — без путей после `--`.

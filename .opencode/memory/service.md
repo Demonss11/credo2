@@ -106,3 +106,19 @@
   (13 файлов) → origin/develop. Итог: 4 точных правила глобально + плагин
   `wave0-guard` (P2 перенесён; якорные deny + аудит). CC Safety Net — позже.
   Дальше по T-15: чистый S-прогон (F26/F27) / фаза C (C1).
+- 02.10.2026, хвосты BO-i2/C10 закрыты: F62–F66 внесены в реестр находок
+  (F62/F64 закрыты правками C10; F63/F65/F66 открыты), `B0-own-P2` —
+  «закрыт (C10)»; коммит `38800cb` → origin/develop. Линия BO-i2 закрыта
+  полностью; остались: полигон-улики (до заморозки), CCSN (отдельное
+  решение), F63/F65/F66 в реестре.
+- 02.10.2026, полигон закрыт: все прототипы выключены (`_off/`; `plugins/`
+  пуст — `-attribution` убран при закрытии), журналы не пишутся, улики
+  `target/wave0b-own-i1…i7/`; удаление `%TEMP%\opencode\wave0b-own` — после
+  заморозки. Дальше по T-15: чистый S-прогон (F26/F27) / фаза C (C1).
+- 02.10.2026, CC Safety Net включён (решение владельца; B0-i5 🟢): плагин
+  `cc-safety-net 2.5.1` (глобальный конфиг, `options.shell=powershell`);
+  doctor — OpenCode Detected/Configured/Verified; проба: `git clean -fdx` →
+  BLOCKED (git.clean-force), allow-поток ок; аудит `~\.cc-safety-net\logs`
+  (копия `target/wave0b-csn/`). Нюанс: policy матчит и `--force-with-lease`
+  (кандидат на уточнение). Дальше: auditor → validator → коммит записей.
+  Пресет — standard; paranoid — отдельный вопрос.

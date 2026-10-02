@@ -210,7 +210,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | C7 | Шаблон самоотчёта; фичи/счётчики | C | ⬜ | — |
 | C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
 | C9 | Правило останова ведущего | C | ⏸ ждёт F27 | W8 §7 |
-| C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — позже | wave0 §3.5 |
+| C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1) | wave0 §3.5 |
 | C11 | B2 — условие возврата (`codemode:false`) | C | ⏸ | F28/D45 |
 | C12 | Дробление L-вызова | C | ⬜ | разбор `coder` §6.4 |
 | C13 | Хвостовые записи пакета (F43) | C | ✅ принято (`T-15-c13`, 28.09.2026); коммит — по подтверждению | F43; найдено 28.09.2026 |

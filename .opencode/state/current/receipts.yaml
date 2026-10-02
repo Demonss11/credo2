@@ -1426,3 +1426,24 @@
     not_checked: "глобальный ~/.config/opencode/opencode.jsonc — вне репо/прав; пробы P1-P14 — улики сервисной сессии (in-repo копии), живой прогон не повторял"
   snapshot: "develop @ dace3eb (= origin/develop = HEAD) + working tree (service-c10 uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-ccsn
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-ccsn-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    ccsn_config: "ok — target/wave0b-csn/global-before.jsonc vs global-after.jsonc (git diff --no-index) = ровно +6: добавлен блок plugins object-формы ({package: cc-safety-net@latest, options:{shell:powershell}}); 4 C10-правила (read:*.env, read:*/.ssh/*, shell:git push *--force*, shell:git reset --hard*) дословно целы"
+    ccsn_diagnostics: "ok — ccsn-doctor.txt:18,23,51,75,88 → OpenCode Detected|Configured|Verified, self-test 3/3, cc-safety-net 2.5.1, OpenCode 2.0.22, win32 x64; ccsn-status.txt:3-6 → Level standard, Policy ~\\.cc-safety-net\\policy.json"
+    ccsn_logs: "ok — target/wave0b-csn/logs/**: deny git clean -fdx (v2.5.1, ruleId git.clean-force, intent use_alternative, cwd scratch); allow echo CSN-OK; allow git clean -ndx; след B0-i5 2026-09-28 v2.4.11 deny git push --force origin main (wave0b-probe) сохранён"
+    audit_fixes: "ok — P2-1 wave0b-report.md:87 хвост «перенос — после auditor»→«перенос — исполнено 02.10.2026 (…аудит — service-mcp-ready-r7)» (1+/1−, самопротиворечие снято); P3 wave0b-own-report.md:58 CCSN отделён от C10-артефактов (1+/1−)"
+    deferred_records: "ok — wave0b-own-report.md:87 §5 полигон [ ]→[x] (_off/, 02.10; удаление после заморозки); wave0b-own.md:362-367 §Откат полигона (закрытие 02.10, улики target/wave0b-own-i1…i7/, удаление после заморозки); service-mcp-ready-r6.md +31 (F43-остаток) в пакете"
+    records: "ok — карточка README.md:213 (C10: CC Safety Net — включён 02.10, standard, cc-safety-net 2.5.1); memory/service.md:118-124; memory/migrator.md:9-27,29-45; memory/auditor.md (аудит CCSN); лента service-mcp-ready-r7.md §установка/§аудитор/§migrator"
+    known_point: "P2-2 (вне пакета) .opencode/agents/auditor.md:11 read deny **/target/** инертно — отдельное решение владельца; в приёмку не входит"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml AGENTS.md opencode.json пусто; .opencode/agents|rules, AGENTS.md, opencode.json, docs/decisions|questions|TRACEABILITY|features — не в статусе; git diff --check пусто (CRLF-warning только на service-mcp-ready-r6.md); /target в .gitignore:1 (улики вне git)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs → agents: 11 из 18; фронтматтеры не затронуты"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 38800cb… ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r6.md, M .opencode/memory/{auditor,migrator,service}.md, M docs/tasks/T-15-mcp-ready-process/{README,wave0b-own-report,wave0b-own,wave0b-report}.md, ?? .opencode/mail/service-mcp-ready-r7.md (+ записи приёмки: ?? docs/reviews/service-ccsn-2026-10-02.md, M memory/validator.md, M receipts.yaml)"
+    not_checked: "глобальный ~/.config/opencode/opencode.jsonc и ~/.cc-safety-net/** — вне репо/прав; живые пробы CCSN не повторял (улики-копии in-repo); rg по .env/.ssh в target/** отклонён wave0-guard (подтверждение контура C10)"
+  snapshot: "develop @ 38800cb (= origin/develop = HEAD) + working tree (service-ccsn uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
