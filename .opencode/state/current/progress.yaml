@@ -1040,3 +1040,203 @@
   owner_response: "Коммит + merge в develop (Recommended)"
   result: "confirmed: пакет 20 путей (14 M + 6 ??) сверен со снимком; порядок branch_end: коммит на ветке → merge --no-ff в develop → push origin develop → удаление ветки (local + origin); master не трогаем"
   next: "dispatch git (пакет branch_end)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "частично: коммит 70f690e (20 путей: 14 M + 6 A), merge --no-ff caac10d в develop, push origin develop — выполнены (develop = origin/develop = caac10d); удаление ветки feature/T-20-traceability-wave2 НЕ выполнено: git push origin --delete заблокирован гардом CCSN (git.push-delete, ручное действие владельца), git branch -d отказывает из-за устаревшего upstream; -D не применялся (вне подтверждённого пакета). Эскалация владельцу"
+  expect_match: partial
+  next: "surface_to_user (эскалация: удаление ветки вручную либо оставить)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: surface_to_user
+  question: "Удаление ветки T-20 заблокировано гардом CCSN (git.push-delete — только вручную). Как поступаем?"
+  channel: question
+  owner_response: "Удалю вручную (Recommended)"
+  result: "deferred: владелец удаляет origin-ветку вручную (git push origin --delete feature/T-20-traceability-wave2); после — git branch -d локально; на 02.10 ветка в origin ещё есть (d414998) — ожидание действия владельца"
+  next: "wait_for_user (ручное удаление ветки) → dispatch git (локальное удаление + проверка)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: git
+  result: "готово (уборка): владелец вручную удалил origin-ветку; локальная feature/T-20-traceability-wave2 удалена (git branch -d, was 70f690e); ветки нет локально и в origin; master не тронут; develop = origin/develop = caac10d; записи F43 — в ответе (без правок файлов)"
+  expect_match: true
+  next: "complete"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: complete
+  result: "T-20 закрыта: волна 2 TRACEABILITY — 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23), Q22 → in work + T-24 (тест CLI-контура REST; tester; S; P3), 16 → open (v0.2), Q81 open, Q78/D82 и Q79/D83 → done; приёмка -r3 accepted (rework: P2 — ссылка; P1 — синк ячеек), финальный аудит L — чисто; коммит 70f690e, merge caac10d в develop, push; ветка удалена; cargo на документном пакете не запускался (D50). Пост-пакетные записи — подхват"
+  next: "— (T-20 закрыта; далее — S-пилот на T-24, выбор владельца)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Старт T-24 (S-пилот, F26/F27; владелец: fast path, без прерываний кроме гейтов): класс S зафиксирован (карточка/прецедент; guard features/ разобран без Q/D); устаревший снимок гейта T-20 перезаписан; план: surface_to_user (гейт ветки) → git (branch_start feature/T-24-rest-cli-contour-test от develop @ caac10d, push -u) → tester (тест CLI-контура REST в tests/**); далее re-plan → validator (полный DoD, R2) → закрытие (docs-writer T-24 ✅; migrator TRACEABILITY Q22→done с видимой [T-24] ✅) → гейт пакета → git (branch_end) → complete; F43-подхват (3 M) — в пакет branch_end; новых Q/D нет"
+  note: "pre-flight lead: develop = origin/develop (синхрон); канон не тронут; дерево — 3 пост-пакетных файла-подхвата T-20; машинная сверка агентов — вне прав lead (последняя 02.10: «agents: 11 из 18»)"
+  next: "surface_to_user (гейт ветки: feature/T-24-rest-cli-contour-test от develop @ caac10d)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: surface_to_user
+  question: "Гейт старта T-24 (S): ветка feature/T-24-rest-cli-contour-test от develop @ caac10d + push -u; далее git (branch_start) → tester?"
+  channel: question
+  owner_response: "Подтверждаю ветку и порядок (Recommended)"
+  result: "confirmed: ветка и порядок подтверждены; пакет старта зафиксирован в ленте до вызова git"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк (точка ветвления «resume»): расхождений нет — гейт ветки подтверждён и записан (progress + лента), git branch_start ещё не вызывался (HEAD = develop, ветки нет); очередь усечена до оставшихся: dispatch git (branch_start feature/T-24-rest-cli-contour-test от develop @ caac10d, push -u) → dispatch tester; phase: implementation; session_index 2 сохранён (resume, D42); маркер t24_cli_rest_test; новых Q/D нет"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-24-rest-cli-contour-test создана от develop @ caac10d3f9cb9b878bd7a7f4a515f657d56260c8 (= origin/develop) и опубликована (upstream установлен); коммитов нет; develop/master не тронуты; рабочие пути перенесены без изменений и в коммит не подмешаны (3 M подхвата T-20 + 2 M плана + 2 ?? лента/досье T-24 + M memory/git.md — F43-чекпойнт)"
+  expect_match: true
+  next: "dispatch tester"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: tester
+  result: "готово: tests/rest_cli.rs — интеграционный тест CLI-контура REST на env!(CARGO_BIN_EXE_credo2) (сырой TCP): --rest/--addr + GET /health (поллинг), --api-key 401/200 (+конверт unauthorized Q23/D26), env CREDO_API_KEY, открытый режим 200, открытые пути /health,/docs,/openapi.json при ключе, конфликты --no-rest+--rest/--addr (clap); cargo check --all-targets ok, cargo fmt --check ok; cargo test не запускался (R2); src/**, Cargo.toml, features/**, канон не тронуты; отчёт в ленте + чекпойнт; риск: свободный порт через bind :0 — микро-гонка (таймаут 20 с)"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (участок: validator, полный DoD, R2 — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок validator: очередь — dispatch validator (полный DoD: fmt/clippy/cargo test --all; R2; точка ветвления) → docs-writer (T-24 ✅; features/README не трогать — rest_auth.feature уже ✅) → migrator (TRACEABILITY Q22→done с видимой [T-24] ✅) → гейт пакета → git (branch_end) → complete; срез: дерево 8 M + 3 ??, ветка опубликована (0 коммитов), карточка/реестр/TRACEABILITY синхронны до закрытия; новых Q/D нет"
+  next: "dispatch validator (полный DoD, R2 — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: validator
+  result: "rework (P1): clippy::collapsible_if tests/rest_cli.rs:47 (let-chain; rust-1.96.0, -D warnings) — DoD clippy fail; cargo fmt --check pass; cargo test --all 141/0 (rest_cli 6 — зелёные; features_inventory 4/4); покрытие карточки 6/6; границы чисты (src/tests/Cargo.toml/features/канон не тронуты); отчёт docs/reviews/T-24-2026-10-02.md; квитанция T-24 rework (iteration 1) в receipts.yaml; правка — tests/** (tester)"
+  expect_match: true
+  next: "re-plan analyst (rework P1 → tester fix let-chain → validator -r2)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок rework P1: iteration 2 (rework=1, D42), маркер t24_rework_clippy_p1; очередь — tester (одна правка let-chain tests/rest_cli.rs:47; новый вызов, факты P1 в брифе) → validator -r2 (полный DoD, точка ветвления); далее закрытие (docs-writer → migrator → гейт → git branch_end → complete); отчёт -r2 ожидается docs/reviews/T-24-2026-10-02-r2.md; новых Q/D нет"
+  next: "dispatch tester (фикс P1 let-chain)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк №2: расхождений нет — tester (фикс let-chain) ещё не запускался; P1 открыт (tests/rest_cli.rs:47 не схлопнут); квитанция T-24 iteration 1 rework (p1: OPEN) на месте; очередь без изменений: dispatch tester (одна правка) → validator -r2 (полный DoD, точка ветвления); актуализирован счётчик снимка (10 M, +memory/analyst.md) в package.note/snapshot_check; session_index 2; новых Q/D нет"
+  next: "dispatch tester (фикс P1 let-chain)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: tester
+  result: "готово: tests/rest_cli.rs:47 (fn wait_ready) схлопнут в let-chain (if let Ok((200, body)) = request(...) && body.contains(\"ok\")); иных правок нет; cargo fmt --check ok; cargo check --all-targets ok; clippy/test не запускались (R2; clippy не в правах); src/**, Cargo.toml, features/**, канон не тронуты; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (-r2, полный DoD — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: validator
+  result: "принято (-r2): полный DoD зелёный — fmt pass; clippy --all-targets -- -D warnings pass (P1 закрыт); cargo test --all 141/0 (rest_cli 6/6; features_inventory 4/4); покрытие карточки 6/6; границы чисты (src/tests/Cargo.toml/features/канон не тронуты); отчёт docs/reviews/T-24-2026-10-02-r2.md; квитанция T-24 (iteration 2, accepted) в receipts.yaml; точка ветвления закрыта"
+  expect_match: true
+  next: "re-plan analyst (закрытие: docs-writer → migrator → гейт пакета → git branch_end → complete)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок закрытия (accepted -r2): маркер t24_closeout_package; phase closing; очередь — docs-writer (T-24 ✅: карточка + tasks/README; features/ и CHANGELOG не трогать) → migrator (TRACEABILITY Q22 in work → done с видимой [T-24] ✅; D77/D82; F57) → surface_to_user (гейт пакета branch_end; pre_gate: add_paths = снимок, ожидание 15 M + 5 ?? = 20 путей) → git (branch_end) → complete; лента 344 строки — том не заводится (финальная секция); новых Q/D нет"
+  next: "dispatch docs-writer (T-24 ✅)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-24 → «✅ сделана»; docs/tasks/README.md строка T-24 → концевой ✅; features/ и CHANGELOG не тронуты (D72); иных правок нет; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch migrator (TRACEABILITY Q22 → done)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: migrator
+  result: "готово: TRACEABILITY.md:26 Q22/D26 in work → done; [T-24] ⬜ → ✅ (видимая); ровно 1 строка (numstat 1/1); git diff --check пусто; иных строк/файлов не тронуто; новых Q/D нет; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "surface_to_user (pre_gate: сверка add_paths со снимком) → гейт пакета branch_end"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: surface_to_user
+  question: "Гейт пакета T-24 (branch_end): коммит 20 путей (15 M + 5 ??, сверен 1:1) на ветке feature/T-24-rest-cli-contour-test → merge --no-ff в develop → push origin develop → удаление ветки (local + origin); master не трогаем?"
+  channel: question
+  owner_response: "Подтверждаю пакет (Recommended)"
+  result: "confirmed: пакет без изменений; порядок branch_end подтверждён; пакет зафиксирован в ленте (§pre_gate) до вызова git"
+  next: "dispatch git (branch_end)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк №3 + финальный участок: расхождений нет — pre_gate 15 M + 5 ?? = 20 = add_paths 1:1; гейт пакета подтверждён (owner_response дословно); квитанция accepted; очередь: dispatch git (branch_end: add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24): интеграционный тест CLI-контура REST» → merge --no-ff «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop → удаление ветки local+origin; master не трогаем; гард CCSN git.push-delete — без обходов, эскалация) → complete; маркер t24_closeout_git; gate_pending: none; session_index 2; новых Q/D нет"
+  next: "dispatch git (branch_end)"

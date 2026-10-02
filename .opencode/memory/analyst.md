@@ -66,3 +66,28 @@
   `t20_package_gate`. Порядок: коммит на ветке → merge --no-ff в develop →
   push origin develop → удаление ветки (local+origin); **master не трогаем**.
   База develop = origin/develop = d414998.
+- **02.10.2026 · T-24 · участок rework P1 (iteration 2, rework 1, D42):** вердикт
+  validator iteration 1 — rework: `tests/rest_cli.rs:47` `clippy::collapsible_if`
+  (rust-1.96.0, `-D warnings`); остальное ок (fmt pass, `cargo test --all` 141/0
+  `rest_cli` 6/6, покрытие 6/6, границы чисты). Правка — `tests/**` (зона
+  `tester`; clippy не в правах роли — дефект всплыл на приёмке). Очередь:
+  `tester` (одна правка let-chain; **вызов новый** — sessionID tester не
+  зафиксирован) → `validator` `-r2` (полный DoD; точка ветвления) → `docs-writer`
+  (T-24 ✅) → `migrator` (Q22 → done, видимая `[T-24] ✅`) → `surface_to_user`
+  (пакет) → `git` branch_end → `complete`. Маркер `t24_rework_clippy_p1`;
+  `session_index 2`; досье/state/лента обновлены; `inherited_boundaries` без
+  изменений. Новых Q/D нет.
+- **02.10.2026 · T-24 · участок закрытия (iteration 2, rework 1, D42):** вердикт
+  `validator -r2` — accepted (fmt pass; clippy pass — P1 закрыт; `cargo test
+  --all` 141/0, `rest_cli` 6/6; покрытие 6/6; границы чисты; квитанция
+  iteration 2 в `receipts.yaml`; отчёт `-r2`). `iteration` закрытия = 2 —
+  iteration хранит rework-раунд, закрытие нового раунда не вводит (прецедент
+  T-03: closing iteration 2; T-20: closing на текущем iteration). Очередь до
+  гейта: `docs-writer` (T-24 ✅: карточка `✅ сделана` + `docs/tasks/README.md`
+  `✅`; features/ и CHANGELOG не трогать) → `migrator` (TRACEABILITY Q22
+  `in work` → `done`, видимая `[T-24] ✅`; D77/D82; F57; иных строк не трогать)
+  → `surface_to_user` (pre_gate сверка `add_paths` со свежим снимком **до**
+  гейта) → `git` branch_end → `complete`. Факт-снимок 10 M + 5 ??; ожидание
+  гейта 15 M + 5 ?? = **20** (`package.add_paths`); маркер
+  `t24_closeout_package`; `session_index 2`; `phase: closing`,
+  `acceptance: accepted`. Новых Q/D нет.

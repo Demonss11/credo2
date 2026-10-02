@@ -96,3 +96,50 @@
   `docs/reviews/T-20-2026-10-02-r3.md`; квитанция `T-20` iteration 3, accepted.
   Дальше — `migrator` (закрытие: T-20 ✅ + Q78/Q79 `done` с видимой `[T-20] ✅`,
   D82/D77), затем `auditor` (L), гейт, `git`, `complete`.
+- **02.10.2026 · T-24 (S-пилот), до прогона.** Класс S; полный DoD (R2/D50).
+  Снимок: ветка `feature/T-24-rest-cli-contour-test` (= origin/…), HEAD `caac10d`
+  (= develop = origin/develop) + рабочее дерево; коммитов нет. Проверено
+  чтением/`rg`: `tests/rest_cli.rs` — 6 `#[test]` (запуск/`GET /health`
+  поллинг; `--api-key` 401 без/с неверным, 200 с верным; env `CREDO_API_KEY`;
+  открытый режим; открытые пути `/health`,`/docs`,`/openapi.json`;
+  `--no-rest`+`--rest`/`--addr` → clap); аргументы/контракт совпадают с
+  `src/main.rs:17-37` (`conflicts_with_all`), `src/rest.rs:63-85` (auth, открытые
+  пути, текст 401), `:96-106` (`schema_version`,`count`); dev-deps
+  (`tempfile`,`serde_json`) на месте, `Cargo.toml` не менялся. Границы: `git diff
+  --numstat -- src tests Cargo.toml features docs` пусто; `git diff --check`
+  пусто; `tests/rest_cli.rs` — untracked (новый). Запускаю: `cargo fmt --check`,
+  `cargo clippy --all-targets -- -D warnings`, `cargo test --all`. Ориентир —
+  принято, P1/P2/P3 нет (прецедент 135 passed + 6 новых ≈ 141).
+- **02.10.2026 · T-24 (`-r2`, iteration 2), до прогона.** Класс S; полный DoD
+  (R2/D50). Снимок: ветка `feature/T-24-rest-cli-contour-test` (= origin), HEAD
+  `caac10d` (= develop = origin/develop) + рабочее дерево; коммитов нет;
+  `tests/rest_cli.rs` — untracked. Проверено чтением: P1 закрыт —
+  `tests/rest_cli.rs:47` схлопнут в let-chain
+  `if let Ok((200, body)) = request(...) && body.contains("ok") { return; }`
+  (rustfmt-перенос :47-48); логика та же; иных правок нет. Квитанция T-24
+  iteration 1 (rework) на месте (:1552-1565). Запускаю: `cargo fmt --check`,
+  `cargo clippy --all-targets -- -D warnings` (подтвердить закрытие P1),
+  `cargo test --all` (регресс). Ориентир — 141 passed / 0 failed (rest_cli 6).
+  Границы — `git diff --numstat -- src tests Cargo.toml features docs` пусто.
+- **02.10.2026 · T-24 (`-r2`) — после прогона: принято.** `cargo fmt --check`
+  pass; `cargo clippy --all-targets -- -D warnings` **pass** (P1 закрыт,
+  let-chain `:47`); `cargo test --all` — **141 passed / 0 failed** (rest_cli 6/6,
+  features_inventory 4/4). Границы чисты (numstat пусто, `git diff --check`
+  пусто). Покрытие карточки 6/6. P1/P2/P3 нет. Отчёт
+  `docs/reviews/T-24-2026-10-02-r2.md`; квитанция `T-24` iteration 2, accepted.
+  Дальше — `docs-writer` (T-24 ✅) + `migrator` (Q22 → done, видимая `[T-24] ✅`)
+  → гейт пакета → `git` branch_end → `complete`.
+- **02.10.2026 · T-24 — после прогона: rework (P1).** `cargo fmt --check` pass;
+  `cargo clippy --all-targets -- -D warnings` **fail** —
+  `tests/rest_cli.rs:47` `clippy::collapsible_if` (rust-1.96.0, `-D warnings`:
+  «could not compile test rest_cli»); `cargo test --all` — **141 passed / 0
+  failed** (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25,
+  mcp_errors 8, publish 12, rest 11, rest_cli 6). Покрытие карточки — 6/6
+  пунктов, контракт совпал с `src/main.rs:17-37`/`src/rest.rs:63-85,:96-106`;
+  границы чисты (`git diff --numstat -- src tests Cargo.toml features docs`
+  пусто, `git diff --check` пусто, трекнутые тесты не тронуты). P2/P3 нет.
+  Правка P1 — схлопнуть `if` в let-chain (`tests/**`, зона `tester`), затем
+  `-r2`. Отчёт `docs/reviews/T-24-2026-10-02.md`; квитанция `T-24` iteration 1,
+  rework. Урок: `tester` clippy не запускает (не в правах) — единственный
+  страж `clippy --all-targets` на тестовом таргете это `validator`; тест обязан
+  быть clippy-чистым заранее (лет-чейны, `collapsible_if`).
