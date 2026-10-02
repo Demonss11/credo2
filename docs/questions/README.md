@@ -103,3 +103,4 @@
 | [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |
 | [Q82](Q82.md) | «Сверка с кодом» D-файлов — датированный снимок или живой канон для запретов D64/D65? | [D85](../decisions/D85-sverka-snapshot-scope.md) |
 | [Q83](Q83.md) | схема состояния процесса: место и модель (F15) | [D86](../decisions/D86-state-schema.md) |
+| [Q84](Q84.md) | права и процедуры по итогам S-пилота T-24: allowlist ролей, CCSN-хвост ветки, state hygiene, модель `lead` | [D87](../decisions/D87-t24-pilot-fixes.md) |

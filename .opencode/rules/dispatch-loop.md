@@ -107,6 +107,10 @@
   `receipts.yaml`.
 - Один писатель на файл: `next_action`/`current_state` — `analyst`, `progress` —
   `lead`, `receipts` — `validator`.
+- Stale-детекция: если последняя запись `progress.yaml` — `complete`, а
+  `next_action`/`current_state` ей противоречат, `lead` не разбирает состояние
+  чтением: фиксирует stale и первым действием вызывает `analyst`
+  (переинициализация плана; `D87`).
 - Действие завершено только после записи в `progress.yaml`; при приближении к
   лимиту шагов — сначала запись, затем остановка.
 

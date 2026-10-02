@@ -50,3 +50,18 @@
   (одиночные — ок); `read` TRACEABILITY срезан `token-guard` (дочитан). Бюджет
   чтения слегка превышен (18 > 15) — отмечено владельцу. Отчёт — лента T-20
   (append). Канон не правил.
+
+- 02.10.2026, r9 (T-15, фаза C; правки по S-пилоту T-24, до коммита): аудит
+  «инструкция ↔ права» + D87 ↔ факт. `agents-perms.mjs` ×2 — «11 из 18»,
+  новые команды видны в runtime (lead `git rev-parse --short HEAD`; git
+  `branch --list *`/`ls-remote --heads origin *`; tester `cargo clippy *`);
+  `review.md` §«Доступные команды» синхрон фронтматтерам (diff подтвердил).
+  D87 4 пункта = фактические правки (lead/git/analyst/tester + review/
+  git-workflow/dispatch-loop), иных правок в каноне нет. Q84↔D87 парны,
+  TRACEABILITY Q84: D87/`in work`/T-15 🚧; карточка C14 🚧 + F26/F27,
+  адресов `.opencode/mail|state` и номеров строк нет. Границы: изменения
+  только `.opencode/{agents,rules,memory,mail,state}` + `docs/**`; `src/**`,
+  `tests/**`, `Cargo.toml` не тронуты. **P1/P2 нет; P3 — одна (C14 ссылается
+  на разбор `docs/analysis/**` именем, адресных ссылок нет).** Не проверено:
+  `opencode mcp list` — вне прав (`opencode reload` only); F65-факт взят с
+  ленты r9. Отчёт — лента r9 (append). Канон не правил.

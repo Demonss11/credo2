@@ -33,3 +33,8 @@
   (v0.2), Q81 open, Q78/Q79 → done; приёмка `-r3` (два rework: битая ссылка,
   синк ячеек), финальный аудит L — чисто; cargo на документном пакете не
   запускался (D50). Дальше — S-пилот на T-24 (F26/F27).
+- 02.10.2026, r9 «дешёвые правки» по T-24: Q84→D87; права (lead + rev-parse;
+  git + branch --list/ls-remote; tester + clippy; analyst — заметка), CCSN-пункт
+  в git-workflow, stale-детекция в dispatch-loop, модель lead `#default`;
+  reload выполнен, права подтверждены; MCP churn/restore (F65). Дальше —
+  auditor → validator → гейт → git.

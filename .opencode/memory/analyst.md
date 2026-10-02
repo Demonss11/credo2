@@ -91,3 +91,21 @@
   гейта 15 M + 5 ?? = **20** (`package.add_paths`); маркер
   `t24_closeout_package`; `session_index 2`; `phase: closing`,
   `acceptance: accepted`. Новых Q/D нет.
+- **02.10.2026 · T-24 · хвост closeout после частичного branch_end (iteration 2,
+  rework 1, D42):** git branch_end исполнен частично — коммит `8b6c8b9` (20
+  путей: 15 M + 5 A) + merge `--no-ff` `6c28e51` в develop + push
+  `caac10d..6c28e51` origin develop (✅); удаление ветки НЕ выполнено:
+  `git push origin --delete` заблокирован гардом CCSN (`git.push-delete`, ручное
+  действие владельца); origin-ветка и локальная ветка остались (`branch -d` не
+  выполнялся); обходов нет. Канон частичного исполнения —
+  `dispatch-loop.md:80-89`: выполненная часть зафиксирована, остаток —
+  возобновление НОВЫМ подтверждением; `complete` — только после полного
+  closeout. Очередь остатка: `surface_to_user` (эскалация владельцу: удалить
+  origin-ветку вручную; рекомендованный вариант — «Удалю вручную (Recommended)»,
+  прецедент T-20) → `dispatch git` (локальное `branch -d` без force + проверка
+  отсутствия ветки local+origin; предусловие — origin-ветка удалена; отказ
+  `-d`/наличие — не обходить, re-plan → `wait_for_user`) → `complete`. Маркер
+  `t24_closeout_branch_cleanup`; `status: awaiting_user`; `base.develop = 6c28e51`;
+  нового коммита нет (post-package записи — F43-подхват). Урок: гард CCSN
+  `git.push-delete` стабильно блокирует удаление origin-ветки — обход не искать
+  (T-20, T-24). Новых Q/D нет.

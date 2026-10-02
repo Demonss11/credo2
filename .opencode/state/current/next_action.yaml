@@ -1,51 +1,45 @@
-# 2026-10-02, T-24 (S-пилот, F26/F27): интеграционный тест CLI-контура REST на
-# реальном бинарнике. Класс S (директива владельца + карточка «ожидаемо S»;
-# прецедент T-21/T-22).
-# ФИНАЛЬНЫЙ УЧАСТОК (iteration 2, rework = 1, D42). Приёмка закрыта: validator
-# `-r2` — accepted (fmt pass; clippy pass — P1 iteration 1 закрыт; cargo test
-# --all 141/0, rest_cli 6/6, features_inventory 4/4; покрытие 6/6; границы
-# чисты); квитанция T-24 (iteration 2, accepted) в receipts.yaml; отчёт
-# docs/reviews/T-24-2026-10-02-r2.md.
-# Закрытие статусов исполнено: docs-writer — T-24 `✅ сделана` (карточка +
-# docs/tasks/README.md, features/ и CHANGELOG не тронуты); migrator —
-# docs/TRACEABILITY.md:26 Q22/D26 `in work` → `done` + видимая `[T-24] ✅`
-# (D77/D82; F57). pre_gate пройден: свежий снимок
-# `git status --porcelain -uall` = 15 M + 5 ?? = 20 = package.add_paths 1:1.
-# Гейт пакета branch_end подтверждён владельцем 02.10 (owner_response дословно
-# «Подтверждаю пакет (Recommended)»; progress surface_to_user + лента §«гейт
-# пакета — подтверждён»). acceptance: accepted, phase: closing.
-# Остаток: git (branch_end: commit → merge --no-ff в develop → push origin
-# develop → удаление ветки local+origin; master не трогаем) → complete.
-# Новых Q/D нет.
+# 2026-10-02, T-24 (S-пилот, F26/F27): интеграционный тест CLI-контура REST.
+# RE-PLAN ОСТАТКА (iteration 2, rework 1, D42) — частичное исполнение branch_end.
+# ВЫПОЛНЕНО (независимо подтверждено): коммит 8b6c8b9 «code(T-24):
+# интеграционный тест CLI-контура REST» (20 путей: 15 M + 5 A); merge --no-ff →
+# 6c28e51 «Слияние feature/T-24-rest-cli-contour-test в develop»; push
+# caac10d..6c28e51 → origin develop; develop = origin/develop; master не тронут.
+# НЕ ВЫПОЛНЕНО: удаление ветки — `git push origin --delete` заблокирован гардом
+# CCSN (`git.push-delete`, ручное действие владельца); origin-ветка осталась;
+# локальная ветка осталась (`branch -d` не выполнялся); обходов не применялось.
+# Канон частичного исполнения: dispatch-loop.md §«Git-пакет: сверка и частичное
+# исполнение» — выполненная часть зафиксирована, остаток возобновляется НОВЫМ
+# подтверждением; `complete` — только после полного closeout. Прецедент T-20
+# (тот же путь: владелец удалил origin-ветку вручную → git branch -d + проверка
+# → complete). Новых Q/D нет.
 task: T-24
 task_kind: task
 iteration: 2
-status: in_progress
-progress_marker: t24_closeout_git
+status: awaiting_user
+progress_marker: t24_closeout_branch_cleanup
 as_of: 2026-10-02
 class: S
 class_dispute: false
 class_note: >
-  S не пересматривается: завершение — git-пакет по уже подтверждённым путям;
-  поведение src/** и канон агентов не затрагиваются. Guard «features/ → не ниже
-  M» не триггерится (features/ не меняется). Приёмка пройдена (validator -r2,
-  accepted) — R2/D50 закрыт.
+  S не пересматривается: остаток — git-уборка (удаление ветки) по уже
+  исполненному пакету; src/** и канон агентов не затрагиваются. Guard
+  «features/ → не ниже M» не триггерится (features/ не меняется). Приёмка
+  пройдена (validator -r2, accepted) — R2/D50 закрыт.
 branch:
   name: feature/T-24-rest-cli-contour-test
   base: develop
-  base_head: caac10d
+  base_head: 6c28e51
   published: true
-  commits: 0
+  commits: 1
   note: >
-    Ветка = origin/feature/T-24-rest-cli-contour-test, коммитов нет; develop/
-    master не тронуты (развилка ветки на origin, divergence-маркеров нет).
-    Гейты ветки и пакета закрыты владельцем.
+    Ветка влита в develop (merge --no-ff 6c28e51) и отправлена; НЕ удалена:
+    origin-ветка осталась (push --delete заблокирован CCSN), локальная ветка
+    осталась (`branch -d` не выполнялся). master не тронут.
 scope_constraints:
-  - "Завершение — только git-операции с подтверждённым пакетом branch_end (20 путей); новых правок файлов нет."
-  - "docs/features/README.md и docs/CHANGELOG.md не трогать."
-  - "src/**, Cargo.toml, tests/**, канон агентов — без правок."
-  - "master не трогать; после push в отслеживаемые файлы не писать (F43) — хеши в ответе lead."
-  - "`git push origin --delete` при блокировке гардом CCSN (`git.push-delete`) не обходить: зафиксировать факт и эскалировать владельцу (прецедент T-20)."
+  - "Остаток — только удаление ветки: origin-ветку удаляет владелец вручную (CCSN), локальную — `git branch -d` (роль git); `-D`/force не применять."
+  - "Нового коммита нет: пост-пакетные записи (state/mail/память) — F43-подхват следующим пакетом (прецедент T-20 → T-24)."
+  - "master не трогать; develop не перезаписывать; после push в отслеживаемые файлы не писать (F43) — хеши в ответе lead."
+  - "`git push origin --delete` при блокировке гардом CCSN (`git.push-delete`) не обходить: ручное действие владельца (прецедент T-20)."
 route_exclusions:
   - "coder/rust-expert — не нужны: src/** и Cargo.toml не меняются."
   - "tester/validator — не нужны: приёмка завершена (accepted), доработок нет."
@@ -76,72 +70,85 @@ package:
     - docs/TRACEABILITY.md
     - tests/rest_cli.rs
   note: >
-    Пакет подтверждён владельцем 02.10 без изменений (pre_gate: 15 M + 5 ?? =
-    20 = add_paths 1:1). Один коммит на ветке («code(T-24): интеграционный тест
-    CLI-контура REST») → merge --no-ff в develop («Слияние
-    feature/T-24-rest-cli-contour-test в develop») → push origin develop →
-    удаление ветки local+origin; master не трогаем. F43-подхват T-20 и
-    process-записи прогона — тем же пакетом (прецедент T-20/T-21).
+    ВЫПОЛНЕНО: коммит 8b6c8b9 «code(T-24): интеграционный тест CLI-контура REST»
+    (20 путей: 15 M + 5 A) → merge --no-ff 6c28e51 «Слияние
+    feature/T-24-rest-cli-contour-test в develop» → push caac10d..6c28e51 origin
+    develop. add_paths уже закоммичены — повторный add/коммит НЕ нужен. ОСТАТОК:
+    удаление ветки — origin вручную владельцем (CCSN), локально `git branch -d`
+    + проверка local+origin. Пост-пакетные записи (state/mail/память) — F43-подхват
+    следующим пакетом.
 next:
+  - kind: surface_to_user
+    brief: >-
+      Эскалация владельцу (гард CCSN; прецедент T-20). Вопрос: «T-24 (S), хвост
+      closeout: коммит 8b6c8b9 + merge 6c28e51 в develop + push origin develop
+      выполнены; удаление ветки feature/T-24-rest-cli-contour-test —
+      `git push origin --delete` заблокирован гардом CCSN (`git.push-delete`,
+      только ручное действие). Как закрываем?» Варианты: (1) «Удалю
+      origin-ветку вручную (Recommended)» — владелец выполняет `git push origin
+      --delete feature/T-24-rest-cli-contour-test`, подтверждает факт удаления;
+      далее `git` (branch -d + проверка); (2) «Оставить ветку» — origin-ветка
+      сохраняется (deferred_by_owner), локальная не удаляется; T-24 закрывается
+      с пометкой; (3) «Отложить» — status blocked, T-24 не закрывается.
+      channel: question; owner_response — дословно.
+    expect: >
+      owner_response (дословно) зафиксирован; выбран вариант. При (1): если факт
+      удаления подтверждён — переход к `dispatch git`; если выражено только
+      намерение (origin-ветка ещё есть) — re-plan → `wait_for_user` до
+      подтверждения факта, затем `dispatch git`. При (2)/(3) — re-plan по выбору.
+    reason: >
+      dispatch-loop §«Владелец: канал и фиксация» + §«Git-пакет: сверка и
+      частичное исполнение» (возобновление остатка новым подтверждением);
+      прецедент T-20 (owner: «Удалю вручную (Recommended)»).
   - kind: dispatch
     role: git
     brief: >-
-      branch_end (пакет подтверждён владельцем 02.10, лента §«гейт пакета —
-      подтверждён»; progress surface_to_user, channel: question, owner_response
-      дословно). Исполнить ровно:
-      (1) `git add` ровно 20 путями из package.add_paths (ни одного лишнего);
-      (2) staged-сверка: ожидание 15 M + 5 A (5 ??: mail/T-24.md, docs/analysis/
-      T-24-2026-10-02.md, docs/reviews/T-24-2026-10-02.md, docs/reviews/
-      T-24-2026-10-02-r2.md, tests/rest_cli.rs) — расхождение: стоп, без
-      обходов;
-      (3) коммит сообщением «code(T-24): интеграционный тест CLI-контура REST»;
-      (4) `switch develop` → `pull origin develop` → merge `--no-ff` ветки с
-      сообщением «Слияние feature/T-24-rest-cli-contour-test в develop»;
-      (5) `push origin develop` (таймаут ≥ 5 мин);
-      (6) удаление ветки local + origin (`push origin --delete`); master не
-      трогать.
-      Если `git push origin --delete` заблокирован гардом CCSN
-      (`git.push-delete`) — обходов НЕ применять: зафиксировать факт
-      (local удалена? origin осталась?) и вернуть lead для эскалации владельцу
-      (прецедент T-20). До операции — F43-отчёт в ленту; после push в
-      отслеживаемые файлы не писать (хеши — в ответе lead).
+      Уборка после подтверждённого владельцем удаления origin-ветки (CCSN).
+      ПРЕДУСЛОВИЕ: `origin/feature/T-24-rest-cli-contour-test` отсутствует
+      (подтверждено owner_response/проверкой). Исполнить ровно:
+      (1) на `develop` — `git branch -d feature/T-24-rest-cli-contour-test`
+      (без `-D`/force; отказ `-d` — не обходить: зафиксировать и вернуть lead);
+      (2) проверка отсутствия ветки: `git branch`/`git branch -a`/`git ls-remote
+      --heads origin` (ветки нет ни локально, ни в origin); `master` не трогать.
+      Если origin-ветка ещё существует — `branch -d` НЕ форсировать, зафиксировать
+      и вернуть lead (re-plan → wait_for_user).
     expect: >
-      role=git: коммит создан из 20 путей (15 M staged + 5 A); ветка влита в
-      develop через --no-ff («Слияние feature/T-24-rest-cli-contour-test в
-      develop»); `push origin develop` выполнен; ветка удалена local+origin;
-      master не тронут; отчёт в ленте. При блокировке push --delete —
-      expect_match false, зафиксировать и эскалировать (re-plan → surface_to_user).
+      role=git: локальная ветка удалена `branch -d` (не force); проверка
+      подтверждает отсутствие `feature/T-24-rest-cli-contour-test` local+origin;
+      develop = origin/develop (6c28e51); master не тронут; отчёт в ленте.
+      Наличие ветки/отказ `-d` — expect_match false, без обходов, эскалация.
     reason: >
-      R7/git-workflow §«Пакет и подтверждение»; подтверждение владельца есть;
-      прецедент T-20/T-21.
+      Прецедент T-20 (после ручного удаления origin — `git branch -d` +
+      `git branch -a`); dispatch-loop §«Git-пакет: сверка и частичное исполнение».
   - kind: complete
     brief: >-
-      После полного closeout (git branch_end исполнен целиком: коммит + merge
-      --no-ff + push develop + ветка удалена) — закрыть T-24 и дать владельцу
-      короткий итог: T-24 закрыта (S-пилот F26/F27; тест tests/rest_cli.rs;
-      приёмка -r2 accepted 141/0), квитанция в receipts.yaml, Q22 → done с
-      видимой [T-24] ✅; хеши коммита/merge — в ответе. `complete` не исполнять,
-      если push --delete заблокирован (задача не закрыта полностью).
+      Только после ПОЛНОГО closeout: ветка удалена local+origin (проверено
+      `git`), `develop` = `origin/develop` (6c28e51), `master` не тронут. Итог
+      владельцу: T-24 закрыта (S-пилот F26/F27; `tests/rest_cli.rs`; приёмка
+      `-r2` accepted 141/0; квитанция в receipts.yaml; Q22 → done с видимой
+      `[T-24] ✅`); коммит 8b6c8b9, merge 6c28e51; ветка удалена (origin —
+      вручную владельцем, локально — `git`). Если ветка не удалена — `complete`
+      НЕ исполнять.
     expect: >
-      T-24 закрыта; итог выдан владельцу; git-факты (commit/merge/push/удаление
-      ветки) зафиксированы.
+      T-24 закрыта; итог выдан владельцу; ветка отсутствует local+origin;
+      git-факты (commit/merge/push/удаление ветки) зафиксированы.
     reason: >
       dispatch-loop §«Hard rules»: `complete` — только после полного closeout;
       без квитанции accepted не исполняется (квитанция есть).
 resume_hint: >
-  T-24 (02.10.2026), iteration 2 (rework 1, D42), статус in_progress, маркер
-  t24_closeout_git — S-пилот (F26/F27): интеграционный тест CLI-контура REST.
-  Приёмка validator `-r2` — accepted (fmt/clippy/test зелёные, P1 закрыт; 141/0,
-  rest_cli 6/6); квитанция (iteration 2, accepted) в receipts.yaml. Закрытие
-  статусов исполнено (docs-writer T-24 ✅; migrator Q22 done, видимая [T-24] ✅).
-  pre_gate пройден (20 = add_paths 1:1); гейт пакета branch_end подтверждён
-  владельцем дословно «Подтверждаю пакет (Recommended)». Остаток: `dispatch git`
-  (branch_end: git add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24):
-  интеграционный тест CLI-контура REST» → switch develop → merge --no-ff
-  «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop →
-  удаление ветки local+origin; master не трогаем; блокировка
-  `git push origin --delete` гардом CCSN — не обходить, эскалировать владельцу,
-  прецедент T-20) → `complete`. База develop = origin/develop = caac10d.
-  package.add_paths = 20 путей (15 M + 5 ??); расхождений среза нет.
-  Новых Q/D нет.
+  T-24 (02.10.2026), iteration 2 (rework 1, D42), статус awaiting_user, маркер
+  t24_closeout_branch_cleanup — S-пилот (F26/F27): интеграционный тест CLI-контура
+  REST. Приёмка validator `-r2` — accepted (141/0, rest_cli 6/6); квитанция
+  (iteration 2, accepted) в receipts.yaml; закрытие статусов исполнено (T-24 ✅;
+  Q22 done, видимая [T-24] ✅). branch_end исполнен ЧАСТИЧНО: коммит 8b6c8b9 →
+  merge --no-ff 6c28e51 в develop → push origin develop (выполнено);
+  origin-ветка НЕ удалена (`git push origin --delete` заблокирован гардом CCSN
+  `git.push-delete`), локальная ветка осталась (`branch -d` не выполнялся).
+  ОСТАТОК: `surface_to_user` (эскалация: владелец удаляет origin-ветку вручную и
+  подтверждает; при выборе — подтверждение факта / `wait_for_user`) → `dispatch
+  git` (локальное `branch -d` без force + проверка отсутствия ветки local+origin;
+  предусловие — origin-ветка удалена; отказ `-d`/наличие ветки — не обходить,
+  re-plan) → `complete` (только после полного closeout). База develop = origin/develop
+  = 6c28e51; package.add_paths (20) уже закоммичены — нового коммита нет.
+  Пост-пакетные записи — F43-подхват. Новых Q/D нет.
 inherited_boundaries: [Q22, D26, D27, Q27, D77, D82, D50, D83, F43, F57]

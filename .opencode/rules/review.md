@@ -89,14 +89,18 @@
   `git rev-parse`, `git ls-files`, `git check-ignore`, `cargo fmt|clippy|test`,
   `node .opencode/scripts/agents-perms.mjs`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
-- `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
-- `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
-- `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`.
+- `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`, `cargo clippy`.
+- `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`; ветку/HEAD —
+  косвенно (`git branch`/`rev-parse` вне прав).
+- `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`,
+  `git rev-parse --short HEAD`.
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
   `git check-ignore`, `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
 - `researcher`: `rg`.
-- `git`: `rg`, `git`-команды (изменяющие — `ask`),
+- `git`: `rg`, read-only git-команды (`status`/`diff`/`log`/`show`/`branch`/
+  `rev-parse`/`remote`/`tag`/`ls-remote`), изменяющие — `ask` (`add`/`commit`/
+  `switch`/`checkout`/`merge`/`branch -d`/`tag`/`restore`/`push`/`fetch`/`pull`),
   `node .opencode/scripts/clean-logs.mjs`,
   `node .opencode/scripts/git-check.mjs`.
 - **Автопроверка `auditor`:** этот список должен совпадать с фронтматтерами

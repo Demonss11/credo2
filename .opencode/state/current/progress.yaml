@@ -1240,3 +1240,61 @@
   resume: true
   result: "Resume-синк №3 + финальный участок: расхождений нет — pre_gate 15 M + 5 ?? = 20 = add_paths 1:1; гейт пакета подтверждён (owner_response дословно); квитанция accepted; очередь: dispatch git (branch_end: add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24): интеграционный тест CLI-контура REST» → merge --no-ff «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop → удаление ветки local+origin; master не трогаем; гард CCSN git.push-delete — без обходов, эскалация) → complete; маркер t24_closeout_git; gate_pending: none; session_index 2; новых Q/D нет"
   next: "dispatch git (branch_end)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "частично: коммит 8b6c8b9 «code(T-24): интеграционный тест CLI-контура REST» (20 путей: 15 M + 5 A); merge --no-ff 6c28e51 «Слияние feature/T-24-rest-cli-contour-test в develop»; push caac10d..6c28e51 origin develop — выполнены (develop = origin/develop, дерево чистое); удаление ветки НЕ выполнено: git push origin --delete заблокирован гардом CCSN (git.push-delete — ручное действие владельца); локальная ветка осталась (branch -d не выполнялся); обходов не применялось; master не тронут"
+  expect_match: false
+  next: "re-plan analyst → surface_to_user (эскалация CCSN: ручное удаление origin-ветки владельцем) → git (local delete + проверка) → complete"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок уборки (частичный branch_end, CCSN-блок): маркер t24_closeout_branch_cleanup; status awaiting_user; зафиксирован остаток: surface_to_user (эскалация: ручное удаление origin-ветки владельцем) → git (branch -d без force + проверка local+origin) → complete (только после полного closeout); base.develop = 6c28e51; package: нового коммита нет; новых Q/D нет"
+  next: "surface_to_user (эскалация CCSN)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: surface_to_user
+  question: "T-24: хвост closeout — origin-ветка feature/T-24-rest-cli-contour-test не удалена (гард CCSN git.push-delete); как закрываем?"
+  channel: question
+  owner_response: "Удалю origin-ветку вручную (Recommended)"
+  result: "deferred: владелец удаляет origin-ветку вручную (CCSN); факт удаления ещё не подтверждён (проверка lead: git ls-remote — permission denied); по плану — re-plan → wait_for_user до подтверждения факта, затем git (branch -d + проверка) → complete"
+  next: "re-plan analyst → wait_for_user (подтверждение факта удаления origin-ветки)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: wait_for_user
+  result: "владелец подтвердил факт: «удалил» — origin-ветка feature/T-24-rest-cli-contour-test удалена вручную (CCSN); предусловие git-уборки выполнено (отсутствие верифицирует роль git); переход к dispatch git"
+  note: "вызов analyst режима ожидания был прерван — записей в state/ленте не оставил; план остатка (t24_closeout_branch_cleanup) без изменений"
+  next: "dispatch git (уборка: branch -d + проверка local+origin)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: git
+  result: "готово (уборка): предусловие подтверждено (origin-ветка отсутствует: git branch -a + git rev-parse --verify origin/... — ref нет; удалена владельцем вручную); локальная feature/T-24-rest-cli-contour-test удалена git branch -d (was 8b6c8b9, без force); git branch -a — целевой ветки нет (local+remotes); develop = origin/develop = 6c28e51; master = 46b98c2 не тронут; дерево — 6 M пост-пакетных записей (подхват); F43: в файлы не писал (рапорт в ответе). Ограничение: git ls-remote — вне прав роли (верификация косвенная: remote-tracking ref отсутствует; обходов не применялось)"
+  expect_match: true
+  next: "complete (полный closeout: ветка удалена local+origin)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: complete
+  result: "T-24 закрыта (S-пилот F26/F27): коммит 8b6c8b9 «code(T-24): интеграционный тест CLI-контура REST» → merge --no-ff 6c28e51 в develop → push origin develop; ветка удалена local+origin (origin — вручную владельцем, local — git branch -d); develop = origin/develop = 6c28e51; master не тронут; приёмка -r2 accepted (141/0, rest_cli 6/6), квитанция в receipts.yaml; Q22 → done с видимой [T-24] ✅; пост-пакетные записи — F43-подхват"
+  next: "— (T-24 закрыта; S-пилот завершён)"

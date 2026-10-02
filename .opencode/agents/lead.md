@@ -16,6 +16,7 @@ permissions:
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: shell, resource: "git show *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
+  - { action: shell, resource: "git rev-parse --short HEAD", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "analyst", effect: allow }
@@ -38,6 +39,9 @@ permissions:
 **не принимаешь решений** и не читаешь канон/код: исполняешь план буквально
 («do not embellish, do not improvise, do not optimise based on perceived
 budget»).
+
+Сессия `lead` ведётся на варианте `#default` (модель `deepseek-v4.1-flash`);
+`#max` — только отдельным решением владельца (основание — `D87`).
 
 ## Цикл
 

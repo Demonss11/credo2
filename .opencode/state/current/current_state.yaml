@@ -1,21 +1,23 @@
 # current_state.yaml — 2026-10-02, T-24 (S-пилот, F26/F27): интеграционный
 # тест CLI-контура REST на реальном бинарнике. Класс S (директива владельца +
 # карточка «ожидаемо S»; прецедент T-21/T-22). Приёмка validator `-r2` —
-# accepted; текущий участок — ФИНАЛЬНЫЙ (iteration 2, rework 1, D42): git
-# branch_end по подтверждённому пакету → complete. Сессия lead = 2 (resume).
+# accepted. Участок — ХВОСТ CLOSEOUT (iteration 2, rework 1, D42): branch_end
+# исполнен частично (коммит/merge/push), удаление ветки заблокировано гардом
+# CCSN → эскалация владельцу → git (branch -d + проверка) → complete. Сессия
+# lead = 2 (resume).
 as_of: 2026-10-02
 operation: T-24
 kind: task
 task: T-24
-task_note: "T-24 (S) — тест CLI-контура REST (tests/rest_cli.rs, tester); приёмка validator -r2 accepted (fmt/clippy/test зелёные, 141/0, rest_cli 6/6); закрытие статусов исполнено (T-24 ✅; Q22 done, видимая [T-24] ✅); pre_gate 20=add_paths 1:1; гейт пакета branch_end подтверждён владельцем → остаток: git branch_end → complete"
+task_note: "T-24 (S) — тест CLI-контура REST (tests/rest_cli.rs, tester); приёмка validator -r2 accepted (141/0, rest_cli 6/6); закрытие статусов исполнено (T-24 ✅; Q22 done); branch_end частично: коммит 8b6c8b9 + merge 6c28e51 + push origin develop (✅), удаление ветки заблокировано CCSN → эскалация владельцу → git (branch -d + проверка) → complete"
 iteration: 2
 rework: 1
 session_index: 2
 phase: closing
 class: S
 class_dispute: false
-status: in_progress
-progress_marker: t24_closeout_git
+status: awaiting_user
+progress_marker: t24_closeout_branch_cleanup
 acceptance: accepted
 acceptance_reports:
   - docs/reviews/T-24-2026-10-02.md      # iteration 1, rework (P1)
@@ -27,8 +29,9 @@ artifacts:
   review_r1: docs/reviews/T-24-2026-10-02.md
   review_r2: docs/reviews/T-24-2026-10-02-r2.md
 route_pending:
-  - "git (branch_end: git add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24): интеграционный тест CLI-контура REST» → switch develop → merge --no-ff «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop → удаление ветки local+origin; master не трогаем; блокировка push --delete гардом CCSN — не обходить, эскалировать владельцу)"
-  - "complete (после полного closeout; короткий итог владельцу)"
+  - "surface_to_user (эскалация CCSN: владелец удаляет origin-ветку вручную и подтверждает; при выборе — подтверждение факта / wait_for_user)"
+  - "git (уборка: локальное `branch -d` без force + проверка отсутствия ветки local+origin; предусловие — origin-ветка удалена)"
+  - "complete (только после полного closeout; короткий итог владельцу)"
 route_exclusions:
   - "coder/rust-expert — src/** и Cargo.toml не меняются"
   - "tester/validator — приёмка завершена (accepted), доработок нет"
@@ -58,59 +61,38 @@ package:
     - docs/tasks/T-24-rest-cli-contour-test/README.md
     - docs/TRACEABILITY.md
     - tests/rest_cli.rs
-  note: "Пакет подтверждён владельцем 02.10 без изменений (pre_gate: 15 M + 5 ?? = 20 = add_paths 1:1). Один коммит на ветке, merge --no-ff в develop, push origin develop, удаление ветки local+origin; master не трогаем. F43-подхват T-20 и process-записи — тем же пакетом."
-gate_pending: "none — гейты ветки и пакета branch_end закрыты владельцем"
+  note: "ВЫПОЛНЕНО: коммит 8b6c8b9 (20 путей: 15 M + 5 A) → merge --no-ff 6c28e51 в develop → push caac10d..6c28e51 origin develop. add_paths уже закоммичены — повторный add/коммит не нужен. ОСТАТОК: удаление ветки (origin вручную владельцем из-за CCSN, локально git branch -d). Пост-пакетные записи — F43-подхват."
+gate_pending: "удаление ветки — ручное действие владельца (CCSN `git.push-delete`): эскалация surface_to_user; complete до полного closeout не исполняется"
 base:
-  develop: caac10d   # = origin/develop
+  develop: 6c28e51   # = origin/develop (после merge --no-ff + push)
   master: ""
 branch:
   name: feature/T-24-rest-cli-contour-test
   base: develop
-  base_head: caac10d
+  base_head: 6c28e51
   published: true
-  commits: 0
-  note: "Ветка = origin/feature/T-24-rest-cli-contour-test; коммитов нет; develop/master не тронуты."
+  commits: 1
+  note: "Ветка влита в develop (merge --no-ff 6c28e51) и отправлена; НЕ удалена: origin-ветка осталась (push --delete заблокирован CCSN), локальная осталась (`branch -d` не выполнялся). master не тронут."
 worktree_remainder:
-  - ".opencode/mail/T-20.md                      # F43-подхват (M)"
-  - ".opencode/mail/T-24.md                      # лента T-24 (??)"
-  - ".opencode/memory/analyst.md                 # чекпойнт (M)"
-  - ".opencode/memory/docs-writer.md             # чекпойнт закрытия (M)"
-  - ".opencode/memory/git.md                     # чекпойнт branch_start (M)"
-  - ".opencode/memory/migrator.md                # чекпойнт закрытия (M)"
-  - ".opencode/memory/service.md                 # F43-подхват (M)"
-  - ".opencode/memory/tester.md                  # чекпойнт T-24 (M)"
-  - ".opencode/memory/validator.md               # чекпойнт приёмки r1/r2 (M)"
-  - ".opencode/state/current/current_state.yaml  # снимок T-24 (M)"
-  - ".opencode/state/current/next_action.yaml    # план закрытия T-24 (M)"
-  - ".opencode/state/current/progress.yaml       # записи lead (M)"
-  - ".opencode/state/current/receipts.yaml       # квитанции T-24 r1/r2 (M)"
-  - "docs/analysis/T-24-2026-10-02.md            # досье T-24 (??)"
-  - "docs/reviews/T-24-2026-10-02.md             # отчёт validator r1 (??)"
-  - "docs/reviews/T-24-2026-10-02-r2.md          # отчёт validator r2 (??)"
-  - "docs/tasks/README.md                       # T-24 ✅ (M)"
-  - "docs/tasks/T-24-rest-cli-contour-test/README.md  # T-24 ✅ сделана (M)"
-  - "docs/TRACEABILITY.md                       # Q22 done + [T-24] ✅ (M)"
-  - "tests/rest_cli.rs                          # тест T-24 (??)"
+  - ".opencode/mail/T-24.md                      # запись lead о частичном branch_end + эта запись (M)"
+  - ".opencode/state/current/progress.yaml       # запись lead о частичном branch_end (M)"
+  - ".opencode/state/current/current_state.yaml  # снимок хвоста closeout (M)"
+  - ".opencode/state/current/next_action.yaml    # план остатка (M)"
+  - ".opencode/memory/analyst.md                 # чекпойнт re-plan остатка (M)"
 snapshot_check: >
   Снимок `git status --porcelain --branch --untracked-files=all` (02.10.2026,
-  финальный участок, ветка feature/T-24-rest-cli-contour-test =
-  origin/feature/T-24-rest-cli-contour-test, коммитов нет): 15 M + 5 ?? = 20,
-  совпадение с package.add_paths 1:1, лишних путей нет. 15 M:
-  .opencode/mail/T-20.md; memory/{analyst,docs-writer,git,migrator,service,
-  tester,validator}.md; state/current/{current_state,next_action,progress,
-  receipts}.yaml; docs/TRACEABILITY.md; docs/tasks/README.md; docs/tasks/
-  T-24-rest-cli-contour-test/README.md. 5 ??: .opencode/mail/T-24.md;
-  docs/analysis/T-24-2026-10-02.md; docs/reviews/T-24-2026-10-02.md;
-  docs/reviews/T-24-2026-10-02-r2.md; tests/rest_cli.rs. Гейт пакета
-  подтверждён владельцем 02.10 (owner_response дословно «Подтверждаю пакет
-  (Recommended)»); расхождений среза нет.
+  хвост closeout; HEAD = develop = origin/develop = 6c28e51): 2 M —
+  `.opencode/mail/T-24.md`, `.opencode/state/current/progress.yaml` (запись lead
+  о частичном branch_end). Коммит 8b6c8b9 + merge 6c28e51 + push выполнены,
+  рабочее дерево до re-plan было чистое. Re-plan добавляет M в
+  `next_action.yaml`, `current_state.yaml`, `memory/analyst.md` — пост-пакетные
+  записи (F43-подхват следующим пакетом). Нового коммита для T-24 нет.
 constraints:
-  - "Завершение — только git-операции с подтверждённым пакетом (20 путей); новых правок файлов нет."
-  - "docs/features/README.md и docs/CHANGELOG.md не трогать."
-  - "src/**, Cargo.toml, tests/** не меняются."
-  - "master не трогать; после push в отслеживаемые файлы не писать (F43)."
-  - "Блокировка `git push origin --delete` гардом CCSN (git.push-delete) — не обходить, эскалировать владельцу (прецедент T-20)."
+  - "Остаток — только удаление ветки: origin вручную владельцем (CCSN), локально `git branch -d` без force."
+  - "Нового коммита нет: пост-пакетные записи (state/mail/память) — F43-подхват следующим пакетом."
+  - "master не трогать; develop не перезаписывать; после push в отслеживаемые файлы не писать (F43)."
+  - "Блокировка `git push origin --delete` гардом CCSN — не обходить, эскалация владельцу (прецедент T-20)."
 resume:
   analyst_session: current
-  note: "Финальный участок: git branch_end (required, merge --no-ff в develop, push develop, удаление ветки local+origin; master не трогаем) → complete. База develop = origin/develop = caac10d. package.add_paths = 20 (15 M + 5 ??), сверка pre_gate пройдена, гейт подтверждён. Новых Q/D нет."
+  note: "Хвост closeout: branch_end исполнен частично (коммит 8b6c8b9 + merge --no-ff 6c28e51 в develop + push origin develop ✅); origin-ветка и локальная ветка НЕ удалены (push --delete заблокирован CCSN). Остаток: surface_to_user (эскалация) → git (branch -d + проверка) → complete. База develop = origin/develop = 6c28e51. package.add_paths (20) уже закоммичены. Новых Q/D нет."
 inherited_boundaries: [Q22, D26, D27, Q27, D77, D82, D50, D83, F43, F57]

@@ -143,3 +143,30 @@
   rework. Урок: `tester` clippy не запускает (не в правах) — единственный
   страж `clippy --all-targets` на тестовом таргете это `validator`; тест обязан
   быть clippy-чистым заранее (лет-чейны, `collapsible_if`).
+- **02.10.2026 · r9-приёмка (T-15/фаза C, `service-t24-fixes`), до записи
+  артефактов.** Адресная документная сверка (D50 + решение владельца
+  02.10.2026 «тесты только при правках кода» — `cargo` НЕ запускается;
+  `src/**`, `tests/**`, `Cargo.toml` не тронуты). Снимок: `develop` =
+  `origin/develop`, HEAD `6c28e51` + рабочее дерево (пакет не закоммичен).
+  Проверено чтением/`rg`/`git diff` (по одному файлу; `git diff -- <path>`
+  отклоняется — рабочая форма `git diff <path>`): D87 ↔ факт — 4 пункта
+  (lead.md:19 rev-parse + :43-44 `#default`; git.md:22-23 branch --list/
+  ls-remote; analyst.md заметка :49-50; tester.md:19 clippy + шаг 4 + шаблон);
+  CCSN `git-workflow.md:117-121`; stale `dispatch-loop.md:110-113`; review.md
+  §«Доступные команды» синхронен фронтматтерам (lead/git/analyst/tester).
+  `agents-perms.mjs` — 11 из 18, новые права видны (reload применён). Журнал
+  Q84↔D87 парны, каталоги + TRACEABILITY Q84 `in work`/T-15 🚧, карточка C14 🚧.
+  Границы: `git diff --numstat -- src tests Cargo.toml` пусто; `git diff
+  --check` пусто; изменены только разрешённые пути. Статические гейты
+  `docs_journal.rs` (Q↔D, каталоги, TRACEABILITY lifecycle/tasks) зелёные по
+  чтению. Ориентир — принято, P1/P2 нет; P3 — C14 источник разбора по имени
+  (не блокер, зафиксирован аудитом).
+  **После записи артефактов: принято (P1/P2 нет).** `cargo` не запускался
+  (D50). Все 4 пункта D87 подтверждены `git diff` по файлам; `agents-perms` —
+  11 из 18; гейты `docs_journal.rs` зелёные по чтению; границы чисты. P3
+  оставлена открытой (не блокер). Отчёт
+  `docs/reviews/service-t24-fixes-2026-10-02.md`; квитанция
+  `service-t24-fixes` iteration 1, accepted. Дальше — гейт пакета → `git`
+  (develop, сервисный пакет без ветки) → `complete`. Урок: `git diff -- <path>`
+  отклоняется движком — рабочая форма `git diff <path>` (без `--`); несколько
+  путей в одном вызове тоже не матчатся — по одному файлу.

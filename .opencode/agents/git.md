@@ -19,6 +19,8 @@ permissions:
   - { action: shell, resource: "git show *", effect: allow }
   - { action: shell, resource: "git branch -l *", effect: allow }
   - { action: shell, resource: "git branch -a *", effect: allow }
+  - { action: shell, resource: "git branch --list *", effect: allow }
+  - { action: shell, resource: "git ls-remote --heads origin *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
   - { action: shell, resource: "git branch -vv", effect: allow }
   - { action: shell, resource: "git remote -v", effect: allow }
