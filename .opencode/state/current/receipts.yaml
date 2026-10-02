@@ -1268,3 +1268,22 @@
     tech: "bare .opencode/... dot-path under -- rejected ('Permission denied') — './'-prefixed form worked; 4-path single diff call rejected — per-path calls used"
   snapshot: "develop @ c8ffb0f (= origin/develop = HEAD) + working tree (2026-10-01)"
   at: "2026-10-01"
+
+- task: service-question-kodaskills
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-question-kodaskills-2026-10-02.md
+  dod:
+    cargo: "not run (D50) — document package: git diff --stat -- src tests Cargo.toml empty; no code/features change"
+    branch: "ok — git status -sb = '## develop...origin/develop'; git rev-parse HEAD develop origin/develop = c2f905f / c2f905f / c2f905f"
+    borders: "ok — git status --porcelain = M docs/TRACEABILITY.md, M docs/questions/README.md, ?? docs/questions/Q81.md, ?? .opencode/mail/service-question-kodaskills.md, M .opencode/memory/migrator.md + штатные M .opencode/state/current/{current_state,next_action,progress}.yaml (analyst/lead); git diff --stat docs +1/+1 only; git diff --check empty"
+    q_number: "ok — git ls-files docs/questions max tracked = Q80.md; Q82 absent, no Q81 duplicate -> next free"
+    form: "ok — Q81: title '# Q81: …', fields Статус/Дата/Приоритет/Связано, sections Контекст/Вопрос/Варианты/Рекомендация, status open, date 2026-10-02"
+    no_d_no_t: "ok — no Resolves field; rg 'Resolves|T-' Q81 empty; rg 'Q81' docs/decisions docs/tasks docs/features empty"
+    rows_consistent: "ok — TRACEABILITY:85 '| [Q81](questions/Q81.md) | — | open | — | — |' and questions/README.md:103 '| [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |' agree"
+    open_justified: "ok — open = 'решение не принято' per TRACEABILITY legend:87-88, journal.md §3, D82 Решение п.1 (Qtrace 'решения нет'); §8 'Q без D' not applicable to fresh open"
+    d65: "ok — rg '\\.opencode/(mail|state)|docs/(reviews|research|analysis)' Q81.md empty (exit 1); new README/TRACEABILITY rows carry no session addresses"
+    line_numbers: "ok — rg ':\\d+' Q81.md empty (exit 1)"
+    links: "ok — D82-traceability-lifecycle-waves.md and Q79.md exist (git ls-files); material URL verbatim https://github.com/XCode-NLP/KodaSkills/tree/main/skills"
+  snapshot: "develop @ c2f905f (= origin/develop = HEAD) + working tree (2026-10-02)"
+  at: "2026-10-02"

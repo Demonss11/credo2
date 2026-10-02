@@ -100,3 +100,4 @@
 | [Q78](Q78.md) | жизненный цикл `TRACEABILITY`: как разгрести массу `resolved` | [D82](../decisions/D82-traceability-lifecycle-waves.md) |
 | [Q79](Q79.md) | волна 2 `TRACEABILITY`: как разобрать оставшиеся `open`-строки | [D83](../decisions/D83-traceability-wave2.md) |
 | [Q80](Q80.md) | шум в `.opencode/rules/**`: ссылки на решения и исторические приписки | [D84](../decisions/D84-rules-revision.md) |
+| [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |

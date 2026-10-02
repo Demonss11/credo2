@@ -82,6 +82,7 @@
 | [Q78](questions/Q78.md) | [D82](decisions/D82-traceability-lifecycle-waves.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
 | [Q79](questions/Q79.md) | [D83](decisions/D83-traceability-wave2.md) | in work | [T-20](tasks/T-20-traceability-wave2/README.md) ⬜ | — |
 | [Q80](questions/Q80.md) | [D84](decisions/D84-rules-revision.md) | done | — | `.opencode/rules/**`, `AGENTS.md` §«Служебная зона и аудит» (волна 1) |
+| [Q81](questions/Q81.md) | — | open | — | — |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос

@@ -207,3 +207,17 @@
   Грабли: `git grep -n "R5" -- .opencode/rules/dispatch-loop.md` **отклонён
   правами** (shell allowlist) — подтверждать якорь инструментом `grep`, не
   shell. Коммит не делал (гейт).
+- **02.10.2026, сервисная операция `service-question-kodaskills` (только Q81):**
+  создан `docs/questions/Q81.md` — статус `open`, тема «применимость внешнего
+  материала KodaSkills (`skills`) к CREDO»; поля §4 (Связано: —), разделы
+  Контекст/Вопрос/Варианты (а/б/в)/Рекомендация; URL материала
+  `github.com/XCode-NLP/KodaSkills/tree/main/skills` на месте. Dn и T-XX не
+  заводились (ограничение владельца). Строки Q81 в `questions/README.md`
+  (D = —) и `TRACEABILITY.md` (Q81 | — | open | — | —). Проверки:
+  `git status --porcelain` → только целевые + чужие state-файлы analyst;
+  `git diff --check` пусто; `grep` Q81 по `docs/` → 3 ожидаемые; сессионных
+  адресов нет (D65); `resolved|dropped` в новых строках нет (только легенда);
+  счётчиков open/in work/done нет — не обновлялись; `cargo` не запускал (D50).
+  Обоснование `open` («решение не принято», §3, D82/Q79) — в «Рекомендации»,
+  чтобы §8 «Q без D» не читался антипаттерном. Отчёт — в ленте
+  `service-question-kodaskills`. Коммит не делал (гейт впереди).

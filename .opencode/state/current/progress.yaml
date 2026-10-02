@@ -400,3 +400,31 @@
   action: complete
   result: "Пакет git (P3-правка) исполнен: коммит d27a38d → push c8ffb0f..d27a38d в origin/develop; merge develop в master — fd9a878 («Слияние develop в master», без конфликтов, 46 файлов) → push 51357bb..fd9a878 в origin/master; master = origin/master = fd9a878, develop = origin/develop = d27a38d. Уточнение: master был 51357bb (не 9173fc4 — устаревшая запись), предок develop, merge безопасен; запись в ленте поправлена."
   next: "— (хеши; пост-пакетная запись — догрузка следующим пакетом)"
+
+- at: "2026-10-02"
+  task: service-question-kodaskills
+  iteration: 1
+  action: dispatch
+  role: migrator
+  result: "готово: Q81 создан — docs/questions/Q81.md (open, тема «применимость внешнего материала KodaSkills (skills) к CREDO», URL материала на месте; без D и T-XX); строки Q81 добавлены в docs/questions/README.md и docs/TRACEABILITY.md (Q81 | — | open | — | —); счётчиков open/in work/done в этих файлах нет; служебная лента открыта и дополнена отчётом; git status — только целевые файлы (+ штатные M state-файлов analyst), src/tests/Cargo.toml не тронуты; git diff --check пусто; grep D65 чист; cargo не запускался (D50). Номер Q81 сверен (следующий после Q80)"
+  expect_match: true
+  next: "dispatch validator (приёмка документного пакета, D50)"
+
+- at: "2026-10-02"
+  task: service-question-kodaskills
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "принято (P1/P2/P3 нет): отчёт docs/reviews/service-question-kodaskills-2026-10-02.md; квитанция в receipts.yaml (iteration 1, accepted). Read-only: Q81 — следующий свободный (Q80 max), форма §4, open, без Resolves/T-XX; строки README/TRACEABILITY согласованы (Q81 | — | open | — | —); §8 снят обоснованием open; D65 чист; src/tests/Cargo.toml не тронуты; база develop @ c2f905f = origin/develop; пакет для гейта — 11 путей"
+  expect_match: true
+  pre_gate: "git status --porcelain (11: 8 M + 3 ??) сверен с составом из отчёта validator — совпадение 1:1: M memory/{migrator,validator}.md, state/current/{current_state,next_action,progress,receipts}.yaml, docs/TRACEABILITY.md, docs/questions/README.md; ?? docs/questions/Q81.md, docs/reviews/service-question-kodaskills-2026-10-02.md, .opencode/mail/service-question-kodaskills.md"
+  next: "surface_to_user (гейт: коммит + push develop)"
+
+- at: "2026-10-02"
+  task: service-question-kodaskills
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт пакета service-question-kodaskills: коммит + push develop (11 путей — Q81, questions/README, TRACEABILITY, отчёт validator, лента, memory/{migrator,validator}, state/{current_state,next_action,progress,receipts})?"
+  channel: question
+  result: "confirmed: «Коммит + push develop (Recommended)»"
+  next: "re-plan analyst (точка ветвления — гейт) → dispatch git (пакет из отчёта validator) → complete"

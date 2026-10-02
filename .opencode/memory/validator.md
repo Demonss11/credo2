@@ -227,3 +227,19 @@
   (использовать `edit` для append-записей). **Урок:** для быстрых docs/canon-правок
   порог достаточен: per-wave отчёт + `agents-perms` ×2 + адресные диффы; полный
   DoD (`cargo`) не нужен при неизменных `src/tests/Cargo.toml` (D50).
+- **02.10.2026 · service-question-kodaskills (приёмка Q81, документный пакет)** —
+  **принято**, P1/P2/P3 нет. База `develop` @ `c2f905f` (= `origin/develop` = `HEAD`).
+  Q81 — следующий свободный после Q80 (Q82 нет, `git ls-files docs/questions`);
+  форма §4 (поля Статус/Дата/Приоритет/Связано; разделы Контекст/Вопрос/Варианты/
+  Рекомендация), `open`; строки `questions/README.md:103` и
+  `TRACEABILITY.md:85` согласованы (`Q81 | — | open | — | —`), D = `—`, задач нет.
+  Тело Q81 ссылается на `D82`/`Q79` как трактовку `open` — это нормативная ссылка,
+  не `Resolves`; §8 «Q без D» снят обоснованием «решение не принято» (§3/D82).
+  D65 — сессионных адресов нет; `:\d+` в Q81 нет; `Resolves`/`T-` нет;
+  `rg Q81 docs/decisions|tasks|features` пусто. Границы: `src/tests/Cargo.toml`
+  не тронуты; docs-диффы ровно +1/+1; `git diff --check` пусто; `git status` —
+  целевые + штатные state analyst/lead. `cargo` не запускался (D50). Отчёт
+  `docs/reviews/service-question-kodaskills-2026-10-02.md`; квитанция iteration 1
+  `accepted`. **Грабли:** `git ls-files docs/questions` показывает только
+  tracked-файлы — новый Q81 там отсутствует, это ожидаемо (номер проверяется по
+  максимуму tracked + наличие/отсутствие Q82).

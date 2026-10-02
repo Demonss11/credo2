@@ -132,3 +132,14 @@
   `add` → сверка staged (9 `M` + 1 `A`) → `commit` → `push origin develop` →
   `switch master` → `merge --no-ff develop` → `push origin master`.
   Примечание: после `push` в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-question-kodaskills** (служебная волна, режим «коммит + push»
+  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
+  «lead · 2026-10-02 · гейт пройден (surface_to_user)» («Коммит + push develop
+  (Recommended)»); снимок до записей 8 `M` + 3 `??` = ровно пакет (лента, Q81,
+  отчёт приёмки — новые) + мой чекпойнт = 12 (9 `M` + 3 `A`); `HEAD` `c2f905f` =
+  база `origin/develop` (`## develop...origin/develop`). К коммиту — 12 путей
+  (`./`-префикс, без `--`), сообщение
+  `docs(Q81): вопрос об изучении внешнего материала KodaSkills
+  (service-question-kodaskills)`. Хеши — в ответе `lead` (не здесь). Осталось:
+  `add` → сверка staged (9 `M` + 3 `A`) → `commit` → `push origin develop`.
+  Примечание: после `push` в отслеживаемые файлы не писать (F43).

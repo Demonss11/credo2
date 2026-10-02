@@ -1,117 +1,122 @@
-# Run 5 (2026-09-28), T-04 — конверт MCP §4.5. Участок №5: финализация.
-# Пишет analyst; одно решение за вызов; гейт пройден владельцем — очередь до complete.
-task: T-04
+# 2026-10-02, служебная операция service-question-kodaskills — re-plan после гейта владельца.
+# Суть: завести в журнал ТОЛЬКО вопрос Q81 (изучение внешнего материала KodaSkills / skills).
+# Задача T-XX не открывается; решение Dn не принимается. Класс S (документный пакет).
+# Пишет analyst; одно решение за вызов; очередь — до точки ветвления.
+# Гейт пройден: владелец подтвердил «Коммит + push develop (Recommended)» (канал question).
+task: service-question-kodaskills
+task_kind: service
+task_note: >
+  Это служебная операция (не задача T-XX): прямой запрос владельца «только вопрос», без
+  открытия задачи и без решения. В реестр docs/tasks/** запись не заводится.
 iteration: 1
 status: in_progress
-progress_marker: run5_t04_finalize
-as_of: 2026-09-28
-class: L
+progress_marker: service_question_kodaskills
+as_of: 2026-10-02
+class: S
 class_dispute: false
 class_note: >
-  Класс L подтверждён владельцем 2026-09-28 (гейт 1): контракт §4.5 + несколько
-  подсистем. Полный маршрут; auditor перед коммитом пройден (P1 нет), приёмка
-  (iteration 1, accepted) на месте. Исключений ролей нет.
-acceptance: accepted
-acceptance_report: docs/reviews/T-04-2026-09-28.md
-receipt: ".opencode/state/current/receipts.yaml (T-04, iteration 1, accepted)"
-owner_gate_completion: passed
-gate_answers: >
-  Полный пакет branch_end подтверждён (коммит + merge --no-ff в develop + push
-  develop и ветки + удаление ветки локально и на origin); push origin develop с
-  волной 0 (ahead 7) — разрешён.
-b1_fact: >
-  token-guard активен; вывод `cargo test --all` ≈7 КБ < порога 12 КБ — не срезан
-  (ожидаемо); срез подтверждён на diff src/mcp.rs ≈21 КБ.
+  Документный пакет журнала: новый Q81 + строка в docs/questions/README.md + строка в
+  docs/TRACEABILITY.md. Кода, tests/**, docs/features/** и канона агентов не касается.
+  Маршрут: migrator → validator (принято, iteration 1 accepted) → surface_to_user
+  (гейт пройден) → git (коммит + push develop) → complete.
+  auditor не нужен (канон агентов / .opencode/rules/** не меняются); researcher не вызывается
+  (владелец: только вопрос; исследование — отдельно и не сейчас).
+scope_constraints:
+  - "Только Q81 (Статус: open). Решение Dn НЕ принимается; задача T-XX НЕ заводится."
+  - "Содержательных решений о будущем исследовании не принимать — фиксируется лишь вопрос."
+  - "Канон журнала .opencode/rules/journal.md §4 (шаблон) и §5.1 (рецепт «завести вопрос»); ссылки несессионные (D65)."
+  - "Границы (без изменений): канон агентов, .opencode/rules/**, docs/decisions/**, docs/tasks/**, docs/features/** не трогать; cargo не запускать (D50)."
+material_url: "https://github.com/XCode-NLP/KodaSkills/tree/main/skills"
+question_essence: "Изучить внешний материал KodaSkills (каталог skills) и понять, что из него применимо к проекту CREDO."
+gate_result: >
+  surface_to_user исполнен: владелец подтвердил коммит + push develop (канал question,
+  ответ «Коммит + push develop (Recommended)»). Пакет из отчёта validator сверен со снимком
+  git status --porcelain 1:1 (11 путей: 8 M + 3 ??).
+package:
+  mode: commit_push_develop
+  branch: develop
+  base_head: c2f905f          # = origin/develop = HEAD (validator, 2026-10-02)
+  merge: none                 # служебная волна — коммит прямо в develop (git-workflow, служебные волны)
+  message: "docs(Q81): вопрос об изучении внешнего материала KodaSkills (service-question-kodaskills)"
+  # Ко моменту git: 11 путей отчёта validator + чекпойнт memory/git.md (F43, прецедент service-lifecycle-w2-prep) = 12.
+  add_paths:
+    - docs/questions/Q81.md
+    - docs/questions/README.md
+    - docs/TRACEABILITY.md
+    - docs/reviews/service-question-kodaskills-2026-10-02.md
+    - .opencode/mail/service-question-kodaskills.md
+    - .opencode/memory/migrator.md
+    - .opencode/memory/validator.md
+    - .opencode/memory/git.md
+    - .opencode/state/current/current_state.yaml
+    - .opencode/state/current/next_action.yaml
+    - .opencode/state/current/progress.yaml
+    - .opencode/state/current/receipts.yaml
+  expected_staged: "9 M + 3 A"
+  expect_snapshot: "9 M + 3 ?? (11 из них — снимок отчёта validator; + memory/git.md)"
 next:
   - kind: dispatch
     role: git
-    brief: >
-      Пакет branch_end для T-04 (L, приёмка принята, аудит пройден, гейт владельца
-      пройден). Идемпотентно, по одной команде за вызов:
-      (1) `git add` ровно 19 точными путями из package.add_paths (ниже);
-      (2) `git diff --cached --name-only` → сверить ровно 19 путей, состав = снимок
-      гейта (14 M + 5 ??); лишний/пропущенный путь → стоп без коммита;
-      (3) `git commit -m "code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов §4.5"`;
-      (4) `git switch develop` → `git pull origin develop` → `git merge --no-ff
-      feature/T-04-mcp-errors -m "Слияние feature/T-04-mcp-errors в develop"` →
-      `git push origin develop` (таймаут ≥5 мин; публикует и волну 0 — разрешено) →
-      `git branch -d feature/T-04-mcp-errors` → `git push origin --delete
-      feature/T-04-mcp-errors`;
-      (5) проверки: `git log -3 --oneline`, `git status -sb`, `git show --stat HEAD`.
-      Пути добавлять ТОЛЬКО из списка (пакет не расширять); `docs/features/README.md`
-      в списке нет — docs-writer его не менял; `tests/common/mod.rs` — точный файл.
-      При расхождении снимка и add_paths — остановиться и вернуть lead (re-plan),
-      коммит не делать.
+    brief: >-
+      Пакет service-question-kodaskills: коммит + push ПРЯМО в develop (служебная волна,
+      merge/ветка не создаются). Режим подтверждён владельцем (лента, «lead · гейт пройден»):
+      «Коммит + push develop (Recommended)». Сверь подтверждение по ленте сам, пользователя
+      не спрашивай. База — develop @ c2f905f (= origin/develop = HEAD).
+      Цикл (git-workflow §«Минимальный цикл git»), идемпотентно:
+      (1) status -sb + log -1 --oneline (или один вызов node .opencode/scripts/git-check.mjs
+          --expect=12) — база совпадает, ветка develop, до коммита снимок 9 M + 3 ??;
+      (2) ЗАПИСИ ДО add (F43, входят в коммит): чекпойнт в .opencode/memory/git.md
+          (пакет, HEAD c2f905f, что осталось: add → сверка staged → commit → push) и отчёт
+          роли git в ленту .opencode/mail/service-question-kodaskills.md (append). Записи
+          lead/analyst к этому моменту в ленте/state уже есть;
+      (3) add ТОЧНЫМИ 12 путями, с ./-префиксом, БЕЗ --:
+          ./docs/questions/Q81.md
+          ./docs/questions/README.md
+          ./docs/TRACEABILITY.md
+          ./docs/reviews/service-question-kodaskills-2026-10-02.md
+          ./.opencode/mail/service-question-kodaskills.md
+          ./.opencode/memory/migrator.md
+          ./.opencode/memory/validator.md
+          ./.opencode/memory/git.md
+          ./.opencode/state/current/current_state.yaml
+          ./.opencode/state/current/next_action.yaml
+          ./.opencode/state/current/progress.yaml
+          ./.opencode/state/current/receipts.yaml
+          Не использовать add -A. Лишние пути (вне пакета) не коммитить.
+      (4) отдельным шагом после add: git diff --cached --name-status (или
+          git-check.mjs --staged --expect=12) → ожидаем 9 M + 3 A;
+      (5) commit с сообщением:
+          docs(Q81): вопрос об изучении внешнего материала KodaSkills (service-question-kodaskills)
+      (6) push origin develop (таймаут ≥ 5 мин). После push в отслеживаемые файлы НЕ писать
+          (F43); хеши вернуть ответом lead.
+      Запрещено: --force, reset --hard, rebase, merge, удаление веток, target/.credo/node_modules.
+      Уже сделанное (коммит/пуш) — пропустить, продолжить с первого невыполненного.
     expect: >
-      role=git отчёт: коммит создан на feature/T-04-mcp-errors; merge --no-ff в
-      develop создан (merge-commit, родитель — коммит задачи); `git push origin
-      develop` прошёл (old→new, включая волну 0, ahead 7); ветка удалена локально и
-      на origin; `git status -sb` показывает develop без незакоммиченного (рабочее
-      дерево чистое); в отчёте — хэши коммита и merge, состав staged = 19 путей.
-      Либо: git вернул расхождение/ошибку с точным фактом (команда → вывод) → lead
-      возвращает analyst (re-plan), без частичного коммита.
+      role=git ответ: коммит <hash> «docs(Q81): …» на develop, 12 путей (9 M + 3 A),
+      push c2f905f..<hash> в origin/develop успешен; merge в develop/ветка — не выполнялись;
+      memory/git.md и отчёт git в ленте вошли в коммит; после push git status не показывает
+      новых правок РОЛИ git; хеши — в ответе lead (F43). Либо: расхождение снимка/базы или
+      отказ push → стоп и возврат lead (re-plan), без переписывания истории.
     reason: >
-      Git-операции — только роль git (allowlist); пакет подтверждён владельцем один
-      раз (D38/R7), после чего исполняется буквально. push develop разрешён явно.
-    package:
-      kind: branch_end
-      branch: feature/T-04-mcp-errors
-      base: develop
-      note: >
-        Снимок гейта 2026-09-28: `git status --porcelain` = 19 путей (14 M + 5 ??),
-        полностью ⊆ add_paths; `docs/features/README.md` не менялся (не расхождение).
-      add_paths:
-        - .opencode/mail/service-mcp-ready-r2.md
-        - .opencode/mail/T-04.md
-        - .opencode/memory/analyst.md
-        - .opencode/memory/auditor.md
-        - .opencode/memory/coder.md
-        - .opencode/memory/docs-writer.md
-        - .opencode/memory/git.md
-        - .opencode/memory/tester.md
-        - .opencode/memory/validator.md
-        - docs/analysis/T-04-2026-09-28.md
-        - docs/CHANGELOG.md
-        - docs/reviews/T-04-2026-09-28.md
-        - docs/tasks/README.md
-        - docs/tasks/T-04-mcp-errors/README.md
-        - src/lib.rs
-        - src/mcp.rs
-        - tests/common/mod.rs
-        - tests/mcp_draft.rs
-        - tests/mcp_errors.rs
-      commit_message: "code(T-04): единый конверт ошибок MCP {error:{code,message}} и 10 кодов §4.5"
-      steps:
-        - "git switch develop"
-        - "git pull origin develop"
-        - "git merge --no-ff feature/T-04-mcp-errors"
-        - "git push origin develop"
-        - "git branch -d feature/T-04-mcp-errors"
-        - "git push origin --delete feature/T-04-mcp-errors"
+      Пакетное подтверждение получено (D38/R7); исполняет только роль git; служебная волна —
+      коммит прямо в develop (git-workflow «Служебные волны»). Класс S.
   - kind: complete
-    brief: >
-      Только при выполненном expect действия `git` (коммит + merge --no-ff + push
-      develop + удаление ветки). Итог владельцу: T-04 закрыта — коммит <hash>,
-      merge <hash> в develop, push origin develop (включая волну 0); приёмка
-      docs/reviews/T-04-2026-09-28.md (107/0, 4/4); статусы ✅; P2 аудита (право
-      `auditor` на запись в ленту) вынесен в меморандум Run 5 — владелец правит
-      канон отдельно, T-04 не блокирует.
+    brief: >-
+      Закрыть служебную операцию service-question-kodaskills после успешного push develop:
+      Q81 заведён (open, только вопрос, без Dn и T-XX); пакет 12 путей отправлен в
+      origin/develop; квитанция validator iteration 1 accepted на месте. Итог — владельцу.
     expect: >
-      Итог по T-04 зафиксирован lead (progress/лента); задача закрыта (complete).
-      Квитанция приёмки есть; expect действия git выполнен. Незакрытых действий
-      маршрута нет.
+      Операция закрыта: complete зафиксирован; хеши коммита/push — в progress.yaml и ответе
+      lead; артефакт Q81 доступен в develop.
     reason: >
-      `complete` допустим только при квитанции приёмки и выполненном пакете git
-      (AGENTS.md §Цикл задачи; dispatch-loop). P2 — вне T-04 (правка канона
-      владельцем).
+      Точка завершения: приёмка есть (receipts.yaml), гейт пройден, git исполнен. Дальше
+      действий нет; открытое «изучение KodaSkills» — отдельно (решение владельца).
 resume_hint: >
-  Run 5, T-04, участок №5 (маркер `run5_t04_finalize`). Гейт пройден: полный пакет
-  branch_end + push develop с волной 0 — разрешены. Ветка feature/T-04-mcp-errors
-  @0437799 в синхроне с origin; работа в рабочем дереве; снимок 19 путей ⊆ add_paths.
-  validator accepted (iteration 1); отчёт docs/reviews/T-04-2026-09-28.md; квитанция
-  в receipts.yaml; auditor — P1 нет, P2 (право auditor на ленту) — в меморандум Run 5;
-  docs-writer — статусы ✅, CHANGELOG, features/README.md не менялся.
-  Очередь: git (пакет branch_end, 19 путей, идемпотентно, одна команда за вызов) →
-  complete. Границы: inherited_boundaries [Q29, Q11, Q23, D40]; REST Q23 не трогать;
-  канон не править; новых Q/D нет. Риск: push origin develop публикует волну 0
-  (ahead 7) — санкционировано владельцем; при расхождении снимка на git — стоп/re-plan.
+  Служебная операция service-question-kodaskills (маркер service_question_kodaskills),
+  запрос владельца вне плана 2026-10-02. Q81 заведён (open, только вопрос), приёмка validator —
+  принято (iteration 1 accepted), гейт «коммит + push develop» пройден. Остаток очереди:
+  dispatch git (12 путей, коммит прямо в develop, сообщение docs(Q81): …) → complete.
+  База develop @ c2f905f. Границы: канон агентов и .opencode/rules/** не править;
+  docs/decisions/**, docs/tasks/**, docs/features/** не трогать; cargo не запускать (D50).
+  Хеши коммита/push — в ответе lead и progress.yaml (F43); после push в отслеживаемые
+  файлы не писать.

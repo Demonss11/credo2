@@ -1,34 +1,35 @@
-# Run 5 (2026-09-28), T-04: снимок на момент re-plan участка №5 (analyst, финализация).
-# Авторитет — receipts.yaml (T-04, iteration 1, accepted).
-as_of: 2026-09-28
-task: T-04
+# current_state.yaml — 2026-10-02, служебная операция service-question-kodaskills.
+# Снимок на момент re-plan после гейта (analyst). T-04 и сервисные волны закрыты
+# (progress.yaml ≤ 2026-10-01), активной задачи нет.
+as_of: 2026-10-02
+operation: service-question-kodaskills
+kind: service            # служебная операция, не задача T-XX
+task: null               # T-XX не открывается (прямое указание владельца)
+task_note: "только вопрос Q81 (open); решение Dn не принимается; приёмка принята, гейт пройден"
 iteration: 1
-phase: final
-class: L
+phase: closeout          # journal-entry → приёмка → гейт → closeout (git)
+class: S
 class_dispute: false
+status: in_progress
+progress_marker: service_question_kodaskills
 acceptance: accepted
-acceptance_report: docs/reviews/T-04-2026-09-28.md
+acceptance_report: docs/reviews/service-question-kodaskills-2026-10-02.md
 rework: 0
-branch: feature/T-04-mcp-errors
-branch_head: "0437799"
-branch_sync: "origin/feature/T-04-mcp-errors (синхрон; работа в рабочем дереве)"
-base: develop
-base_commit: 0437799
-owner_gate_1: passed                 # класс L + пакет branch_start
-auditor: passed                      # P1 нет; P2 — право auditor на ленту (в меморандум Run 5)
-docs_writer: passed                  # статусы ✅, CHANGELOG; features/README.md не менялся
-package_pending: none
-gate_pending: none                   # пакет branch_end + push develop (волна 0) подтверждены
-develop_ahead_origin: 7              # публикуется вместе с push develop (разрешено)
-working_dirt: 19                     # 14 M + 5 ??; ⊆ package.add_paths гейта
-progress_marker: run5_t04_finalize
-breakpoint: none
-b1_fact: >
-  token-guard активен; вывод `cargo test --all` ≈7 КБ < 12 КБ — не срезан (ожидаемо);
-  срез подтверждён на diff src/mcp.rs ≈21 КБ.
 artifacts:
-  dossier: docs/analysis/T-04-2026-09-28.md
-  card: docs/tasks/T-04-mcp-errors/README.md
-  mail: .opencode/mail/T-04.md
-  review: docs/reviews/T-04-2026-09-28.md
-route_pending: [git, complete]
+  mail: .opencode/mail/service-question-kodaskills.md
+  question: docs/questions/Q81.md
+  catalog: docs/questions/README.md
+  traceability: docs/TRACEABILITY.md
+  review: docs/reviews/service-question-kodaskills-2026-10-02.md
+  git_memory: .opencode/memory/git.md
+route_pending: [git]
+route_after_gate: []
+gate_pending: none       # гейт «коммит + push develop» пройден (владелец, канал question)
+package_base: c2f905f    # develop = origin/develop = HEAD
+package_paths: 12        # 11 из отчёта validator + memory/git.md (F43); staged 9 M + 3 A
+material_url: "https://github.com/XCode-NLP/KodaSkills/tree/main/skills"
+constraints:
+  - "Только Q81 (open); без Dn и без T-XX."
+  - "Канон агентов и .opencode/rules/** не трогаются; docs/decisions/**, docs/tasks/**, docs/features/** не трогать; кода нет (cargo не запускается, D50)."
+  - "После push git не пишет в отслеживаемые файлы (F43); хеши — в ответе lead и progress.yaml."
+inherited_boundaries: [D65, D82]
