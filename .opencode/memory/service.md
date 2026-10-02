@@ -50,3 +50,13 @@
   `projectID` temp = `global`; `sh_*` — не сессии; корневой agent — из
   step/экспорта. Журнал — `wave0b-own.md` §BO-i3. Дальше: BO-i4 — P4
   `metrics-report.mjs` (по подтверждению владельца).
+- 02.10.2026, BO-i3 закоммичен: `9a811b4` → origin/develop (6 путей).
+  BO-i4 открыт: скрипт `metrics-report.mjs` (stats/export → сводка + цепочки
+  по ролям/моделям); пробы T1 (полигон), T2 (прогон 02.10, 31 ребёнок);
+  улики `target/wave0b-own-i4/`.
+- 02.10.2026, BO-i4 (готово, вердикт 🟢): `metrics-report.mjs` (CLI-only):
+  T2 воспроизвёл метрики прогона 02.10 — 32 сессии, $1.4133, роли/модели 1:1
+  с B1-разбором. Грабли: opencode — npm-шим (shell:true), stats.tokens —
+  объект, stats без --days — всё, дети — по маркеру в экспорте root.
+  Журнал — `wave0b-own.md` §BO-i4. Дальше: BO-i5 — P3 `wave0-checkpoint`
+  (по подтверждению владельца).

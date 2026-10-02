@@ -194,7 +194,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | 🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат + сводка родителю; перенос — после аудита | `wave0b-report` §4 |
 | B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) | `wave0b-report` §4 |
 | B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | ⬜ | `wave0b-report` §4 |
-| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) | `wave0b-report` §4 |
 | B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | ⬜ | `wave0b-report` §4 |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |
 | B1-F26 | S/M-прогон + fast path S (D39) | B1 | ⏸ · данные 02.10 | F26; решение 28.09 |

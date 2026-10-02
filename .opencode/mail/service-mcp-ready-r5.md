@@ -124,6 +124,55 @@ allow-поток без изменений; поведение с `--auto`; ау
 - База: `develop` = `origin/develop` = `85658fd`; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## git · 02.10.2026 · готово (пакет BO-i3)
+
+- Коммит **`9a811b4`** (6 файлов: 6 `M`; +156/−3) → push `85658fd..9a811b4`
+  в `origin/develop`. Замечание: прогноз «5 M + 1 A» был неверен —
+  `memory/git.md` отслеживается (M); состав совпал.
+
+## сервисная сессия · 02.10.2026 · BO-i4 открытие (P4 `metrics-report.mjs`)
+
+- **Цель:** прототип отчёта метрик из нативных источников (`opencode stats
+  --json`, `session list`, `session export`) — сводка проекта + свёртка
+  цепочки (root → субагенты) по ролям/моделям (замена Telemetry для D,
+  вход C6/D).
+- **Механика:** `metrics-report.mjs` (CLI-only, без БД): stats → totals;
+  list → сессии; `--chain <ses>` — экспорт root, поиск дочерних по маркеру
+  `<subagent sessionID=…>`, экспорт детей, агрегат (agent/model/cost/tokens/
+  wall/outcome); вывод markdown + JSON.
+- **Пробы:** T1 — цепочка O2 в полигоне; T2 — цепочка прогона 02.10 в
+  репозитории (31 ребёнок) со сверкой с числами B1-разбора.
+- **Улики:** `target/wave0b-own-i4/`.
+
+## сервисная сессия · 02.10.2026 · BO-i4 исполнен — вердикт 🟢
+
+- **T1** (полигон): цепочка O2 — 2 сессии, $0.0008; **T2** (репозиторий):
+  прогон 02.10 — 32 сессии, **$1.4133**, вх. 4 666 766, вых. 531 193,
+  214.1 мин; роли/модели — **1:1 с B1-разбором** (build $0.4604; analyst
+  13/$0.3320; tester 2/$0.2218; migrator 3/$0.1495; validator 4/$0.1404;
+  git 5/$0.0646; docs-writer 2/$0.0200; coder 1/$0.0126; auditor 1/$0.0119;
+  #default 31/$0.9529, #max 1/$0.4604).
+- **Факты/грабли:** `opencode` — npm-шим (нужен `shell: true`); `stats.tokens`
+  — объект; `stats` без `--days` — всё (132 сессии/$32.28); дети — по маркеру
+  в экспорте root; экспорт 31 ребёнка ≈ 30 с.
+- **Вердикт:** 🟢 (CLI-only отчёт цепочек воспроизводит метрики без БД; вход
+  C6/D). Улики: `target/wave0b-own-i4/` (скрипт, T1/T2-отчёты). Журнал —
+  `wave0b-own.md` §BO-i4.
+- **Дальше:** BO-i5 — P3 `wave0-checkpoint` (по подтверждению владельца);
+  P5 — решение на BO-i7.
+
+## сервисная сессия · 02.10.2026 · гейт пакета BO-i4 пройден
+
+- Владелец подтвердил (**question**): «Коммит BO-i4 + BO-i5» — коммит записей
+  BO-i4 и push `develop`; затем BO-i5.
+- Пакет (5 путей + запись роли `git`, F43): `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service}.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`; + `.opencode/memory/git.md`.
+- Сообщение коммита: `chore(process): T-15 B0-own BO-i4 — metrics-report: пробы,
+  вердикт, карточка P4`.
+- База: `develop` = `origin/develop` = `9a811b4`; master не трогаем.
+- Следующее действие — `dispatch git`.
+
 ## migrator · 02.10.2026 · готово (BO-i2: карточка P2)
 
 - Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
@@ -175,5 +224,30 @@ allow-поток без изменений; поведение с `--auto`; ау
   `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`.
 - Сообщение: `chore(process): T-15 B0-own BO-i3 — wave0-observe: пробы, вердикт,
   карточка P1`. Ожидаемо: 5 `M` + 1 `A`; далее `commit` → `push origin develop`.
+- Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
+  файлы не пишу.
+
+## migrator · 02.10.2026 · готово (BO-i4: карточка P4)
+
+- Сделано: в `docs/tasks/T-15-mcp-ready-process/README.md` одна строка
+  сводной таблицы «Реестр задач T-15» — **B0-own-P4** статус
+  `⬜` → `🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export)
+  воспроизвёл метрики прогона; перенос — после аудита (вход C6/D)`.
+- Проверки: `git diff -- <README>` → ровно один ханк/одна строка (197);
+  `git diff --check` пусто. `cargo` не запускал (D50).
+- Дальше / риски: коммит — за ролью `git` (гейт); иных строк/файлов не трогал.
+
+## git · 02.10.2026 · план пакета (BO-i4)
+
+- Сделано (до `add`, F43): чекпойнт в `.opencode/memory/git.md` и эта запись —
+  часть пакета. Подтверждение сверено по §«гейт пакета BO-i4 пройден» (:164–174),
+  ответ владельца «Коммит BO-i4 + BO-i5». База: `develop` = `origin/develop` =
+  `9a811b4`; снимок `git status` = 5 `M` = ровно пакет 5 путей (+ мой чекпойнт).
+- К коммиту — 6 путей (`./`-префикс, без `--`): `.opencode/mail/service-mcp-ready-r5.md`,
+  `.opencode/memory/{migrator,service,git}.md`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`.
+- Сообщение: `chore(process): T-15 B0-own BO-i4 — metrics-report: пробы, вердикт,
+  карточка P4`. Ожидаемо: 5 `M` + 1 `A`; далее `commit` → `push origin develop`.
 - Дальше / риски: хеши — в ответе `lead` (F43); после `push` в отслеживаемые
   файлы не пишу.
