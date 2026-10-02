@@ -393,3 +393,10 @@
   action: complete
   result: "P3 волны 2 закрыт быстрой правкой (инструкция владельца): в 4 карточках добавлено «см.» в ссылке на R2 (coder:54, tester:51, rust-expert:62, validator:44 — четвёртая найдена при правке); нормы не менялись. Приёмка validator (принято, P1/P2/P3 нет; отчёт docs/reviews/service-rules-revision-w2-p3-2026-10-01.md, квитанция iteration 2). Пакет git — по гейту (коммит + push develop)."
   next: "— (P3 закрыт; ревизия канона агентов завершена полностью)"
+
+- at: "2026-10-01"
+  task: service-rules-revision-w2
+  iteration: 2
+  action: complete
+  result: "Пакет git (P3-правка) исполнен: коммит d27a38d → push c8ffb0f..d27a38d в origin/develop; merge develop в master — fd9a878 («Слияние develop в master», без конфликтов, 46 файлов) → push 51357bb..fd9a878 в origin/master; master = origin/master = fd9a878, develop = origin/develop = d27a38d. Уточнение: master был 51357bb (не 9173fc4 — устаревшая запись), предок develop, merge безопасен; запись в ленте поправлена."
+  next: "— (хеши; пост-пакетная запись — догрузка следующим пакетом)"

@@ -252,3 +252,17 @@
   (`git diff --cached --name-status`: 9 `M` + 1 `A`) → `commit` →
   `push origin develop` → `switch master` → `merge --no-ff develop` →
   `push origin master`. Хеши — в ответе `lead` (F43).
+
+## сервисная сессия · 01.10.2026 · уточнение базы merge и завершение — готово
+
+- Уточнение: в записи подтверждения база `master` указана как `9173fc4`
+  (устарело); фактически `master` = `51357bb` («выравнивание develop по
+  master — записи») — **предок** `develop` (`git merge-base master develop` =
+  `51357bb` = вершина `master`); merge безопасен, инструкция владельца («commit
+  — push — merge в master») сохранена.
+- Пакет исполнен: коммит P3 `d27a38d` → push `c8ffb0f..d27a38d` в
+  `origin/develop`; `git merge --no-ff develop` на `master` → merge-коммит
+  `fd9a878` («Слияние develop в master», без конфликтов, 46 файлов) → push
+  `51357bb..fd9a878` в `origin/master`.
+- Состояние: `master` = `origin/master` = `fd9a878`; `develop` =
+  `origin/develop` = `d27a38d`; рабочее дерево на `master`, чистое.
