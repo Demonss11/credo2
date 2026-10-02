@@ -81,7 +81,7 @@
 - замеры (сервисная сессия): `opencode debug agents` → **122 511 Б / 2617 строк**
   (JSON-массив 18 агентов `id,name,model,request,system,description,mode,hidden,color,steps,permissions`);
   прототип сводки → **1 883 Б** (18 строк);
-  `rg -c '^' .opencode/mail/service-dod-scope.md` → **272** (рабочая форма);
+  `rg -c '^'` по ленте сервисной сессии (`.opencode/mail/**`) → **272** (рабочая форма);
   `rg -c ""` в PowerShell теряет пустой аргумент — не использовать.
 
 Смоук скрипта (`--role`, `--grep`, `--json`) — на приёмке (`validator`).

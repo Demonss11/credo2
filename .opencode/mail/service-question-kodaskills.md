@@ -68,6 +68,17 @@ KodaSkills (`https://github.com/XCode-NLP/KodaSkills/tree/main/skills`) и по�
 - Дальше по маршруту: re-plan `analyst` → `dispatch git` (коммит + push
   `develop`) → `complete`.
 
+## lead · 2026-10-02 · git + complete — операция закрыта
+
+- `dispatch git` исполнен (служебная волна: коммит + push прямо в `develop`,
+  без merge/ветки): пакет 12 путей (9 `M` + 3 `A`) — коммит и push успешны;
+  отчёт роли git и чекпойнт `memory/git.md` сформированы до `add` и вошли в
+  коммит (F43); новых правок роли git после push нет.
+- Операция `service-question-kodaskills` **закрыта** (`complete`): Q81 — только
+  вопрос (изучение внешнего материала KodaSkills), без Dn и T-XX.
+- Хеши — в `progress.yaml` / ответе `lead` (F43, здесь не хранятся);
+  пост-пакетные записи — догрузка следующим плановым пакетом.
+
 ## validator · 2026-10-02 · принято
 
 - **Сделано:** приёмка документного пакета (Q81, только вопрос). Вердикт —

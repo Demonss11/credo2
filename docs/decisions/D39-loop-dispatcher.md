@@ -42,7 +42,7 @@ durable-точки восстановления. Вопрос — [Q44](../quest
    («do not embellish, do not improvise»); **решений не принимает**, канон/код
    не читает, содержательных вопросов не задаёт; права: `edit` —
    `.opencode/memory/lead.md`, `.opencode/mail/**`,
-   `.opencode/state/current/progress.yaml`; shell —
+   `.opencode/state/**` (файл `progress.yaml`); shell —
    `rg`, `git status|log|diff|show`, `git branch --show-current`; `subagent` —
    `analyst` + командные роли;
    `question: allow`.
@@ -53,12 +53,12 @@ durable-точки восстановления. Вопрос — [Q44](../quest
    ≤ 40 строк для S, ≤ 80 для M/L; пункты: цель, источник, скоуп, границы,
    открытые вопросы, класс, риски, критерии приёмки). Права: `edit` —
    `docs/analysis/**`, своя память, `mail/**`,
-   `.opencode/state/current/next_action.yaml`,
-   `.opencode/state/current/current_state.yaml`; shell — `rg`,
+   `.opencode/state/**` (файлы `next_action.yaml`,
+   `current_state.yaml`); shell — `rg`,
    `git status|log|diff|show`, `git grep`; **без cargo**; `subagent: deny`,
    `question: deny`. BA + SA не заводятся (условие пересмотра — реальный
    заказчик-человек или домен сложнее DSL; отдельным Q/D).
-3. **Состояние на диске** — `.opencode/state/current/`, четыре файла:
+3. **Состояние на диске** — `.opencode/state/**` (каталог `current/`), четыре файла:
    `next_action.yaml` (task, iteration, status `in_progress|awaiting_user|done|blocked`,
    `progress_marker`, очередь `next`, `resume_hint`) и `current_state.yaml` (фаза,
    с какого времени, артефакты, статус приёмки, счётчик rework) — **пишет только

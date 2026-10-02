@@ -1,122 +1,165 @@
-# 2026-10-02, служебная операция service-question-kodaskills — re-plan после гейта владельца.
-# Суть: завести в журнал ТОЛЬКО вопрос Q81 (изучение внешнего материала KodaSkills / skills).
-# Задача T-XX не открывается; решение Dn не принимается. Класс S (документный пакет).
-# Пишет analyst; одно решение за вызов; очередь — до точки ветвления.
-# Гейт пройден: владелец подтвердил «Коммит + push develop (Recommended)» (канал question).
-task: service-question-kodaskills
-task_kind: service
-task_note: >
-  Это служебная операция (не задача T-XX): прямой запрос владельца «только вопрос», без
-  открытия задачи и без решения. В реестр docs/tasks/** запись не заводится.
+# 2026-10-02, T-21/T-18/T-22, участок №9 (закрытия; re-plan после исчерпания
+# очереди участка №8). Обе приёмки = accepted:
+#   validator T-21 -r3 = принято (полный DoD зелёный: fmt exit 0;
+#   clippy --all-targets -- -D warnings exit 0; cargo test --all 135 passed / 0
+#   failed — lib 61/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 25/0,
+#   mcp_errors 8/0, publish 12/0, rest 11/0; диф src/mcp.rs 12/18 не изменён с
+#   -r1/-r2; поведение T-04/Q29 сохранено; отчёт
+#   docs/reviews/T-21-2026-10-02-r3.md; квитанция accepted iteration 1 в
+#   receipts.yaml). Примечание среды: PowerShell NativeCommandError при 2>&1 —
+#   артефакт stderr cargo, не провал (проверено --quiet).
+#   validator T-18 -r2 = принято (docs_journal 14/14; отчёт
+#   docs/reviews/T-18-2026-10-02-r2.md; квитанция accepted iteration 1).
+# T-22: фикс tests/mcp_draft.rs подтверждён в -r3 (mcp_draft 25/0), собственной
+#   приёмки/квитанции нет. РЕШЕНО: отдельная приёмка T-22 НЕ требуется — DoD
+#   закрыт сквозным зелёным test --all в -r3 (та же цель mcp_draft); квитанция
+#   T-22 не заводится; закрытие — в своём пакете по факту -r3.
+# Ветки T-18/T-21/T-22 — все на 5786875 = develop = origin/develop; коммитов
+#   нет; рабочая ветка feature/T-22-mcp-draft-test-fix. Дерево смешанное (F43).
+# Решено (закрытие): docs-writer (✅ T-21/T-18/T-22 + CHANGELOG, один вызов) →
+#   owner-gate (один комбинированный вопрос на 3 пакета) → git (3 пакета
+#   последовательно: commit → merge --no-ff в develop → push → удаление ветки)
+#   → complete. Пишет analyst; одно решение за вызов.
+task: T-21
+task_kind: task
 iteration: 1
 status: in_progress
-progress_marker: service_question_kodaskills
+progress_marker: closeout_t21_t18_t22
 as_of: 2026-10-02
 class: S
 class_dispute: false
 class_note: >
-  Документный пакет журнала: новый Q81 + строка в docs/questions/README.md + строка в
-  docs/TRACEABILITY.md. Кода, tests/**, docs/features/** и канона агентов не касается.
-  Маршрут: migrator → validator (принято, iteration 1 accepted) → surface_to_user
-  (гейт пройден) → git (коммит + push develop) → complete.
-  auditor не нужен (канон агентов / .opencode/rules/** не меняются); researcher не вызывается
-  (владелец: только вопрос; исследование — отдельно и не сейчас).
+  T-21 = S, T-22 = S, T-18 = M (классы не меняются). Текущий участок —
+  процессное закрытие (статусы/CHANGELOG/git), кода не меняет; класс
+  фиксируется по старшим задачам пакетов.
+branch:
+  name: feature/T-22-mcp-draft-test-fix
+  base: develop
+  base_head: 5786875   # develop = origin/develop = 5786875; коммитов нет
+  note: >
+    Ветки feature/T-18-docs-journal-test, feature/T-21-mcp-test-struct-api,
+    feature/T-22-mcp-draft-test-fix — все на 5786875, в синхроне с origin,
+    коммитов нет. Дерево смешанное (пути T-18 + src/mcp.rs T-21 +
+    tests/mcp_draft.rs T-22 + новая правка D39). F43: три пакета раздельны.
 scope_constraints:
-  - "Только Q81 (Статус: open). Решение Dn НЕ принимается; задача T-XX НЕ заводится."
-  - "Содержательных решений о будущем исследовании не принимать — фиксируется лишь вопрос."
-  - "Канон журнала .opencode/rules/journal.md §4 (шаблон) и §5.1 (рецепт «завести вопрос»); ссылки несессионные (D65)."
-  - "Границы (без изменений): канон агентов, .opencode/rules/**, docs/decisions/**, docs/tasks/**, docs/features/** не трогать; cargo не запускать (D50)."
-material_url: "https://github.com/XCode-NLP/KodaSkills/tree/main/skills"
-question_essence: "Изучить внешний материал KodaSkills (каталог skills) и понять, что из него применимо к проекту CREDO."
-gate_result: >
-  surface_to_user исполнен: владелец подтвердил коммит + push develop (канал question,
-  ответ «Коммит + push develop (Recommended)»). Пакет из отчёта validator сверен со снимком
-  git status --porcelain 1:1 (11 путей: 8 M + 3 ??).
+  - "Закрытие без правок кода: только статусы (3 карточки + docs/tasks/README.md) и docs/CHANGELOG.md — зона docs-writer; затем git-пакеты."
+  - "T-21 (S): принят -r3; пакет — src/mcp.rs + пути T-21 (карточка, реестр-строка, отчёты -r1/-r2/-r3, досье, mail/T-21.md, память coder/validator, state-записи T-21, CHANGELOG-T-21). Пути T-18/T-22 не подмешивать."
+  - "T-18 (M): принят -r2; пакет — tests/docs_journal.rs + канон (TRACEABILITY, Q82, D85, D39 P2-фикс, D51/D64/D14 правки, Q48/Q56, findings-registry) + карточка/реестр + отчёты T-18 + mail/T-18.md + mail/service-question-kodaskills.md + память tester/migrator + state-записи T-18 + CHANGELOG-T-18."
+  - "T-22 (S): фикс подтверждён -r3; пакет — tests/mcp_draft.rs + карточка + реестр-строка + mail/T-22.md + память tester + CHANGELOG-T-22. Квитанции у T-22 нет (DoD закрыт в -r3); отдельная приёмка не требуется."
+  - "F43-нюанс общих файлов: docs/tasks/README.md, docs/CHANGELOG.md, state/current/*.yaml, memory/*.md меняются несколькими задачами/ролями — правки идут подряд; первый коммит (T-21) фиксирует совместное состояние, T-18/T-22 подхватывают остаток. Сверка staged перед каждым коммитом обязательна."
+  - "Полнота покрытия (снимок 2026-10-02, 42 пути: 27 M + 15 ??): union трёх add_paths + процессные пути роли git (memory/git.md, F43) = снимок; три пути не входили ни в один пакет — .opencode/memory/analyst.md (M), .opencode/memory/docs-writer.md (M), .opencode/memory/git.md (M) — включены в первый пакет T-21 (конвенция участка: общие процессные файлы фиксируются первым коммитом). После трёх коммитов рабочее дерево чистое (расхождений сверх F43-остатков нет)."
+  - "cargo не запускать (D50); канон агентов и .opencode/rules/** не править; тестов/кода не касаться."
+  - "Гейт: один комбинированный вопрос владельцу на три пакета + финальный merge develop→master (F43 — три отдельных пакета, одно подтверждение); add_paths каждого пакета сверяются со снимком git status --porcelain до гейта."
+  - "git: для каждой ветки commit только своих путей → merge --no-ff в develop → push origin develop → удаление ветки (push --delete + branch -d). Порядок: T-21 → T-18 → T-22. После трёх пакетов — финальный шаг (указание владельца 2026-10-02): git switch master → merge --no-ff develop → push origin master (прецедент сервисных волн, «Слияние develop в master»; входит в комбинированный owner-gate)."
 package:
-  mode: commit_push_develop
-  branch: develop
-  base_head: c2f905f          # = origin/develop = HEAD (validator, 2026-10-02)
-  merge: none                 # служебная волна — коммит прямо в develop (git-workflow, служебные волны)
-  message: "docs(Q81): вопрос об изучении внешнего материала KodaSkills (service-question-kodaskills)"
-  # Ко моменту git: 11 путей отчёта validator + чекпойнт memory/git.md (F43, прецедент service-lifecycle-w2-prep) = 12.
-  add_paths:
-    - docs/questions/Q81.md
-    - docs/questions/README.md
-    - docs/TRACEABILITY.md
-    - docs/reviews/service-question-kodaskills-2026-10-02.md
-    - .opencode/mail/service-question-kodaskills.md
-    - .opencode/memory/migrator.md
-    - .opencode/memory/validator.md
-    - .opencode/memory/git.md
-    - .opencode/state/current/current_state.yaml
-    - .opencode/state/current/next_action.yaml
-    - .opencode/state/current/progress.yaml
-    - .opencode/state/current/receipts.yaml
-  expected_staged: "9 M + 3 A"
-  expect_snapshot: "9 M + 3 ?? (11 из них — снимок отчёта validator; + memory/git.md)"
+  mode: branch_end
+  note: >
+    Три пакета формируются в очереди участка №9 (см. next). add_paths —
+    раздельны по F43; точная сверка со снимком git status --porcelain — на
+    шаге owner-gate (перед поверхностью) и перед каждым коммитом.
 next:
+  - kind: dispatch
+    role: docs-writer
+    brief: >-
+      Закрытие трёх задач (обе приёмки = accepted, T-22 подтверждён в -r3).
+      Ровно: (1) docs/tasks/T-21-mcp-test-struct-api/README.md и строка T-21 в
+      docs/tasks/README.md → ✅; (2) docs/tasks/T-18-docs-journal-test/README.md
+      и строка T-18 в docs/tasks/README.md → ✅; (3)
+      docs/tasks/T-22-mcp-draft-test-fix/README.md и строка T-22 в
+      docs/tasks/README.md → ✅; (4) docs/CHANGELOG.md (D72) — записи: T-21
+      (src/mcp.rs: unit-тесты к struct-API ToolError, required_str задействован;
+      отчёт -r3), T-22 (tests/mcp_draft.rs: снятие E0425/E0061 ×3; подтверждён
+      в -r3), T-18 (tests/docs_journal.rs: новый тест целостности журнала Q/D,
+      14 проверок; отчёт -r2). Порядок правок T-21 → T-18 → T-22 в одной сессии
+      (общие docs/tasks/README.md и docs/CHANGELOG.md). Других файлов не
+      трогать; cargo не запускать (D50).
+    expect: >
+      role=docs-writer: три карточки и три строки реестра = ✅; в
+      docs/CHANGELOG.md три записи (T-21/T-18/T-22) со ссылками на отчёты
+      -r3/-r2; иных файлов не тронуто; cargo не запускался.
+    reason: >
+      Квитанции accepted T-21 (-r3) и T-18 (-r2) в receipts.yaml — статусы ✅
+      (AGENTS.md §рабочая группа); D72 — CHANGELOG фиксирует кодовые изменения
+      (тесты/код трёх задач).
+  - kind: surface_to_user
+    brief: >-
+      Owner-gate: подтвердите три git-пакета завершения (F43 — раздельны, одно
+      подтверждение) и финальный merge develop→master (указание владельца
+      2026-10-02): (T-21) commit src/mcp.rs + пути T-21 → merge --no-ff в
+      develop → push → удаление feature/T-21-mcp-test-struct-api; (T-18)
+      commit tests/docs_journal.rs + канон Q82/D85/D39 + отчёты/лента/память/
+      state T-18 → merge --no-ff → push → удаление feature/T-18-docs-journal-test;
+      (T-22) commit tests/mcp_draft.rs + карточка/лента/CHANGELOG-T-22 → merge
+      --no-ff → push → удаление feature/T-22-mcp-draft-test-fix; затем git switch
+      master → merge --no-ff develop → push origin master. База
+      HEAD = 5786875 = develop = origin/develop; сообщения коммитов:
+      «code(T-21): struct-API ToolError в unit-тестах src/mcp.rs»,
+      «code(T-18): тест целостности журнала tests/docs_journal.rs»,
+      «code(T-22): снятие ошибок компиляции tests/mcp_draft.rs». Точные
+      add_paths — в записи пакета ленты; сверены со снимком git status --
+      porcelain (42 пути; union покрывает снимок).
+    expect: >
+      user: подтверждает три пакета и master-мерж (или сужает/отменяет); при
+      подтверждении — lead фиксирует пакеты в ленте задач до вызова git.
+    reason: >
+      Git-гейт обязателен на любом маршруте (AGENTS.md §Гейт пакетного
+      подтверждения); F43 — три раздельных пакета, но подтверждение один раз;
+      master-мерж — указание владельца (прецедент сервисных волн).
   - kind: dispatch
     role: git
     brief: >-
-      Пакет service-question-kodaskills: коммит + push ПРЯМО в develop (служебная волна,
-      merge/ветка не создаются). Режим подтверждён владельцем (лента, «lead · гейт пройден»):
-      «Коммит + push develop (Recommended)». Сверь подтверждение по ленте сам, пользователя
-      не спрашивай. База — develop @ c2f905f (= origin/develop = HEAD).
-      Цикл (git-workflow §«Минимальный цикл git»), идемпотентно:
-      (1) status -sb + log -1 --oneline (или один вызов node .opencode/scripts/git-check.mjs
-          --expect=12) — база совпадает, ветка develop, до коммита снимок 9 M + 3 ??;
-      (2) ЗАПИСИ ДО add (F43, входят в коммит): чекпойнт в .opencode/memory/git.md
-          (пакет, HEAD c2f905f, что осталось: add → сверка staged → commit → push) и отчёт
-          роли git в ленту .opencode/mail/service-question-kodaskills.md (append). Записи
-          lead/analyst к этому моменту в ленте/state уже есть;
-      (3) add ТОЧНЫМИ 12 путями, с ./-префиксом, БЕЗ --:
-          ./docs/questions/Q81.md
-          ./docs/questions/README.md
-          ./docs/TRACEABILITY.md
-          ./docs/reviews/service-question-kodaskills-2026-10-02.md
-          ./.opencode/mail/service-question-kodaskills.md
-          ./.opencode/memory/migrator.md
-          ./.opencode/memory/validator.md
-          ./.opencode/memory/git.md
-          ./.opencode/state/current/current_state.yaml
-          ./.opencode/state/current/next_action.yaml
-          ./.opencode/state/current/progress.yaml
-          ./.opencode/state/current/receipts.yaml
-          Не использовать add -A. Лишние пути (вне пакета) не коммитить.
-      (4) отдельным шагом после add: git diff --cached --name-status (или
-          git-check.mjs --staged --expect=12) → ожидаем 9 M + 3 A;
-      (5) commit с сообщением:
-          docs(Q81): вопрос об изучении внешнего материала KodaSkills (service-question-kodaskills)
-      (6) push origin develop (таймаут ≥ 5 мин). После push в отслеживаемые файлы НЕ писать
-          (F43); хеши вернуть ответом lead.
-      Запрещено: --force, reset --hard, rebase, merge, удаление веток, target/.credo/node_modules.
-      Уже сделанное (коммит/пуш) — пропустить, продолжить с первого невыполненного.
+      Три пакета последовательно (подтверждение — по записям лент T-21/T-18/
+      T-22 до вызова). Для каждого: git switch develop → pull origin develop →
+      git merge --no-ff feature/<ветка> -m "Слияние feature/<ветка> в develop"
+      → push origin develop → push origin --delete <ветка> → branch -d <ветка>.
+      Порядок: feature/T-21-mcp-test-struct-api → feature/T-18-docs-journal-test
+      → feature/T-22-mcp-draft-test-fix. Коммиты — точными путями из add_paths
+      пакета (F43: чужие пути не подмешивать; общие файлы docs/tasks/README.md,
+      docs/CHANGELOG.md, state/current/*.yaml, memory/*.md сверять staged перед
+      коммитом). В первый пакет (T-21) входят также процессные пути
+      .opencode/memory/analyst.md, .opencode/memory/docs-writer.md,
+      .opencode/memory/git.md (F43: запись роли git — до add). Записи роли — до
+      add (F43); после push в отслеживаемые файлы не писать. push с таймаутом
+      ≥ 5 мин. ФИНАЛЬНЫЙ ШАГ (указание владельца 2026-10-02): после трёх пакетов
+      git switch master → git merge --no-ff develop -m "Слияние develop в master"
+      → git push origin master (прецедент сервисных волн).
     expect: >
-      role=git ответ: коммит <hash> «docs(Q81): …» на develop, 12 путей (9 M + 3 A),
-      push c2f905f..<hash> в origin/develop успешен; merge в develop/ветка — не выполнялись;
-      memory/git.md и отчёт git в ленте вошли в коммит; после push git status не показывает
-      новых правок РОЛИ git; хеши — в ответе lead (F43). Либо: расхождение снимка/базы или
-      отказ push → стоп и возврат lead (re-plan), без переписывания истории.
+      role=git: три коммита в develop (через --no-ff), три ветки удалены
+      (local+origin), develop = origin/develop; в каждом коммите — только
+      свои add_paths (F43); union коммитов покрывает снимок (рабочее дерево
+      чистое); master содержит merge develop (fast-forward или --no-ff —
+      по шаблону сервисных волн) и запушен; хеши — в ответе.
     reason: >
-      Пакетное подтверждение получено (D38/R7); исполняет только роль git; служебная волна —
-      коммит прямо в develop (git-workflow «Служебные волны»). Класс S.
+      Завершение задачи — подтверждённый пакет (git-workflow.md §«Завершение
+      задачи»); три раздельных коммита/мержа (F43); порядок T-21 → T-18 → T-22;
+      master-мерж — указание владельца (2026-10-02).
   - kind: complete
     brief: >-
-      Закрыть служебную операцию service-question-kodaskills после успешного push develop:
-      Q81 заведён (open, только вопрос, без Dn и T-XX); пакет 12 путей отправлен в
-      origin/develop; квитанция validator iteration 1 accepted на месте. Итог — владельцу.
+      Три задачи (T-21/T-18/T-22) закрыты: accepted + ✅ + коммиты/мержи в
+      develop + push + удаление веток + финальный merge develop→master и
+      push origin master. Рабочее дерево чистое.
     expect: >
-      Операция закрыта: complete зафиксирован; хеши коммита/push — в progress.yaml и ответе
-      lead; артефакт Q81 доступен в develop.
+      lead: три коммита в develop, ветки удалены, develop = origin/develop,
+      master = origin/master (merge develop), задача закрыта (complete).
     reason: >
-      Точка завершения: приёмка есть (receipts.yaml), гейт пройден, git исполнен. Дальше
-      действий нет; открытое «изучение KodaSkills» — отдельно (решение владельца).
+      Квитанции accepted есть (T-21 -r3, T-18 -r2); T-22 закрыт по факту -r3;
+      master-мерж — указание владельца (2026-10-02); очередь участка №9
+      исчерпана.
 resume_hint: >
-  Служебная операция service-question-kodaskills (маркер service_question_kodaskills),
-  запрос владельца вне плана 2026-10-02. Q81 заведён (open, только вопрос), приёмка validator —
-  принято (iteration 1 accepted), гейт «коммит + push develop» пройден. Остаток очереди:
-  dispatch git (12 путей, коммит прямо в develop, сообщение docs(Q81): …) → complete.
-  База develop @ c2f905f. Границы: канон агентов и .opencode/rules/** не править;
-  docs/decisions/**, docs/tasks/**, docs/features/** не трогать; cargo не запускать (D50).
-  Хеши коммита/push — в ответе lead и progress.yaml (F43); после push в отслеживаемые
-  файлы не писать.
+  Участок №9 (2026-10-02), закрытие T-21/T-18/T-22, iteration 1, статус
+  in_progress, маркер closeout_t21_t18_t22. Обе приёмки accepted: T-21 -r3
+  (полный DoD 135/0, диф src/mcp.rs 12/18 не изменён) и T-18 -r2 (docs_journal
+  14/14). T-22 — отдельной квитанции нет; закрывается по факту -r3 (mcp_draft
+  25/0) в своём пакете. Порядок: docs-writer (✅ трёх задач + CHANGELOG в одной
+  сессии) → owner-gate (один комбинированный вопрос на 3 пакета + финальный
+  merge develop→master; add_paths сверены со снимком git status --porcelain) →
+  git (3 пакета: T-21 → T-18 → T-22; commit своих путей → merge --no-ff → push
+  → удаление ветки; затем merge develop→master + push origin master) → complete.
+  Снимок 2026-10-02: 42 пути (27 M + 15 ??); union add_paths + процессные пути
+  роли git = снимок; .opencode/memory/{analyst,docs-writer,git}.md добавлены в
+  первый пакет T-21. База 5786875 = develop = origin/develop; ветки в синхроне;
+  коммитов нет. Границы: канон агентов и .opencode/rules/** не править; cargo
+  не запускать (D50); тестов/кода не касаться; F43 — пакеты раздельны, общие
+  файлы фиксируются первым коммитом. Примечание среды: PowerShell
+  NativeCommandError при 2>&1 — артефакт stderr cargo, не провал.
+inherited_boundaries: [D50, D34, F43]
