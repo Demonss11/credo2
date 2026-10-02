@@ -428,3 +428,347 @@
   channel: question
   result: "confirmed: «Коммит + push develop (Recommended)»"
   next: "re-plan analyst (точка ветвления — гейт) → dispatch git (пакет из отчёта validator) → complete"
+
+# Пост-пакетные записи (F43): сформированы после push 5786875, в коммит не входили —
+# догружаются следующим плановым пакетом.
+- at: "2026-10-02"
+  task: service-question-kodaskills
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: коммит 5786875 «docs(Q81): вопрос об изучении внешнего материала KodaSkills (service-question-kodaskills)» — 12 путей (9 M + 3 A); push c2f905f..5786875 → origin/develop успешен; merge/ветка не создавались (служебная волна); чекпойнт memory/git.md и отчёт роли git в ленте сформированы до add и вошли в коммит; новых правок роли git после push нет; --force/reset/rebase не применялись"
+  expect_match: true
+  post_package: "F43: запись сформирована после push, в коммит 5786875 не входила — догрузка следующим плановым пакетом"
+  next: "complete"
+
+- at: "2026-10-02"
+  task: service-question-kodaskills
+  iteration: 1
+  action: complete
+  result: "Служебная операция закрыта: Q81 заведён в журнал (open, только вопрос — изучение материала KodaSkills; без решения Dn и задачи T-XX); приёмка validator — принято (iteration 1, accepted; отчёт docs/reviews/service-question-kodaskills-2026-10-02.md); гейт владельца «коммит + push develop» пройден; коммит 5786875, push c2f905f..5786875 в origin/develop. Открытое «изучение KodaSkills» — отдельная операция, не открыта (решение владельца). Хеши — здесь (F43)"
+  next: "— (операция закрыта; Q81 в develop)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 1
+  action: surface_to_user
+  question: "Стартовый пакет T-18 (M): ветка feature/T-18-docs-journal-test от develop @ 5786875 (= origin/develop, коммит Q81); коммитов нет; F43-файлы остаются в дереве"
+  channel: question
+  result: "confirmed: «Создать ветку + push (Recommended)»"
+  next: "dispatch git (branch_start: branch + push -u origin)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-18-docs-journal-test создана от develop @ 5786875 (база сверена: HEAD = origin/develop = 5786875) и опубликована (upstream origin/feature/T-18-docs-journal-test); коммитов нет; develop не тронут; чекпойнт memory/git.md записан до операции; отчёт роли git — в ленте T-18"
+  expect_match: true
+  note: "Запись восстановлена после обрыва вызова (действие исполнено, отчёт git в ленте от 2026-10-02; сверено перед записью)"
+  next: "dispatch docs-writer (🚧 карточка + строка реестра)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 1
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка docs/tasks/T-18-docs-journal-test/README.md («Статус: ⬜ открыта» → 🚧) и строка реестра docs/tasks/README.md (T-18 ⬜ → 🚧) — ровно 2 строки; канон журнала, docs/features/**, src/**, tests/** не тронуты; cargo не запускался (D50)"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (участок №2: tester → validator)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 2
+  action: re-plan
+  role: analyst
+  result: "участок №2: план — dispatch tester (реализация tests/docs_journal.rs, v0.1 по D64/D77/D80/D82; только tests/**; тесты не запускать) → dispatch validator (полный DoD, R2 — точка ветвления); досье дополнено; next_action (iteration 2)/current_state обновлены"
+  note: "backfill: запись восстановлена после обрыва (сверено с лентой)"
+  next: "dispatch tester (реализация tests/docs_journal.rs)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 2
+  action: dispatch
+  role: tester
+  result: "НЕ завершено (лимит шагов роли): создан tests/docs_journal.rs (~820 строк, только std, проверки (1)–(8) по карточке/D64/D77/D80/D82); чекпойнт memory/tester.md записан до проверок (R5). НЕ выполнены: cargo fmt/check --all-targets (компиляция не подтверждена) и отчёт в ленту; продолжение — resume тем же sessionID. Факты (тест не прогонялся, R2): (а) docs/TRACEABILITY.md T-18 = ⬜ против реестра 🚧 — ловит проверка (6); (б) docs/questions/Q48.md содержит адрес .opencode/mail/T-04.md — ловит проверка (8) (D65/F47); (в) scope-вопрос по (8): tester исключил секции «Сверка с кодом» из гейта номеров строк и сузил адресный гейт до шапок/индексов — требует подтверждения/ужесточения"
+  expect_match: false
+  next: "re-plan analyst (несовпадение expect + scope-вопрос + дефекты канона)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 3
+  action: re-plan
+  role: analyst
+  result: "участок №3 (re-plan №1 по несовпадению expect): план — dispatch migrator (TRACEABILITY T-18 ⬜→🚧; снять адрес .opencode/mail/T-04.md в Q48 по D65/F47; завести Q/D по scope-вопросу «Сверка с кодом») → dispatch tester (resume: fmt/check, выравнивание под Dn, отчёт) → dispatch validator (full DoD, R2); scope-решение — только записью Q/D через migrator (dispatch-loop §«Маршрут и scope»); next_action (iteration 3, маркер t18_docs_journal_scope)/current_state обновлены"
+  note: "backfill: запись восстановлена после обрыва (сверено с лентой)"
+  next: "dispatch migrator (дефекты канона + Q/D scope)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 3
+  action: dispatch
+  role: migrator
+  result: "НЕ завершено (лимит шагов роли): сделано — TRACEABILITY строки 64/77/80 (T-18) ⬜→🚧; адреса сняты: Q48:11 (.opencode/mail/T-04.md), Q56:67-68, D51:84; номера строк очищены: D14:71 (src/core.rs:70-81→src/core.rs), D14:73 (src/lib.rs:373-381→src/lib.rs); создан docs/questions/Q82.md (open; scope-вопрос «Сверка с кодом», рекомендация (б)). НЕ сделано: D85 (решение), строки индексов (questions/README, decisions/README, TRACEABILITY Q82/D85), запись F47 в findings-registry, аннотация D64 (опц.), финальный чекпойнт, отчёт в ленту. Факт: тест вырезает «Сверку» только для номеров строк, адресный гейт строг и в «Сверке» — решение (б) совпадает с кодом, тест менять не нужно. Продолжение — resume тем же sessionID (ses_f045464abffeq3vy19owOudSKh)"
+  expect_match: false
+  next: "re-plan analyst (продолжение участка №3: resume migrator → tester → validator)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 3
+  action: re-plan
+  role: analyst
+  result: "участок №3 (re-plan №2, migrator остановлен лимитом): план — migrator resume (D85 + индексы Q82/D85 + TRACEABILITY + F56; Q82 уже ссылается на D85 — висячая ссылка) → tester resume (fmt/check, выравнивание под D85, отчёт) → validator (full DoD, R2); уточнение: live_text вырезает «Сверку» только для номеров строк, адресный гейт строг — решение (б) совпадает с кодом; next_action (маркер t18_scope_d85_index)/current_state обновлены"
+  note: "backfill: запись восстановлена после обрыва (сверено с лентой)"
+  next: "dispatch migrator (resume: D85 + индексы)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 3
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово (участок №3 закрыт): создан docs/decisions/D85-sverka-snapshot-scope.md (вариант (б): «Сверка с кодом» — датированный снимок для номеров строк, адреса строги и в «Сверке»); Q82↔D85 парны; строки Q82/D85 в questions/README, decisions/README и TRACEABILITY (done); F56 в findings-registry (F47 не перезаписан); аннотация D64 «Обновление 02.10.2026». Дефекты держатся закрытыми: TRACEABILITY T-18 = 🚧; адреса .opencode/mail/* сняты (Q48:11, Q56:68, D51:84), номера строк D14:71/73 очищены. Проверки: git diff --check пусто; grep D65 чист (placeholder/whitelist exempt); тест/src/Cargo.toml не тронуты; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch tester (resume: fmt/check + выравнивание под D85 + отчёт)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 3
+  action: dispatch
+  role: tester
+  resume: true
+  result: "НЕ завершено (блокер вне scope tests/**): исправлены баги компиляции tests/docs_journal.rs (format {{...}} стр.82; matches!(*c) стр.271/776/801); doc-комментарий live_text уточнён ссылкой на D85 (вариант (б) совпадает с кодом). Компиляция теста подтверждена: cargo clippy --test docs_journal -- -A warnings → Finished; cargo fmt --check — файл теста чист (диффы только в неизменённых src/mcp.rs, tests/mcp_draft.rs — предсуществующие). БЛОКЕР: cargo check --all-targets падает на предсуществующих ошибках src/mcp.rs (не введены T-18; есть в HEAD и в базе 5786875): required_str стр.437 dead_code (фатально при -D warnings), ToolError::Envelope стр.674 (E0223), ToolError::Message стр.678 (E0599), ToolError::into_json стр.783 (E0599; есть to_json) — unit-тесты в src/mcp.rs используют снятый enum-API при struct ToolError. Не сделано: отчёт в ленту T-18, чекпойнт memory/tester.md. Тест не ослаблен; cargo test --all не запускался (R2/D50)"
+  expect_match: false
+  next: "re-plan analyst (блокер src/** вне scope T-18; маршрут починки/разблокировки)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 4
+  action: re-plan
+  role: analyst
+  result: "участок №4 (re-plan №3 по блокеру src/mcp.rs): дефект подтверждён чтением (не введён T-18; git diff 5786875..HEAD -- src/mcp.rs пусто): required_str:437 dead_code, ToolError::Envelope:674 E0223, ToolError::Message:678 E0599, ToolError::into_json:783 E0599 (есть to_json) — post-accept defect T-04. Решение: новая задача T-21 (источник T-04) через migrator; фикс src/** обязателен ДО приёмки T-18 (D50); порядок: migrator → owner-gate → git (ветка T-21) → coder → validator (T-21) → возврат к T-18. next_action (iteration 4, маркер t18_src_blocker_t21)/current_state/досье обновлены; отчёт в ленту дописан resume тем же sessionID"
+  note: "backfill: запись восстановлена после обрыва (сверено с лентой)"
+  next: "dispatch migrator (карточка T-21 + реестр + TRACEABILITY)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 4
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово: карточка docs/tasks/T-21-mcp-test-struct-api/README.md создана (Источник — T-04 (post-accept; журнальная линия Q29/D34), P3, ⬜, зависит от T-04; границы — только src/** ветки T-21; критерий — cargo test --all с unit-тестами src/mcp.rs зелёный); строка T-21 в docs/tasks/README.md (стр.67); TRACEABILITY — T-21 в колонке «Задачи» строки Q29/D34 (T-04 ✅, T-05 ⬜, T-21 ⬜); новых Q/D/F нет; отчёт в ленте T-18 + чекпойнт; tests/**, src/**, Cargo.toml не тронуты; cargo не запускался (D50)"
+  expect_match: true
+  next: "surface_to_user (owner-gate: ветка T-21 + порядок «фикс src/** до приёмки T-18»)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 4
+  action: surface_to_user
+  question: "Гейт T-21: ветка feature/T-21-mcp-test-struct-api от develop @ 5786875 (coder → validator); фикс src/** до приёмки T-18; scope/класс T-18 не меняются?"
+  channel: question
+  result: "confirmed: «Ветка + порядок (Recommended)»"
+  next: "dispatch git (branch_start T-21: ветка + push -u)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 4
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-21-mcp-test-struct-api создана от develop @ 5786875 (база сверена: HEAD = origin/develop = 5786875) и опубликована (upstream установлен); коммитов нет; develop не тронут; незакоммиченные рабочие пути T-18 перенесены в дерево без изменений; лента T-21 открыта (.opencode/mail/T-21.md) + чекпойнт memory/git.md записаны до операции (F43)"
+  expect_match: true
+  next: "dispatch coder (фикс src/mcp.rs в ветке T-21)"
+
+- at: "2026-10-02"
+  task: T-18
+  iteration: 4
+  action: dispatch
+  role: coder
+  result: "готово с остатком вне scope: src/mcp.rs приведён к struct-API — validation_message читает err.code/err.message (сняты Envelope/Message), into_json→to_json, required_str задействован в create для name/source (вариант «использовать»). Компиляция: cargo check --lib --profile test ok; cargo clippy --lib -- -D warnings ok; по src/mcp.rs диагностик нет; НО cargo check --all-targets красный — остались ошибки в tests/** (coder не перечислил; атрибутирует T-18; ранее отмечались fmt-диффы tests/mcp_draft.rs); fmt --check по src/mcp.rs чисто. Нюанс поведения: required_str отвергает пустую (trim) строку и не-строку — coder называет ожидаемым Q28-отказом (прежде '' принималось); контракт T-04 заявлен сохранённым. Тесты не запускались (R2); tests/**/Cargo.toml не тронуты; отчёт в ленте T-21 + чекпойнт"
+  expect_match: partial
+  next: "queue exhausted → re-plan analyst (участок №5: validator T-21 и остаток tests/**)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №5 (re-plan №4, очередь участка №4 исчерпана): план переключён на T-21 (класс S): validator (T-21, полный DoD: fmt/clippy/cargo test --all, R2 — точка ветвления; перечислить точный остаток ошибок tests/** и оценить нюанс required_str) → docs-writer (✅ T-21) → surface_to_user (гейт пакета T-21) → возврат к T-18 (tester resume → validator). Критичный факт: git diff --stat HEAD -- tests пусто ⇒ ошибки tests/** предсуществующие (атрибуция coder к T-18 неверна). Создано досье docs/analysis/T-21-2026-10-02.md; T-18-досье дополнено; next_action (task T-21, iteration 1, маркер t21_validator_dod)/current_state (mixed_worktree: true) обновлены"
+  next: "dispatch validator (T-21, полный DoD)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "rework (iteration 1): DoD красный только из-за tests/**; диф T-21 корректен и в scope. Проверено: ветка T-21 @ 5786875 = develop (коммитов нет); git diff --numstat src/mcp.rs = 12/18 (только src/mcp.rs; Cargo.toml/lock не тронуты); cargo test --lib 61/0 (mcp::tests зелёные); clippy --lib ok; поведение T-04/Q29 сохранено (required_str → validation_failed; отказ '' — интент Q28/D31, уже ожидается коммитнутым тестом create_empty_or_nonstring_params_rejected_t03). Красное: (1) tests/mcp_draft.rs:543 E0425 (Value не импортирован), :603/:624/:647 E0061 — предсуществующие (tracked = HEAD/develop 5786875); (2) tests/docs_journal.rs:168 dead_code 'field d is never read' — введён T-18 (untracked). Артефакты: отчёт docs/reviews/T-21-2026-10-02.md; квитанция T-21 rework в receipts.yaml (iteration 1); лента T-21 + чекпойнт. Residual: финальный git status не перепроверен (права/шаги)"
+  expect_match: true
+  next: "re-plan analyst (участок №6: маршрут по tests/** — mcp_draft.rs предсуществующий + dead_code docs_journal.rs T-18)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №6 (re-plan №5 по rework validator): решение — новая задача T-22 (класс S, исполнитель tester, источник Q29/D34 + T-04) через migrator для фикса tests/mcp_draft.rs (E0425 :543 Value не в scope; E0061 :603/:624/:647 create(SRC)→create(NAME,SRC) — предсуществующие на develop @ 5786875); dead_code docs_journal.rs:168 — фикс tester внутри T-18 (resume); сужение DoD по D50 отклонено (пакет T-21 меняет src/** ⇒ п.3 D50 — полный DoD; красное — чужой предсуществующий дефект). Порядок (7 действий): migrator → owner-gate → git (ветка T-22) → tester (T-22) → validator (T-21 -r2) → tester (T-18 resume) → validator (T-18). next_action (маркер t22_mcp_draft_fix)/current_state обновлены; отчёты в ленты T-21/T-18 и чекпойнт дописаны resume тем же sessionID"
+  next: "dispatch migrator (карточка T-22 + реестр + TRACEABILITY)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: migrator
+  result: "готово: карточка docs/tasks/T-22-mcp-draft-test-fix/README.md создана (Источник — Q29/D34 + T-04 (post-accept); P3; ⬜; зависит от —; границы — только tests/mcp_draft.rs; исполнитель tester; тест не ослабляется); строка T-22 в docs/tasks/README.md (после T-21); T-22 в TRACEABILITY (строка Q29/D34, рядом с T-04/T-05/T-21); новых Q/D/F нет; git diff --check пусто; tests/**, src/**, Cargo.toml не тронуты; отчёт в ленту T-21 + чекпойнт; cargo не запускался (D50)"
+  expect_match: true
+  next: "surface_to_user (owner-gate: ветка T-22 + порядок фиксов)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт T-22: ветка feature/T-22-mcp-draft-test-fix от develop @ 5786875; порядок: tester (T-22) → validator (T-21 -r2) → фикс dead_code в T-18 (tester) → validator (T-18); сужение DoD отклонено"
+  channel: question
+  result: "confirmed: «Ветка T-22 + порядок (Recommended)»"
+  next: "dispatch git (branch_start T-22: ветка + push -u)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-22-mcp-draft-test-fix создана от develop @ 5786875 (база сверена: HEAD = origin/develop = 5786875) и опубликована (upstream установлен); коммитов нет; develop не тронут; рабочие пути T-18/T-21 перенесены в дерево без изменений; лента T-22 открыта (.opencode/mail/T-22.md) + чекпойнт memory/git.md записаны до операции (F43)"
+  expect_match: true
+  next: "dispatch tester (T-22: фикс tests/mcp_draft.rs)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: tester
+  result: "готово: tests/mcp_draft.rs — E0425 снят (use serde_json::{Value, json}; сигнатура create_rejected сохранена); E0061 ×3 сняты (mcp.create(NAME, SRC) в create_name_mismatch_keeps_existing_draft_t03, create_invalid_source_keeps_existing_draft_t03, create_upsert_replaces_single_draft_t03); тест не ослаблен (утверждения T-03/Q28 без изменений). Проверки: cargo check --test mcp_draft ok; cargo fmt --check ok (4 длинные строки перенормированы rustfmt в том же файле); cargo test не запускался (R2). git status tests/: M mcp_draft.rs, ?? docs_journal.rs (T-18 не тронут); src/** не тронут. Отчёт в ленте T-22 + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (T-21 -r2, полный DoD)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: validator
+  round: r2
+  resume: true
+  result: "rework (iteration 1, -r2): единственный красный пункт — tests/docs_journal.rs:168 dead_code 'field d' (T-18, вне scope T-21); всё остальное зелёное: fmt --check ok; диф T-21 (src/mcp.rs) не изменён с -r1 (12/18, те же ханки); test --lib 61/0; mcp_draft 25/0 (E0425/E0061 из -r1 устранены T-22-фиксом); publish 12/0; rest 11/0; features_inventory 4/0; cargo test --all exit 1 — не компилируется единственная цель docs_journal; поведение T-04/Q29 сохранено. Артефакты: отчёт docs/reviews/T-21-2026-10-02-r2.md; квитанция T-21 iteration 1 rework (2-я запись) в receipts.yaml; лента T-21 + чекпойнт. Вывод: T-21 принять нельзя до фикса T-18 (по плану — следующий шаг); далее T-21 -r3"
+  expect_match: true
+  next: "re-plan analyst (точка ветвления — отчёт validator; T-21 -r3 после фикса T-18)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №7 (re-plan №6 по rework -r2): план — tester (T-18 resume: фикс dead_code docs_journal.rs:168 усилением — читать `d` в проверке, без заглушки; тест не ослаблять) → validator (T-18, полный DoD → accepted) → validator (T-21 -r3, полный DoD поверх зелёного T-18 → accepted) → docs-writer (✅ T-21). Совмещение -r3 и приёмки T-18 отклонено (разные ветки/квитанции/пакеты, F43). next_action (маркер t18_fix_then_t21_r3)/current_state обновлены"
+  next: "dispatch tester (T-18 resume: фикс `d`)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: tester
+  resume: true
+  result: "готово: dead_code TraceRow.d снят усилением — новый тест traceability_rows_reference_existing_decisions: Some(dn) ⇒ файл docs/decisions/Dn-*.md существует; None ⇒ жизненный цикл строки = open (Q81 — единственная такая). Без заглушек; поле не снималось; тест не ослаблен (D64 п.1.5, D63). Doc-комментарий live_text дополнен ссылкой на D85. Проверки: cargo clippy --test docs_journal -- -D warnings ok; cargo fmt --check ok; cargo test --all не запускался (R2). Дефекты (а)/(б) держатся закрытыми. Отчёт в ленте T-18 (участок №5) + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (T-18, полный DoD — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "rework (T-18, iteration 1 — первый прогон docs_journal): fmt --check ok; clippy --all-targets -- -D warnings ok; cargo test --all — docs_journal 8 passed / 6 failed; остальные цели зелёные (lib 61/0, mcp_draft 25/0, publish 12/0, rest 11/0, features_inventory 4/0); дифы T-21/T-22 не изменены; тест не ослаблен. P1 (5 из 6 красных — дефекты теста, ложные срабатывания): field_line не срезает ведущий пробел (:109-113 → Q1 :353); cell_task_statuses не понимает T-XX (:206-234 → :581/:535); section() ловит inline-упоминание «## Сверка с кодом» в D64:83 (:146-152 → :472); нет нормализации префикса features/ (:237-249/:285-297 → :613). P2 (канон): D39-loop-dispatcher.md:44-45,56-57,61 — адреса .opencode/state/current/*.yaml (D65 п.4) → migrator. Артефакты: отчёт docs/reviews/T-18-2026-10-02.md; квитанция T-18 rework в receipts.yaml; чекпойнты (лента/память)"
+  expect_match: true
+  next: "re-plan analyst (точка ветвления — фикс теста + D39 → T-18 -r2)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №8 (re-plan №7 по rework T-18): план — migrator (D39 → зона .opencode/state/**/placeholder) → tester (4 дефекта разбора tests/docs_journal.rs, без ослабления) → validator (T-18 -r2, полный DoD → accepted) → validator (T-21 -r3). Далее: docs-writer (✅ T-21/CHANGELOG) → гейт пакета T-21 → git; затем T-18 (route_t18) и T-22 (route_t22). next_action (маркер t18_test_defects_r2_then_t21_r3)/current_state обновлены"
+  next: "dispatch migrator (D39: адреса .opencode/state/current/*.yaml)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово (участок №8): D39-loop-dispatcher.md — сняты 3 адреса .opencode/state/current/*.yaml (стр.45, 56-57, 61) → зона .opencode/state/** (имена файлов сохранены текстом; по образцу участка №3); git diff --stat D39 = 4+/4−, только D39; git diff --check пусто; grep D65 по docs/decisions/** — только placeholder D38 (exempt); новых Q/D/F нет; src/tests/Cargo.toml не тронуты; отчёт в ленту T-18 + чекпойнт; cargo не запускался (D50)"
+  expect_match: true
+  next: "dispatch tester (T-18 resume: 4 дефекта разбора)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: tester
+  resume: true
+  result: "готово (участок №8): 4 дефекта разбора tests/docs_journal.rs исправлены — P1-1 field_line триммит значение; P1-2 cell_task_statuses понимает T-XX + статус по всей ячейке; P1-3 section ищет заголовок только в начале строки; P1-4 normalize_feature (features/ с обеих сторон). Проверки не ослаблены (D64/D77/D80/D82); clippy --test docs_journal -- -D warnings ok (попутно collapsible_if снят let-chain); fmt --check ok; cargo test --all не запускался (R2); изменён только tests/docs_journal.rs; отчёт в ленту T-18 (участок №8) + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (T-18 -r2, полный DoD — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: validator
+  round: r2
+  resume: true
+  result: "принято (T-18, iteration 1, -r2): полный DoD зелёный — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; cargo test --all exit 0 (lib 61/0; docs_journal 14/14; features_inventory 4/0; mcp_draft 25/0; mcp_errors 8/0; publish 12/0; rest 11/0). Границы: src/mcp.rs 12/18 (= -r1, байт-в-байт); tests/mcp_draft.rs 12/8 (= -r1); D39 4/4 (P2-фикс); Cargo.toml/lock не тронуты; база 5786875 ×3. Тест не ослаблен (42 assert; dead_code снят усилением). Артефакты: отчёт docs/reviews/T-18-2026-10-02-r2.md; квитанция accepted (iteration 1) в receipts.yaml; чекпойнты"
+  expect_match: true
+  next: "dispatch validator (T-21 -r3, полный DoD)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: validator
+  round: r3
+  resume: true
+  result: "принято (T-21, iteration 1, -r3): полный DoD зелёный — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; cargo test --all 135 passed / 0 failed (lib 61/0; docs_journal 14/0; features_inventory 4/0; mcp_draft 25/0; mcp_errors 8/0; publish 12/0; rest 11/0). Диф T-21 (src/mcp.rs) не изменён с -r1/-r2: 12/18, blob 43f752e..f560749 байт-в-байт; поведение T-04/Q29 сохранено (required_str → validation_failed; '' — интент Q28/D31). Примечание среды: PowerShell NativeCommandError при 2>&1 — артефакт stderr cargo, не провал (подтверждено --quiet). Артефакты: отчёт docs/reviews/T-21-2026-10-02-r3.md; квитанция accepted (iteration 1) в receipts.yaml; лента T-21 + чекпойнт"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (участок №9: закрытия T-21/T-18/T-22 — docs-writer ✅, гейты, git-пакеты, complete)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №9 (закрытия после исчерпания очереди №8): обе приёмки accepted (T-21 -r3 135/0; T-18 -r2 14/14); решение по T-22 — отдельная приёмка не требуется (DoD закрыт сквозным зелёным -r3, mcp_draft 25/0). План: docs-writer (✅ T-21/T-18/T-22 + CHANGELOG, один вызов) → owner-gate (один комбинированный вопрос на 3 пакета) → git (3 пакета последовательно: T-21 → T-18 → T-22; commit своих путей → merge --no-ff → push → удаление ветки) → complete. next_action (маркер closeout_t21_t18_t22)/current_state обновлены (packages/add_paths, F43-нюанс общих файлов)"
+  next: "dispatch docs-writer (✅ трёх задач + CHANGELOG)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: docs-writer
+  result: "готово (с остатком): статусы ✅ — карточки T-21 (⬜→✅), T-18 (🚧→✅), T-22 (⬜→✅) и строки T-18/T-21/T-22 в docs/tasks/README.md; docs/CHANGELOG.md — три записи (T-21: struct-API ToolError/required_str → -r3; T-18: тест целостности журнала Q/D, 14 проверок → -r2; T-22: снятие E0425/E0061 ×3, подтверждён в -r3); чекпойнт memory/docs-writer.md. НЕ дописан отчёт роли в ленту T-21 (лимит шагов) — дописывается resume. cargo не запускался (D50)"
+  expect_match: partial
+  next: "resume docs-writer (отчёт в ленту T-21) → surface_to_user (комбинированный гейт: 3 пакета + master)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: re-plan
+  role: analyst
+  result: "участок №9 (узкий re-plan: сверка пакетов + master): расхождение со снимком (42 пути: 27 M + 15 ??) закрыто — в первый пакет T-21 включены .opencode/memory/analyst.md, .opencode/memory/docs-writer.md, .opencode/memory/git.md (F43; общие процессные файлы первым коммитом); после трёх коммитов дерево чистое. В план включён финальный шаг merge develop → master + push origin master (указание владельца; прецедент сервисных волн) — в owner-gate и git-шаг. Обновлены next_action/current_state (packages, snapshot_check, master_merge)"
+  next: "surface_to_user (комбинированный гейт: 3 пакета + master-мерж)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт: 3 пакета (T-21/T-18/T-22) + финальный merge develop → master; база 5786875; снимок 42 пути покрыт пакетами (вкл. процессные memory)"
+  channel: question
+  result: "confirmed: «Подтверждаю: 3 пакета + master (Recommended)»"
+  next: "dispatch git (3 пакета T-21 → T-18 → T-22 + merge develop → master)"

@@ -155,14 +155,8 @@ impl McpServer {
     async fn create(&self, args: JsonValue) -> Result<JsonValue, ToolError> {
         // Q28: оба параметра обязательны; `name` сверяется с заголовком
         // `Правило {name}` (GRAMMAR.md).
-        let name = args
-            .get("name")
-            .and_then(|v| v.as_str())
-            .ok_or_else(|| ToolError::validation("Нужен параметр 'name'"))?;
-        let source = args
-            .get("source")
-            .and_then(|v| v.as_str())
-            .ok_or_else(|| ToolError::validation("Нужен параметр 'source'"))?;
+        let name = required_str(&args, "name")?;
+        let source = required_str(&args, "source")?;
         // Q29: невалидный `.dar`-текст — `validation_failed`.
         let rule = parse_rule(source).map_err(ToolError::validation)?;
         if rule.name != name {
@@ -434,7 +428,10 @@ impl McpServer {
 
 /// Обязательный непустой строковый параметр (`check.create`, Q28): отсутствие,
 /// не-строка и пустая строка — ошибка валидации `validation_failed`.
-fn required_str<'a>(args: &'a JsonValue, key: &str) -> Result<&'a str, ToolError> {
+fn required_str<'a>(
+    args: &'a JsonValue,
+    key: &str,
+) -> Result<&'a str, ToolError> {
     match args.get(key) {
         Some(JsonValue::String(s)) if !s.trim().is_empty() => Ok(s),
         Some(JsonValue::String(_)) => Err(ToolError::validation(format!(
@@ -670,13 +667,8 @@ mod tests {
 
     /// Разворачивает ошибку в сообщение, требуя код `validation_failed`.
     fn validation_message(err: ToolError) -> String {
-        match err {
-            ToolError::Envelope { code, message } => {
-                assert_eq!(code, "validation_failed");
-                message
-            }
-            ToolError::Message(m) => panic!("ожидался конверт validation_failed: {m}"),
-        }
+        assert_eq!(err.code, ErrorCode::ValidationFailed);
+        err.message
     }
 
     #[tokio::test]
@@ -691,7 +683,9 @@ mod tests {
     async fn create_name_mismatch_is_validation_failed_t03() {
         let t = tempfile::tempdir().unwrap();
         let srv = new_server(t.path());
-        let msg = validation_message(create_named(&srv, "ДругоеИмя", SRC).await.unwrap_err());
+        let msg = validation_message(
+            create_named(&srv, "ДругоеИмя", SRC).await.unwrap_err(),
+        );
         assert!(msg.contains("ДругоеИмя"), "нет входного name: {msg}");
         assert!(
             msg.contains("МинимальныйВозраст"),
@@ -780,7 +774,7 @@ mod tests {
 
     #[test]
     fn validation_error_json_envelope_t03() {
-        let j = ToolError::validation("нет заголовка").into_json();
+        let j = ToolError::validation("нет заголовка").to_json();
         assert_eq!(j["error"]["code"], "validation_failed");
         assert_eq!(j["error"]["message"], "нет заголовка");
     }
