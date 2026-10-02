@@ -895,3 +895,148 @@
   action: complete
   result: "Сервисная операция закрыта: разбор прогона 02.10 (Q81→T-18→T-21→T-22→T-23) исполнен — 6 отчётов docs/analysis/T-15-run-2026-10-02-* (верхний уровень + analyst/tester/migrator/validator/git); данные B1 зафиксированы: 4 упора лимита lead 16 + пустой финал (5 прерываний владельца), F15 подтверждён (iteration=участок; раунды -rN без инкремента), атрибуция build≠lead; реестр находок: F15/F26/F27 уточнены, F58–F61 заведены; T-15 ⬜→🚧 (карточка, реестр, 3 ячейки TRACEABILITY). Аудит auditor (P1/P2 нет; P3 закрыт), приёмка validator (принято; полный DoD 135/0, docs_journal 14/14). Гейт владельца «коммит + develop + master»; коммит fed94d6, merge 46b98c2. F26/F27 остаются открытыми — до чистого S-прогона (решение владельца 02.10.2026)"
   next: "— (операция закрыта; далее по T-15 — выбор владельца: B0-own BO-i2 / чистый S-прогон / фаза C)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: surface_to_user
+  question: "Owner-gate предложений T-20 (досье docs/analysis/T-20-2026-10-02.md): подтверждаете расклад?"
+  channel: question
+  owner_response: "Подтверждаю расклад (Recommended)"
+  result: "confirmed: 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23); Q22 → in work + T-24 (тест CLI-контура REST; tester, S, P3); 16 → open (v0.2); Q81 → open; Q78/D82 и Q79/D83 → done; маршрут и ветка — по плану"
+  next: "dispatch git (branch_start feature/T-20-traceability-wave2)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-20-traceability-wave2 создана от develop @ d414998 и опубликована (upstream установлен); коммитов нет, индекс пуст; рабочие пути T-20 перенесены как есть; замечание роли: снимок дерева (8 путей) разошёлся с плановым (3) — add_paths сверить на гейте пакета"
+  expect_match: partial
+  next: "re-plan analyst (state sync после branch_start: base_head/published/snapshot)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово: TRACEABILITY — 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23), Q22 → in work + T-24, 16 → open (v0.2), Q81 open; Q78/Q79 не тронуты (in work); карточка T-24 заведена (Q22/D26; tester; P3; ⬜) + строка сводки; T-20 ⬜→🚧 (сводка + карточка); cargo не запускался; отчёт/чекпойнт"
+  expect_match: true
+  next: "dispatch auditor (L, до коммита)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: auditor
+  result: "расхождений нет (P1/P2/P3 нет): 9 done без открытых задач; Q22 in work + T-24 ⬜ (видимость D77); 16 open; Q81 open; Q78/Q79 in work — корректно до ✅ T-20 (D82); T-24 в зоне migrator; T-20 🚧 в сводке и карточке; границы чисты. Технический факт: shell аудитора отклонён правами — git-команды не запускались, сверка чтением/rg"
+  expect_match: true
+  next: "dispatch validator (адресная документная приёмка, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: validator
+  result: "rework (P2): docs/tasks/T-24-rest-cli-contour-test/README.md:53 — ссылка [D50](../D50-dod-by-package-scope.md) резолвится в docs/tasks/D50-...; верно ../../decisions/D50-dod-by-package-scope.md; P1/P3 нет; адресная сверка TRACEABILITY/T-24/T-20 — ок; cargo не запускался (D50); отчёт docs/reviews/T-20-2026-10-02.md; квитанция rework (iteration 1) в receipts.yaml"
+  expect_match: true
+  next: "re-plan analyst (rework: участок №2 — migrator фикс ссылки → validator -r2 → закрытие)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: re-plan
+  role: analyst
+  result: "участок №2 (rework): migrator (фикс ссылки T-24:53) → validator (-r2, адресная) → migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done) → auditor (L, финальный пакет, до коммита) → гейт пакета → git → complete; auditor возвращён в маршрут (L — без исключений); iteration 2, rework 1, маркер t20_rework_link"
+  expect_match: true
+  next: "dispatch migrator (фикс ссылки)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (rework P2): T-24:53 → [D50](../../decisions/D50-dod-by-package-scope.md); прочие ссылки карточки проверены — живые; тех.факт: карточка T-24 untracked — сверка чтением (git diff пуст по baseline); иных правок нет"
+  expect_match: true
+  next: "dispatch validator (-r2, адресная, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: dispatch
+  role: validator
+  resume: true
+  result: "rework (P1): docs/TRACEABILITY.md:82,:83 (Q78/Q79) — [T-20] ⬜ против реестра 🚧 (тест docs_journal.rs:592 требует равенства; красный гейт на след. кодовом прогоне); фикс P2 подтверждён; регресс ок; границы чисты; отчёт docs/reviews/T-20-2026-10-02-r2.md; квитанция rework (iteration 2); примечание: при закрытии Q78/Q79 → done с видимой [T-20] ✅ (не —)"
+  expect_match: true
+  next: "re-plan analyst (участок №3: migrator синхронизация TRACEABILITY:82-83 → validator -r3 → закрытие)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: re-plan
+  role: analyst
+  result: "участок №3 (rework P1): migrator (TRACEABILITY:82,:83 [T-20] ⬜→🚧 + сверка пар реестр↔TRACEABILITY) → validator (-r3, адресная) → migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done с видимой [T-20] ✅) → auditor (L, финальный) → гейт пакета → git → complete; iteration 3, rework 2, маркер t20_sync_status_cells"
+  expect_match: true
+  next: "dispatch migrator (синхронизация ячеек TRACEABILITY)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (rework P1): TRACEABILITY:82,:83 (Q78/Q79) [T-20] ⬜→🚧; все 24 пары «реестр↔TRACEABILITY» сверены — расхождений нет; ссылки живые; cargo не запускался"
+  expect_match: true
+  next: "dispatch validator (-r3, адресная, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: validator
+  resume: true
+  result: "принято (P1/P2/P3 нет): TRACEABILITY:82,:83 [T-20] 🚧 = реестр = карточка; 23 пары «реестр↔TRACEABILITY» — 0 расхождений; фикс P2 в силе; регресс чист; границы чисты; cargo не запускался (D50); отчёт docs/reviews/T-20-2026-10-02-r3.md; квитанция accepted (iteration 3)"
+  expect_match: true
+  next: "dispatch migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done с видимой [T-20] ✅)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (закрытие): T-20 ✅ (сводка + карточка); TRACEABILITY Q78/Q79 → done с видимой [T-20] ✅; 24 пары «реестр↔TRACEABILITY» — 0 расхождений; lifecycle статически зелёный; cargo не запускался"
+  expect_match: true
+  next: "dispatch auditor (L, финальный пакет, до коммита)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: auditor
+  result: "финальный аудит: P1/P2/P3 нет; TRACEABILITY финал (9 done / Q22 in work + T-24 ⬜ / 16 open / Q81 open / Q78-Q79 done с видимой [T-20] ✅); T-20 ✅; 23 пары «реестр↔TRACEABILITY» — 0 расхождений; границы и «инструкция↔права» чисты; cargo не запускался"
+  expect_match: true
+  next: "re-plan analyst (синк package.add_paths со снимком) → surface_to_user (гейт пакета)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: surface_to_user
+  question: "Owner-gate пакета T-20: коммит 20 путей + merge --no-ff в develop + push + удаление ветки?"
+  channel: question
+  owner_response: "Коммит + merge в develop (Recommended)"
+  result: "confirmed: пакет 20 путей (14 M + 6 ??) сверен со снимком; порядок branch_end: коммит на ветке → merge --no-ff в develop → push origin develop → удаление ветки (local + origin); master не трогаем"
+  next: "dispatch git (пакет branch_end)"

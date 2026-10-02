@@ -171,6 +171,21 @@ clean-logs):** коммит `chore(process): очистка логов (mail + m
 - База: `develop` = `origin/develop` = `2f5544c`; ветки нет; master не трогаем.
 - Следующее действие — `dispatch git`.
 
+## сервисная сессия · 02.10.2026 · итог C1
+
+- **Коммит:** `d414998` — `chore(process): T-15 C1 — схема состояния
+  (state-schema.md, D86); приёмка` (21 путь: 15 M + 6 A; +1063/−20); push
+  `2f5544c..d414998` → `origin/develop`; ветки/master не тронуты; дерево
+  чистое, `develop` = `origin/develop`.
+- **Итог:** схема состояния канонизирована (`.opencode/rules/state-schema.md`,
+  D86/Q83): поля/типы/инварианты, писатель/читатель, `session_index`,
+  `owner_response`; читатели — `analyst` + `validator` (+`auditor` по
+  потребности); F15 закрыт; карточка C1 ✅; приёмка `T-15-c1` (переприёмка
+  r2 — адресная, без cargo по D50).
+- **Дальше по T-15 (выбор владельца):** C2 (`validate-state.mjs`), C3
+  (session-commit), C5/C6 (re-raise/метрики), чистый S-прогон (F26/F27).
+- Запись итога — пост-пакетная (F43): подхват следующим плановым пакетом.
+
 ## migrator · 02.10.2026 · готово (Q83 → D86 + C1 🚧)
 
 - Сделано: [Q83](../../docs/questions/Q83.md) (`resolved by` [D86](../../docs/decisions/D86-state-schema.md))
