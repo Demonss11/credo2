@@ -204,3 +204,21 @@
   `pull origin master` → `merge --no-ff develop` → `push origin master` → `switch
   develop`. Хеши — в ответе `lead` (не здесь). После финального push в
   отслеживаемые файлы не писать.
+- **02.10.2026, T-23 closeout** (вариант Б — коммит прямо в `develop`, ветки
+  нет; затем merge develop → master). Подтверждение сверено по записи ленты
+  `.opencode/mail/service-traceability-closeout.md` — «lead · 2026-10-02 · гейт
+  пакета пройден (surface_to_user)», ответ владельца «Подтверждаю: коммит +
+  develop + master (Recommended)». База: `develop` = `origin/develop` = `71ece40`;
+  `master` = `origin/master` = `c6ebc41`; дерево — снимок 13 путей (10 `M` + 3
+  `??`). К коммиту — 14 путей (13 пакета + этот чекпойнт, F43):
+  `docs/TRACEABILITY.md`, `docs/analysis/findings-registry.md`,
+  `docs/analysis/T-23-2026-10-02.md`, `docs/reviews/T-23-2026-10-02.md`,
+  `.opencode/mail/service-traceability-closeout.md`, `.opencode/mail/T-18.md`,
+  `.opencode/state/current/{progress,next_action,current_state,receipts}.yaml`,
+  `.opencode/memory/{migrator,validator,auditor}.md`, `.opencode/memory/git.md`.
+  Сообщение: `docs(T-23): синхронизация TRACEABILITY (статусы T-18/T-21/T-22,
+  жизненный цикл Q60/Q73/Q76) + F57`. Осталось: `add` 14 путей (`./`-префикс,
+  без `--`) → `diff --cached --name-status` (11 `M` + 3 `A`) → `commit` →
+  `push origin develop` → `switch master` → `pull origin master` → `merge --no-ff
+  develop` → `push origin master` → `switch develop`. Хеши — в ответе `lead`
+  (не здесь). После push в отслеживаемые файлы не писать (F43).

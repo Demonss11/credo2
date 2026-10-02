@@ -356,18 +356,37 @@
   заголовка vs inline, нормализация префиксов) — «тест не ослаблен» ≠ «тест
   корректен»; красный DoD с 5/6 ложными = rework в зоне `tester`, не правка
   канона «под тест».
-- **02.10.2026 · T-18 (-r2, повторная приёмка) — чекпойнт ДО прогона:** база
-  `5786875` (= `develop` = `origin/develop`); дерево смешанное (T-18+T-21+T-22),
-  коммитов нет; рабочая ветка `feature/T-22-...`. Проверено чтением:
-  P1-1 `field_line` триммит (:110-116); P1-2 `cell_task_statuses` понимает
-  `T-XX` (:221-260); P1-3 `section` ищет заголовок в начале строки (:152-162);
-  P1-4 `normalize_feature` (:265-270) применён в `feature_tokens`/
-  `feature_registry`; D39 (:45,56,61) — зона `.opencode/state/**` (гейт exempt);
-  все `T-XX` в TRACEABILITY — markdown-ссылки (парсер корректен). Границы:
-  `git diff --numstat -- src/mcp.rs` = `12/18`, `-- tests/mcp_draft.rs` = `12/8`.
-  Запускаю полный DoD: `fmt --check`, `clippy --all-targets -- -D warnings`,
-  `test --all`. Отчёт `docs/reviews/T-18-2026-10-02-r2.md`; квитанция append.
+- **02.10.2026 · T-23 (синхронизация TRACEABILITY, класс L, вариант Б) —
+  чекпойнт ДО прогона:** база `develop` @ `71ece40` (= `origin/develop` =
+  `HEAD`), ветки нет (прямая правка). Дерево по брифу: `M docs/TRACEABILITY.md`,
+  `M docs/analysis/findings-registry.md`, F43-остаток (`M .opencode/mail/T-18.md`,
+  `M .opencode/state/current/progress.yaml`), записи ролей/state, `??` лента
+  `service-traceability-closeout.md` и досье `T-23-2026-10-02.md`; `src/**`/
+  `tests/**`/`Cargo.toml` диффом пусто. Адресно: 4 строки TRACEABILITY
+  (Q29:33, Q60:64, Q73:77, Q76:80) против реестра `docs/tasks/README.md` и
+  легенды; F57; затем **полный DoD** (`fmt --check`, `clippy --all-targets
+  -- -D warnings`, `test --all`) — главное `docs_journal` 14/0 в составе 135/0.
+  Отчёт `docs/reviews/T-23-2026-10-02.md`; квитанция append (accepted/rework).
   Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. Полный DoD зелёный:
+  `fmt --check` exit 0, `clippy --all-targets -- -D warnings` exit 0,
+  `test --all` exit 0 — **135/0** (lib 61/0, `docs_journal` **14/14**,
+  features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0,
+  rest 11/0, doc 0/0); 0 ignored. Ранее красные
+  `traceability_tasks_exist_and_match_registry` (:592) и
+  `traceability_lifecycle_matches_task_openness` (:564) — зелёные; проверки
+  (1)–(8) целы (не ослаблены). 4 строки TRACEABILITY сверены с реестром
+  (`T-04 ✅:51, T-05 ⬜:52, T-18 ✅:64, T-21 ✅:67, T-22 ✅:68`): Q29:33
+  (T-21/T-22 ✅, `in work` — T-05 ⬜), Q60:64/Q73:77/Q76:80 (T-18 ✅, `done`).
+  F57 :69 — ID уникален, связи Q60/D64, Q73/D77, Q76/D80, Q29/D34. Границы:
+  `git diff --stat -- src tests Cargo.toml` пусто, канон агентов/rules пусто,
+  `git diff --check` пусто. База `develop` = `origin/develop` = `HEAD` =
+  `71ece40`; ветки нет (вариант Б; `progress.yaml:798` — «Вариант Б: прямая
+  правка»). Квитанция `accepted` (iteration 1) записана.
+  **Урок:** при прямой правке канона «вариант Б» ветку/базу подтверждать
+  `git rev-parse HEAD develop origin/develop` ×3 (все равны) — отсутствие
+  ветки не означает отсутствие базы; адресную приёмку строить таблицей
+  «строка ↔ реестр ↔ легенда» с номерами строк.
   **Итог (после):** **принято**, P1/P2/P3 нет. Полный DoD зелёный:
   `fmt --check` exit 0; `clippy --all-targets -- -D warnings` exit 0;
   `test --all` exit 0 — lib 61/0, **docs_journal 14/14**, features_inventory
@@ -382,15 +401,34 @@
   «зелёный DoD», но и неослабленность — сверять, что правки локализованы в
   разборе, а число/тела проверок сохранены; при accepted фиксировать
   неизменность чужих диффов (T-21/T-22).
-- **02.10.2026 · T-18 (-r2, повторная приёмка) — чекпойнт ДО прогона:** база
-  `5786875` (= `develop` = `origin/develop`); дерево смешанное (T-18+T-21+T-22),
-  коммитов нет; рабочая ветка `feature/T-22-...`. Проверено чтением:
-  P1-1 `field_line` триммит (:110-116); P1-2 `cell_task_statuses` понимает
-  `T-XX` (:221-260); P1-3 `section` ищет заголовок в начале строки (:152-162);
-  P1-4 `normalize_feature` (:265-270) применён в `feature_tokens`/
-  `feature_registry`; D39 (:45,56,61) — зона `.opencode/state/**` (гейт exempt);
-  все `T-XX` в TRACEABILITY — markdown-ссылки (парсер корректен). Границы:
-  `git diff --numstat -- src/mcp.rs` = `12/18`, `-- tests/mcp_draft.rs` = `12/8`.
-  Запускаю полный DoD: `fmt --check`, `clippy --all-targets -- -D warnings`,
-  `test --all`. Отчёт `docs/reviews/T-18-2026-10-02-r2.md`; квитанция append.
+- **02.10.2026 · T-23 (синхронизация TRACEABILITY, класс L, вариант Б) —
+  чекпойнт ДО прогона:** база `develop` @ `71ece40` (= `origin/develop` =
+  `HEAD`), ветки нет (прямая правка). Дерево по брифу: `M docs/TRACEABILITY.md`,
+  `M docs/analysis/findings-registry.md`, F43-остаток (`M .opencode/mail/T-18.md`,
+  `M .opencode/state/current/progress.yaml`), записи ролей/state, `??` лента
+  `service-traceability-closeout.md` и досье `T-23-2026-10-02.md`; `src/**`/
+  `tests/**`/`Cargo.toml` диффом пусто. Адресно: 4 строки TRACEABILITY
+  (Q29:33, Q60:64, Q73:77, Q76:80) против реестра `docs/tasks/README.md` и
+  легенды; F57; затем **полный DoD** (`fmt --check`, `clippy --all-targets
+  -- -D warnings`, `test --all`) — главное `docs_journal` 14/0 в составе 135/0.
+  Отчёт `docs/reviews/T-23-2026-10-02.md`; квитанция append (accepted/rework).
   Итог — после прогона.
+  **Итог (после):** **принято**, P1/P2/P3 нет. Полный DoD зелёный:
+  `fmt --check` exit 0, `clippy --all-targets -- -D warnings` exit 0,
+  `test --all` exit 0 — **135/0** (lib 61/0, `docs_journal` **14/14**,
+  features_inventory 4/0, mcp_draft 25/0, mcp_errors 8/0, publish 12/0,
+  rest 11/0, doc 0/0); 0 ignored. Ранее красные
+  `traceability_tasks_exist_and_match_registry` (:592) и
+  `traceability_lifecycle_matches_task_openness` (:564) — зелёные; проверки
+  (1)–(8) целы (не ослаблены). 4 строки TRACEABILITY сверены с реестром
+  (`T-04 ✅:51, T-05 ⬜:52, T-18 ✅:64, T-21 ✅:67, T-22 ✅:68`): Q29:33
+  (T-21/T-22 ✅, `in work` — T-05 ⬜), Q60:64/Q73:77/Q76:80 (T-18 ✅, `done`).
+  F57 :69 — ID уникален, связи Q60/D64, Q73/D77, Q76/D80, Q29/D34. Границы:
+  `git diff --stat -- src tests Cargo.toml` пусто, канон агентов/rules пусто,
+  `git diff --check` пусто. База `develop` = `origin/develop` = `HEAD` =
+  `71ece40`; ветки нет (вариант Б; `progress.yaml:798` — «Вариант Б: прямая
+  правка»). Квитанция `accepted` (iteration 1) записана.
+  **Урок:** при прямой правке канона «вариант Б» ветку/базу подтверждать
+  `git rev-parse HEAD develop origin/develop` ×3 (все равны) — отсутствие
+  ветки не означает отсутствие базы; адресную приёмку строить таблицей
+  «строка ↔ реестр ↔ легенда» с номерами строк.

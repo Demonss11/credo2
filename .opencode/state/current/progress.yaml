@@ -772,3 +772,65 @@
   channel: question
   result: "confirmed: «Подтверждаю: 3 пакета + master (Recommended)»"
   next: "dispatch git (3 пакета T-21 → T-18 → T-22 + merge develop → master)"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: три пакета исполнены — T-21: commit 7a595fb (16 staged ⊆ add_paths) → merge 622877a → push 5786875..622877a → ветка удалена; T-18: commit f03654b (23 staged; 4 общих — уже в C1) → merge 1cd07a3 → push 622877a..1cd07a3 → ветка удалена; T-22: commit 894995f (3 staged; commons — в C1/C2) → merge 71ece40 → push 1cd07a3..71ece40 → ветка удалена; финал: master merge develop → c6ebc41, push c2f905f..c6ebc41; develop = origin/develop = 71ece40; master = origin/master = c6ebc41; дерево чистое; конфликтов нет; запрещённые операции не применялись"
+  expect_match: true
+  next: "complete"
+
+- at: "2026-10-02"
+  task: T-21
+  iteration: 1
+  action: complete
+  result: "Закрытие T-21/T-18/T-22 завершено: обе приёмки accepted (T-21 -r3, T-18 -r2; T-22 — по факту сквозного зелёного -r3); статусы ✅ и CHANGELOG; три пакета закоммичены и влиты в develop (7a595fb/622877a, f03654b/1cd07a3, 894995f/71ece40), ветки удалены (local+origin); финальный merge develop → master c6ebc41 + push. develop = 71ece40, master = c6ebc41 (оба = origin). Пост-пакетные записи — F43-догрузка следующим плановым пакетом. Задачи закрыты"
+  next: "— (все три задачи закрыты; дерево чистое до пост-пакетных записей)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: surface_to_user
+  question: "T-23: маршрут исправления отхода TRACEABILITY — вариант А (ветка) или Б (прямая правка); объём: TRACEABILITY Q29/Q60/Q73/Q76 + F57 + F43-остаток; коммит в develop + merge master"
+  channel: question
+  result: "confirmed: «Вариант Б: прямая правка»"
+  next: "dispatch migrator (TRACEABILITY 4 строки + F57; ветка не создаётся)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово: docs/TRACEABILITY.md — ровно 4 строки (4+/4−): Q29 (стр.33) T-21 ⬜→✅, T-22 ⬜→✅ (жизненный цикл in work — открыт T-05); Q60 (64)/Q73 (77)/Q76 (80) — T-18 🚧→✅ и in work→done; F57 добавлена в docs/analysis/findings-registry.md (1+); git diff --check пусто; легенда/реестр сверены; F43-остаток и чужие файлы не тронуты; отчёт в ленту service-traceability-closeout.md + чекпойнт; cargo не запускался (D50)"
+  expect_match: true
+  next: "dispatch auditor (L, до коммита)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: dispatch
+  role: auditor
+  result: "готово: аудит до коммита — P1/P2/P3 нет; Q29: T-21/T-22 ✅ = реестр, in work законен (T-05 ⬜); Q60/Q73/Q76: T-18 ✅ = реестр, done законен (открытых нет; тест lifecycle); F57 без конфликта ID, связи на месте; полнота D77 (все ✅-задачи видны); диф 4+/4− и 1+, посторонних правок нет; src/tests/Cargo.toml/AGENTS.md/opencode.json не тронуты; «инструкция ↔ права» — расхождений нет (зона migrator); cargo не запускался (D50)"
+  expect_match: true
+  next: "dispatch validator (полный DoD — арбитр)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: dispatch
+  role: validator
+  result: "принято (P1/P2/P3 нет): полный DoD зелёный — fmt --check exit 0; clippy --all-targets -- -D warnings exit 0; cargo test --all 135 passed / 0 failed (lib 61/0; docs_journal 14/14 — ранее красные traceability_tasks_exist_and_match_registry :592 и traceability_lifecycle_matches_task_openness :564 зелёные; features_inventory 4/0; mcp_draft 25/0; mcp_errors 8/0; publish 12/0; rest 11/0); 4 строки TRACEABILITY ↔ реестр ↔ легенда; F57 (:69) ID уникален, связи живые; границы: src/tests/Cargo.toml диф пусто; F43-остаток в дереве, не подмешан; база 71ece40 ×3. Артефакты: отчёт docs/reviews/T-23-2026-10-02.md; квитанция accepted (iteration 1) в receipts.yaml; лента + память"
+  expect_match: true
+  next: "surface_to_user (гейт пакета: коммит в develop + merge develop→master)"
+
+- at: "2026-10-02"
+  task: T-23
+  iteration: 1
+  action: surface_to_user
+  question: "Гейт пакета T-23: коммит 13 путей + push develop + merge develop→master + push master; сообщение «docs(T-23): …»"
+  channel: question
+  result: "confirmed: «Подтверждаю: коммит + develop + master (Recommended)»"
+  next: "dispatch git (вариант Б: коммит на develop → push → merge develop→master → push master)"
