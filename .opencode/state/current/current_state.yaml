@@ -1,98 +1,163 @@
-# current_state.yaml — 2026-10-02, T-24 (S-пилот, F26/F27): интеграционный
-# тест CLI-контура REST на реальном бинарнике. Класс S (директива владельца +
-# карточка «ожидаемо S»; прецедент T-21/T-22). Приёмка validator `-r2` —
-# accepted. Участок — ХВОСТ CLOSEOUT (iteration 2, rework 1, D42): branch_end
-# исполнен частично (коммит/merge/push), удаление ветки заблокировано гардом
-# CCSN → эскалация владельцу → git (branch -d + проверка) → complete. Сессия
-# lead = 2 (resume).
+# current_state.yaml — 2026-10-02. ФАЗА: closing. Совмещённый пакет T-16+T-25.
+# ПРИЁМКИ: T-16 = accepted (receipts, iteration 2, отчёт -r3; cargo test --all
+# 145/0); T-25 = accepted (receipts, iteration 1; docs_journal 14/0).
+# ФАКТ pre_gate: пакеты неразделимы пофайлово — docs/CHANGELOG.md (один хунк,
+# записи T-25 :9-14 + T-16 :15-22) и docs/tasks/README.md (один хунк, :57 T-16 ✅
+# + :58 T-25 ✅); TRACEABILITY (:16 T-16, :65 T-25) и findings-registry (:25 H7,
+# :85 F73) — по два хунка на файл; пофайловый add захватывает чужой вклад,
+# хунк-разбор недоступен (TEMP закрыт гардом; add -p интерактив). Посылка
+# T-25-first опровергнута. РЕШЕНИЕ (вариант «а»): ОДИН совмещённый пакет на
+# ОДНОЙ ветке feature/T-25-d65-analysis-addresses (текущий HEAD @ 2958bf5,
+# published, 0 коммитов) — два коммита (продукт + процесс), merge --no-ff в
+# develop, push; пустая feature/T-16-stale-check-test выводится из оборота.
+# Сессия lead = 4.
 as_of: 2026-10-02
-operation: T-24
+operation: T-16
 kind: task
-task: T-24
-task_note: "T-24 (S) — тест CLI-контура REST (tests/rest_cli.rs, tester); приёмка validator -r2 accepted (141/0, rest_cli 6/6); закрытие статусов исполнено (T-24 ✅; Q22 done); branch_end частично: коммит 8b6c8b9 + merge 6c28e51 + push origin develop (✅), удаление ветки заблокировано CCSN → эскалация владельцу → git (branch -d + проверка) → complete"
+task: T-16
+task_note: "T-16 (M) + T-25 (S) — совмещённый closeout. Обе задачи приняты (T-16 -r3 145/0; T-25 docs_journal 14/0), статусы закрыты docs-writer. Маршрут: migrator (TRACEABILITY:65 [T-25] ✅, lifecycle done) → validator (docs_journal 14/0; код T-16 = -r3) → surface_to_user (гейт совмещённого пакета — смена схематики) → git branch_end (2 коммита + merge --no-ff + push + удаление обеих веток; CCSN — владелец вручную) → complete. Мастер не трогать."
 iteration: 2
 rework: 1
-session_index: 2
+session_index: 4
 phase: closing
-class: S
+class: M
 class_dispute: false
-status: awaiting_user
-progress_marker: t24_closeout_branch_cleanup
+status: in_progress
+progress_marker: combined_closeout_t16_t25
 acceptance: accepted
 acceptance_reports:
-  - docs/reviews/T-24-2026-10-02.md      # iteration 1, rework (P1)
-  - docs/reviews/T-24-2026-10-02-r2.md   # iteration 2, accepted
+  - docs/reviews/T-16-2026-10-02.md
+  - docs/reviews/T-16-2026-10-02-r2.md
+  - docs/reviews/T-16-2026-10-02-r3.md
+  - docs/reviews/T-25-2026-10-02.md
 artifacts:
-  mail: .opencode/mail/T-24.md
-  dossier: docs/analysis/T-24-2026-10-02.md
-  test: tests/rest_cli.rs
-  review_r1: docs/reviews/T-24-2026-10-02.md
-  review_r2: docs/reviews/T-24-2026-10-02-r2.md
+  mail: .opencode/mail/T-16.md
+  mail_related: .opencode/mail/T-25.md
+  dossier: docs/analysis/T-16-2026-10-02.md
+  card: docs/tasks/T-16-stale-check-test/README.md
+  card_related: docs/tasks/T-25-d65-analysis-addresses/README.md
+  scenario: docs/features/test_draft.feature
+  finding: docs/analysis/findings-registry.md
+  test: tests/mcp_draft.rs
+  review: docs/reviews/T-16-2026-10-02.md
+  review_r2: docs/reviews/T-16-2026-10-02-r2.md
+  review_r3: docs/reviews/T-16-2026-10-02-r3.md
+  review_t25: docs/reviews/T-25-2026-10-02.md
+  package_paths: "src/mcp.rs, src/lib.rs, tests/mcp_draft.rs, docs/** (обе задачи), .opencode/** (процесс)"
+blocker:
+  id: T16-T25-shared-hunks-inseparable
+  category: package_split
+  origin: git_report
+  summary: "docs/CHANGELOG.md (один хунк: T-25 :9-14 + T-16 :15-22) и docs/tasks/README.md (один хунк: :57 T-16 ✅ + :58 T-25 ✅) несут правки обеих задач неразделимо; TRACEABILITY (:16/:65) и findings-registry (:25/:85) — по два хунка. Пофайловый add захватывает чужой вклад; хунк-разбор недоступен. F43 пофайлово не соблюсти."
+  decision: "вариант (а): один совмещённый пакет T-16+T-25 на одной ветке (2 коммита: продукт + процесс)."
+  resolved: true
 route_pending:
-  - "surface_to_user (эскалация CCSN: владелец удаляет origin-ветку вручную и подтверждает; при выборе — подтверждение факта / wait_for_user)"
-  - "git (уборка: локальное `branch -d` без force + проверка отсутствия ветки local+origin; предусловие — origin-ветка удалена)"
-  - "complete (только после полного closeout; короткий итог владельцу)"
+  - "migrator — TRACEABILITY:65 [T-25] ⬜→✅, lifecycle Q61/D65 in work→done"
+  - "validator — контроль совмещённого дерева: docs_journal 14/0; код T-16 = -r3"
+  - "surface_to_user — гейт совмещённого пакета (смена схематики, подтверждает владелец)"
+  - "git — branch_end совмещённого пакета (2 коммита + merge --no-ff + push + удаление обеих веток)"
+  - "complete — после полного closeout T-16 и T-25"
+route_done:
+  - "git (branch_start: feature/T-16-stale-check-test от develop @ 2958bf5; published, 0 коммитов)"
+  - "git (branch_start T-25: feature/T-25-d65-analysis-addresses от develop @ 2958bf5; published, 0 коммитов — integration-ветка совмещённого пакета)"
+  - "docs-writer (T-16 ⬜→🚧→✅; T-25 ⬜→✅)"
+  - "migrator (TRACEABILITY [T-16] ⬜→🚧→✅; H7 закрыт)"
+  - "coder (src/lib.rs AppState::source_file_path; src/mcp.rs test() при stale — parse_rule текста файла; ошибки → evaluation_failed)"
+  - "tester (tests/mcp_draft.rs — 2 stdio-теста; правка литерала decision)"
+  - "validator (T-16 iteration 2: -r3 accepted, полный DoD 145/0; отчёт -r3 + квитанция)"
+  - "validator (T-25 iteration 1: accepted, docs_journal 14/0; отчёт docs/reviews/T-25-2026-10-02.md + квитанция)"
+  - "docs-writer (closeout: карточки ✅, docs/tasks/README.md:57 T-16 ✅ + :58 T-25 ✅, CHANGELOG — обе записи)"
+  - "surface_to_user (гейты веток T-16/T-25 подтверждены ранее; пакеты раздельно — схематика отменена, см. blocker)"
 route_exclusions:
-  - "coder/rust-expert — src/** и Cargo.toml не меняются"
-  - "tester/validator — приёмка завершена (accepted), доработок нет"
-  - "docs-writer/migrator — закрытие статусов/трассировки исполнено (T-24 ✅; Q22 done)"
+  - "coder/tester — код и тест T-16 приняты (-r3); правок не требуется"
+  - "rust-expert — правки типовые; отдельный проход не нужен"
   - "researcher — внешних зависимостей нет"
-  - "auditor — S, канон не затронут"
+  - "auditor — класс M; канон/права не затрагиваются"
+re_raise:
+  id: T-16-acceptance-r2-test-literal-decision
+  category: expect_mismatch
+  origin: validator_report
+  failed_clause: "tests/mcp_draft.rs:244 assert_eq!(decision, \"пусто\") при фактическом \"\""
+  fix: "литерал \"пусто\" → \"\"; принято в -r3 (mcp_draft 27/0)"
+  blocking: false
+  resolved: true
 package:
   mode: branch_end
-  add_paths:
-    - .opencode/mail/T-20.md
-    - .opencode/mail/T-24.md
+  add_paths:   # СОЮЗ обоих пакетов; раскладка по двум коммитам — в note
+    - .opencode/mail/T-16-r2.md
+    - .opencode/mail/T-16.md
+    - .opencode/mail/T-25.md
     - .opencode/memory/analyst.md
+    - .opencode/memory/coder.md
     - .opencode/memory/docs-writer.md
     - .opencode/memory/git.md
     - .opencode/memory/migrator.md
-    - .opencode/memory/service.md
     - .opencode/memory/tester.md
     - .opencode/memory/validator.md
     - .opencode/state/current/current_state.yaml
     - .opencode/state/current/next_action.yaml
     - .opencode/state/current/progress.yaml
     - .opencode/state/current/receipts.yaml
-    - docs/analysis/T-24-2026-10-02.md
-    - docs/reviews/T-24-2026-10-02.md
-    - docs/reviews/T-24-2026-10-02-r2.md
-    - docs/tasks/README.md
-    - docs/tasks/T-24-rest-cli-contour-test/README.md
+    - docs/CHANGELOG.md
     - docs/TRACEABILITY.md
-    - tests/rest_cli.rs
-  note: "ВЫПОЛНЕНО: коммит 8b6c8b9 (20 путей: 15 M + 5 A) → merge --no-ff 6c28e51 в develop → push caac10d..6c28e51 origin develop. add_paths уже закоммичены — повторный add/коммит не нужен. ОСТАТОК: удаление ветки (origin вручную владельцем из-за CCSN, локально git branch -d). Пост-пакетные записи — F43-подхват."
-gate_pending: "удаление ветки — ручное действие владельца (CCSN `git.push-delete`): эскалация surface_to_user; complete до полного closeout не исполняется"
+    - docs/analysis/T-16-2026-10-02.md
+    - docs/analysis/findings-registry.md
+    - docs/decisions/D87-t24-pilot-fixes.md
+    - docs/decisions/D88-c9-c12-loop-tuning.md
+    - docs/questions/Q84.md
+    - docs/questions/Q85.md
+    - docs/reviews/T-16-2026-10-02.md
+    - docs/reviews/T-16-2026-10-02-r2.md
+    - docs/reviews/T-16-2026-10-02-r3.md
+    - docs/reviews/T-25-2026-10-02.md
+    - docs/tasks/README.md
+    - docs/tasks/T-16-stale-check-test/README.md
+    - docs/tasks/T-25-d65-analysis-addresses/
+    - src/lib.rs
+    - src/mcp.rs
+    - tests/mcp_draft.rs
+  note: "Совмещённый пакет (F43 пофайлово не соблюсти — см. blocker). Два коммита: (1) продукт `code(T-16, T-25): stale-тест по тексту файла + снятие D65-адресов (Q12/D54, Q61/D65)` — src/**, tests/mcp_draft.rs, docs/**; (2) процесс `chore(process): записи прогона T-16/T-25` — .opencode/mail/**, .opencode/memory/** (7 файлов ролей), .opencode/state/current/** (git-workflow §«Ограничения»). Продукт и процесс — раздельными коммитами. Общие файлы (CHANGELOG, tasks/README, TRACEABILITY, findings-registry) входят целиком. Исключены чужие сервисные M (mail/service-mcp-ready-r10.md, memory/service.md). Перед гейтом — сверка add_paths со свежим git status --porcelain."
+gate_pending: "Смена схематики пакетов (раздельные → совмещённый) — требует подтверждения владельца (surface_to_user, Шаг 3). Ранее подтверждённые гейты веток T-16/T-25 сохранены как факт, но состав/порядок пакетов переоформлен."
 base:
-  develop: 6c28e51   # = origin/develop (после merge --no-ff + push)
-  master: ""
+  develop: 2958bf5   # = origin/develop (база обеих веток; предок, T-15 r10)
+  master: 46b98c2    # не трогать
 branch:
-  name: feature/T-24-rest-cli-contour-test
+  name: feature/T-25-d65-analysis-addresses   # integration-ветка совмещённого пакета (текущий HEAD)
   base: develop
-  base_head: 6c28e51
+  base_head: 2958bf5
   published: true
-  commits: 1
-  note: "Ветка влита в develop (merge --no-ff 6c28e51) и отправлена; НЕ удалена: origin-ветка осталась (push --delete заблокирован CCSN), локальная осталась (`branch -d` не выполнялся). master не тронут."
+  commits: 0
+  note: "Единая ветка совмещённого пакета; создана branch_start T-25, published, 0 коммитов. master не тронут."
+  related:
+    name: feature/T-16-stale-check-test
+    base: develop
+    base_head: 2958bf5
+    published: true
+    commits: 0
+    note: "Пустая ветка T-16; выводится из оборота — удаление local+origin (CCSN на push --delete — владелец вручную, D87)."
+mixed_worktree: true
 worktree_remainder:
-  - ".opencode/mail/T-24.md                      # запись lead о частичном branch_end + эта запись (M)"
-  - ".opencode/state/current/progress.yaml       # запись lead о частичном branch_end (M)"
-  - ".opencode/state/current/current_state.yaml  # снимок хвоста closeout (M)"
-  - ".opencode/state/current/next_action.yaml    # план остатка (M)"
-  - ".opencode/memory/analyst.md                 # чекпойнт re-plan остатка (M)"
+  - ".opencode/mail/service-mcp-ready-r10.md   # чужая сервисная сессия (M) — не включать ни в один коммит"
+  - ".opencode/memory/service.md               # чужая сервисная сессия (M) — не включать ни в один коммит"
 snapshot_check: >
-  Снимок `git status --porcelain --branch --untracked-files=all` (02.10.2026,
-  хвост closeout; HEAD = develop = origin/develop = 6c28e51): 2 M —
-  `.opencode/mail/T-24.md`, `.opencode/state/current/progress.yaml` (запись lead
-  о частичном branch_end). Коммит 8b6c8b9 + merge 6c28e51 + push выполнены,
-  рабочее дерево до re-plan было чистое. Re-plan добавляет M в
-  `next_action.yaml`, `current_state.yaml`, `memory/analyst.md` — пост-пакетные
-  записи (F43-подхват следующим пакетом). Нового коммита для T-24 нет.
+  Снимок 02.10.2026 (git status -sb / log -1): HEAD = feature/T-25-d65-analysis-addresses
+  (= origin/…, @ 2958bf5 = develop = origin/develop, 0 коммитов) + рабочее
+  дерево. Изменения T-16 в дереве: src/lib.rs, src/mcp.rs, tests/mcp_draft.rs;
+  Cargo.toml не тронут; git diff --check пусто. T-25: Q84/Q85, D87/D88,
+  tasks/T-25-*, review T-25, строка TRACEABILITY:65. Общие файлы (CHANGELOG,
+  tasks/README, TRACEABILITY, findings-registry) несут обе задачи неразделимо —
+  блокер. Приёмки: T-16 -r3 145/0; T-25 docs_journal 14/0. master не тронут.
+  Сверка 02.10.2026 (validator P2): `git status --porcelain` = 34 пути (25 M +
+  9 ??); `add_paths` = 32 = снимок минус 2 чужих сервисных M
+  (mail/service-mcp-ready-r10.md, memory/service.md) — включает
+  .opencode/mail/T-16-r2.md (том 2 ленты T-16). Расхождений нет.
 constraints:
-  - "Остаток — только удаление ветки: origin вручную владельцем (CCSN), локально `git branch -d` без force."
-  - "Нового коммита нет: пост-пакетные записи (state/mail/память) — F43-подхват следующим пакетом."
-  - "master не трогать; develop не перезаписывать; после push в отслеживаемые файлы не писать (F43)."
-  - "Блокировка `git push origin --delete` гардом CCSN — не обходить, эскалация владельцу (прецедент T-20)."
+  - "Совмещённый пакет: одна ветка (feature/T-25-d65-analysis-addresses), два коммита (продукт + процесс); общие файлы входят целиком."
+  - "Контракт §4.5/D34 не менять; T-02 не реализовывать; T-08 — вне."
+  - "features/test_draft.feature — 🟡 (6 сценариев, T-16 закрывает 1; :63-70 ← T-02 ⬜)."
+  - "Чужие M-файлы сервисной сессии не включать; mixed_worktree."
+  - "master не трогать; CCSN-блок git push origin --delete — не обходить, владелец вручную (D87)."
 resume:
   analyst_session: current
-  note: "Хвост closeout: branch_end исполнен частично (коммит 8b6c8b9 + merge --no-ff 6c28e51 в develop + push origin develop ✅); origin-ветка и локальная ветка НЕ удалены (push --delete заблокирован CCSN). Остаток: surface_to_user (эскалация) → git (branch -d + проверка) → complete. База develop = origin/develop = 6c28e51. package.add_paths (20) уже закоммичены. Новых Q/D нет."
-inherited_boundaries: [Q22, D26, D27, Q27, D77, D82, D50, D83, F43, F57]
+  note: "RE-PLAN (pre_gate): посылка T-25-first опровергнута — общие файлы несут обе задачи неразделимо (CHANGELOG и tasks/README — один хунк). Решение (вариант «а», dispatch-loop §«Git-пакет: сверка»): ОДИН совмещённый пакет T-16+T-25 на одной ветке (feature/T-25-d65-analysis-addresses, HEAD @ 2958bf5) — два коммита (продукт + процесс), merge --no-ff, push; пустая feature/T-16-stale-check-test выводится из оборота. Очередь: migrator (TRACEABILITY:65 [T-25] ✅, lifecycle done) → validator (docs_journal 14/0; код T-16 = -r3) → surface_to_user (гейт смены схематики) → git branch_end → complete. Приёмки обеих задач в receipts. Новых Q/D нет."
+inherited_boundaries: [Q12, D54, Q29, D34, Q16, Q34, D32, D40, Q33, D42, D50, D65, F43, D87]

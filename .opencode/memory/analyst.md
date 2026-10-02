@@ -109,3 +109,47 @@
   нового коммита нет (post-package записи — F43-подхват). Урок: гард CCSN
   `git.push-delete` стабильно блокирует удаление origin-ветки — обход не искать
   (T-20, T-24). Новых Q/D нет.
+- **02.10.2026 · T-16 (свежий план, session_index 3)**: задача T-16 — `check.test`
+  на stale-черновике должен исполнять текст файла `rules/{name}.dar` (Q12/D54;
+  сценарий `features/test_draft.feature`; находка H7). Класс **M** (код
+  `src/mcp.rs` `test()` + при необходимости `src/lib.rs`; тесты
+  `tests/mcp_draft.rs`; есть сценарий `features/` → guard «не ниже M»). Факты:
+  `test()` (`mcp.rs:208-256`) исполняет `&d.rule`; `is_stale` (`lib.rs:813-822`)
+  читает `workspace/rules/{name}.dar`, но `workspace` приватный (нужен хелпер).
+  База develop = origin/develop = `6c28e51`; ветка `feature/T-16-stale-check-test`
+  ещё не создана. Маркер `t16_stale_file_source`; статус awaiting_user (гейт
+  старта). Очередь: surface_to_user (ветка) → git branch_start → docs-writer 🚧 →
+  migrator TRACEABILITY 🚧 → coder → tester → validator (точка ветвления) →
+  docs-writer ✅ + CHANGELOG → migrator ✅ (Q12 остаётся in work — T-08 ⬜; H7) →
+  surface_to_user (пакет) → git branch_end → complete. Грабли: worktree не чист —
+  2 чужих M-файла сервисной сессии (`mail/service-mcp-ready-r10.md`,
+  `memory/service.md`); в пакет T-16 не включать. Статус `test_draft.feature` не
+  поднимать до ✅ без validator (часть сценариев зависит от T-02). Новых Q/D нет
+  (уточнения реализации — в рамках D40).
+- **02.10.2026 · T-16 · re-plan branch_start (`expect_mismatch`)**: git сообщил
+  базу `develop = origin/develop = HEAD = 2958bf5` («T-15 r10»), а не `6c28e51`
+  из плана; `6c28e51` — в истории (развилка на процессные коммиты T-15 `af53e23`
+  r9, `2958bf5` r10, кода T-16 не касаются). Решение: база ветки — текущий
+  `develop @ 2958bf5`; **повторный owner-гейт не требуется** (владелец
+  подтвердил старт задачи; хэш — контекст плана). `re_raise: T-16-branch-base-drift`
+  (`expect_mismatch`, blocking false, resolved true). Обновлены
+  next_action/current_state (`base.develop`/`branch.base_head` = 2958bf5,
+  `status: in_progress`, гейт старта снят из очереди, первый action —
+  `dispatch git` branch_start) + досье. Урок: хэш базы в плане — снимок; перед
+  branch_start сверять с фактическим `develop`, дрейф на процессные коммиты —
+  не повод для нового owner-гейта.
+- **02.10.2026 · T-16 · P2-контроль closeout (`add_paths` ↔ снимок):** вердикт
+  validator — пакет совмещённого closeout T-16+T-25 рассинхронизирован с
+  деревом: `.opencode/mail/T-16-r2.md` (том 2 ленты T-16, создан самим re-plan
+  из-за порога ~300 строк) был `??` и на него ссылался `T-25.md:69`, но в
+  `package.add_paths` и в раскладке process-коммита отсутствовал. Правка —
+  только состояние: строка добавлена в `add_paths` и в process-note
+  `next_action.yaml`, в `add_paths` `current_state.yaml`; `snapshot_check`
+  дополнен (снимок 34 = 25 M + 9 ??; `add_paths` 32 = снимок минус 2 чужих
+  сервисных M). Расхождений нет; git-операций нет. **Паттерн:** при
+  совмещённом closeout общие файлы неразделимы пофайлово (CHANGELOG и
+  tasks/README — вообще один хунк); посылка «пофайловый add разделит вклад»
+  ложна, `chunk`-split недоступен. **Грабли:** артефакты, созданные самим
+  re-plan'ом (новый том ленты и пр.), сразу попадают в снимок — включать их в
+  `add_paths`/process-раскладку при re-plan, а не после вердикта validator.
+  Новых Q/D нет.

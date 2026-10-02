@@ -27,6 +27,41 @@
 
 ## Чекпойнты
 
+- **02.10.2026, branch_end совмещённого пакета T-16+T-25** (лента `T-25.md`,
+  пакет 32 пути): ветка `feature/T-25-d65-analysis-addresses` = origin = `HEAD`
+  = `develop` = `origin/develop` = `2958bf5` (0 коммитов); `master` =
+  `origin/master` = `46b98c2`. Подтверждение владельца — `progress.yaml`
+  (02.10, T-16, iteration 2, `session_index: 4`, `surface_to_user`), дословно
+  «Совмещённый пакет, 2 коммита (Recommended)». Снимок `git status --porcelain`
+  = 34 пути (25 M + 9 ??), `add_paths` 32 = 34 − 2 чужих сервисных
+  (`mail/service-mcp-ready-r10.md`, `memory/service.md`). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: продуктовый `add` (19) → коммит `code(T-16,
+  T-25): stale-тест по тексту файла + снятие D65-адресов (Q12/D54, Q61/D65)` →
+  процессный `add` (14) → коммит `chore(process): записи прогона T-16/T-25` →
+  `switch develop` → `pull origin develop` → `merge --no-ff` → `push origin
+  develop` → удаление обеих веток (local + origin; CCSN на remote — владелец
+  вручную, D87). `master` не трогается; после `push` в отслеживаемые файлы не
+  писать.
+- **02.10.2026, branch_start T-25** (лента `T-25.md`, действие плана
+  `branch_start`; класс S, цикл T-25-first — разблокировка чистого пакета T-16,
+  F43): база `develop` = `origin/develop` = `HEAD` = `2958bf5` (проверено
+  `git rev-parse develop origin/develop HEAD`); `master` = `origin/master` =
+  `46b98c2`. Ветки `feature/T-25-d65-analysis-addresses` нет локально и на
+  origin (`git ls-remote --heads` пусто). Подтверждение владельца — лента
+  `T-25.md` + `progress.yaml` (02.10, T-25, iteration 1, `session_index: 4`,
+  `surface_to_user`, `owner_response` дословно «Подтверждаю ветку и порядок
+  (Recommended)»). Дерево (24 M + 6 ?? = 30 путей): M git-независимые — пакет
+  T-16 (`src/lib.rs`, `src/mcp.rs`, `tests/mcp_draft.rs`, `docs/CHANGELOG.md`,
+  `docs/TRACEABILITY.md`, `docs/tasks/README.md`,
+  `docs/tasks/T-16-stale-check-test/README.md`, `docs/analysis/findings-registry.md`,
+  `docs/decisions/D87…`, `docs/decisions/D88…`, `docs/questions/Q84.md`,
+  `docs/questions/Q85.md`, `docs/reviews/T-16-*` (untracked), `docs/analysis/T-16-*`,
+  `mail/T-16.md`), state/memory сервисные M + `mail/service-mcp-ready-r10.md`,
+  S-файлы T-25 (`docs/tasks/T-25-d65-analysis-addresses/` untracked) — переносятся
+  в ветку как есть, не коммитятся. Чекпойнт и отчёт в ленту — до операции
+  (F43-паттерн). Осталось: `switch develop` → `pull origin develop` → `switch -c
+  feature/T-25-d65-analysis-addresses develop` → `push -u origin
+  feature/T-25-d65-analysis-addresses`. `master` не трогается; коммитов нет.
 - **02.10.2026, сервисный пакет r10 (T-15, C9/C12, D88)** — лента
   `service-mcp-ready-r10`: база `develop` = `origin/develop` = `HEAD` = `af53e23`
   (проверено `git log -1 --oneline`); ветки нет. Подтверждение владельца —
