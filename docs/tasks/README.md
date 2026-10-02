@@ -54,7 +54,8 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-12](T-12-agent-loop/README.md) | Разгрузка `lead`: loop-диспетчер, эфемерный `analyst`, состояние на диске | [D39](../decisions/D39-loop-dispatcher.md) (Q44) | P1 | — | ✅ |
 | [T-13](T-13-agent-hardening/README.md) | W7: доработка агентов после Run 3 (доступы, дисциплина цикла, гигиена) | [D40](../decisions/D40-scope-threshold.md), [D41](../decisions/D41-dispatch-refinements.md) (Q45, Q46) | P1 | — | ✅ |
 | [T-15](T-15-mcp-ready-process/README.md) | Процесс, готовый к MCP: схема состояния, операции, финализация, метрики | [D78](../decisions/D78-t15-mcp-ready-program.md) (Q74); записка [`mcp-ready-process.md`](T-15-mcp-ready-process/mcp-ready-process.md) | P1 | — | 🚧 |
-| [T-16](T-16-stale-check-test/README.md) | `check.test` на stale-черновике: исполнение по тексту файла `rules/{name}.dar` | Q12 (Q29, T-01) | P1 | — | ⬜ |
+| [T-16](T-16-stale-check-test/README.md) | `check.test` на stale-черновике: исполнение по тексту файла `rules/{name}.dar` | Q12 (Q29, T-01) | P1 | — | ✅ |
+| [T-25](T-25-d65-analysis-addresses/README.md) | Снять D65-адреса на разбор T-24 из журнала (Q84/Q85/D87/D88) | Q61, [D65](../decisions/D65-reference-policy.md); базовый P1 приёмки T-16; F73 | P1 | — | ✅ |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |

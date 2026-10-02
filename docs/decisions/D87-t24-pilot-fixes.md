@@ -18,8 +18,7 @@
 
 S-пилот T-24 (02.10.2026) прошёл, но «чистым» не был: 4 упора лимита `lead`,
 8 вызовов `analyst`, ~15 `permission.rejected`, stale state на старте,
-модель `#max`. Разбор —
-`docs/analysis/T-24-run-2026-10-02-lead-session.md`; находки — F67–F72 в
+модель `#max`. Находки — F67–F72 в
 [`findings-registry.md`](../analysis/findings-registry.md). Владелец на
 открытии сервисной операции 02.10.2026 (лента r9) выбрал «Сначала дешёвые
 правки»: права (F69/F71), CCSN-процедура (F71), state hygiene (F67-часть),
@@ -70,8 +69,7 @@ S-пилот T-24 (02.10.2026) прошёл, но «чистым» не был: 
   отсутствовали (поиск по дереву); последние занятые — Q83/D86; нумерация
   сквозная (§2 [`journal.md`](../../.opencode/rules/journal.md)).
 - **Основания:** F67–F72 в
-  [`findings-registry.md`](../analysis/findings-registry.md) и разбор
-  `docs/analysis/T-24-run-2026-10-02-lead-session.md` — чтением.
+  [`findings-registry.md`](../analysis/findings-registry.md) — чтением.
 - **Периметр правок:** `.opencode/agents/{lead,git,analyst,tester}.md`,
   `.opencode/rules/{review,git-workflow,dispatch-loop}.md` — зона сервисной
   сессии; правки вносятся отдельно, решение лишь канонизирует их состав.
@@ -97,7 +95,6 @@ S-пилот T-24 (02.10.2026) прошёл, но «чистым» не был: 
 
 - Вопрос: [Q84](../questions/Q84.md)
 - Основания: F67–F72 в [`findings-registry.md`](../analysis/findings-registry.md);
-  разбор `docs/analysis/T-24-run-2026-10-02-lead-session.md`;
   [D47](D47-git-refinements-run5.md) (хвост closeout);
   [D78](D78-t15-mcp-ready-program.md) (программа T-15)
 - Артефакты: карточка [T-15](../tasks/T-15-mcp-ready-process/README.md)

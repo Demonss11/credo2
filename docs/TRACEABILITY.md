@@ -13,7 +13,7 @@
 | [Q9](questions/Q9.md) | [D21](decisions/D21-core-semantics-v01.md) | done | — | [`errors.feature`](features/errors.feature) |
 | [Q10](questions/Q10.md) | [D21](decisions/D21-core-semantics-v01.md) | done | — | [`execution.feature`](features/execution.feature), [`test_draft.feature`](features/test_draft.feature) |
 | [Q11](questions/Q11.md) | [D53](decisions/D53-error-messages-language.md) | done | — | [`evaluate.feature`](features/evaluate.feature), [`rest_api.feature`](features/rest_api.feature), [`rest_auth.feature`](features/rest_auth.feature), [`errors.feature`](features/errors.feature) |
-| [Q12](questions/Q12.md) | [D54](decisions/D54-source-of-truth-flow.md) | in work | [T-16](tasks/T-16-stale-check-test/README.md) ⬜, [T-08](tasks/T-08-materialize-source-file/README.md) ⬜, [T-01](tasks/T-01-draft-source-hash/README.md) ✅ | [`draft.feature`](features/draft.feature), [`test_draft.feature`](features/test_draft.feature), [`publish.feature`](features/publish.feature), [`notebook_ui.feature`](features/notebook_ui.feature), [`editor.feature`](features/editor.feature), [`file_management.feature`](features/file_management.feature) |
+| [Q12](questions/Q12.md) | [D54](decisions/D54-source-of-truth-flow.md) | in work | [T-16](tasks/T-16-stale-check-test/README.md) ✅, [T-08](tasks/T-08-materialize-source-file/README.md) ⬜, [T-01](tasks/T-01-draft-source-hash/README.md) ✅ | [`draft.feature`](features/draft.feature), [`test_draft.feature`](features/test_draft.feature), [`publish.feature`](features/publish.feature), [`notebook_ui.feature`](features/notebook_ui.feature), [`editor.feature`](features/editor.feature), [`file_management.feature`](features/file_management.feature) |
 | [Q13](questions/Q13.md) | [D14](decisions/D14-published-artifact-canon.md) | in work | [T-06](tasks/T-06-registry-path-xyz/README.md) ⬜, [T-07](tasks/T-07-meta-fields/README.md) ⬜ | [`publish.feature`](features/publish.feature), [`storage_paths.feature`](features/storage_paths.feature), [`publish_rules.feature`](features/publish_rules.feature), [`immutability.feature`](features/immutability.feature), [`mcp_tools.feature`](features/mcp_tools.feature) |
 | [Q14](questions/Q14.md) | [D55](decisions/D55-publish-branch-name.md) | done | — | [`publish.feature`](features/publish.feature), [`publish_rules.feature`](features/publish_rules.feature) |
 | [Q15](questions/Q15.md) | [D56](decisions/D56-merge-step.md) | in work | [T-17](tasks/T-17-merge-command/README.md) ⬜ | [`git_integration.feature`](features/git_integration.feature), [`publish_rules.feature`](features/publish_rules.feature), [`deferred.feature`](features/deferred.feature) |
@@ -62,7 +62,7 @@
 | [Q58](questions/Q58.md) | [D62](decisions/D62-brief-journal-rules.md) | done | — | — |
 | [Q59](questions/Q59.md) | [D63](decisions/D63-journal-index-lifecycle.md) | done | — | — |
 | [Q60](questions/Q60.md) | [D64](decisions/D64-journal-integrity-test.md) | done | [T-18](tasks/T-18-docs-journal-test/README.md) ✅ | — |
-| [Q61](questions/Q61.md) | [D65](decisions/D65-reference-policy.md) | done | — | — |
+| [Q61](questions/Q61.md) | [D65](decisions/D65-reference-policy.md) | done | [T-25](tasks/T-25-d65-analysis-addresses/README.md) ✅ | — |
 | [Q62](questions/Q62.md) | [D66](decisions/D66-doc-quality-checks.md) | in work | [T-19](tasks/T-19-doc-quality-checks/README.md) ⬜ | — |
 | [Q63](questions/Q63.md) | [D67](decisions/D67-cspell-deferred.md) | open | — | — |
 | [Q64](questions/Q64.md) | [D68](decisions/D68-changelog-handwritten.md) | done | — | — |

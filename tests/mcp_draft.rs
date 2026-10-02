@@ -203,6 +203,81 @@ fn test_records_checksum_and_invalidates_on_change_q29_inv4() {
     assert_eq!(d["draft"]["test_valid"], json!(false), "{d}");
 }
 
+/// T-16/Q12/D54: сценарий `test_draft.feature` «Тестирование устаревшего
+/// черновика» — при расхождении файла `rules/{name}.dar` и черновика `stale`
+/// не блокирует тест, но `check.test` исполняет **текст файла**, а не текст
+/// черновика. Контракт §4.5/D34 при этом не меняется: `source_hash`/
+/// `last_test_checksum` — от черновика, `tested_at` присутствует.
+#[test]
+fn stale_test_executes_file_text_q12_t16() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    mcp.create(NAME, SRC);
+
+    // Файл-источник записан после создания черновика и отличается от него:
+    // порог файла — 18, черновика — 21 (Q12/D54).
+    let rules = t.path().join("rules");
+    std::fs::create_dir_all(&rules).unwrap();
+    let dar_src = "Правило МинимальныйВозраст { Если (Клиент.Возраст < 18) { \
+                   Решение = Отказ; Причина = \"Возраст меньше 18\"; } }";
+    std::fs::write(t.path().join(DAR), dar_src.as_bytes()).unwrap();
+
+    let (_, d) = mcp.get_draft(NAME);
+    assert_eq!(d["draft"]["stale"], json!(true), "файл изменён: {d}");
+    assert_eq!(d["draft"]["source"], SRC, "черновик не должен подменяться");
+    assert_eq!(d["draft"]["source_hash"], credo2::core::source_hash(SRC));
+
+    // 19 < 18 — ложно; старый черновик («< 21») дал бы matched = true.
+    let (err, tested) = mcp.call(
+        "check.test",
+        json!({ "name": NAME, "input": { "Клиент.Возраст": 19 } }),
+    );
+    assert!(!err, "{tested}");
+    assert_eq!(tested["status"], "ok");
+    assert_eq!(tested["rule_name"], NAME);
+    // Исполнен текст ФАЙЛА: condition/reason — от порога 18.
+    assert_eq!(
+        tested["condition"], "Клиент.Возраст < 18",
+        "исполнен текст черновика, а не файла: {tested}"
+    );
+    assert_eq!(tested["matched"], json!(false), "{tested}");
+    assert_eq!(tested["decision"], "", "{tested}");
+    // Контракт §4.5/D34: метки фиксируются от черновика (текст не мутируется).
+    assert_eq!(tested["source_hash"], credo2::core::source_hash(SRC));
+    assert_eq!(tested["last_test_checksum"], tested["source_hash"]);
+    assert!(tested["tested_at"].is_string(), "{tested}");
+    assert!(tested.get("explanation").is_none(), "{tested}");
+
+    // Черновик остаётся stale, его текст/хэш не переписан файлом.
+    let (_, d) = mcp.get_draft(NAME);
+    assert_eq!(d["draft"]["source"], SRC, "{d}");
+    assert_eq!(d["draft"]["stale"], json!(true), "{d}");
+    assert_eq!(d["draft"]["last_test_checksum"], tested["source_hash"]);
+    assert_eq!(d["draft"]["tested_at"], tested["tested_at"]);
+}
+
+/// T-16/D40: `.dar`-файл при stale-черновике нечитаем/невалиден →
+/// `evaluation_failed` (единый конверт §4.5), а не тихий откат к черновику.
+#[test]
+fn stale_test_invalid_file_is_evaluation_failed_t16() {
+    let t = temp_workspace();
+    let mut mcp = Mcp::start(t.path());
+    mcp.create(NAME, SRC);
+
+    let rules = t.path().join("rules");
+    std::fs::create_dir_all(&rules).unwrap();
+    std::fs::write(t.path().join(DAR), "это не правило").unwrap();
+
+    let (_, d) = mcp.get_draft(NAME);
+    assert_eq!(d["draft"]["stale"], json!(true), "{d}");
+
+    let (err, payload) = mcp.call(
+        "check.test",
+        json!({ "name": NAME, "input": { "Клиент.Возраст": 19 } }),
+    );
+    assert_error_envelope(err, &payload, "evaluation_failed");
+}
+
 /// Старый `sandbox.json` (без `source`/`source_hash`/меток теста) грузится,
 /// черновик читается и не считается stale/валидным.
 #[test]

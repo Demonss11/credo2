@@ -808,13 +808,16 @@ impl AppState {
         self.api_key.as_ref()
     }
 
+    /// Путь файла-источника черновика в рабочем контуре: `rules/{name}.dar`
+    /// (Q12/D54). Файл — источник истины при расхождении с черновиком.
+    pub fn source_file_path(&self, name: &str) -> PathBuf {
+        self.workspace.join("rules").join(format!("{name}.dar"))
+    }
+
     /// `stale` черновика (Q29, инвариант 3): файла `rules/{name}.dar` нет →
     /// `false`; хэши совпадают → `false`; различаются → `true`.
     pub fn is_stale(&self, draft: &Draft) -> bool {
-        let path = self
-            .workspace
-            .join("rules")
-            .join(format!("{}.dar", draft.name));
+        let path = self.source_file_path(&draft.name);
         match std::fs::read(&path) {
             Ok(bytes) => sha256_of(&bytes) != draft.source_hash,
             Err(_) => false,

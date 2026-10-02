@@ -222,11 +222,31 @@ impl McpServer {
             .get_draft(name)
             .await
             .ok_or_else(|| ToolError::draft_not_found(name))?;
+
+        // Q12/D54 (T-16): при устаревшем черновике источник истины — файл
+        // `rules/{name}.dar`; исполняем правило, разобранное из его текста.
+        // `stale` (Q29) по-прежнему не блокирует `check.test`; ошибка
+        // чтения/разбора файла — `evaluation_failed` (§4.5/D34, D40).
+        // Метки ниже фиксируются от черновика (`source_hash`) — тест «против
+        // файла», черновик остаётся производным (не мутируем его текст).
+        let stale = self.state.is_stale(&d);
+        let rule = if stale {
+            let path = self.state.source_file_path(&d.name);
+            let source = std::fs::read_to_string(&path).map_err(|e| {
+                ToolError::evaluation(format!(
+                    "не удалось прочитать файл {}: {e}",
+                    path.display()
+                ))
+            })?;
+            parse_rule(&source).map_err(ToolError::evaluation)?
+        } else {
+            d.rule.clone()
+        };
+
         // Q8/Q9: ошибка исполнения (отсутствующее поле, несовместимые
         // типы) возвращается как ошибка инструмента MCP с кодом
         // `evaluation_failed` (Q29).
-        // Q29: `stale` не блокирует `check.test`.
-        let e = evaluate_rule(&d.rule, &input)
+        let e = evaluate_rule(&rule, &input)
             .map_err(|e| ToolError::evaluation(e.to_string()))?;
 
         // Q16/Q34/Q29: успешный тест фиксирует метку `last_test_checksum`
@@ -960,6 +980,70 @@ mod tests {
             .await
             .unwrap();
         assert_eq!(tested["status"], "ok");
+    }
+
+    #[tokio::test]
+    async fn stale_test_executes_file_text_q12_t16() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        // Черновик — порог 21 (SRC), поэтому по тексту черновика 19 → matched.
+        create(&srv, SRC).await;
+
+        // Файл изменён после создания черновика: порог 18 (Q12/D54, T-16).
+        // Источник истины — файл, поэтому 19 → matched = false.
+        std::fs::create_dir_all(t.path().join("rules")).unwrap();
+        std::fs::write(
+            t.path().join("rules/МинимальныйВозраст.dar"),
+            "Правило МинимальныйВозраст { Если (Клиент.Возраст < 18) { \
+             Решение = Отказ; Причина = \"Возраст меньше 18\"; } }",
+        )
+        .unwrap();
+
+        assert_eq!((&get_draft(&srv).await["draft"])["stale"], json!(true));
+
+        let tested = srv
+            .dispatch(
+                "check.test",
+                json!({ "name": "МинимальныйВозраст", "input": { "Клиент.Возраст": 19 } }),
+            )
+            .await
+            .unwrap();
+        assert_eq!(tested["status"], "ok");
+        // Исполнен текст файла: condition/decision/reason — от порога 18.
+        assert_eq!(tested["condition"], "Клиент.Возраст < 18");
+        assert_eq!(tested["matched"], json!(false));
+        // Контракт §4.5/D34: метки — от черновика (`source_hash` = SRC).
+        assert_eq!(tested["source_hash"], source_hash(SRC));
+        assert_eq!(tested["last_test_checksum"], source_hash(SRC));
+        assert!(tested["tested_at"].is_string());
+    }
+
+    #[tokio::test]
+    async fn stale_test_invalid_file_is_evaluation_failed_t16() {
+        let t = tempfile::tempdir().unwrap();
+        let srv = new_server(t.path());
+        create(&srv, SRC).await;
+
+        // Невалидный `.dar` в файле-источнике при stale (D40: код
+        // `evaluation_failed`).
+        std::fs::create_dir_all(t.path().join("rules")).unwrap();
+        std::fs::write(
+            t.path().join("rules/МинимальныйВозраст.dar"),
+            "это не правило",
+        )
+        .unwrap();
+
+        // Текст файла отличается от SRC → stale.
+        assert_eq!((&get_draft(&srv).await["draft"])["stale"], json!(true));
+
+        let err = srv
+            .dispatch(
+                "check.test",
+                json!({ "name": "МинимальныйВозраст", "input": { "Клиент.Возраст": 19 } }),
+            )
+            .await
+            .unwrap_err();
+        assert_eq!(err.code, ErrorCode::EvaluationFailed);
     }
 
     #[tokio::test]
