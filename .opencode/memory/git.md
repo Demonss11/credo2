@@ -242,3 +242,20 @@
   → `switch master` → `pull origin master` → `merge --no-ff develop` →
   `push origin master` → `switch develop`. Хеши — в ответе `lead` (не здесь).
   После push в отслеживаемые файлы не писать (F43).
+- **02.10.2026, service-mcp-ready-r5 BO-i2 — wave0-guard** (служебная волна,
+  режим «коммит + push» прямо в `develop`; ветки нет, master не трогаем).
+  Подтверждение сверено по ленте `.opencode/mail/service-mcp-ready-r5.md` —
+  §«гейт пакета BO-i2 пройден» (:62–76), ответ владельца «Коммит BO-i2 +
+  BO-i3». База: `develop` = `origin/develop` = `fed94d6`; дерево — снимок
+  6 `M` + 1 `??` (лента r5 — новая) = ровно пакет 7 путей. К коммиту — 8 путей
+  (7 пакета + этот чекпойнт, F43): `.opencode/mail/service-t15-run-review.md`,
+  `.opencode/memory/migrator.md`, `.opencode/memory/service.md`,
+  `.opencode/memory/git.md`, `.opencode/state/current/progress.yaml`,
+  `docs/tasks/T-15-mcp-ready-process/README.md`,
+  `docs/tasks/T-15-mcp-ready-process/wave0b-own.md`,
+  `.opencode/mail/service-mcp-ready-r5.md`. Сообщение:
+  `chore(process): T-15 B0-own BO-i2 — wave0-guard: пробы, вердикт, карточка P2`.
+  Ожидаемая staged-сверка: 7 `M` + 1 `A`. Осталось: `add` 8 путей (`./`-префикс,
+  без `--`) → `diff --cached --name-status` → `commit` → `push origin develop`.
+  Хеши — в ответе `lead` (не здесь). После push в отслеживаемые файлы не писать
+  (F43); BO-i3 — отдельным действием.

@@ -19,6 +19,25 @@
   `docs/analysis/T-15-run-2026-10-02-*`; ключевое — 4 упора лимита lead 16 +
   пустой финал (5 прерываний владельца), F15 подтверждён (iteration=участок,
   -rN без инкремента), атрибуция build≠lead, прогон ≈ $1.41; кандидаты
-  F58–F62 предложены `migrator`. Дальше: migrator → auditor → validator →
+  F58–F61 заведены `migrator`. Дальше: migrator → auditor → validator →
   гейт → git. Грабли: вывод `node` в консоли — mojibake (лечится UTF-8
   OutputEncoding); кириллические имена в путях — ок через `%TEMP%`.
+- 02.10.2026, service-t15-run-review (закрыта): F15/F26/F27 уточнены,
+  F58–F61 заведены; T-15 ⬜→🚧; аудит P1/P2 нет (P3 закрыт), приёмка
+  принята (DoD 135/0, docs_journal 14/14); коммит `fed94d6`, merge master
+  `46b98c2`; F26/F27 — открыты до чистого S-прогона (решение владельца).
+  Дальше по T-15: B0-own BO-i2 / чистый S-прогон / фаза C (выбор владельца).
+- 02.10.2026, BO-i2 `wave0-guard` (открыта): полигон
+  `%TEMP%\opencode\wave0b-own`; план — A плагин `permission.hook` (standard/
+  paranoid), B `experimental.policies`, C совмещение; сценарии: --force,
+  reset --hard, .env, Remove-Item -Recurse -Force, запись вне проекта,
+  allow-поток, `--auto`, аудит JSONL. Лента `service-mcp-ready-r5.md`;
+  улики `target/wave0b-own-i2/`.
+- 02.10.2026, BO-i2 (готово, вердикт 🟢): 13 проб — плагин `wave0-guard`
+  (deny до запуска, режимы, аудит), `experimental.policies` («Blocked by
+  configuration policy»), `permissions` deny (хук evaluate не вызывается),
+  комбинация. Ключевое: `ask`+`--auto`=выполнение (нужен deny); шаблоны
+  policies статические (`-Force` ≠ `--force`); policy применяется после хука;
+  `opencode reload` в полигоне сбрасывает MCP-каталог общей сессии (дважды,
+  восстановился). Журнал — `wave0b-own.md` §BO-i2. Дальше: BO-i3
+  (P1 `wave0-observe`) — по подтверждению владельца.

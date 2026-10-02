@@ -878,3 +878,20 @@
   channel: question
   result: "confirmed: «Коммит + develop + master (Recommended)»"
   next: "dispatch git (коммит 19+1 путей → push develop → merge develop→master → push master)"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: коммит fed94d6 «docs(T-15): разбор прогона 02.10 (B1: F26/F27/F15), F58–F61, статусы T-15 (service-t15-run-review)» — 20 путей (12 M + 8 A; +1102/−12); push 98f7225..fed94d6 → origin/develop; merge --no-ff develop→master 46b98c2 («Слияние develop в master»), push e696e77..46b98c2; develop = origin/develop = fed94d6; master = origin/master = 46b98c2; дерево чистое; ветки не создавались/не удалялись; записи роли (F43) вошли в коммит"
+  expect_match: true
+  post_package: "F43: запись сформирована после push — догрузка следующим плановым пакетом"
+  next: "complete"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: complete
+  result: "Сервисная операция закрыта: разбор прогона 02.10 (Q81→T-18→T-21→T-22→T-23) исполнен — 6 отчётов docs/analysis/T-15-run-2026-10-02-* (верхний уровень + analyst/tester/migrator/validator/git); данные B1 зафиксированы: 4 упора лимита lead 16 + пустой финал (5 прерываний владельца), F15 подтверждён (iteration=участок; раунды -rN без инкремента), атрибуция build≠lead; реестр находок: F15/F26/F27 уточнены, F58–F61 заведены; T-15 ⬜→🚧 (карточка, реестр, 3 ячейки TRACEABILITY). Аудит auditor (P1/P2 нет; P3 закрыт), приёмка validator (принято; полный DoD 135/0, docs_journal 14/14). Гейт владельца «коммит + develop + master»; коммит fed94d6, merge 46b98c2. F26/F27 остаются открытыми — до чистого S-прогона (решение владельца 02.10.2026)"
+  next: "— (операция закрыта; далее по T-15 — выбор владельца: B0-own BO-i2 / чистый S-прогон / фаза C)"
