@@ -477,3 +477,17 @@
   `docs/reviews/service-c5c7-2026-10-03-r2.md`; квитанция `service-c5c7`
   iteration 2, accepted. Дальше — гейт → `git` (develop) → `migrator`
   (C5/C7 ✅, Q87 → done) → `complete`. Канон не правил; статусы не менял.
+- **03.10.2026 · сервисная операция r13 (T-15, C2), до прогона.** Адресная
+  приёмка C2 (`validate-state.mjs`, D91) + адресный `cargo test --test
+  docs_journal` (F74-практика; решение 03.10.2026); полный DoD не запускается
+  (D50 — `src/**`, `tests/**`, `Cargo.toml` не менялись). Снимок: ветка
+  `develop` (= `origin/develop`), HEAD `7e458fd` + рабочее дерево. Проверяю:
+  D91 ↔ факт (место/роль, точки применения, контракт, инварианты, строгость
+  `--since`, формат/коды); скрипт (чтение 1-555 + негативные фикстуры в
+  `$env:TEMP`: дрейф `iteration`/`rework`, пропуски при `surface_to_user`,
+  убывающий `session_index`, чужой enum, `--strict`/`--json`/`--file`);
+  границы; журнал Q88↔D91/каталоги/TRACEABILITY/«Сверка» ⚪; права
+  (`agents-perms.mjs`, ожидание 11 из 18; `validator`+`lead` allow
+  `validate-state.mjs`); фиксы аудита P2×5+P3 (карточка C2 🚧 :213, право
+  `lead`, единое iteration 4 артефакта, `question`, `--since`, bare в review).
+  Ориентир — ошибок 0; docs_journal 14 passed / 0 failed. Запускаю.

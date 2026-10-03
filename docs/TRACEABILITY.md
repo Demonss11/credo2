@@ -89,6 +89,7 @@
 | [Q85](questions/Q85.md) | [D88](decisions/D88-c9-c12-loop-tuning.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/agents/{lead,analyst}.md`, `.opencode/rules/dispatch-loop.md`, `AGENTS.md` (§«Лимиты шагов», §«Память и почта») |
 | [Q86](questions/Q86.md) | [D89](decisions/D89-branch-topology-freeze-session-commit.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/{git-workflow,dispatch-loop}.md`, `.opencode/agents/{analyst,lead}.md`, `.opencode/rules/review.md` |
 | [Q87](questions/Q87.md) | [D90](decisions/D90-c5-c7-re-raise-selfreport.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/{dispatch-loop,state-schema}.md`, `.opencode/agents/{analyst,lead}.md`, [`agents-re-raise.feature`](features/agents-re-raise.feature), [`agents-state-schema.feature`](features/agents-state-schema.feature), [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature) |
+| [Q88](questions/Q88.md) | [D91](decisions/D91-c2-validate-state.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/scripts/validate-state.mjs`, `.opencode/rules/{state-schema,dispatch-loop}.md`, `.opencode/agents/validator.md`, `.opencode/rules/review.md`, `AGENTS.md` |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос

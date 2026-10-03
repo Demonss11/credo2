@@ -17,6 +17,8 @@ permissions:
   - { action: shell, resource: "git show *", effect: allow }
   - { action: shell, resource: "git branch --show-current", effect: allow }
   - { action: shell, resource: "git rev-parse --short HEAD", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/validate-state.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/validate-state.mjs *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: subagent, resource: "analyst", effect: allow }

@@ -210,7 +210,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B1-F27 | Прогон с ведущим `lead` (лимит 16) | B1 | ⏸ · данные 02.10 | F27 |
 | B1-F15 | Первый `rework`: `iteration 1→2`, `-rN` | B1 | ⏸ · данные 02.10 | F15/F6; D42 |
 | C1 | Схема состояния (`session_index`, `owner_response`) | C | ✅ 02.10 — принято (`T-15-c1`); схема — `.opencode/rules/state-schema.md` (D86) | записка §5 |
-| C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ⬜ | — |
+| C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ✅ 03.10 — принято (`service-c2`); валидатор схемы, точки применения; D91 | D91 |
 | C3 | session-commit (`process/runN`, теги) | C | 🚧 — инкремент 1 принят (`service-p1p2p3`): правило session-commit; остаток — `process/runN`, теги, фасад | D89 (P3) |
 | C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | 🚧 (`/git/status` — временно, 27.09) | T-13 |
 | C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |

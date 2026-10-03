@@ -117,3 +117,4 @@
 | [D88](D88-c9-c12-loop-tuning.md) | C9/C12 — лимит и записи `lead`, политика re-plan, дробление вызовов | [Q85](../questions/Q85.md) | 2026-10-02 | accepted |
 | [D89](D89-branch-topology-freeze-session-commit.md) | P1/P2/P3 — топология веток дочерних задач, заморозка решений, session-commit | [Q86](../questions/Q86.md) | 2026-10-03 | accepted |
 | [D90](D90-c5-c7-re-raise-selfreport.md) | C5/C7 — re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта + статусы фич | [Q87](../questions/Q87.md) | 2026-10-03 | accepted |
+| [D91](D91-c2-validate-state.md) | C2 — `validate-state.mjs` (валидатор схемы состояния) | [Q88](../questions/Q88.md) | 2026-10-03 | accepted |

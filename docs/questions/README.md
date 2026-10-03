@@ -107,3 +107,4 @@
 | [Q85](Q85.md) | C9/C12: лимит и записи `lead`, политика re-plan и дробление вызовов (данные S-пилота T-24) | [D88](../decisions/D88-c9-c12-loop-tuning.md) |
 | [Q86](Q86.md) | P1/P2/P3: топология веток дочерних задач, заморозка решений, session-commit (по разбору T-16/T-25) | [D89](../decisions/D89-branch-topology-freeze-session-commit.md) |
 | [Q87](Q87.md) | C5/C7: re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта + статусы фич | [D90](../decisions/D90-c5-c7-re-raise-selfreport.md) |
+| [Q88](Q88.md) | C2: валидатор схемы состояния `validate-state.mjs` | [D91](../decisions/D91-c2-validate-state.md) |

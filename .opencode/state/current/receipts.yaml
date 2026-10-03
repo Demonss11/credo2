@@ -1722,3 +1722,19 @@
     p3_audit: "observed (not blocker) — лента r11 UTF-16→UTF-8 при catch-up; git diff --check CRLF-предупреждение; учесть при гейте пакета"
   snapshot: "develop = origin/develop @ 6cd75cf + working tree (service r12 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-c2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c2-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed; traceability_tasks_exist_and_match_registry ok, features_are_named_in_traceability_and_exist ok, questions_have_decision_or_exception ok"
+    script: "pass — node .opencode/scripts/validate-state.mjs: ошибок 0, предупреждений 132 (исторические записи — мягкий режим; неизвестные поля — предупреждение). Негативные фикстуры (--dir): дрейф iteration план↔состояние и 4 артефакта, rework ≠ iteration − 1, surface_to_user без channel/owner_response/question, dispatch без role/expect_match, чужой enum, убывающий session_index, --strict/--json/--file/--since — все пойманы"
+    mode: "адресная приёмка + схемный прогон + адресный docs_journal (F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    d91_vs_fact: "ok — место/роль скрипта (служебная зона, контракт state-schema.md), точки применения (pre-flight + приёмка), контракт полей/enum/дат/непустых result/next, инварианты, строгость (--since), формат/коды выхода"
+    audit_fixes: "ok — P2×5+P3 подтверждены: карточка C2 🚧 (не ✅); право lead (frontmatter + review.md); единое iteration по 4 артефактам (crossCheck); question при surface_to_user; --since (граница мягкого режима = дата C2); bare-форма в review.md"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; validator и lead — allow validate-state.mjs (обе формы)"
+    journal: "ok — Q88<->D91 парны; questions/README.md:110, decisions/README.md:120; TRACEABILITY.md:92 Q88: D91 / in work / T-15 🚧; карточка C2 🚧 :213; D91 «Сверка с кодом» ⚪; адресов docs/analysis/** и номеров строк нет"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; opencode.json не тронут; .credo/sandbox.json (tracked) вне периметра C2, в пакет не включается"
+  snapshot: "develop = origin/develop @ 7e458fd + working tree (service r13 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
