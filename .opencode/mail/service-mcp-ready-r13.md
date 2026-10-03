@@ -206,6 +206,24 @@
 - Порядок: коммит в `develop` + `push origin develop`; `master` не трогаем.
 - Следующее действие — `dispatch git`.
 
+## сервисная сессия · 03.10.2026 · итог r13
+
+- **Коммит:** `eeac481` — `chore(process): T-15 r13 — C2 (validate-state.mjs,
+  схема состояния; D91); приёмка` (21 путь: 16 M + 5 A; +1128/−8); push
+  `7e458fd..eeac481` → `origin/develop`; ветки/`master` не тронуты.
+- **Итог:** C2 внесён — валидатор схемы состояния
+  `.opencode/scripts/validate-state.mjs` (D91), точки применения — pre-flight
+  (`lead`) и приёмка (`validator`); права выданы обеим ролям; канон
+  (`state-schema.md`, `dispatch-loop.md`, `review.md`, `AGENTS.md`) обновлён.
+  `C2` ✅; Q88 остаётся `in work` (T-15 🚧); фича `agents-state-schema` ✅.
+  Аудит `auditor` (P2 ×5 + P3) — исправлено до коммита; приёмка `validator`
+  (`service-c2`, iteration 1) — принято; схемный прогон 0 ошибок,
+  `docs_journal` 14/0.
+- **Остаток T-15 (закрываемо):** C4+C3-остаток (`process/runN`/теги/фасад),
+  C6 (метрики), C8 (кандидаты B0).
+- **Пост-пакетные записи** (этот итог, память) — подхват следующим пакетом
+  (F43).
+
 
 ## validator · 03.10.2026 · в работе (r13, C2), до прогона
 

@@ -307,3 +307,54 @@
   нет. Файлы: карточка T-15, findings-registry (+ лента r12/память). **Грабля:**
   baseline карточки был `⬜` (🚧 не закоммичен) — правка сразу на ✅.
   Следующее: гейт пакета → `git` (develop) → `complete`.
+
+- 03.10.2026, Q89 → D92 (service-mcp-ready-r14, T-15 C17): заведены `Q89`
+  («Что считать зачётным прогоном (чистота для F26/F27/F15)») и
+  `D92-credited-run-predicate` (ядро-предикат: ведущий `lead`; нет упоров
+  `steps`; нет незапланированных прерываний владельца (каждый `owner_response`
+  — гейт плана `surface_to_user`); нет ручных восстановлений (пустые финалы/
+  backfill/ручная реконструкция); не-дефекты: плановые гейты, `owner_override`,
+  обязательный rework `validator` `-rN`, CCSN-шаг, session-commit; проверка
+  машинная `progress.yaml` + экспорт/`metrics-report.mjs`; **не ретроактивно**).
+  `Спека` — `—`; `Affects` — `.opencode/rules/state-schema.md` (раздел
+  «Зачётный прогон»); `Tasks` — T-15 (`C17`; B1-F26/F27/F15). Строки
+  `questions/README.md`, `decisions/README.md`, TRACEABILITY (Q89: D92,
+  `in work` / T-15 🚧); карточка T-15 — строка `C17` 🚧 + в B1-F26/F27/F15
+  «зачёт — по §„Зачётный прогон“ (`state-schema.md`, D92)». Реестр — F83
+  (`.credo/**` в git вопреки `AGENTS.md`/`.gitignore`), F84 (live state:
+  неизвестные схеме `blocker`/`route_done`/`re_raise`, мягкий режим) — открыты.
+  Сверка D92 — ⚪ (процесс/документы; `cargo` не запускался, D50). Проверки: ID
+  свободны (Q88/D91 — последние), ссылки резолвятся (D58/D86/D89/D91, T-15,
+  findings). **Грабля:** shell у migrator нет — `git diff --check` делает `git`
+  (в r14 команда отклонена, `permission.rejected`); не пытаться.
+  Файлы: Q89, D92, 2 каталога, TRACEABILITY, карточка T-15, findings (+ лента
+  r14/память). Следующее: правки канона сервисной сессией
+  (`.opencode/rules/state-schema.md`) → `reload` → `auditor` → `validator`.
+
+- 03.10.2026, фикс P3 аудита r14 в D92 (service-mcp-ready-r14, T-15 C17;
+  D92 ещё не закоммичен — правка в пакете): (1) п.1.3 ядра — устранена
+  тавтология: «соответствует `surface_to_user`, **стоявшему в плане участка
+  (`next[]`)**; ответов вне плана и „продолжай“ нет» (было «соответствует
+  гейту плана `surface_to_user`»); (2) п.3 — путь разнесён: «экспорт сессии
+  (`.opencode/scripts/session-analysis/`) и
+  `.opencode/scripts/metrics-report.mjs`» (было `metrics-report.mjs` без
+  пути). Существо решения/не-дефекты/неретроактивность не тронуты; иных
+  строк нет. Проверки: чтением — diff локализован (`D92:33-35`, `:41-43`);
+  `cargo` не запускался (D50). Новых Q/D/находок нет. Файлы: D92 (+ лента
+  r14/память). Следующее: `validator` (адресная + `docs_journal`) →
+  гейт → `git` (develop).
+
+- 03.10.2026, закрытие r14 (T-15, приёмка `validator` accepted
+  `service-credited-run` iteration 1; отчёт
+  `docs/reviews/service-credited-run-2026-10-03.md`; адресный `docs_journal`
+  14/0): карточка T-15 — `C17` (`:230`) 🚧 → «✅ 03.10 — принято
+  (`service-credited-run`); D92». **`docs/TRACEABILITY.md:93` НЕ тронут** —
+  Q89 `in work` / `[T-15] 🚧` (T-15 🚧; `done` не допускает открытых задач —
+  D82, прецеденты Q83/Q85–Q88). F83/F84 не тронуты
+  (`findings-registry.md:95-96`, открыты). Проверки: чтением — diff
+  локализован (ровно 1 строка `:230`); ссылки живые (D92, review,
+  TRACEABILITY `:93`); `cargo` не запускался (D50; адресный `docs_journal` —
+  за `validator`, 14/0). **Грабля:** (повтор) shell у migrator нет — `git
+  diff --check`/`numstat` за ролью `git`; сверка чтением. Файлы: карточка
+  T-15 (+ лента r14/память). Новых Q/D/задач нет. Следующее: гейт пакета →
+  `git` (develop) → `complete`.

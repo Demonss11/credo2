@@ -73,3 +73,11 @@
   остаётся `in work` (T-15 🚧). Грабля: `validator` упёрлась в лимит шагов до
   записи артефактов — отчёт/квитанцию оформила сервисная сессия; фикстуры
   приёмки убраны до пакета.
+- 03.10.2026, r13 закрыта (C2): коммит `eeac481`, push `7e458fd..eeac481`
+  (`origin/develop`). D91: валидатор схемы `.opencode/scripts/validate-state.mjs`;
+  точки применения — pre-flight (`lead`) и приёмка (`validator`); права обеим
+  ролям; канон `state-schema.md`/`dispatch-loop.md`/`review.md`/`AGENTS.md`
+  обновлён. Приёмка `service-c2` (iteration 1, accepted): схемный прогон
+  0 ошибок, `docs_journal` 14/0; аудит — P2×5+P3 исправлены. `C2` ✅, Q88
+  `in work` (T-15 🚧), фича `agents-state-schema` ✅. Остаток T-15: C4+C3-остаток,
+  C6, C8.

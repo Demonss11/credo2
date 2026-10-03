@@ -1738,3 +1738,16 @@
     borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; opencode.json не тронут; .credo/sandbox.json (tracked) вне периметра C2, в пакет не включается"
   snapshot: "develop = origin/develop @ 7e458fd + working tree (service r13 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-credited-run
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-credited-run-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s), в т.ч. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, traceability_lifecycle_matches_task_openness, no_addresses_to_removable_or_session_data"
+    d92_vs_fact: "ok — ядро 4 условия (D92:31-37 = state-schema.md:169-175), не-дефекты (D92:38-40 = :177-179), машинная проверка (D92:41-43 = :181-184), неретроактивность (D92:44-45 = :187-188), ссылки F26/F27/F15 (D92:9-10,:95); P3-1 закрыт (D92:41-42 и схема :182-183 разнесены session-analysis/ и .opencode/scripts/metrics-report.mjs — оба пути существуют), P3-2 закрыт (D92:33-35 и схема :171-173 «стоявшему в плане участка (next[])»)"
+    journal: "ok — Q89<->D92 (resolved by/Resolves); questions/README:111, decisions/README:121; TRACEABILITY:93 Q89: D92 / in work / T-15 🚧; карточка C17 🚧 :230 + аннотации B1-F26/F27/F15 :211-213; F83/F84 :95-96 уникальны и открыты; номеров строк/адресов docs/analysis/** в каноне нет"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — только .opencode/** + docs/** + лента/память/state; ?? Q89/D92/лента r14; .credo/sandbox.json вне пакета (F83)"
+    mode: "полный DoD не запускался (D50) — адресная документная сверка + адресный docs_journal (F74); src/**, tests/**, Cargo.toml не менялись"
+  snapshot: "develop = origin/develop @ eeac481 + working tree (service r14 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

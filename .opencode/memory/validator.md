@@ -491,3 +491,37 @@
   `validate-state.mjs`); фиксы аудита P2×5+P3 (карточка C2 🚧 :213, право
   `lead`, единое iteration 4 артефакта, `question`, `--since`, bare в review).
   Ориентир — ошибок 0; docs_journal 14 passed / 0 failed. Запускаю.
+- **03.10.2026 · сервисная операция r14 (T-15, C17 — зачётный прогон), до
+  прогона.** Адресная документная сверка + адресный `cargo test --test
+  docs_journal` (F74); полный DoD не запускается (D50 — `src/**`, `tests/**`,
+  `Cargo.toml` не менялись). Снимок: `develop` (= `origin/develop`), HEAD
+  `eeac481` + рабочее дерево. Проверено чтением/rg/git:
+  - **D92 ↔ факт:** ядро 4 условия (D92:31-37 = `state-schema.md`:169-175),
+    не-дефекты (D92:38-40 = :177-179), машинная проверка (D92:41-43 = :181-184),
+    неретроактивность (D92:44-45 = :187-188), ссылки F26/F27/F15 (D92:9-10,
+    :95). **P3-1 аудита закрыт:** D92:41-42 разнесены
+    `session-analysis/` и `.opencode/scripts/metrics-report.mjs`; в схеме
+    :182-183 то же. **P3-2 закрыт:** D92:33-35 и схема :171-173 — «стоявшему
+    в плане участка (`next[]`)» (тавтология снята). Оба целевых пути
+    существуют: `metrics-report.mjs` и 7 файлов `session-analysis/`.
+  - **Журнал:** Q89↔D92 (`resolved by`/`Resolves`), `questions/README:111`,
+    `decisions/README:121`, TRACEABILITY:93 (D92/`in work`/T-15 🚧), карточка
+    `C17` 🚧 :230 + аннотации B1-F26/F27/F15 (:211-213), F83/F84 (:95-96)
+    уникальны. Номера строк/адресов `docs/analysis/**` в каноне нет.
+  - **Границы:** `git diff --numstat -- src tests Cargo.toml` пусто;
+    `git diff --check` пусто; `git status --porcelain` — только
+    `.opencode/**` (schema/ленты/память), `docs/**` (журнал/TRACEABILITY/
+    карточка/findings), `??` Q89/D92/лента r14; `.credo/sandbox.json` — вне
+    пакета (F83).
+  Ориентир — 14 passed / 0 failed. Запускаю.
+- **03.10.2026 · сервисная операция r14 (T-15, C17) — после прогона: принято.**
+  `cargo test --test docs_journal` — **14 passed / 0 failed** (0.06s). D92 ↔
+  `state-schema.md` §«Зачётный прогон» (ядро 4 условия, не-дефекты, машинная
+  проверка, неретроактивность, F26/F27/F15) совпадают; P3-1 аудита (путь
+  `metrics-report.mjs`) и P3-2 (тавтология условия 3 → «стоявшему в плане
+  участка (`next[]`)») закрыты в схеме и D92. Журнал Q89↔D92, каталоги
+  (`README:111`/`:121`), TRACEABILITY:93, карточка `C17` 🚧 :230 + аннотации
+  B1-F26/F27/F15, F83/F84 — ок. Границы чисты. P1/P2/P3 нет. Отчёт
+  `docs/reviews/service-credited-run-2026-10-03.md`; квитанция
+  `service-credited-run` iteration 1, accepted. Канон не правил; статусы не
+  менял (закрытие — `migrator`).
