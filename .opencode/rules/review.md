@@ -89,14 +89,16 @@
   `git rev-parse`, `git ls-files`, `git check-ignore`, `cargo fmt|clippy|test`,
   `node .opencode/scripts/agents-perms.mjs`,
   `node .opencode/scripts/validate-state.mjs` (валидатор схемы состояния,
-  `D91`).
+  `D91`), `node .opencode/scripts/state-metrics.mjs` (метрики из состояния,
+  `D96`).
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`, `cargo clippy`.
 - `analyst`: `rg`, `git status|diff|log|show|grep`, `git branch -a|--list`,
   `git rev-parse`; без `cargo`.
 - `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`,
   `git rev-parse --short HEAD`, `node .opencode/scripts/validate-state.mjs`
-  (pre-flight; `D91`).
+  (pre-flight; `D91`), `node .opencode/scripts/state-metrics.mjs` (метрики из
+  состояния, `D96`).
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
   `git check-ignore`, `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.

@@ -22,6 +22,8 @@ permissions:
   - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs *", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/validate-state.mjs", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/validate-state.mjs *", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/state-metrics.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/state-metrics.mjs *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "git status *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }

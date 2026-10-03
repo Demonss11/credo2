@@ -116,7 +116,8 @@
 - re-raise: категории и объект (план/досье), зеркало `replan_reason` в
   `progress`;
 - метрики: поля `progress` (`session_index`, `role`, `step`, `outcome`,
-  `replan_reason`), вывод метрик и очередей без ручной сборки;
+  `replan_reason`), вывод метрик и очередей без ручной сборки — реализовано
+  (`state-metrics.mjs`, D96; приёмка `service-state-metrics`);
 - шаблон самоотчёта сессии; фичи и счётчики (`docs/features/README.md`);
 - **кандидаты из отчёта B0** ([`wave0b-report.md`](wave0b-report.md)):
   Shell Strategy → раздел канона о non-interactive shell; Handoff → правило
@@ -219,7 +220,7 @@ BRHP (validation signals), Telemetry DB (query-слой). Задача —
 | C3 | session-commit (`process/<прогон>-s<M>`, теги) | C | ✅ 03.10 — принято (`service-process-branch`); остаток закрыт: ветка сессии `process/<прогон>-s<M>`, тег `session/<прогон>-s<M>`, снапшот, скрипт (D93) | D93 |
 | C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | ✅ 03.10 — принято (`service-process-branch`); `/git/checkpoint` (снапшот→ветка→commit→tag→push), `/git/status` (+теги сессий); `.opencode/commands/**` — в области аудита (D93) | D93 |
 | C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
-| C6 | Метрики `progress` без ручной сборки | C | ⬜ | — |
+| C6 | Метрики `progress` без ручной сборки | C | ✅ 03.10 — принято (`service-state-metrics`); скрипт `state-metrics.mjs` (метрики/очереди из состояния, CLI+`--json`); D96 | D96 |
 | C7 | Шаблон самоотчёта; фичи/счётчики | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
 | C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
 | C9 | Правило останова ведущего | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | W8 §7 |

@@ -112,3 +112,4 @@
 | [Q90](Q90.md) | C3-остаток: process-ветка, теги, снапшот, фасад `/git/checkpoint` | [D93](../decisions/D93-session-commit-process-branch.md) |
 | [Q91](Q91.md) | C11/B2: профиль-флаг — подготовка без включения | [D94](../decisions/D94-b2-profile-flag.md) |
 | [Q92](Q92.md) | Фаза E — открытие: дизайн process-MCP | [D95](../decisions/D95-phase-e-mcp-design.md) |
+| [Q93](Q93.md) | C6: метрики из состояния без ручной сборки | [D96](../decisions/D96-state-metrics.md) |

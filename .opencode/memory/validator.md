@@ -8,6 +8,54 @@
 
 ## Чекпойнты
 
+- **03.10.2026 · r18 → `-r2` (T-15, C6) — после: ПРИНЯТО.** P1/P2/P3 нет.
+  Прогон: скрипт полный (190 записей, 24 задачи, 4 сессии; dispatch
+  git25/validator23/…; re-plan 34; квитанции 53/17/3/13/17/5; упоры s3=2/s4=3);
+  `--json` — валидный; `--task T-16` — progress 40, квитанции 3 (фильтр по
+  task); `--session 3` — progress 29, квитанции 108 (не обнуляются, P2-1
+  закрыт); `--out` — файл записан. `docs_journal` 14/0, `features_inventory`
+  4/4, `agents-perms` 11/18 (validator+lead имеют `state-metrics.mjs`).
+  `review.md:88-101` синхрон; D96↔факт (секции, `--out`, keepProgress/keepReceipt,
+  категории :184, `stateCategory` :188, `iteration`, упоры :168-171; мёртвой
+  `verdicts` нет). Канон (dispatch-loop :139, AGENTS :26), Q93↔D96, TRACEABILITY
+  :97 in work/T-15 🚧, карточка C6 🚧 :222, фича :2/README :301 🟡. Границы:
+  src/tests/Cargo пусто; `git diff --check` пусто. Хвост `replan_reason` —
+  данные, не блокер (пометка). Отчёт `docs/reviews/service-state-metrics-2026-10-03-r2.md`;
+  квитанция `service-state-metrics` iteration 2, accepted.
+- **03.10.2026 · r18 → `-r2` (T-15, C6), до прогона.** Повторная приёмка после
+  закрытия P2-1 (права на скрипт). Снимок: `develop`, HEAD `2b467f5` + рабочее
+  дерево. Чтением: `validator.md:25-26` + `lead.md:22-23` — право
+  `node .opencode/scripts/state-metrics.mjs` (+`*`) есть; `review.md:88-101` —
+  синхронизирован (validator :92, lead :100); D96↔факт (секции, `--out`,
+  keepProgress/keepReceipt :136-141, категории :184, `stateCategory` :188,
+  iteration :277, упоры :168-171, мёртвая `verdicts` удалена — не найдена).
+  Фича :2 `# D96 (Q93)`; карточка/TRACEABILITY — проверю. Запускаю: скрипт
+  (`--json`,`--task T-16`,`--session 3`), `docs_journal` (ожидание 14/0),
+  `features_inventory`, `agents-perms` (ожидание 11/18). Ориентир — accepted;
+  хвост `replan_reason` — данные, не блокер.
+- **03.10.2026 · сервисная операция r18 (T-15, C6 — метрики), до прогона.**
+  Адресная сверка + **прогон скрипта** + адресный `docs_journal` (F74) +
+  `features_inventory` + `agents-perms`; полный DoD не требуется (D50).
+  Снимок: `develop`, HEAD `2b467f5` + рабочее дерево. Границы: 11 `M` +
+  4 `??` строго по списку операции (`state-metrics.mjs`, Q93/D96, лента,
+  канон/фича/карточка); `src/tests/Cargo.toml` не тронуты. Запускаю:
+  `node .opencode/scripts/state-metrics.mjs` (+`--json`,`--task T-16`,
+  `--session 3`), `cargo test --test docs_journal` (ожидание 14/0),
+  `cargo test --test features_inventory`, `agents-perms.mjs`. Ориентир —
+  принято; хвост `replan_reason` — данные, не блокер.
+- **03.10.2026 · r18 — после.** **rework (P2).** `docs_journal` 14/0,
+  `features_inventory` 4/4, `agents-perms` 11/18; границы чисты; D96↔факт,
+  журнал/каталоги/TRACEABILITY/карточка/фича — ок; P2-1..5 и P3 закрыты
+  чтением. **P2:** прогон `node .opencode/scripts/state-metrics.mjs` отклонён
+  (permission denied) — права ролей r18 не расширены: `validator.md:17-34` и
+  `review.md:88-92` не содержат `state-metrics.mjs`; `lead` тоже (только
+  `validate-state.mjs`). D96:108 делегирует прогон `validator`, канон
+  (`dispatch-loop.md:138-141`) назначает скрипт механизмом метрик — роль-
+  потребитель запустить не может. R2-проверка C6 невыполнима ни одной ролью →
+  дополнить права (`validator` и/или `lead`) + `review.md`, аудит (L). Отчёт
+  `docs/reviews/service-state-metrics-2026-10-03.md`; квитанция
+  `service-state-metrics` iteration 1, rework.
+
 - **02.10.2026 · T-15/C1 (сервисная операция r8), до прогона.** Проверено
   чтением: состав пакета (`git status` — 10 `M` + 4 `??`, `src/tests/Cargo.toml`
   не тронуты); `state-schema.md` (4 артефакта, поля/типы/обязательность,

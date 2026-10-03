@@ -1800,3 +1800,34 @@
     borders: "ok — git status --porcelain: 5 M (TRACEABILITY, decisions/README, questions/README, tasks/README, T-15) + memory auditor/migrator + 4 ?? (лента r17, Q92, D95, T-26/**); git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; фичи не тронуты"
   snapshot: "develop + working tree (service r17 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-state-metrics
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-state-metrics-2026-10-03.md
+  dod:
+    script_run: "permission denied — node .opencode/scripts/state-metrics.mjs (--json/--task T-16/--session 3) отклонён permission-гардом: права validator (validator.md:17-34) и lead (agents-perms) не содержат state-metrics.mjs; R2-прогон C6, назначенный D96:108, невыполним ни одной ролью (P2-1)"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.07s)"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.02s); agents-metrics:3 сценария, README.md:301 🟡"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений кроме P2-1 нет"
+    mode: "полный DoD не запускался (D50) — процесс/служебная зона; src/**, tests/**, Cargo.toml не менялись"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --short 11 M + 4 ?? строго по списку операции"
+    tail_data: "наблюдение — replan_reason и owner_override в progress.yaml 0 совпадений → категории re-plan «(не указана)», convergence = replanTotal; дрейф данных, не дефект скрипта; не блокирует C6"
+  snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-state-metrics
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-state-metrics-2026-10-03-r2.md
+  dod:
+    script_run: "pass — node .opencode/scripts/state-metrics.mjs: полный отчёт (190 записей progress, 24 задачи, 4 сессии; dispatch git25/validator23/migrator19/tester11/docs-writer10/coder5/auditor4; re-plan 34/convergence 34; очереди 0/0; квитанции 53/17/3/13/17/5; упоры s3=2 s4=3); --json валиден; --task T-16 прогресс 40 + квитанции 3 (фильтр по task); --session 3 прогресс 29 + квитанции 108 (не обнуляются — P2-1 закрыт); --out файл записан. Право state-metrics.mjs у validator.md:25-26 и lead.md:22-23"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s)"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.01s); agents-metrics.feature:2 # D96 (Q93), README.md:301 🟡"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; validator и lead allow state-metrics.mjs (+ *); review.md:88-101 синхрон; расхождений нет"
+    p2_audit: "closed — --out (D96:54), категории re-plan :184, stateCategory :188, iteration :277/:316-320, упоры :168-171/:238-242, keepProgress/keepReceipt :136-141, мёртвая verdicts удалена (rg — 0 совпадений), indexOf(index-loop) :59-95"
+    mode: "полный DoD не запускался (D50) — процесс/служебная зона; src/**, tests/**, Cargo.toml не менялись"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — ровно объявленные файлы (11 M + 5 ??, включая отчёт -r1/-r2)"
+    tail_data: "наблюдение — replan_reason в progress.yaml 0 совпадений → категории «(не указана)», convergence = total; дрейф данных (lead не пишет опциональное поле), не дефект скрипта; не блокирует C6 — отдельное решение"
+  snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

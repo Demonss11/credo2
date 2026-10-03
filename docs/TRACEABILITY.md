@@ -94,6 +94,7 @@
 | [Q90](questions/Q90.md) | [D93](decisions/D93-session-commit-process-branch.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/{git-workflow,dispatch-loop}.md`, `.opencode/commands/git/{checkpoint,status}.md`, `.opencode/agents/{git,auditor}.md`, `.opencode/scripts/session-checkpoint.mjs`, `AGENTS.md`, [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature) |
 | [Q91](questions/Q91.md) | [D94](decisions/D94-b2-profile-flag.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/plugins/token-guard.ts` (B2_PROFILE), `.opencode/scripts/token-guard-test.mjs` (новый), `AGENTS.md` (§«Гигиена и чтение») |
 | [Q92](questions/Q92.md) | [D95](decisions/D95-phase-e-mcp-design.md) | in work | [T-26](tasks/T-26-mcp-server-design/README.md) ⬜ | [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
+| [Q93](questions/Q93.md) | [D96](decisions/D96-state-metrics.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/scripts/state-metrics.mjs` (новый), `.opencode/rules/dispatch-loop.md`, `AGENTS.md`, [`agents-metrics.feature`](features/agents-metrics.feature) |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос
