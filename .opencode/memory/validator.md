@@ -594,3 +594,29 @@
   iteration 1, accepted. Канон не правил; статусы не менял (`migrator`). Полный
   DoD не запускался (D50). Урок: `node -e` и произвольный glob скриптов у
   `validator` не в правах — проверка зеркала теста статическая.
+- **03.10.2026 · сервисная операция r17 (открытие фазы E — дизайн process-MCP),
+  до прогона.** Адресная документная сверка + адресный `cargo test --test
+  docs_journal` (F74, ожидание 14/0) + `cargo test --test features_inventory`
+  (счётчики; фича не менялась) + `agents-perms.mjs`; полный DoD не требуется
+  (D50 — `src/**`, `tests/**`, `Cargo.toml` не тронуты). Снимок: `develop`,
+  рабочее дерево. Проверено чтением/rg: D95 ↔ факт (фаза E = `T-26` ⬜ P1,
+  только process-MCP, git-MCP Прил. A вне предмета, старт после заморозки
+  D T-15, класс априори L, референсы kibi/Semantic Anchors/BRHP/Telemetry DB,
+  «решений не принимает»); Q92↔D95 парны; карточка T-26 (источник D95(Q92)/D78,
+  storage+validation+query, 6–10 инструментов, контракты, критерий, примечания);
+  реестр `tasks/README.md:59` (P1, зависит T-15 фаза D, ⬜); TRACEABILITY:96
+  (in work, T-26 ⬜); каталоги `questions/README.md:114`, `decisions/README.md:124`;
+  карточка T-15 `:161-165` ссылается на T-26; фича `agents-mcp-readiness` не
+  тронута (README:302 `4` сценариев — не менялось). P2 аудита: чекпойнт
+  `migrator` r17 — внесён (`.opencode/memory/migrator.md:450-463`). Границы:
+  `git status` — 5 M (TRACEABILITY, decisions/README, questions/README,
+  tasks/README, T-15) + memory auditor/migrator + 4 ?? (лента r17, Q92, D95,
+  T-26/); `git diff --numstat -- src tests Cargo.toml` пусто; `git diff --check`
+  пусто. Ориентир — docs_journal 14/0, features_inventory 4/4. Запускаю.
+- **03.10.2026 · сервисная операция r17 — после прогона: принято.**
+  `cargo test --test docs_journal` — **14 passed / 0 failed**;
+  `cargo test --test features_inventory` — **4 passed / 0 failed**;
+  `agents-perms.mjs` — **11 из 18**. P1/P2/P3 нет. Отчёт
+  `docs/reviews/service-phase-e-2026-10-03.md`; квитанция `service-phase-e`
+  iteration 1, accepted. Канон не правил; статусы не менял. Полный DoD не
+  запускался (D50).

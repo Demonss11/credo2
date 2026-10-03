@@ -56,6 +56,7 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-15](T-15-mcp-ready-process/README.md) | Процесс, готовый к MCP: схема состояния, операции, финализация, метрики | [D78](../decisions/D78-t15-mcp-ready-program.md) (Q74); записка [`mcp-ready-process.md`](T-15-mcp-ready-process/mcp-ready-process.md) | P1 | — | 🚧 |
 | [T-16](T-16-stale-check-test/README.md) | `check.test` на stale-черновике: исполнение по тексту файла `rules/{name}.dar` | Q12 (Q29, T-01) | P1 | — | ✅ |
 | [T-25](T-25-d65-analysis-addresses/README.md) | Снять D65-адреса на разбор T-24 из журнала (Q84/Q85/D87/D88) | Q61, [D65](../decisions/D65-reference-policy.md); базовый P1 приёмки T-16; F73 | P1 | — | ✅ |
+| [T-26](T-26-mcp-server-design/README.md) | Дизайн process-MCP: 6–10 инструментов (storage + validation + query) | [D95](../decisions/D95-phase-e-mcp-design.md) (Q92), [D78](../decisions/D78-t15-mcp-ready-program.md) | P1 | T-15 фаза D | ⬜ |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |

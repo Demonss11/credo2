@@ -93,6 +93,7 @@
 | [Q89](questions/Q89.md) | [D92](decisions/D92-credited-run-predicate.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/state-schema.md` (раздел «Зачётный прогон») |
 | [Q90](questions/Q90.md) | [D93](decisions/D93-session-commit-process-branch.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/rules/{git-workflow,dispatch-loop}.md`, `.opencode/commands/git/{checkpoint,status}.md`, `.opencode/agents/{git,auditor}.md`, `.opencode/scripts/session-checkpoint.mjs`, `AGENTS.md`, [`agents-session-checkpoint.feature`](features/agents-session-checkpoint.feature) |
 | [Q91](questions/Q91.md) | [D94](decisions/D94-b2-profile-flag.md) | in work | [T-15](tasks/T-15-mcp-ready-process/README.md) 🚧 | `.opencode/plugins/token-guard.ts` (B2_PROFILE), `.opencode/scripts/token-guard-test.mjs` (новый), `AGENTS.md` (§«Гигиена и чтение») |
+| [Q92](questions/Q92.md) | [D95](decisions/D95-phase-e-mcp-design.md) | in work | [T-26](tasks/T-26-mcp-server-design/README.md) ⬜ | [`agents-mcp-readiness.feature`](features/agents-mcp-readiness.feature) |
 
 Легенда жизненного цикла: `open` — есть вопрос (решения нет либо решение есть, но
 требуется задача) · `in work` — есть открытая задача · `done` — закрыто (вопрос

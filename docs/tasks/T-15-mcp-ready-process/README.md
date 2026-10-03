@@ -161,7 +161,8 @@
 **E. После заморозки (отдельная задача):** дизайн MCP-сервера — 6–10
 инструментов по списку операций; storage + validation + query; решений не
 принимает; референсы — идеи kibi (traceability), Semantic Anchors (контракты),
-BRHP (validation signals), Telemetry DB (query-слой).
+BRHP (validation signals), Telemetry DB (query-слой). Задача —
+[`T-26-mcp-server-design`](../T-26-mcp-server-design/README.md) ([D95](../../decisions/D95-phase-e-mcp-design.md)).
 
 **F. Инструменты владельца после заморозки (новая фаза, вне канона и MCP-дизайна):**
 

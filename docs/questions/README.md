@@ -111,3 +111,4 @@
 | [Q89](Q89.md) | что считать зачётным прогоном (чистота для F26/F27/F15) | [D92](../decisions/D92-credited-run-predicate.md) |
 | [Q90](Q90.md) | C3-остаток: process-ветка, теги, снапшот, фасад `/git/checkpoint` | [D93](../decisions/D93-session-commit-process-branch.md) |
 | [Q91](Q91.md) | C11/B2: профиль-флаг — подготовка без включения | [D94](../decisions/D94-b2-profile-flag.md) |
+| [Q92](Q92.md) | Фаза E — открытие: дизайн process-MCP | [D95](../decisions/D95-phase-e-mcp-design.md) |

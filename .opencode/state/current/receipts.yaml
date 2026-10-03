@@ -1784,3 +1784,19 @@
     note: "техническое замечание — R2-прогон теста профилей недоступен validator (нет права, by design); рекомендуется отдельным решением добавить allow node .opencode/scripts/token-guard-test.mjs, канон не правил"
   snapshot: "develop = origin/develop @ 92bf91c (r15) + working tree (service r16 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-phase-e
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-phase-e-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.96s), incl. traceability_tasks_exist_and_match_registry, features_are_named_in_traceability_and_exist, traceability_lifecycle_matches_task_openness, no_addresses_to_removable_or_session_data"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.55s); agents-mcp-readiness не менялась, README.md:302 счётчик 4, «Итого: 47 файлов, 278 сценариев»"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; фронтматтеры ролей не менялись"
+    mode: "полный DoD не запускался (D50) — адресная документная сверка + адресные docs_journal/features_inventory (F74) + agents-perms; src/**, tests/**, Cargo.toml не менялись"
+    d95_vs_fact: "ok — фаза E = T-26 (⬜, P1); предмет только process-MCP (git-MCP Прил. A вне предмета); старт после заморозки D T-15, вход B2 (D94); класс априори L; референсы kibi/Semantic Anchors/BRHP/Telemetry DB; «решений не принимает»; «Сверка с кодом» ⚪ не применимо — всё совпадает"
+    journal: "ok — Q92<->D95 парны (Q92:3 resolved by D95; D95:5 Resolves Q92); каталоги questions/README.md:114, decisions/README.md:124; TRACEABILITY.md:96 Q92: D95 / in work / T-26 ⬜; реестр tasks/README.md:59 (P1, зависит T-15 фаза D, ⬜); карточка T-15 :161-165 ссылается на T-26; D95 Affects/Tasks/«Сверка» ⚪"
+    p2_audit: "closed — чекпойнт migrator r17 внесён: .opencode/memory/migrator.md:450-463 (Q92→D95, T-26 ⬜, реестр :59, T-15 :165, фича не тронута)"
+    borders: "ok — git status --porcelain: 5 M (TRACEABILITY, decisions/README, questions/README, tasks/README, T-15) + memory auditor/migrator + 4 ?? (лента r17, Q92, D95, T-26/**); git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; фичи не тронуты"
+  snapshot: "develop + working tree (service r17 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
