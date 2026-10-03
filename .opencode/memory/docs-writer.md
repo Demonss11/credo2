@@ -7,6 +7,16 @@
 
 ## Чекпойнты
 
+- 03.10.2026, сервисная операция r12 (T-15, C5/C7, D90): статусы фич `agents-*`
+  в `docs/features/README.md:298-300` — `agents-re-raise` ⬜→✅ (C5: объект
+  `re_raise`, категории, зеркало `replan_reason`; `owner_override` вне метрики),
+  `agents-state-schema` ⬜→🟡 (C1 ✅/D86, C2 ⬜), `agents-session-checkpoint`
+  ⬜→🟡 (C3 инкремент 1/D89 + C9 ✅; остаток `process/runN`/теги/фасад). Счётчики
+  без изменений (:315 — 47/278); `agents-metrics`/`agents-mcp-readiness` и шапки
+  `.feature` не тронуты. `git diff` — ровно 3 строки; ссылки резолвятся; `cargo`
+  не запускался (D50). Отчёт — лента `service-mcp-ready-r12.md`. Риск: адресная
+  приёмка `validator` (сверка с `features_inventory.rs`).
+
 - 02.10.2026, T-24 (закрытие после accepted -r2): статусы ✅ в карточке
   (`docs/tasks/T-24-rest-cli-contour-test/README.md`) и сводке
   (`docs/tasks/README.md`); `features/`/CHANGELOG не трогались (D72). Маркер

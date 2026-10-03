@@ -60,7 +60,8 @@
 `L`), `class_dispute` (bool), `class_note`, `branch` (map: `name`, `base`,
 `base_head`, `note`), `scope_constraints` (list<string>), `route_exclusions`
 (list<string>), `package` (map: `mode`, `note`, `add_paths`), `re_raise` (map:
-`id`, `category`, `origin`, `failed_clause`, `fix`, `blocking`, `resolved`),
+`id`, `category` (enum — `dispatch-loop.md` §«Re-raise»), `origin`,
+`failed_clause`, `fix`, `blocking`, `resolved`),
 `inherited_boundaries` (list<string>).
 
 ## `current_state.yaml` — снимок
@@ -104,8 +105,9 @@
 `channel` (enum `question` · `text`) и `owner_response` (string, дословно) —
 при `surface_to_user`; `question` (string) — при `surface_to_user`.
 
-Опционально: `package`, `pre_gate`, `post_package`, `replan_reason`, `round`,
-`resume` (bool), `note`.
+Опционально: `package`, `pre_gate`, `post_package`, `round`, `resume` (bool),
+`note`; `replan_reason` — enum `expect_mismatch` · `owner_override` ·
+`plan_gap` · `role_failure` (при `action: re-plan`; `D90`).
 
 ## `receipts.yaml` — квитанция приёмки (append)
 

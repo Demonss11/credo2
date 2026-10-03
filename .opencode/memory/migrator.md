@@ -255,3 +255,55 @@
   F74-строка). F-строки сохраняют форму `docs/analysis/…` как источник (не
   адрес канона, гейт допускает). Следующее: гейт пакета → `git` (develop) →
   `complete`.
+
+- 03.10.2026, Q87 → D90 (service-mcp-ready-r12, T-15 C5+C7): заведены `Q87`
+  («C5/C7: re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта +
+  статусы фич») и `D90-c5-c7-re-raise-selfreport` (2 пункта: C5 — объект
+  `re_raise` в `next_action`: `id/category/origin/failed_clause/fix/blocking/
+  resolved`, категории `expect_mismatch`·`owner_override`·`plan_gap`·
+  `role_failure`, зеркало `replan_reason` в `progress`, `owner_override` вне
+  метрики; C7 — короткий сегментный самоотчёт + статусы фич `agents-re-raise`
+  ⬜→✅, `agents-state-schema` ⬜→🟡, `agents-session-checkpoint` ⬜→🟡,
+  счётчики без изменений). Строки `questions/README.md`, `decisions/README.md`,
+  TRACEABILITY (Q87: D90, `in work` / T-15 🚧); карточка T-15 — `C5`/`C7` ⬜→🚧
+  (D90). Сверка D90 — ⚪ (процесс/документы; `cargo` не запускался, D50).
+  Проверки: ID свободны (Q86/D89 — последние), `git diff --check` пусто
+  (warning CRLF по r11-ленте — не мой файл), ссылки Q87/D90 + каталогов
+  резолвятся (grep/glob; канон-адрес §5.5/§7 — в форме
+  `mcp-ready-process.md`). Новых находок нет. **Грабля:** D90 — untracked,
+  `git diff`/`--check` по нему пусты по baseline; сверка чтением. Файлы: Q87,
+  D90, 2 каталога, TRACEABILITY, карточка T-15 (+ лента r12/память).
+  Следующее: правки канона сервисной сессией
+  (`.opencode/rules/{dispatch-loop,state-schema}.md`,
+  `.opencode/agents/{analyst,lead}.md`) + статусы фич `docs-writer` →
+  `reload` → `auditor` → `validator` (адресная).
+
+- 03.10.2026, фикс P1 приёмки r12 (T-15, C5+C7; квитанция `rework` iteration 1,
+  отчёт `docs/reviews/service-c5c7-2026-10-03.md`): `docs/TRACEABILITY.md:91`
+  (Q87, «Реализация») — вилдкард «`(статусы `agents-*`)`» запрещён тестом
+  `features_are_named_in_traceability_and_exist` (D80) → заменён поимённым
+  перечнем (стиль Q74/D78): `agents-re-raise.feature`,
+  `agents-state-schema.feature`, `agents-session-checkpoint.feature`. Иных
+  строк/файлов не тронуто. Проверки: `rg "agents-\*" docs/TRACEABILITY.md` —
+  пусто; `git diff --numstat -- docs/TRACEABILITY.md` = `1 0` (ровно одна
+  строка), `--check` пусто; три `.feature` существуют (glob). `cargo` не
+  запускался (D50; адресный `docs_journal` — `validator`, ожидание 14/0).
+  Новых находок нет. **Грабля:** F74-практика (адресный `docs_journal` на
+  приёмке) поймала вилдкард до develop. Следующее: `validator` `-r2` →
+  гейт → `git` (develop) → `complete`.
+
+- 03.10.2026, закрытие r12 (T-15, приёмка `validator` accepted `service-c5c7`
+  iteration 2; отчёт `docs/reviews/service-c5c7-2026-10-03-r2.md`; адресный
+  `docs_journal` 14/0): карточка T-15 — `C5`/`C7` → «✅ 03.10 — принято
+  (`service-c5c7`, `-r2`); D90» (`:216,:218`); `docs/TRACEABILITY.md:91` (Q87)
+  **не тронута** — `in work` / `[T-15] 🚧` (T-15 🚧, `done` не допускает
+  открытых задач — D82, прецеденты Q83/Q85/Q86); реестр — F61 (строка 73)
+  дополнена «03.10.2026: короткий шаблон самоотчёта внесён (C7/D90);
+  EN-префикс обёртки харнесса — остаток (F78)», статус «открыт»; иные находки не
+  тронуты. Проверки: `git diff -U0` — карточка ровно 2 строки, findings ровно 1;
+  `git diff --numstat -- docs/TRACEABILITY.md` = `1 0` (baseline untracked
+  r12-пакета; строка Q87 прочитана — совпадает); `git diff --check` — только
+  CRLF-предупреждение r11-ленты; `cargo` не запускался (D50). Новых Q/D/задач
+  нет. Файлы: карточка T-15, findings-registry (+ лента r12/память). **Грабля:**
+  baseline карточки был `⬜` (🚧 не закоммичен) — правка сразу на ✅.
+  Следующее: гейт пакета → `git` (develop) → `complete`.

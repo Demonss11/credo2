@@ -213,9 +213,9 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ⬜ | — |
 | C3 | session-commit (`process/runN`, теги) | C | 🚧 — инкремент 1 принят (`service-p1p2p3`): правило session-commit; остаток — `process/runN`, теги, фасад | D89 (P3) |
 | C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | 🚧 (`/git/status` — временно, 27.09) | T-13 |
-| C5 | re-raise (категории, `replan_reason`) | C | ⬜ | — |
+| C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
 | C6 | Метрики `progress` без ручной сборки | C | ⬜ | — |
-| C7 | Шаблон самоотчёта; фичи/счётчики | C | ⬜ | — |
+| C7 | Шаблон самоотчёта; фичи/счётчики | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
 | C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
 | C9 | Правило останова ведущего | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | W8 §7 |
 | C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1) | wave0 §3.5 |

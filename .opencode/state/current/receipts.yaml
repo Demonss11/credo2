@@ -1691,3 +1691,34 @@
     borders: "ok — git status --porcelain = только .opencode/** + docs/** (журнал/карточка/findings/TRACEABILITY) + лента/память/state; git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; AGENTS.md/opencode.json не тронуты"
   snapshot: "develop = origin/develop @ e826157 + working tree (service r11 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-c5c7
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-c5c7-2026-10-03.md
+  dod:
+    docs_journal: "FAIL — cargo test --test docs_journal (exit 1), 13 passed / 1 failed (2.88s); features_are_named_in_traceability_and_exist (tests/docs_journal.rs:642-647): realization.contains('agents-*') — docs/TRACEABILITY.md:91 (Q87 row, «Реализация») содержит «(статусы `agents-*`)» → wildcard-обобщение недопустимо (D80). Остальные 13 тестов ok (в т.ч. no_addresses_to_removable_or_session_data, traceability_tasks_exist_and_match_registry, ids_are_unique_and_contiguous)"
+    mode: "адресная документная сверка + адресный docs_journal (второй случай практики F74; решение владельца 03.10.2026); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    p1: "docs/TRACEABILITY.md:91 — колонка «Реализация» строки Q87 содержит вилдкард `agents-*`; правка (migrator, 1 строка): поимённый перечень agents-re-raise/agents-state-schema/agents-session-checkpoint (как Q74/D74 :78) либо снять хвост; единственное вхождение `agents-*` в TRACEABILITY (rg)"
+    d90_vs_fact: "ok — C5: dispatch-loop.md:150-160 §«Re-raise» (7 полей re_raise, 4 категории, зеркало progress.replan_reason, метрика без owner_override, повтор — сигнал); state-schema.md:62-64 (re_raise.category — enum-ссылка), :109-110 (replan_reason — enum 4 категории при re-plan); analyst.md:106-107; lead.md:62-63. C7: dispatch-loop.md:34-36 §«Каденция» шаблон сегментного итога; features/README.md:298-300 (state-schema 🟡, session-checkpoint 🟡, re-raise ✅; диф ровно 3 строки)"
+    journal: "ok — Q87<->D90 парны; каталоги questions/README.md:109, decisions/README.md:119; карточка C5 🚧 :216, C7 🚧 :218 (D90); D90 «Сверка с кодом» ⚪ не применимо, Affects/Tasks верны. TRACEABILITY:91 — Q87: D90, in work, T-15 🚧 (кроме вилдкарда-«Реализации» — P1)"
+    features: "ok — счётчики README.md:315 = 47 файлов / 278 сценариев без изменений; шапки .feature не тронуты (git status docs/features = только README.md)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/{rules/{dispatch-loop,state-schema}.md,agents/{analyst,lead}.md,mail,memory}, docs/{TRACEABILITY,questions/README,decisions/README,features/README,tasks/T-15}; ?? Q87/D90 + лента r12; AGENTS.md/opencode.json не тронуты"
+    p3_audit: "observed (not blocker) — .opencode/mail/service-mcp-ready-r11.md перекодирован UTF-16→UTF-8 при catch-up (40 304 → 21 423 Б, содержание сохранено); учесть при гейте пакета"
+  snapshot: "develop = origin/develop @ 6cd75cf + working tree (service r12 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-c5c7
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-c5c7-2026-10-03-r2.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s); features_are_named_in_traceability_and_exist ok (P1 снят), ids_are_unique_and_contiguous ok, traceability_tasks_exist_and_match_registry ok, no_addresses_to_removable_or_session_data ok"
+    mode: "адресная документная сверка + адресный docs_journal (F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    p1_closure: "ok — docs/TRACEABILITY.md:91 (Q87, «Реализация») вилдкард «(статусы `agents-*`)» → поимённый перечень [agents-re-raise.feature](…), [agents-state-schema.feature](…), [agents-session-checkpoint.feature](…); rg 'agents-*' docs/TRACEABILITY.md — пусто; три .feature существуют (glob); git diff --numstat -- docs/TRACEABILITY.md = 1 0 (ровно одна строка)"
+    regression_c5_c7: "ok — C5: dispatch-loop.md:150-160 §«Re-raise» (7 полей/4 категории/зеркало/метрика без owner_override); state-schema.md:62,:109-110 (re_raise map, replan_reason enum D90); analyst.md:106; lead.md:62. C7: dispatch-loop.md:34-36 §«Каденция» шаблон сегментного итога; features/README.md:298-300 (state-schema 🟡, session-checkpoint 🟡, re-raise ✅), :315 счётчики 47/278, шапки .feature не тронуты"
+    journal: "ok — Q87<->D90 парны; questions/README.md:109, decisions/README.md:119; TRACEABILITY.md:91 Q87: D90 / in work / T-15 🚧; карточка C5 🚧 :216, C7 🚧 :218 (D90); D90 Affects/Tasks/«Сверка с кодом» ⚪ не применимо"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check — только CRLF-предупреждение ленты r11 (не ошибка); git status --porcelain — только .opencode/** + docs/** + лента/память/state; ?? Q87/D90, лента r12, отчёт -r1"
+    p3_audit: "observed (not blocker) — лента r11 UTF-16→UTF-8 при catch-up; git diff --check CRLF-предупреждение; учесть при гейте пакета"
+  snapshot: "develop = origin/develop @ 6cd75cf + working tree (service r12 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

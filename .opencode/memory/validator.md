@@ -423,3 +423,57 @@
   `git branch --contains`/`rev-parse`/`ls-files`, но не `branch --show-current`/
   `diff --stat` — ветку брать `git show -s --format=%D HEAD`, сводку —
   `--numstat`.
+- **03.10.2026 · сервисная операция r12 (T-15, C5+C7), до прогона.**
+  Адресная документная сверка + адресный `cargo test --test docs_journal`
+  (второй случай практики F74; решение владельца 03.10.2026); полный DoD не
+  запускается (D50 — `src/**`, `tests/**`, `Cargo.toml` не менялись). Снимок:
+  ветка `develop`, HEAD `6cd75cf` (r11) + рабочее дерево. Проверяю: D90 ↔ факт
+  (C5 — §«Re-raise» 7 полей/4 категории/зеркало/метрика; `state-schema.md`
+  `re_raise.category`/`replan_reason`; `analyst.md`/`lead.md`; C7 — шаблон в
+  §«Каденция»; `features/README.md` — `agents-re-raise` ✅, `state-schema`/
+  `session-checkpoint` 🟡, счётчики 47/278); журнал Q87↔D90, каталоги,
+  TRACEABILITY, карточка C5/C7 🚧; границы (только `.opencode/**`, `docs/**`,
+  лента/память); P3 аудита (перекодировка ленты r11). Ориентир — 14 passed /
+  0 failed. Запускаю `cargo test --test docs_journal`.
+- **03.10.2026 · сервисная операция r12 (T-15, C5+C7) — после прогона:
+  ОТКЛОНЕНО (rework, P1).** `cargo test --test docs_journal` — **13 passed /
+  1 FAILED** (ожидание 14/0). Красный: `features_are_named_in_traceability_and_exist`
+  (`tests/docs_journal.rs:642-647`) — `realization.contains("agents-*")`:
+  `docs/TRACEABILITY.md:91` (Q87, колонка «Реализация») содержит
+  «`(статусы `agents-*`)`» → wildcard-обобщение запрещено (D80). Единственное
+  вхождение `agents-*` в TRACEABILITY (rg). Правка (migrator, 1 строка): убрать
+  обобщение — перечислить поимённо `[agents-re-raise.feature](features/agents-re-raise.feature)`,
+  `[agents-state-schema.feature](…)`, `[agents-session-checkpoint.feature](…)`
+  (как Q74/D74 `:78`) либо снять хвост. Остальные 13 тестов зелёные. D90↔факт
+  C5/C7, журнал (Q87↔D90, каталоги, карточка C5/C7 🚧), фичи (статусы, счётчики
+  47/278, шапки `.feature` не тронуты) — ок; границы чисты (`git diff --numstat
+  -- src tests Cargo.toml` пусто; `git diff --check` пусто). P3 аудита —
+  перекодировка ленты r11 (наблюдение, не блокер). Отчёт
+  `docs/reviews/service-c5c7-2026-10-03.md`; квитанция `service-c5c7` iteration 1,
+  verdict rework. Канон не правил; статусы не менял (закрытие — `migrator`).
+- **03.10.2026 · сервисная операция r12 (T-15, C5+C7), повторная приёмка `-r2`,
+  до прогона.** Адресная документная сверка + адресный
+  `cargo test --test docs_journal` (F74); полный DoD не запускается (D50 —
+  `src/**`, `tests/**`, `Cargo.toml` не менялись). Снимок: ветка `develop`
+  (= `origin/develop`), HEAD `6cd75cf` + рабочее дерево. Проверено:
+  - **Фикс P1:** `docs/TRACEABILITY.md:91` — поимённый перечень
+    `agents-re-raise`/`agents-state-schema`/`agents-session-checkpoint` (стиль
+    Q74/D74); `rg "agents-\*" docs/TRACEABILITY.md` — пусто; три `.feature`
+    существуют (glob); диф 1/0 (ровно одна строка).
+  - Границы: `git diff --numstat -- src tests Cargo.toml` пусто;
+    `git diff --check` — только предупреждение CRLF для ленты r11 (не ошибка);
+    `git status --porcelain` — только `.opencode/**`, `docs/**` (журнал/канон
+    C5/C7/TRACEABILITY/фичи/карточка), лента/память/state; `??` — Q87/D90,
+    лента r12, отчёт -r1. Канон C5/C7 не перепроверяю заново — фикс P1 не
+    затрагивал правки канона, участок вне диффа.
+  Ориентир — 14 passed / 0 failed. Запускаю `cargo test --test docs_journal`.
+- **03.10.2026 · сервисная операция r12 (T-15, C5+C7) `-r2` — после прогона:
+  принято.** `cargo test --test docs_journal` — **14 passed / 0 failed** (0.06s),
+  в т.ч. `features_are_named_in_traceability_and_exist` ok (P1 снят). Фикс:
+  `docs/TRACEABILITY.md:91` поимённый перечень, `rg "agents-\*"` пусто, диф 1/0.
+  Регресс C5/C7 подтверждён (dispatch-loop §«Re-raise»/§«Каденция»,
+  state-schema enums, analyst/lead, features `:298-300`, Q87↔D90, карточка
+  C5/C7 🚧, границы чисты). P2/P3 нет. Отчёт
+  `docs/reviews/service-c5c7-2026-10-03-r2.md`; квитанция `service-c5c7`
+  iteration 2, accepted. Дальше — гейт → `git` (develop) → `migrator`
+  (C5/C7 ✅, Q87 → done) → `complete`. Канон не правил; статусы не менял.
