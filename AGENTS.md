@@ -21,10 +21,11 @@
 | `tests/` | интеграционные тесты: `publish.rs`, `rest.rs`, `features_inventory.rs` |
 | `docs/` | документация: SPEC, GRAMMAR, журнал Q/D, требования, задачи, досье `docs/analysis/`; карта — `docs/README.md` |
 | `.opencode/agents/` | рабочая группа агентов (ниже) |
-| `.opencode/rules/` | правила ролей: `git-workflow.md`, `journal.md`, `review.md`, `workspace.md`, `dispatch-loop.md` |
-| `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей (перед удалением лент — best-effort снимок событий в архив `pm`, отключается `--no-snapshot`); `agents-perms.mjs` — машинная сверка прав; `git-check.mjs` — read-only сводка состояния git (роль `git`); `session-analysis/` — постфактум-разбор сессий агентов (запуск — владелец/сервисная сессия); `pm/` — process mining агентского процесса (uv-проект; артефакты и архив — `pm/output/`, вне git; запуск — владелец/сервисная сессия; D81) |
+| `.opencode/commands/` | команды-фасад владельца: `/git/checkpoint`, `/git/status` (`agent: git`; не обходят permission-поток) |
+| `.opencode/rules/` | правила ролей: `git-workflow.md`, `journal.md`, `review.md`, `workspace.md`, `dispatch-loop.md`, `state-schema.md` |
+| `.opencode/scripts/` | служебные скрипты: `clean-logs.mjs` — очистка памяти и почты ролей (перед удалением лент — best-effort снимок событий в архив `pm`, отключается `--no-snapshot`); `agents-perms.mjs` — машинная сверка прав; `validate-state.mjs` — валидатор схемы состояния (`state-schema.md`, D91); `state-metrics.mjs` — метрики/очереди из состояния (`D96`); `git-check.mjs` — read-only сводка состояния git (роль `git`); `session-analysis/` — постфактум-разбор сессий агентов (запуск — владелец/сервисная сессия); `pm/` — process mining агентского процесса (uv-проект; артефакты и архив — `pm/output/`, вне git; запуск — владелец/сервисная сессия; D81) |
 | `.opencode/memory/`, `.opencode/mail/` | операционные данные ролей: память и лента задач (в git, не канон) |
-| `.opencode/state/` | состояние цикла: `next_action`/`current_state`/`progress`/`receipts` (трекается с 28.09.2026; канон — `dispatch-loop.md`) |
+| `.opencode/state/` | состояние цикла: `next_action`/`current_state`/`progress`/`receipts` (трекается с 28.09.2026; канон — `dispatch-loop.md`, схема — `.opencode/rules/state-schema.md`) |
 | `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
 | `target/release/credo2.exe` | бинарник MCP/REST |
 | `.credo/` | данные CREDO: песочница и bare-git публикаций (вне git) |
@@ -103,7 +104,8 @@
   (пишет `validator`); resume и статус — по состоянию
   (`.opencode/rules/dispatch-loop.md`).
 - **Почта задачи** — `.opencode/mail/<T-XX>.md`: общая лента; открывается при
-  планировании, роли дописывают отчёт в конец (append):
+  планировании, роли дописывают отчёт в конец (append); `lead` — сегментный
+  итог (один на запуск сессии):
 
   ```markdown
   ## <роль> · <дата> · <статус>
@@ -128,7 +130,7 @@
 У каждой роли во фронтматтере задан `steps` — предел шагов модели. Достигнут:
 роль останавливается, пишет чекпойнт и краткий отчёт; продолжение — новым
 вызовом (тем же `sessionID`) или по состоянию (`.opencode/state/`), с опорой
-на память и ленту. `lead` — 16 (потолок на решение, не на задачу), `analyst` —
+на память и ленту. `lead` — 24 (потолок на решение, не на задачу), `analyst` —
 20 (одно решение за вызов). Бюджеты чтения — в ролях (численно). Бюджет — на
 вызов: авто-продолжение после обрыва шагов его не сбрасывает, новый вызов
 (resume тем же `sessionID`) даёт свежий; отчёт/чекпойнт — **до** тяжёлой проверки
@@ -298,6 +300,9 @@ await tools.credo.check_rebuild_manifest();
   **неполон**. «Важные строки» — смягчение, не замена: если от опущенного
   зависит решение, повтори команду с сужением (`rg -m`, offset/limit, фильтр)
   или дочитай файл; срез затрагивает и `read`. Факт среза — в отчёт.
+- B2 (`token-guard`) — профиль-флаг `B2_PROFILE` (`off`/`codemode`/`mcp`; `D94`):
+  при `off` схемы инструментов не снимаются; включение — при прямой экспозиции
+  MCP (`codemode:false`), тест профилей — `.opencode/scripts/token-guard-test.mjs`.
 
 ## Сборка, тесты и пересборка
 

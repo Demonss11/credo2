@@ -9,43 +9,51 @@
 
 ## Чекпойнты
 
-- **T-18 (2026-10-02, участок №2) — до компиляции.** Реализую
-  `tests/docs_journal.rs` (Rust, только `std`; образец — `features_inventory.rs`),
-  v0.1: проверки (1)–(8) карточки T-18/D64 (+D77/D80/D82/D65). Разбор форматов:
-  Q-статус `resolved by Dn` (все, кроме Q81 `open`); D `Resolves: [Qn]` либо `—`
-  (ретро-D D1–D5, D7–D11, D13); TRACEABILITY-колонки
-  `Q | D | Жизненный цикл | Задачи | Реализация`; реестры `tasks/README`,
-  `features/README`. Скоуп запретов — канон журнала; «Сверка с кодом» D-файлов —
-  датированный снимок (аналог историч. зон, карточка T-18 §Примечания), номера
-  строк в ней не гейтятся; миграционные фразы — только в шапке/таблице, `OPEN_QUESTIONS.md` —
-  только как markdown-ссылка; адреса — только directory-qualified пути в
-  удаляемые зоны (whitelist `findings-registry.md`). Прогон — `validator` (R2).
-  Далее: `cargo check --all-targets`, `cargo fmt`.
-  **Результат (участок №5):** dead_code `TraceRow.d` снят усилением — тест
-  `traceability_rows_reference_existing_decisions` читает `row.d` (D-колонка →
-  существующее решение; пусто только при `open`, Q81). `cargo clippy --test
-  docs_journal -- -D warnings` — ok; `cargo fmt --check` — ok (правок не
-  потребовалось). D85 (б): `live_text` — снимок только для номеров строк,
-  адресный гейт по сырому тексту. Прогон `cargo test --all` — `validator` (R2).
-  **Результат (участок №8, rework -r2):** исправлены 4 дефекта разбора
-  (P1-1..P1-4 отчёта `docs/reviews/T-18-2026-10-02.md`), проверки не ослаблены:
-  (1) `field_line` триммит значение; (2) `cell_task_statuses` понимает `T-XX`
-  (опц. `-`) и ищет статус по всей ячейке после markdown-ссылки; (3) `section()`
-  ищет заголовок только в начале строки (inline `## …` не ловит); (4)
-  `normalize_feature` срезает `features/`/`docs/features/` в `feature_tokens`
-  и `feature_registry`. `cargo clippy --test docs_journal -- -D warnings` — ok
-  (снят clippy collapsible_if let-chain); `fmt --check` — ok. Канон-дефект D39
-  снят `migrator`. Прогон — `validator` T-18 -r2 (R2).
-
-- **T-22 (2026-10-02) — до компиляции.** Снятие предсуществующих ошибок
-  `tests/mcp_draft.rs`: (1) E0425 — `Value` не в scope → импорт
-  `use serde_json::{json, Value};`; (2) E0061 ×3 (`create_name_mismatch...`,
-  `create_invalid_source...`, `create_upsert...`) — `mcp.create(SRC)` →
-  `mcp.create(NAME, SRC)` под сигнатуру `common::Mcp::create(name, source)`.
-  Тест не ослаблен (T-03/Q28 сохранён). Только `tests/mcp_draft.rs`; чужие
-  пути T-18/T-21 не тронуты. Далее: `cargo check --test mcp_draft`, `cargo fmt`.
-  Прогон `cargo test --all` — `validator` (R2/D50).
-  **Результат:** `cargo check --test mcp_draft` — ok (7.03s, E0425/E0061 сняты);
-  `cargo fmt --check` — ok (rustfmt также перенормировал 4 длинные строки в том
-  же файле). Правки только в `tests/mcp_draft.rs`; T-18/T-21 не тронуты. Прогон
-  не делал (R2).
+- **T-24 (02.10.2026, до проверок).** Добавлен `tests/rest_cli.rs` —
+  интеграционный тест CLI-контура REST на реальном бинарнике
+  (`env!("CARGO_BIN_EXE_credo2")`), запросы по TCP вручную (reqwest в
+  dev-deps нет; tokio/axum есть). Покрытие: запуск `--rest`+`--addr :<free>` и
+  готовность `GET /health` (поллинг); `--api-key` → 401 без заголовка и с
+  неверным, 200 с верным; env `CREDO_API_KEY` → тот же контракт; открытый режим
+  без ключа → 200; открытые пути `/health`/`/docs`/`/openapi.json` без ключа;
+  `--no-rest`+`--rest`/`--addr` → отказ clap. Процесс держит stdin открытым
+  (иначе MCP на EOF гасит REST). `src/**`, `Cargo.toml`, `features/**` не
+  трогались. **Проверки после:** `cargo check --all-targets` — ok;
+  `cargo fmt --check` — ok. Прогон не делался (R2). Грабли: HTTP-клиента
+  (reqwest/hyper-client) в dev-deps нет — запросы сырым TCP; процесс обязан
+  держать stdin открытым; `--rest` без `--addr` слушает фиксированный 8080 —
+  в тесте сознательно не берётся (флейк), `--rest` упражняется вместе с
+  `--addr` и проверкой конфликта.
+- **T-16 (02.10.2026, до проверок).** Добавлены интеграционные тесты в
+  `tests/mcp_draft.rs` по сценарию `features/test_draft.feature`
+  «Тестирование устаревшего черновика» (Q12/D54, T-16): реальный stdio-контур.
+  `stale_test_executes_file_text_q12_t16` — при stale `check.test` исполняет
+  текст файла `rules/{name}.dar` (condition/reason от файла, решение и
+  `matched` от порога файла), контракт §4.5/D34 сохранён (`source_hash`/
+  `last_test_checksum` — от черновика, `tested_at` есть); метка в черновике
+  `last_test_checksum` = `source_hash` черновика, текст черновика не
+  мутируется. `stale_test_invalid_file_is_evaluation_failed_t16` — невалидный
+  `.dar` при stale → конверт `evaluation_failed` (D40). `src/**`,
+  `Cargo.toml`, `features/**` не трогались. **Проверки после:**
+  `cargo check --all-targets` — ok; `cargo fmt --check` — ok. Прогон не
+  делался (R2/D50). Грабли: `Mcp::call` возвращает `(isError, payload)`;
+  path черновика — `rules/{name}.dar`; порог файла должен отличаться от
+  черновика, иначе `stale` не возникает.
+- **T-24 (02.10.2026, rework P1, iteration 2, до проверок).** Одна правка
+  `tests/rest_cli.rs:47` (fn `wait_ready`): вложенный
+  `if let Ok((200, body)) = request(...) { if body.contains("ok") { return; } }`
+  схлопнут в let-chain
+  `if let Ok(...) && body.contains("ok") { return; }` — снят
+  `clippy::collapsible_if` (rust-1.96.0, `-D warnings`). Иных правок нет.
+  **Проверки после:** `cargo fmt --check` — ok; `cargo check --all-targets` —
+  ok. `cargo clippy` не запускался (не в правах роли, R2) — повторная приёмка
+  за `validator` (`-r2`). Прогон тестов не делался (R2).
+- **T-16 (02.10.2026, rework -r2, P1 — дефект ТЕСТА, до проверок).** Одна
+  правка `tests/mcp_draft.rs:244` (тест `stale_test_executes_file_text_q12_t16`):
+  литерал `"пусто"` → `""` в `assert_eq!(tested["decision"], "", "{tested}")`.
+  Основание: D21:61-62 (несработавшее правило — `""` в JSON), Q10, канонический
+  юнит `src/core.rs:585-594`; `"пусто"` — единственный литерал в репо; реализация
+  верна, красна была строка теста. Сообщение ассерта `"{tested}"` сохранено.
+  `src/**` не тронут; numstat tests/src неизменен (литерал внутри строки).
+  **Проверки после:** `cargo fmt --check` — ok. Прогон не делался (R2) —
+  повторная приёмка за `validator` (`-r3`).

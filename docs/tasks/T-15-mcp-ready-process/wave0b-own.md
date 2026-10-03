@@ -1,8 +1,13 @@
 # T-15 · B0-own — мини-волна своей обвязки (P1–P5)
 
-- **Статус:** 🚧 BO-i1 выполнен 28.09.2026; BO-i2…BO-i7 — по подтверждению
-  владельца. Не канон; канон, `.opencode/**` и `opencode.json` репозитория не
-  менялись.
+- **Статус:** 🚧 BO-i1 (28.09.2026), BO-i2…BO-i6 (02.10.2026) выполнены,
+  отчёт [`wave0b-own-report.md`](wave0b-own-report.md) создан; **перенос
+  P1/P3/P4 исполнен 02.10.2026** (`.opencode/plugins/wave0-observe.ts`,
+  `.opencode/scripts/{session-checkpoint,metrics-report}.mjs`); **P2 перенесён
+  02.10.2026 в рамках C10** (`.opencode/plugins/wave0-guard.ts`, якорные
+  правила + аудит; глобальные policies — 4 точных); полигон сохранён до
+  заморозки. Не канон; канон, `.opencode/**` и `opencode.json` репозитория не
+  менялись (кроме перенесённых артефактов — служебная зона, решение владельца).
 - **Назначение:** рабочий журнал мини-волны B0-own к [`wave0b-report.md`](wave0b-report.md)
   §4/§6: собственные V2-плагины/скрипт вместо чужих V1-плагинов — P1
   `wave0-observe`, P2 `wave0-guard`, P3 `wave0-checkpoint`, P4
@@ -154,7 +159,209 @@
 - **Результат:** вердикт по протоколу B0 → кандидат переноса (CC Safety Net —
   отдельное решение владельца, пресет standard).
 
+### BO-i2 · `wave0-guard`: плагин vs `experimental.policies` · 02.10.2026
+
+- **Цель:** выбрать механизм страховки P2 и оформить прототип для переноса
+  (вход C10); проверить критерии: блокировка до запуска, allow-поток без
+  изменений, аудит, `--auto`, ложные срабатывания.
+- **База/среда:** полигон `%TEMP%\opencode\wave0b-own`; OpenCode **2.0.22**
+  (в BO-i1 было 2.0.18); модель проб `opencode-go/deepseek-v4.1-flash`;
+  прогоны `opencode run --auto`.
+- **Механика проб:**
+  - **A — плагин** `.opencode/plugins/wave0b-own-guard.ts`:
+    `permission.hook("evaluate")` (правила: `--force`→deny, `reset --hard`→deny,
+    `read *.env`→deny, `Remove-Item -Recurse -Force`→ask/deny по режиму,
+    `edit` вне location→deny) + аудит `tool.execute.before`; режим
+    standard/paranoid — файлом `wave0b-own-guard-mode.txt` (без перезагрузки).
+  - **B — `experimental.policies`** (конфиг полигона): `shell:*--force*`,
+    `shell:*reset --hard*`, `read:*.env` → deny.
+  - **D — `permissions`** (правило репо): `shell:*reset --hard*` → deny.
+  - **C — комбинация** (плагин + policies).
+- **Факты (прогоны; улики — `target/wave0b-own-i2/`, журнал
+  `wave0b-own-guard.jsonl`: 42 записи, 6 deny — все целевые, ложных нет):**
+
+| # | Сценарий | Механизм | Результат |
+|---|---|---|---|
+| A1 | `git push --force origin develop` | плагин | **BLOCKED** (`wave0b-guard: force-flag`), до запуска git |
+| A2 | `git reset --hard HEAD` | плагин | **BLOCKED** (`reset-hard`) |
+| A3 | чтение `.env` | плагин | **BLOCKED** (`secrets-env`), содержимое не раскрыто |
+| A4 | `Remove-Item -Recurse -Force probe-dir` | плагин, standard | **EXECUTED** — `ask` при `--auto` авто-одобряется |
+| A5 | `git status` + `echo` | плагин | EXECUTED — allow-поток не изменён |
+| A6 | `git log -1` | плагин | EXECUTED — ложных срабатываний нет |
+| A7 | `Remove-Item -Recurse -Force probe-dir2` | плагин, paranoid | **BLOCKED** (`recursive-force-delete`) |
+| A8 | запись вне location | плагин | **BLOCKED** (`outside-location`) |
+| B1 | `git push --force …` | policies | **BLOCKED** (`Blocked by configuration policy`) до запуска |
+| B3 | чтение `.env` | policies | **BLOCKED** (policy) |
+| B4 | `Remove-Item -Recurse -Force probe-dir3` | policies | **EXECUTED** — шаблон `*--force*` не ловит `-Force` (пробел статических шаблонов) |
+| C1 | `git push --force …` | плагин + policies | **BLOCKED** (policy); хук `evaluate` при этом вызывается (policy применяется после хука) |
+| D1 | `git reset --hard HEAD` | `permissions` deny | **BLOCKED** (`Permission denied: shell`); хук `evaluate` **не** вызывается, аудит `tool.before` пишется |
+
+- **Наблюдения:**
+  - порядок слоёв: `permissions` deny → хук не вызывается; `policies` → хук
+    вызывается, но policy финальна; `ask` + `--auto` = выполнение (для защиты
+    нужен именно `deny`);
+  - модель сама отказалась выполнять force-push на первом промпте B1 — для проб
+    нужна явная формулировка «техническая проба, выполнить обязательно»;
+  - `opencode reload` в полигоне дважды вызвал churn MCP-каталога общей сессии
+    (credo временно пропадал, восстановился) — сервис общий, осторожно в
+    служебной зоне (кандидат в наблюдения BO-i7);
+  - scanner дробит составные команды (`git remote -v; git status` → два
+    resource) — правила матчатся по каждому.
+- **Вердикт:** 🟢 — **комбинация**: `experimental.policies` — статический
+  hard-контур (живёт в конфигурации выше репозитория — глобальный конфиг/Console;
+  из репозитория не снимается), `permissions` — ролевые правила репо (дёшево,
+  deny финален), плагин — контекстные deny (секреты, вне-проекта, варианты
+  команд) + аудит JSONL. Одиночный плагин — тоже 🟢 (но `ask` не защищает при
+  `--auto`); одиночные policies — 🟢 с оговоркой о пробелах шаблонов.
+- **Откат:** полигон удаляется целиком после BO-i7; улики `target/wave0b-own-i2/`
+  (плагин, конфиги, JSONL, маркер) — вне git.
+- **Дальше:** BO-i3 — следующая P из очереди (§4): P1 `wave0-observe`
+  (старт — по подтверждению владельца); вердикт P2 — вход C10 (решение
+  «включить/отклонить» — фаза C/владелец).
+
+### BO-i3 · `wave0-observe`: наблюдаемость субагентов · 02.10.2026
+
+- **Цель:** события субагентских/родительских сессий → JSONL + сводка
+  (вход C/D); проверить фильтр потока (BO-i1: серверный, часть событий с
+  `location=null`), агрегат и доставку сводки родителю.
+- **Механика:** плагин `.opencode/plugins/wave0b-own-observe.ts` —
+  `ctx.event.subscribe()`; фильтр «location == каталог полигона или известный
+  `sessionID`»; агрегат `wave0b-own-observe-summary.json`; сводка родителю —
+  `ctx.session.prompt` (режим `journal+summary`, дебаунс 5 с тишины); маркер
+  `wave0b-own-observe.json`, журнал `wave0b-own-observe.jsonl`. Полигон,
+  OpenCode 2.0.22, модель та же; конфиг полигона не менялся.
+- **Факты (O1–O3; улики `target/wave0b-own-i3/`):**
+  - O1 (одиночная сессия): полный цикл в журнале (29 строк) — `session.created`
+    → `inbox.enqueued/delivered` → `execution.started` → `instructions.updated`
+    → `usage.updated` → `renamed` → `step.started/streamed/ended` →
+    `reasoning.*` → `text.*` → `execution.succeeded`.
+  - `ctx.session.list` — **не функция** (ошибка в журнале): список сессий у
+    плагина недоступен — только CLI/HTTP (§7 шпаргалки) или события.
+  - O2 (субагент `general`): дочерний `session.created` несёт **`parentID` и
+    `agent=general`** (+`model`); дальнейшие события ребёнка без `parentID`
+    (связка — по `created`); агрегат: родитель — tools `{subagent:1, shell:1}`,
+    ребёнок — `{shell:1}`; новые типы: `session.tool.input.started/ended`,
+    `session.tool.called/progress/success`, `shell.created`, `shell.exited`;
+    registry-события (`model.updated` и др.) приходят с location = каталог
+    плагина.
+  - O3 (`journal+summary`): через 5 с тишины — `summary.prompt ok:true`
+    (shape `text`); **доставка подтверждена** экспортом родителя
+    (`target/wave0b-own-i3/ses_parent-O3.json` — текст сводки в транскрипте).
+  - Чужие сессии не попали (фильтр работает); `projectID` temp-полигона —
+    `global` (фильтр по проекту ненадёжен; только location/`sessionID`).
+- **Вердикт:** 🟢 — журнал + агрегат + сводка родителю работают; фильтр
+  location/`sessionID` корректен.
+- **Доработки для переноса:** `sh_*` (shell) не считать сессиями; корневой
+  `agent` — из `step.started`/экспорта (в `session.created` только `model`);
+  сводка — эвристика по тишине (события `idle` в потоке нет); дельты
+  (`reasoning.delta`/`text.delta`) для продакшена семплировать (журнал
+  O1–O3 — ~71 КБ).
+- **Откат:** полигон целиком после BO-i7; улики — вне git.
+- **Дальше:** BO-i4 — P4 `metrics-report.mjs` (отчёты из `stats`/`export`,
+  свёртка по цепочкам роль/модель); P5 `wave0-attribution` частично перекрыт
+  (агент/модель/иерархия — уже в P1) — решить на BO-i7.
+
+### BO-i4 · `metrics-report.mjs`: отчёты из `stats`/`export` · 02.10.2026
+
+- **Цель:** прототип отчёта метрик из нативных источников (замена Opencode
+  Telemetry для D; вход C6/D): сводка проекта + свёртка цепочки
+  root→субагенты по ролям/моделям.
+- **Механика:** скрипт `metrics-report.mjs` (CLI-only, без БД):
+  `opencode stats --json`; `session list --format json` (фильтр по cwd — у
+  temp `projectID=global`); `--chain <ses>` — экспорт root, поиск детей по
+  маркеру `<subagent sessionID=…>`, экспорт детей, агрегат
+  (agent/model/cost/tokens/wall/outcome), вывод markdown + `--out`.
+- **Факты:**
+  - T1 (полигон, цепочка O2): 2 сессии (root + `general`), $0.0008; таблицы
+    роли/модель/сессии — ок.
+  - T2 (репозиторий, прогон 02.10): 32 сессии (root + 31 ребёнок), стоимость
+    **$1.4133**, вх. 4 666 766, вых. 531 193, окно 214.1 мин; по ролям —
+    build $0.4604, analyst 13/$0.3320, tester 2/$0.2218, migrator 3/$0.1495,
+    validator 4/$0.1404, git 5/$0.0646, docs-writer 2/$0.0200, coder
+    1/$0.0126, auditor 1/$0.0119; модели — `#default` 31/$0.9529,
+    `#max` 1/$0.4604 — **совпадает с B1-разбором** (агрегат из БД).
+  - Грабли: `opencode` в Node — npm-шим (`.ps1/.cmd`), прямой spawn → ENOENT
+    (нужен `shell: true`; DEP0190 — косметика); `stats.tokens` — объект;
+    `stats` без `--days` агрегирует всё (132 сессии/$32.28 — не прогон);
+    для прогона — цепочка или `--days`.
+- **Вердикт:** 🟢 — цепочки/роли/модели/стоимость воспроизводятся
+  CLI-средствами без БД; пригодно для D/C6.
+- **Ограничения:** дети находятся по маркеру в экспорте root (хрупко при
+  смене формата); экспорт детей последовательный (31 ребёнок ≈ 30 с);
+  `stats` без фильтров — все проекты.
+- **Откат:** полигон после BO-i7; улики `target/wave0b-own-i4/`.
+- **Дальше:** BO-i5 — P3 `wave0-checkpoint` (сводка останова/обрыва);
+  P5 — решение на BO-i7.
+
+### BO-i5 · `wave0-checkpoint`: сводка останова + resume · 02.10.2026
+
+- **Цель:** структурная сводка останова/обрыва (Handoff): цель · статус ·
+  файлы · риски/открытые вопросы · resume-путь (вход C9).
+- **Механика:** скрипт `session-checkpoint.mjs` (`session export` → markdown:
+  цель/статус/файлы/маркеры/метрики/resume); проба нативного resume
+  `--session`; попытка регистрации команды плагином `ctx.command.transform`.
+- **Факты (улики `target/wave0b-own-i5/`):**
+  - C1: `editor.add({name, description, template})` — **ok**;
+    `command.list()` → `["init","review","checkpoint","checkpoint3"]`;
+    форма `{info, template}` ломает `command.list` («Schema validation
+    failed») — не использовать; запуск команды из headless не проверялся.
+  - T1 (полигон, O2): сводка корректна — цель/статус/файлы (snapshot)/
+    инструменты/resume.
+  - T2 (реальный стоп, `tester` T-18): цель (бриф), статус (rework -r2),
+    44 файла, 18 строк-маркеров, инструменты (read×60, shell×32, edit×23…),
+    resume-команда — пригодно для C9.
+  - T3: `opencode run --session <id>` продолжил ту же сессию (2 промпта,
+    succeeded) — нативный путь восстановления подтверждён.
+- **Вердикт:** 🟢 — сводка + resume работают; регистрация команды — форма
+  подтверждена, запуск — за кадром headless.
+- **Доработки для переноса:** разделять файлы «изменённые/прочитанные»;
+  уточнить маркеры (ловят «открытых задач»); статус обрезается; первый
+  промпт субагента содержит преамбулу.
+- **Откат:** полигон после BO-i7; улики — вне git.
+- **Дальше:** BO-i6 — P5 `wave0-attribution` (решить: подтвердить/свернуть —
+  агент/модель/иерархия уже в P1/P4) либо подготовка BO-i7 (отчёт+ревью);
+  решение владельца.
+
+### BO-i6 · `wave0-attribution`: онлайн-атрибуция · 02.10.2026
+
+- **Цель:** проверить `session.hook("context")` (agent/model на запрос) на
+  2.0.22; решить — подтвердить P5 или свернуть.
+- **Механика:** плагин `wave0b-own-attribution.ts` (context-хук → журнал);
+  прогон с субагентом `general`; сверка с `session export`/`session list`.
+- **Факты (улики `target/wave0b-own-i6/`):**
+  - context-хук: родитель `agent=build` (`#default`, toolsN=12, systemN=4),
+    субагент `agent=general` (`#default`, toolsN=10) — **онлайн-атрибуция
+    работает для обоих**.
+  - export: у ребёнка `info.agent=general`; у **root `info.agent`
+    отсутствует** («агент: ?»); `session list` поля `agent` не содержит;
+    в хранилище top-level записан `agent=build` (при `default_agent=lead` —
+    связка с F60).
+- **Вердикт:** 🟢 — **свернуть**: отдельный плагин не нужен; онлайн — короткий
+  context-хук (или встроить в P1), офлайн — export (`info.agent` у детей) +
+  события (`step.started` несёт `agent`) + БД (с оговоркой про root/F60).
+  P5 закрывается как «покрыто P1/P4».
+- **Откат:** полигон после BO-i7; улики — вне git.
+- **Дальше:** BO-i7 — отчёт и финализация мини-волны (+ ревью; перенос —
+  после аудита и решения владельца).
+
+### BO-i7 · Отчёт и финализация мини-волны · 02.10.2026
+
+- **Сделано:** отчёт [`wave0b-own-report.md`](wave0b-own-report.md) — итоги
+  BO-i1…BO-i6 (P1–P5), факты по механизмам, рекомендации по переносу
+  (артефакт → куда → доработки), наблюдения (кандидаты F), чек-лист
+  готовности, открытые вопросы владельцу.
+- **Ревью (сервисная сессия):** сверены журнал, улики `target/wave0b-own-i2…i6/`,
+  лента `service-mcp-ready-r5.md`, коммиты (`85658fd`, `9a811b4`, `11110bd`,
+  `e740603`); расхождений не выявлено.
+- **Статус мини-волны:** BO-i1…BO-i6 выполнены, отчёт создан. Перенос
+  механизмов — **после аудита `auditor`** и решения владельца (§6 отчёта).
+- **Откат полигона** — после решения о переносе (см. ниже).
+
 ## Откат полигона (после BO-i7)
 
-Удалить `%TEMP%\opencode\wave0b-own` целиком; улики `target/wave0b-own-i*/` —
-вне git и удаляются вместе с рабочей копией по решению владельца.
+**Закрытие 02.10.2026:** все прототипы выключены — перенесены в `_off/`
+(`wave0b-own-probe`, `-guard`, `-observe`, `-checkpoint`, `-attribution`);
+журналы не пишутся (последние записи 11:59–12:26Z); улики —
+`target/wave0b-own-i1…i7/` (вне git). **Удаление полигона
+`%TEMP%\opencode\wave0b-own` — после заморозки** (решение владельца; улики
+удаляются вместе с рабочей копией по решению владельца).

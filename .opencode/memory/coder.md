@@ -13,23 +13,26 @@
 
 ## Чекпойнты
 
-- **2026-10-02 · T-21 (feature/T-21-mcp-test-struct-api) · чекпойнт до компиляции.**
-  Задача: починить `src/mcp.rs` до `cargo check --all-targets` зелёного (post-accept
-  дефект T-04), только этот файл. Сделано:
-  (1) `validation_message` — enum-матч `ToolError::Envelope{..}`/`Message(_)`
-  заменён на struct-API: `assert_eq!(err.code, ErrorCode::ValidationFailed); err.message`;
-  (2) `validation_error_json_envelope_t03` — `into_json()` → `to_json()`;
-  (3) `required_str` — задействован в `create` для `name`/`source` (вариант
-  «использовать», не удалять): `None`-ветка даёт тот же текст `"Нужен параметр
-  '<key>'"`, тест `create_requires_name_param` цел, новый отказ — пустая
-  непустая по `trim()` строка (расширение валидации Q28; тесты 717/720/726 ждут
-  `contains("name")`).
-  Осталось: fmt/check/clippy. `cargo test` не запускается (R2). Риск: если
-  validator ужесточит DoD по пустому `source` — это ожидаемо и не ломает прод.
+- **T-16 (stale `check.test`) — чекпойнт до компиляции (2026-10-02).**
+  Карточка T-16, D54 п.3, `test_draft.feature` «Тестирование устаревшего
+  черновика». План: в `src/mcp.rs::test()` при `state.is_stale(&d)` разобрать и
+  исполнить текст `rules/{name}.dar` (через `AppState::source_file_path` +
+  `parse_rule`), иначе — текущее поведение. Контракт §4.5/D34 не меняется:
+  `source_hash`/метки — от черновика. Ошибки: нечитаемый/невалидный файл —
+  `evaluation_failed` (`ToolError::evaluation`) — решение в рамках D40.
+  Правки: `src/lib.rs` (один хелпер `source_file_path`), `src/mcp.rs` (тело
+  `test()` + юнит-тест). Тесты не запускались (R2); далее — `cargo fmt/check/
+  clippy`. Чекпойнт «после» — ниже.
 
-- **2026-10-02 · T-21 · результат.** Компиляция: `cargo check --lib --profile test`
-  ok; `cargo clippy --lib -- -D warnings` ok; `cargo check --all-targets` — по
-  `src/mcp.rs` ноль диагностик, осталось только `tests/**` (T-18, не моя зона).
-  `cargo fmt --check` — диффы только в `tests/mcp_draft.rs` (T-18), по `src/mcp.rs`
-  чисто. `cargo test` не запускался (R2). Отчёт — лента `.opencode/mail/T-21.md`.
-  Следующему (validator): ждать закрытия T-18 для зелёных `tests/**`.
+- **T-16 — после компиляции (2026-10-02).** Готово.
+  - `src/lib.rs:811-816`: `AppState::source_file_path(name) -> PathBuf`;
+    `is_stale` использует его (поведение то же).
+  - `src/mcp.rs:224-246`: в `test()` при `state.is_stale(&d)` — чтение
+    `rules/{name}.dar` и `parse_rule`; нечитаемый/невалидный файл →
+    `ToolError::evaluation` (`evaluation_failed`). Метки `source_hash`/
+    `last_test_checksum`/`tested_at` — от черновика (контракт §4.5/D34 цел).
+  - Юнит-тесты: `stale_test_executes_file_text_q12_t16` (исполнение по файлу),
+    `stale_test_invalid_file_is_evaluation_failed_t16` (код ошибки).
+  - Проверки: `cargo fmt --check` — ok; `cargo check --all-targets` — ok;
+    `cargo clippy --all-targets -- -D warnings` — ok. `cargo test` не
+    запускался (R2/D50).

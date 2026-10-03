@@ -87,18 +87,28 @@
 
 - `validator`: `rg`, `git status|diff|log|show|grep`, `git branch --contains`,
   `git rev-parse`, `git ls-files`, `git check-ignore`, `cargo fmt|clippy|test`,
-  `node .opencode/scripts/agents-perms.mjs`.
+  `node .opencode/scripts/agents-perms.mjs`,
+  `node .opencode/scripts/validate-state.mjs` (валидатор схемы состояния,
+  `D91`), `node .opencode/scripts/state-metrics.mjs` (метрики из состояния,
+  `D96`).
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
-- `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`.
-- `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`.
-- `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`.
+- `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`, `cargo clippy`.
+- `analyst`: `rg`, `git status|diff|log|show|grep`, `git branch -a|--list`,
+  `git rev-parse`; без `cargo`.
+- `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`,
+  `git rev-parse --short HEAD`, `node .opencode/scripts/validate-state.mjs`
+  (pre-flight; `D91`), `node .opencode/scripts/state-metrics.mjs` (метрики из
+  состояния, `D96`).
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,
   `git check-ignore`, `node .opencode/scripts/agents-perms.mjs`, `opencode reload`.
 - `docs-writer`, `migrator`: `rg`, `git status|diff|log|grep`; без `cargo`.
 - `researcher`: `rg`.
-- `git`: `rg`, `git`-команды (изменяющие — `ask`),
+- `git`: `rg`, read-only git-команды (`status`/`diff`/`log`/`show`/`branch`/
+  `rev-parse`/`remote`/`tag`/`ls-remote`), изменяющие — `ask` (`add`/`commit`/
+  `switch`/`checkout`/`merge`/`branch -d`/`tag`/`restore`/`push`/`fetch`/`pull`),
   `node .opencode/scripts/clean-logs.mjs`,
-  `node .opencode/scripts/git-check.mjs`.
+  `node .opencode/scripts/git-check.mjs`,
+  `node .opencode/scripts/session-checkpoint.mjs`.
 - **Автопроверка `auditor`:** этот список должен совпадать с фронтматтерами
   `.opencode/agents/*.md` (команда без права и право без применения — находки).
 - **Проверка памяти:** «Знание» в `.opencode/memory/<роль>.md` не

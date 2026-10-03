@@ -54,18 +54,22 @@ P2 — реестр и артефакты (до демо, если успеем)
 | [T-12](T-12-agent-loop/README.md) | Разгрузка `lead`: loop-диспетчер, эфемерный `analyst`, состояние на диске | [D39](../decisions/D39-loop-dispatcher.md) (Q44) | P1 | — | ✅ |
 | [T-13](T-13-agent-hardening/README.md) | W7: доработка агентов после Run 3 (доступы, дисциплина цикла, гигиена) | [D40](../decisions/D40-scope-threshold.md), [D41](../decisions/D41-dispatch-refinements.md) (Q45, Q46) | P1 | — | ✅ |
 | [T-15](T-15-mcp-ready-process/README.md) | Процесс, готовый к MCP: схема состояния, операции, финализация, метрики | [D78](../decisions/D78-t15-mcp-ready-program.md) (Q74); записка [`mcp-ready-process.md`](T-15-mcp-ready-process/mcp-ready-process.md) | P1 | — | 🚧 |
-| [T-16](T-16-stale-check-test/README.md) | `check.test` на stale-черновике: исполнение по тексту файла `rules/{name}.dar` | Q12 (Q29, T-01) | P1 | — | ⬜ |
+| [T-16](T-16-stale-check-test/README.md) | `check.test` на stale-черновике: исполнение по тексту файла `rules/{name}.dar` | Q12 (Q29, T-01) | P1 | — | ✅ |
+| [T-25](T-25-d65-analysis-addresses/README.md) | Снять D65-адреса на разбор T-24 из журнала (Q84/Q85/D87/D88) | Q61, [D65](../decisions/D65-reference-policy.md); базовый P1 приёмки T-16; F73 | P1 | — | ✅ |
+| [T-26](T-26-mcp-server-design/README.md) | Дизайн process-MCP: 6–10 инструментов (storage + validation + query) | [D95](../decisions/D95-phase-e-mcp-design.md) (Q92), [D78](../decisions/D78-t15-mcp-ready-program.md) | P1 | T-15 фаза D | ⬜ |
 | [T-06](T-06-registry-path-xyz/README.md) | Реестр: путь `checks/{name}/{X}/{Y}/{Z}/` | Q13, Q32 | P2 | — | ⬜ |
 | [T-07](T-07-meta-fields/README.md) | `meta.json`: `display_name`, `source_hash`, `compiler_version` | Q13, Q7 | P2 | — | ⬜ |
 | [T-08](T-08-materialize-source-file/README.md) | Публикация материализует `rules/{name}.dar` | Q12, Q33 | P2 | — | ⬜ |
 | [T-17](T-17-merge-command/README.md) | `credo merge`: слияние ветки публикации в `main` (ancestor-проверка, CAS, удаление ветки) | [D56](../decisions/D56-merge-step.md) (Q15) | P2 | — | ⬜ |
 | [T-14](T-14-grammar-message-sync/README.md) | GRAMMAR: синхронизация цитаты сообщения парсера | [D41](../decisions/D41-dispatch-refinements.md) (Q46) | P2 | T-03 | ⬜ |
+| [T-27](T-27-findings-registry-split/README.md) | Реестр находок: переезд в `docs/registry/` и раскол открытые/закрытые | [D98](../decisions/D98-findings-registry-relocation.md) (Q95) | P2 | — | ⬜ |
 | [T-09](T-09-check-run/README.md) | `check.run` — исполнение опубликованной версии | Q33 | P3 | T-06 | ⬜ |
 | [T-18](T-18-docs-journal-test/README.md) | Тест целостности журнала `tests/docs_journal.rs` (ID, парность, таблицы, запреты) | [D64](../decisions/D64-journal-integrity-test.md) (Q60) | P3 | после D61–D63, D65 | ✅ |
 | [T-19](T-19-doc-quality-checks/README.md) | Doc-quality проверки: `doc-size` + `markdownlint-cli2`, композит `check` | [D66](../decisions/D66-doc-quality-checks.md) (Q62) | P3 | — | ⬜ |
-| [T-20](T-20-traceability-wave2/README.md) | Волна 2 `TRACEABILITY`: разбор `open`-строк | [D83](../decisions/D83-traceability-wave2.md) (Q79) | P3 | — | ⬜ |
+| [T-20](T-20-traceability-wave2/README.md) | Волна 2 `TRACEABILITY`: разбор `open`-строк | [D83](../decisions/D83-traceability-wave2.md) (Q79) | P3 | — | ✅ |
 | [T-21](T-21-mcp-test-struct-api/README.md) | Unit-тесты `src/mcp.rs`: struct-API `ToolError`, dead `required_str` | T-04 (post-accept); Q29, [D34](../decisions/D34-mcp-tool-contracts.md) | P3 | T-04 | ✅ |
 | [T-22](T-22-mcp-draft-test-fix/README.md) | Интеграционные тесты `tests/mcp_draft.rs`: снять E0425 (`Value`) и E0061 ×3 (`mcp.create`) | T-04 (post-accept); Q29, [D34](../decisions/D34-mcp-tool-contracts.md) | P3 | — | ✅ |
+| [T-24](T-24-rest-cli-contour-test/README.md) | Интеграционный тест CLI-контура REST (`--rest`/`--addr`, `--api-key`/`CREDO_API_KEY`, открытый режим, `--no-rest`) | Q22, [D26](../decisions/D26-rest-auth-x-api-key.md) | P3 | — | ✅ |
 
 ## DoD для любой задачи
 

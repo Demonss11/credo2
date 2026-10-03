@@ -16,6 +16,7 @@ permissions:
   - { action: shell, resource: "*", effect: deny }
   - { action: shell, resource: "cargo check *", effect: allow }
   - { action: shell, resource: "cargo fmt *", effect: allow }
+  - { action: shell, resource: "cargo clippy *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "git status *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }
@@ -47,9 +48,10 @@ permissions:
      deprecated-версии, пустые данные, повторные вызовы;
    - проверки, которые «зеленеют сами», не пиши: тест должен падать при
      регрессии.
-4. Чекпойнт в память — **до** проверок (R5). Проверь компиляцию тестов
-   штатными командами роли; **тесты не запускай** (R2 — см.
-   `.opencode/rules/dispatch-loop.md` §«Hard rules»). Дополни чекпойнт
+4. Чекпойнт в память — **до** проверок (R5). Проверь компиляцию и линт тестов
+   штатными командами роли (`cargo check`, `cargo fmt --check`,
+   `cargo clippy --all-targets -- -D warnings`); **тесты не запускай** (R2 —
+   см. `.opencode/rules/dispatch-loop.md` §«Hard rules»). Дополни чекпойнт
    результатом.
 5. Краткий отчёт в ленту. Нашёл дефект в `src/**` — не правь его: верни `lead`
    с шагами воспроизведения. При затыке — вопрос `lead`, не обходной путь
@@ -74,7 +76,7 @@ permissions:
 **Статус:** готово / дефект
 **Задача:** T-XX
 **Добавлено:** <файлы тестов; какие сценарии/кейсы покрыты>
-**Компиляция:** check --all-targets — ok, fmt — ok
+**Компиляция/линт:** check --all-targets — ok, fmt — ok, clippy — ok
 **Дефекты:** <шаги воспроизведения, ожидание/факт> / нет
 **Не проверено:** прогон тестов — за `validator`
 ```

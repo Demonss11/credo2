@@ -102,3 +102,16 @@
 | [Q80](Q80.md) | шум в `.opencode/rules/**`: ссылки на решения и исторические приписки | [D84](../decisions/D84-rules-revision.md) |
 | [Q81](Q81.md) | применимость внешнего материала KodaSkills (`skills`) к CREDO | — |
 | [Q82](Q82.md) | «Сверка с кодом» D-файлов — датированный снимок или живой канон для запретов D64/D65? | [D85](../decisions/D85-sverka-snapshot-scope.md) |
+| [Q83](Q83.md) | схема состояния процесса: место и модель (F15) | [D86](../decisions/D86-state-schema.md) |
+| [Q84](Q84.md) | права и процедуры по итогам S-пилота T-24: allowlist ролей, CCSN-хвост ветки, state hygiene, модель `lead` | [D87](../decisions/D87-t24-pilot-fixes.md) |
+| [Q85](Q85.md) | C9/C12: лимит и записи `lead`, политика re-plan и дробление вызовов (данные S-пилота T-24) | [D88](../decisions/D88-c9-c12-loop-tuning.md) |
+| [Q86](Q86.md) | P1/P2/P3: топология веток дочерних задач, заморозка решений, session-commit (по разбору T-16/T-25) | [D89](../decisions/D89-branch-topology-freeze-session-commit.md) |
+| [Q87](Q87.md) | C5/C7: re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта + статусы фич | [D90](../decisions/D90-c5-c7-re-raise-selfreport.md) |
+| [Q88](Q88.md) | C2: валидатор схемы состояния `validate-state.mjs` | [D91](../decisions/D91-c2-validate-state.md) |
+| [Q89](Q89.md) | что считать зачётным прогоном (чистота для F26/F27/F15) | [D92](../decisions/D92-credited-run-predicate.md) |
+| [Q90](Q90.md) | C3-остаток: process-ветка, теги, снапшот, фасад `/git/checkpoint` | [D93](../decisions/D93-session-commit-process-branch.md) |
+| [Q91](Q91.md) | C11/B2: профиль-флаг — подготовка без включения | [D94](../decisions/D94-b2-profile-flag.md) |
+| [Q92](Q92.md) | Фаза E — открытие: дизайн process-MCP | [D95](../decisions/D95-phase-e-mcp-design.md) |
+| [Q93](Q93.md) | C6: метрики из состояния без ручной сборки | [D96](../decisions/D96-state-metrics.md) |
+| [Q94](Q94.md) | C8: кандидаты B0 → C/D/E/F (развязка §4) | [D97](../decisions/D97-c8-b0-roster.md) |
+| [Q95](Q95.md) | реестр находок: место (`docs/registry/`) и раскол открытые/закрытые | [D98](../decisions/D98-findings-registry-relocation.md) |

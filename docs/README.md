@@ -20,12 +20,15 @@ docs/
   analysis/          # досье analyst по задачам (улики решения, не канон)
   reviews/           # отчёты приёмки (улики, не канон; пишет validator)
   research/          # внешние обзоры (не канон; пишет researcher)
+  ideas/             # идеи интерфейса (не канон; макеты, не решения)
 ```
 
 `analysis/`, `reviews/` и `research/` — рабочие артефакты (досье решений, улики
 приёмки, внешние обзоры), не канон: канон на их файлы не ссылается — факты
 живут в Q/D, задачах, фичах; неактуальные файлы удаляются (архив —
-git-история; [D65](decisions/D65-reference-policy.md)).
+git-история; [D65](decisions/D65-reference-policy.md)). `ideas/` — тоже не
+канон, но **долгоживущий референс** (макеты интерфейса), штатно не удаляется;
+ссылки — только «отсюда → канон».
 
 ## Куда за чем
 
@@ -37,6 +40,7 @@ git-история; [D65](decisions/D65-reference-policy.md)).
 | Решить, нужна ли задача по коду | [`../.opencode/rules/journal.md`](../.opencode/rules/journal.md) §5.3 (сверка с кодом) → [`tasks/README.md`](tasks/README.md) |
 | Понять, что и как реализовано | [`features/README.md`](features/README.md) |
 | Взять задачу по коду | [`tasks/README.md`](tasks/README.md) |
+| Найти идеи для интерфейса | [`ideas/`](ideas/README.md) (не канон) |
 | Понять, кто из команды агентов что делает | [`../AGENTS.md`](../AGENTS.md) §Рабочая группа агентов |
 | Проверить требования и DoD | [`../AGENTS.md`](../AGENTS.md) §Сборка; процесс приёмки — [`.opencode/rules/dispatch-loop.md`](../.opencode/rules/dispatch-loop.md) |
 

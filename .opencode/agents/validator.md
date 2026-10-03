@@ -20,6 +20,10 @@ permissions:
   - { action: shell, resource: "cargo test *", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/agents-perms.mjs *", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/validate-state.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/validate-state.mjs *", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/state-metrics.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/state-metrics.mjs *", effect: allow }
   - { action: shell, resource: "rg *", effect: allow }
   - { action: shell, resource: "git status *", effect: allow }
   - { action: shell, resource: "git diff *", effect: allow }
@@ -91,6 +95,9 @@ permissions:
 - счётчики `docs/features/README.md` согласованы: обычно — адресная сверка; при
   правках счётчиков/состава сценариев — `cargo test --test features_inventory`
   (`review.md`, «Порог существенности»);
+- состояние перед приёмкой проверяется
+  `node .opencode/scripts/validate-state.mjs` (валидатор схемы, `D91`);
+  ошибки схемы — находки, предупреждения — наблюдения;
 - тексты ошибок не дублируются: источник — код, документация ссылается на него;
 - изменения `.opencode/**` и `AGENTS.md` не противоречат друг другу
   («инструкция ↔ права» — зона `auditor`; ты проверяешь то, что видишь).

@@ -112,3 +112,16 @@
 | [D83](D83-traceability-wave2.md) | Волна 2 `TRACEABILITY` — разбор `open`-строк отдельной задачей | [Q79](../questions/Q79.md) | 2026-10-01 | accepted |
 | [D84](D84-rules-revision.md) | Ревизия `.opencode/rules/**` — актуальная норма, ссылка на решение, без истории | [Q80](../questions/Q80.md) | 2026-10-01 | accepted |
 | [D85](D85-sverka-snapshot-scope.md) | «Сверка с кодом» `D`-файла — датированный снимок для номеров строк, адреса строги | [Q82](../questions/Q82.md) | 2026-10-02 | accepted |
+| [D86](D86-state-schema.md) | Схема состояния процесса — отдельный канон, модель D42 | [Q83](../questions/Q83.md) | 2026-10-02 | accepted |
+| [D87](D87-t24-pilot-fixes.md) | Правки по итогам S-пилота T-24 — права, CCSN-хвост, state hygiene, модель `lead` | [Q84](../questions/Q84.md) | 2026-10-02 | accepted |
+| [D88](D88-c9-c12-loop-tuning.md) | C9/C12 — лимит и записи `lead`, политика re-plan, дробление вызовов | [Q85](../questions/Q85.md) | 2026-10-02 | accepted |
+| [D89](D89-branch-topology-freeze-session-commit.md) | P1/P2/P3 — топология веток дочерних задач, заморозка решений, session-commit | [Q86](../questions/Q86.md) | 2026-10-03 | accepted |
+| [D90](D90-c5-c7-re-raise-selfreport.md) | C5/C7 — re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта + статусы фич | [Q87](../questions/Q87.md) | 2026-10-03 | accepted |
+| [D91](D91-c2-validate-state.md) | C2 — `validate-state.mjs` (валидатор схемы состояния) | [Q88](../questions/Q88.md) | 2026-10-03 | accepted |
+| [D92](D92-credited-run-predicate.md) | Зачётный прогон — ядро-предикат чистоты (F26/F27/F15) | [Q89](../questions/Q89.md) | 2026-10-03 | accepted |
+| [D93](D93-session-commit-process-branch.md) | C3-остаток и C4 — session-commit в ветку сессии, теги, снапшот, фасад `/git/checkpoint` | [Q90](../questions/Q90.md) | 2026-10-03 | accepted |
+| [D94](D94-b2-profile-flag.md) | C11/B2 — профиль-флаг подготовки без включения | [Q91](../questions/Q91.md) | 2026-10-03 | accepted |
+| [D95](D95-phase-e-mcp-design.md) | Фаза E — открытие: дизайн process-MCP (задача T-26) | [Q92](../questions/Q92.md) | 2026-10-03 | accepted |
+| [D96](D96-state-metrics.md) | C6 — метрики из состояния (скрипт `state-metrics.mjs`) | [Q93](../questions/Q93.md) | 2026-10-03 | accepted |
+| [D97](D97-c8-b0-roster.md) | C8 — развязка кандидатов B0 (фазы C/D/E/F) | [Q94](../questions/Q94.md) | 2026-10-03 | accepted |
+| [D98](D98-findings-registry-relocation.md) | Реестр находок — переезд в `docs/registry/` и раскол открытые/закрытые | [Q95](../questions/Q95.md) | 2026-10-03 | accepted |

@@ -75,18 +75,28 @@
   S или M): второй класс для чек-листа §8; на S-прогоне — проверка fast path
   (D39); замеры — обвязкой B0 (если готова) и/или `session export`;
   Данные 02.10.2026 собраны — отчёты `docs/analysis/T-15-run-2026-10-02-*.md`;
+  fast-path S-прогон состоялся (T-24, тест CLI-контура REST), но «чистым» не
+  был (4 упора лимита `lead`, 8 вызовов `analyst`, ~69 мин); остаток — чистый
+  S-прогон (D39) сохраняется; зачёт — по §«Зачётный прогон»
+  (`state-schema.md`, D92);
   статус остаётся ⏸ (F26/F27 — до чистого S-прогона; F15 — до C1).
 - [ ] **F27 — прогон с ведущим `lead`** (не сервисной сессией): данные по
   лимиту 16 и правилу останова (варианты W8 §7: (а) 16+резерв, (б) 16→24,
   (в) правило останова) — решение переносится в фазу C;
   Данные 02.10.2026 собраны — отчёты `docs/analysis/T-15-run-2026-10-02-*.md`;
+  прогон с ведущим `lead` состоялся (T-24: 64 шага, 5 сегментов, 4 упора
+  лимита 16), но «чистым» не был; остаток — правило останова/лимит (C9)
+  сохраняется; зачёт — по §«Зачётный прогон» (`state-schema.md`, D92);
   статус остаётся ⏸ (F26/F27 — до чистого S-прогона; F15 — до C1).
 - [ ] **F15 + F6 — первый живой `rework`**: инкремент `iteration` `1→2`, суффикс
   `-rN` в отчёте приёмки, квитанция раунда (сверить с D42). Реальный возврат и
   `-r2` отработали в Run 4 (T-03); предмет проверки — чистая механика D42.
   Данные 02.10.2026 собраны — отчёты `docs/analysis/T-15-run-2026-10-02-*.md`;
   статус остаётся ⏸ (F26/F27 — до чистого S-прогона; F15 — до C1). Подтверждён:
-  `iteration` = номер участка, раунды `-rN` без инкремента.
+  `iteration` = номер участка, раунды `-rN` без инкремента. F15 закрыт C1
+  (схема/инварианты, D86); предмет проверки остаётся — чистая механика
+  инкремента `iteration 1→2` на живом `rework`. Зачёт — по §«Зачётный прогон»
+  (`state-schema.md`, D92).
 
 **C. Реализация контура (сервисная сессия + аудит):**
 
@@ -95,24 +105,23 @@
   `session_index`; `owner_response` дословно;
 - скрипт `validate-state.mjs`: pre-flight + приёмка `validator`; неизвестные
   поля — предупреждение;
-- session-commit: ветка `process/runN`, теги `session/runN-sM`; исполнитель —
+- session-commit: ветка сессии `process/<прогон>-s<M>`, тег
+  `session/<прогон>-s<M>`, снапшот состояния; механика — D93; исполнитель —
   роль `git` по «постоянному» пакету (подтверждение один раз на прогон;
   catch-up при обрыве); правило останова в `dispatch-loop.md`;
 - команды-фасад `.opencode/commands/git/`: `/git/checkpoint` (триггер
-  «постоянного» пакета; создаётся здесь) и `/git/status` (read-only; создана
-  2026-09-27 как временное решение — см. Примечания);
+  «постоянного» пакета) и `/git/status` (read-only, +теги сессий); созданы
+  (C4, `service-process-branch`); `.opencode/commands/**` — в области аудита
+  `auditor` (D93);
 - re-raise: категории и объект (план/досье), зеркало `replan_reason` в
   `progress`;
 - метрики: поля `progress` (`session_index`, `role`, `step`, `outcome`,
-  `replan_reason`), вывод метрик и очередей без ручной сборки;
+  `replan_reason`), вывод метрик и очередей без ручной сборки — реализовано
+  (`state-metrics.mjs`, D96; приёмка `service-state-metrics`);
 - шаблон самоотчёта сессии; фичи и счётчики (`docs/features/README.md`);
-- **кандидаты из отчёта B0** ([`wave0b-report.md`](wave0b-report.md)):
-  Shell Strategy → раздел канона о non-interactive shell; Handoff → правило
-  останова и восстановление (`session-checkpoint`); Agent Identity → атрибуция
-  `role`/модели в метриках и самоотчёте; snip → токен-политика (продолжение
-  wave 0 B1); CC Safety Net → решение permissions/harness-страховка; BRHP →
-  референс для `state-schema.md`/`validate-state.mjs` (перенять/отклонить
-  с обоснованием).
+- **кандидаты из отчёта B0** — разведены по фазам `C/D/E/F` (Shell Strategy,
+  CC Safety Net, Handoff, наблюдаемость/Agent Identity, Telemetry, BRHP, snip) —
+  [D97](../../decisions/D97-c8-b0-roster.md); отчёты B0 — навигация, не несущее.
 
 **Решения и канон, отложенные меморандумом W8 т. 2:**
 
@@ -149,7 +158,8 @@
 **E. После заморозки (отдельная задача):** дизайн MCP-сервера — 6–10
 инструментов по списку операций; storage + validation + query; решений не
 принимает; референсы — идеи kibi (traceability), Semantic Anchors (контракты),
-BRHP (validation signals), Telemetry DB (query-слой).
+BRHP (validation signals), Telemetry DB (query-слой). Задача —
+[`T-26-mcp-server-design`](../T-26-mcp-server-design/README.md) ([D95](../../decisions/D95-phase-e-mcp-design.md)).
 
 **F. Инструменты владельца после заморозки (новая фаза, вне канона и MCP-дизайна):**
 
@@ -191,28 +201,33 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B0-i7 | Handoff | B0 | ✅ 28.09 · 🔴 | `wave0b-probes` |
 | B0-i8 | Отчёт и финализация B0 | B0 | ✅ 28.09 · коммит `cafc4c4` | `wave0b-report` |
 | B0-own-i1 | Каркас и разведка V2-API (BO-i1) | B0-own | ✅ 28.09 | `wave0b-own` |
-| B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | ⬜ | `wave0b-report` §4 |
-| B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | ⬜ · предложена BO-i2 | `wave0b-report` §4 |
-| B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | ⬜ | `wave0b-report` §4 |
-| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | ⬜ | `wave0b-report` §4 |
-| B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | ⬜ | `wave0b-report` §4 |
+| B0-own-P1 | `wave0-observe` — наблюдаемость субагентов | B0-own | 🟢 BO-i3 (02.10) — вердикт: журнал событий сессий + агрегат + сводка родителю; перенос — после аудита · перенесён 02.10 → `.opencode/plugins/wave0-observe.ts` | `wave0b-report` §4 |
+| B0-own-P2 | `wave0-guard` — страховка (плагин vs `policies`) | B0-own | 🟢 BO-i2 (02.10) — вердикт: комбинация `experimental.policies` + `permissions` + плагин; перенос — после аудита (вход C10) · перенесён 02.10 (C10) · закрыт (C10) | `wave0b-report` §4 |
+| B0-own-P3 | `wave0-checkpoint` — сводка останова/обрыва | B0-own | 🟢 BO-i5 (02.10) — вердикт: сводка останова (`session-checkpoint.mjs`) + resume `--session`; перенос — после аудита (вход C9) · перенесён 02.10 → `.opencode/scripts/session-checkpoint.mjs` | `wave0b-report` §4 |
+| B0-own-P4 | `metrics-report.mjs` — отчёты из `stats`/`export` | B0-own | 🟢 BO-i4 (02.10) — вердикт: CLI-отчёт цепочек (stats/export) воспроизвёл метрики прогона; перенос — после аудита (вход C6/D) · перенесён 02.10 → `.opencode/scripts/metrics-report.mjs` | `wave0b-report` §4 |
+| B0-own-P5 | `wave0-attribution` — атрибуция `role`/модели | B0-own | 🟢 BO-i6 (02.10) — вердикт: свернуть (покрыто P1/P4 + context-хук) | `wave0b-report` §4 |
+| B0-own-i7 | Отчёт и финализация мини-волны | B0-own | ✅ 02.10 | wave0b-own-report.md |
 | B1-Run5 | Run 5 — T-04 (класс L) | B1 | ✅ 28.09 | меморандум W8 т. 2 |
 | B1-F26 | S/M-прогон + fast path S (D39) | B1 | ⏸ · данные 02.10 | F26; решение 28.09 |
 | B1-F27 | Прогон с ведущим `lead` (лимит 16) | B1 | ⏸ · данные 02.10 | F27 |
 | B1-F15 | Первый `rework`: `iteration 1→2`, `-rN` | B1 | ⏸ · данные 02.10 | F15/F6; D42 |
-| C1 | Схема состояния (`session_index`, `owner_response`) | C | ⬜ | записка §5 |
-| C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ⬜ | — |
-| C3 | session-commit (`process/runN`, теги) | C | ⬜ | — |
-| C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | 🚧 (`/git/status` — временно, 27.09) | T-13 |
-| C5 | re-raise (категории, `replan_reason`) | C | ⬜ | — |
-| C6 | Метрики `progress` без ручной сборки | C | ⬜ | — |
-| C7 | Шаблон самоотчёта; фичи/счётчики | C | ⬜ | — |
-| C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
-| C9 | Правило останова ведущего | C | ⏸ ждёт F27 | W8 §7 |
-| C10 | `policies`-страховки | C | ⬜ | wave0 §3.5 |
-| C11 | B2 — условие возврата (`codemode:false`) | C | ⏸ | F28/D45 |
-| C12 | Дробление L-вызова | C | ⬜ | разбор `coder` §6.4 |
+| C1 | Схема состояния (`session_index`, `owner_response`) | C | ✅ 02.10 — принято (`T-15-c1`); схема — `.opencode/rules/state-schema.md` (D86) | записка §5 |
+| C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ✅ 03.10 — принято (`service-c2`); валидатор схемы, точки применения; D91 | D91 |
+| C3 | session-commit (`process/<прогон>-s<M>`, теги) | C | ✅ 03.10 — принято (`service-process-branch`); остаток закрыт: ветка сессии `process/<прогон>-s<M>`, тег `session/<прогон>-s<M>`, снапшот, скрипт (D93) | D93 |
+| C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | ✅ 03.10 — принято (`service-process-branch`); `/git/checkpoint` (снапшот→ветка→commit→tag→push), `/git/status` (+теги сессий); `.opencode/commands/**` — в области аудита (D93) | D93 |
+| C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
+| C6 | Метрики `progress` без ручной сборки | C | ✅ 03.10 — принято (`service-state-metrics`); скрипт `state-metrics.mjs` (метрики/очереди из состояния, CLI+`--json`); D96 | D96 |
+| C7 | Шаблон самоотчёта; фичи/счётчики | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
+| C8 | Кандидаты B0 → C/D/E/F | C | ✅ 03.10 — разведено (`service-b0-roster`); кандидаты §4 → фазы C/D/E/F; snip отклонён; D97 | D97 |
+| C9 | Правило останова ведущего | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | W8 §7 |
+| C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1) | wave0 §3.5 |
+| C11 | B2 — условие возврата (`codemode:false`) | C | 🟢 подготовлен и принят (`service-b2-profile`); профиль-флаг `B2_PROFILE` (`off`/`codemode`/`mcp`), тест профилей; включение — `codemode:false`; closeout не держит (D94) | F28/D45 |
+| C12 | Дробление L-вызова | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | разбор `coder` §6.4 |
 | C13 | Хвостовые записи пакета (F43) | C | ✅ принято (`T-15-c13`, 28.09.2026); коммит — по подтверждению | F43; найдено 28.09.2026 |
+| C14 | Правки по итогам S-пилота T-24 (права/CCSN/state/модель) | C | ✅ 02.10 — принято (`service-t24-fixes`); права/CCSN/state/модель (D87) | F67–F72 (реестр находок) |
+| C15 | P1 — топология веток дочерних задач | C | ✅ 03.10 — принято (`service-p1p2p3`); P1: ветки дочерних задач (D89) | F80–F82; D89 |
+| C16 | P2 — заморозка решений | C | ✅ 03.10 — принято (`service-p1p2p3`); P2: заморозка решений (D89) | F80–F82; D89 |
+| C17 | Предикат зачётного прогона | C | ✅ 03.10 — принято (`service-credited-run`); D92 | решение владельца 03.10; F26/F27/F15 |
 | D1 | Чек-лист готовности §8 | D | ⬜ (зависит B0/B1/C) | записка §8 |
 | D2 | Заморозка, D-запись, отчёт `validator` | D | ⬜ | — |
 | E1 | Дизайн MCP (6–10 инструментов) | E | ⬜ | записка §5.4 |
@@ -243,26 +258,10 @@ T-05 (success-схемы `delete_draft`/`deprecate`), Q33 (`check.run`/
 - пакет закоммичен (одна задача — один коммит; при серии фаз — модель
   коммитов зафиксировать до старта).
 
-## Черновик команды-фасада (создать в фазе C)
+## Команда-фасад `/git/checkpoint` (C4 — реализована)
 
-`.opencode/commands/git/checkpoint.md`:
-
-```md
----
-description: Process-commit прогона (лента, память, снапшот state) по «постоянному» пакету
-agent: git
-subagent: true
----
-
-Выполни `checkpoint_session` текущего прогона по «постоянному» пакету,
-подтверждённому `lead` (одно подтверждение на прогон — запись в ленте и
-state; без записи верни «нужно подтверждение», изменяющих команд не
-выполняй). Идемпотентно, по одной команде: сверка `git status`/`git log`;
-`add` только process-путей пакета; `commit -m "chore(process): runN sM"`;
-`push origin process/runN` (таймаут ≥ 5 мин). Продуктовые изменения не
-входят; shell-блоки не использовать. Отчёт — в ленту задачи и память; верни
-хеши.
-```
+Действующий файл — `.opencode/commands/git/checkpoint.md`; механика — D93;
+черновик фазы A снят (история — git).
 
 ## Примечания
 
@@ -274,13 +273,14 @@ state; без записи верни «нужно подтверждение»,
 - Внешние записки (`ext-an`, `ext-an-2`) — вне репозитория; ссылки по имени.
 - Связанные артефакты: меморандум W8 (§4–§7, §12; архив — git),
   `findings-registry.md`, записка [`mcp-ready-process.md`](mcp-ready-process.md).
+- Отчёт мини-волны B0-own — [`wave0b-own-report.md`](wave0b-own-report.md)
+  (итоги BO-i1…BO-i6; перенос механизмов — после аудита и решения владельца).
 - Разбор прогона 02.10.2026 — `docs/analysis/T-15-run-2026-10-02-{build,analyst,tester,migrator,validator,git}-session.md` (6 отчётов; вход фаз C/D).
 - Решения (владелец, 2026-09-27): process-commit — роль `git` по «постоянному»
   пакету, микро-роль не вводится; фасад — команды OpenCode; в перспективе
   git-MCP — узкий инструмент `checkpoint` у `lead` (записка, Приложение A).
-- `/git/status` создана как временное решение; при внедрении команд включить
-  `.opencode/commands/**` в область аудита `auditor` (команды не должны
-  обходить permission-поток).
+- Команды-фасады внедрены (C4, `service-process-branch`); `.opencode/commands/**`
+  включены в область аудита `auditor` (D93).
 - Инструментальная волна B0 (вне канона): каталог-анализ, состав и протокол —
   [`wave0b-plugins.md`](wave0b-plugins.md); исполнение —
   [`wave0b-plan.md`](wave0b-plan.md).

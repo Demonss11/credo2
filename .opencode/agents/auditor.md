@@ -8,7 +8,6 @@ permissions:
   - { action: edit, resource: "*", effect: deny }
   - { action: edit, resource: ".opencode/memory/auditor.md", effect: allow }
   - { action: edit, resource: ".opencode/mail/**", effect: allow }
-  - { action: read, resource: "**/target/**", effect: deny }
   - { action: read, resource: ".git/**", effect: deny }
   - { action: read, resource: "**/node_modules/**", effect: deny }
   - { action: read, resource: "Cargo.lock", effect: deny }
@@ -58,7 +57,8 @@ permissions:
 2. тело `.opencode/agents/*.md` — рабочие инструкции роли;
 3. `AGENTS.md` — общие правила, навигация, маршруты, память и почта;
 4. `.opencode/rules/*.md` — правила (`git-workflow`, `journal`, `review`,
-   `workspace`, `dispatch-loop`);
+   `workspace`, `dispatch-loop`); `.opencode/commands/**` — команды-фасад
+   (запускаются ролью из `agent`, прав не расширяют);
 5. карта канонов `docs/README.md`, процессы `.opencode/rules/journal.md`,
    `docs/tasks/README.md`, `docs/features/README.md` — проверяешь
    **целостность** (дубли, ссылки, счётчики), но не решения;
@@ -92,6 +92,8 @@ permissions:
 - Память роли (`.opencode/memory/<роль>.md`, «Знание») не противоречит канону
   роли (тело и права): дрейф памяти — находка.
 - Ссылки роли на команды/каталоги существуют; у каждой роли задан `steps`.
+- Команды `.opencode/commands/**`: `agent` — существующая роль; прав не
+  расширяют, shell-блоки (`!`) запрещены; текст однозначен.
 
 ### Дубли и противоречия
 

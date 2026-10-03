@@ -27,218 +27,251 @@
 
 ## Чекпойнты
 
-- **30.09.2026, service-docs-lifecycle №1** (`research`): подтверждение сверено
-  по ленте; снимок 16 `M` + 1 `D` + 2 `??`, `HEAD` `9948ebf`; к коммиту — 20
-  путей (`./`-префикс, без `--`), режим «коммит + push» в `develop`, сообщение
-  `docs(D65): рабочие артефакты research/reviews/analysis — удаление по
-  отработке, ссылки канона сняты (service-docs-lifecycle №1)`. Хеши — в ответе
-  `lead` (не здесь). Осталось: `add` → сверка staged (17 `M` + 1 `D` + 2 `A`) →
-  `commit` → `push`.
-- **30.09.2026, service-docs-lifecycle №2** (служебная зона, режим
-  «коммит + push» в `develop`): подтверждение сверено по записи ленты;
-  снимок 12 `M` + 1 `??` = ровно пакет, плюс вне пакета 68 ` D docs/reviews/**`
-  и 5 `M` карточек; `HEAD` `21c3c80` = база `origin/develop`. К коммиту — 13
-  путей (`./`-префикс, без `--`), сообщение
-  `docs(D49): служебная зона — правило «ссылки на review не ставим», право
-  validator git rev-parse (service-docs-lifecycle №2)`. Хеши — в ответе `lead`
-  (не здесь). Осталось: `add` → сверка staged (12 `M` + 1 `A`) → `commit` →
-  `push`. Удаления `docs/reviews/**` и карточки — не трогать (будущий пакет).
-- **30.09.2026, service-docs-lifecycle №2 — дельта allowlist**
-  (`ls-files`/`check-ignore`, служебная зона, режим «коммит + push» в `develop`):
-  подтверждение сверено по записи ленты («Коммит + push»); снимок 9 `M` + 1 `??`
-  = ровно пакет (плюс вне пакета 70 ` D docs/reviews/**`, 5 `M` карточек,
-  `findings-registry.md`, `memorandum-W8-run5.md`); `HEAD` `f28c8cb` = база
-  `origin/develop`. К коммиту — 11 путей (`./`-префикс, без `--`), сообщение
-  `docs(D49): права validator/auditor — git ls-files/check-ignore
-  (service-docs-lifecycle №2)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (10 `M` + 1 `A`) → `commit` → `push`.
-- **01.10.2026, service-statuses-review** (служебная зона, режим «коммит + push»
-  прямо в `master` — санкция владельца, исключение из `git-workflow`):
-  подтверждение сверено по записи ленты «01.10.2026 · подтверждение пакета»;
-  снимок 10 `M` + 3 `??` = ровно пакет (лента и два отчёта приёмки — новые),
-  `HEAD` `9173fc4` = база `origin/master`. К коммиту — 13 путей (`./`-префикс,
-  без `--`), сообщение
-  `docs(D38/D70): канон ролей — сняты дубли слияния и устаревшие §10-пункты
-  (service-statuses-review)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (10 `M` + 3 `A`) → `commit` → `push origin master`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-branch-align** (служебная зона, режим «коммит + push»
-  в `master`, затем merge `master` → `develop` — санкция владельца
-  «выравниваем»): подтверждение сверено по записи ленты «открытие и пакет»;
-  снимок 1 `M` + 1 `??` = ровно пакет (ленты нет — новая, память — правка),
-  `HEAD` `3990700` = база `origin/master`, дерево до записей чистое. К коммиту —
-  3 пути (`./`-префикс, без `--`), сообщение
-  `chore(process): выравнивание develop по master — записи
-  (service-branch-align)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (1 `A` + 2 `M`) → `commit` → `push origin master` →
-  `switch develop` → `merge --no-ff master` → `push origin develop`.
-- **01.10.2026, service-review-links** (служебная зона, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «01.10.2026 · подтверждение пакета (гейт)»; снимок 5 `M` + 2 `??` = ровно
-  пакет (лента и отчёт приёмки — новые), `HEAD` `b9fd791` = база
-  `origin/develop`. К коммиту — 8 путей (`./`-префикс, без `--`), сообщение
-  `docs(T-03): снята запрещённая ссылка на отчёт приёмки из карточки
-  (review.md §«Хранение отчётов»)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (6 `M` + 2 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-lifecycle-w2-prep** (служебная волна, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «01.10.2026 · подтверждение пакета (гейт)»; снимок 8 `M` + 5 `??` (лента, Q79,
-  D83, отчёт приёмки, папка T-20 — новые) = ровно пакет + мой чекпойнт = 14; `HEAD`
-  `b04a77a` = база `origin/develop`. К коммиту — 14 путей (`./`-префикс, без `--`),
-  сообщение `docs(Q79/D83): волна 2 TRACEABILITY — разбор open-строк задачей T-20
-  (service-lifecycle-w2-prep)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (9 `M` + 5 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-lifecycle-w1** (служебная волна, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «01.10.2026 · подтверждение пакета (гейт)»; снимок 12 `M` + 4 `??` = ровно
-  пакет (лента, Q78, D82, отчёт приёмки — новые) + мой чекпойнт = 17; `HEAD`
-  `cb7d159` = база `origin/develop`. К коммиту — 17 путей (`./`-префикс, без
-  `--`), сообщение
-  `docs(Q78/D82): жизненный цикл TRACEABILITY — open · in work · done; волна 1
-  разметки (service-lifecycle-w1)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (13 `M` + 4 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-rules-revision** (служебная волна, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «01.10.2026 · подтверждение пакета (гейт)» (волна 1); снимок 14 `M` + 4 `??`
-  (лента, Q80, D84, отчёт приёмки — новые) = ровно пакет; `HEAD` `3821811` =
-  база `origin/develop` (`## develop...origin/develop`). К коммиту — 18 путей
-  (`./`-префикс, без `--`), сообщение
-  `docs(Q80/D84): ревизия .opencode/rules — норма без истории, дедупликация,
-  якоря (service-rules-revision)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (14 `M` + 4 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-rules-revision-w2** (служебная волна, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «сервисная сессия · 01.10.2026 · подтверждение пакета (гейт)»; снимок
-  15 `M` + 2 `??` (лента, отчёт приёмки — новые) = ровно пакет + мой чекпойнт = 17;
-  `HEAD` `52d8989` = база `origin/develop`. К коммиту — 17 путей (`./`-префикс,
-  без `--`), сообщение
-  `docs(Q80/D84): волна 2 канона агентов — якорь R5, чистка agents/**
-  (service-rules-revision-w2)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (15 `M` + 2 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **01.10.2026, service-rules-revision-w2 (P3, закрытие)** (служебная волна,
-  режим «коммит + push» в `develop`, затем merge `develop` → `master` + push —
-  санкция владельца): подтверждение сверено по записи ленты «сервисная сессия ·
-  01.10.2026 · подтверждение пакета (гейт) — коммит + push + merge в master»;
-  снимок 9 `M` + 1 `??` (отчёт приёмки — новый) = ровно пакет + мой чекпойнт = 10;
-  `HEAD` `c8ffb0f` = база `origin/develop`; `master` @ `9173fc4` — предок, конфликтов
-  нет. К коммиту — 10 путей (`./`-префикс, без `--`), сообщение
-  `docs(Q80/D84): канон ролей — «см.» в ссылках на R2 (P3,
-  service-rules-revision-w2)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (9 `M` + 1 `A`) → `commit` → `push origin develop` →
-  `switch master` → `merge --no-ff develop` → `push origin master`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **02.10.2026, service-question-kodaskills** (служебная волна, режим «коммит + push»
-  прямо в `develop`, санкция владельца): подтверждение сверено по записи ленты
-  «lead · 2026-10-02 · гейт пройден (surface_to_user)» («Коммит + push develop
-  (Recommended)»); снимок до записей 8 `M` + 3 `??` = ровно пакет (лента, Q81,
-  отчёт приёмки — новые) + мой чекпойнт = 12 (9 `M` + 3 `A`); `HEAD` `c2f905f` =
-  база `origin/develop` (`## develop...origin/develop`). К коммиту — 12 путей
-  (`./`-префикс, без `--`), сообщение
-  `docs(Q81): вопрос об изучении внешнего материала KodaSkills
-  (service-question-kodaskills)`. Хеши — в ответе `lead` (не здесь). Осталось:
-  `add` → сверка staged (9 `M` + 3 `A`) → `commit` → `push origin develop`.
-  Примечание: после `push` в отслеживаемые файлы не писать (F43).
-- **02.10.2026, T-18 branch_start** (`feature/T-18-docs-journal-test`, режим
-  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
-  `.opencode/mail/T-18.md` — «lead · 2026-10-02 · гейт ветки пройден
-  (surface_to_user)», ответ владельца «Создать ветку + push (Recommended)»;
-  база `HEAD` `5786875` = `origin/develop` (`## develop...origin/develop`).
-  Снимок дерева (не трогается): 4 `M` (mail/service-question-kodaskills,
-  state/current_state, state/next_action, state/progress) + 2 `??`
-  (mail/T-18.md, docs/analysis/T-18-2026-10-02.md) — остаются в дереве, их
-  подхватит пакет branch_end. Осталось: `switch -c
-  feature/T-18-docs-journal-test develop` → `push -u origin
-  feature/T-18-docs-journal-test`. `--force`/`reset --hard`/`rebase`/удаление
-  веток запрещены; база не совпала бы — стоп и возврат `lead` (re-plan).
-- **02.10.2026, T-21 branch_start** (`feature/T-21-mcp-test-struct-api`, режим
-  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
-  `.opencode/mail/T-18.md` — «lead · 2026-10-02 · гейт T-21 пройден
-  (surface_to_user)», ответ владельца «Ветка + порядок (Recommended)»; база
-  `HEAD` `5786875` = `origin/develop` (`## develop...origin/develop`).
-  Рабочее дерево — незакоммиченные пути T-18 в ветке
-  `feature/T-18-docs-journal-test`; не коммитить, не сбрасывать (пакет
-  branch_end T-18). Осталось: `switch -c
-  feature/T-21-mcp-test-struct-api develop` → `push -u origin
-  feature/T-21-mcp-test-struct-api`. `--force`/`reset --hard`/`rebase`/удаление
-  веток запрещены; база не совпала бы — стоп и возврат `lead` (re-plan).
-- **02.10.2026, T-22 branch_start** (`feature/T-22-mcp-draft-test-fix`, режим
-  «создать ветку + push», коммитов нет): подтверждение сверено по ленте
-  `.opencode/mail/T-18.md` (строки 171–177) — «lead · 2026-10-02 · гейт T-22
-  пройден (surface_to_user)», ответ владельца «Ветка T-22 + порядок
-  (Recommended)»; база `HEAD` `5786875` = `origin/develop` (обе сверены
-  `rev-parse`). Текущая ветка — `feature/T-21-mcp-test-struct-api` на `5786875`;
-  дерево смешанное (23 `M` + 10 `??`; незакоммиченные пути T-18/T-21) — рабочие
-  пути не трогать, не коммитить, не сбрасывать. Осталось: `switch -c
-  feature/T-22-mcp-draft-test-fix develop` → `push -u origin
-  feature/T-22-mcp-draft-test-fix` → отчёт в ленту T-22 (открыть) + дописать
-  чекпойнт. `--force`/`reset --hard`/`rebase`/удаление веток запрещены;
-  `develop` не трогать; база не совпала бы — стоп и возврат `lead` (re-plan).
-  **ГОТОВО:** ветка создана от `5786875` и опубликована
-  (`push -u origin feature/T-22-mcp-draft-test-fix`, `* [new branch]`, upstream
-  установлен); коммитов нет; `develop` не тронут; рабочее дерево сохранено
-  (23 `M` + 10 `??`); отчёт в ленте `T-22.md`.
-- **02.10.2026, T-21/T-18/T-22 closeout + master** (три feature-ветки на
-  `5786875` = `develop` = `origin/develop`, коммитов нет; порядок T-21 → T-18 →
-  T-22; режим «commit + merge --no-ff + push + delete branch», финал — merge
-  develop → master). Подтверждение сверено по ленте `.opencode/mail/T-21.md` —
-  «lead · 2026-10-02 · гейт пройден (surface_to_user) — 3 пакета + master»,
-  ответ владельца «Подтверждаю: 3 пакета + master (Recommended)» (и одноимённая
-  запись в `.opencode/mail/T-18.md`). Составы пакетов (add_paths) — в записи
-  гейта: T-21 = 16 путей, T-18 = 27 путей, T-22 = 6 путей; общие файлы
-  (`docs/tasks/README.md`, `docs/CHANGELOG.md`, `state/current/progress.yaml`,
-  `receipts.yaml`, `memory/tester.md`) фиксируются первым коммитом (T-21), при
-  поздних switch откатываются к базе и в staged не появляются — штатно (F43).
-  Снимок 42 пути (27 `M` + 15 `??`) покрыт union'ом. К коммитам — точные пути
-  пакетов (`./`-префикс, без `--`), сообщения:
-  `code(T-21): struct-API ToolError в unit-тестах src/mcp.rs`,
-  `code(T-18): тест целостности журнала tests/docs_journal.rs`,
-  `code(T-22): снятие ошибок компиляции tests/mcp_draft.rs`. Записи роли git
-  (этот чекпойнт + отчёт в ленту T-21) — один раз до первого `add` (F43).
-  Осталось: T-21 add→staged-сверка→commit→switch develop→pull→merge --no-ff→push
-  develop→delete branch (local+origin); то же T-18, T-22; затем `switch master` →
-  `pull origin master` → `merge --no-ff develop` → `push origin master` → `switch
-  develop`. Хеши — в ответе `lead` (не здесь). После финального push в
-  отслеживаемые файлы не писать.
-- **02.10.2026, T-23 closeout** (вариант Б — коммит прямо в `develop`, ветки
-  нет; затем merge develop → master). Подтверждение сверено по записи ленты
-  `.opencode/mail/service-traceability-closeout.md` — «lead · 2026-10-02 · гейт
-  пакета пройден (surface_to_user)», ответ владельца «Подтверждаю: коммит +
-  develop + master (Recommended)». База: `develop` = `origin/develop` = `71ece40`;
-  `master` = `origin/master` = `c6ebc41`; дерево — снимок 13 путей (10 `M` + 3
-  `??`). К коммиту — 14 путей (13 пакета + этот чекпойнт, F43):
-  `docs/TRACEABILITY.md`, `docs/analysis/findings-registry.md`,
-  `docs/analysis/T-23-2026-10-02.md`, `docs/reviews/T-23-2026-10-02.md`,
-  `.opencode/mail/service-traceability-closeout.md`, `.opencode/mail/T-18.md`,
-  `.opencode/state/current/{progress,next_action,current_state,receipts}.yaml`,
-  `.opencode/memory/{migrator,validator,auditor}.md`, `.opencode/memory/git.md`.
-  Сообщение: `docs(T-23): синхронизация TRACEABILITY (статусы T-18/T-21/T-22,
-  жизненный цикл Q60/Q73/Q76) + F57`. Осталось: `add` 14 путей (`./`-префикс,
-  без `--`) → `diff --cached --name-status` (11 `M` + 3 `A`) → `commit` →
-  `push origin develop` → `switch master` → `pull origin master` → `merge --no-ff
-  develop` → `push origin master` → `switch develop`. Хеши — в ответе `lead`
-  (не здесь). После push в отслеживаемые файлы не писать (F43).
-- **02.10.2026, service-t15-run-review** (служебная волна, режим «коммит + push»
-  прямо в `develop`, затем merge develop → master). Подтверждение сверено по
-  ленте `.opencode/mail/service-t15-run-review.md` — §«гейт пакета пройден»
-  (:85–88), ответ владельца «Коммит + develop + master (Recommended)» (дубль —
-  `progress.yaml` :879). База: `develop` = `origin/develop` = `98f7225`;
-  `master` = `origin/master` = `e696e77`; дерево — снимок 11 `M` + 8 `??` = 19
-  путей, ровно пакет. К коммиту — 20 путей (19 пакета + этот чекпойнт, F43):
-  `docs/TRACEABILITY.md`, `docs/analysis/findings-registry.md`,
-  `docs/tasks/README.md`, `docs/tasks/T-15-mcp-ready-process/README.md`,
-  `.opencode/memory/{service,migrator,auditor,validator,git}.md`,
-  `.opencode/state/current/{progress,receipts}.yaml`,
-  `.opencode/mail/{service-traceability-closeout,service-t15-run-review}.md`,
-  `docs/analysis/T-15-run-2026-10-02-{build,analyst,tester,migrator,validator,git}-session.md`,
-  `docs/reviews/service-t15-run-review-2026-10-02.md`. Сообщение:
-  `docs(T-15): разбор прогона 02.10 (B1: F26/F27/F15), F58–F61, статусы T-15
-  (service-t15-run-review)`. Осталось: `add` 20 путей (`./`-префикс, без `--`) →
-  `diff --cached --name-status` (12 `M` + 8 `A`) → `commit` → `push origin develop`
-  → `switch master` → `pull origin master` → `merge --no-ff develop` →
-  `push origin master` → `switch develop`. Хеши — в ответе `lead` (не здесь).
-  После push в отслеживаемые файлы не писать (F43).
+- **03.10.2026, сервисный пакет r20 (T-27 — реестр находок: переезд в
+  `docs/registry/` и раскол, Q95/D98)** — лента `service-mcp-ready-r20`: база
+  `develop` = `origin/develop` = `HEAD` = `0e5a158` (`git log -1 --oneline`,
+  r19-коммит); ветки нет (сервисная операция, коммит в `develop`).
+  Подтверждение владельца — лента, секция «пакет r20 — гейт владельца»
+  (`:84-87`): «**„Подтверждаю пакет“** (03.10.2026)», запись владельца, до
+  вызова `git`; первичная проверка не нашла строку — при resume дозаписана перед
+  «Следующее действие», сверена. Снимок `git status --porcelain` = 8 `M` + 5 `??`
+  = 13 + запись роли `git` (F43) → ожидание staged: 9 M + 5 A. В пакете указан
+  `.opencode/memory/service.md`, но рабочее дерево по нему чистое (как в r19) —
+  `add` no-op, в staged не появится. Вне пакета — `.credo/sandbox.json`
+  (git-ignored, не добавлять). Чекпойнт и отчёт в ленту — до `add` (F43).
+  Осталось: `add` точными путями (15) → `diff --cached --check` (пусто) →
+  `diff --cached --name-status` (ожидание 9 M + 5 A; service.md не появится) →
+  коммит `docs(process): T-27 — реестр находок: переезд в docs/registry/ и раскол
+  (Q95/D98); приёмка` → `push origin develop` (таймаут ≥ 5 мин). Ветки не
+  создаются/не удаляются, `master` не трогается; после `push` в отслеживаемые
+  файлы не писать (хеши — в ответе `lead`).
+- **03.10.2026, сервисный пакет r19 (T-15, C8 — развязка кандидатов B0, Q94/D97)** —
+  лента `service-mcp-ready-r19`: база `develop` = `origin/develop` = `HEAD` =
+  `8b21865` (`git log --oneline -3`, r18-коммит); ветки нет (сервисная операция,
+  коммит в `develop`). Подтверждение владельца — лента, секция «закрытие — готово;
+  пакет r19 — гейт владельца» (`:90-94`, «Подтверждаю пакет» (03.10.2026), запись
+  владельца, до вызова `git`). **Снимок `git status --porcelain` = 10 `M` + 4 `??`
+  = 14** (не 12 M): `.opencode/memory/service.md` — без изменений (в пакете
+  указан, но рабочее дерево чистое; `add` — no-op), запись роли `git` (F43)
+  допиcана → ожидание staged: 11 M + 4 A. Вне пакета — `.credo/sandbox.json`
+  (чист; не добавлять). Чекпойнт и отчёт в ленту — до `add` (F43). Осталось:
+  `add` точными путями (16) → `diff --cached --check` (пусто) →
+  `diff --cached --name-status` (ожидание 11 M + 4 A; service.md не появится) →
+  коммит `docs(process): T-15 r19 — C8: развязка кандидатов B0 (Q94/D97); приёмка`
+  → `push origin develop` (таймаут ≥ 5 мин). Ветки не создаются/не удаляются,
+  `master` не трогается; после `push` в отслеживаемые файлы не писать (хеши — в
+  ответе `lead`).
+- **03.10.2026, сервисный пакет r18 (T-15, C6 — метрики из состояния, D96/Q93)** —
+  лента `service-mcp-ready-r18`: база `develop` = `origin/develop` = `HEAD` =
+  `2b467f5` (`git log -1 --oneline`); ветки нет (сервисная операция, коммит в
+  `develop`). Подтверждение владельца — лента, секция «закрытие — готово; пакет
+  r18 — гейт владельца», `:137-140` («Подтверждаю пакет» (03.10.2026), запись
+  владельца, до вызова `git`). Снимок совпал с пакетом — 17 `M` + 6 `??` = 23 +
+  запись роли `git` (F43) = 24 (ожидание staged: 18 M + 6 A). Вне пакета —
+  `.credo/sandbox.json` (продуктовые данные; не добавлять). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: `add` точными путями (24) → `diff --cached
+  --check` (пусто) → `diff --cached --name-status` (ожидание 18 M + 6 A) → коммит
+  `chore(process): T-15 r18 — C6: метрики из состояния (state-metrics.mjs, D96);
+  приёмка` → `push origin develop` (таймаут ≥ 5 мин). Ветки не создаются/не
+  удаляются, `master` не трогается; после `push` в отслеживаемые файлы не писать
+  (хеши — в ответе `lead`).
+- **03.10.2026, сервисный пакет r17 (T-15 → T-26, фаза E — дизайн process-MCP,
+  Q92/D95)** — лента `service-mcp-ready-r17`: база `develop` = `origin/develop` =
+  `HEAD` = `67ca43d` (`git log --oneline -3`); ветки нет (сервисная операция,
+  коммит в `develop`). Подтверждение владельца — лента, секция «пакет r17 — гейт
+  владельца» (:86, запись владельца/`lead`, до вызова `git`). Снимок совпал с
+  пакетом — 10 `M` + 5 `??` = 15 + запись роли `git` (F43) = 16 (ожидание staged:
+  11 M + 5 A). Вне пакета — нет (`.credo/sandbox.json` чист). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: `add` точными путями (16) → `diff --cached
+  --check` (пусто) → `diff --cached --name-status` (ожидание 11 M + 5 A) → коммит
+  `docs(process): T-26 — фаза E: дизайн process-MCP (Q92/D95); приёмка` →
+  `push origin develop` (таймаут ≥ 5 мин). Ветки не создаются/не удаляются,
+  `master` не трогается; после `push` в отслеживаемые файлы не писать (хеши — в
+  ответе `lead`).
+- **03.10.2026, сервисный пакет r16 (T-15, C11 — профиль-флаг B2, D94/Q91)** —
+  лента `service-mcp-ready-r16`: база `develop` = `origin/develop` = `HEAD` =
+  `92bf91c` (`git log --oneline -3`); ветки нет (сервисная операция, коммит в
+  `develop`). Подтверждение владельца — лента, секция «закрытие — готово; пакет
+  r16 — гейт владельца» (:85, запись владельца/`lead`, до вызова `git`). Снимок
+  совпал с пакетом — 12 `M` + 5 `??` = 17 + запись роли `git` (F43) = 18
+  (ожидание staged: 13 M + 5 A). Вне пакета — `.credo/sandbox.json` (продуктовые
+  данные; не добавлять). Чекпойнт и отчёт в ленту — до `add` (F43). Осталось:
+  `add` точными путями (18) → `diff --cached --check` (пусто) →
+  `diff --cached --name-status` (ожидание 13 M + 5 A) → коммит `chore(process):
+  T-15 r16 — C11: профиль-флаг B2 (off/codemode/mcp), тест профилей (D94);
+  приёмка` → `push origin develop` (таймаут ≥ 5 мин). Ветки не создаются/не
+  удаляются, `master` не трогается; после `push` в отслеживаемые файлы не
+  писать (хеши — в ответе `lead`).
+- **03.10.2026, сервисный пакет r15 (T-15, C3/C4 — session-commit, D93)** —
+  лента `service-mcp-ready-r15`: база `develop` = `origin/develop` = `HEAD` =
+  `f58e27c` (`git log -1 --oneline`); ветки нет (сервисная операция, коммит в
+  `develop`). Подтверждение владельца — лента, секция «закрытие — готово; пакет
+  r15 — гейт владельца» (:115, запись `lead`, до вызова `git`). Снимок совпал с
+  пакетом — 20 `M` + 5 `??` = 25 + запись роли `git` (F43) = 26 (ожидание staged:
+  21 M + 5 A). Вне пакета — `.credo/sandbox.json` (чист). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: `add` точными путями (26) → `diff --cached
+  --check` (пусто) → `diff --cached --name-status` (ожидание 21 M + 5 A) →
+  коммит `chore(process): T-15 r15 — session-commit: ветка сессии, теги,
+  снапшот, фасад /git/checkpoint (C3/C4; D93); приёмка` → `push origin develop`
+  (таймаут ≥ 5 мин). Ветки не создаются/не удаляются, `master` не трогается;
+  после `push` в отслеживаемые файлы не писать (хеши — в ответе `lead`).
+- **03.10.2026, сервисный пакет r14 (T-15, C17 — предикат зачётного прогона,
+  D92)** — лента `service-mcp-ready-r14`: база `develop` = `origin/develop` =
+  `HEAD` = `eeac481` (`git log -1 --oneline`); ветки нет. Подтверждение
+  владельца — лента, секция «сервисная сессия · пакет r14 — гейт владельца»
+  (запись `lead`/владельца, до вызова `git`). Снимок совпал с пакетом —
+  12 `M` + 4 `??` = 16 + запись роли `git` (F43) = 17 (ожидание staged:
+  13 M + 4 A). Вне пакета — `.credo/sandbox.json` (F83). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: `add` точными путями (17) → `diff --cached
+  --check` (пусто) → `diff --cached --name-status` (ожидание 13 M + 4 A) →
+  коммит `chore(process): T-15 r14 — предикат «зачётного прогона»
+  (state-schema; D92); приёмка` → `push origin develop` (таймаут ≥ 5 мин).
+  Ветки не создаются/не удаляются, `master` не трогается; после `push` в
+  отслеживаемые файлы не писать (хеши — в ответе `lead`).
+- **03.10.2026, сервисный пакет r12 (T-15, C5+C7, D90)** — лента
+  `service-mcp-ready-r12`: база `develop` = `origin/develop` = `HEAD` = `6cd75cf`
+  (`git log -1 --oneline`); ветки нет. Подтверждение владельца — лента, секция
+  «гейт пакета — подтверждён» (`owner_response` дословно «Коммит + push develop
+  (Recommended)»). Снимок совпал с пакетом — 17 `M` + 5 `??` = 22 + запись роли
+  `git` (F43) = 23 (ожидание staged: 18 M + 5 A). Чекпойнт и отчёт в ленту — до
+  `add` (F43). Осталось: `add` точными путями (23) → `diff --cached
+  --name-status` (ожидание 18 M + 5 A) → коммит `chore(process): T-15 r12 —
+  C5/C7 (re-raise, самоотчёт/фичи; D90); приёмка` → `push origin develop`. Ветки
+  не создаются/не удаляются, `master` не трогается; после `push` в отслеживаемые
+  файлы не писать (хеш — в ответе `lead`).
+- **03.10.2026, сервисный пакет r11 (T-15, P1+P2+P3, D89)** — лента
+  `service-mcp-ready-r11`: база `develop` = `origin/develop` = `HEAD` = `e826157`
+  (`git log -1 --oneline`); ветки нет. Подтверждение владельца — лента, секция
+  «гейт пакета — подтверждён» (`owner_response` дословно «Коммит + push develop
+  (Recommended)»). Снимок совпал с пакетом — 18 `M` + 5 `??` = 23 + запись роли
+  `git` (F43) = 24 (ожидание staged: 19 M + 5 A). Чекпойнт и отчёт в ленту — до
+  `add` (F43). Осталось: `add` точными путями (24) → `diff --cached
+  --name-status` (ожидание 19 M + 5 A) → коммит `chore(process): T-15 r11 —
+  P1/P2/P3 (ветки дочерних задач, заморозка, session-commit; D89); приёмка` →
+  `push origin develop`. Ветки не создаются/не удаляются, `master` не трогается;
+  после `push` в отслеживаемые файлы не писать (хеш — в ответе `lead`).
+- **02.10.2026, branch_end совмещённого пакета T-16+T-25** (лента `T-25.md`,
+  пакет 32 пути): ветка `feature/T-25-d65-analysis-addresses` = origin = `HEAD`
+  = `develop` = `origin/develop` = `2958bf5` (0 коммитов); `master` =
+  `origin/master` = `46b98c2`. Подтверждение владельца — `progress.yaml`
+  (02.10, T-16, iteration 2, `session_index: 4`, `surface_to_user`), дословно
+  «Совмещённый пакет, 2 коммита (Recommended)». Снимок `git status --porcelain`
+  = 34 пути (25 M + 9 ??), `add_paths` 32 = 34 − 2 чужих сервисных
+  (`mail/service-mcp-ready-r10.md`, `memory/service.md`). Чекпойнт и отчёт в
+  ленту — до `add` (F43). Осталось: продуктовый `add` (19) → коммит `code(T-16,
+  T-25): stale-тест по тексту файла + снятие D65-адресов (Q12/D54, Q61/D65)` →
+  процессный `add` (14) → коммит `chore(process): записи прогона T-16/T-25` →
+  `switch develop` → `pull origin develop` → `merge --no-ff` → `push origin
+  develop` → удаление обеих веток (local + origin; CCSN на remote — владелец
+  вручную, D87). `master` не трогается; после `push` в отслеживаемые файлы не
+  писать.
+- **02.10.2026, branch_start T-25** (лента `T-25.md`, действие плана
+  `branch_start`; класс S, цикл T-25-first — разблокировка чистого пакета T-16,
+  F43): база `develop` = `origin/develop` = `HEAD` = `2958bf5` (проверено
+  `git rev-parse develop origin/develop HEAD`); `master` = `origin/master` =
+  `46b98c2`. Ветки `feature/T-25-d65-analysis-addresses` нет локально и на
+  origin (`git ls-remote --heads` пусто). Подтверждение владельца — лента
+  `T-25.md` + `progress.yaml` (02.10, T-25, iteration 1, `session_index: 4`,
+  `surface_to_user`, `owner_response` дословно «Подтверждаю ветку и порядок
+  (Recommended)»). Дерево (24 M + 6 ?? = 30 путей): M git-независимые — пакет
+  T-16 (`src/lib.rs`, `src/mcp.rs`, `tests/mcp_draft.rs`, `docs/CHANGELOG.md`,
+  `docs/TRACEABILITY.md`, `docs/tasks/README.md`,
+  `docs/tasks/T-16-stale-check-test/README.md`, `docs/analysis/findings-registry.md`,
+  `docs/decisions/D87…`, `docs/decisions/D88…`, `docs/questions/Q84.md`,
+  `docs/questions/Q85.md`, `docs/reviews/T-16-*` (untracked), `docs/analysis/T-16-*`,
+  `mail/T-16.md`), state/memory сервисные M + `mail/service-mcp-ready-r10.md`,
+  S-файлы T-25 (`docs/tasks/T-25-d65-analysis-addresses/` untracked) — переносятся
+  в ветку как есть, не коммитятся. Чекпойнт и отчёт в ленту — до операции
+  (F43-паттерн). Осталось: `switch develop` → `pull origin develop` → `switch -c
+  feature/T-25-d65-analysis-addresses develop` → `push -u origin
+  feature/T-25-d65-analysis-addresses`. `master` не трогается; коммитов нет.
+- **02.10.2026, сервисный пакет r10 (T-15, C9/C12, D88)** — лента
+  `service-mcp-ready-r10`: база `develop` = `origin/develop` = `HEAD` = `af53e23`
+  (проверено `git log -1 --oneline`); ветки нет. Подтверждение владельца —
+  лента, секция «гейт пакета — подтверждён» (`owner_response` дословно «Коммит +
+  push develop (Recommended)»). Снимок совпал с пакетом — 15 `M` + 4 `??` = 19
+  + запись роли `git` (F43) = 20 (ожидание staged: 16 M + 4 A). Чекпойнт и
+  отчёт в ленту — до `add` (F43). Осталось: `add` точными путями (20) →
+  `diff --cached --name-status` (ожидание 16 M + 4 A) → коммит `chore(process):
+  T-15 r10 — C9/C12 (лимит lead 24, записи, re-plan; D88); приёмка` →
+  `push origin develop`. Ветки не создаются, `master` не трогается; после
+  `push` в отслеживаемые файлы не писать (хеш — в ответе `lead`).
+- **02.10.2026, сервисный пакет r9 (T-15, правки S-пилота T-24)** — лента
+  `service-mcp-ready-r9`: база `develop` = `origin/develop` = `HEAD` = `6c28e51`
+  (проверено `git log -1 --oneline`); ветки нет. Подтверждение владельца —
+  лента, секция «гейт пакета — подтверждён» (`owner_response` дословно «Коммит +
+  push develop (Recommended)»). Снимок совпал с пакетом — 23 `M` + 5 `??` = 28
+  + запись роли `git` (F43) = 29 (ожидание staged: 24 M + 5 A). Чекпойнт и
+  отчёт в ленту — до `add` (F43). Осталось: `add` точными путями (29) →
+  `diff --cached --name-status` (ожидание 24 M + 5 A) → коммит `chore(process):
+  T-15 r9 — правки по S-пилоту T-24 (права/CCSN/state/модель, D87); приёмка` →
+  `push origin develop`. Ветки не создаются, `master` не трогается; после
+  `push` в отслеживаемые файлы не писать (хеш — в ответе `lead`).
+- **02.10.2026, branch_end T-24** (лента `T-24.md`, пакет 20 путей): ветка
+  `feature/T-24-rest-cli-contour-test` = origin (коммитов нет); база develop =
+  origin/develop = `caac10d`. Подтверждение владельца — лента §«гейт пакета —
+  подтверждён» (дословно «Подтверждаю пакет (Recommended)»; `progress.yaml`).
+  Снимок совпал с `package.add_paths` — 15 `M` + 5 `??` = 20 (5 ??:
+  `mail/T-24.md`, `docs/analysis/T-24-2026-10-02.md`,
+  `docs/reviews/T-24-2026-10-02.md`, `docs/reviews/T-24-2026-10-02-r2.md`,
+  `tests/rest_cli.rs`). Чекпойнт и отчёт в ленту — до `add` (F43). Осталось:
+  `add` точными путями (20) → staged-сверка (15 M + 5 A) → коммит «code(T-24):
+  интеграционный тест CLI-контура REST» → `switch develop` → `pull origin
+  develop` → merge `--no-ff` «Слияние feature/T-24-rest-cli-contour-test в
+  develop» → `push origin develop` → удаление ветки (local + origin). `master`
+  не трогается. Риск: `push origin --delete` под гардом CCSN — не обходить,
+  эскалировать (прецедент T-20).
+- **02.10.2026, branch_start T-24** (лента `T-24.md`, действие плана
+  `branch_start`; класс S): база `develop` = `origin/develop` = `HEAD` = `caac10d`
+  (проверено `git rev-parse develop origin/develop HEAD`). Подтверждение
+  владельца — лента `T-24.md`, секция «гейт ветки — подтверждён» (дословно
+  «Подтверждаю ветку и порядок (Recommended)»); продублировано в `progress.yaml`
+  (02.10, `owner_response`). Дерево: 3 M F43-подхвата T-20 (`mail/T-20.md`,
+  `memory/service.md`, `state/current/progress.yaml`) + 2 M записей плана
+  (`current_state.yaml`, `next_action.yaml`) + 2 ?? (`mail/T-24.md`,
+  `docs/analysis/T-24-2026-10-02.md`) — переносятся в ветку как есть, не
+  коммитятся. Чекпойнт и отчёт в ленту — до операции (F43-паттерн).
+  Осталось: `switch develop` → `pull origin develop` → `switch -c
+  feature/T-24-rest-cli-contour-test develop` → `push -u origin
+  feature/T-24-rest-cli-contour-test`. `master` не трогается; коммитов нет.
+- **02.10.2026, branch_end T-20** (лента `T-20.md`, пакет 20 путей): база
+  `develop` = `origin/develop` = `HEAD` = `d414998`; ветка
+  `feature/T-20-traceability-wave2`. Подтверждение владельца — лента, секция
+  «гейт пакета — подтверждён» (дословно «Коммит + merge в develop
+  (Recommended)»); порядок там же. Снимок совпал с пакетом — 14 `M` + 6 `??` =
+  20. Чекпойнт и отчёт в ленту — до `add` (F43). Осталось: `add` точными путями
+  (20) → `diff --cached --name-status` (ожидание 14 M + 6 A) → `commit` →
+  `switch develop` → `merge --no-ff` → `push origin develop` → удаление ветки
+  (origin + local). `master` не трогается; сообщение — `docs(T-20): волна 2
+  TRACEABILITY — разбор 26 open-строк (9 done, T-24, 16 open v0.2); приёмка`.
+- **02.10.2026, branch_start T-20** (лента `T-20.md`, действие плана
+  `branch_start`): база `develop` = `origin/develop` = `d414998` (C1); проверено
+  `rev-parse develop` = `rev-parse origin/develop`. Подтверждение владельца —
+  лента `T-20.md`, секция «гейт предложений — подтверждён» (дословно
+  «Подтверждаю расклад (Recommended)»), далее в той же секции — «dispatch git
+  (branch_start feature/T-20-traceability-wave2)». Дерево: незакоммиченные
+  рабочие пути T-20 (M service-mcp-ready-r8.md, M memory/analyst.md,
+  M memory/service.md, M state/current/{current_state,next_action,progress}.yaml,
+  ?? mail/T-20.md, ?? docs/analysis/T-20-2026-10-02.md) — переносятся в ветку
+  как есть, не коммитятся. Чекпойнт и отчёт в ленту — до операции (F43-паттерн).
+  Осталось: `switch -c feature/T-20-traceability-wave2 develop` →
+  `push -u origin feature/T-20-traceability-wave2`. `master` не трогается;
+  коммитов нет (`package.mode` — `branch_end`).
+- **02.10.2026, пакет C1 (T-15, фаза C, схема состояния)** — сервисная лента
+  `service-mcp-ready-r8`: база `develop` = `origin/develop` = `2f5544c`;
+  подтверждение владельца — лента, секция «гейт возобновлён — „коммить"»
+  (`owner_response` дословно «коммить»); снимок совпал — 14 `M` + 6 `??` +
+  запись роли `git` (F43) = 21. Чекпойнт и отчёт в ленту — до `add` (F43).
+  Осталось: `add` точными путями → `diff --cached --name-status` (ожидание
+  15 M + 6 A) → `commit` → `push origin develop`. Ветки не создаются, `master`
+  не трогается; сообщение — `chore(process): T-15 C1 — схема состояния
+  (state-schema.md, D86); приёмка`.
+- **02.10.2026, процессный пакет очистки логов** (сервисная операция T-15,
+  лента `service-mcp-ready-r8`): база `develop` = `origin/develop` = `c754c97`;
+  подтверждение владельца — лента, секция «гейт открытия» («отдельным
+  коммитом»); снимок `git status --porcelain` совпал с пакетом — 17 `D`
+  `.opencode/mail/` + 9 `M` `.opencode/memory/` (+ untracked лента r8, в пакет
+  не входит). Чекпойнт и отчёт в ленту — до `add` (F43). Осталось: `add`
+  точными путями → `diff --cached --name-status` (ожидание 17 D + 9 M) →
+  `commit` → `push origin develop`. Ветки не создаются, `master` не трогается;
+  сообщение — `chore(process): очистка логов (mail + memory)`.

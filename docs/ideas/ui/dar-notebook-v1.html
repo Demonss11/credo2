@@ -1,0 +1,3218 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREDO — DAR Notebook</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.0/index.css">
+<style>
+  /* ============ Design Tokens ============ */
+  :root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+    --tap: 44px;
+    --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --focus-ring: 0 0 0 2px var(--accent-500), 0 0 0 4px rgba(59, 130, 246, 0.3);
+  }
+
+  [data-theme="dark"] {
+    --bg-0: #0b0f17;
+    --bg-1: #111826;
+    --bg-2: #1a2232;
+    --bg-3: #232d40;
+    --bg-hover: rgba(255, 255, 255, 0.04);
+    --bg-active: rgba(59, 130, 246, 0.12);
+    --border: #2a3446;
+    --border-strong: #3a4660;
+    --text-0: #f3f4f6;
+    --text-1: #d1d5db;
+    --text-2: #9ca3af;
+    --text-3: #6b7280;
+    --text-muted: #4b5563;
+    --accent-500: #3b82f6;
+    --accent-600: #2563eb;
+    --accent-700: #1d4ed8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #06b6d4;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+    --cm-bg: #0b0f17;
+    --cm-gutter: #1a2232;
+    --cm-gutterText: #4b5563;
+    --cm-cursor: #3b82f6;
+    --cm-selection: rgba(59, 130, 246, 0.25);
+  }
+
+  [data-theme="light"] {
+    --bg-0: #ffffff;
+    --bg-1: #f8fafc;
+    --bg-2: #f1f5f9;
+    --bg-3: #e2e8f0;
+    --bg-hover: rgba(0, 0, 0, 0.03);
+    --bg-active: rgba(59, 130, 246, 0.08);
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text-0: #0f172a;
+    --text-1: #334155;
+    --text-2: #64748b;
+    --text-3: #94a3b8;
+    --text-muted: #cbd5e1;
+    --accent-500: #2563eb;
+    --accent-600: #1d4ed8;
+    --accent-700: #1e40af;
+    --success: #059669;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #0891b2;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+    --cm-bg: #ffffff;
+    --cm-gutter: #f1f5f9;
+    --cm-gutterText: #94a3b8;
+    --cm-cursor: #2563eb;
+    --cm-selection: rgba(37, 99, 235, 0.2);
+  }
+
+  /* ============ Base ============ */
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-0);
+    color: var(--text-0);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  button, input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-sm);
+  }
+
+  /* ============ Scrollbars ============ */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 5px;
+    border: 2px solid var(--bg-1);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+  * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+  /* ============ Layout ============ */
+  .app {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    height: 100vh;
+  }
+  .header {
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-3) var(--sp-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+  }
+  .header-left, .header-right { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+  .brand { display: flex; align-items: center; gap: var(--sp-2); min-width: 0; }
+  .brand-logo {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-700));
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .brand-logo svg { width: 18px; height: 18px; color: white; }
+  .brand-text h1 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+  .brand-text p { font-size: 11px; color: var(--text-2); margin: 0; }
+  .breadcrumbs { display: flex; align-items: center; gap: var(--sp-1); font-size: 13px; color: var(--text-2); }
+  .breadcrumbs span:hover { color: var(--accent-500); cursor: pointer; }
+  .breadcrumbs .current { color: var(--accent-500); font-weight: 500; }
+  .status-chip {
+    display: inline-flex; align-items: center; gap: var(--sp-2);
+    padding: 6px 10px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--text-1);
+  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); }
+
+  .mobile-nav {
+    display: flex;
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-nav button {
+    flex: 1;
+    padding: var(--sp-3);
+    min-height: var(--tap);
+    display: flex; align-items: center; justify-content: center; gap: var(--sp-2);
+    font-size: 12px; font-weight: 500;
+    color: var(--text-2);
+    border-bottom: 2px solid transparent;
+    transition: background var(--transition), color var(--transition);
+  }
+  .mobile-nav button[aria-selected="true"] {
+    color: var(--text-0);
+    border-bottom-color: var(--accent-500);
+  }
+  .mobile-nav button:hover { background: var(--bg-hover); }
+
+  .main {
+    display: grid;
+    grid-template-columns: 288px 1fr 400px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ============ Panels ============ */
+  .panel {
+    background: var(--bg-1);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+  }
+  .panel-left { border-right: 1px solid var(--border); }
+  .panel-right { border-left: 1px solid var(--border); }
+  .panel-center { background: var(--bg-0); }
+
+  .panel-section {
+    padding: var(--sp-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-section:last-child { border-bottom: none; }
+  .panel-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--sp-3);
+  }
+  .panel-section-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .scroll-area { flex: 1; overflow-y: auto; min-height: 0; }
+
+  /* ============ Buttons ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--sp-2);
+    padding: 8px 12px;
+    min-height: var(--tap);
+    border-radius: var(--radius-md);
+    font-size: 13px; font-weight: 500;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    position: relative;
+    white-space: nowrap;
+  }
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .btn-icon { padding: 8px; min-width: var(--tap); min-height: var(--tap); }
+  .btn-primary {
+    background: var(--accent-600);
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-700);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  }
+  .btn-secondary {
+    background: var(--bg-2);
+    color: var(--text-1);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover:not(:disabled) { background: var(--bg-3); }
+  .btn-ghost { color: var(--text-2); }
+  .btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-0); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-danger:hover:not(:disabled) { filter: brightness(1.1); }
+
+  /* ============ File list ============ */
+  .file-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition);
+    margin-bottom: 2px;
+    min-height: var(--tap);
+  }
+  .file-item:hover { background: var(--bg-hover); }
+  .file-item[aria-selected="true"] {
+    background: var(--bg-active);
+    border-left-color: var(--accent-500);
+  }
+  .file-item-main { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .file-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .file-icon svg { width: 16px; height: 16px; }
+  .file-meta { min-width: 0; flex: 1; }
+  .file-name { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .badge-draft { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+  .badge-published { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+  .badge-archived { background: rgba(107, 114, 128, 0.2); color: var(--text-2); }
+  .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--accent-500); }
+  .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+  /* ============ Versions ============ */
+  .version-item {
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    margin-bottom: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .version-item:hover { background: var(--bg-hover); }
+  .version-item.active {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.08), transparent);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  .version-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .version-tag { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+  .version-desc { font-size: 11px; color: var(--text-2); }
+
+  /* ============ Editor ============ */
+  .editor-header {
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-3) var(--sp-4);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--sp-3);
+  }
+  .editor-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: var(--sp-2); }
+  .editor-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .editor-toolbar { display: flex; align-items: center; gap: var(--sp-2); }
+  .toolbar-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+
+  .editor-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .cm-editor {
+    flex: 1;
+    height: 100%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--cm-bg);
+  }
+  .cm-editor .cm-scroller { overflow: auto; font-family: var(--font-mono); }
+  .cm-editor .cm-gutters {
+    background: var(--cm-gutter);
+    color: var(--cm-gutterText);
+    border-right: 1px solid var(--border);
+  }
+  .cm-editor .cm-activeLineGutter { background: var(--bg-hover); }
+  .cm-editor .cm-activeLine { background: var(--bg-hover); }
+  .cm-editor .cm-selectionBackground { background: var(--cm-selection) !important; }
+  .cm-editor .cm-cursor { border-left-color: var(--cm-cursor); }
+  .cm-editor.cm-focused { outline: none; }
+
+  /* DSL syntax tokens */
+  .tok-keyword { color: #c678dd; font-weight: 600; }
+  .tok-string { color: #98c379; }
+  .tok-number { color: #d19a66; }
+  .tok-comment { color: #5c6370; font-style: italic; }
+  .tok-operator { color: #56b6c2; }
+  .tok-field { color: #61afef; }
+  .tok-ident { color: #e5c07b; }
+  .tok-punctuation { color: #abb2bf; }
+  [data-theme="light"] .tok-keyword { color: #8250df; }
+  [data-theme="light"] .tok-string { color: #0a7d32; }
+  [data-theme="light"] .tok-number { color: #bc4d00; }
+  [data-theme="light"] .tok-comment { color: #6a737d; }
+  [data-theme="light"] .tok-operator { color: #0550ae; }
+  [data-theme="light"] .tok-field { color: #0550ae; }
+  [data-theme="light"] .tok-ident { color: #953800; }
+  [data-theme="light"] .tok-punctuation { color: #57606a; }
+
+  .status-bar {
+    background: var(--bg-1);
+    border-top: 1px solid var(--border);
+    padding: 6px var(--sp-4);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-2);
+  }
+  .status-bar-left, .status-bar-right { display: flex; align-items: center; gap: var(--sp-4); }
+  .status-indicator { display: flex; align-items: center; gap: 6px; }
+
+  /* ============ Results panel ============ */
+  .results-panel {
+    background: var(--bg-1);
+    border-top: 1px solid var(--border);
+    padding: var(--sp-4);
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--sp-3);
+  }
+  .results-title { display: flex; align-items: center; gap: var(--sp-3); }
+  .results-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .results-icon.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+  .results-icon.error { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+  .results-icon svg { width: 20px; height: 20px; }
+
+  .result-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--success);
+    border-radius: var(--radius-md);
+    padding: var(--sp-4);
+  }
+  .result-card.error { border-left-color: var(--danger); }
+  .result-row {
+    display: flex; align-items: center; gap: var(--sp-3);
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .result-label { color: var(--text-2); min-width: 160px; flex-shrink: 0; }
+  .result-value { font-family: var(--font-mono); color: var(--text-0); }
+  .result-value.decision-approve { color: var(--success); font-weight: 600; }
+  .result-value.decision-reject { color: var(--danger); font-weight: 600; }
+
+  .trace-list {
+    margin-top: var(--sp-3);
+    padding: var(--sp-3);
+    background: var(--bg-0);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .trace-item { padding: 4px 0; color: var(--text-1); }
+  .trace-item.pass { color: var(--success); }
+  .trace-item.fail { color: var(--danger); }
+  .trace-item.skip { color: var(--text-3); }
+  .trace-item::before {
+    content: '→';
+    margin-right: 8px;
+    color: var(--text-3);
+  }
+
+  /* ============ Chat ============ */
+  .chat-header {
+    background: linear-gradient(90deg, var(--bg-2), var(--bg-1));
+    padding: var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chat-user { display: flex; align-items: center; gap: var(--sp-3); }
+  .chat-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-700));
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .chat-avatar svg { width: 22px; height: 22px; color: white; }
+  .chat-avatar-status {
+    position: absolute; bottom: 0; right: 0;
+    width: 12px; height: 12px;
+    background: var(--success);
+    border: 2px solid var(--bg-1);
+    border-radius: 50%;
+  }
+  .chat-name { font-weight: 600; font-size: 14px; }
+  .chat-status { font-size: 11px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .msg { display: flex; gap: 10px; animation: fadeIn 0.25s ease-out; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-700));
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .msg-avatar svg { width: 16px; height: 16px; color: white; }
+  .msg-bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: var(--shadow-sm);
+  }
+  .msg.ai .msg-bubble {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-top-left-radius: 4px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--accent-600);
+    color: white;
+    border-top-right-radius: 4px;
+  }
+  .msg-time { font-size: 10px; color: var(--text-3); margin-top: 4px; }
+  .msg.user .msg-time { text-align: right; color: rgba(255,255,255,0.7); }
+  .msg-code {
+    background: var(--bg-0);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    margin: 8px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .msg-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .msg-action {
+    padding: 4px 10px;
+    background: var(--bg-3);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--text-1);
+    transition: background var(--transition);
+  }
+  .msg-action:hover { background: var(--border-strong); }
+
+  .typing-indicator { display: flex; gap: 4px; padding: 8px 0; }
+  .typing-dot {
+    width: 6px; height: 6px;
+    background: var(--text-3);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  .chat-input-area {
+    padding: var(--sp-3) var(--sp-4);
+    border-top: 1px solid var(--border);
+    background: var(--bg-1);
+  }
+  .chat-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .chat-input {
+    flex: 1;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    min-height: var(--tap);
+    transition: border-color var(--transition);
+  }
+  .chat-input:focus { outline: none; border-color: var(--accent-500); box-shadow: var(--focus-ring); }
+  .chat-quick-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* ============ Modal ============ */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    padding: var(--sp-4);
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-5);
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.25s ease-out;
+  }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--sp-4);
+  }
+  .modal-title-wrap { display: flex; align-items: center; gap: var(--sp-3); }
+  .modal-icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--accent-500);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-icon svg { width: 22px; height: 22px; }
+  .modal-title { font-size: 16px; font-weight: 600; margin: 0; }
+  .modal-sub { font-size: 11px; color: var(--text-2); margin: 0; }
+
+  .form-group { margin-bottom: var(--sp-4); }
+  .form-label { display: block; font-size: 13px; color: var(--text-1); margin-bottom: 6px; font-weight: 500; }
+  .form-textarea {
+    width: 100%;
+    background: var(--bg-0);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    min-height: 160px;
+    resize: vertical;
+    transition: border-color var(--transition);
+  }
+  .form-textarea:focus { outline: none; border-color: var(--accent-500); box-shadow: var(--focus-ring); }
+  .form-textarea.invalid { border-color: var(--danger); }
+  .form-error {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--danger);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .form-error svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .form-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+  .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .modal-actions .btn { flex: 1; min-width: 120px; }
+
+  /* ============ Empty state ============ */
+  .empty-state {
+    padding: var(--sp-6);
+    text-align: center;
+    color: var(--text-3);
+  }
+  .empty-state-icon {
+    width: 48px; height: 48px;
+    margin: 0 auto var(--sp-3);
+    color: var(--text-3);
+    opacity: 0.5;
+  }
+  .empty-state-title { font-size: 14px; font-weight: 500; color: var(--text-2); margin-bottom: 4px; }
+  .empty-state-text { font-size: 12px; }
+
+  /* ============ Toast ============ */
+  .toast-container {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .toast {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-500);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    min-width: 260px;
+    max-width: 380px;
+    box-shadow: var(--shadow-md);
+    display: flex; align-items: flex-start; gap: 10px;
+    animation: slideInRight 0.3s ease-out;
+    pointer-events: auto;
+  }
+  .toast.success { border-left-color: var(--success); }
+  .toast.error { border-left-color: var(--danger); }
+  .toast.warning { border-left-color: var(--warning); }
+  .toast-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+  .toast-content { flex: 1; font-size: 13px; }
+  .toast-title { font-weight: 600; margin-bottom: 2px; }
+  .toast-message { color: var(--text-2); font-size: 12px; }
+
+  /* ============ Diff ============ */
+  .diff-view {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg-0);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-top: var(--sp-3);
+  }
+  .diff-line {
+    padding: 2px 12px;
+    white-space: pre;
+    display: flex;
+    gap: 12px;
+  }
+  .diff-line-num { color: var(--text-3); min-width: 24px; text-align: right; user-select: none; }
+  .diff-line.added { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+  .diff-line.removed { background: rgba(239, 68, 68, 0.1); color: var(--danger); text-decoration: line-through; }
+  .diff-line.ctx { color: var(--text-2); }
+
+  /* ============ Animations ============ */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ============ Responsive ============ */
+  @media (max-width: 1023px) {
+    .main { grid-template-columns: 1fr; }
+    .panel-left, .panel-right { display: none; }
+    .panel-left.visible, .panel-right.visible { display: flex; }
+    .panel-center.hidden-mobile { display: none; }
+    .breadcrumbs { display: none; }
+  }
+  @media (min-width: 1024px) {
+    .mobile-nav { display: none; }
+  }
+
+  /* ============ Dev panel ============ */
+  .dev-panel {
+    position: fixed;
+    bottom: 20px; left: 20px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    z-index: 50;
+    display: flex;
+    gap: 6px;
+    box-shadow: var(--shadow-md);
+    font-size: 11px;
+  }
+  .dev-panel button {
+    padding: 4px 10px;
+    background: var(--bg-3);
+    border-radius: var(--radius-sm);
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .dev-panel button:hover { background: var(--border-strong); }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div class="toast-container" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script type="module">
+import {EditorView, basicSetup} from 'https://esm.sh/codemirror@6.0.1';
+import {EditorState} from 'https://esm.sh/@codemirror/state@6.4.1';
+import {keymap} from 'https://esm.sh/@codemirror/view@6.26.0';
+import {undo as cmUndo, redo as cmRedo, defaultKeymap, indentWithTab, history, historyKeymap} from 'https://esm.sh/@codemirror/commands@6.3.3';
+import {StreamLanguage} from 'https://esm.sh/@codemirror/language@6.10.1';
+
+/* ============================================================
+ *  MODULE: Config
+ * ============================================================ */
+const Config = Object.freeze({
+  STORAGE_KEY: 'credo:v1',
+  DEFAULT_LOCALE: 'ru',
+  DEFAULT_THEME: 'dark',
+  AI_RESPONSE_DELAY_MS: 900,
+  AUTOSAVE_DEBOUNCE_MS: 400,
+});
+
+/* ============================================================
+ *  MODULE: I18n
+ * ============================================================ */
+const I18n = (() => {
+  const dict = {
+    ru: {
+      'app.title': 'CREDO — DAR Notebook',
+      'brand.subtitle': 'DAR Notebook',
+      'nav.files': 'Файлы',
+      'nav.editor': 'Редактор',
+      'nav.chat': 'AI',
+      'section.files': 'Файлы правил',
+      'section.versions': 'Версии',
+      'section.actions': 'Действия',
+      'action.newRule': 'Новое правило',
+      'action.import': 'Импорт из файла',
+      'action.saveAll': 'Сохранить все',
+      'action.publish': 'Опубликовать',
+      'action.execute': 'Выполнить',
+      'action.undo': 'Отменить',
+      'action.redo': 'Повторить',
+      'action.format': 'Форматировать',
+      'action.newFile': 'Новый файл',
+      'action.refresh': 'Обновить',
+      'action.cancel': 'Отмена',
+      'action.runTest': 'Выполнить тест',
+      'action.close': 'Закрыть',
+      'action.yes': 'Да',
+      'action.no': 'Нет',
+      'action.confirm': 'Подтвердить',
+      'action.test': 'Тестировать',
+      'action.edit': 'Изменить',
+      'action.explain': 'Объяснить',
+      'status.ready': 'Готов к выполнению',
+      'status.running': 'Выполняется...',
+      'status.mcpConnected': 'MCP Connected',
+      'status.mcpDemo': 'Demo mode',
+      'status.online': 'Online',
+      'chat.title': 'AI Ассистент',
+      'chat.placeholder': 'Введите сообщение...',
+      'chat.welcome': 'Здравствуйте! Я помогу вам создать и протестировать бизнес-правила. Какое правило вы хотите создать?',
+      'modal.test.title': 'Тестовые данные',
+      'modal.test.subtitle': 'Введите JSON для тестирования правила',
+      'modal.test.label': 'JSON вход:',
+      'modal.test.hint': 'Пример: {"Клиент.Возраст": 25}',
+      'modal.publish.title': 'Публикация правила',
+      'modal.publish.message': 'Вы уверены, что хотите опубликовать правило? После публикации оно станет доступно для исполнения.',
+      'modal.delete.title': 'Удаление правила',
+      'modal.delete.message': 'Удалить правило безвозвратно?',
+      'modal.newRule.title': 'Новое правило',
+      'modal.newRule.label': 'Имя правила (латиница/кириллица):',
+      'empty.files': 'Нет правил',
+      'empty.filesHint': 'Создайте первое правило',
+      'empty.chat': 'Начните диалог с AI',
+      'empty.results': 'Запустите выполнение, чтобы увидеть результат',
+      'result.title': 'Результат исполнения',
+      'result.time': 'Время',
+      'result.rule': 'Правило',
+      'result.condition': 'Условие',
+      'result.value': 'Фактическое значение',
+      'result.decision': 'Решение',
+      'result.reason': 'Причина',
+      'result.trace': 'Трассировка',
+      'result.matched': 'Условие сработало',
+      'result.notMatched': 'Условие не сработало',
+      'result.error': 'Ошибка исполнения',
+      'error.jsonParse': 'Ошибка парсинга JSON',
+      'error.emptyInput': 'Введите сообщение',
+      'error.invalidName': 'Недопустимое имя правила',
+      'error.nameExists': 'Правило с таким именем уже существует',
+      'toast.saved': 'Сохранено',
+      'toast.published': 'Правило опубликовано',
+      'toast.deleted': 'Правило удалено',
+      'toast.created': 'Правило создано',
+      'toast.testsPassed': 'Тесты парсера пройдены',
+      'toast.testsFailed': 'Тесты парсера провалены',
+      'version.active': 'active',
+      'version.supported': 'supported',
+      'version.deprecated': 'deprecated',
+      'status.draft': 'Черновик',
+      'status.published': 'Опубликован',
+      'status.archived': 'Архив',
+      'decision.approve': 'Одобрено',
+      'decision.reject': 'Отказ',
+      'unsaved.title': 'Несохранённые изменения',
+      'unsaved.message': 'У вас есть несохранённые изменения. Сохранить перед уходом?',
+    },
+    en: {
+      'app.title': 'CREDO — DAR Notebook',
+      'brand.subtitle': 'DAR Notebook',
+      'nav.files': 'Files',
+      'nav.editor': 'Editor',
+      'nav.chat': 'AI',
+      'section.files': 'Rule Files',
+      'section.versions': 'Versions',
+      'section.actions': 'Actions',
+      'action.newRule': 'New Rule',
+      'action.import': 'Import from file',
+      'action.saveAll': 'Save all',
+      'action.publish': 'Publish',
+      'action.execute': 'Execute',
+      'action.undo': 'Undo',
+      'action.redo': 'Redo',
+      'action.format': 'Format',
+      'action.newFile': 'New file',
+      'action.refresh': 'Refresh',
+      'action.cancel': 'Cancel',
+      'action.runTest': 'Run test',
+      'action.close': 'Close',
+      'action.yes': 'Yes',
+      'action.no': 'No',
+      'action.confirm': 'Confirm',
+      'action.test': 'Test',
+      'action.edit': 'Edit',
+      'action.explain': 'Explain',
+      'status.ready': 'Ready',
+      'status.running': 'Running...',
+      'status.mcpConnected': 'MCP Connected',
+      'status.mcpDemo': 'Demo mode',
+      'status.online': 'Online',
+      'chat.title': 'AI Assistant',
+      'chat.placeholder': 'Type a message...',
+      'chat.welcome': 'Hello! I will help you create and test business rules. What rule would you like to create?',
+      'modal.test.title': 'Test data',
+      'modal.test.subtitle': 'Enter JSON to test the rule',
+      'modal.test.label': 'JSON input:',
+      'modal.test.hint': 'Example: {"Client.Age": 25}',
+      'modal.publish.title': 'Publish rule',
+      'modal.publish.message': 'Are you sure you want to publish the rule? It will become available for execution.',
+      'modal.delete.title': 'Delete rule',
+      'modal.delete.message': 'Delete the rule permanently?',
+      'modal.newRule.title': 'New rule',
+      'modal.newRule.label': 'Rule name:',
+      'empty.files': 'No rules',
+      'empty.filesHint': 'Create your first rule',
+      'empty.chat': 'Start a conversation with AI',
+      'empty.results': 'Run execution to see the result',
+      'result.title': 'Execution result',
+      'result.time': 'Time',
+      'result.rule': 'Rule',
+      'result.condition': 'Condition',
+      'result.value': 'Actual value',
+      'result.decision': 'Decision',
+      'result.reason': 'Reason',
+      'result.trace': 'Trace',
+      'result.matched': 'Condition matched',
+      'result.notMatched': 'Condition did not match',
+      'result.error': 'Execution error',
+      'error.jsonParse': 'JSON parse error',
+      'error.emptyInput': 'Enter a message',
+      'error.invalidName': 'Invalid rule name',
+      'error.nameExists': 'Rule with this name already exists',
+      'toast.saved': 'Saved',
+      'toast.published': 'Rule published',
+      'toast.deleted': 'Rule deleted',
+      'toast.created': 'Rule created',
+      'toast.testsPassed': 'Parser tests passed',
+      'toast.testsFailed': 'Parser tests failed',
+      'version.active': 'active',
+      'version.supported': 'supported',
+      'version.deprecated': 'deprecated',
+      'status.draft': 'Draft',
+      'status.published': 'Published',
+      'status.archived': 'Archived',
+      'decision.approve': 'Approved',
+      'decision.reject': 'Rejected',
+      'unsaved.title': 'Unsaved changes',
+      'unsaved.message': 'You have unsaved changes. Save before leaving?',
+    }
+  };
+  let currentLocale = Config.DEFAULT_LOCALE;
+  return {
+    setLocale(l) { if (dict[l]) currentLocale = l; },
+    getLocale() { return currentLocale; },
+    t(key, params) {
+      let s = dict[currentLocale]?.[key] ?? dict.ru[key] ?? key;
+      if (params) Object.entries(params).forEach(([k, v]) => { s = s.replace(`{${k}}`, v); });
+      return s;
+    }
+  };
+})();
+
+/* ============================================================
+ *  MODULE: Storage
+ * ============================================================ */
+const Storage = (() => {
+  let memoryFallback = null;
+  const isAvailable = (() => {
+    try {
+      const k = '__storage_test__';
+      localStorage.setItem(k, '1');
+      localStorage.removeItem(k);
+      return true;
+    } catch { return false; }
+  })();
+
+  return {
+    load() {
+      try {
+        if (isAvailable) {
+          const raw = localStorage.getItem(Config.STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        }
+        return memoryFallback;
+      } catch (e) {
+        console.warn('Storage load failed:', e);
+        return null;
+      }
+    },
+    save(data) {
+      try {
+        const serialized = JSON.stringify(data);
+        if (isAvailable) localStorage.setItem(Config.STORAGE_KEY, serialized);
+        else memoryFallback = serialized;
+        return true;
+      } catch (e) {
+        console.warn('Storage save failed:', e);
+        return false;
+      }
+    }
+  };
+})();
+
+/* ============================================================
+ *  MODULE: DslParser (lexer + parser + interpreter + tests)
+ * ============================================================ */
+const DslParser = (() => {
+  /* ---------- Lexer ---------- */
+  const TokenType = {
+    RULE: 'RULE', IF: 'IF', ELSE: 'ELSE', ELSEIF: 'ELSEIF',
+    IDENT: 'IDENT', DOT: 'DOT', NUMBER: 'NUMBER', STRING: 'STRING',
+    OP: 'OP', AND: 'AND', OR: 'OR', NOT: 'NOT',
+    LBRACE: 'LBRACE', RBRACE: 'RBRACE', LPAREN: 'LPAREN', RPAREN: 'RPAREN',
+    COMMA: 'COMMA', SEMICOLON: 'SEMICOLON', ASSIGN: 'ASSIGN',
+    EOF: 'EOF', ERROR: 'ERROR'
+  };
+
+  const KEYWORDS = {
+    'Правило': TokenType.RULE, 'Rule': TokenType.RULE,
+    'Если': TokenType.IF, 'If': TokenType.IF,
+    'ИначеЕсли': TokenType.ELSEIF, 'ElseIf': TokenType.ELSEIF,
+    'Иначе': TokenType.ELSE, 'Else': TokenType.ELSE,
+    'И': TokenType.AND, 'AND': TokenType.AND,
+    'ИЛИ': TokenType.OR, 'OR': TokenType.OR,
+    'НЕ': TokenType.NOT, 'NOT': TokenType.NOT,
+    'Решение': TokenType.IDENT, 'Decision': TokenType.IDENT,
+    'Причина': TokenType.IDENT, 'Reason': TokenType.IDENT,
+    'Отказ': TokenType.IDENT, 'Reject': TokenType.IDENT,
+    'Одобрено': TokenType.IDENT, 'Approve': TokenType.IDENT,
+    'ОграниченныйЛимит': TokenType.IDENT, 'LimitedLimit': TokenType.IDENT,
+  };
+
+  function tokenize(source) {
+    const tokens = [];
+    let i = 0;
+    const len = source.length;
+    let line = 1, col = 1;
+
+    const advance = (n = 1) => {
+      for (let k = 0; k < n; k++) {
+        if (source[i + k] === '\n') { line++; col = 1; }
+        else col++;
+      }
+      i += n;
+    };
+    const peek = (o = 0) => source[i + o];
+    const mk = (type, value, startLine = line, startCol = col) => ({ type, value, line: startLine, col: startCol });
+
+    while (i < len) {
+      const startLine = line, startCol = col;
+      const ch = peek();
+
+      if (/\s/.test(ch)) { advance(); continue; }
+
+      if (ch === '/' && peek(1) === '/') {
+        while (i < len && peek() !== '\n') advance();
+        continue;
+      }
+      if (ch === '/' && peek(1) === '*') {
+        advance(2);
+        while (i < len && !(peek() === '*' && peek(1) === '/')) advance();
+        if (i < len) advance(2);
+        continue;
+      }
+
+      if (ch === '"' || ch === "'") {
+        const quote = ch;
+        advance();
+        let str = '';
+        while (i < len && peek() !== quote) {
+          if (peek() === '\\' && i + 1 < len) {
+            advance();
+            const esc = peek();
+            advance();
+            str += esc === 'n' ? '\n' : esc === 't' ? '\t' : esc;
+          } else {
+            str += peek();
+            advance();
+          }
+        }
+        if (peek() !== quote) {
+          tokens.push(mk(TokenType.ERROR, `Unterminated string`, startLine, startCol));
+          return tokens;
+        }
+        advance();
+        tokens.push(mk(TokenType.STRING, str, startLine, startCol));
+        continue;
+      }
+
+      if (/[0-9]/.test(ch)) {
+        let num = '';
+        while (i < len && /[0-9.]/.test(peek())) { num += peek(); advance(); }
+        tokens.push(mk(TokenType.NUMBER, parseFloat(num), startLine, startCol));
+        continue;
+      }
+
+      if (/[A-Za-zА-Яа-яЁё_]/.test(ch)) {
+        let id = '';
+        while (i < len && /[A-Za-zА-Яа-яЁё0-9_]/.test(peek())) { id += peek(); advance(); }
+        const type = KEYWORDS[id] ?? TokenType.IDENT;
+        tokens.push(mk(type, id, startLine, startCol));
+        continue;
+      }
+
+      const two = peek() + peek(1);
+      if (two === '<=' || two === '>=' || two === '!=' || two === '==' || two === '&&' || two === '||') {
+        tokens.push(mk(TokenType.OP, two, startLine, startCol));
+        advance(2);
+        continue;
+      }
+      const singleMap = {
+        '<': TokenType.OP, '>': TokenType.OP, '=': TokenType.ASSIGN,
+        '{': TokenType.LBRACE, '}': TokenType.RBRACE,
+        '(': TokenType.LPAREN, ')': TokenType.RPAREN,
+        ',': TokenType.COMMA, ';': TokenType.SEMICOLON,
+        '.': TokenType.DOT
+      };
+      if (singleMap[ch]) {
+        tokens.push(mk(singleMap[ch], ch, startLine, startCol));
+        advance();
+        continue;
+      }
+
+      tokens.push(mk(TokenType.ERROR, `Unexpected character: ${ch}`, startLine, startCol));
+      advance();
+    }
+    tokens.push(mk(TokenType.EOF, null));
+    return tokens;
+  }
+
+  /* ---------- Parser ---------- */
+  function parse(tokens) {
+    let pos = 0;
+    const peek = (o = 0) => tokens[pos + o];
+    const eat = (type) => {
+      const t = peek();
+      if (t.type !== type) throw new Error(`Expected ${type} but got ${t.type} ("${t.value}") at ${t.line}:${t.col}`);
+      pos++;
+      return t;
+    };
+    const match = (...types) => {
+      if (types.includes(peek().type)) { pos++; return tokens[pos - 1]; }
+      return null;
+    };
+
+    function parseProgram() {
+      const rule = parseRule();
+      eat(TokenType.EOF);
+      return { type: 'Program', rule };
+    }
+
+    function parseRule() {
+      eat(TokenType.RULE);
+      const name = eat(TokenType.IDENT);
+      eat(TokenType.LBRACE);
+      const body = parseBody();
+      eat(TokenType.RBRACE);
+      return { type: 'Rule', name: name.value, body };
+    }
+
+    function parseBody() {
+      const stmts = [];
+      while (peek().type !== TokenType.RBRACE && peek().type !== TokenType.EOF) {
+        stmts.push(parseStatement());
+      }
+      return stmts;
+    }
+
+    function parseStatement() {
+      if (peek().type === TokenType.IF) return parseIf();
+      return parseAssign();
+    }
+
+    function parseIf() {
+      eat(TokenType.IF);
+      eat(TokenType.LPAREN);
+      const test = parseExpr();
+      eat(TokenType.RPAREN);
+      eat(TokenType.LBRACE);
+      const consequent = parseBody();
+      eat(TokenType.RBRACE);
+      const elifs = [];
+      while (peek().type === TokenType.ELSEIF) {
+        pos++;
+        eat(TokenType.LPAREN);
+        const t = parseExpr();
+        eat(TokenType.RPAREN);
+        eat(TokenType.LBRACE);
+        const b = parseBody();
+        eat(TokenType.RBRACE);
+        elifs.push({ test: t, body: b });
+      }
+      let alternate = null;
+      if (peek().type === TokenType.ELSE) {
+        pos++;
+        eat(TokenType.LBRACE);
+        alternate = parseBody();
+        eat(TokenType.RBRACE);
+      }
+      return { type: 'If', test, consequent, elifs, alternate };
+    }
+
+    function parseAssign() {
+      const target = eat(TokenType.IDENT);
+      eat(TokenType.ASSIGN);
+      const value = parseExpr();
+      match(TokenType.SEMICOLON);
+      return { type: 'Assign', target: target.value, value };
+    }
+
+    function parseExpr() { return parseOr(); }
+
+    function parseOr() {
+      let left = parseAnd();
+      while (peek().type === TokenType.OR) {
+        pos++;
+        const right = parseAnd();
+        left = { type: 'Binary', op: 'OR', left, right };
+      }
+      return left;
+    }
+    function parseAnd() {
+      let left = parseComparison();
+      while (peek().type === TokenType.AND) {
+        pos++;
+        const right = parseComparison();
+        left = { type: 'Binary', op: 'AND', left, right };
+      }
+      return left;
+    }
+    function parseComparison() {
+      let left = parseUnary();
+      const t = peek();
+      if (t.type === TokenType.OP && ['<', '>', '<=', '>=', '!=', '==', '=', '!=='].includes(t.value)) {
+        pos++;
+        const right = parseUnary();
+        return { type: 'Binary', op: t.value === '=' ? '==' : t.value, left, right };
+      }
+      return left;
+    }
+    function parseUnary() {
+      if (peek().type === TokenType.NOT) {
+        pos++;
+        return { type: 'Unary', op: 'NOT', arg: parseUnary() };
+      }
+      return parsePrimary();
+    }
+    function parsePrimary() {
+      const t = peek();
+      if (t.type === TokenType.NUMBER) { pos++; return { type: 'Number', value: t.value }; }
+      if (t.type === TokenType.STRING) { pos++; return { type: 'String', value: t.value }; }
+      if (t.type === TokenType.IDENT) {
+        pos++;
+        let node = { type: 'Ident', name: t.value };
+        while (peek().type === TokenType.DOT) {
+          pos++;
+          const field = eat(TokenType.IDENT);
+          node = { type: 'FieldAccess', object: node, field: field.value };
+        }
+        return node;
+      }
+      if (t.type === TokenType.LPAREN) {
+        pos++;
+        const e = parseExpr();
+        eat(TokenType.RPAREN);
+        return e;
+      }
+      throw new Error(`Unexpected token ${t.type} ("${t.value}") at ${t.line}:${t.col}`);
+    }
+
+    return parseProgram();
+  }
+
+  /* ---------- Interpreter ---------- */
+  function interpret(ast, context) {
+    const trace = [];
+    const result = { decision: null, reasons: [], trace };
+
+    function resolve(node) {
+      switch (node.type) {
+        case 'Number': return node.value;
+        case 'String': return node.value;
+        case 'Ident': {
+          if (node.name === 'Отказ' || node.name === 'Reject') return 'reject';
+          if (node.name === 'Одобрено' || node.name === 'Approve') return 'approve';
+          if (node.name === 'ОграниченныйЛимит' || node.name === 'LimitedLimit') return 'limited';
+          if (node.name in context) return context[node.name];
+          throw new Error(`Unknown identifier: ${node.name}`);
+        }
+        case 'FieldAccess': {
+          const parts = [];
+          let cur = node;
+          while (cur.type === 'FieldAccess') { parts.unshift(cur.field); cur = cur.object; }
+          if (cur.type === 'Ident') { parts.unshift(cur.name); }
+          const path = parts.join('.');
+          if (path in context) return context[path];
+          throw new Error(`Unknown field: ${path}`);
+        }
+        case 'Binary': {
+          const l = resolve(node.left);
+          if (node.op === 'AND') return l ? resolve(node.right) : false;
+          if (node.op === 'OR') return l ? true : resolve(node.right);
+          const r = resolve(node.right);
+          switch (node.op) {
+            case '<': return l < r;
+            case '>': return l > r;
+            case '<=': return l <= r;
+            case '>=': return l >= r;
+            case '==': return l === r;
+            case '!=': case '!==': return l !== r;
+          }
+          throw new Error(`Unknown operator: ${node.op}`);
+        }
+        case 'Unary':
+          if (node.op === 'NOT') return !resolve(node.arg);
+          throw new Error(`Unknown unary: ${node.op}`);
+      }
+      throw new Error(`Unknown node type: ${node.type}`);
+    }
+
+    function execBody(stmts) {
+      for (const s of stmts) {
+        if (s.type === 'Assign') {
+          const v = resolve(s.value);
+          if (s.target === 'Решение' || s.target === 'Decision') result.decision = v;
+          else if (s.target === 'Причина' || s.target === 'Reason') result.reasons.push(v);
+          trace.push({ kind: 'assign', target: s.target, value: v });
+        } else if (s.type === 'If') {
+          execIf(s);
+        }
+      }
+    }
+
+    function execIf(node) {
+      const testVal = resolve(node.test);
+      trace.push({ kind: 'if', expr: exprToString(node.test), value: testVal, matched: !!testVal });
+      if (testVal) { execBody(node.consequent); return; }
+      for (const elif of node.elifs) {
+        const v = resolve(elif.test);
+        trace.push({ kind: 'if', expr: exprToString(elif.test), value: v, matched: !!v });
+        if (v) { execBody(elif.body); return; }
+      }
+      if (node.alternate) {
+        trace.push({ kind: 'else' });
+        execBody(node.alternate);
+      }
+    }
+
+    function exprToString(node) {
+      switch (node.type) {
+        case 'Number': return String(node.value);
+        case 'String': return `"${node.value}"`;
+        case 'Ident': return node.name;
+        case 'FieldAccess': {
+          const parts = [];
+          let cur = node;
+          while (cur.type === 'FieldAccess') { parts.unshift(cur.field); cur = cur.object; }
+          if (cur.type === 'Ident') parts.unshift(cur.name);
+          return parts.join('.');
+        }
+        case 'Binary': return `${exprToString(node.left)} ${node.op} ${exprToString(node.right)}`;
+        case 'Unary': return `${node.op} ${exprToString(node.arg)}`;
+      }
+      return '?';
+    }
+
+    execBody(ast.rule.body);
+    if (!result.decision) result.decision = 'approve';
+    return result;
+  }
+
+  /* ---------- High-level API ---------- */
+  function compile(source) {
+    const tokens = tokenize(source);
+    const err = tokens.find(t => t.type === TokenType.ERROR);
+    if (err) throw new Error(`${err.value} at ${err.line}:${err.col}`);
+    return parse(tokens);
+  }
+
+  function run(source, context) {
+    const ast = compile(source);
+    return interpret(ast, context || {});
+  }
+
+  /* ---------- Tests ---------- */
+  function runTests() {
+    const cases = [
+      {
+        name: 'age reject',
+        src: 'Правило МинВозраст { Если (Клиент.Возраст < 21) { Решение = Отказ; Причина = "Молодой"; } }',
+        ctx: { 'Клиент.Возраст': 18 },
+        expect: { decision: 'reject', reasons: ['Молодой'] }
+      },
+      {
+        name: 'age approve',
+        src: 'Правило МинВозраст { Если (Клиент.Возраст < 21) { Решение = Отказ; } }',
+        ctx: { 'Клиент.Возраст': 25 },
+        expect: { decision: 'approve', reasons: [] }
+      },
+      {
+        name: 'AND condition',
+        src: 'Правило X { Если (A.x < 10 И A.y > 5) { Решение = Отказ; } }',
+        ctx: { 'A.x': 5, 'A.y': 10 },
+        expect: { decision: 'reject' }
+      },
+      {
+        name: 'OR condition',
+        src: 'Правило X { Если (A.x < 10 ИЛИ A.y > 100) { Решение = Отказ; } }',
+        ctx: { 'A.x': 50, 'A.y': 200 },
+        expect: { decision: 'reject' }
+      },
+      {
+        name: 'else branch',
+        src: 'Правило X { Если (A.x < 10) { Решение = Отказ; } Иначе { Решение = Одобрено; } }',
+        ctx: { 'A.x': 20 },
+        expect: { decision: 'approve' }
+      },
+      {
+        name: 'elseif',
+        src: 'Правило X { Если (A.x < 10) { Решение = Отказ; } ИначеЕсли (A.x < 20) { Решение = ОграниченныйЛимит; } Иначе { Решение = Одобрено; } }',
+        ctx: { 'A.x': 15 },
+        expect: { decision: 'limited' }
+      },
+      {
+        name: 'string compare',
+        src: 'Правило X { Если (A.status == "blocked") { Решение = Отказ; } }',
+        ctx: { 'A.status': 'blocked' },
+        expect: { decision: 'reject' }
+      },
+      {
+        name: 'NOT operator',
+        src: 'Правило X { Если (НЕ A.active) { Решение = Отказ; } }',
+        ctx: { 'A.active': false },
+        expect: { decision: 'reject' }
+      },
+    ];
+    let passed = 0, failed = 0;
+    const failures = [];
+    for (const c of cases) {
+      try {
+        const r = run(c.src, c.ctx);
+        const ok = (c.expect.decision ? r.decision === c.expect.decision : true)
+                && (c.expect.reasons ? JSON.stringify(r.reasons) === JSON.stringify(c.expect.reasons) : true);
+        if (ok) passed++;
+        else { failed++; failures.push({ name: c.name, got: r, expected: c.expect }); }
+      } catch (e) {
+        failed++;
+        failures.push({ name: c.name, error: e.message });
+      }
+    }
+    return { passed, failed, failures, total: cases.length };
+  }
+
+  return { tokenize, compile, interpret, run, runTests, TokenType };
+})();
+
+/* ============================================================
+ *  MODULE: State (reactive store)
+ * ============================================================ */
+const State = (() => {
+  const defaultFiles = {
+    'age-rule': {
+      id: 'age-rule',
+      name: 'МинимальныйВозраст',
+      filename: 'МинимальныйВозраст.dar',
+      status: 'draft',
+      modified: Date.now() - 120_000,
+      author: 'You',
+      content: `Правило МинимальныйВозраст {
+  Если (Клиент.Возраст < 21) {
+    Решение = Отказ;
+    Причина = "Возраст меньше 21";
+  }
+}`,
+      versions: [
+        { tag: 'v1.2.0', status: 'active', date: Date.now() - 2 * 86400_000, note: 'Добавлена проверка возраста', content: `Правило МинимальныйВозраст {\n  Если (Клиент.Возраст < 21) {\n    Решение = Отказ;\n    Причина = "Возраст меньше 21";\n  }\n}` },
+        { tag: 'v1.1.0', status: 'supported', date: Date.now() - 7 * 86400_000, note: '', content: `Правило МинимальныйВозраст {\n  Если (Клиент.Возраст < 18) {\n    Решение = Отказ;\n  }\n}` },
+        { tag: 'v1.0.0', status: 'deprecated', date: Date.now() - 90 * 86400_000, note: '', content: `Правило МинимальныйВозраст {\n}` },
+      ]
+    },
+    'income-rule': {
+      id: 'income-rule',
+      name: 'ПроверкаДохода',
+      filename: 'ПроверкаДохода.dar',
+      status: 'published',
+      modified: Date.now() - 3600_000,
+      author: 'You',
+      content: `Правило ПроверкаДохода {
+  Если (Клиент.Доход < 30000) {
+    Решение = Отказ;
+    Причина = "Недостаточный доход";
+  }
+}`,
+      versions: [
+        { tag: 'v2.0.0', status: 'active', date: Date.now() - 86400_000, note: 'Порог дохода повышен', content: `Правило ПроверкаДохода {\n  Если (Клиент.Доход < 30000) {\n    Решение = Отказ;\n    Причина = "Недостаточный доход";\n  }\n}` },
+      ]
+    },
+    'limit-rule': {
+      id: 'limit-rule',
+      name: 'КредитныйЛимит',
+      filename: 'КредитныйЛимит.dar',
+      status: 'archived',
+      modified: Date.now() - 3 * 86400_000,
+      author: 'You',
+      content: `Правило КредитныйЛимит {
+  Если (Клиент.КредитныйСкор < 600) {
+    Решение = ОграниченныйЛимит;
+    Причина = "Низкий кредитный рейтинг";
+  }
+}`,
+      versions: []
+    }
+  };
+
+  const defaultState = {
+    files: defaultFiles,
+    activeFileId: 'age-rule',
+    chat: [
+      { role: 'ai', text: I18n.t('chat.welcome'), ts: Date.now() - 600_000 }
+    ],
+    theme: Config.DEFAULT_THEME,
+    locale: Config.DEFAULT_LOCALE,
+    ui: { mobileTab: 'editor', showResults: false, results: null }
+  };
+
+  let state = null;
+  const listeners = new Set();
+
+  function load() {
+    const saved = Storage.load();
+    state = saved ? deepMerge(structuredClone(defaultState), saved) : structuredClone(defaultState);
+    state.ui = state.ui || defaultState.ui;
+    I18n.setLocale(state.locale);
+    applyTheme(state.theme);
+  }
+
+  function deepMerge(target, source) {
+    for (const k in source) {
+      if (source[k] && typeof source[k] === 'object' && !Array.isArray(source[k])) {
+        target[k] = target[k] && typeof target[k] === 'object' ? deepMerge(target[k], source[k]) : source[k];
+      } else {
+        target[k] = source[k];
+      }
+    }
+    return target;
+  }
+
+  function get() { return state; }
+
+  function set(patch) {
+    state = typeof patch === 'function' ? patch(state) : { ...state, ...patch };
+    listeners.forEach(l => { try { l(state); } catch (e) { console.error(e); } });
+    scheduleSave();
+  }
+
+  let saveTimer = null;
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      Storage.save({
+        files: state.files,
+        activeFileId: state.activeFileId,
+        chat: state.chat,
+        theme: state.theme,
+        locale: state.locale
+      });
+    }, Config.AUTOSAVE_DEBOUNCE_MS);
+  }
+
+  function subscribe(fn) {
+    listeners.add(fn);
+    return () => listeners.delete(fn);
+  }
+
+  function getActiveFile() { return state.files[state.activeFileId]; }
+
+  function updateActiveFile(patch) {
+    const f = getActiveFile();
+    if (!f) return;
+    set(s => ({
+      ...s,
+      files: { ...s.files, [f.id]: { ...f, ...patch, modified: Date.now() } }
+    }));
+  }
+
+  return { load, get, set, subscribe, getActiveFile, updateActiveFile };
+})();
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+/* ============================================================
+ *  MODULE: Ui helpers
+ * ============================================================ */
+const Ui = (() => {
+  function h(tag, attrs = {}, ...children) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'style' && typeof v === 'object') Object.assign(el.style, v);
+      else if (k.startsWith('on') && typeof v === 'function') {
+        el.addEventListener(k.slice(2).toLowerCase(), v);
+      }
+      else if (k === 'dataset' && typeof v === 'object') {
+        for (const [dk, dv] of Object.entries(v)) el.dataset[dk] = dv;
+      }
+      else el.setAttribute(k, v);
+    }
+    appendChildren(el, children);
+    return el;
+  }
+
+  function appendChildren(el, children) {
+    for (const c of children.flat()) {
+      if (c == null || c === false) continue;
+      if (typeof c === 'string' || typeof c === 'number') el.appendChild(document.createTextNode(String(c)));
+      else if (c instanceof Node) el.appendChild(c);
+    }
+  }
+
+  function svgIcon(paths, viewBox = '0 0 24 24', size = 16) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', viewBox);
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    for (const p of paths) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', p);
+      svg.appendChild(path);
+    }
+    return svg;
+  }
+
+  function svgIconFill(paths, viewBox = '0 0 20 20', size = 16) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', viewBox);
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('aria-hidden', 'true');
+    for (const p of paths) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', p);
+      svg.appendChild(path);
+    }
+    return svg;
+  }
+
+  const Icons = {
+    home: ['M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0h6'],
+    folder: ['M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z'],
+    file: ['M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z'],
+    plus: ['M12 4v16m8-8H4'],
+    save: ['M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4'],
+    upload: ['M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'],
+    play: ['M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z'],
+    undo: ['M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6'],
+    redo: ['M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6'],
+    format: ['M4 6h16M4 12h16M4 18h7'],
+    check: ['M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+    x: ['M6 18L18 6M6 6l12 12'],
+    send: ['M12 19l9 2-9-18-9 18 9-2zm0 0v-8'],
+    chat: ['M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'],
+    code: ['M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'],
+    settings: ['M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', 'M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
+    refresh: ['M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'],
+    eye: ['M15 12a3 3 0 11-6 0 3 3 0 016 0z', 'M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'],
+    clipboard: ['M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'],
+    info: ['M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
+    warn: ['M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'],
+    sun: ['M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'],
+    moon: ['M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z'],
+    trash: ['M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'],
+    globe: ['M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
+    sparkle: ['M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
+  };
+
+  function icon(name, size = 16) {
+    const paths = Icons[name];
+    if (!paths) return h('span', {}, '?');
+    return svgIcon(paths, '0 0 24 24', size);
+  }
+
+  function relativeTime(ts) {
+    const diff = Date.now() - ts;
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const hrs = Math.floor(m / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const d = Math.floor(hrs / 24);
+    if (d < 30) return `${d}d ago`;
+    return new Date(ts).toLocaleDateString();
+  }
+
+  function formatClock(ts = Date.now()) {
+    return new Date(ts).toLocaleTimeString(I18n.getLocale() === 'ru' ? 'ru-RU' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function trapFocus(container) {
+    const focusables = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const list = Array.from(focusables).filter(el => !el.disabled && el.offsetParent !== null);
+    if (list.length === 0) return () => {};
+    const first = list[0];
+    const last = list[list.length - 1];
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+    container.addEventListener('keydown', handler);
+    first.focus();
+    return () => container.removeEventListener('keydown', handler);
+  }
+
+  function openModal(contentNode, { onClose, closeOnBackdrop = true } = {}) {
+    const backdrop = h('div', { class: 'modal-backdrop', role: 'dialog', 'aria-modal': 'true' });
+    const modal = h('div', { class: 'modal' }, contentNode);
+    backdrop.appendChild(modal);
+    const prevFocus = document.activeElement;
+    let released = false;
+    const release = trapFocus(modal);
+    function close() {
+      if (released) return;
+      released = true;
+      release();
+      backdrop.remove();
+      if (prevFocus && typeof prevFocus.focus === 'function') prevFocus.focus();
+      if (onClose) onClose();
+    }
+    backdrop.addEventListener('click', (e) => { if (closeOnBackdrop && e.target === backdrop) close(); });
+    function esc(e) {
+      if (e.key === 'Escape') {
+        document.removeEventListener('keydown', esc, true);
+        close();
+      }
+    }
+    document.addEventListener('keydown', esc, true);
+    document.body.appendChild(backdrop);
+    return { close, backdrop, modal };
+  }
+
+  function toast(title, message, type = 'info', duration = 3000) {
+    const container = document.getElementById('toasts');
+    const iconName = type === 'success' ? 'check' : type === 'error' ? 'x' : type === 'warning' ? 'warn' : 'info';
+    const el = h('div', { class: `toast ${type}`, role: 'status' },
+      h('div', { class: 'toast-icon' }, icon(iconName, 18)),
+      h('div', { class: 'toast-content' },
+        h('div', { class: 'toast-title' }, title),
+        message ? h('div', { class: 'toast-message' }, message) : null
+      )
+    );
+    container.appendChild(el);
+    setTimeout(() => {
+      el.style.animation = 'fadeIn 0.2s ease-out reverse';
+      setTimeout(() => el.remove(), 200);
+    }, duration);
+  }
+
+  return { h, icon, Icons, svgIcon, svgIconFill, relativeTime, formatClock, escapeHtml, trapFocus, openModal, toast };
+})();
+
+/* ============================================================
+ *  MODULE: Editor (CodeMirror wrapper)
+ * ============================================================ */
+const EditorModule = (() => {
+  let view = null;
+  let mountEl = null;
+  let suppressChange = false;
+
+  const dslLanguage = StreamLanguage.define({
+    token(stream) {
+      if (stream.eatSpace()) return null;
+      if (stream.match('//')) { stream.skipToEnd(); return 'comment'; }
+      if (stream.match('/*')) {
+        while (!stream.eol()) {
+          if (stream.match('*/')) return 'comment';
+          stream.next();
+        }
+        return 'comment';
+      }
+      if (stream.match('"')) {
+        while (!stream.eol()) {
+          const ch = stream.next();
+          if (ch === '"') return 'string';
+          if (ch === '\\') stream.next();
+        }
+        return 'string';
+      }
+      if (stream.match("'")) {
+        while (!stream.eol()) {
+          const ch = stream.next();
+          if (ch === "'") return 'string';
+          if (ch === '\\') stream.next();
+        }
+        return 'string';
+      }
+      if (stream.match(/^[0-9]+(\.[0-9]+)?/)) return 'number';
+      if (stream.match(/^(Правило|Rule|Если|If|ИначеЕсли|ElseIf|Иначе|Else|Решение|Decision|Причина|Reason|Отказ|Reject|Одобрено|Approve|ОграниченныйЛимит|LimitedLimit|И|AND|ИЛИ|OR|НЕ|NOT)\b/)) return 'keyword';
+      if (stream.match(/^(<=|>=|!=|==|<|>|=)/)) return 'operator';
+      if (stream.match(/^[{}();,.]/)) return 'punctuation';
+      if (stream.match(/^[A-Za-zА-Яа-яЁё_][A-Za-zА-Яа-яЁё0-9_]*(\.[A-Za-zА-Яа-яЁё_][A-Za-zА-Яа-яЁё0-9_]*)+/)) return 'field';
+      if (stream.match(/^[A-Za-zА-Яа-яЁё_][A-Za-zА-Яа-яЁё0-9_]*/)) return 'ident';
+      stream.next();
+      return null;
+    },
+    languageData: {
+      commentTokens: { line: '//' }
+    }
+  });
+
+  const themeExtension = EditorView.theme({
+    '&': { backgroundColor: 'var(--cm-bg)', color: 'var(--text-0)' },
+    '.cm-content': { caretColor: 'var(--cm-cursor)', fontFamily: 'var(--font-mono)' },
+    '.cm-cursor': { borderLeftColor: 'var(--cm-cursor)' },
+    '.cm-selectionBackground, &.cm-focused .cm-selectionBackground': { backgroundColor: 'var(--cm-selection)' },
+    '.cm-gutters': { backgroundColor: 'var(--cm-gutter)', color: 'var(--cm-gutterText)', border: 'none', borderRight: '1px solid var(--border)' },
+    '.cm-activeLineGutter': { backgroundColor: 'var(--bg-hover)' },
+    '.cm-activeLine': { backgroundColor: 'var(--bg-hover)' }
+  });
+
+  function mount(el, initialContent, onChange) {
+    mountEl = el;
+    if (view) { view.destroy(); view = null; }
+
+    const state = EditorState.create({
+      doc: initialContent,
+      extensions: [
+        basicSetup,
+        dslLanguage,
+        themeExtension,
+        history(),
+        keymap.of([...defaultKeymap, indentWithTab]),
+        EditorView.updateListener.of((update) => {
+          if (suppressChange) return;
+          if (update.docChanged && onChange) {
+            onChange(update.state.doc.toString());
+          }
+        })
+      ]
+    });
+    view = new EditorView({ state, parent: el });
+    return view;
+  }
+
+  function setContent(content) {
+    if (!view) return;
+    suppressChange = true;
+    try {
+      view.dispatch({
+        changes: { from: 0, to: view.state.doc.length, insert: content }
+      });
+    } finally { suppressChange = false; }
+  }
+
+  function getContent() { return view ? view.state.doc.toString() : ''; }
+
+  function focus() { if (view) view.focus(); }
+
+  function undo() {
+    if (!view) return;
+    cmUndo(view);
+  }
+  function redo() {
+    if (!view) return;
+    cmRedo(view);
+  }
+
+  function format() {
+    if (!view) return;
+    const src = view.state.doc.toString();
+    const formatted = formatDsl(src);
+    view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: formatted } });
+  }
+
+  function formatDsl(src) {
+    let out = '';
+    let indent = 0;
+    let i = 0;
+    const len = src.length;
+    let inString = false;
+    let stringChar = '';
+    let lineStart = true;
+
+    const pushIndent = () => { out += '  '.repeat(indent); };
+
+    while (i < len) {
+      const ch = src[i];
+
+      if (inString) {
+        out += ch;
+        if (ch === '\\' && i + 1 < len) { out += src[i + 1]; i += 2; continue; }
+        if (ch === stringChar) inString = false;
+        i++;
+        continue;
+      }
+
+      if (ch === '"' || ch === "'") {
+        inString = true;
+        stringChar = ch;
+        if (lineStart) { pushIndent(); lineStart = false; }
+        out += ch;
+        i++;
+        continue;
+      }
+
+      if (ch === '/' && src[i + 1] === '/') {
+        if (lineStart) { pushIndent(); lineStart = false; }
+        while (i < len && src[i] !== '\n') { out += src[i]; i++; }
+        continue;
+      }
+
+      if (/\s/.test(ch)) {
+        if (ch === '\n') {
+          out += '\n';
+          lineStart = true;
+        }
+        i++;
+        continue;
+      }
+
+      if (ch === '{') {
+        if (lineStart) { pushIndent(); lineStart = false; }
+        out += ' {\n';
+        indent++;
+        i++;
+        lineStart = true;
+        continue;
+      }
+      if (ch === '}') {
+        indent = Math.max(0, indent - 1);
+        if (!lineStart) out += '\n';
+        pushIndent();
+        out += '}';
+        lineStart = false;
+        i++;
+        continue;
+      }
+      if (ch === ';') {
+        out += ';\n';
+        lineStart = true;
+        i++;
+        continue;
+      }
+
+      if (lineStart) { pushIndent(); lineStart = false; }
+      out += ch;
+      i++;
+    }
+    return out.trim() + '\n';
+  }
+
+  function destroy() { if (view) { view.destroy(); view = null; } }
+
+  return { mount, setContent, getContent, focus, format, formatDsl, destroy, undo, redo };
+})();
+
+/* ============================================================
+ *  MODULE: Renderer
+ * ============================================================ */
+const Renderer = (() => {
+  const root = document.getElementById('app');
+  let refs = {};
+
+  function render() {
+    const state = State.get();
+    root.innerHTML = '';
+    root.appendChild(renderHeader(state));
+    root.appendChild(renderMobileNav(state));
+    root.appendChild(renderMain(state));
+    bindGlobal();
+  }
+
+  function renderHeader(state) {
+    const t = Ui.h;
+    const themeIcon = state.theme === 'dark' ? 'sun' : 'moon';
+    const localeLabel = state.locale === 'ru' ? 'RU' : 'EN';
+
+    return t('header', { class: 'header' },
+      t('div', { class: 'header-left' },
+        t('div', { class: 'brand' },
+          t('div', { class: 'brand-logo', 'aria-hidden': 'true' },
+            Ui.svgIconFill(['M10 2L3 7v11h14V7l-7-5z'], '0 0 20 20', 18)
+          ),
+          t('div', { class: 'brand-text' },
+            t('h1', {}, 'CREDO'),
+            t('p', {}, I18n.t('brand.subtitle'))
+          )
+        ),
+        t('nav', { class: 'breadcrumbs', 'aria-label': 'breadcrumb' },
+          t('span', { tabindex: '0' }, 'workspace'),
+          t('span', { 'aria-hidden': 'true' }, '/'),
+          t('span', { tabindex: '0' }, 'projects'),
+          t('span', { 'aria-hidden': 'true' }, '/'),
+          t('span', { class: 'current' }, 'credit-rules')
+        )
+      ),
+      t('div', { class: 'header-right' },
+        t('div', { class: 'status-chip', 'aria-label': I18n.t('status.mcpDemo') },
+          t('span', { class: 'status-dot', 'aria-hidden': 'true' }),
+          t('span', {}, I18n.t('status.mcpDemo'))
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': 'Language',
+          title: 'Language',
+          onClick: () => {
+            const next = state.locale === 'ru' ? 'en' : 'ru';
+            State.set({ locale: next });
+            I18n.setLocale(next);
+            document.documentElement.lang = next;
+            render();
+          }
+        }, Ui.icon('globe', 16), t('span', { style: { fontSize: '11px', fontWeight: '600' } }, localeLabel)),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': 'Theme',
+          onClick: () => {
+            const next = state.theme === 'dark' ? 'light' : 'dark';
+            State.set({ theme: next });
+            applyTheme(next);
+            render();
+          }
+        }, Ui.icon(themeIcon, 16)),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => {
+            State.set(s => s);
+            Storage.save({
+              files: state.files,
+              activeFileId: state.activeFileId,
+              chat: state.chat,
+              theme: state.theme,
+              locale: state.locale
+            });
+            Ui.toast(I18n.t('toast.saved'));
+          }
+        }, Ui.icon('save', 16), t('span', { class: 'hidden-mobile-inline' }, I18n.t('action.saveAll'))),
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => openPublishConfirm()
+        }, Ui.icon('upload', 16), t('span', { class: 'hidden-mobile-inline' }, I18n.t('action.publish')))
+      )
+    );
+  }
+
+  function renderMobileNav(state) {
+    const t = Ui.h;
+    const tabs = [
+      { id: 'files', label: I18n.t('nav.files'), icon: 'folder' },
+      { id: 'editor', label: I18n.t('nav.editor'), icon: 'code' },
+      { id: 'chat', label: I18n.t('nav.chat'), icon: 'chat' },
+    ];
+    return t('nav', { class: 'mobile-nav', role: 'tablist' },
+      ...tabs.map(tab => t('button', {
+        role: 'tab',
+        'aria-selected': state.ui.mobileTab === tab.id ? 'true' : 'false',
+        onClick: () => State.set({ ui: { ...state.ui, mobileTab: tab.id } })
+      }, Ui.icon(tab.icon, 16), tab.label))
+    );
+  }
+
+  function renderMain(state) {
+    const t = Ui.h;
+    const isMobile = window.innerWidth < 1024;
+    const activeTab = state.ui.mobileTab;
+
+    const left = renderLeftPanel(state);
+    const center = renderCenterPanel(state);
+    const right = renderRightPanel(state);
+
+    if (isMobile) {
+      if (activeTab === 'files') {
+        left.classList.add('visible');
+        center.classList.add('hidden-mobile');
+      } else if (activeTab === 'editor') {
+        center.classList.remove('hidden-mobile');
+      } else if (activeTab === 'chat') {
+        right.classList.add('visible');
+        center.classList.add('hidden-mobile');
+      }
+    }
+
+    return t('div', { class: 'main' }, left, center, right);
+  }
+
+  function renderLeftPanel(state) {
+    const t = Ui.h;
+    const panel = t('aside', { class: 'panel panel-left', 'aria-label': 'Files' });
+
+    const filesSection = t('div', { class: 'panel-section' },
+      t('div', { class: 'panel-section-header' },
+        t('h2', { class: 'panel-section-title' }, I18n.t('section.files')),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.newFile'),
+          title: I18n.t('action.newFile'),
+          onClick: () => openNewRuleModal()
+        }, Ui.icon('plus', 16))
+      ),
+      renderFileList(state)
+    );
+    panel.appendChild(filesSection);
+
+    const activeFile = State.getActiveFile();
+    const versionsSection = t('div', { class: 'panel-section scroll-area' },
+      t('div', { class: 'panel-section-header' },
+        t('h2', { class: 'panel-section-title' }, I18n.t('section.versions')),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.refresh'),
+          title: I18n.t('action.refresh'),
+          onClick: () => Ui.toast('Versions refreshed')
+        }, Ui.icon('refresh', 16))
+      ),
+      activeFile && activeFile.versions.length > 0
+        ? renderVersions(activeFile)
+        : emptyState('versions', I18n.t('empty.files'))
+    );
+    panel.appendChild(versionsSection);
+
+    const actionsSection = t('div', { class: 'panel-section' },
+      t('button', {
+        class: 'btn btn-secondary',
+        style: { width: '100%', marginBottom: '8px' },
+        onClick: () => openNewRuleModal()
+      }, Ui.icon('plus', 16), I18n.t('action.newRule')),
+      t('button', {
+        class: 'btn btn-secondary',
+        style: { width: '100%' },
+        onClick: () => openImportModal()
+      }, Ui.icon('upload', 16), I18n.t('action.import'))
+    );
+    panel.appendChild(actionsSection);
+
+    return panel;
+  }
+
+  function renderFileList(state) {
+    const t = Ui.h;
+    const files = Object.values(state.files);
+    if (files.length === 0) return emptyState('files', I18n.t('empty.files'), I18n.t('empty.filesHint'));
+
+    const colorForStatus = { draft: '#f59e0b', published: '#10b981', archived: '#6b7280' };
+
+    return t('div', { role: 'listbox', 'aria-label': 'Rules' },
+      ...files.map(f => {
+        const active = f.id === state.activeFileId;
+        const color = colorForStatus[f.status] || colorForStatus.draft;
+        const badgeClass = f.status === 'published' ? 'badge-published' : f.status === 'archived' ? 'badge-archived' : 'badge-draft';
+        const statusLabel = I18n.t('status.' + f.status);
+        return t('div', {
+          class: 'file-item',
+          role: 'option',
+          'aria-selected': active ? 'true' : 'false',
+          tabindex: '0',
+          dataset: { id: f.id },
+          onClick: () => {
+            State.set({ activeFileId: f.id });
+            if (window.innerWidth < 1024) State.set({ ui: { ...state.ui, mobileTab: 'editor' } });
+            render();
+          },
+          onKeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.target.click(); } }
+        },
+          t('div', { class: 'file-item-main' },
+            t('div', { class: 'file-icon', style: { background: `${color}20`, color } }, Ui.icon('file', 16)),
+            t('div', { class: 'file-meta' },
+              t('div', { class: 'file-name' }, f.filename),
+              t('div', { class: 'file-sub' }, Ui.relativeTime(f.modified))
+            )
+          ),
+          t('span', { class: `badge ${badgeClass}`, title: statusLabel }, statusLabel)
+        );
+      })
+    );
+  }
+
+  function renderVersions(file) {
+    const t = Ui.h;
+    return t('div', {},
+      ...file.versions.map((v, idx) => {
+        const active = v.status === 'active';
+        const badgeClass = v.status === 'active' ? 'badge-published' : v.status === 'deprecated' ? 'badge-danger' : 'badge-info';
+        return t('div', {
+          class: `version-item ${active ? 'active' : ''}`,
+          tabindex: '0',
+          onClick: () => openVersionModal(file, v),
+          onKeydown: (e) => { if (e.key === 'Enter') e.target.click(); }
+        },
+          t('div', { class: 'version-header' },
+            t('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } },
+              t('span', { class: 'version-tag' }, v.tag),
+              t('span', { class: `badge ${badgeClass}` }, I18n.t('version.' + v.status))
+            ),
+            t('button', {
+              class: 'btn btn-ghost btn-icon',
+              'aria-label': 'View diff',
+              title: 'View diff',
+              onClick: (e) => { e.stopPropagation(); openDiffModal(file, v); }
+            }, Ui.icon('eye', 14))
+          ),
+          t('div', { class: 'version-desc' }, Ui.relativeTime(v.date)),
+          v.note ? t('div', { class: 'version-desc', style: { marginTop: '2px', color: 'var(--text-1)' } }, v.note) : null
+        );
+      })
+    );
+  }
+
+  function emptyState(kind, title, hint) {
+    const t = Ui.h;
+    return t('div', { class: 'empty-state' },
+      t('div', { class: 'empty-state-icon' }, Ui.icon('folder', 48)),
+      t('div', { class: 'empty-state-title' }, title),
+      hint ? t('div', { class: 'empty-state-text' }, hint) : null
+    );
+  }
+
+  function renderCenterPanel(state) {
+    const t = Ui.h;
+    const file = State.getActiveFile();
+    const panel = t('main', { class: 'panel panel-center', 'aria-label': 'Editor' });
+
+    if (!file) {
+      panel.appendChild(emptyState('editor', I18n.t('empty.files')));
+      return panel;
+    }
+
+    const statusLabel = I18n.t('status.' + file.status);
+    const badgeClass = file.status === 'published' ? 'badge-published' : file.status === 'archived' ? 'badge-archived' : 'badge-draft';
+
+    const header = t('div', { class: 'editor-header' },
+      t('div', { style: { minWidth: 0, flex: 1 } },
+        t('div', { class: 'editor-title' },
+          t('span', {}, file.filename),
+          t('span', { class: `badge ${badgeClass}` }, statusLabel)
+        ),
+        t('div', { class: 'editor-sub' },
+          t('span', {}, `${I18n.t('result.time') === 'Time' ? 'Modified' : 'Изменён'}: ${Ui.relativeTime(file.modified)}`),
+          t('span', { style: { margin: '0 6px' } }, '•'),
+          t('span', {}, `${file.author || 'You'}`)
+        )
+      ),
+      t('div', { class: 'editor-toolbar' },
+        t('button', {
+          class: 'btn btn-secondary btn-icon',
+          'aria-label': I18n.t('action.undo'),
+          title: I18n.t('action.undo'),
+          onClick: () => EditorModule.undo()
+        }, Ui.icon('undo', 16)),
+        t('button', {
+          class: 'btn btn-secondary btn-icon',
+          'aria-label': I18n.t('action.redo'),
+          title: I18n.t('action.redo'),
+          onClick: () => EditorModule.redo()
+        }, Ui.icon('redo', 16)),
+        t('div', { class: 'toolbar-divider' }),
+        t('button', {
+          class: 'btn btn-secondary btn-icon',
+          'aria-label': I18n.t('action.format'),
+          title: I18n.t('action.format'),
+          onClick: () => {
+            EditorModule.format();
+            const content = EditorModule.getContent();
+            State.updateActiveFile({ content });
+          }
+        }, Ui.icon('format', 16)),
+        t('button', {
+          class: 'btn btn-secondary btn-icon',
+          'aria-label': I18n.t('action.test'),
+          title: I18n.t('action.test'),
+          onClick: () => openTestModal()
+        }, Ui.icon('clipboard', 16)),
+        t('div', { class: 'toolbar-divider' }),
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => openTestModal()
+        }, Ui.icon('play', 16), t('span', { class: 'hidden-mobile-inline' }, I18n.t('action.execute')))
+      )
+    );
+    panel.appendChild(header);
+
+    const editorWrap = t('div', { class: 'editor-wrap' });
+    refs.editorMount = editorWrap;
+    panel.appendChild(editorWrap);
+
+    const lineCount = (file.content || '').split('\n').length;
+    const charCount = (file.content || '').length;
+    const statusBar = t('div', { class: 'status-bar' },
+      t('div', { class: 'status-bar-left' },
+        t('span', { class: 'status-indicator' },
+          t('span', { class: 'status-dot', 'aria-hidden': 'true' }),
+          I18n.t('status.ready')
+        ),
+        t('span', {}, 'UTF-8'),
+        t('span', {}, 'DAR v0.1')
+      ),
+      t('div', { class: 'status-bar-right' },
+        t('span', {}, `${I18n.t('nav.files') === 'Files' ? 'Lines' : 'Строк'}: ${lineCount}`),
+        t('span', {}, `${I18n.t('nav.files') === 'Files' ? 'Chars' : 'Символов'}: ${charCount}`)
+      )
+    );
+    panel.appendChild(statusBar);
+
+    if (state.ui.showResults && state.ui.results) {
+      panel.appendChild(renderResults(state.ui.results));
+    }
+
+    return panel;
+  }
+
+  function renderResults(r) {
+    const t = Ui.h;
+    const isError = r.error;
+    const iconType = isError ? 'x' : 'check';
+    const iconClass = isError ? 'error' : 'success';
+
+    const panel = t('div', { class: 'results-panel', role: 'region', 'aria-label': 'Results' },
+      t('div', { class: 'results-header' },
+        t('div', { class: 'results-title' },
+          t('div', { class: `results-icon ${iconClass}` }, Ui.icon(iconType, 20)),
+          t('div', {},
+            t('div', { style: { fontWeight: 600, fontSize: '14px' } },
+              isError ? I18n.t('result.error') : I18n.t('result.title')),
+            t('div', { style: { fontSize: '11px', color: 'var(--text-2)' } },
+              isError ? '' : `${I18n.t('result.time')}: ${r.timeMs}ms`)
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => State.set({ ui: { ...State.get().ui, showResults: false, results: null } })
+        }, Ui.icon('x', 16))
+      )
+    );
+
+    if (isError) {
+      panel.appendChild(t('div', { class: 'result-card error' },
+        t('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' } },
+          t('span', { 'aria-hidden': 'true' }, '❌'),
+          t('span', { style: { fontWeight: 600, color: 'var(--danger)' } }, I18n.t('result.error'))
+        ),
+        t('div', {
+          style: {
+            fontFamily: 'var(--font-mono)', fontSize: '12px',
+            background: 'var(--bg-0)', padding: '10px', borderRadius: 'var(--radius-sm)',
+            color: 'var(--text-1)', whiteSpace: 'pre-wrap', wordBreak: 'break-word'
+          }
+        }, r.error)
+      ));
+      return panel;
+    }
+
+    const res = r.result;
+    const decisionLabel = res.decision === 'reject' ? I18n.t('decision.reject') : I18n.t('decision.approve');
+    const decisionClass = res.decision === 'reject' ? 'decision-reject' : 'decision-approve';
+
+    const card = t('div', { class: `result-card ${res.decision === 'reject' ? 'error' : ''}` },
+      t('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' } },
+        t('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } },
+          t('span', { 'aria-hidden': 'true', style: { fontSize: '18px' } }, res.decision === 'reject' ? '❌' : '✅'),
+          t('span', { style: { fontWeight: 600 } }, res.decision === 'reject' ? I18n.t('result.matched') : I18n.t('result.notMatched'))
+        ),
+        t('span', { class: 'badge badge-info' }, `${r.timeMs}ms`)
+      ),
+      t('div', { class: 'result-row' },
+        t('span', { class: 'result-label' }, I18n.t('result.rule')),
+        t('span', { class: 'result-value', style: { color: 'var(--accent-500)' } }, r.ruleName)
+      ),
+      t('div', { class: 'result-row' },
+        t('span', { class: 'result-label' }, I18n.t('result.decision')),
+        t('span', { class: `result-value ${decisionClass}` }, decisionLabel)
+      ),
+      ...res.reasons.map(reason => t('div', { class: 'result-row' },
+        t('span', { class: 'result-label' }, I18n.t('result.reason')),
+        t('span', { class: 'result-value' }, reason)
+      ))
+    );
+    panel.appendChild(card);
+
+    if (res.trace && res.trace.length > 0) {
+      const trace = t('div', { class: 'trace-list' },
+        t('div', { style: { color: 'var(--text-2)', fontSize: '11px', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' } }, I18n.t('result.trace')),
+        ...res.trace.map(tr => {
+          let text = '';
+          let cls = 'ctx';
+          if (tr.kind === 'if') {
+            text = `if (${tr.expr}) → ${tr.value} ${tr.matched ? '✓' : '✗'}`;
+            cls = tr.matched ? 'pass' : 'fail';
+          } else if (tr.kind === 'else') {
+            text = 'else';
+            cls = 'pass';
+          } else if (tr.kind === 'assign') {
+            text = `${tr.target} = ${JSON.stringify(tr.value)}`;
+            cls = 'ctx';
+          }
+          return t('div', { class: `trace-item ${cls}` }, text);
+        })
+      );
+      panel.appendChild(trace);
+    }
+
+    return panel;
+  }
+
+  function renderRightPanel(state) {
+    const t = Ui.h;
+    const panel = t('aside', { class: 'panel panel-right', 'aria-label': 'Chat' });
+
+    const header = t('div', { class: 'chat-header' },
+      t('div', { class: 'chat-user' },
+        t('div', { class: 'chat-avatar', 'aria-hidden': 'true' },
+          Ui.svgIconFill(['M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z'], '0 0 20 20', 22),
+          t('span', { class: 'chat-avatar-status', 'aria-hidden': 'true' })
+        ),
+        t('div', {},
+          t('div', { class: 'chat-name' }, I18n.t('chat.title')),
+          t('div', { class: 'chat-status' },
+            t('span', { class: 'status-dot', style: { width: '6px', height: '6px' }, 'aria-hidden': 'true' }),
+            I18n.t('status.online')
+          )
+        )
+      ),
+      t('button', {
+        class: 'btn btn-ghost btn-icon',
+        'aria-label': I18n.t('settings'),
+        title: I18n.t('settings'),
+        onClick: () => openSettingsModal()
+      }, Ui.icon('settings', 18))
+    );
+    panel.appendChild(header);
+
+    const messages = t('div', {
+      class: 'chat-messages',
+      id: 'chatMessages',
+      'aria-live': 'polite',
+      'aria-relevant': 'additions'
+    });
+    if (state.chat.length === 0) {
+      messages.appendChild(emptyState('chat', I18n.t('empty.chat')));
+    } else {
+      state.chat.forEach(m => messages.appendChild(renderMessage(m)));
+    }
+    refs.chatMessages = messages;
+    panel.appendChild(messages);
+
+    const inputArea = t('div', { class: 'chat-input-area' },
+      t('div', { class: 'chat-input-row' },
+        t('input', {
+          class: 'chat-input',
+          type: 'text',
+          id: 'chatInput',
+          placeholder: I18n.t('chat.placeholder'),
+          'aria-label': I18n.t('chat.placeholder'),
+          onKeydown: (e) => { if (e.key === 'Enter') sendChatMessage(); }
+        }),
+        t('button', {
+          class: 'btn btn-primary',
+          'aria-label': 'Send',
+          onClick: () => sendChatMessage()
+        }, Ui.icon('send', 18))
+      ),
+      t('div', { class: 'chat-quick-actions' },
+        t('button', { class: 'msg-action', onClick: () => quickAction('test') }, Ui.icon('clipboard', 12), I18n.t('action.test')),
+        t('button', { class: 'msg-action', onClick: () => quickAction('publish') }, Ui.icon('upload', 12), I18n.t('action.publish')),
+        t('button', { class: 'msg-action', onClick: () => quickAction('explain') }, Ui.icon('info', 12), I18n.t('action.explain'))
+      )
+    );
+    panel.appendChild(inputArea);
+
+    return panel;
+  }
+
+  function renderMessage(m) {
+    const t = Ui.h;
+    const isUser = m.role === 'user';
+    const msg = t('div', { class: `msg ${isUser ? 'user' : 'ai'}` });
+
+    if (!isUser) {
+      const avatar = t('div', { class: 'msg-avatar', 'aria-hidden': 'true' },
+        Ui.svgIconFill(['M10 2a8 8 0 100 16 8 8 0 000-16z'], '0 0 20 20', 16)
+      );
+      msg.appendChild(avatar);
+    }
+
+    const bubble = t('div', { class: 'msg-bubble' });
+
+    if (m.code) {
+      bubble.appendChild(document.createTextNode(m.text || ''));
+      const code = t('div', { class: 'msg-code' });
+      code.textContent = m.code;
+      bubble.appendChild(code);
+    } else {
+      bubble.appendChild(document.createTextNode(m.text || ''));
+    }
+
+    if (m.actions && m.actions.length > 0) {
+      const actions = t('div', { class: 'msg-actions' });
+      m.actions.forEach(a => {
+        actions.appendChild(t('button', {
+          class: 'msg-action',
+          onClick: () => handleAction(a)
+        }, a));
+      });
+      bubble.appendChild(actions);
+    }
+
+    bubble.appendChild(t('div', { class: 'msg-time' }, Ui.formatClock(m.ts)));
+    msg.appendChild(bubble);
+    return msg;
+  }
+
+  function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) {
+      Ui.toast(I18n.t('error.emptyInput'), '', 'warning');
+      return;
+    }
+    input.value = '';
+
+    const state = State.get();
+    State.set({ chat: [...state.chat, { role: 'user', text, ts: Date.now() }] });
+    render();
+    scrollChatToBottom(true);
+
+    const typingEl = renderTyping();
+    refs.chatMessages.appendChild(typingEl);
+    scrollChatToBottom(true);
+
+    setTimeout(() => {
+      typingEl.remove();
+      const response = generateAiResponse(text, state);
+      const st2 = State.get();
+      State.set({ chat: [...st2.chat, response] });
+      render();
+      scrollChatToBottom(true);
+    }, Config.AI_RESPONSE_DELAY_MS);
+  }
+
+  function renderTyping() {
+    const t = Ui.h;
+    const msg = t('div', { class: 'msg ai' },
+      t('div', { class: 'msg-avatar', 'aria-hidden': 'true' },
+        Ui.svgIconFill(['M10 2a8 8 0 100 16 8 8 0 000-16z'], '0 0 20 20', 16)
+      ),
+      t('div', { class: 'msg-bubble' },
+        t('div', { class: 'typing-indicator', 'aria-label': 'AI is typing' },
+          t('span', { class: 'typing-dot' }),
+          t('span', { class: 'typing-dot' }),
+          t('span', { class: 'typing-dot' })
+        )
+      )
+    );
+    return msg;
+  }
+
+  function scrollChatToBottom(force = false) {
+    const el = refs.chatMessages || document.getElementById('chatMessages');
+    if (!el) return;
+    const threshold = 80;
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+    if (force || atBottom) el.scrollTop = el.scrollHeight;
+  }
+
+  function generateAiResponse(userText, state) {
+    const file = State.getActiveFile();
+    const lower = userText.toLowerCase();
+    const isRu = I18n.getLocale() === 'ru';
+
+    if (/создай|create|новое|new/.test(lower) && file) {
+      const ruleName = extractRuleName(userText) || 'НовоеПравило';
+      const code = `Правило ${ruleName} {\n  Если (Клиент.Параметр < 100) {\n    Решение = Отказ;\n    Причина = "Не выполнено";\n  }\n}`;
+      return {
+        role: 'ai',
+        text: isRu ? `Создал черновик правила. Посмотрите в редакторе:` : `Created a rule draft. Check the editor:`,
+        code,
+        actions: [isRu ? 'Тестировать' : 'Test', isRu ? 'Изменить' : 'Edit'],
+        ts: Date.now()
+      };
+    }
+    if (/объясни|explain|что делает|what/.test(lower)) {
+      return {
+        role: 'ai',
+        text: isRu
+          ? `Правило "${file?.name || ''}" проверяет условия и принимает решение. Если условие в блоке "Если" истинно — выполняется ветка с отказом, иначе — правило проходит.`
+          : `The rule "${file?.name || ''}" checks conditions and makes a decision. If the "If" condition is true, the rejection branch is executed; otherwise, the rule passes.`,
+        ts: Date.now()
+      };
+    }
+    if (/тест|test|провер|check/.test(lower)) {
+      return {
+        role: 'ai',
+        text: isRu
+          ? 'Откройте модалку тестирования кнопкой "Выполнить" — туда можно подать JSON и посмотреть результат.'
+          : 'Open the test modal with the "Execute" button — you can supply JSON and see the result.',
+        actions: [isRu ? 'Открыть тест' : 'Open test'],
+        ts: Date.now()
+      };
+    }
+    return {
+      role: 'ai',
+      text: isRu
+        ? 'Понял вашу задачу. Я проанализировал текущее правило и готов помочь. Что именно вы хотите сделать?'
+        : 'Got it. I analyzed the current rule and am ready to help. What would you like to do?',
+      actions: [isRu ? 'Тестировать' : 'Test', isRu ? 'Изменить' : 'Edit', isRu ? 'Объяснить' : 'Explain'],
+      ts: Date.now()
+    };
+  }
+
+  function extractRuleName(text) {
+    const m = text.match(/(?:правил(?:о|а)|rule)\s+([A-Za-zА-Яа-яЁё0-9_]+)/i);
+    return m ? m[1] : null;
+  }
+
+  function quickAction(kind) {
+    if (kind === 'test') openTestModal();
+    else if (kind === 'publish') openPublishConfirm();
+    else if (kind === 'explain') {
+      const state = State.get();
+      State.set({ chat: [...state.chat, { role: 'user', text: 'Объясни, что делает текущее правило', ts: Date.now() }] });
+      render();
+      setTimeout(() => {
+        const st2 = State.get();
+        State.set({ chat: [...st2.chat, generateAiResponse('объясни', st2)] });
+        render();
+        scrollChatToBottom(true);
+      }, Config.AI_RESPONSE_DELAY_MS);
+    }
+  }
+
+  function handleAction(action) {
+    if (action === 'Тестировать' || action === 'Test') openTestModal();
+    else if (action === 'Открыть тест' || action === 'Open test') openTestModal();
+    else if (action === 'Изменить' || action === 'Edit') {
+      if (window.innerWidth < 1024) State.set({ ui: { ...State.get().ui, mobileTab: 'editor' } });
+      render();
+    }
+    else if (action === 'Объяснить' || action === 'Explain') quickAction('explain');
+  }
+
+  function openTestModal() {
+    const t = Ui.h;
+    const file = State.getActiveFile();
+    const defaultJson = file ? guessTestInput(file) : '{\n  "Клиент.Возраст": 25\n}';
+
+    const textarea = t('textarea', {
+      class: 'form-textarea',
+      'aria-label': I18n.t('modal.test.label'),
+      spellcheck: 'false'
+    });
+    textarea.value = defaultJson;
+
+    const errorBox = t('div', { class: 'form-error', style: { display: 'none' } },
+      Ui.icon('warn', 14),
+      t('span', {})
+    );
+
+    function validate() {
+      try {
+        JSON.parse(textarea.value);
+        textarea.classList.remove('invalid');
+        errorBox.style.display = 'none';
+        return true;
+      } catch (e) {
+        textarea.classList.add('invalid');
+        errorBox.style.display = 'flex';
+        errorBox.querySelector('span').textContent = `${I18n.t('error.jsonParse')}: ${e.message}`;
+        return false;
+      }
+    }
+    textarea.addEventListener('input', validate);
+
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('clipboard', 22)),
+          t('div', {},
+            t('h3', { class: 'modal-title' }, I18n.t('modal.test.title')),
+            t('p', { class: 'modal-sub' }, I18n.t('modal.test.subtitle'))
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('div', { class: 'form-group' },
+        t('label', { class: 'form-label' }, I18n.t('modal.test.label')),
+        textarea,
+        errorBox,
+        t('div', { class: 'form-hint' }, I18n.t('modal.test.hint'))
+      ),
+      t('div', { class: 'modal-actions' },
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => {
+            if (!validate()) return;
+            const data = JSON.parse(textarea.value);
+            modal.close();
+            executeRule(data);
+          }
+        }, Ui.icon('play', 16), I18n.t('action.runTest')),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.cancel'))
+      )
+    );
+
+    const modal = Ui.openModal(content);
+  }
+
+  function guessTestInput(file) {
+    const src = file.content || '';
+    const matches = [...src.matchAll(/([A-Za-zА-Яа-яЁё_][A-Za-zА-Яа-яЁё0-9_]*(?:\.[A-Za-zА-Яа-яЁё_][A-Za-zА-Яа-яЁё0-9_]*)+)/g)];
+    const fields = new Set();
+    matches.forEach(m => { if (m[1].includes('.')) fields.add(m[1]); });
+    if (fields.size === 0) return '{\n  "Клиент.Возраст": 25\n}';
+    const obj = {};
+    fields.forEach(f => { obj[f] = /возраст|age/i.test(f) ? 25 : /доход|income/i.test(f) ? 50000 : 0; });
+    return JSON.stringify(obj, null, 2);
+  }
+
+  function executeRule(inputData) {
+    const file = State.getActiveFile();
+    if (!file) return;
+    const started = performance.now();
+    try {
+      const result = DslParser.run(file.content, inputData);
+      const timeMs = Math.max(1, Math.round(performance.now() - started));
+      State.set({
+        ui: {
+          ...State.get().ui,
+          showResults: true,
+          results: { ruleName: file.name, timeMs, result }
+        }
+      });
+      render();
+    } catch (e) {
+      const timeMs = Math.max(1, Math.round(performance.now() - started));
+      State.set({
+        ui: {
+          ...State.get().ui,
+          showResults: true,
+          results: { ruleName: file.name, timeMs, error: e.message }
+        }
+      });
+      render();
+    }
+  }
+
+  function openPublishConfirm() {
+    const t = Ui.h;
+    const file = State.getActiveFile();
+    if (!file) {
+      Ui.toast('No active file', '', 'warning');
+      return;
+    }
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon', style: { background: 'rgba(16, 185, 129, 0.12)', color: 'var(--success)' } }, Ui.icon('upload', 22)),
+          t('div', {},
+            t('h3', { class: 'modal-title' }, I18n.t('modal.publish.title')),
+            t('p', { class: 'modal-sub' }, file.filename)
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('p', { style: { color: 'var(--text-1)', marginBottom: '16px', lineHeight: '1.6' } }, I18n.t('modal.publish.message')),
+      t('div', { class: 'modal-actions' },
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => {
+            State.updateActiveFile({ status: 'published' });
+            modal.close();
+            Ui.toast(I18n.t('toast.published'), file.filename, 'success');
+            render();
+          }
+        }, Ui.icon('check', 16), I18n.t('action.confirm')),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.cancel'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function openNewRuleModal() {
+    const t = Ui.h;
+    const input = t('input', {
+      class: 'form-textarea',
+      type: 'text',
+      style: { minHeight: 'auto', fontFamily: 'var(--font-mono)' },
+      'aria-label': I18n.t('modal.newRule.label'),
+      placeholder: 'НовоеПравило'
+    });
+    const errorBox = t('div', { class: 'form-error', style: { display: 'none' } },
+      Ui.icon('warn', 14), t('span', {})
+    );
+
+    function validateName(v) {
+      if (!v) return I18n.t('error.invalidName');
+      if (!/^[A-Za-zА-Яа-яЁё0-9_]+$/.test(v)) return I18n.t('error.invalidName');
+      const exists = Object.values(State.get().files).some(f => f.name === v);
+      if (exists) return I18n.t('error.nameExists');
+      return null;
+    }
+
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('plus', 22)),
+          t('div', {},
+            t('h3', { class: 'modal-title' }, I18n.t('modal.newRule.title'))
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('div', { class: 'form-group' },
+        t('label', { class: 'form-label' }, I18n.t('modal.newRule.label')),
+        input,
+        errorBox
+      ),
+      t('div', { class: 'modal-actions' },
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => {
+            const err = validateName(input.value.trim());
+            if (err) {
+              errorBox.style.display = 'flex';
+              errorBox.querySelector('span').textContent = err;
+              input.classList.add('invalid');
+              return;
+            }
+            const name = input.value.trim();
+            const id = 'rule-' + Date.now();
+            const newFile = {
+              id,
+              name,
+              filename: name + '.dar',
+              status: 'draft',
+              modified: Date.now(),
+              author: 'You',
+              content: `Правило ${name} {\n  \n}`,
+              versions: []
+            };
+            State.set(s => ({
+              ...s,
+              files: { ...s.files, [id]: newFile },
+              activeFileId: id
+            }));
+            modal.close();
+            Ui.toast(I18n.t('toast.created'), newFile.filename, 'success');
+            render();
+          }
+        }, Ui.icon('plus', 16), I18n.t('action.newRule')),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.cancel'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function openImportModal() {
+    const t = Ui.h;
+    const textarea = t('textarea', {
+      class: 'form-textarea',
+      'aria-label': 'DAR source',
+      placeholder: 'Правило Имя {\n  ...\n}'
+    });
+    const errorBox = t('div', { class: 'form-error', style: { display: 'none' } },
+      Ui.icon('warn', 14), t('span', {})
+    );
+
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('upload', 22)),
+          t('div', {}, t('h3', { class: 'modal-title' }, I18n.t('action.import')))
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('div', { class: 'form-group' },
+        t('label', { class: 'form-label' }, 'DAR source'),
+        textarea,
+        errorBox
+      ),
+      t('div', { class: 'modal-actions' },
+        t('button', {
+          class: 'btn btn-primary',
+          onClick: () => {
+            try {
+              const ast = DslParser.compile(textarea.value);
+              const name = ast.rule.name;
+              const id = 'rule-' + Date.now();
+              const newFile = {
+                id, name, filename: name + '.dar',
+                status: 'draft', modified: Date.now(), author: 'You',
+                content: textarea.value, versions: []
+              };
+              State.set(s => ({
+                ...s,
+                files: { ...s.files, [id]: newFile },
+                activeFileId: id
+              }));
+              modal.close();
+              Ui.toast(I18n.t('toast.created'), newFile.filename, 'success');
+              render();
+            } catch (e) {
+              errorBox.style.display = 'flex';
+              errorBox.querySelector('span').textContent = e.message;
+              textarea.classList.add('invalid');
+            }
+          }
+        }, Ui.icon('upload', 16), I18n.t('action.import')),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.cancel'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function openVersionModal(file, version) {
+    const t = Ui.h;
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('eye', 22)),
+          t('div', {},
+            t('h3', { class: 'modal-title' }, `${file.name} — ${version.tag}`),
+            t('p', { class: 'modal-sub' }, Ui.relativeTime(version.date))
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('div', {
+        style: {
+          background: 'var(--bg-0)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-md)',
+          padding: '12px',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '12px',
+          whiteSpace: 'pre',
+          overflowX: 'auto',
+          maxHeight: '50vh',
+          overflowY: 'auto'
+        }
+      }, t('code', {}, version.content)),
+      t('div', { class: 'modal-actions', style: { marginTop: '16px' } },
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => {
+            State.updateActiveFile({ content: version.content });
+            modal.close();
+            Ui.toast('Restored', version.tag, 'success');
+            render();
+          }
+        }, 'Restore'),
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.close'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function openDiffModal(file, version) {
+    const t = Ui.h;
+    const current = (State.getActiveFile()?.content || '').split('\n');
+    const old = (version.content || '').split('\n');
+    const lines = computeSimpleDiff(old, current);
+
+    const diffView = t('div', { class: 'diff-view' });
+    lines.forEach(l => {
+      const cls = l.type === 'added' ? 'added' : l.type === 'removed' ? 'removed' : 'ctx';
+      diffView.appendChild(t('div', { class: `diff-line ${cls}` },
+        t('span', { class: 'diff-line-num' }, l.lineNum || ''),
+        t('span', {}, (l.type === 'added' ? '+ ' : l.type === 'removed' ? '- ' : '  ') + l.text)
+      ));
+    });
+
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('eye', 22)),
+          t('div', {},
+            t('h3', { class: 'modal-title' }, `Diff: ${file.name} ← ${version.tag}`),
+            t('p', { class: 'modal-sub' }, Ui.relativeTime(version.date))
+          )
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      diffView,
+      t('div', { class: 'modal-actions', style: { marginTop: '16px' } },
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.close'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function computeSimpleDiff(oldLines, newLines) {
+    const m = oldLines.length, n = newLines.length;
+    const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (oldLines[i - 1] === newLines[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+        else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+    const stack = [];
+    let i = m, j = n;
+    while (i > 0 && j > 0) {
+      if (oldLines[i - 1] === newLines[j - 1]) {
+        stack.push({ type: 'ctx', text: oldLines[i - 1], lineNum: i });
+        i--; j--;
+      } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+        stack.push({ type: 'removed', text: oldLines[i - 1], lineNum: i });
+        i--;
+      } else {
+        stack.push({ type: 'added', text: newLines[j - 1], lineNum: j });
+        j--;
+      }
+    }
+    while (i > 0) { stack.push({ type: 'removed', text: oldLines[i - 1], lineNum: i }); i--; }
+    while (j > 0) { stack.push({ type: 'added', text: newLines[j - 1], lineNum: j }); j--; }
+    stack.reverse();
+    return stack;
+  }
+
+  function openSettingsModal() {
+    const t = Ui.h;
+    const state = State.get();
+    const content = t('div', {},
+      t('div', { class: 'modal-header' },
+        t('div', { class: 'modal-title-wrap' },
+          t('div', { class: 'modal-icon' }, Ui.icon('settings', 22)),
+          t('div', {}, t('h3', { class: 'modal-title' }, 'Settings'))
+        ),
+        t('button', {
+          class: 'btn btn-ghost btn-icon',
+          'aria-label': I18n.t('action.close'),
+          onClick: () => modal.close()
+        }, Ui.icon('x', 18))
+      ),
+      t('div', { class: 'form-group' },
+        t('label', { class: 'form-label' }, 'Theme'),
+        t('div', { style: { display: 'flex', gap: '8px' } },
+          t('button', {
+            class: `btn ${state.theme === 'dark' ? 'btn-primary' : 'btn-secondary'}`,
+            onClick: () => { State.set({ theme: 'dark' }); applyTheme('dark'); modal.close(); render(); }
+          }, Ui.icon('moon', 16), 'Dark'),
+          t('button', {
+            class: `btn ${state.theme === 'light' ? 'btn-primary' : 'btn-secondary'}`,
+            onClick: () => { State.set({ theme: 'light' }); applyTheme('light'); modal.close(); render(); }
+          }, Ui.icon('sun', 16), 'Light')
+        )
+      ),
+      t('div', { class: 'form-group' },
+        t('label', { class: 'form-label' }, 'Language'),
+        t('div', { style: { display: 'flex', gap: '8px' } },
+          t('button', {
+            class: `btn ${state.locale === 'ru' ? 'btn-primary' : 'btn-secondary'}`,
+            onClick: () => { State.set({ locale: 'ru' }); I18n.setLocale('ru'); document.documentElement.lang = 'ru'; modal.close(); render(); }
+          }, 'Русский'),
+          t('button', {
+            class: `btn ${state.locale === 'en' ? 'btn-primary' : 'btn-secondary'}`,
+            onClick: () => { State.set({ locale: 'en' }); I18n.setLocale('en'); document.documentElement.lang = 'en'; modal.close(); render(); }
+          }, 'English')
+        )
+      ),
+      t('div', { class: 'modal-actions' },
+        t('button', {
+          class: 'btn btn-secondary',
+          onClick: () => modal.close()
+        }, I18n.t('action.close'))
+      )
+    );
+    const modal = Ui.openModal(content);
+  }
+
+  function bindGlobal() {
+    const mount = refs.editorMount;
+    if (mount) {
+      const file = State.getActiveFile();
+      if (file) {
+        EditorModule.mount(mount, file.content || '', (newContent) => {
+          State.updateActiveFile({ content: newContent });
+        });
+      }
+    }
+  }
+
+  return { render, scrollChatToBottom, executeRule };
+})();
+
+/* ============================================================
+ *  MODULE: App (init + global shortcuts)
+ * ============================================================ */
+const App = (() => {
+  function init() {
+    State.load();
+    Renderer.render();
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => Renderer.render(), 150);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key === 's') {
+        e.preventDefault();
+        const state = State.get();
+        Storage.save({
+          files: state.files,
+          activeFileId: state.activeFileId,
+          chat: state.chat,
+          theme: state.theme,
+          locale: state.locale
+        });
+        Ui.toast(I18n.t('toast.saved'));
+      }
+      if (mod && e.key === 'Enter') {
+        e.preventDefault();
+        document.querySelector('.btn-primary')?.click();
+      }
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+      const state = State.get();
+      Storage.save({
+        files: state.files,
+        activeFileId: state.activeFileId,
+        chat: state.chat,
+        theme: state.theme,
+        locale: state.locale
+      });
+    });
+
+    mountDevPanel();
+  }
+
+  function mountDevPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'dev-panel';
+    panel.innerHTML = '';
+    const btnTests = document.createElement('button');
+    btnTests.textContent = 'Run DSL tests';
+    btnTests.addEventListener('click', () => {
+      const r = DslParser.runTests();
+      if (r.failed === 0) {
+        Ui.toast(I18n.t('toast.testsPassed'), `${r.passed}/${r.total}`, 'success');
+      } else {
+        Ui.toast(I18n.t('toast.testsFailed'), `${r.failed} failed: ${r.failures.map(f => f.name).join(', ')}`, 'error', 6000);
+        console.warn('DSL test failures:', r.failures);
+      }
+    });
+    const btnReset = document.createElement('button');
+    btnReset.textContent = 'Reset state';
+    btnReset.addEventListener('click', () => {
+      if (confirm('Reset all state?')) {
+        localStorage.removeItem(Config.STORAGE_KEY);
+        location.reload();
+      }
+    });
+    panel.appendChild(btnTests);
+    panel.appendChild(btnReset);
+    document.body.appendChild(panel);
+  }
+
+  return { init };
+})();
+
+App.init();
+</script>
+</body>
+</html>

@@ -878,3 +878,898 @@
   channel: question
   result: "confirmed: «Коммит + develop + master (Recommended)»"
   next: "dispatch git (коммит 19+1 путей → push develop → merge develop→master → push master)"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: dispatch
+  role: git
+  result: "готово: коммит fed94d6 «docs(T-15): разбор прогона 02.10 (B1: F26/F27/F15), F58–F61, статусы T-15 (service-t15-run-review)» — 20 путей (12 M + 8 A; +1102/−12); push 98f7225..fed94d6 → origin/develop; merge --no-ff develop→master 46b98c2 («Слияние develop в master»), push e696e77..46b98c2; develop = origin/develop = fed94d6; master = origin/master = 46b98c2; дерево чистое; ветки не создавались/не удалялись; записи роли (F43) вошли в коммит"
+  expect_match: true
+  post_package: "F43: запись сформирована после push — догрузка следующим плановым пакетом"
+  next: "complete"
+
+- at: "2026-10-02"
+  task: service-t15-run-review
+  iteration: 1
+  action: complete
+  result: "Сервисная операция закрыта: разбор прогона 02.10 (Q81→T-18→T-21→T-22→T-23) исполнен — 6 отчётов docs/analysis/T-15-run-2026-10-02-* (верхний уровень + analyst/tester/migrator/validator/git); данные B1 зафиксированы: 4 упора лимита lead 16 + пустой финал (5 прерываний владельца), F15 подтверждён (iteration=участок; раунды -rN без инкремента), атрибуция build≠lead; реестр находок: F15/F26/F27 уточнены, F58–F61 заведены; T-15 ⬜→🚧 (карточка, реестр, 3 ячейки TRACEABILITY). Аудит auditor (P1/P2 нет; P3 закрыт), приёмка validator (принято; полный DoD 135/0, docs_journal 14/14). Гейт владельца «коммит + develop + master»; коммит fed94d6, merge 46b98c2. F26/F27 остаются открытыми — до чистого S-прогона (решение владельца 02.10.2026)"
+  next: "— (операция закрыта; далее по T-15 — выбор владельца: B0-own BO-i2 / чистый S-прогон / фаза C)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: surface_to_user
+  question: "Owner-gate предложений T-20 (досье docs/analysis/T-20-2026-10-02.md): подтверждаете расклад?"
+  channel: question
+  owner_response: "Подтверждаю расклад (Recommended)"
+  result: "confirmed: 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23); Q22 → in work + T-24 (тест CLI-контура REST; tester, S, P3); 16 → open (v0.2); Q81 → open; Q78/D82 и Q79/D83 → done; маршрут и ветка — по плану"
+  next: "dispatch git (branch_start feature/T-20-traceability-wave2)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-20-traceability-wave2 создана от develop @ d414998 и опубликована (upstream установлен); коммитов нет, индекс пуст; рабочие пути T-20 перенесены как есть; замечание роли: снимок дерева (8 путей) разошёлся с плановым (3) — add_paths сверить на гейте пакета"
+  expect_match: partial
+  next: "re-plan analyst (state sync после branch_start: base_head/published/snapshot)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово: TRACEABILITY — 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23), Q22 → in work + T-24, 16 → open (v0.2), Q81 open; Q78/Q79 не тронуты (in work); карточка T-24 заведена (Q22/D26; tester; P3; ⬜) + строка сводки; T-20 ⬜→🚧 (сводка + карточка); cargo не запускался; отчёт/чекпойнт"
+  expect_match: true
+  next: "dispatch auditor (L, до коммита)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: auditor
+  result: "расхождений нет (P1/P2/P3 нет): 9 done без открытых задач; Q22 in work + T-24 ⬜ (видимость D77); 16 open; Q81 open; Q78/Q79 in work — корректно до ✅ T-20 (D82); T-24 в зоне migrator; T-20 🚧 в сводке и карточке; границы чисты. Технический факт: shell аудитора отклонён правами — git-команды не запускались, сверка чтением/rg"
+  expect_match: true
+  next: "dispatch validator (адресная документная приёмка, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 1
+  session_index: 1
+  action: dispatch
+  role: validator
+  result: "rework (P2): docs/tasks/T-24-rest-cli-contour-test/README.md:53 — ссылка [D50](../D50-dod-by-package-scope.md) резолвится в docs/tasks/D50-...; верно ../../decisions/D50-dod-by-package-scope.md; P1/P3 нет; адресная сверка TRACEABILITY/T-24/T-20 — ок; cargo не запускался (D50); отчёт docs/reviews/T-20-2026-10-02.md; квитанция rework (iteration 1) в receipts.yaml"
+  expect_match: true
+  next: "re-plan analyst (rework: участок №2 — migrator фикс ссылки → validator -r2 → закрытие)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: re-plan
+  role: analyst
+  result: "участок №2 (rework): migrator (фикс ссылки T-24:53) → validator (-r2, адресная) → migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done) → auditor (L, финальный пакет, до коммита) → гейт пакета → git → complete; auditor возвращён в маршрут (L — без исключений); iteration 2, rework 1, маркер t20_rework_link"
+  expect_match: true
+  next: "dispatch migrator (фикс ссылки)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (rework P2): T-24:53 → [D50](../../decisions/D50-dod-by-package-scope.md); прочие ссылки карточки проверены — живые; тех.факт: карточка T-24 untracked — сверка чтением (git diff пуст по baseline); иных правок нет"
+  expect_match: true
+  next: "dispatch validator (-r2, адресная, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 2
+  session_index: 1
+  action: dispatch
+  role: validator
+  resume: true
+  result: "rework (P1): docs/TRACEABILITY.md:82,:83 (Q78/Q79) — [T-20] ⬜ против реестра 🚧 (тест docs_journal.rs:592 требует равенства; красный гейт на след. кодовом прогоне); фикс P2 подтверждён; регресс ок; границы чисты; отчёт docs/reviews/T-20-2026-10-02-r2.md; квитанция rework (iteration 2); примечание: при закрытии Q78/Q79 → done с видимой [T-20] ✅ (не —)"
+  expect_match: true
+  next: "re-plan analyst (участок №3: migrator синхронизация TRACEABILITY:82-83 → validator -r3 → закрытие)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: re-plan
+  role: analyst
+  result: "участок №3 (rework P1): migrator (TRACEABILITY:82,:83 [T-20] ⬜→🚧 + сверка пар реестр↔TRACEABILITY) → validator (-r3, адресная) → migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done с видимой [T-20] ✅) → auditor (L, финальный) → гейт пакета → git → complete; iteration 3, rework 2, маркер t20_sync_status_cells"
+  expect_match: true
+  next: "dispatch migrator (синхронизация ячеек TRACEABILITY)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (rework P1): TRACEABILITY:82,:83 (Q78/Q79) [T-20] ⬜→🚧; все 24 пары «реестр↔TRACEABILITY» сверены — расхождений нет; ссылки живые; cargo не запускался"
+  expect_match: true
+  next: "dispatch validator (-r3, адресная, без cargo)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: validator
+  resume: true
+  result: "принято (P1/P2/P3 нет): TRACEABILITY:82,:83 [T-20] 🚧 = реестр = карточка; 23 пары «реестр↔TRACEABILITY» — 0 расхождений; фикс P2 в силе; регресс чист; границы чисты; cargo не запускался (D50); отчёт docs/reviews/T-20-2026-10-02-r3.md; квитанция accepted (iteration 3)"
+  expect_match: true
+  next: "dispatch migrator (закрытие: T-20 🚧→✅ + Q78/Q79 → done с видимой [T-20] ✅)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: migrator
+  result: "готово (закрытие): T-20 ✅ (сводка + карточка); TRACEABILITY Q78/Q79 → done с видимой [T-20] ✅; 24 пары «реестр↔TRACEABILITY» — 0 расхождений; lifecycle статически зелёный; cargo не запускался"
+  expect_match: true
+  next: "dispatch auditor (L, финальный пакет, до коммита)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: auditor
+  result: "финальный аудит: P1/P2/P3 нет; TRACEABILITY финал (9 done / Q22 in work + T-24 ⬜ / 16 open / Q81 open / Q78-Q79 done с видимой [T-20] ✅); T-20 ✅; 23 пары «реестр↔TRACEABILITY» — 0 расхождений; границы и «инструкция↔права» чисты; cargo не запускался"
+  expect_match: true
+  next: "re-plan analyst (синк package.add_paths со снимком) → surface_to_user (гейт пакета)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: surface_to_user
+  question: "Owner-gate пакета T-20: коммит 20 путей + merge --no-ff в develop + push + удаление ветки?"
+  channel: question
+  owner_response: "Коммит + merge в develop (Recommended)"
+  result: "confirmed: пакет 20 путей (14 M + 6 ??) сверен со снимком; порядок branch_end: коммит на ветке → merge --no-ff в develop → push origin develop → удаление ветки (local + origin); master не трогаем"
+  next: "dispatch git (пакет branch_end)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "частично: коммит 70f690e (20 путей: 14 M + 6 A), merge --no-ff caac10d в develop, push origin develop — выполнены (develop = origin/develop = caac10d); удаление ветки feature/T-20-traceability-wave2 НЕ выполнено: git push origin --delete заблокирован гардом CCSN (git.push-delete, ручное действие владельца), git branch -d отказывает из-за устаревшего upstream; -D не применялся (вне подтверждённого пакета). Эскалация владельцу"
+  expect_match: partial
+  next: "surface_to_user (эскалация: удаление ветки вручную либо оставить)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: surface_to_user
+  question: "Удаление ветки T-20 заблокировано гардом CCSN (git.push-delete — только вручную). Как поступаем?"
+  channel: question
+  owner_response: "Удалю вручную (Recommended)"
+  result: "deferred: владелец удаляет origin-ветку вручную (git push origin --delete feature/T-20-traceability-wave2); после — git branch -d локально; на 02.10 ветка в origin ещё есть (d414998) — ожидание действия владельца"
+  next: "wait_for_user (ручное удаление ветки) → dispatch git (локальное удаление + проверка)"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: dispatch
+  role: git
+  result: "готово (уборка): владелец вручную удалил origin-ветку; локальная feature/T-20-traceability-wave2 удалена (git branch -d, was 70f690e); ветки нет локально и в origin; master не тронут; develop = origin/develop = caac10d; записи F43 — в ответе (без правок файлов)"
+  expect_match: true
+  next: "complete"
+
+- at: "2026-10-02"
+  task: T-20
+  iteration: 3
+  session_index: 1
+  action: complete
+  result: "T-20 закрыта: волна 2 TRACEABILITY — 9 строк → done (Q8–Q11, Q14, Q18, Q20, Q21, Q23), Q22 → in work + T-24 (тест CLI-контура REST; tester; S; P3), 16 → open (v0.2), Q81 open, Q78/D82 и Q79/D83 → done; приёмка -r3 accepted (rework: P2 — ссылка; P1 — синк ячеек), финальный аудит L — чисто; коммит 70f690e, merge caac10d в develop, push; ветка удалена; cargo на документном пакете не запускался (D50). Пост-пакетные записи — подхват"
+  next: "— (T-20 закрыта; далее — S-пилот на T-24, выбор владельца)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Старт T-24 (S-пилот, F26/F27; владелец: fast path, без прерываний кроме гейтов): класс S зафиксирован (карточка/прецедент; guard features/ разобран без Q/D); устаревший снимок гейта T-20 перезаписан; план: surface_to_user (гейт ветки) → git (branch_start feature/T-24-rest-cli-contour-test от develop @ caac10d, push -u) → tester (тест CLI-контура REST в tests/**); далее re-plan → validator (полный DoD, R2) → закрытие (docs-writer T-24 ✅; migrator TRACEABILITY Q22→done с видимой [T-24] ✅) → гейт пакета → git (branch_end) → complete; F43-подхват (3 M) — в пакет branch_end; новых Q/D нет"
+  note: "pre-flight lead: develop = origin/develop (синхрон); канон не тронут; дерево — 3 пост-пакетных файла-подхвата T-20; машинная сверка агентов — вне прав lead (последняя 02.10: «agents: 11 из 18»)"
+  next: "surface_to_user (гейт ветки: feature/T-24-rest-cli-contour-test от develop @ caac10d)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: surface_to_user
+  question: "Гейт старта T-24 (S): ветка feature/T-24-rest-cli-contour-test от develop @ caac10d + push -u; далее git (branch_start) → tester?"
+  channel: question
+  owner_response: "Подтверждаю ветку и порядок (Recommended)"
+  result: "confirmed: ветка и порядок подтверждены; пакет старта зафиксирован в ленте до вызова git"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк (точка ветвления «resume»): расхождений нет — гейт ветки подтверждён и записан (progress + лента), git branch_start ещё не вызывался (HEAD = develop, ветки нет); очередь усечена до оставшихся: dispatch git (branch_start feature/T-24-rest-cli-contour-test от develop @ caac10d, push -u) → dispatch tester; phase: implementation; session_index 2 сохранён (resume, D42); маркер t24_cli_rest_test; новых Q/D нет"
+  next: "dispatch git (branch_start)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-24-rest-cli-contour-test создана от develop @ caac10d3f9cb9b878bd7a7f4a515f657d56260c8 (= origin/develop) и опубликована (upstream установлен); коммитов нет; develop/master не тронуты; рабочие пути перенесены без изменений и в коммит не подмешаны (3 M подхвата T-20 + 2 M плана + 2 ?? лента/досье T-24 + M memory/git.md — F43-чекпойнт)"
+  expect_match: true
+  next: "dispatch tester"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: tester
+  result: "готово: tests/rest_cli.rs — интеграционный тест CLI-контура REST на env!(CARGO_BIN_EXE_credo2) (сырой TCP): --rest/--addr + GET /health (поллинг), --api-key 401/200 (+конверт unauthorized Q23/D26), env CREDO_API_KEY, открытый режим 200, открытые пути /health,/docs,/openapi.json при ключе, конфликты --no-rest+--rest/--addr (clap); cargo check --all-targets ok, cargo fmt --check ok; cargo test не запускался (R2); src/**, Cargo.toml, features/**, канон не тронуты; отчёт в ленте + чекпойнт; риск: свободный порт через bind :0 — микро-гонка (таймаут 20 с)"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (участок: validator, полный DoD, R2 — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок validator: очередь — dispatch validator (полный DoD: fmt/clippy/cargo test --all; R2; точка ветвления) → docs-writer (T-24 ✅; features/README не трогать — rest_auth.feature уже ✅) → migrator (TRACEABILITY Q22→done с видимой [T-24] ✅) → гейт пакета → git (branch_end) → complete; срез: дерево 8 M + 3 ??, ветка опубликована (0 коммитов), карточка/реестр/TRACEABILITY синхронны до закрытия; новых Q/D нет"
+  next: "dispatch validator (полный DoD, R2 — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 1
+  session_index: 2
+  action: dispatch
+  role: validator
+  result: "rework (P1): clippy::collapsible_if tests/rest_cli.rs:47 (let-chain; rust-1.96.0, -D warnings) — DoD clippy fail; cargo fmt --check pass; cargo test --all 141/0 (rest_cli 6 — зелёные; features_inventory 4/4); покрытие карточки 6/6; границы чисты (src/tests/Cargo.toml/features/канон не тронуты); отчёт docs/reviews/T-24-2026-10-02.md; квитанция T-24 rework (iteration 1) в receipts.yaml; правка — tests/** (tester)"
+  expect_match: true
+  next: "re-plan analyst (rework P1 → tester fix let-chain → validator -r2)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок rework P1: iteration 2 (rework=1, D42), маркер t24_rework_clippy_p1; очередь — tester (одна правка let-chain tests/rest_cli.rs:47; новый вызов, факты P1 в брифе) → validator -r2 (полный DoD, точка ветвления); далее закрытие (docs-writer → migrator → гейт → git branch_end → complete); отчёт -r2 ожидается docs/reviews/T-24-2026-10-02-r2.md; новых Q/D нет"
+  next: "dispatch tester (фикс P1 let-chain)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк №2: расхождений нет — tester (фикс let-chain) ещё не запускался; P1 открыт (tests/rest_cli.rs:47 не схлопнут); квитанция T-24 iteration 1 rework (p1: OPEN) на месте; очередь без изменений: dispatch tester (одна правка) → validator -r2 (полный DoD, точка ветвления); актуализирован счётчик снимка (10 M, +memory/analyst.md) в package.note/snapshot_check; session_index 2; новых Q/D нет"
+  next: "dispatch tester (фикс P1 let-chain)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: tester
+  result: "готово: tests/rest_cli.rs:47 (fn wait_ready) схлопнут в let-chain (if let Ok((200, body)) = request(...) && body.contains(\"ok\")); иных правок нет; cargo fmt --check ok; cargo check --all-targets ok; clippy/test не запускались (R2; clippy не в правах); src/**, Cargo.toml, features/**, канон не тронуты; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (-r2, полный DoD — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: validator
+  result: "принято (-r2): полный DoD зелёный — fmt pass; clippy --all-targets -- -D warnings pass (P1 закрыт); cargo test --all 141/0 (rest_cli 6/6; features_inventory 4/4); покрытие карточки 6/6; границы чисты (src/tests/Cargo.toml/features/канон не тронуты); отчёт docs/reviews/T-24-2026-10-02-r2.md; квитанция T-24 (iteration 2, accepted) в receipts.yaml; точка ветвления закрыта"
+  expect_match: true
+  next: "re-plan analyst (закрытие: docs-writer → migrator → гейт пакета → git branch_end → complete)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок закрытия (accepted -r2): маркер t24_closeout_package; phase closing; очередь — docs-writer (T-24 ✅: карточка + tasks/README; features/ и CHANGELOG не трогать) → migrator (TRACEABILITY Q22 in work → done с видимой [T-24] ✅; D77/D82; F57) → surface_to_user (гейт пакета branch_end; pre_gate: add_paths = снимок, ожидание 15 M + 5 ?? = 20 путей) → git (branch_end) → complete; лента 344 строки — том не заводится (финальная секция); новых Q/D нет"
+  next: "dispatch docs-writer (T-24 ✅)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-24 → «✅ сделана»; docs/tasks/README.md строка T-24 → концевой ✅; features/ и CHANGELOG не тронуты (D72); иных правок нет; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch migrator (TRACEABILITY Q22 → done)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: migrator
+  result: "готово: TRACEABILITY.md:26 Q22/D26 in work → done; [T-24] ⬜ → ✅ (видимая); ровно 1 строка (numstat 1/1); git diff --check пусто; иных строк/файлов не тронуто; новых Q/D нет; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "surface_to_user (pre_gate: сверка add_paths со снимком) → гейт пакета branch_end"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: surface_to_user
+  question: "Гейт пакета T-24 (branch_end): коммит 20 путей (15 M + 5 ??, сверен 1:1) на ветке feature/T-24-rest-cli-contour-test → merge --no-ff в develop → push origin develop → удаление ветки (local + origin); master не трогаем?"
+  channel: question
+  owner_response: "Подтверждаю пакет (Recommended)"
+  result: "confirmed: пакет без изменений; порядок branch_end подтверждён; пакет зафиксирован в ленте (§pre_gate) до вызова git"
+  next: "dispatch git (branch_end)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  resume: true
+  result: "Resume-синк №3 + финальный участок: расхождений нет — pre_gate 15 M + 5 ?? = 20 = add_paths 1:1; гейт пакета подтверждён (owner_response дословно); квитанция accepted; очередь: dispatch git (branch_end: add 20 → staged-сверка 15 M + 5 A → коммит «code(T-24): интеграционный тест CLI-контура REST» → merge --no-ff «Слияние feature/T-24-rest-cli-contour-test в develop» → push origin develop → удаление ветки local+origin; master не трогаем; гард CCSN git.push-delete — без обходов, эскалация) → complete; маркер t24_closeout_git; gate_pending: none; session_index 2; новых Q/D нет"
+  next: "dispatch git (branch_end)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "частично: коммит 8b6c8b9 «code(T-24): интеграционный тест CLI-контура REST» (20 путей: 15 M + 5 A); merge --no-ff 6c28e51 «Слияние feature/T-24-rest-cli-contour-test в develop»; push caac10d..6c28e51 origin develop — выполнены (develop = origin/develop, дерево чистое); удаление ветки НЕ выполнено: git push origin --delete заблокирован гардом CCSN (git.push-delete — ручное действие владельца); локальная ветка осталась (branch -d не выполнялся); обходов не применялось; master не тронут"
+  expect_match: false
+  next: "re-plan analyst → surface_to_user (эскалация CCSN: ручное удаление origin-ветки владельцем) → git (local delete + проверка) → complete"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: re-plan
+  role: analyst
+  result: "Участок уборки (частичный branch_end, CCSN-блок): маркер t24_closeout_branch_cleanup; status awaiting_user; зафиксирован остаток: surface_to_user (эскалация: ручное удаление origin-ветки владельцем) → git (branch -d без force + проверка local+origin) → complete (только после полного closeout); base.develop = 6c28e51; package: нового коммита нет; новых Q/D нет"
+  next: "surface_to_user (эскалация CCSN)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: surface_to_user
+  question: "T-24: хвост closeout — origin-ветка feature/T-24-rest-cli-contour-test не удалена (гард CCSN git.push-delete); как закрываем?"
+  channel: question
+  owner_response: "Удалю origin-ветку вручную (Recommended)"
+  result: "deferred: владелец удаляет origin-ветку вручную (CCSN); факт удаления ещё не подтверждён (проверка lead: git ls-remote — permission denied); по плану — re-plan → wait_for_user до подтверждения факта, затем git (branch -d + проверка) → complete"
+  next: "re-plan analyst → wait_for_user (подтверждение факта удаления origin-ветки)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: wait_for_user
+  result: "владелец подтвердил факт: «удалил» — origin-ветка feature/T-24-rest-cli-contour-test удалена вручную (CCSN); предусловие git-уборки выполнено (отсутствие верифицирует роль git); переход к dispatch git"
+  note: "вызов analyst режима ожидания был прерван — записей в state/ленте не оставил; план остатка (t24_closeout_branch_cleanup) без изменений"
+  next: "dispatch git (уборка: branch -d + проверка local+origin)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: dispatch
+  role: git
+  result: "готово (уборка): предусловие подтверждено (origin-ветка отсутствует: git branch -a + git rev-parse --verify origin/... — ref нет; удалена владельцем вручную); локальная feature/T-24-rest-cli-contour-test удалена git branch -d (was 8b6c8b9, без force); git branch -a — целевой ветки нет (local+remotes); develop = origin/develop = 6c28e51; master = 46b98c2 не тронут; дерево — 6 M пост-пакетных записей (подхват); F43: в файлы не писал (рапорт в ответе). Ограничение: git ls-remote — вне прав роли (верификация косвенная: remote-tracking ref отсутствует; обходов не применялось)"
+  expect_match: true
+  next: "complete (полный closeout: ветка удалена local+origin)"
+
+- at: "2026-10-02"
+  task: T-24
+  iteration: 2
+  session_index: 2
+  action: complete
+  result: "T-24 закрыта (S-пилот F26/F27): коммит 8b6c8b9 «code(T-24): интеграционный тест CLI-контура REST» → merge --no-ff 6c28e51 в develop → push origin develop; ветка удалена local+origin (origin — вручную владельцем, local — git branch -d); develop = origin/develop = 6c28e51; master не тронут; приёмка -r2 accepted (141/0, rest_cli 6/6), квитанция в receipts.yaml; Q22 → done с видимой [T-24] ✅; пост-пакетные записи — F43-подхват"
+  next: "— (T-24 закрыта; S-пилот завершён)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Старт T-16 (M): check.test на stale-черновике исполняет текст файла rules/{name}.dar (Q12/D54; сценарий features/test_draft.feature «Тестирование устаревшего черновика»; H7). Причина re-plan: next_action/current_state описывали закрытый T-24 (устарели) — перезаписаны под T-16. База develop = origin/develop = 6c28e51; ветка feature/T-16-stale-check-test ещё НЕ создана; worktree не чист (2 чужих M-файла сервисной сессии — не включать); новых Q/D нет"
+  next: "surface_to_user (гейт ветки)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: surface_to_user
+  question: "T-16 (M): check.test на stale-черновике должен исполнять текст файла rules/{name}.dar. Создаю ветку feature/T-16-stale-check-test от develop (6c28e51)?"
+  channel: question
+  owner_response: "Да, начинай (Recommended)"
+  result: "confirmed: ветка и порядок подтверждены; пакет старта зафиксирован в ленте до вызова git"
+  next: "dispatch git (branch_start feature/T-16-stale-check-test от develop @ 6c28e51)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "НЕ выполнено (expect_match false, без обходов): ожидалась база develop = 6c28e51, фактически develop = origin/develop = HEAD = 2958bf5 (develop ушёл вперёд на 2 процессных коммита T-15: af53e23 r9, 2958bf5 r10; 6c28e51 — в истории). Одноимённой ветки нет (local+origin); master = 46b98c2 не тронут; изменяющих команд не было; отслеживаемые файлы не менялись; отчёт в ленте T-16"
+  expect_match: false
+  next: "re-plan analyst (расхождение базы: 2958bf5 против плановой 6c28e51)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Участок branch_start (re-plan по несовпадению expect): новая база — develop = origin/develop = 2958bf5 (T-15 r10; 6c28e51 в истории, развилка — 2 процессных коммита T-15, кода T-16 не касаются). Повторный owner-гейт НЕ требуется (решение: re_raise T-16-branch-base-drift, expect_mismatch, blocking false, resolved). Гейт старта снят из очереди; next_action/current_state/досье обновлены (base_head 2958bf5, status in_progress). Очередь: git branch_start → docs-writer 🚧 → migrator 🚧 → coder → tester → validator → docs-writer ✅ → migrator ✅ → surface_to_user (пакет) → git branch_end → complete; новых Q/D нет"
+  next: "dispatch git (branch_start от develop @ 2958bf5)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-16-stale-check-test создана от develop @ 2958bf5 и опубликована (upstream origin/feature/T-16-stale-check-test); коммитов нет; develop = origin/develop = 2958bf5; master = 46b98c2 не тронут; отслеживаемые файлы не менялись; отчёт в ленте T-16"
+  expect_match: true
+  next: "dispatch docs-writer (T-16 ⬜→🚧)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка docs/tasks/T-16-stale-check-test/README.md:3 ⬜→🚧; сводка docs/tasks/README.md:57 ⬜→🚧; ровно 2 строки (diff чист); прочие статусы, CHANGELOG/SPEC/features не тронуты"
+  expect_match: true
+  next: "dispatch migrator (TRACEABILITY [T-16] ⬜→🚧)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: migrator
+  result: "готово: docs/TRACEABILITY.md:16 (Q12/D54) ячейка [T-16] ⬜→🚧 (numstat 1/1; git diff --check пусто); Q12 остался in work; [T-08] ⬜ / [T-01] ✅ не тронуты; иных строк/файлов нет; новых Q/D/F нет"
+  expect_match: true
+  next: "dispatch coder (реализация stale-источника check.test)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: coder
+  result: "готово: src/lib.rs:811-816 — AppState::source_file_path (rules/{name}.dar), is_stale переведён на него (поведение сохранено); src/mcp.rs:224-246 — test() при stale парсит правило из текста файла (иначе d.rule.clone()), ошибки чтения/разбора → ToolError::evaluation (evaluation_failed, §4.5/D34, D40); юнит-тесты stale_test_executes_file_text_q12_t16, stale_test_invalid_file_is_evaluation_failed_t16; cargo fmt/check --all-targets/clippy --all-targets -- -D warnings — ok; контракт ответа не изменён; cargo test не запускался (R2/D50); Cargo.toml не тронут; отчёт в ленте + чекпойнты"
+  expect_match: true
+  next: "dispatch tester (интеграционный тест tests/mcp_draft.rs)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 1
+  session_index: 3
+  action: dispatch
+  role: tester
+  result: "готово: tests/mcp_draft.rs — stale_test_executes_file_text_q12_t16 (:212; исполняется текст файла, condition <18, matched false; контракт §4.5/D34 сохранён) и stale_test_invalid_file_is_evaluation_failed_t16 (:262; невалидный .dar → evaluation_failed); +75 строк; cargo check --all-targets ok, cargo fmt --check ok; clippy/test не запускались (R2); src/**, Cargo.toml, features/**, канон не тронуты; отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "queue exhausted → re-plan analyst (участок: validator, полный DoD — точка ветвления)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: validator
+  result: "rework (P1, базовый дефект — не T-16): fmt pass; clippy --all-targets -- -D warnings pass; cargo test --all FAIL — lib 63/0 (оба юнит-теста T-16 зелёные), docs_journal 13 passed/1 FAILED (no_addresses_to_removable_or_session_data, tests/docs_journal.rs:889: D65-ссылки на docs/analysis/T-24-run-2026-10-02-lead-session.md в Q84:11, Q85:12, D87:22,74,100, D88:83,111); прогон остановлен на docs_journal, остальные цели не проверены. Доказано вне T-16: файлы не трогались (git diff пусто), последние коммиты af53e23/2958bf5 (T-15). Покрытие сценария test_draft.feature :55-61 — подтверждено; реализация корректна (§4.5/D34, D40); границы чисты (Cargo.toml не тронут, T-02/T-08 не реализованы, канон/права не затронуты); статусы 🚧; features/test_draft.feature = 🟡. Артефакты: docs/reviews/T-16-2026-10-02.md; квитанция T-16 iteration 2 rework в receipts.yaml; лента + чекпойнт"
+  expect_match: false
+  next: "re-plan analyst (rework по базовому P1 docs_journal; маршрут: отдельная задача/сервисная правка D65-ссылок вне T-16 → зелёный DoD → приёмка T-16 -r2)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Маршрут (а): отдельная S-задача через migrator на снятие D65-ссылок (Q84/Q85/D87/D88 → сессионные данные), чтобы docs_journal позеленел (review.md:55 — красный DoD блокер; прецеденты T-21/T-22/T-24). Новая задача — класс S (docs/questions + docs/decisions + карточка/реестр; кода/канон агентов не трогает). Очередь (8): migrator (карточка S + снятие D65-адресов) → validator (адресно cargo test --test docs_journal) → validator -r2 (полная приёмка T-16, полный DoD) → docs-writer (T-16 ✅ + CHANGELOG; фича 🟡) → migrator (TRACEABILITY ✅) → surface_to_user (пакет T-16) → git branch_end → complete. Маркер t16_baseline_p1; re_raise T-16-acceptance-baseline-p1; next_action/current_state/досье обновлены; новых Q/D нет (D65 — основание)"
+  next: "dispatch migrator (S-задача на базовый P1: карточка + снятие D65-адресов Q84/Q85/D87/D88)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: migrator
+  result: "НЕ завершено (лимит шагов роли): сделано — сняты D65-адреса (7) на docs/analysis/T-24-run-2026-10-02-lead-session.md в Q84, Q85, D87 (3), D88 (2); заведена T-25 (docs/tasks/T-25-d65-analysis-addresses/README.md, класс S, P1, ⬜, источник Q61/D65 + базовый P1 T-16 + F73) + строка в docs/tasks/README.md; F73 добавлена в findings-registry. НЕ сделано: строка T-25 в docs/TRACEABILITY.md (иначе тест T-18 красный), отчёт в ленту T-16, чекпойнт memory/migrator.md, финальные git diff --check. Продолжение — resume тем же sessionID"
+  expect_match: false
+  next: "re-plan analyst (продолжение участка базового P1: resume migrator)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Участок базового P1 подтверждён: resume migrator (добить строку [T-25] ⬜ в TRACEABILITY на Q61/D65, отчёт в ленту, чекпойнт, git diff --check; новых Q/D нет) → validator (адресно cargo test --test docs_journal; T-25 НЕ закрывать) → validator -r2 (повторная приёмка T-16, полный DoD) → docs-writer (T-16 ✅ + CHANGELOG; фича 🟡) → migrator (TRACEABILITY [T-16] ✅; Q12 in work; H7) → surface_to_user (пакет T-16) → git branch_end → complete. Решение: T-25 не закрывать в маршруте T-16 (отдельный цикл/пакет, F43); для приёмки T-16 достаточно зелёного docs_journal. Маркер t16_baseline_p1; next_action/current_state (route_deferred)/досье обновлены"
+  next: "dispatch migrator (resume: TRACEABILITY [T-25] + отчёт + чекпойнт + проверки)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово (участок базового P1): docs/TRACEABILITY.md:65 (Q61/D65) «Задачи» — → [T-25] ⬜ (равенство с docs/tasks/README.md:58); сняты 7 D65-адресов (Q84/Q85/D87×3/D88×2); карточка T-25 (untracked) + F73; отчёт в ленте + чекпойнт. Проверки: rg — адресов docs/analysis/* вне whitelist нет; git diff --check пусто; src/**, tests/**, state/**, канон не тронуты. cargo не запускался (D50)"
+  expect_match: true
+  next: "dispatch validator (адресно cargo test --test docs_journal; T-25 не закрывать)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: validator
+  result: "rework (P1, адресный прогон): cargo test --test docs_journal 13 passed/1 failed. Зелёные: no_addresses_to_removable_or_session_data (:881, D65-адреса сняты), traceability_tasks_exist_and_match_registry (:592, T-25 видна). КРАСНЫЙ: traceability_lifecycle_matches_task_openness (:564/:577) — «TRACEABILITY Q61: done не допускает открытых задач»: ячейка Q61/D65 переведена в [T-25] ⬜, но lifecycle остался done (D82 §Следствия:55-56). Правка для migrator: Q61 → in work (по образцу Q12) либо вернуть ячейку задач в «—». T-25 не закрывалась; полный DoD не запускался; src/tests/docs/state не менялись"
+  expect_match: false
+  next: "re-plan analyst (rework P1 lifecycle Q61: правка migrator → повторный адресный прогон → приёмка T-16 -r2)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Вариант (а): docs/TRACEABILITY.md:65 lifecycle Q61/D65 done → in work (T-25 ⬜ — открытая задача; D65 п.4/5 оставляет исполнение отдельными шагами; прецедент Q12; файловые статусы Q61/D65 не менять — D82 §4). (б) отвергнут: переносит красноту на traceability_tasks_exist (T-25 видна); (в) отвергнут: искажает провенанс. Очередь: migrator (resume — lifecycle → in work; иных ячеек не трогать) → validator (адресно docs_journal, ожидается 14/0) → validator -r2 (полный DoD T-16) → docs-writer (T-16 ✅ + CHANGELOG; фича 🟡) → migrator ([T-16] ✅) → surface_to_user (пакет) → git branch_end → complete. Маркер t16_baseline_p1_lifecycle; re_raise T-16-acceptance-baseline-p1-lifecycle; next_action/current_state/досье обновлены"
+  next: "dispatch migrator (resume: lifecycle Q61/D65 done → in work)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: migrator
+  resume: true
+  result: "готово: docs/TRACEABILITY.md:65 lifecycle Q61/D65 done → in work (ячейка [T-25] ⬜ сохранена; файловые статусы Q61 resolved by D65 / D65 accepted не менялись — D82 §4). Проверки: git diff --check пусто; numstat TRACEABILITY 2/2 (Q61 + ранее Q12/T-16 🚧); иных файлов не тронуто; cargo не запускался (D50)"
+  expect_match: true
+  next: "dispatch validator (адресно cargo test --test docs_journal, ожидается 14/0)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: validator
+  result: "готово: P1 снят. cargo test --test docs_journal — 14 passed/0 failed; no_addresses_to_removable_or_session_data (:881), traceability_tasks_exist_and_match_registry (:592), traceability_lifecycle_matches_task_openness (:564) — зелёные. T-25 не тронута; полный DoD не запускался (следующий шаг — приёмка T-16 -r2); квитанция T-16 iteration 2 остаётся rework"
+  expect_match: true
+  next: "dispatch validator (-r2: повторная приёмка T-16, полный DoD)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: validator
+  round: r2
+  result: "rework (P1 — дефект теста T-16; базовый P1 снят): fmt pass; clippy --all-targets -- -D warnings pass; cargo test --all 144 passed/1 failed — lib 63/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 26/1 FAILED (добором: mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0). P1: tests/mcp_draft.rs:244 assert_eq!(tested[\"decision\"], \"пусто\") — факт \"\" (канон D21:61-62, Q10, src/core.rs:585-594); литерал \"пусто\" добавлен этой задачей, в базе отсутствует; юнит :1011-1018 decision не утверждает; реализация корректна — красна строка теста. P2/P3 нет. Фича test_draft.feature = 🟡 (6 сценариев, T-16 закрывает 1; :63-70 зависит от T-02). Границы чисты. Артефакты: docs/reviews/T-16-2026-10-02-r2.md; квитанция T-16 iteration 2 rework в receipts.yaml"
+  expect_match: true
+  next: "re-plan analyst (rework P1 → tester фикс :244 \"пусто\"→\"\" → validator -r3)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Маршрут rework -r2: dispatch tester (одна строка tests/mcp_draft.rs:244 \"пусто\"→\"\" — дефект теста, не кода; канон D21:61-62/Q10/src/core.rs:585-594) → validator -r3 (полный DoD; ожидается mcp_draft 27/0, итог 145/0; отчёт docs/reviews/T-16-2026-10-02-r3.md) → docs-writer (T-16 ✅ + CHANGELOG; фича 🟡) → migrator (TRACEABILITY [T-16] ✅; Q61/D65 и T-25 не трогать) → surface_to_user (пакет) → git branch_end → complete. iteration 2; rework 1; маркер t16_test_literal_decision; re_raise T-16-acceptance-r2-test-literal-decision (resolved false); next_action/current_state/досье обновлены; новых Q/D нет. Примечание: лента ~394 стр. — при следующем re-plan открыть том T-16-r2.md"
+  next: "dispatch tester (фикс tests/mcp_draft.rs:244 \"пусто\"→\"\")"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: tester
+  resume: false
+  result: "готово: tests/mcp_draft.rs:244 — assert_eq!(tested[\"decision\"], \"\", \"{tested}\") (литерал \"пусто\"→\"\"); сообщение ассерта сохранено; иных правок tests/ нет; src/**, Cargo.toml, features/** не тронуты; cargo fmt --check ok; тесты не запускались (R2); отчёт в ленте + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (-r3: повторная приёмка T-16, полный DoD)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: validator
+  round: r3
+  result: "принято (P1/P2/P3 нет): fmt pass; clippy --all-targets -- -D warnings pass; cargo test --all 145 passed/0 failed — lib 63/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 27/0, mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0. P1 -r2 снят (tests/mcp_draft.rs:244 → \"\"); покрытие test_draft.feature:55-61 полное (позитив + негатив evaluation_failed). Фича test_draft.feature = 🟡 (6 сценариев, T-16 закрывает 1; :63-70 ← T-02 ⬜). Границы чисты (Cargo.toml/src/core.rs/D34 не тронуты; чужие сервисные и S-файлы T-25 вне T-16). Артефакты: docs/reviews/T-16-2026-10-02-r3.md; квитанция T-16 iteration 2 accepted в receipts.yaml; лента + чекпойнт"
+  expect_match: true
+  next: "dispatch docs-writer (T-16 ✅ + CHANGELOG; фича 🟡)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка docs/tasks/T-16-stale-check-test/README.md:3 🚧→✅; сводка docs/tasks/README.md:57 🚧→✅; docs/CHANGELOG.md:9-16 запись T-16 (D72, ссылка на r3); features/ не тронут (фича test_draft.feature остаётся 🟡); TRACEABILITY/Q84/Q85/D87/D88/T-25 не тронуты"
+  expect_match: true
+  next: "dispatch migrator (TRACEABILITY [T-16] → ✅; Q12 in work; Q61/D65 и T-25 не трогать)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: migrator
+  result: "готово: docs/TRACEABILITY.md:16 (Q12/D54) ячейка [T-16] 🚧→✅ (равенство с tasks/README.md:57); Q12 остался in work; Q61/D65 и T-25 не тронуты; H7 в findings-registry закрыт (источник скорректирован на приёмку T-16, связь T-16 сохранена). git diff --check пусто; numstat TRACEABILITY 2/2 (вторая строка :65 Q61/D65 — не моя, предсуществующая в ветке, не откатывалась). Пакеты T-16 и T-25 раздельны (F43)"
+  expect_match: true
+  next: "surface_to_user (гейт пакета branch_end T-16; сверить add_paths со снимком)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: surface_to_user
+  question: "Owner-gate пакета T-16 (M, accepted -r3): коммит путей T-16 (18) + merge --no-ff в develop + push + удаление ветки?"
+  channel: question
+  owner_response: "Коммит + merge в develop (Recommended)"
+  result: "confirmed: пакет 18 путей сверен со снимком git status (18 M/?? из состава T-16); порядок branch_end: коммит на feature/T-16-stale-check-test → merge --no-ff в develop → push origin develop → удаление ветки local+origin; master не трогать. НЕ включены: чужие сервисные (.opencode/mail/service-mcp-ready-r10.md, .opencode/memory/service.md) и пакет T-25 (Q84/Q85/D87/D88, F73, tasks/T-25-*, строка Q61/D65) — отдельным циклом"
+  next: "dispatch git (пакет branch_end T-16)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "НЕ выполнено (лимит шагов до изменяющих команд; без обходов): read-only сверка пакета — все 22 пути T-16 в снимке; чужие сервисные + S-файлы T-25 исключены. Зафиксирован блокер: docs/TRACEABILITY.md содержит ДВЕ правки (:16 Q12/T-16 ✅ — целевая; :65 Q61/D65 lifecycle — чужая, пакет T-25), пофайловый add прихватит обе (F43). Неинтерактивное разделение хунков не подтвердилось (temp-патч: external_directory denied; git add -p интерактив — избегать). Изменяющих git-команд не было; ветка/история не тронуты; master не тронут"
+  expect_match: false
+  next: "re-plan analyst (split TRACEABILITY.md :16 vs :65 при branch_end T-16)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: re-plan
+  role: analyst
+  result: "Вариант (а) T-25-first: TRACEABILITY.md несёт две несмежные правки (:16 [T-16] ✅ — пакет T-16; :65 Q61/D65 lifecycle — пакет T-25); пофайловый add нарушил бы F43. Решение: сначала завершить S-задачу T-25 своей веткой/пакетом (её файлы + :65 уйдут из дерева), затем branch_end T-16 чист. (б) отвергнут (смешение пакетов), (в) отвергнут (хрупкий split хунков/stash). Очередь: surface_to_user (гейт ветки T-25) → git branch_start T-25 → docs-writer (T-25 ✅ + CHANGELOG) → validator (адресно docs_journal + квитанция) → surface_to_user (пакет T-25) → git branch_end T-25 → analyst (свежий add_paths T-16) → surface_to_user (переоформленный гейт T-16) → git branch_end T-16 → complete. Маркер t16_branch_end_blocked_traceability_split; блокер resolved; next_action/current_state/досье обновлены; новых Q/D нет"
+  next: "surface_to_user (гейт старта ветки T-25)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: surface_to_user
+  question: "branch_end T-16 технически блокуется: TRACEABILITY.md несёт две несмежные правки (:16 [T-16] ✅ — наша; :65 Q61/D65 lifecycle — пакет S-задачи T-25). Как закрываем? (Сначала T-25, потом T-16 / T-16 первым со смешением / Отложить)"
+  channel: question
+  owner_response: "Отложить"
+  result: "deferred_by_owner: git-операции отложены; T-16 остаётся accepted -r3 без коммита; branch_end T-16 НЕ исполнен; рабочее дерево не тронуто (ноль изменяющих git-команд). Блокер split TRACEABILITY.md (:16 vs :65) остаётся открытым. Стоп по плану (wait_for_user)"
+  next: "wait_for_user (владелец отложил пакет; T-16 и T-25 ждут решения о git)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 3
+  action: segment_summary
+  result: "Сегментный итог lead (T-16): принята (-r3, 145/0); базовый P1 снят отдельной S-задачей T-25; закрытие статусов исполнено (T-16 ✅; CHANGELOG; TRACEABILITY [T-16] ✅). branch_end T-16 НЕ исполнен — технический блокер (TRACEABILITY.md :16/:65) и решение владельца «Отложить». Рабочее дерево не тронуто; docker закрыт. Дальше: решение владельца по git-пакетам T-16/T-25"
+  next: "—"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: surface_to_user
+  question: "Гейт старта S-задачи T-25: ветка feature/T-25-d65-analysis-addresses от develop @ 2958bf5 (switch develop → pull → switch -c → push -u); master не трогать?"
+  channel: question
+  owner_response: "Подтверждаю ветку и порядок (Recommended)"
+  result: "confirmed: ветка T-25 и порядок подтверждены. Дальше по плану: git (branch_start T-25) → docs-writer (T-25 ✅ + CHANGELOG) → validator (адресный docs_journal) → surface_to_user (пакет T-25) → git (branch_end T-25) → analyst (свежий add_paths T-16) → surface_to_user (гейт T-16) → git (branch_end T-16) → complete. master не трогать"
+  next: "dispatch git (branch_start T-25)"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: dispatch
+  role: git
+  package: branch_start
+  result: "готово: ветка feature/T-25-d65-analysis-addresses создана от develop @ 2958bf5 (= origin/develop) и опубликована (upstream установлен); коммитов нет; develop/master не тронуты (master 46b98c2); рабочие пути перенесены без изменений (25 M + 7 ?? — F43, в коммит не входят); отчёт в ленте T-25 + чекпойнт memory/git.md записаны до операции"
+  expect_match: true
+  next: "РАСХОЖДЕНИЕ ПЛАНА: docs-writer (Шаг 2) условен «только если validator ранее принял T-25», но приёмка (Шаг 3) стоит ниже и квитанции T-25 в receipts.yaml нет → re-plan analyst (порядок закрытия/приёмки T-25)"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: re-plan
+  role: analyst
+  result: "Исправлен порядок внутри T-25: приёмка validator → закрытие статусов docs-writer (прежний guard docs-writer был невыполним — validator стоял ниже по очереди). Обновлены next_action.yaml (маркер t25_validator_before_closeout; Шаг 1 помечен ВЫПОЛНЕНО; Шаг 2 validator, Шаг 3 docs-writer) и current_state.yaml (phase verification, session_index 3→4, route_pending перестроен, branch.related published=true). Квитанции T-25 нет; проверка docs_journal статус-независима (TRACEABILITY:65 ⬜ = tasks/README.md:58 ⬜). НЕ завершено (лимит шагов роли): append в досье docs/analysis/T-16-2026-10-02.md, отчёт в ленту, чекпойнт memory/analyst.md; новых Q/D нет"
+  expect_match: partial
+  next: "dispatch validator (адресная приёмка T-25: cargo test --test docs_journal, ожидается 14/0; отчёт + квитанция)"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: dispatch
+  role: validator
+  result: "принято (T-25, iteration 1): адресный DoD зелёный — cargo test --test docs_journal 14/0; прямых адресов docs/analysis/** нет (кроме findings-registry); TRACEABILITY:65 Q61/D65 in work + [T-25] ⬜ = реестр tasks/README.md:58 ⬜; git diff --check пусто; T-25-пакет не смешан с T-16. Отчёт docs/reviews/T-25-2026-10-02.md; квитанция T-25 iteration 1 accepted в receipts.yaml; лента + чекпойнт. Примечание validator: docs/tasks/README.md несёт правку T-16 (:57 ✅) и строку T-25 (:58) — git на branch_end нужен разбор хунков (не дефект T-25)"
+  expect_match: true
+  next: "dispatch docs-writer (T-25 ✅: карточка + tasks/README.md:58 + CHANGELOG)"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: dispatch
+  role: docs-writer
+  result: "готово: карточка T-25 ⬜→✅; docs/tasks/README.md:58 концевая ячейка ⬜→✅ (строка :57 T-16 не тронута); docs/CHANGELOG.md новая запись T-25 (:9-14, ссылка на отчёт приёмки); изменений вне трёх файлов нет; строка T-16 в CHANGELOG (:15-22) не изменена; cargo не запускался. Риск (отмечен ролью): docs/CHANGELOG.md и docs/tasks/README.md несут правки обоих пакетов (T-25 и T-16) — на гейте нужен разбор хунков"
+  expect_match: true
+  next: "pre_gate сверка add_paths T-25 со снимком git status (lead) → surface_to_user (гейт пакета T-25) или re-plan при расхождении"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: pre_gate_check
+  role: lead
+  result: "Сверил add_paths T-25 со снимком git status ('25 M + 7 ??'). СТРУКТУРНОЕ РАСХОЖДЕНИЕ (F43): общие файлы несут правки T-25 и T-16, причём docs/CHANGELOG.md — ОДИН хунк @@ -8,0 +9,14 @@ (записи T-25 и T-16 вместе), docs/tasks/README.md — ОДИН хунк @@ -57 +57,2 @@ (правка :57 T-16 + добавление :58 T-25); docs/TRACEABILITY.md — хунки :16 (T-16) и :65 (T-25); docs/analysis/findings-registry.md — :25 (H7, T-16) и :85 (F73, T-25). Также общие: state/* (progress/current_state/next_action/receipts) и memory/*. Хунк-разбор недоступен (git-отчёт: TEMP закрыт, add -p интерактив). Пофайловый add захватывает чужой пакет → пакет T-25 в текущем виде несобираем"
+  expect_match: false
+  next: "re-plan analyst (стратегия разделения T-25/T-16 в общих файлах; CHANGELOG/tasks-README совмещены в один хунк)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: re-plan
+  role: analyst
+  result: "RE-PLAN №2 (pre_gate): пакеты T-16/T-25 пофайлово неразделимы (CHANGELOG и tasks/README — один хунк на обе задачи; TRACEABILITY/findings-registry — по два хунка; state/memory общие; хунк-разбор недоступен). Решение (вариант «а»): ОДИН совмещённый пакет на ветке feature/T-25-d65-analysis-addresses (два коммита — продукт code(T-16,T-25) + процесс chore(process)), merge --no-ff в develop, push; пустая feature/T-16-stale-check-test выводится из оборота. Обновлены next_action.yaml (маркер combined_closeout_t16_t25) и current_state.yaml; создан том ленты T-16-r2.md; НЕ завершено (лимит шагов): чекпойнт memory/analyst.md. Новых Q/D нет"
+  expect_match: partial
+  next: "dispatch migrator (closeout T-25: TRACEABILITY:65 [T-25] ✅, Q61/D65 lifecycle done)"
+
+- at: "2026-10-02"
+  task: T-25
+  iteration: 1
+  session_index: 4
+  action: dispatch
+  role: migrator
+  result: "готово: docs/TRACEABILITY.md:65 Q61/D65 [T-25] ⬜→✅ + lifecycle in work→done (согласовано с реестром tasks/README.md:58 ✅); строка :16 (T-16) не тронута; numstat 2/2 (включая предсуществующую :16); git diff --check пусто; cargo не запускался. Отчёт в ленте T-25 + чекпойнт"
+  expect_match: true
+  next: "dispatch validator (контроль совмещённого дерева: docs_journal 14/0; код T-16 = -r3)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: validator
+  result: "контроль совмещённого дерева: принято с замечаниями (P2 — пакет, не код). docs_journal 14/0 (traceability_tasks_exist_and_match_registry + lifecycle — зелёные); git diff --numstat -- src tests Cargo.toml = код T-16 -r3 (lib 7/4, mcp 86/2, mcp_draft 75/0; Cargo.toml пусто); git diff --check пусто; чужие сервисные (mail/service-mcp-ready-r10.md, memory/service.md) вне пакета. P2: в package.add_paths next_action.yaml нет .opencode/mail/T-16-r2.md (??, создан re-plan; ссылка из T-25.md:69) → правка пакета до branch_end. P1/P3 нет; квитанции не менялись"
+  expect_match: partial
+  next: "re-plan analyst (добавить .opencode/mail/T-16-r2.md в package.add_paths и process-коммит; сверить остальные пути)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: re-plan
+  role: analyst
+  result: "P2 закрыт: .opencode/mail/T-16-r2.md добавлен в package.add_paths (next_action + current_state) и в process-коммит; сверка add_paths ↔ снимок 1:1 (git status 34 пути = 25 M + 9 ??; add_paths 32 = 34 − 2 чужих сервисных). Чекпойнт memory/analyst.md дописан; схема (совмещённый пакет «а») не менялась; новых Q/D нет"
+  expect_match: true
+  next: "pre_gate lead: add_paths (32) сверены со снимком 1:1 → surface_to_user (гейт совмещённого пакета, смена схематики)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: surface_to_user
+  question: "Гейт пакета closeout (смена схематики): совмещённый пакет T-16+T-25 — 32 пути, ветка feature/T-25-d65-analysis-addresses, два коммита (продукт + процесс), merge --no-ff в develop, push, удаление обеих веток; master не трогать?"
+  channel: question
+  owner_response: "Совмещённый пакет, 2 коммита (Recommended)"
+  result: "confirmed: смена схематики подтверждена; add_paths (32) сверены со снимком 1:1; порядок: 2 коммита на feature/T-25-d65-analysis-addresses → merge --no-ff в develop → push origin develop → удаление feature/T-25-… (после merge) и пустой feature/T-16-… (local+origin; CCSN на remote — владелец вручную, D87); master не трогать"
+  next: "dispatch git (branch_end совмещённого пакета)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: git
+  package: branch_end
+  result: "частично (лимит шагов роли): продуктовый коммит 9a5b1e9 создан на feature/T-25-d65-analysis-addresses (18 файлов, +1086/−24; точные пути, чужих сервисных нет; отчёт/чекпойнт записаны до add — F43). НЕ выполнено: процессный коммит (14 путей), merge --no-ff в develop, push origin develop, удаление обеих веток. master (46b98c2) не тронут; незакоммиченный остаток = 14 процессных + 2 чужих сервисных"
+  expect_match: partial
+  next: "dispatch git (resume: процессный коммит → merge --no-ff → push → удаление веток; CCSN на push --delete — владелец, D87)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: git
+  resume: true
+  package: branch_end
+  result: "готово, кроме удаления веток (CCSN-блок): процессный коммит 40709cb (14 путей) на feature/T-25-d65-analysis-addresses; merge --no-ff e826157 в develop (32 файла, +3110/−204); push 2958bf5..e826157 origin develop — успешен. develop = origin/develop = HEAD = e826157; master = 46b98c2 не тронут. Удаление remote-веток feature/T-25-… и feature/T-16-… заблокировано гардом CCSN (git.push-delete) — не обходил (D87); локальные ветки ещё не удалены. Незакоммиченный остаток: 2 чужих сервисных (mail/service-mcp-ready-r10.md, memory/service.md)"
+  expect_match: partial
+  next: "surface_to_user (эскалация CCSN: ручное удаление remote-веток владельцем) → wait_for_user → dispatch git (local branch -d)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: surface_to_user
+  question: "Merge e826157 в develop + push выполнены. Удаление remote-веток (feature/T-25-d65-analysis-addresses, feature/T-16-stale-check-test) заблокировано гардом CCSN (git.push-delete). Как поступаем?"
+  channel: question
+  owner_response: "Удалю вручную (Recommended)"
+  result: "deferred: владелец удаляет remote-ветки вручную (git push origin --delete …; обход CCSN агенту запрещён, D87); пока ветки есть local+origin. Merge/push уже выполнены: develop = origin/develop = e826157; master 46b98c2 не тронут"
+  next: "wait_for_user (подтверждение ручного удаления remote-веток) → dispatch git (local branch -d + проверка)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: wait_for_user
+  result: "Ожидание владельца: ручное удаление remote-веток feature/T-25-d65-analysis-addresses и feature/T-16-stale-check-test (CCSN). После подтверждения — dispatch git (git branch -d обеих веток, проверка) → complete"
+  next: "dispatch git (local branch -d) → complete"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: wait_for_user
+  result: "Владелец подтвердил «сделал»: remote-ветки feature/T-25-d65-analysis-addresses и feature/T-16-stale-check-test удалены вручную. Продолжение — dispatch git (локальное удаление обеих веток + проверка)"
+  next: "dispatch git (local branch -d обеих веток + проверка) → complete"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: git
+  resume: true
+  package: branch_end
+  result: "готово (уборка): локальные ветки feature/T-25-d65-analysis-addresses (was 40709cb) и feature/T-16-stale-check-test (was 2958bf5) удалены (branch -d, без -D); обе отсутствуют local+origin (remote удалены владельцем вручную); develop = origin/develop = e826157; master = 46b98c2 не тронут. Незакоммиченный остаток: 2 пост-пакетные записи lead (mail/T-16-r2.md, state/progress.yaml) + 2 чужих сервисных (mail/service-mcp-ready-r10.md, memory/service.md)"
+  expect_match: true
+  next: "complete (полный closeout T-16 и T-25)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: complete
+  result: "T-16 (M) и T-25 (S) закрыты совмещённым пакетом: продукт 9a5b1e9, процесс 40709cb, merge --no-ff e826157 в develop, push origin develop; обе ветки удалены local+origin; develop = origin/develop = e826157; master 46b98c2 не тронут. T-16 accepted -r3 (cargo test --all 145/0), T-25 accepted (docs_journal 14/0); TRACEABILITY [T-16] ✅ / [T-25] ✅ = реестр; базовый P1 (Q61/D65) снят. Пост-пакетные записи — подхват"
+  next: "—"

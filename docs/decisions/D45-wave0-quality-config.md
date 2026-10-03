@@ -36,7 +36,10 @@ Run 5 также вскрыл расхождения конфиг-пакета �
    `package-lock.json`; `node_modules` игнорируется), шаг установки `npm ci` в
    `.opencode/` — в `AGENTS.md` §«Сборка, тесты и пересборка».
 3. **B2 — отключить:** таблица `B2_PREFIXES` пуста; вернуть при прямой экспозиции
-   MCP (`codemode:false`).
+   MCP (`codemode:false`). **Уточнено [D94](D94-b2-profile-flag.md)**
+   (03.10.2026): профиль-флаг `B2_PROFILE ∈ off|codemode|mcp`; правила обоих
+   профилей внесены, активный — `off` (no-op); включение — смена константы при
+   `codemode:false` (тест профилей — `.opencode/scripts/token-guard-test.mjs`).
 4. **deny `execute`** для [`docs-writer`](../../.opencode/agents/docs-writer.md) и
    [`git`](../../.opencode/agents/git.md).
 5. **Конфиг-пакет качества:** `.cargo/config.toml` (`-D warnings`) — оставить;

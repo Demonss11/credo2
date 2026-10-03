@@ -1391,3 +1391,474 @@
     worktree: "ok — 4 целевых M (docs/TRACEABILITY.md, docs/analysis/findings-registry.md, docs/tasks/README.md, docs/tasks/T-15-mcp-ready-process/README.md); M памяти .opencode/memory/{auditor,migrator,service,validator}.md; M state/progress.yaml; F43-остаток M mail/service-traceability-closeout.md; ?? лента mail/service-t15-run-review.md; ?? 6 отчётов docs/analysis/T-15-run-2026-10-02-*-session.md; ?? отчёт reviews"
   snapshot: "develop @ 98f7225 (= origin/develop = HEAD) + working tree (service-t15-run-review uncommitted, прямая правка без ветки) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-b0-own-transfer
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b0-own-transfer-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    artifacts_transfer: "ok — P1 .opencode/plugins/wave0-observe.ts (id wave0-observe; ротация target/wave0-observe.jsonl в .1 при >8 МБ каждые 200 appends; агрегат target/wave0-observe-summary.json; сводка ctx.session.prompt только WAVE0_OBSERVE_SUMMARY=1; фильтр location===dir/known-sid); P3 .opencode/scripts/session-checkpoint.mjs (changed=edit/write/patch+snapshot.files, read=прочее с path; resume-путь; shell:win32); P4 .opencode/scripts/metrics-report.mjs (stats --json, session list, --chain по маркеру <subagent sessionID=>; shell:win32)"
+    smоuk_evidence: "ok (in-repo, target/** вне git) — target/wave0-observe.jsonl: plugin.start (v2.0.22, directory=repo) ×N + event root ses_f03ba898cffel2M28KDlhJPlX4; агрегат: root + дети migrator/validator с parentID; target/wave0b-own-transfer/checkpoint-tester-T18.md: «Файлы изменённые (3)» / «прочитанные (44)»"
+    records: "ok — лента service-mcp-ready-r5.md:321–335 §«перенос P1/P3/P4 исполнен»; журнал wave0b-own.md:3–9 (перенос исполнен, P2 после C10); отчёт wave0b-own-report.md:89–92 («Обновление 02.10.2026»); карточка README.md:194/:196/:197 хвост «перенесён 02.10 → путь» (по 1+/1−, текст сохранён)"
+    borders: "ok — git status --porcelain: только 6 M (лента, memory/{migrator,service}, карточка, wave0b-own.md, wave0b-own-report.md) + 3 ?? (.opencode/plugins|scripts); src/tests/Cargo.toml/AGENTS.md/opencode.json/.opencode/agents|rules/docs/decisions|questions/docs/TRACEABILITY.md — не в статусе; git diff --check пусто; target/ в .gitignore:1"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs ×2 → 11 из 18; .opencode/package.json: @opencode/plugin ^2.0.18"
+    branch: "ok — git rev-parse HEAD develop origin/develop = ac5d382a… ×3; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r5.md, M .opencode/memory/migrator.md, M .opencode/memory/service.md, M docs/tasks/T-15-mcp-ready-process/README.md, M docs/tasks/T-15-mcp-ready-process/wave0b-own-report.md, M docs/tasks/T-15-mcp-ready-process/wave0b-own.md; ?? .opencode/plugins/wave0-observe.ts, ?? .opencode/scripts/metrics-report.mjs, ?? .opencode/scripts/session-checkpoint.mjs"
+    not_checked: "лог ~/.local/share/opencode/log/opencode.log — вне прав (external_directory); компенсирован plugin.start+event; прогон скриптов node — вне прав validator, смоук сервисной сессии"
+  snapshot: "develop @ ac5d382 (= origin/develop = HEAD) + working tree (service-b0-own-transfer uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-c10
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c10-policies-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    plugin: "ok — .opencode/plugins/wave0-guard.ts: id wave0-guard (:23); якорные shell-правила fail-closed git push --force (:57-60)/-f (:65-68)/git reset --hard (:61-64)/shell-чтение .env кроме .env.example (:69-76)/.ssh (:77-83)/Remove-Item -Recurse -Force (:84-87); read:*.env deny кроме .env.example (:89-95); внешние правки — АУДИТ outside-edit без why (:96-107, P13); журнал target/wave0-guard.jsonl appendFileSync + ротация .1 при >8 МБ каждые 200 appends (:20,:31-33); catch не ломает permission-поток (:38-40)"
+    global_config: "ok — in-repo копия target/wave0b-own-i7/c10-final-global.jsonc: ровно 4 правила (:10-13) read:*.env, read:*/.ssh/*, shell:git push *--force*, shell:git reset --hard*; оригинал ~/.config/opencode/opencode.jsonc вне репо (служебная зона владельца)"
+    probes_evidence: "ok — c10-probes.md P1-P14 (force/reset/env blocked; .env.example allowed; P4 shell-обход read .ssh; P11/P12 ложные широких паттернов; P13 outside-location deny→аудит); wave0-guard-journal-sample.jsonl: plugin.start v2.0.22 (:1-2), deny force-flag (:7), allow упоминаний echo (:9,:34), deny outside-location (:19 до правки), outside-edit аудит (:29 после правки), allow записи конфига (:30), deny secrets-env (:39), deny git-reset-hard (:40)"
+    records: "ok — лента service-mcp-ready-r6.md:44-64 §C10 включено; memory/service.md:99-104; memory/migrator.md:9-20; карточка README.md C10 ⬜→✅ (1+/1−) + B0-own-P2 · перенесён 02.10 (C10) (1+/1−); wave0b-own.md:3-10 статус; wave0b-own-report.md:58 §3"
+    borders: "ok — git diff --stat -- src tests Cargo.toml AGENTS.md пусто; agents/rules/opencode.json/decisions/questions/TRACEABILITY не в статусе; git diff --check пусто; /target в .gitignore:1 (журнал вне git)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs → agents: 11 из 18"
+    branch: "ok — git rev-parse HEAD develop origin/develop = dace3eb ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r5.md (F43-остаток прошлой операции, не мой), M .opencode/memory/migrator.md, M .opencode/memory/service.md, M docs/tasks/T-15-mcp-ready-process/README.md, M .../wave0b-own-report.md, M .../wave0b-own.md; ?? .opencode/mail/service-mcp-ready-r6.md, ?? .opencode/plugins/wave0-guard.ts"
+    not_checked: "глобальный ~/.config/opencode/opencode.jsonc — вне репо/прав; пробы P1-P14 — улики сервисной сессии (in-repo копии), живой прогон не повторял"
+  snapshot: "develop @ dace3eb (= origin/develop = HEAD) + working tree (service-c10 uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-ccsn
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-ccsn-2026-10-02.md
+  dod:
+    cargo: "N/A — продуктовый код (src/**, tests/**, Cargo.toml) не затронут (D50; review.md «Порог существенности»); cargo не запускался"
+    ccsn_config: "ok — target/wave0b-csn/global-before.jsonc vs global-after.jsonc (git diff --no-index) = ровно +6: добавлен блок plugins object-формы ({package: cc-safety-net@latest, options:{shell:powershell}}); 4 C10-правила (read:*.env, read:*/.ssh/*, shell:git push *--force*, shell:git reset --hard*) дословно целы"
+    ccsn_diagnostics: "ok — ccsn-doctor.txt:18,23,51,75,88 → OpenCode Detected|Configured|Verified, self-test 3/3, cc-safety-net 2.5.1, OpenCode 2.0.22, win32 x64; ccsn-status.txt:3-6 → Level standard, Policy ~\\.cc-safety-net\\policy.json"
+    ccsn_logs: "ok — target/wave0b-csn/logs/**: deny git clean -fdx (v2.5.1, ruleId git.clean-force, intent use_alternative, cwd scratch); allow echo CSN-OK; allow git clean -ndx; след B0-i5 2026-09-28 v2.4.11 deny git push --force origin main (wave0b-probe) сохранён"
+    audit_fixes: "ok — P2-1 wave0b-report.md:87 хвост «перенос — после auditor»→«перенос — исполнено 02.10.2026 (…аудит — service-mcp-ready-r7)» (1+/1−, самопротиворечие снято); P3 wave0b-own-report.md:58 CCSN отделён от C10-артефактов (1+/1−)"
+    deferred_records: "ok — wave0b-own-report.md:87 §5 полигон [ ]→[x] (_off/, 02.10; удаление после заморозки); wave0b-own.md:362-367 §Откат полигона (закрытие 02.10, улики target/wave0b-own-i1…i7/, удаление после заморозки); service-mcp-ready-r6.md +31 (F43-остаток) в пакете"
+    records: "ok — карточка README.md:213 (C10: CC Safety Net — включён 02.10, standard, cc-safety-net 2.5.1); memory/service.md:118-124; memory/migrator.md:9-27,29-45; memory/auditor.md (аудит CCSN); лента service-mcp-ready-r7.md §установка/§аудитор/§migrator"
+    known_point: "P2-2 (вне пакета) .opencode/agents/auditor.md:11 read deny **/target/** инертно — отдельное решение владельца; в приёмку не входит"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml AGENTS.md opencode.json пусто; .opencode/agents|rules, AGENTS.md, opencode.json, docs/decisions|questions|TRACEABILITY|features — не в статусе; git diff --check пусто (CRLF-warning только на service-mcp-ready-r6.md); /target в .gitignore:1 (улики вне git)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs → agents: 11 из 18; фронтматтеры не затронуты"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 38800cb… ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка)"
+    worktree: "ok — снимок: M .opencode/mail/service-mcp-ready-r6.md, M .opencode/memory/{auditor,migrator,service}.md, M docs/tasks/T-15-mcp-ready-process/{README,wave0b-own-report,wave0b-own,wave0b-report}.md, ?? .opencode/mail/service-mcp-ready-r7.md (+ записи приёмки: ?? docs/reviews/service-ccsn-2026-10-02.md, M memory/validator.md, M receipts.yaml)"
+    not_checked: "глобальный ~/.config/opencode/opencode.jsonc и ~/.cc-safety-net/** — вне репо/прав; живые пробы CCSN не повторял (улики-копии in-repo); rg по .env/.ssh в target/** отклонён wave0-guard (подтверждение контура C10)"
+  snapshot: "develop @ 38800cb (= origin/develop = HEAD) + working tree (service-ccsn uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-permissions-auditor-target
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-permissions-auditor-target-2026-10-02.md
+  dod:
+    diff: "ok — git diff .opencode/agents/auditor.md = ровно 1 удалённая строка '- { action: read, resource: \"**/target/**\", effect: deny }' (блок read после edit); numstat 0/1; тело (:37-202) и остальной фронтматтер (:1-35) целы; прочие deny сохранены"
+    refs: "ok — rg 'target/\\*\\*|\\*\\*/target' .opencode/rules AGENTS.md .opencode/agents/auditor.md пусто; ссылок на снятое правило в каноне нет; остальные **/target/** — фронтматтеры других ролей"
+    audit: "ok — auditor (лента r7:178-215) P1 нет, P2 нет, P3=1 (reload); P3 закрыт записью ленты r7 §P2-2: применение (reload) (:105-110); memory/auditor.md append (:221-236)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs ×2 → agents: 11 из 18 стабильно; shell-allowlist auditor без изменений; review.md:95-96 совпадает"
+    borders: "ok — git status -sb = только M .opencode/agents/auditor.md, M .opencode/mail/service-mcp-ready-r7.md, M .opencode/memory/auditor.md; git diff --stat -- src tests Cargo.toml AGENTS.md пусто; git diff --check пусто; numstat лента 62/0, память 16/0 (append)"
+    records: "ok — лента r7 §P2-2: снятие (:95-103) + применение/reload (:105-110); память auditor append; состав записей согласован"
+    cargo: "ran for full R2 — fmt pass; clippy --all-targets -D warnings pass (0 warnings); test --all 135 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11); продуктовый код не затронут (D50 would excuse, run for completeness)"
+    branch: "ok — git rev-parse HEAD develop origin/develop = 606055f… ×3; git status -sb → ## develop...origin/develop; ветки нет (прямая правка); master не трогается"
+    worktree: "ok — снимок: M .opencode/agents/auditor.md, M .opencode/mail/service-mcp-ready-r7.md, M .opencode/memory/auditor.md (+ записи приёмки: ?? docs/reviews/service-permissions-auditor-target-2026-10-02.md, M memory/validator.md, M receipts.yaml)"
+  snapshot: "develop @ 606055f (= origin/develop = HEAD) + working tree (service-permissions-auditor-target uncommitted, прямая правка без ветки) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-15-c1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-15-c1-2026-10-02.md
+  dod:
+    cargo: "ran for full R2 — fmt pass; clippy --all-targets -D warnings pass; test --all 135 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11)"
+    borders: "ok — git status --porcelain = 10 M + 4 ?? (M: agents/analyst.md, agents/lead.md, rules/dispatch-loop.md, AGENTS.md, docs/TRACEABILITY.md, docs/decisions/README.md, docs/questions/README.md, T-15 README, memory/migrator.md, memory/auditor.md; ??: rules/state-schema.md, D86, Q83, mail/service-mcp-ready-r8.md); git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; docs/features empty (counters unaffected)"
+    schema: "ok — state-schema.md covers C1: 4 artifacts (next_action/current_state/progress/receipts), fields/types/required per artifact, writer/reader table, 7 invariants, session_index (своя секция), owner_response дословно (своя секция); next_action.status enum without done; progress.action includes wait_for_user (:97); idle defined (:48)"
+    d42: "ok — iteration only rework (rework = iteration − 1), participant addressed by progress_marker/resume_hint, no section field (:18-63, 121-126, 90-95); matches D42 and D86 «Альтернативы»"
+    dispatch: "ok — dispatch-loop.md:96-97 (channel/owner_response), :103-104 (schema ref), :105-107 (receipts authority), :154-155 (session_index); enums align with lead.md:50-53 actions"
+    feature: "ok — agents-state-schema.feature 4 scenarios covered (canon 4 artifacts + validate-state.mjs contract, iteration/rework invariants, drift rejection, journal extension)"
+    journal: "ok — Q83:3 resolved by D86 ↔ D86:5 Resolves Q83; D86 Спека — (D70 pointer), Сверка ⚪; catalogs questions/README:105 + decisions/README:115 (1 line each); TRACEABILITY:87 Q83: D86 / in work / T-15 🚧; T-15 card C1 🚧 (:204); F15 not closed (correct)"
+    roles: "ok — analyst.md:64 enum status in_progress|awaiting_user|blocked|idle (no done), :69 session_index; lead.md:55 session_index, :67-69 channel+owner_response+result, :88 idle; AGENTS.md map :24 rules incl state-schema.md, :27 state schema ref"
+    d65_d85: "ok — no file:line addresses and no .opencode/mail/state addresses in state-schema.md/D86/Q83; state-schema.md:18 is the artifact-location path (not a citation); relative links live (D42/D70/D78/Q47/findings-registry/mcp-ready-process/T-15 exist)"
+    p3_closure: "closed — audit-1 P3 (idle undefined) -> state-schema.md:48 «активной работы нет»; audit-2 P3 (lead.md:88 done) -> line reads in_progress / awaiting_user / blocked / idle"
+    audit: "ok — auditor two passes (L): P1/P2 none after fix; P2-1 (D86 Affects) closed :8-12; P2-2 (wait_for_user) closed :97; agents-perms.mjs ok (11 из 18); no canon edits by validator"
+  snapshot: "develop = origin/develop = 2f5544c + working tree (C1 package uncommitted, service wave no branch) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-15-c1
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-15-c1-2026-10-02-r2.md
+  dod:
+    cargo: "not run — package does not touch src/**/tests/**/Cargo.toml (review.md §«Возврат на доработку», D50); prior full run T-15-c1 135/0 was over-scope (recorded in feed r8)"
+    borders: "ok — git status --porcelain = known C1 M/?? + M .opencode/memory/service.md (service-session checkpoint on owner remarks, memory not canon) + ?? mail/service-mcp-ready-r8.md; git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; no stray paths"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; command list matches review.md §«Доступные команды»; frontmatter unchanged -> no opencode reload (F65)"
+    delta_schema: "ok — state-schema.md «Когда читать» :3-7 lists analyst (artifact sections + invariants) and validator only, auditor by schema-audit need; lead/git/others explicitly do not read"
+    delta_lead: "ok — lead.md :54-57 inline session_index (start 1, new run +1, resume keeps number); :69-71 inline channel/owner_response/result; reference to state-schema.md removed (rg -> only analyst.md:67,70)"
+    prior_edits: "in force — state-schema.md:98 action enum includes wait_for_user; :49 idle defined; D86:11 Affects lists analyst.md+lead.md; lead.md:90 status template idle"
+    consistency: "ok — no conflict with D86/D42/dispatch-loop.md/journal.md; Q83<->D86 paired; TRACEABILITY Q83: D86 / in work / T-15; catalogs synchronized; D86 Сверка; links live; no file:line addresses (D65/D85)"
+  snapshot: "develop = origin/develop = 2f5544c + working tree (C1 package deferred_by_owner, uncommitted; canon delta for r8 owner remarks) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-20
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-20-2026-10-02.md
+  dod:
+    cargo: "not run — D50 + решение владельца 02.10.2026 «тесты только при правках кода»; src/**, tests/**, Cargo.toml не менялись (git diff --numstat -- src tests Cargo.toml пусто)"
+    traceability_done: "ok — 9 строк done без открытых задач: Q8 (:12), Q9 (:13), Q10 (:14), Q11 (:15) — D21/D53, Q14 (:18) — D55, Q18 (:22) — D35, Q20 (:24) — D22, Q21 (:25) — D23, Q23 (:27) — D25; колонка «Задачи» — —"
+    traceability_inwork: "ok — Q22 (:26) in work + T-24 ⬜; Q78 (:82)/Q79 (:83) in work + T-20 ⬜ — корректно до ✅ T-20 (D82: done не допускает открытых задач)"
+    traceability_open: "ok — 16 строк open v0.2 без задач: Q2–Q4 (:6–8), Q19 (:23), Q24–Q26 (:28–30), Q30 (:34), Q31 (:35), Q35–Q39 (:39–43), Q63 (:67), Q65 (:69); Q81 (:85) open (—/—); rg -c 'open |' = 17 = 16 + Q81; 9+1+16 = 26"
+    legend: "ok — легенда :89–97 (open/in work/done; in work ⇒ открытая задача; done/open ⇒ открытых задач нет; resolved упразднён) соблюдена"
+    t24: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md: источник Q22/D26 (+связь Q27/D27), зона tests/**, исполнитель tester, P3, ⬜, класс ожидаемо S; строка сводки tasks/README.md:69; видимость через TRACEABILITY Q22:26 (D77); номера строк отсутствуют (rg ':[0-9]{2,}' пусто)"
+    t20_status: "ok — 🚧 в сводке tasks/README.md:66 и в карточке :3; согласовано"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; канон агентов (.opencode/rules|agents/**, AGENTS.md, opencode.json) не тронут; правки — зона migrator (docs/TRACEABILITY.md, docs/tasks/**)"
+    branch: "ok — feature/T-20-traceability-wave2, git rev-parse HEAD = d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, коммитов нет)"
+    p2: "OPEN — docs/tasks/T-24-rest-cli-contour-test/README.md:53 ссылка [D50](../D50-dod-by-package-scope.md) резолвится в docs/tasks/D50-dod-by-package-scope.md (файла нет); верно ../../decisions/D50-dod-by-package-scope.md (как T-20:54,:64); битая ссылка — блокер review.md §«Что блокер»; правка одна строка"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-20
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-20-2026-10-02-r2.md
+  dod:
+    cargo: "not run (D50) — admissible: docs-only package, src/tests/Cargo.toml unchanged (git diff --numstat -- src tests Cargo.toml empty)"
+    link_fix_p2: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md:53 now [D50](../../decisions/D50-dod-by-package-scope.md); target docs/decisions/D50-dod-by-package-scope.md exists; all other card links live (D26, D27, ../README.md, T-21, T-22, .opencode/rules/journal.md)"
+    traceability: "P1 OPEN — docs/TRACEABILITY.md:82,:83 Q78/Q79 task cell [T-20] ⬜ vs docs/tasks/README.md:66 T-20 🚧; traceability_tasks_exist_and_match_registry (tests/docs_journal.rs:592, assert :610–613) requires exact match -> red (else 24 registry/trace pairs match); introduced by участок №1, missed by iteration 1 (receipt :1509 recorded ⬜ as correct); fix = ⬜→🚧 in both rows (migrator, 2 chars)"
+    borders: "ok — canon (.opencode/rules|agents/**, AGENTS.md, opencode.json) and src/tests/Cargo.toml untouched; changes = docs/** + role state/memory/mail"
+    branch: "ok — feature/T-20-traceability-wave2, HEAD d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, no commits)"
+    closure_note: "Q78/Q79 -> done must keep visible [T-20] ✅ (not —), else D77 part of the same test fails"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-20
+  iteration: 3
+  verdict: accepted
+  report: docs/reviews/T-20-2026-10-02-r3.md
+  dod:
+    cargo: "not run (D50) — docs-only package, src/tests/Cargo.toml unchanged (git diff --numstat -- src tests Cargo.toml empty)"
+    fix_p1: "ok — docs/TRACEABILITY.md:82,:83 (Q78/D82, Q79/D83) task cell [T-20] → 🚧; matches docs/tasks/README.md:66 (T-20 🚧) and T-20 card README.md:3 (🚧 в работе); gate tests/docs_journal.rs:592 traceability_tasks_exist_and_match_registry (assert :610–613) statically green (D50, no run)"
+    fix_p2_in_force: "ok — docs/tasks/T-24-rest-cli-contour-test/README.md:53 [D50](../../decisions/D50-dod-by-package-scope.md); target docs/decisions/D50-dod-by-package-scope.md exists; other card links live (D26, D27, ../README.md, T-21, T-22, .opencode/rules/journal.md)"
+    traceability_pairs: "ok — 23/23 registry tasks visible in TRACEABILITY; 0 status mismatches (T-20 leveled)"
+    regression_done: "ok — 9 done without open tasks: Q8–Q11 (D21/D53), Q14 (D55), Q18 (D35), Q20 (D22), Q21 (D23), Q23 (D25); none with open task"
+    regression_inwork_open: "ok — Q22 (:26) in work + T-24 ⬜; Q78 (:82)/Q79 (:83) in work + T-20 🚧 (correct until ✅ T-20, D82); 16 open v0.2 (no tasks); Q81 (:85) open; rg -c 'open |' = 17 = 16 + Q81; no done-with-open-task, no in-work-without-open-task"
+    t20_status: "ok — 🚧 in summary tasks/README.md:66 and card :3"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml empty; git diff --check empty; canon (.opencode/rules|agents/**, AGENTS.md, opencode.json) and src/tests/Cargo.toml untouched; changes = docs/** + role state/memory/mail"
+    branch: "ok — feature/T-20-traceability-wave2, HEAD d414998c1bc711d4c5c45bfe252da41c41d63871 (= develop, no commits)"
+    closure_note: "Q78/Q79 → done must keep visible [T-20] ✅ (not —), else D77 part of the same test fails (tasks/README: T-20 ✅ not visible)"
+  snapshot: "feature/T-20-traceability-wave2 @ d414998 (= develop) + working tree (T-20 uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-24
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/T-24-2026-10-02.md
+  dod:
+    fmt: pass
+    clippy: "fail — tests/rest_cli.rs:47 clippy::collapsible_if (rust-1.96.0, -D warnings); could not compile test target rest_cli"
+    test: "141 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11, rest_cli 6, doc 0)"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    coverage: "ok — 6/6 card §«Что сделать» п.1 points: start/ready /health; --api-key 401/200; env CREDO_API_KEY; open demo mode; open paths /health,/docs,/openapi.json; clap conflict --no-rest+--rest/--addr; contract matches src/main.rs:17-37, src/rest.rs:63-85,:96-106; tests green"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml features docs empty; git diff --check empty; tracked tests untouched; ?? tests/rest_cli.rs; Cargo.toml/dev-deps unchanged"
+    p1: "OPEN — collapsible_if fix in tests/rest_cli.rs:47 (let-chain), zone tester; then re-run clippy -> re-acceptance -r2"
+  snapshot: "feature/T-24-rest-cli-contour-test (= origin/…) @ caac10d (= develop = origin/develop, no commits) + working tree (tests/rest_cli.rs untracked) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-24
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-24-2026-10-02-r2.md
+  dod:
+    fmt: pass
+    clippy: "pass — tests/rest_cli.rs:47 let-chain; P1 (collapsible_if) closed; test target rest_cli compiles"
+    test: "141 passed / 0 failed (lib 61, docs_journal 14, features_inventory 4, mcp_draft 25, mcp_errors 8, publish 12, rest 11, rest_cli 6, doc 0)"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    coverage: "ok — 6/6 card §«Что сделать» п.1 points: start/ready /health polling; --api-key 401/200; env CREDO_API_KEY; open demo mode; open paths /health,/docs,/openapi.json (D26); clap conflict --no-rest+--rest/--addr; contract matches src/main.rs:17-37, src/rest.rs:63-85,:96-106; tests green"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml features docs empty; git diff --check empty; tracked tests untouched; ?? tests/rest_cli.rs; Cargo.toml/dev-deps unchanged; canon untouched"
+    p1_closure: "ok — tests/rest_cli.rs:47 collapsed to let-chain if let Ok((200, body)) = request(...) && body.contains(\"ok\") { return; }; same logic; no other edits"
+  snapshot: "feature/T-24-rest-cli-contour-test (= origin/…) @ caac10d (= develop = origin/develop, no commits) + working tree (tests/rest_cli.rs untracked) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-t24-fixes
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-t24-fixes-2026-10-02.md
+  dod:
+    cargo: "not run (D50 + решение владельца 02.10.2026 «тесты только при правках кода») — src/**, tests/**, Cargo.toml не менялись (git diff --numstat -- src tests Cargo.toml пусто); docs/features/** не тронуты"
+    d87_vs_fact: "ok — 4 пункта: lead.md:19 (rev-parse --short HEAD) + :43-44 (#default); git.md:22-23 (branch --list *, ls-remote --heads origin *); analyst.md:49-50 (заметка, без расширения); tester.md:19 (cargo clippy *) + шаг 4 + шаблон отчёта; CCSN git-workflow.md:117-121; stale dispatch-loop.md:110-113"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; новые права видны (reload применён); review.md §«Доступные команды» (:88-105) синхронен фронтматтерам lead/git/analyst/tester"
+    journal: "ok — Q84<->D87 парны (Q84.md:3, D87:5); каталоги questions/README.md:106, decisions/README.md:116; TRACEABILITY.md:88 Q84: D87 / in work / T-15 🚧; карточка T-15:225 C14 🚧 + F26/F27; ссылки живы; номеров строк адресных нет"
+    gates_static: "ok — docs_journal.rs (D50, без прогона): Q<->D/каталоги/TRACEABILITY lifecycle+task parity зелёные по чтению; T-15 registry tasks/README.md:56 🚧 = TRACEABILITY [T-15] 🚧"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/agents/{lead,git,analyst,tester}.md, .opencode/rules/{review,git-workflow,dispatch-loop}.md, docs/{questions,decisions}/**, docs/TRACEABILITY.md, карточка T-15, findings-registry, досье, лента T-24, state/current/*, память; иной канон, src/**, tests/**, Cargo.toml не тронуты"
+    p3: "OPEN (not blocker) — docs/tasks/T-15-mcp-ready-process/README.md:225 (C14) «Источник» называет разбор по имени без ссылки; соответствует стилю карточки; закрыть при следующей правке (аудит r9)"
+  snapshot: "develop = origin/develop @ 6c28e51 + working tree (service package uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-c9-c12
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c9-c12-2026-10-02.md
+  dod:
+    cargo: "not run (D50 + решение владельца 02.10.2026 «тесты только при правках кода») — src/**, tests/**, Cargo.toml не менялись (git diff --numstat -- src tests Cargo.toml пусто); docs/features/** не тронуты"
+    d88_vs_fact: "ok — 6 пунктов: lead.md:6 steps=24 | dispatch-loop.md:49-51 правило останова | lead.md:59-61 + dispatch-loop.md:33-35 + AGENTS.md:105-107 (1 запись/действие + сегментный итог) | analyst.md:67-68,:86-89 + dispatch-loop.md:29-32 (глубокий план) | lead.md:50-51 + analyst.md:90-92 + dispatch-loop.md:36-37 (resume без analyst) | dispatch-loop.md:39-41 (дробление) | analyst.md:93-94 + dispatch-loop.md:169-171 (сплит 300)"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; lead [primary] steps=24 (reload применён); AGENTS.md 24 = frontmatter 24 = runtime 24; право-дрейфа нет"
+    journal: "ok — Q85<->D88 парны (Q85.md:3 resolved by D88; D88:5 Resolves Q85); каталоги questions/README.md:107, decisions/README.md:117; TRACEABILITY.md:89 Q85: D88 / in work / T-15 🚧; карточка T-15:220 C9 🚧 :223 C12 🚧 (service-mcp-ready-r10); ссылки живы; номеров строк нет"
+    gates_static: "ok — docs_journal.rs (D50, без прогона): Q<->D/каталоги/TRACEABILITY lifecycle+task parity зелёные по чтению; T-15 registry tasks/README.md:56 🚧 = TRACEABILITY [T-15] 🚧"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/agents/{lead,analyst}.md, .opencode/rules/dispatch-loop.md, AGENTS.md, docs/{questions,decisions}/** (+README), docs/TRACEABILITY.md, карточка T-15, память, лента r9/r10; иной канон, src/**, tests/**, Cargo.toml не тронуты"
+  snapshot: "develop = origin/develop @ af53e23 + working tree (service package uncommitted) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-16-2026-10-02.md
+  dod:
+    fmt: pass
+    clippy: "pass — cargo clippy --all-targets -- -D warnings"
+    test: "FAIL — lib 63 passed / 0 failed (both T-16 unit tests ok); docs_journal 13 passed / 1 FAILED (no_addresses_to_removable_or_session_data, tests/docs_journal.rs:889); run stopped at docs_journal — mcp_draft/mcp_errors/publish/rest/rest_cli/features_inventory not reached in this run"
+    features_inventory: "not run in this run (stopped at docs_journal)"
+    p1: "OPEN — RED DoD (review.md:55). Defect is BASELINE, not T-16: D65 session-data addresses in docs/questions/Q84.md:11, Q85.md:12, docs/decisions/D87-t24-pilot-fixes.md:22,:74,:100, D88-c9-c12-loop-tuning.md:83,:111 → docs/analysis/T-24-run-2026-10-02-lead-session.md; files untouched by T-16 (numstat empty), last touched by af53e23 (T-15 r9) and 2958bf5 (T-15 r10), both ancestors of branch base; journal_files() scans only questions/decisions"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path + is_stale on helper (:819-825); src/mcp.rs:224-246 test() stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); draft text/hash not mutated"
+    coverage: "ok — scenario test_draft.feature :55-61 fully covered: stale (mcp_draft.rs:226 / mcp.rs:1002), not blocked (:235 / :1011), executes file text (:239-244 condition <18 matched false / :1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278 / mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml untouched; git diff --check empty; T-02/T-08 not implemented; canon/rights (.opencode/**, AGENTS.md) untouched; foreign service files not mixed"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature has 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: rework
+  report: docs/reviews/T-16-2026-10-02-r2.md
+  dod:
+    fmt: pass
+    clippy: "pass — cargo clippy --all-targets -- -D warnings"
+    test: "FAIL — cargo test --all (exit 1) on mcp_draft: 26 passed / 1 FAILED (stale_test_executes_file_text_q12_t16, tests/mcp_draft.rs:244). Other targets: lib 63/0, main 0/0, docs_journal 14/0 (baseline P1 cleared), features_inventory 4/0; separate run — mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0. Total 144 passed / 1 failed"
+    features_inventory: "4/4 ok"
+    p1: "OPEN — RED DoD (review.md:55), defect of the T-16 TEST, not baseline. tests/mcp_draft.rs:244 asserts decision==\"пусто\"; actual \"\". Canon D21:61-62 (\"\" in JSON explanation), Q10, src/core.rs:585-594 (unmatched_rule_has_empty_decision_q10 asserts \"\"); literal \"пусто\" is unique in repo and absent from HEAD:tests/mcp_draft.rs; sibling unit src/mcp.rs:1011-1018 does not assert decision. Fix (tester, one line): \"пусто\" → \"\". Code src/** correct — do not change"
+    baseline_p1: "CLEARED — docs_journal 14/0; TRACEABILITY.md:65 Q61/D65 lifecycle in work + [T-25] ⬜ (parity with registry :58)"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path; is_stale on helper (:819-825); src/mcp.rs:232-244 stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); marks :254-258 from draft"
+    coverage: "ok except :244 — scenario test_draft.feature:55-61 all three Then confirmed (mcp_draft.rs:226,:235,:239-243; unit mcp.rs:1002,:1011,:1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278; unit mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml and src/core.rs untouched; git diff --check empty; T-02/T-08 not implemented; canon/rights (AGENTS.md, opencode.json, .opencode/agents|rules) untouched; foreign service files (mail/service-mcp-ready-r10.md, memory/service.md) outside T-16"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-16
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/T-16-2026-10-02-r3.md
+  dod:
+    fmt: "pass — cargo fmt --check (no output, exit 0)"
+    clippy: "pass — cargo clippy --all-targets -- -D warnings (Finished, 0 warnings)"
+    test: "pass — cargo test --all (exit 0), 145 passed / 0 failed; breakdown: lib 63/0, main 0/0, docs_journal 14/0, features_inventory 4/0, mcp_draft 27/0, mcp_errors 8/0, publish 12/0, rest 11/0, rest_cli 6/0, doc 0/0"
+    features_inventory: "4/4 ok (files/counters unchanged; docs/features not touched)"
+    p1_closure: "ok — tests/mcp_draft.rs:244 now assert_eq!(tested[\"decision\"], \"\", \"{tested}\"); literal \"пусто\" removed (rg '\"пусто\"' *.rs -> no matches); stale_test_executes_file_text_q12_t16 green in mcp_draft 27/0; numstat unchanged (src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0)"
+    t16_correctness: "ok — src/lib.rs:811-816 source_file_path; is_stale on helper (:819-825); src/mcp.rs:232-244 stale -> parse_rule(file text) else d.rule.clone(), read/parse errors -> evaluation_failed (§4.5/D34, D40); marks :254-258 from draft; contract unchanged"
+    coverage: "ok — scenario test_draft.feature:55-61 fully covered: stale (mcp_draft.rs:226 / mcp.rs:1002), not blocked (:235 / :1011), executes file text (:239-243 condition <18 matched false / :1013-1014); negative invalid .dar -> evaluation_failed (mcp_draft.rs:262,:278 / mcp.rs:1022,:1046)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml: src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0; Cargo.toml/core.rs/SPECIFICATION/D34 untouched; git diff --check empty; T-02/T-08 cards unchanged (registry :49,:61 ⬜); canon/rights (.opencode/agents|rules, AGENTS.md, opencode.json) untouched; foreign service files (mail/service-mcp-ready-r10.md, memory/service.md) and S-branch T-25 files (Q84/Q85/D87/D88/tasks/T-25-*) present in worktree but outside T-16"
+    statuses: "ok — card README.md:3 🚧 = tasks/README.md:57 🚧 = TRACEABILITY.md:16 [T-16] 🚧; Q12 in work (T-08 ⬜)"
+    feature_status: "🟡 — test_draft.feature 6 scenarios, T-16 closes 1; scenario :63-70 depends on T-02 (⬜)"
+    baseline_p1: "CLEARED — docs_journal 14/0; TRACEABILITY.md:65 Q61/D65 lifecycle in work + [T-25] ⬜"
+  snapshot: "feature/T-16-stale-check-test (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (2026-10-02)"
+  at: "2026-10-02"
+
+- task: T-25
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/T-25-2026-10-02.md
+  dod:
+    test: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.09s); key no_addresses_to_removable_or_session_data ok, traceability_tasks_exist_and_match_registry ok"
+    scope: "S, document-only by T-25 — src/**, tests/**, Cargo.toml not touched by T-25 (D50); full DoD not run, targeted docs_journal per task"
+    addresses: "ok — D65 address docs/analysis/T-24-run-2026-10-02-lead-session.md removed from Q84/Q85/D87/D88; no direct docs/analysis/<file>.md addresses in journal_files (questions/decisions/TRACEABILITY/tasks README/features README/SPECIFICATION), only whitelist findings-registry.md and placeholders (** , <T-XX>)"
+    traceability: "ok — TRACEABILITY.md:65 Q61/D65 in work + [T-25] ⬜ = tasks/README.md:58 T-25 ⬜; card docs/tasks/T-25-d65-analysis-addresses/README.md present, ⬜, source Q61/D65 + P1 T-16 + F73; F73 in findings-registry.md:85"
+    borders: "ok — git diff --check empty; git diff --numstat -- src tests Cargo.toml only T-16 (src/lib.rs 7/4, src/mcp.rs 86/2, tests/mcp_draft.rs 75/0); Cargo.toml/core.rs untouched; T-16 closeout paths (CHANGELOG, T-16 card, TRACEABILITY:16, registry:57) outside T-25; shared tasks/README.md needs hunk split at commit"
+    canon: "ok — .opencode/** and AGENTS.md untouched by T-25; D87/D88 wording preserved (only address removed)"
+  snapshot: "feature/T-25-d65-analysis-addresses (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (mixed_worktree) (2026-10-02)"
+  at: "2026-10-02"
+
+- task: service-p1p2p3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-p1p2p3-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.19s); key no_addresses_to_removable_or_session_data ok, traceability_tasks_exist_and_match_registry ok, ids_are_unique_and_contiguous ok, every_decision_has_code_review_verdict ok"
+    mode: "адресная документная сверка + адресный docs_journal (решение владельца 03.10.2026; страховка F73-класса, F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    d89_vs_fact: "ok 3/3 — P1 git-workflow.md:58-62,:90-94 + dispatch-loop.md:99-101 + analyst.md:28-30,:63-65 + review.md:93-94; P2 dispatch-loop.md:102-105 + lead.md:51-53 + analyst.md:99-101; P3 dispatch-loop.md:106-109 + git-workflow.md:200-220 + lead.md:66-68 + analyst.md:102-103"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; analyst с git branch -a */--list */rev-parse * (reload применён)"
+    journal: "ok — Q86<->D89 парны (Q86:3 resolved by D89; D89:5 Resolves Q86); каталоги questions/README.md:108, decisions/README.md:118; TRACEABILITY.md:90 Q86/D89/in work/T-15 🚧; карточка C3 🚧 :214, C15/C16 🚧 :226-227; F80-F82 findings-registry.md:92-94; ссылки живые, номеров строк/адресов docs/analysis нет"
+    borders: "ok — git status --porcelain = только .opencode/** + docs/** (журнал/карточка/findings/TRACEABILITY) + лента/память/state; git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; AGENTS.md/opencode.json не тронуты"
+  snapshot: "develop = origin/develop @ e826157 + working tree (service r11 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-c5c7
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-c5c7-2026-10-03.md
+  dod:
+    docs_journal: "FAIL — cargo test --test docs_journal (exit 1), 13 passed / 1 failed (2.88s); features_are_named_in_traceability_and_exist (tests/docs_journal.rs:642-647): realization.contains('agents-*') — docs/TRACEABILITY.md:91 (Q87 row, «Реализация») содержит «(статусы `agents-*`)» → wildcard-обобщение недопустимо (D80). Остальные 13 тестов ok (в т.ч. no_addresses_to_removable_or_session_data, traceability_tasks_exist_and_match_registry, ids_are_unique_and_contiguous)"
+    mode: "адресная документная сверка + адресный docs_journal (второй случай практики F74; решение владельца 03.10.2026); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    p1: "docs/TRACEABILITY.md:91 — колонка «Реализация» строки Q87 содержит вилдкард `agents-*`; правка (migrator, 1 строка): поимённый перечень agents-re-raise/agents-state-schema/agents-session-checkpoint (как Q74/D74 :78) либо снять хвост; единственное вхождение `agents-*` в TRACEABILITY (rg)"
+    d90_vs_fact: "ok — C5: dispatch-loop.md:150-160 §«Re-raise» (7 полей re_raise, 4 категории, зеркало progress.replan_reason, метрика без owner_override, повтор — сигнал); state-schema.md:62-64 (re_raise.category — enum-ссылка), :109-110 (replan_reason — enum 4 категории при re-plan); analyst.md:106-107; lead.md:62-63. C7: dispatch-loop.md:34-36 §«Каденция» шаблон сегментного итога; features/README.md:298-300 (state-schema 🟡, session-checkpoint 🟡, re-raise ✅; диф ровно 3 строки)"
+    journal: "ok — Q87<->D90 парны; каталоги questions/README.md:109, decisions/README.md:119; карточка C5 🚧 :216, C7 🚧 :218 (D90); D90 «Сверка с кодом» ⚪ не применимо, Affects/Tasks верны. TRACEABILITY:91 — Q87: D90, in work, T-15 🚧 (кроме вилдкарда-«Реализации» — P1)"
+    features: "ok — счётчики README.md:315 = 47 файлов / 278 сценариев без изменений; шапки .feature не тронуты (git status docs/features = только README.md)"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; изменены только .opencode/{rules/{dispatch-loop,state-schema}.md,agents/{analyst,lead}.md,mail,memory}, docs/{TRACEABILITY,questions/README,decisions/README,features/README,tasks/T-15}; ?? Q87/D90 + лента r12; AGENTS.md/opencode.json не тронуты"
+    p3_audit: "observed (not blocker) — .opencode/mail/service-mcp-ready-r11.md перекодирован UTF-16→UTF-8 при catch-up (40 304 → 21 423 Б, содержание сохранено); учесть при гейте пакета"
+  snapshot: "develop = origin/develop @ 6cd75cf + working tree (service r12 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-c5c7
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-c5c7-2026-10-03-r2.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s); features_are_named_in_traceability_and_exist ok (P1 снят), ids_are_unique_and_contiguous ok, traceability_tasks_exist_and_match_registry ok, no_addresses_to_removable_or_session_data ok"
+    mode: "адресная документная сверка + адресный docs_journal (F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    p1_closure: "ok — docs/TRACEABILITY.md:91 (Q87, «Реализация») вилдкард «(статусы `agents-*`)» → поимённый перечень [agents-re-raise.feature](…), [agents-state-schema.feature](…), [agents-session-checkpoint.feature](…); rg 'agents-*' docs/TRACEABILITY.md — пусто; три .feature существуют (glob); git diff --numstat -- docs/TRACEABILITY.md = 1 0 (ровно одна строка)"
+    regression_c5_c7: "ok — C5: dispatch-loop.md:150-160 §«Re-raise» (7 полей/4 категории/зеркало/метрика без owner_override); state-schema.md:62,:109-110 (re_raise map, replan_reason enum D90); analyst.md:106; lead.md:62. C7: dispatch-loop.md:34-36 §«Каденция» шаблон сегментного итога; features/README.md:298-300 (state-schema 🟡, session-checkpoint 🟡, re-raise ✅), :315 счётчики 47/278, шапки .feature не тронуты"
+    journal: "ok — Q87<->D90 парны; questions/README.md:109, decisions/README.md:119; TRACEABILITY.md:91 Q87: D90 / in work / T-15 🚧; карточка C5 🚧 :216, C7 🚧 :218 (D90); D90 Affects/Tasks/«Сверка с кодом» ⚪ не применимо"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check — только CRLF-предупреждение ленты r11 (не ошибка); git status --porcelain — только .opencode/** + docs/** + лента/память/state; ?? Q87/D90, лента r12, отчёт -r1"
+    p3_audit: "observed (not blocker) — лента r11 UTF-16→UTF-8 при catch-up; git diff --check CRLF-предупреждение; учесть при гейте пакета"
+  snapshot: "develop = origin/develop @ 6cd75cf + working tree (service r12 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-c2
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-c2-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed; traceability_tasks_exist_and_match_registry ok, features_are_named_in_traceability_and_exist ok, questions_have_decision_or_exception ok"
+    script: "pass — node .opencode/scripts/validate-state.mjs: ошибок 0, предупреждений 132 (исторические записи — мягкий режим; неизвестные поля — предупреждение). Негативные фикстуры (--dir): дрейф iteration план↔состояние и 4 артефакта, rework ≠ iteration − 1, surface_to_user без channel/owner_response/question, dispatch без role/expect_match, чужой enum, убывающий session_index, --strict/--json/--file/--since — все пойманы"
+    mode: "адресная приёмка + схемный прогон + адресный docs_journal (F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    d91_vs_fact: "ok — место/роль скрипта (служебная зона, контракт state-schema.md), точки применения (pre-flight + приёмка), контракт полей/enum/дат/непустых result/next, инварианты, строгость (--since), формат/коды выхода"
+    audit_fixes: "ok — P2×5+P3 подтверждены: карточка C2 🚧 (не ✅); право lead (frontmatter + review.md); единое iteration по 4 артефактам (crossCheck); question при surface_to_user; --since (граница мягкого режима = дата C2); bare-форма в review.md"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; validator и lead — allow validate-state.mjs (обе формы)"
+    journal: "ok — Q88<->D91 парны; questions/README.md:110, decisions/README.md:120; TRACEABILITY.md:92 Q88: D91 / in work / T-15 🚧; карточка C2 🚧 :213; D91 «Сверка с кодом» ⚪; адресов docs/analysis/** и номеров строк нет"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; opencode.json не тронут; .credo/sandbox.json (tracked) вне периметра C2, в пакет не включается"
+  snapshot: "develop = origin/develop @ 7e458fd + working tree (service r13 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-credited-run
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-credited-run-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s), в т.ч. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, traceability_lifecycle_matches_task_openness, no_addresses_to_removable_or_session_data"
+    d92_vs_fact: "ok — ядро 4 условия (D92:31-37 = state-schema.md:169-175), не-дефекты (D92:38-40 = :177-179), машинная проверка (D92:41-43 = :181-184), неретроактивность (D92:44-45 = :187-188), ссылки F26/F27/F15 (D92:9-10,:95); P3-1 закрыт (D92:41-42 и схема :182-183 разнесены session-analysis/ и .opencode/scripts/metrics-report.mjs — оба пути существуют), P3-2 закрыт (D92:33-35 и схема :171-173 «стоявшему в плане участка (next[])»)"
+    journal: "ok — Q89<->D92 (resolved by/Resolves); questions/README:111, decisions/README:121; TRACEABILITY:93 Q89: D92 / in work / T-15 🚧; карточка C17 🚧 :230 + аннотации B1-F26/F27/F15 :211-213; F83/F84 :95-96 уникальны и открыты; номеров строк/адресов docs/analysis/** в каноне нет"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — только .opencode/** + docs/** + лента/память/state; ?? Q89/D92/лента r14; .credo/sandbox.json вне пакета (F83)"
+    mode: "полный DoD не запускался (D50) — адресная документная сверка + адресный docs_journal (F74); src/**, tests/**, Cargo.toml не менялись"
+  snapshot: "develop = origin/develop @ eeac481 + working tree (service r14 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-process-branch
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-process-branch-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s), в т.ч. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, traceability_lifecycle_uses_canon_dictionary, no_addresses_to_removable_or_session_data, every_decision_has_code_review_verdict"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; git allow session-checkpoint.mjs (обе формы), review.md список git (:104-109) синхронен фронтматтеру git.md:34-35"
+    d93_vs_fact: "ok — D93 п.1-10 ↔ факт: git-workflow.md:200-227 §«Session-commit» (ветка сессии process/<прогон>-s<M> от текущего HEAD, тег session/<прогон>-s<M>, сообщение chore(process): <прогон> s<M>, снапшот скриптом, push ветки+тега, без merge в develop, сервисные операции без process-ветки; строка «остаток C3 — отдельным решением» снята); dispatch-loop.md:107-111; commands/git/checkpoint.md (7 шагов, «нет записи — нет чекпойнта», без shell-блоков, agent: git, subagent: true); commands/git/status.md:11 git tag -l \"session/*\"; agents/git.md:34-35 право на session-checkpoint.mjs + :70-73 Session-commit; agents/auditor.md sources :59-61 + чек-лист :95-96 (.opencode/commands/**); AGENTS.md:24 карта команд; session-checkpoint.mjs:25-53 --snapshot (4 артефакта + meta.md, --dir, значения task/session_index из current_state.yaml); features/agents-session-checkpoint.feature:13-14 process/<прогон>-s<M> + chore(process), счётчик 4"
+    audit_p2_fixes: "ok — P2-1 review.md:104-109 у git добавлен node .opencode/scripts/session-checkpoint.mjs; P2-2 docs/features/README.md:299 D93-именование (ветка сессии/теги/снапшот/фасад) вместо process/runN; соседние строки :298/:300 не задеты"
+    snapshot_script: "checked by reading (not R2) — session-checkpoint.mjs:25-53 режим --snapshot: mkdirSync(dir), копия next_action/current_state/progress/receipts + meta.md, --dir override, task/session_index из current_state.yaml (не найдены -> exit 2); запись прогона сервисной сессией в ленте r15: каталог + 5 файлов, временный каталог удалён (.opencode/state/snapshots/** отсутствует)"
+    journal: "ok — Q90<->D93 (resolved by/Resolves); questions/README.md:112, decisions/README.md:122; TRACEABILITY.md:94 Q90: D93 / in work / T-15 🚧; Q90.md/D93.md; D93 «Сверка с кодом» ⚪ не применимо; номеров строк канона нет"
+    borders: "ok — git status --porcelain ровно периметр операции (15 M + 4 ??); git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; state/snapshots/** и временных файлов нет; карточка T-15 (runN :108/:216/:276-277) вне периметра правки — актуализация migrator при закрытии"
+    mode: "полный DoD не запускался (D50) — адресная документная/канонная сверка + адресный docs_journal (F74) + agents-perms; src/**, tests/**, Cargo.toml не менялись; прав validator на прогон session-checkpoint.mjs нет — проверка чтением кода и записи прогона (техническое замечание)"
+  snapshot: "develop @ f58e27c + working tree (service r15 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-b2-profile
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b2-profile-2026-10-03.md
+  dod:
+    profile_test: "not run by validator — permission.rejected (by design; validator has no allow for node .opencode/scripts/token-guard-test.mjs); service-session feed records PASS (24 ok, after P2 fix); equality of plugin tables (:134-145) vs test mirror RULES (:16-27) verified by reading (parseTable :88-104, assert :111-114) — P2 audit fix in place"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.06s), incl. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, every_decision_has_code_review_verdict, no_addresses_to_removable_or_session_data"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; фронтматтеры B2-ролей/validator не менялись"
+    d94_vs_fact: "ok — token-guard.ts:131 B2_PROFILE off|codemode|mcp (default off); :134-138 B2_PREFIXES_CODEMODE; :141-145 B2_PREFIXES_MCP (identical, match D94 п.2/§3.2); :148-151 B2_PROFILES; :154-155 activeB2Prefixes() ?? {} (off no-op); :291-299 hook session.context reads active profile; B1 (OUTPUT_LIMIT :44, sliceText :70) unchanged; no old B2_PREFIXES[agent]"
+    audit_fixes: "ok — P2 closed: token-guard-test.mjs:88-115 parseTable + assert value-equality (JSON.stringify) for both tables (:111-114), catches mirror drift; P3 closed: D45 п.3 single «Уточнено D94» note (:39-42), duplicate removed"
+    canon: "ok — AGENTS.md:303-305 B2_PROFILE footnote (D94); T-15 card :226 C11 «🟡 подготовлен»; phase E :161-164 untouched; Q91<->D94, questions/README:113, decisions/README:123, TRACEABILITY:95 (in work, T-15 🚧)"
+    borders: "ok — git status --porcelain -uall = 9 M + 4 ?? строго по периметру операции (token-guard.ts, token-guard-test.mjs, AGENTS.md, D45, README×2, TRACEABILITY, карточка T-15, memory×2, лента r16, D94, Q91); git diff --numstat -- src tests Cargo.toml opencode.json пусто; git diff --check пусто; временных файлов в .opencode/scripts/ нет"
+    mode: "полный DoD не запускался (D50) — правки процесс/служебной зоны; src/**, tests/**, Cargo.toml, opencode.json не тронуты"
+    note: "техническое замечание — R2-прогон теста профилей недоступен validator (нет права, by design); рекомендуется отдельным решением добавить allow node .opencode/scripts/token-guard-test.mjs, канон не правил"
+  snapshot: "develop = origin/develop @ 92bf91c (r15) + working tree (service r16 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-phase-e
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-phase-e-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.96s), incl. traceability_tasks_exist_and_match_registry, features_are_named_in_traceability_and_exist, traceability_lifecycle_matches_task_openness, no_addresses_to_removable_or_session_data"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.55s); agents-mcp-readiness не менялась, README.md:302 счётчик 4, «Итого: 47 файлов, 278 сценариев»"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; фронтматтеры ролей не менялись"
+    mode: "полный DoD не запускался (D50) — адресная документная сверка + адресные docs_journal/features_inventory (F74) + agents-perms; src/**, tests/**, Cargo.toml не менялись"
+    d95_vs_fact: "ok — фаза E = T-26 (⬜, P1); предмет только process-MCP (git-MCP Прил. A вне предмета); старт после заморозки D T-15, вход B2 (D94); класс априори L; референсы kibi/Semantic Anchors/BRHP/Telemetry DB; «решений не принимает»; «Сверка с кодом» ⚪ не применимо — всё совпадает"
+    journal: "ok — Q92<->D95 парны (Q92:3 resolved by D95; D95:5 Resolves Q92); каталоги questions/README.md:114, decisions/README.md:124; TRACEABILITY.md:96 Q92: D95 / in work / T-26 ⬜; реестр tasks/README.md:59 (P1, зависит T-15 фаза D, ⬜); карточка T-15 :161-165 ссылается на T-26; D95 Affects/Tasks/«Сверка» ⚪"
+    p2_audit: "closed — чекпойнт migrator r17 внесён: .opencode/memory/migrator.md:450-463 (Q92→D95, T-26 ⬜, реестр :59, T-15 :165, фича не тронута)"
+    borders: "ok — git status --porcelain: 5 M (TRACEABILITY, decisions/README, questions/README, tasks/README, T-15) + memory auditor/migrator + 4 ?? (лента r17, Q92, D95, T-26/**); git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; фичи не тронуты"
+  snapshot: "develop + working tree (service r17 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-state-metrics
+  iteration: 1
+  verdict: rework
+  report: docs/reviews/service-state-metrics-2026-10-03.md
+  dod:
+    script_run: "permission denied — node .opencode/scripts/state-metrics.mjs (--json/--task T-16/--session 3) отклонён permission-гардом: права validator (validator.md:17-34) и lead (agents-perms) не содержат state-metrics.mjs; R2-прогон C6, назначенный D96:108, невыполним ни одной ролью (P2-1)"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.07s)"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.02s); agents-metrics:3 сценария, README.md:301 🟡"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений кроме P2-1 нет"
+    mode: "полный DoD не запускался (D50) — процесс/служебная зона; src/**, tests/**, Cargo.toml не менялись"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --short 11 M + 4 ?? строго по списку операции"
+    tail_data: "наблюдение — replan_reason и owner_override в progress.yaml 0 совпадений → категории re-plan «(не указана)», convergence = replanTotal; дрейф данных, не дефект скрипта; не блокирует C6"
+  snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-state-metrics
+  iteration: 2
+  verdict: accepted
+  report: docs/reviews/service-state-metrics-2026-10-03-r2.md
+  dod:
+    script_run: "pass — node .opencode/scripts/state-metrics.mjs: полный отчёт (190 записей progress, 24 задачи, 4 сессии; dispatch git25/validator23/migrator19/tester11/docs-writer10/coder5/auditor4; re-plan 34/convergence 34; очереди 0/0; квитанции 53/17/3/13/17/5; упоры s3=2 s4=3); --json валиден; --task T-16 прогресс 40 + квитанции 3 (фильтр по task); --session 3 прогресс 29 + квитанции 108 (не обнуляются — P2-1 закрыт); --out файл записан. Право state-metrics.mjs у validator.md:25-26 и lead.md:22-23"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s)"
+    features_inventory: "pass — cargo test --test features_inventory (exit 0), 4 passed / 0 failed (0.01s); agents-metrics.feature:2 # D96 (Q93), README.md:301 🟡"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; validator и lead allow state-metrics.mjs (+ *); review.md:88-101 синхрон; расхождений нет"
+    p2_audit: "closed — --out (D96:54), категории re-plan :184, stateCategory :188, iteration :277/:316-320, упоры :168-171/:238-242, keepProgress/keepReceipt :136-141, мёртвая verdicts удалена (rg — 0 совпадений), indexOf(index-loop) :59-95"
+    mode: "полный DoD не запускался (D50) — процесс/служебная зона; src/**, tests/**, Cargo.toml не менялись"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — ровно объявленные файлы (11 M + 5 ??, включая отчёт -r1/-r2)"
+    tail_data: "наблюдение — replan_reason в progress.yaml 0 совпадений → категории «(не указана)», convergence = total; дрейф данных (lead не пишет опциональное поле), не дефект скрипта; не блокирует C6 — отдельное решение"
+  snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-task-t27
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-task-t27-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.05s); реестр/тест ещё не перенесены (объём T-27)"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений инструкция ↔ права нет"
+    d98_vs_fact: "ok — Q95↔D98 парность (resolved by/Resolves), оба в каталогах (:117/:127); класс T-27 = L везде (карточка :7,:23,:69,:78; D98 :23,:66,:128,:149; 'M' для T-27 — 0); канон-часть — сервисная сессия (D98 :76-78, карточка :69-72,78-80); объём (docs/registry/{registry,archive}.md, раскол 84, тест/канон/ссылки, полный DoD) и критерий готовности на месте; 'работу не выполнять' (карточка :68, D98 :131-132); docs/registry/ отсутствует (glob)"
+    audit_fixes: "closed — P1 класс L везде; P2 маршрут L (канон-часть сервисная сессия); P3 строка T-27 в tasks/README.md:65 блок P2 (rg T-27 = 1); память migrator :515 L, :516 блок P2, :527 M→L"
+    journal: "ok — TRACEABILITY:99 Q95 → D98, in work, T-27 ⬜ (ровно одна строка); tasks/README.md:65 — ровно одна строка T-27"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --name-only — 6 M (память migrator/auditor, TRACEABILITY, 2 каталога, tasks/README) + 4 ?? (лента, Q95, D98, T-27); docs/analysis/findings-registry.md, tests/docs_journal.rs, канон (.opencode/rules/**, AGENTS.md, migrator.md), src/**, Cargo.toml не тронуты"
+    mode: "полный DoD не запускался (D50) — документы/журнал; src/**, tests/**, Cargo.toml не менялись"
+    tail_data: "P3 (не блокер) — git diff --check: .opencode/memory/migrator.md:529 new blank line at EOF (лишний завершающий перевод); память — не канон, правка одна строка"
+  snapshot: "develop, HEAD 0e5a158 + working tree (service r20 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
+- task: service-b0-roster
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b0-roster-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений нет"
+    d97_vs_fact: "ok — таблица развязки (D97:42-52): Shell Strategy→C (канон AGENTS.md §«Служебная зона и аудит»); CC Safety Net→C (C10/карточка :223); CCSN-CLI→F; Handoff→C (C9/D88, C3/D93); наблюдаемость/Agent Identity→C (P1/P4/P5); Telemetry→D отклонён (D96); BRHP→E референс (D95:49, карточка :55-56); snip→C отклонён; Plannotator/notify/`/git/*`→F"
+    audit_fixes: "closed — P2-1 D97:50 BRHP «референс (не установлен)»/основание D95 (ложное «реализовано» через D86/D91 убрано); P2-2 D97:45 CC Safety Net основание C10/отчёт §4 (ложный D87 снят); P3 D97:73-74 перечень закрытых без D90/D95, D95 привязан к BRHP"
+    journal: "ok — Q94↔D97 (resolved by/Resolves); каталоги questions/README:116, decisions/README:126; TRACEABILITY:98 in work/T-15 🚧; карточка C8 :221 🚧 (не ✅), пункт кандидатов :122-124 сжат до ссылки D97; wave0b-report:79 пометка «Разведено → D97», тело §4 не переписано"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — только Q94/D97/каталоги/TRACEABILITY/карточка/wave0b-report/лента-память (7 M + 3 ??)"
+    mode: "полный DoD не запускался (D50) — документы/журнал; src/**, tests/**, Cargo.toml не менялись"
+  snapshot: "develop, working tree (service r19 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
