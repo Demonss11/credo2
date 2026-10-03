@@ -514,6 +514,50 @@
     карточка/findings), `??` Q89/D92/лента r14; `.credo/sandbox.json` — вне
     пакета (F83).
   Ориентир — 14 passed / 0 failed. Запускаю.
+- **03.10.2026 · сервисная операция r15 (T-15, C3-остаток+C4; session-commit
+  process-ветка/теги/снапшот/фасад), до прогона.** Адресная документная/канонная
+  сверка + адресный `cargo test --test docs_journal` (F74) + `agents-perms.mjs`;
+  полный DoD не требуется (D50 — продуктовый код CREDO не затронут). Снимок:
+  HEAD `f58e27c` + рабочее дерево. Проверено чтением/rg/git:
+  - **D93 ↔ факт (10 п.):** `git-workflow.md:200-227` §«Session-commit» — ветка
+    `process/<прогон>-s<M>` от текущего HEAD (`switch -c`), тег
+    `session/<прогон>-s<M>`, сообщение `chore(process): <прогон> s<M>`, снапшот
+    скриптом, push ветки+тега, без merge, сервисные операции без process-ветки,
+    строка «остаток C3 — отдельным решением» снята; `dispatch-loop.md:107-111`;
+    `checkpoint.md` — 7 шагов, «нет записи — нет чекпойнта», без shell-блоков,
+    `agent: git`; `status.md:11` — `git tag -l "session/*"`; `git.md:34-35`
+    право на `session-checkpoint.mjs` + `:70-73` Session-commit; `auditor.md`
+    `.opencode/commands/**` (источники :59-61, чек-лист :95-96); `AGENTS.md:24`;
+    `session-checkpoint.mjs:25-53` `--snapshot` (4 артефакта + meta.md, `--dir`,
+    значения из `current_state.yaml`); фича :13-14 `process/<прогон>-s<M>`,
+    счётчик 4 сценария.
+  - **P2-фиксы аудита:** `review.md:104-109` — `git` + `session-checkpoint.mjs`;
+    `features/README.md:299` — D93-именование (ветка сессии/теги/снапшот/фасад),
+    соседи :298/:300 не задеты.
+  - **Границы:** `git status --porcelain` = 15 M + 4 ?? строго по списку операции
+    (memory/git.md, auditor.md, migrator.md, mail r15 + канон/журнал/фича);
+    `git diff --numstat -- src tests Cargo.toml` пусто; `git diff --check` пусто;
+    `.opencode/state/snapshots/**` нет (временный каталог пробы удалён).
+  - **Заметка:** карточка T-15 хранит `process/runN` (:108, :216, :276-277) —
+    обновление при закрытии `migrator` (карточка вне периметра правки; статусы
+    не меняю).
+  Ориентир — 14 passed / 0 failed. Запускаю `cargo test --test docs_journal`,
+  `node .opencode/scripts/agents-perms.mjs`.
+- **03.10.2026 · сервисная операция r15 (T-15, C3-остаток+C4) — после прогона:
+  принято.** `cargo test --test docs_journal` — **14 passed / 0 failed** (0.06s);
+  `agents-perms.mjs` — **11 из 18**. D93 п.1-10 ↔ факт совпадают
+  (`git-workflow.md` §«Session-commit», `dispatch-loop.md:107-111`,
+  `checkpoint.md` 7 шагов, `status.md` теги сессий, `git.md` право+пункт,
+  `auditor.md` commands/** , `AGENTS.md:24`, `session-checkpoint.mjs` `--snapshot`,
+  фича сценарий 1/счётчик 4); строка «остаток C3» снята. P2-1 `review.md:104-109`
+  и P2-2 `features/README.md:299` — закрыты, соседи целы. Границы чисты
+  (`src/tests/Cargo.toml` пусто, `diff --check` пусто, snapshot-каталога нет).
+  P1/P2/P3 нет; техническое замечание — нет прав validator на скрипт (проверка
+  чтением, не R2). Hand-off `migrator`: карточка T-15 `process/runN` (:108,
+  :216, :276-277) → D93-именование при закрытии. Отчёт
+  `docs/reviews/service-process-branch-2026-10-03.md`; квитанция
+  `service-process-branch` iteration 1, accepted. Канон не правил.
+  Полный DoD не запускался (D50).
 - **03.10.2026 · сервисная операция r14 (T-15, C17) — после прогона: принято.**
   `cargo test --test docs_journal` — **14 passed / 0 failed** (0.06s). D92 ↔
   `state-schema.md` §«Зачётный прогон» (ядро 4 условия, не-дефекты, машинная

@@ -105,7 +105,8 @@
   `rev-parse`/`remote`/`tag`/`ls-remote`), изменяющие — `ask` (`add`/`commit`/
   `switch`/`checkout`/`merge`/`branch -d`/`tag`/`restore`/`push`/`fetch`/`pull`),
   `node .opencode/scripts/clean-logs.mjs`,
-  `node .opencode/scripts/git-check.mjs`.
+  `node .opencode/scripts/git-check.mjs`,
+  `node .opencode/scripts/session-checkpoint.mjs`.
 - **Автопроверка `auditor`:** этот список должен совпадать с фронтматтерами
   `.opencode/agents/*.md` (команда без права и право без применения — находки).
 - **Проверка памяти:** «Знание» в `.opencode/memory/<роль>.md` не

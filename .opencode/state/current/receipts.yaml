@@ -1751,3 +1751,19 @@
     mode: "полный DoD не запускался (D50) — адресная документная сверка + адресный docs_journal (F74); src/**, tests/**, Cargo.toml не менялись"
   snapshot: "develop = origin/develop @ eeac481 + working tree (service r14 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-process-branch
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-process-branch-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.06s), в т.ч. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, traceability_lifecycle_uses_canon_dictionary, no_addresses_to_removable_or_session_data, every_decision_has_code_review_verdict"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; git allow session-checkpoint.mjs (обе формы), review.md список git (:104-109) синхронен фронтматтеру git.md:34-35"
+    d93_vs_fact: "ok — D93 п.1-10 ↔ факт: git-workflow.md:200-227 §«Session-commit» (ветка сессии process/<прогон>-s<M> от текущего HEAD, тег session/<прогон>-s<M>, сообщение chore(process): <прогон> s<M>, снапшот скриптом, push ветки+тега, без merge в develop, сервисные операции без process-ветки; строка «остаток C3 — отдельным решением» снята); dispatch-loop.md:107-111; commands/git/checkpoint.md (7 шагов, «нет записи — нет чекпойнта», без shell-блоков, agent: git, subagent: true); commands/git/status.md:11 git tag -l \"session/*\"; agents/git.md:34-35 право на session-checkpoint.mjs + :70-73 Session-commit; agents/auditor.md sources :59-61 + чек-лист :95-96 (.opencode/commands/**); AGENTS.md:24 карта команд; session-checkpoint.mjs:25-53 --snapshot (4 артефакта + meta.md, --dir, значения task/session_index из current_state.yaml); features/agents-session-checkpoint.feature:13-14 process/<прогон>-s<M> + chore(process), счётчик 4"
+    audit_p2_fixes: "ok — P2-1 review.md:104-109 у git добавлен node .opencode/scripts/session-checkpoint.mjs; P2-2 docs/features/README.md:299 D93-именование (ветка сессии/теги/снапшот/фасад) вместо process/runN; соседние строки :298/:300 не задеты"
+    snapshot_script: "checked by reading (not R2) — session-checkpoint.mjs:25-53 режим --snapshot: mkdirSync(dir), копия next_action/current_state/progress/receipts + meta.md, --dir override, task/session_index из current_state.yaml (не найдены -> exit 2); запись прогона сервисной сессией в ленте r15: каталог + 5 файлов, временный каталог удалён (.opencode/state/snapshots/** отсутствует)"
+    journal: "ok — Q90<->D93 (resolved by/Resolves); questions/README.md:112, decisions/README.md:122; TRACEABILITY.md:94 Q90: D93 / in work / T-15 🚧; Q90.md/D93.md; D93 «Сверка с кодом» ⚪ не применимо; номеров строк канона нет"
+    borders: "ok — git status --porcelain ровно периметр операции (15 M + 4 ??); git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; state/snapshots/** и временных файлов нет; карточка T-15 (runN :108/:216/:276-277) вне периметра правки — актуализация migrator при закрытии"
+    mode: "полный DoD не запускался (D50) — адресная документная/канонная сверка + адресный docs_journal (F74) + agents-perms; src/**, tests/**, Cargo.toml не менялись; прав validator на прогон session-checkpoint.mjs нет — проверка чтением кода и записи прогона (техническое замечание)"
+  snapshot: "develop @ f58e27c + working tree (service r15 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

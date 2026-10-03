@@ -31,6 +31,8 @@ permissions:
   - { action: shell, resource: "node .opencode/scripts/clean-logs.mjs *", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/git-check.mjs", effect: allow }
   - { action: shell, resource: "node .opencode/scripts/git-check.mjs *", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/session-checkpoint.mjs", effect: allow }
+  - { action: shell, resource: "node .opencode/scripts/session-checkpoint.mjs *", effect: allow }
   - { action: shell, resource: "git add *", effect: ask }
   - { action: shell, resource: "git commit *", effect: ask }
   - { action: shell, resource: "git switch *", effect: ask }
@@ -64,6 +66,11 @@ permissions:
 удаление ветки) — по `.opencode/rules/git-workflow.md` («Старт задачи»,
 «Завершение задачи»); имя ветки содержит идентификатор артефакта
 (`T-XX-<слаг>`, `Dn-<слаг>`, `Qn-<слаг>`).
+
+**Session-commit** — ветка сессии `process/<прогон>-s<M>`, тег
+`session/<прогон>-s<M>`, снапшот состояния скриптом
+(`node .opencode/scripts/session-checkpoint.mjs --snapshot`) — по
+`.opencode/rules/git-workflow.md` §«Session-commit».
 
 ## Пакет и подтверждение
 

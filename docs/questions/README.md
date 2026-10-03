@@ -109,3 +109,4 @@
 | [Q87](Q87.md) | C5/C7: re-raise (объект/категории, `replan_reason`) и шаблон самоотчёта + статусы фич | [D90](../decisions/D90-c5-c7-re-raise-selfreport.md) |
 | [Q88](Q88.md) | C2: валидатор схемы состояния `validate-state.mjs` | [D91](../decisions/D91-c2-validate-state.md) |
 | [Q89](Q89.md) | что считать зачётным прогоном (чистота для F26/F27/F15) | [D92](../decisions/D92-credited-run-predicate.md) |
+| [Q90](Q90.md) | C3-остаток: process-ветка, теги, снапшот, фасад `/git/checkpoint` | [D93](../decisions/D93-session-commit-process-branch.md) |

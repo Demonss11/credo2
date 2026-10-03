@@ -6,10 +6,13 @@
 // Сводка: цель · статус · файлы (изменённые/прочитанные) · маркеры рисков ·
 // метрики · resume-путь. Доработка относительно прототипа: файлы разделены на
 // изменённые (edit/write/patch, snapshot) и прочитанные (read).
+// Режим --snapshot (D93, C3): копия `.opencode/state/current/*` + meta.md в
+// `.opencode/state/snapshots/<прогон>-s<M>/` (значения task/session_index — из
+// current_state.yaml; --dir — переопределить каталог).
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 
 const args = process.argv.slice(2);
 const opt = (n, d = null) => {
@@ -18,9 +21,40 @@ const opt = (n, d = null) => {
 };
 const ses = opt("--session", args.find((a) => a.startsWith("ses_")) ?? null);
 const out = opt("--out");
+
+const snap = args.includes("--snapshot");
+if (snap) {
+  const cur = join(process.cwd(), ".opencode", "state", "current");
+  const cs = readFileSync(join(cur, "current_state.yaml"), "utf8");
+  const task = (cs.match(/^task:\s*(\S+)/m) ?? [])[1];
+  const si = (cs.match(/^session_index:\s*(\d+)/m) ?? [])[1];
+  if (!task || !si) {
+    console.error("snapshot: не найдены task/session_index в current_state.yaml");
+    process.exit(2);
+  }
+  const name = `${task}-s${si}`;
+  const dir =
+    opt("--dir") ?? join(process.cwd(), ".opencode", "state", "snapshots", name);
+  mkdirSync(dir, { recursive: true });
+  for (const f of [
+    "next_action.yaml",
+    "current_state.yaml",
+    "progress.yaml",
+    "receipts.yaml",
+  ]) {
+    copyFileSync(join(cur, f), join(dir, f));
+  }
+  writeFileSync(
+    join(dir, "meta.md"),
+    `# Снапшот состояния: ${name}\n\n- Создан: ${new Date().toISOString()}\n- Прогон: ${task} · сессия: ${si}\n- Источник: \`.opencode/state/current/*\`\n`,
+  );
+  console.log(`[snapshot] ${dir}`);
+  process.exit(0);
+}
+
 if (!ses) {
   console.error(
-    "usage: node .opencode/scripts/session-checkpoint.mjs --session <ses_id> [--out <file.md>]",
+    "usage: node .opencode/scripts/session-checkpoint.mjs --session <ses_id> [--out <file.md>] | --snapshot [--dir <dir>]",
   );
   process.exit(2);
 }

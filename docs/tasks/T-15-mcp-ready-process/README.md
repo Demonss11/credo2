@@ -105,12 +105,14 @@
   `session_index`; `owner_response` дословно;
 - скрипт `validate-state.mjs`: pre-flight + приёмка `validator`; неизвестные
   поля — предупреждение;
-- session-commit: ветка `process/runN`, теги `session/runN-sM`; исполнитель —
+- session-commit: ветка сессии `process/<прогон>-s<M>`, тег
+  `session/<прогон>-s<M>`, снапшот состояния; механика — D93; исполнитель —
   роль `git` по «постоянному» пакету (подтверждение один раз на прогон;
   catch-up при обрыве); правило останова в `dispatch-loop.md`;
 - команды-фасад `.opencode/commands/git/`: `/git/checkpoint` (триггер
-  «постоянного» пакета; создаётся здесь) и `/git/status` (read-only; создана
-  2026-09-27 как временное решение — см. Примечания);
+  «постоянного» пакета) и `/git/status` (read-only, +теги сессий); созданы
+  (C4, `service-process-branch`); `.opencode/commands/**` — в области аудита
+  `auditor` (D93);
 - re-raise: категории и объект (план/досье), зеркало `replan_reason` в
   `progress`;
 - метрики: поля `progress` (`session_index`, `role`, `step`, `outcome`,
@@ -213,8 +215,8 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B1-F15 | Первый `rework`: `iteration 1→2`, `-rN` | B1 | ⏸ · данные 02.10 | F15/F6; D42 |
 | C1 | Схема состояния (`session_index`, `owner_response`) | C | ✅ 02.10 — принято (`T-15-c1`); схема — `.opencode/rules/state-schema.md` (D86) | записка §5 |
 | C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ✅ 03.10 — принято (`service-c2`); валидатор схемы, точки применения; D91 | D91 |
-| C3 | session-commit (`process/runN`, теги) | C | 🚧 — инкремент 1 принят (`service-p1p2p3`): правило session-commit; остаток — `process/runN`, теги, фасад | D89 (P3) |
-| C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | 🚧 (`/git/status` — временно, 27.09) | T-13 |
+| C3 | session-commit (`process/<прогон>-s<M>`, теги) | C | ✅ 03.10 — принято (`service-process-branch`); остаток закрыт: ветка сессии `process/<прогон>-s<M>`, тег `session/<прогон>-s<M>`, снапшот, скрипт (D93) | D93 |
+| C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | ✅ 03.10 — принято (`service-process-branch`); `/git/checkpoint` (снапшот→ветка→commit→tag→push), `/git/status` (+теги сессий); `.opencode/commands/**` — в области аудита (D93) | D93 |
 | C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
 | C6 | Метрики `progress` без ручной сборки | C | ⬜ | — |
 | C7 | Шаблон самоотчёта; фичи/счётчики | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
@@ -258,26 +260,10 @@ T-05 (success-схемы `delete_draft`/`deprecate`), Q33 (`check.run`/
 - пакет закоммичен (одна задача — один коммит; при серии фаз — модель
   коммитов зафиксировать до старта).
 
-## Черновик команды-фасада (создать в фазе C)
+## Команда-фасад `/git/checkpoint` (C4 — реализована)
 
-`.opencode/commands/git/checkpoint.md`:
-
-```md
----
-description: Process-commit прогона (лента, память, снапшот state) по «постоянному» пакету
-agent: git
-subagent: true
----
-
-Выполни `checkpoint_session` текущего прогона по «постоянному» пакету,
-подтверждённому `lead` (одно подтверждение на прогон — запись в ленте и
-state; без записи верни «нужно подтверждение», изменяющих команд не
-выполняй). Идемпотентно, по одной команде: сверка `git status`/`git log`;
-`add` только process-путей пакета; `commit -m "chore(process): runN sM"`;
-`push origin process/runN` (таймаут ≥ 5 мин). Продуктовые изменения не
-входят; shell-блоки не использовать. Отчёт — в ленту задачи и память; верни
-хеши.
-```
+Действующий файл — `.opencode/commands/git/checkpoint.md`; механика — D93;
+черновик фазы A снят (история — git).
 
 ## Примечания
 
@@ -295,9 +281,8 @@ state; без записи верни «нужно подтверждение»,
 - Решения (владелец, 2026-09-27): process-commit — роль `git` по «постоянному»
   пакету, микро-роль не вводится; фасад — команды OpenCode; в перспективе
   git-MCP — узкий инструмент `checkpoint` у `lead` (записка, Приложение A).
-- `/git/status` создана как временное решение; при внедрении команд включить
-  `.opencode/commands/**` в область аудита `auditor` (команды не должны
-  обходить permission-поток).
+- Команды-фасады внедрены (C4, `service-process-branch`); `.opencode/commands/**`
+  включены в область аудита `auditor` (D93).
 - Инструментальная волна B0 (вне канона): каталог-анализ, состав и протокол —
   [`wave0b-plugins.md`](wave0b-plugins.md); исполнение —
   [`wave0b-plan.md`](wave0b-plan.md).

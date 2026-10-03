@@ -81,3 +81,25 @@
   0 ошибок, `docs_journal` 14/0; аудит — P2×5+P3 исправлены. `C2` ✅, Q88
   `in work` (T-15 🚧), фича `agents-state-schema` ✅. Остаток T-15: C4+C3-остаток,
   C6, C8.
+- 03.10.2026, r14 закрыта (предикат зачёта): коммит `42e1296`, push
+  `eeac481..42e1296` (develop). D92: раздел «Зачётный прогон» в `state-schema.md`
+  (ядро: ведущий `lead`, нет упоров `steps`, нет незапланированных прерываний
+  владельца, нет ручных восстановлений; не-дефекты — плановые гейты,
+  `owner_override`, rework, CCSN, session-commit; машинная проверка;
+  неретроактивно). Приёмка `service-credited-run` (iteration 1, accepted),
+  `docs_journal` 14/0; аудит — P3 ×2 (путь `metrics-report.mjs`, тавтология
+  условия 3) исправлены. `C17` ✅; заведены F83 (`.credo/**` в git), F84 (дрейф
+  полей live state).
+- 03.10.2026, r15 закрыта (C3-остаток + C4): D93 — session-commit: ветка сессии
+  `process/<прогон>-s<M>` от текущего HEAD, тег `session/<прогон>-s<M>`,
+  сообщение `chore(process): <прогон> s<M>`, снапшот
+  `state/snapshots/<прогон>-s<M>/` (режим `--snapshot` в
+  `session-checkpoint.mjs`; право у роли `git`), push ветки и тега, без merge в
+  `develop`; сервисные операции — без process-ветки. Фасад
+  `.opencode/commands/git/checkpoint.md` (+ `status.md` — теги сессий);
+  `.opencode/commands/**` — в области аудита `auditor`. Приёмка
+  `service-process-branch` (iteration 1, accepted), `docs_journal` 14/0; аудит —
+  P2 ×2 (`review.md` — список команд `git`; карта фич — имя прогона), свежий
+  аудит чист. `C3`/`C4` ✅, фича `agents-session-checkpoint` ✅. Грабля:
+  накопительная ветка `process/<прогон>` конфликтует с M-файлами на общем
+  дереве — принята ветка сессии (`switch -c` от текущего HEAD).
