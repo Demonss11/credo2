@@ -15,11 +15,12 @@
 // одним атомарным write — watcher перезагружает файл на каждое изменение и
 // ловит промежуточные (неполные) состояния.
 //
-// Права не меняет; B2 (снятие tool-схем по именам агентов) отключён решением
-// владельца 2026-09-28 — таблица префиксов пуста; permissions и канон не
-// правятся. Откат — переименовать/удалить файл (автозагрузка
-// .opencode/plugins/**; watcher следит за файлом, при необходимости —
-// рестарт сервиса OpenCode).
+// Права не меняет; B2 (снятие tool-схем по именам агентов) — профиль-флаг
+// (D94): константа B2_PROFILE ∈ "off" | "codemode" | "mcp"; по умолчанию "off"
+// (таблица пуста, ничего не снимается). Включение — смена константы; при прямой
+// экспозиции MCP (codemode=false) — "mcp". permissions и канон не правятся.
+// Откат — переименовать/удалить файл (автозагрузка .opencode/plugins/**;
+// watcher следит за файлом, при необходимости — рестарт сервиса OpenCode).
 //
 // Счётчики — ctx.storage (персистентный JSON плагина): B1 — ключ "stats",
 // B2 — ключ "b2stats"; вывод — console.log сервера.
@@ -29,8 +30,8 @@
 // репозитории и на `credo_check_create` в изолированном прогоне с
 // codemode=false); плагин снимает ключи по префиксам. В текущей конфигурации
 // репозитория (codemode=true по умолчанию) MCP-схемы не являются ключами
-// event.tools — срабатываний нет; B2 отключён (владелец, 2026-09-28), таблица
-// префиксов пуста; включать при прямой экспозиции MCP.
+// event.tools — активный профиль "off" (D94, 2026-10-03): правила обоих
+// профилей внесены, включение — сменой B2_PROFILE при прямой экспозиции MCP.
 
 import { Plugin } from "@opencode/plugin";
 
@@ -114,24 +115,44 @@ const sliceText = (raw: string, tool: string): SliceOutcome => {
   };
 };
 
-// ── B2 (W0-i3, отключено 2026-09-28): снятие tool-схем по именам агентов ────
+// ── B2 (W0-i3; профиль-флаг D94): снятие tool-схем по именам агентов ────────
 //
-// Черновые правила §3.2 были сверены с брифами и review.md (лента
-// service-mcp-ready, запись 2026-09-27): docs-writer/git — без
-// `rust-analyzer*` и `credo*`; analyst — без `rust-analyzer*`; lead — не
-// трогать. Префиксы покрывали оба написания сервера (`rust-analyzer` /
-// `rust_analyzer`) и MCP-ключи вида `<server>_<tool>` (проверено изолированным
-// прогоном: `credo_check_create`). Таблица ниже пуста — B2 отключён решением
-// владельца (F28/D45); включать при прямой экспозиции MCP.
+// Правила §3.2 сверены с брифами и review.md (лента service-mcp-ready,
+// 2026-09-27): docs-writer/git — без `rust-analyzer*`/`credo*`; analyst — без
+// `rust-analyzer*`; lead — не трогать. Префиксы покрывают оба написания сервера
+// (`rust-analyzer` / `rust_analyzer`) и MCP-ключи вида `<server>_<tool>`
+// (изолированный прогон: `credo_check_create`). Активная таблица выбирается
+// константой B2_PROFILE; "off" — no-op.
 // Хук `session.context` выполняется только для агентского цикла (primary);
 // у compaction/title/generate собственные хуки, поэтому условие «только
 // primary» задано самой регистрацией (kind в событии не приходит).
 
-// Отключено решением владельца 2026-09-28 (codemode=true — срабатываний нет).
-// При прямой экспозиции MCP (codemode=false) вернуть правила:
-//   docs-writer/git — ["rust-analyzer", "rust_analyzer", "credo"];
-//   analyst — ["rust-analyzer", "rust_analyzer"].
-const B2_PREFIXES: Record<string, readonly string[]> = {};
+/** Активный профиль B2 (D94): "off" — выключено, "codemode"/"mcp" — таблица. */
+const B2_PROFILE: "off" | "codemode" | "mcp" = "off";
+
+/** Профиль Code Mode (инструменты/MCP внутри `execute`). */
+const B2_PREFIXES_CODEMODE: Record<string, readonly string[]> = {
+  "docs-writer": ["rust-analyzer", "rust_analyzer", "credo"],
+  git: ["rust-analyzer", "rust_analyzer", "credo"],
+  analyst: ["rust-analyzer", "rust_analyzer"],
+};
+
+/** Профиль прямой экспозиции MCP (codemode=false). */
+const B2_PREFIXES_MCP: Record<string, readonly string[]> = {
+  "docs-writer": ["rust-analyzer", "rust_analyzer", "credo"],
+  git: ["rust-analyzer", "rust_analyzer", "credo"],
+  analyst: ["rust-analyzer", "rust_analyzer"],
+};
+
+/** Таблицы профилей. */
+const B2_PROFILES: Record<string, Record<string, readonly string[]>> = {
+  codemode: B2_PREFIXES_CODEMODE,
+  mcp: B2_PREFIXES_MCP,
+};
+
+/** Префиксы активного профиля ("" при "off" — ничего не снимается). */
+const activeB2Prefixes = (): Record<string, readonly string[]> =>
+  B2_PROFILES[B2_PROFILE] ?? {};
 
 interface B2Stats {
   removed: number;
@@ -274,7 +295,7 @@ export default Plugin.define({
         if (event?.kind && event.kind !== "primary") return;
         const tools: Record<string, unknown> | undefined = event?.tools;
         const agent = typeof event?.agent === "string" ? event.agent : "";
-        const prefixes = B2_PREFIXES[agent];
+        const prefixes = activeB2Prefixes()[agent];
         if (!tools || !prefixes) return;
 
         let removed = 0;

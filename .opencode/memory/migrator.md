@@ -387,6 +387,29 @@
   Файлы: Q90, D93, 2 каталога, TRACEABILITY (+ лента r15/память). Следующее:
   правки канона сервисной сессией → `reload` → `auditor` → `validator`.
 
+- 03.10.2026, Q91 → D94 (service-mcp-ready-r16, T-15 C11 — B2 профиль-флаг):
+  заведены `Q91` («C11/B2: профиль-флаг — подготовка без включения»; варианты
+  A/B/C; решение владельца 03.10.2026 — **A**: константа в файле `B2_PROFILE`,
+  тест — служебный скрипт `.opencode/scripts/token-guard-test.mjs`) и
+  `D94-b2-profile-flag` (7 пунктов: профиль-константа `off`/`codemode`/`mcp`;
+  таблицы `B2_PREFIXES_CODEMODE`/`_MCP` из черновых правил плагина; `off` —
+  no-op; включение — смена константы, B1-срез не меняется; тест на синтетике;
+  C11 не держит closeout T-15; фаза E — отдельная задача; карточка C11 →
+  «🟡 подготовлен»). D45 п.3 — обратная пометка «уточнено D94». Строки
+  `questions/README.md`, `decisions/README.md`, TRACEABILITY (Q91: D94,
+  `in work` / T-15 🚧); карточка T-15 строка `C11` `:226` 🟡 (фазу E `:161-164`
+  не трогал). Сверка D94 — ⚪ (процесс/служебная зона; `cargo` не запускался,
+  D50). Проверки: ID свободны (Q90/D93 — последние); ссылки живые (Q91/D94,
+  D45, F28, T-15, `token-guard.ts`, `AGENTS.md`, `journal.md`, D50,
+  `findings-registry.md`); читал `tests/docs_journal.rs` (каталоги, «Сверка»,
+  `Resolves`, T-15 🚧 ↔ TRACEABILITY 🚧) — роут-совместимы. **Грабля:** shell у
+  migrator нет — `git diff --check`/`numstat` за ролью `git`; диф судить
+  чтением. `token-guard-test.mjs` в D94 — plain text (файл новый, ещё не
+  создан; ссылка была бы битой). Файлы: Q91, D94, D45, 2 каталога,
+  TRACEABILITY, карточка T-15 (+ лента r16/память). Новых задач нет (C11 уже в
+  T-15). Следующее: правки служебной зоны сервисной сессией (плагин/тест/
+  `AGENTS.md`) → `auditor` → `validator`.
+
 - 03.10.2026, закрытие r15 (T-15, приёмка `validator` accepted
   `service-process-branch` iteration 1; отчёт
   `docs/reviews/service-process-branch-2026-10-03.md`; `docs_journal` 14/0):
@@ -408,3 +431,19 @@
   судить чтением/локализацией. Новых Q/D/задач нет. Файлы: карточка T-15
   (+ лента r15/память). Следующее: гейт пакета → `git` (develop) → `complete`
   (там: Q90 → done, T-15 → ✅, строка фичи 🟡→✅).
+
+- 03.10.2026, закрытие r16 (T-15, C11 — приёмка `validator` accepted
+  `service-b2-profile` iteration 1; отчёт
+  `docs/reviews/service-b2-profile-2026-10-03.md`; `docs_journal` 14/0):
+  актуализирована **только карточка** `docs/tasks/T-15-mcp-ready-process/README.md`
+  — строка `C11` (`:226`): 🟡 → **🟢 подготовлен и принят (`service-b2-profile`)**;
+  факт приёмки — профиль-флаг `B2_PROFILE` (`off`/`codemode`/`mcp`), тест
+  профилей, включение — `codemode:false`, closeout не держит (D94). **Не ✅** —
+  живой проверки в MCP-канале не было (осознанное решение; прецедент — 🟢 как
+  «подготовлен и принят»). `docs/TRACEABILITY.md` **НЕ тронут** — Q91 `in work` /
+  `[T-15] 🚧` (бриф; прецеденты Q83/Q85–Q90; «Q91 → done» — только на `complete`
+  T-15). Проверки: `git diff --stat` локализован (карточка — 1 файл от
+  `migrator`; прочее — r16-правки сервисной сессии); чтением — `:226` несёт 🟢;
+  `cargo` не запускался (D50; адресный `docs_journal` 14/0 — за `validator`).
+  Новых Q/D/задач нет. Файлы: карточка T-15 (+ лента r16/память). Следующее:
+  гейт пакета → `git` (develop) → `complete`.

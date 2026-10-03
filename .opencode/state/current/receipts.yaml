@@ -1767,3 +1767,20 @@
     mode: "полный DoD не запускался (D50) — адресная документная/канонная сверка + адресный docs_journal (F74) + agents-perms; src/**, tests/**, Cargo.toml не менялись; прав validator на прогон session-checkpoint.mjs нет — проверка чтением кода и записи прогона (техническое замечание)"
   snapshot: "develop @ f58e27c + working tree (service r15 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-b2-profile
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b2-profile-2026-10-03.md
+  dod:
+    profile_test: "not run by validator — permission.rejected (by design; validator has no allow for node .opencode/scripts/token-guard-test.mjs); service-session feed records PASS (24 ok, after P2 fix); equality of plugin tables (:134-145) vs test mirror RULES (:16-27) verified by reading (parseTable :88-104, assert :111-114) — P2 audit fix in place"
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.06s), incl. ids_are_unique_and_contiguous, questions_are_listed_in_catalog_and_traceability, traceability_tasks_exist_and_match_registry, every_decision_has_code_review_verdict, no_addresses_to_removable_or_session_data"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; фронтматтеры B2-ролей/validator не менялись"
+    d94_vs_fact: "ok — token-guard.ts:131 B2_PROFILE off|codemode|mcp (default off); :134-138 B2_PREFIXES_CODEMODE; :141-145 B2_PREFIXES_MCP (identical, match D94 п.2/§3.2); :148-151 B2_PROFILES; :154-155 activeB2Prefixes() ?? {} (off no-op); :291-299 hook session.context reads active profile; B1 (OUTPUT_LIMIT :44, sliceText :70) unchanged; no old B2_PREFIXES[agent]"
+    audit_fixes: "ok — P2 closed: token-guard-test.mjs:88-115 parseTable + assert value-equality (JSON.stringify) for both tables (:111-114), catches mirror drift; P3 closed: D45 п.3 single «Уточнено D94» note (:39-42), duplicate removed"
+    canon: "ok — AGENTS.md:303-305 B2_PROFILE footnote (D94); T-15 card :226 C11 «🟡 подготовлен»; phase E :161-164 untouched; Q91<->D94, questions/README:113, decisions/README:123, TRACEABILITY:95 (in work, T-15 🚧)"
+    borders: "ok — git status --porcelain -uall = 9 M + 4 ?? строго по периметру операции (token-guard.ts, token-guard-test.mjs, AGENTS.md, D45, README×2, TRACEABILITY, карточка T-15, memory×2, лента r16, D94, Q91); git diff --numstat -- src tests Cargo.toml opencode.json пусто; git diff --check пусто; временных файлов в .opencode/scripts/ нет"
+    mode: "полный DoD не запускался (D50) — правки процесс/служебной зоны; src/**, tests/**, Cargo.toml, opencode.json не тронуты"
+    note: "техническое замечание — R2-прогон теста профилей недоступен validator (нет права, by design); рекомендуется отдельным решением добавить allow node .opencode/scripts/token-guard-test.mjs, канон не правил"
+  snapshot: "develop = origin/develop @ 92bf91c (r15) + working tree (service r16 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

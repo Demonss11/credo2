@@ -569,3 +569,28 @@
   `docs/reviews/service-credited-run-2026-10-03.md`; квитанция
   `service-credited-run` iteration 1, accepted. Канон не правил; статусы не
   менял (закрытие — `migrator`).
+- **03.10.2026 · сервисная операция r16 (T-15, C11 — B2 профиль-флаг), до
+  прогона.** Адресная сверка + прогон теста профилей + адресный
+  `cargo test --test docs_journal` (F74) + `agents-perms.mjs`; полный DoD не
+  требуется (D50 — процесс/служебная зона). Снимок: `develop` = `origin/develop`
+  @ `92bf91c` + рабочее дерево. Проверяю: D94↔факт (`B2_PROFILE`
+  off/codemode/mcp default off, обе таблицы, `activeB2Prefixes()` no-op, хук
+  `session.context`, B1 не изменён, старой `B2_PREFIXES[agent]` нет); P2/P3
+  аудита закрыты (равенство зеркала в тесте, одна пометка D45); `AGENTS.md:303-305`;
+  карточка `C11` 🟡, фаза E не тронута; журнал Q91/D94/каталоги/TRACEABILITY;
+  границы. Запускаю. **Заметка:** тест профилей `validator` недоступен по правам
+  (`permission.rejected`, by design) — техническое замечание, опора на чтение +
+  запись сервисной сессии.
+- **03.10.2026 · сервисная операция r16 (T-15, C11) — после прогона: принято.**
+  `cargo test --test docs_journal` — **14 passed / 0 failed** (1.06s);
+  `agents-perms.mjs` — **11 из 18**. Тест профилей не прогнан (нет права у
+  `validator`, by design; равенство зеркала подтверждено чтением
+  `token-guard-test.mjs:88-115` — `parseTable` + assert равенства, P2 аудита
+  закрыт). D94↔факт совпадает (:131 профиль, :134-145 таблицы, :154-155 no-op,
+  :291-299 хук, B1 цел). P3 закрыт (D45:39-42 одна пометка). Границы чисты
+  (9 M + 4 ??, `src/tests/Cargo.toml/opencode.json` пусто, `diff --check` пусто,
+  temp-файлов нет). P1/P2/P3 нет. Отчёт
+  `docs/reviews/service-b2-profile-2026-10-03.md`; квитанция `service-b2-profile`
+  iteration 1, accepted. Канон не правил; статусы не менял (`migrator`). Полный
+  DoD не запускался (D50). Урок: `node -e` и произвольный glob скриптов у
+  `validator` не в правах — проверка зеркала теста статическая.

@@ -120,3 +120,4 @@
 | [D91](D91-c2-validate-state.md) | C2 — `validate-state.mjs` (валидатор схемы состояния) | [Q88](../questions/Q88.md) | 2026-10-03 | accepted |
 | [D92](D92-credited-run-predicate.md) | Зачётный прогон — ядро-предикат чистоты (F26/F27/F15) | [Q89](../questions/Q89.md) | 2026-10-03 | accepted |
 | [D93](D93-session-commit-process-branch.md) | C3-остаток и C4 — session-commit в ветку сессии, теги, снапшот, фасад `/git/checkpoint` | [Q90](../questions/Q90.md) | 2026-10-03 | accepted |
+| [D94](D94-b2-profile-flag.md) | C11/B2 — профиль-флаг подготовки без включения | [Q91](../questions/Q91.md) | 2026-10-03 | accepted |
