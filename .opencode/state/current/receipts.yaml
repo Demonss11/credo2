@@ -1831,3 +1831,18 @@
     tail_data: "наблюдение — replan_reason в progress.yaml 0 совпадений → категории «(не указана)», convergence = total; дрейф данных (lead не пишет опциональное поле), не дефект скрипта; не блокирует C6 — отдельное решение"
   snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
+
+- task: service-b0-roster
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-b0-roster-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений нет"
+    d97_vs_fact: "ok — таблица развязки (D97:42-52): Shell Strategy→C (канон AGENTS.md §«Служебная зона и аудит»); CC Safety Net→C (C10/карточка :223); CCSN-CLI→F; Handoff→C (C9/D88, C3/D93); наблюдаемость/Agent Identity→C (P1/P4/P5); Telemetry→D отклонён (D96); BRHP→E референс (D95:49, карточка :55-56); snip→C отклонён; Plannotator/notify/`/git/*`→F"
+    audit_fixes: "closed — P2-1 D97:50 BRHP «референс (не установлен)»/основание D95 (ложное «реализовано» через D86/D91 убрано); P2-2 D97:45 CC Safety Net основание C10/отчёт §4 (ложный D87 снят); P3 D97:73-74 перечень закрытых без D90/D95, D95 привязан к BRHP"
+    journal: "ok — Q94↔D97 (resolved by/Resolves); каталоги questions/README:116, decisions/README:126; TRACEABILITY:98 in work/T-15 🚧; карточка C8 :221 🚧 (не ✅), пункт кандидатов :122-124 сжат до ссылки D97; wave0b-report:79 пометка «Разведено → D97», тело §4 не переписано"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; git status --porcelain — только Q94/D97/каталоги/TRACEABILITY/карточка/wave0b-report/лента-память (7 M + 3 ??)"
+    mode: "полный DoD не запускался (D50) — документы/журнал; src/**, tests/**, Cargo.toml не менялись"
+  snapshot: "develop, working tree (service r19 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

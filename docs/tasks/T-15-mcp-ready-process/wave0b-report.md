@@ -76,6 +76,8 @@ cc-safety-net`; side effect пробы — `~/.cc-safety-net/` (`logs/`, `compil
 
 ## 4. Рекомендации (C/D/E/F)
 
+> **Разведено (03.10.2026):** кандидаты §4 распределены по фазам C/D/E/F — [`D97`](../../decisions/D97-c8-b0-roster.md) (Q94); Shell Strategy — реализовано (канон), snip — отклонён. Раздел — навигация, не несущее.
+
 **C (канон/процесс):**
 
 - Shell Strategy → сжатый раздел «non-interactive shell»: одиночные команды,

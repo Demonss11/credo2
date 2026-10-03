@@ -492,3 +492,15 @@
   `migrator` нет — `git diff --check` за ролью `git`. Файлы: карточка T-15
   (+ лента r18/память). Следующее: гейт пакета → `git` (develop) → `complete`
   (там: Q93 → done, T-15 → ✅, фича `agents-metrics` 🟡 → ✅).
+
+- 03.10.2026, закрытие r19 (T-15, C8 — приёмка `validator` accepted
+  `service-b0-roster` iteration 1; отчёт
+  `docs/reviews/service-b0-roster-2026-10-03.md`; `docs_journal` 14/0):
+  правка — **только карточка** `docs/tasks/T-15-mcp-ready-process/README.md:221`,
+  строка `C8`: 🚧 → **✅ 03.10 — разведено (`service-b0-roster`); кандидаты §4 →
+  фазы C/D/E/F; snip отклонён; D97**. `docs/TRACEABILITY.md` **НЕ тронут** — Q94
+  `in work` / `[T-15] 🚧` (`:98`; бриф; «Q94 → done» — только на `complete` T-15).
+  Сверка ⚪ (документная; `cargo` не запускался, D50). Новых Q/D/задач нет.
+  Проверки: чтением (диф локализован — 1 правка). Файлы: карточка T-15
+  (+ лента r19/память). Следующее: гейт пакета → `git` (develop) → `complete`
+  (там: Q94 → done, T-15 → ✅).

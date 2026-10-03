@@ -123,3 +123,4 @@
 | [D94](D94-b2-profile-flag.md) | C11/B2 — профиль-флаг подготовки без включения | [Q91](../questions/Q91.md) | 2026-10-03 | accepted |
 | [D95](D95-phase-e-mcp-design.md) | Фаза E — открытие: дизайн process-MCP (задача T-26) | [Q92](../questions/Q92.md) | 2026-10-03 | accepted |
 | [D96](D96-state-metrics.md) | C6 — метрики из состояния (скрипт `state-metrics.mjs`) | [Q93](../questions/Q93.md) | 2026-10-03 | accepted |
+| [D97](D97-c8-b0-roster.md) | C8 — развязка кандидатов B0 (фазы C/D/E/F) | [Q94](../questions/Q94.md) | 2026-10-03 | accepted |

@@ -119,13 +119,9 @@
   `replan_reason`), вывод метрик и очередей без ручной сборки — реализовано
   (`state-metrics.mjs`, D96; приёмка `service-state-metrics`);
 - шаблон самоотчёта сессии; фичи и счётчики (`docs/features/README.md`);
-- **кандидаты из отчёта B0** ([`wave0b-report.md`](wave0b-report.md)):
-  Shell Strategy → раздел канона о non-interactive shell; Handoff → правило
-  останова и восстановление (`session-checkpoint`); Agent Identity → атрибуция
-  `role`/модели в метриках и самоотчёте; snip → токен-политика (продолжение
-  wave 0 B1); CC Safety Net → решение permissions/harness-страховка; BRHP →
-  референс для `state-schema.md`/`validate-state.mjs` (перенять/отклонить
-  с обоснованием).
+- **кандидаты из отчёта B0** — разведены по фазам `C/D/E/F` (Shell Strategy,
+  CC Safety Net, Handoff, наблюдаемость/Agent Identity, Telemetry, BRHP, snip) —
+  [D97](../../decisions/D97-c8-b0-roster.md); отчёты B0 — навигация, не несущее.
 
 **Решения и канон, отложенные меморандумом W8 т. 2:**
 
@@ -222,7 +218,7 @@ BRHP (validation signals), Telemetry DB (query-слой). Задача —
 | C5 | re-raise (категории, `replan_reason`) | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
 | C6 | Метрики `progress` без ручной сборки | C | ✅ 03.10 — принято (`service-state-metrics`); скрипт `state-metrics.mjs` (метрики/очереди из состояния, CLI+`--json`); D96 | D96 |
 | C7 | Шаблон самоотчёта; фичи/счётчики | C | ✅ 03.10 — принято (`service-c5c7`, `-r2`); D90 | D90 |
-| C8 | Кандидаты B0 → C/D/E/F | C | ⏸ ждёт B0 | `wave0b-report` §4 |
+| C8 | Кандидаты B0 → C/D/E/F | C | ✅ 03.10 — разведено (`service-b0-roster`); кандидаты §4 → фазы C/D/E/F; snip отклонён; D97 | D97 |
 | C9 | Правило останова ведущего | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | W8 §7 |
 | C10 | `policies`-страховки | C | ✅ 02.10 — 4 точных правила глобально (`read:*.env`, `read:*/.ssh/*`, `shell:git push *--force*`, `shell:git reset --hard*`) + плагин `wave0-guard` (якорные deny + аудит); CC Safety Net — включён 02.10 (standard, `cc-safety-net` 2.5.1) | wave0 §3.5 |
 | C11 | B2 — условие возврата (`codemode:false`) | C | 🟢 подготовлен и принят (`service-b2-profile`); профиль-флаг `B2_PROFILE` (`off`/`codemode`/`mcp`), тест профилей; включение — `codemode:false`; closeout не держит (D94) | F28/D45 |

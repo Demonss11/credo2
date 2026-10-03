@@ -668,3 +668,39 @@
   `docs/reviews/service-phase-e-2026-10-03.md`; квитанция `service-phase-e`
   iteration 1, accepted. Канон не правил; статусы не менял. Полный DoD не
   запускался (D50).
+- **03.10.2026 · сервисная операция r19 (T-15, C8 — развязка кандидатов B0), до
+  прогона.** Адресная документная сверка + адресный `cargo test --test
+  docs_journal` (F74, ожидание 14/0) + `agents-perms.mjs`; полный DoD не
+  требуется (D50 — `src/**`, `tests/**`, `Cargo.toml` не тронуты). Снимок:
+  `develop`, рабочее дерево. Проверено чтением/rg/git:
+  - **D97 ↔ факт:** таблица «кандидат → фаза → диспозиция → основание»
+    (`D97:42-52`): Shell Strategy→C (канон `AGENTS.md` §«Служебная зона и аудит»,
+    `:109-111`); CC Safety Net→C (C10/карточка `:45`); CCSN-CLI→F (`:46`, фаза F
+    `:164-170`); Handoff→C (C9/D88, C3/D93, `:47`); наблюдаемость/Agent
+    Identity→C (P1/P4/P5, `:48`); Telemetry→D отклонён (D96, `:49`); **BRHP→E
+    референс** (`:50`, `D95:49` — «BRHP (validation signals)» в референсах E;
+    карточка `:55-56` «референс без установки»); **snip→C отклонён** (владелец
+    03.10, `:51`); Plannotator/notify/`/git/*`→F (`:52`). P2-1/P2-2 аудита:
+    BRHP «реализовано через D86/D91» убрано → «референс (не установлен)» +
+    основание `D95`; CC Safety Net основание «C10 (карточка T-15); отчёт §4»,
+    ложный `D87` снят; P3 `:73-74` — `D90`/`D95` из «закрытых» убраны, `D95`
+    привязан к BRHP.
+  - **Журнал/границы:** Q94↔D97 (`Resolves`/`resolved by`); каталоги
+    `questions/README:116`, `decisions/README:126`; TRACEABILITY:98 (`in work`,
+    T-15 🚧); карточка `C8` 🚧 `:221` (не ✅), пункт «кандидаты из отчёта B0»
+    сжат до ссылки D97 `:122-124`; `wave0b-report:79` — одна строка-пометка
+    «Разведено → D97», тело §4 не переписано.
+  - **Границы:** `git status --porcelain` — 7 M (TRACEABILITY, questions/README,
+    decisions/README, карточка T-15, wave0b-report, memory auditor/docs-writer) +
+    3 ?? (лента r19, Q94, D97); `.opencode/**` (кроме ленты/памяти), `src/**`,
+    `tests/**`, `Cargo.toml` не тронуты; `git diff --numstat -- src tests
+    Cargo.toml` пусто; `git diff --check` пусто.
+  Ориентир — docs_journal 14/0, agents-perms 11/18. Запускаю.
+- **03.10.2026 · сервисная операция r19 (T-15, C8) — после прогона: принято.**
+  `cargo test --test docs_journal` — **14 passed / 0 failed**;
+  `agents-perms.mjs` — **11 из 18**. P1/P2/P3 нет: D97↔факт (9 строк таблицы),
+  P2-1/P2-2/P3 аудита закрыты, журнал Q94↔D97/каталоги/TRACEABILITY:98/карточка
+  `C8` 🚧/wave0b-report:79 — ок, границы чисты. Отчёт
+  `docs/reviews/service-b0-roster-2026-10-03.md`; квитанция `service-b0-roster`
+  iteration 1, accepted. Канон не правил; статусы не менял (`migrator`). Полный
+  DoD не запускался (D50).
