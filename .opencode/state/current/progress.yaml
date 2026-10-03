@@ -1714,3 +1714,62 @@
   result: "частично (лимит шагов роли): продуктовый коммит 9a5b1e9 создан на feature/T-25-d65-analysis-addresses (18 файлов, +1086/−24; точные пути, чужих сервисных нет; отчёт/чекпойнт записаны до add — F43). НЕ выполнено: процессный коммит (14 путей), merge --no-ff в develop, push origin develop, удаление обеих веток. master (46b98c2) не тронут; незакоммиченный остаток = 14 процессных + 2 чужих сервисных"
   expect_match: partial
   next: "dispatch git (resume: процессный коммит → merge --no-ff → push → удаление веток; CCSN на push --delete — владелец, D87)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: git
+  resume: true
+  package: branch_end
+  result: "готово, кроме удаления веток (CCSN-блок): процессный коммит 40709cb (14 путей) на feature/T-25-d65-analysis-addresses; merge --no-ff e826157 в develop (32 файла, +3110/−204); push 2958bf5..e826157 origin develop — успешен. develop = origin/develop = HEAD = e826157; master = 46b98c2 не тронут. Удаление remote-веток feature/T-25-… и feature/T-16-… заблокировано гардом CCSN (git.push-delete) — не обходил (D87); локальные ветки ещё не удалены. Незакоммиченный остаток: 2 чужих сервисных (mail/service-mcp-ready-r10.md, memory/service.md)"
+  expect_match: partial
+  next: "surface_to_user (эскалация CCSN: ручное удаление remote-веток владельцем) → wait_for_user → dispatch git (local branch -d)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: surface_to_user
+  question: "Merge e826157 в develop + push выполнены. Удаление remote-веток (feature/T-25-d65-analysis-addresses, feature/T-16-stale-check-test) заблокировано гардом CCSN (git.push-delete). Как поступаем?"
+  channel: question
+  owner_response: "Удалю вручную (Recommended)"
+  result: "deferred: владелец удаляет remote-ветки вручную (git push origin --delete …; обход CCSN агенту запрещён, D87); пока ветки есть local+origin. Merge/push уже выполнены: develop = origin/develop = e826157; master 46b98c2 не тронут"
+  next: "wait_for_user (подтверждение ручного удаления remote-веток) → dispatch git (local branch -d + проверка)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: wait_for_user
+  result: "Ожидание владельца: ручное удаление remote-веток feature/T-25-d65-analysis-addresses и feature/T-16-stale-check-test (CCSN). После подтверждения — dispatch git (git branch -d обеих веток, проверка) → complete"
+  next: "dispatch git (local branch -d) → complete"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: wait_for_user
+  result: "Владелец подтвердил «сделал»: remote-ветки feature/T-25-d65-analysis-addresses и feature/T-16-stale-check-test удалены вручную. Продолжение — dispatch git (локальное удаление обеих веток + проверка)"
+  next: "dispatch git (local branch -d обеих веток + проверка) → complete"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: dispatch
+  role: git
+  resume: true
+  package: branch_end
+  result: "готово (уборка): локальные ветки feature/T-25-d65-analysis-addresses (was 40709cb) и feature/T-16-stale-check-test (was 2958bf5) удалены (branch -d, без -D); обе отсутствуют local+origin (remote удалены владельцем вручную); develop = origin/develop = e826157; master = 46b98c2 не тронут. Незакоммиченный остаток: 2 пост-пакетные записи lead (mail/T-16-r2.md, state/progress.yaml) + 2 чужих сервисных (mail/service-mcp-ready-r10.md, memory/service.md)"
+  expect_match: true
+  next: "complete (полный closeout T-16 и T-25)"
+
+- at: "2026-10-02"
+  task: T-16
+  iteration: 2
+  session_index: 4
+  action: complete
+  result: "T-16 (M) и T-25 (S) закрыты совмещённым пакетом: продукт 9a5b1e9, процесс 40709cb, merge --no-ff e826157 в develop, push origin develop; обе ветки удалены local+origin; develop = origin/develop = e826157; master 46b98c2 не тронут. T-16 accepted -r3 (cargo test --all 145/0), T-25 accepted (docs_journal 14/0); TRACEABILITY [T-16] ✅ / [T-25] ✅ = реестр; базовый P1 (Q61/D65) снят. Пост-пакетные записи — подхват"
+  next: "—"

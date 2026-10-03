@@ -90,8 +90,8 @@
   `node .opencode/scripts/agents-perms.mjs`.
 - `coder`, `rust-expert`: `rg`, `git status|diff`, `cargo check|fmt|clippy`.
 - `tester`: `rg`, `git status|diff`, `cargo check`, `cargo fmt`, `cargo clippy`.
-- `analyst`: `rg`, `git status|diff|log|show|grep`; без `cargo`; ветку/HEAD —
-  косвенно (`git branch`/`rev-parse` вне прав).
+- `analyst`: `rg`, `git status|diff|log|show|grep`, `git branch -a|--list`,
+  `git rev-parse`; без `cargo`.
 - `lead`: `rg`, `git status|log|diff|show`, `git branch --show-current`,
   `git rev-parse --short HEAD`.
 - `auditor`: `rg`, `git status|log|diff|show`, `git branch -l|-a|--show-current`,

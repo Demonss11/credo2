@@ -211,7 +211,7 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | B1-F15 | Первый `rework`: `iteration 1→2`, `-rN` | B1 | ⏸ · данные 02.10 | F15/F6; D42 |
 | C1 | Схема состояния (`session_index`, `owner_response`) | C | ✅ 02.10 — принято (`T-15-c1`); схема — `.opencode/rules/state-schema.md` (D86) | записка §5 |
 | C2 | `validate-state.mjs` (pre-flight + приёмка) | C | ⬜ | — |
-| C3 | session-commit (`process/runN`, теги) | C | ⬜ | — |
+| C3 | session-commit (`process/runN`, теги) | C | 🚧 — инкремент 1 принят (`service-p1p2p3`): правило session-commit; остаток — `process/runN`, теги, фасад | D89 (P3) |
 | C4 | Команды-фасад `/git/checkpoint`, `/git/status` | C | 🚧 (`/git/status` — временно, 27.09) | T-13 |
 | C5 | re-raise (категории, `replan_reason`) | C | ⬜ | — |
 | C6 | Метрики `progress` без ручной сборки | C | ⬜ | — |
@@ -223,6 +223,8 @@ BRHP (validation signals), Telemetry DB (query-слой).
 | C12 | Дробление L-вызова | C | ✅ 02.10 — принято (`service-c9-c12`); D88 | разбор `coder` §6.4 |
 | C13 | Хвостовые записи пакета (F43) | C | ✅ принято (`T-15-c13`, 28.09.2026); коммит — по подтверждению | F43; найдено 28.09.2026 |
 | C14 | Правки по итогам S-пилота T-24 (права/CCSN/state/модель) | C | ✅ 02.10 — принято (`service-t24-fixes`); права/CCSN/state/модель (D87) | F67–F72 (реестр находок) |
+| C15 | P1 — топология веток дочерних задач | C | ✅ 03.10 — принято (`service-p1p2p3`); P1: ветки дочерних задач (D89) | F80–F82; D89 |
+| C16 | P2 — заморозка решений | C | ✅ 03.10 — принято (`service-p1p2p3`); P2: заморозка решений (D89) | F80–F82; D89 |
 | D1 | Чек-лист готовности §8 | D | ⬜ (зависит B0/B1/C) | записка §8 |
 | D2 | Заморозка, D-запись, отчёт `validator` | D | ⬜ | — |
 | E1 | Дизайн MCP (6–10 инструментов) | E | ⬜ | записка §5.4 |

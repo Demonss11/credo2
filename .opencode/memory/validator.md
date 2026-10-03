@@ -390,3 +390,36 @@
   пути `git status` ↔ add_paths сходятся; чужие `.opencode/mail/service-mcp-ready-r10.md`
   и `.opencode/memory/service.md` — вне пакета, как заявлено. P1/P3 нет. Рекомендую
   дополнить план ДО `git branch_end`; при подтверждении владельцем — коммит.
+- **03.10.2026 · сервисная операция r11 (T-15, P1+P2+P3), до прогона.**
+  Адресная документная сверка + адресный `cargo test --test docs_journal`
+  (решение владельца 03.10.2026; страховка F73-класса, предложение A/F74);
+  полный DoD не запускается (D50 — `src/**`, `tests/**`, `Cargo.toml` не
+  менялись). Снимок: ветка `develop` (= `origin/develop`), HEAD `e826157` +
+  рабочее дерево (пакет не закоммичен). Проверено чтением/`rg`/`git`:
+  - D89 ↔ факт: P1 `git-workflow.md:58-62` (дочерняя от родителя, фиксация,
+    общий пакет) + `:90-94` (один совмещённый пакет); `dispatch-loop.md:99-101`;
+    `analyst.md:63-65,:28-30`; `review.md:93-94`. P2 `dispatch-loop.md:102-105`;
+    `lead.md:51-53`; `analyst.md:99-101`. P3 `dispatch-loop.md:106-109`;
+    `git-workflow.md:200-220`; `lead.md:66-68`; `analyst.md:102-103`.
+  - Журнал: Q86↔D89 парны; каталоги `questions/README.md:108`,
+    `decisions/README.md:118`; `TRACEABILITY.md:90` Q86/D89/`in work`/T-15 🚧;
+    карточка `C3` 🚧 `:214`, `C15`/`C16` 🚧 `:226-227`; F80–F82 `:92-94`.
+  - Границы: `git status` — менялись только `.opencode/**`, `docs/**`
+    (журнал/карточка/findings/TRACEABILITY), лента/память/state; `??` — Q86/D89/
+    лента r11/разбор; `git diff --numstat -- src tests Cargo.toml` пусто;
+    `git diff --check` пусто.
+  - `agents-perms.mjs` — «11 из 18», `analyst` с `git branch -a *`/`--list *`/
+    `rev-parse *`.
+  Ориентир — 14 passed / 0 failed. Запускаю `cargo test --test docs_journal`.
+- **03.10.2026 · сервисная операция r11 (T-15, P1+P2+P3) — после прогона:
+  принято.** `cargo test --test docs_journal` — **14 passed / 0 failed**
+  (1.19s), ключевые `no_addresses_to_removable_or_session_data`,
+  `traceability_tasks_exist_and_match_registry`, `ids_are_unique_and_contiguous`
+  — ok. D89 ↔ факт 3/3; `agents-perms.mjs` — «11 из 18», `analyst` с новыми
+  правами; журнал/границы чисты. P1/P2/P3 нет. Отчёт
+  `docs/reviews/service-p1p2p3-2026-10-03.md`; квитанция `service-p1p2p3`
+  iteration 1, accepted. Дальше — гейт пакета → `git` (develop) → `migrator`
+  (C3/C15/C16, Q86 → done) → `complete`. Урок: `validator` по правам имеет
+  `git branch --contains`/`rev-parse`/`ls-files`, но не `branch --show-current`/
+  `diff --stat` — ветку брать `git show -s --format=%D HEAD`, сводку —
+  `--numstat`.

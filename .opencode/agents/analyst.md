@@ -25,6 +25,9 @@ permissions:
   - { action: shell, resource: "git diff *", effect: allow }
   - { action: shell, resource: "git show *", effect: allow }
   - { action: shell, resource: "git grep *", effect: allow }
+  - { action: shell, resource: "git branch -a *", effect: allow }
+  - { action: shell, resource: "git branch --list *", effect: allow }
+  - { action: shell, resource: "git rev-parse *", effect: allow }
   - { action: webfetch, resource: "*", effect: deny }
   - { action: websearch, resource: "*", effect: deny }
   - { action: skill, resource: "*", effect: deny }
@@ -46,8 +49,8 @@ permissions:
   (`.opencode/rules/workspace.md`);
 - не читаешь `target/`, `.git/`, `Cargo.lock`, `node_modules/`, `.credo/`;
 - команды — одиночные (без `;`, пайпов, перенаправлений);
-- ветку/HEAD проверяешь косвенно (состояние, лента, `git status`):
-  `git branch`/`git rev-parse` — вне прав, не вызывай (D87).
+- ветки/HEAD — read-only (`git branch -a`, `git branch --list`, `git rev-parse`);
+  грязное дерево — `git status` (`D89`).
 
 Нужно больше — остановись и верни `lead` запрос: `Нужен доступ к <путь> для
 <цель>. Бюджет исчерпан на <N> файлах.`
@@ -57,6 +60,9 @@ permissions:
 - Читаешь: состояние `.opencode/state/current/` (если есть), ленту
   `.opencode/mail/<T-XX>.md`, свою память, карточку задачи, решение `Dn`,
   нужные сценарии `docs/features/**`, `docs/SPECIFICATION.md` точечно.
+- Проверяешь in-flight задачи: `git status` + ветки (`git branch -a`); если
+  задача — фикс/зависимость незакрытой (общее дерево/файлы) — фиксируешь в
+  досье «дочерняя от T-XX, пакет общий» и ветку от родителя (`D89`, P1).
 - Ведёшь досье `docs/analysis/<T-XX>-<дата>.md` — **один файл на задачу**,
   обновляется по ходу; ≤ 40 строк для S, ≤ 80 для M/L. Пункты: цель,
   источник, скоуп, границы, открытые вопросы, класс, риски, критерии приёмки,
@@ -90,6 +96,11 @@ permissions:
 - `lead` исполняет очередь буквально и вызывает тебя заново при исчерпании
   очереди и несовпадении `expect`; при resume — только если план расходится с
   состоянием (`D88`).
+- Отложенный пакет (`awaiting_user`/`deferred_by_owner`) не пересобираешь:
+  первый re-plan новой сессии явно сверяет статус (продолжаем как было / ждём /
+  отменено) (`D89`, P2).
+- На `complete` включай в очередь session-commit процесс-слоя (при отсутствии
+  подтверждённого «постоянного» пакета — `surface_to_user`; `D89`, P3).
 - На каждом re-plan проверяй порог ленты (~300 строк); превышен — новый том
   `T-XX-rN.md` со ссылкой-указателем (`dispatch-loop.md`).
 - Досье и план — не канон; канон — `dispatch-loop.md`.

@@ -105,3 +105,4 @@
 | [Q83](Q83.md) | схема состояния процесса: место и модель (F15) | [D86](../decisions/D86-state-schema.md) |
 | [Q84](Q84.md) | права и процедуры по итогам S-пилота T-24: allowlist ролей, CCSN-хвост ветки, state hygiene, модель `lead` | [D87](../decisions/D87-t24-pilot-fixes.md) |
 | [Q85](Q85.md) | C9/C12: лимит и записи `lead`, политика re-plan и дробление вызовов (данные S-пилота T-24) | [D88](../decisions/D88-c9-c12-loop-tuning.md) |
+| [Q86](Q86.md) | P1/P2/P3: топология веток дочерних задач, заморозка решений, session-commit (по разбору T-16/T-25) | [D89](../decisions/D89-branch-topology-freeze-session-commit.md) |

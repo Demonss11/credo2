@@ -1677,3 +1677,17 @@
     canon: "ok — .opencode/** and AGENTS.md untouched by T-25; D87/D88 wording preserved (only address removed)"
   snapshot: "feature/T-25-d65-analysis-addresses (= origin/…) @ 2958bf5 (= develop = origin/develop, no commits) + working tree (mixed_worktree) (2026-10-02)"
   at: "2026-10-02"
+
+- task: service-p1p2p3
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-p1p2p3-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (1.19s); key no_addresses_to_removable_or_session_data ok, traceability_tasks_exist_and_match_registry ok, ids_are_unique_and_contiguous ok, every_decision_has_code_review_verdict ok"
+    mode: "адресная документная сверка + адресный docs_journal (решение владельца 03.10.2026; страховка F73-класса, F74); полный DoD не запускался (D50 — src/**, tests/**, Cargo.toml не менялись)"
+    d89_vs_fact: "ok 3/3 — P1 git-workflow.md:58-62,:90-94 + dispatch-loop.md:99-101 + analyst.md:28-30,:63-65 + review.md:93-94; P2 dispatch-loop.md:102-105 + lead.md:51-53 + analyst.md:99-101; P3 dispatch-loop.md:106-109 + git-workflow.md:200-220 + lead.md:66-68 + analyst.md:102-103"
+    perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; analyst с git branch -a */--list */rev-parse * (reload применён)"
+    journal: "ok — Q86<->D89 парны (Q86:3 resolved by D89; D89:5 Resolves Q86); каталоги questions/README.md:108, decisions/README.md:118; TRACEABILITY.md:90 Q86/D89/in work/T-15 🚧; карточка C3 🚧 :214, C15/C16 🚧 :226-227; F80-F82 findings-registry.md:92-94; ссылки живые, номеров строк/адресов docs/analysis нет"
+    borders: "ok — git status --porcelain = только .opencode/** + docs/** (журнал/карточка/findings/TRACEABILITY) + лента/память/state; git diff --numstat -- src tests Cargo.toml пусто; git diff --check пусто; AGENTS.md/opencode.json не тронуты"
+  snapshot: "develop = origin/develop @ e826157 + working tree (service r11 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"

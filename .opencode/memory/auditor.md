@@ -5,6 +5,23 @@
 
 ## Чекпойнты
 
+- 03.10.2026, r11 (T-15, фаза C; P1+P2+P3, до коммита): аудит D89↔факт (3
+  пункта) + «инструкция ↔ права» + журнал + границы. **Все 3 пункта
+  реализованы:** P1 — `git-workflow.md` §«Старт задачи» п.4 + §«Пакет и
+  подтверждение» п.5, `dispatch-loop.md` §«Git-пакет», `analyst.md` (in-flight,
+  права) + `review.md`; P2 — `dispatch-loop.md`, `lead.md`, `analyst.md`;
+  P3 — §«Session-commit» + `lead.md`/`analyst.md`/`dispatch-loop.md`. Дублей в
+  `AGENTS.md` нет. `agents-perms.mjs` ×2 идентичны, «11 из 18», runtime
+  `analyst` = `branch -a *`/`--list *`/`rev-parse *`. Q86↔D89 парны,
+  TRACEABILITY:90 (in work/T-15 🚧), карточка `C3`/`C15`/`C16` 🚧, F80–F82 →
+  D89, ссылки живы (форма `../../.opencode/**` — норма D81/D86–D88), номеров
+  строк нет. Границы: только 5 канон-файлов + журнал/TRACEABILITY/карточка/
+  findings/лента/память; `src/tests/Cargo.toml`/`AGENTS.md` не тронуты.
+  **P1/P2/P3 нет; инструкция ↔ права — расхождений нет.** Урок: паттерн
+  `cmd *` матчит bare-команду `cmd` (проверено `git branch -a`); `validator`
+  `branch --contains` без `*` в `review.md` — ок. `opencode mcp list` — вне
+  прав; F65-факт с ленты. Отчёт — лента r11 (append). Канон не правил.
+
 - 02.10.2026, C1 (T-15, служебная операция service-mcp-ready-r8, класс L, до
   коммита): аудит канона схемы состояния. Состав/границы — ровно 9 M + 4 ??,
   `git diff -- src tests Cargo.toml` пусто. Q83↔D86 парны, TRACEABILITY Q83:
