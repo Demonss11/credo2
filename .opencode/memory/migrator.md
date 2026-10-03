@@ -504,3 +504,25 @@
   Проверки: чтением (диф локализован — 1 правка). Файлы: карточка T-15
   (+ лента r19/память). Следующее: гейт пакета → `git` (develop) → `complete`
   (там: Q94 → done, T-15 → ✅).
+
+- 03.10.2026, Q95 → D98 + T-27 (service-mcp-ready-r20, реестр находок — место и
+  раскол): решение владельца — реестр переезжает в **`docs/registry/`** и
+  раскалывается на **`registry.md`** (открытые F26/F27/F74–F84 — 14) и
+  **`archive.md`** (закрытые — 70); оба — живые канон-артефакты, **ссылки на
+  архив разрешены** (уточнение D65); владелец `migrator` (`docs/registry/**`),
+  discharge — идемпотентность/append; `docs/analysis/` не тронут. Создано:
+  `docs/questions/Q95.md`, `docs/decisions/D98-findings-registry-relocation.md`,
+  `docs/tasks/T-27-findings-registry-split/README.md` (⬜, L, Источник D98/Q95);
+  каталоги Q/D; `docs/tasks/README.md` (строка T-27 `:65`, блок P2); `docs/TRACEABILITY.md`
+  (строка Q95 → D98, `in work`, T-27 ⬜). Сверка D98 — ⚪ (документы/процесс;
+  `cargo` не запускался, D50). **Работу по переезду НЕ делали** — канон/тест/
+  реестр **не тронуты** (правка `tests/docs_journal.rs`, `journal.md` §8,
+  `AGENTS.md`, D48/D65 обратные пометки, T-18, `migrator.md` + право
+  `edit docs/registry/**` — объём T-27). Проверки: ID свободны (Q95/D98/T-27 —
+  glob; последние Q94/D97/T-26); факт реестра — 84 записи `^\| F\d+ \|`;
+  «зашитость» — `tests/docs_journal.rs` `journal_files()` `:677` /
+  `removable_addresses` `:819`–`:878`; парность/разделы/каталоги — чтением.
+  Файлы: Q95, D98, T-27, 2 каталога, `tasks/README.md`, TRACEABILITY (+ лента
+  r20/память). Следующее: `auditor` (L) → `validator` (адресная + `docs_journal`)
+  → гейт → `git`. Правка сервисной сессией: класс T-27 M→L (аудит P1: правка
+  канона/прав — L), маршрут — канон-часть у сервисной сессии.

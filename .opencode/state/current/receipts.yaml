@@ -1832,6 +1832,22 @@
   snapshot: "develop, HEAD 2b467f5 + working tree (service r18 package, uncommitted) (2026-10-03)"
   at: "2026-10-03"
 
+- task: service-task-t27
+  iteration: 1
+  verdict: accepted
+  report: docs/reviews/service-task-t27-2026-10-03.md
+  dod:
+    docs_journal: "pass — cargo test --test docs_journal (exit 0), 14 passed / 0 failed (0.05s); реестр/тест ещё не перенесены (объём T-27)"
+    agents_perms: "ok — node .opencode/scripts/agents-perms.mjs: agents 11 из 18; расхождений инструкция ↔ права нет"
+    d98_vs_fact: "ok — Q95↔D98 парность (resolved by/Resolves), оба в каталогах (:117/:127); класс T-27 = L везде (карточка :7,:23,:69,:78; D98 :23,:66,:128,:149; 'M' для T-27 — 0); канон-часть — сервисная сессия (D98 :76-78, карточка :69-72,78-80); объём (docs/registry/{registry,archive}.md, раскол 84, тест/канон/ссылки, полный DoD) и критерий готовности на месте; 'работу не выполнять' (карточка :68, D98 :131-132); docs/registry/ отсутствует (glob)"
+    audit_fixes: "closed — P1 класс L везде; P2 маршрут L (канон-часть сервисная сессия); P3 строка T-27 в tasks/README.md:65 блок P2 (rg T-27 = 1); память migrator :515 L, :516 блок P2, :527 M→L"
+    journal: "ok — TRACEABILITY:99 Q95 → D98, in work, T-27 ⬜ (ровно одна строка); tasks/README.md:65 — ровно одна строка T-27"
+    borders: "ok — git diff --numstat -- src tests Cargo.toml пусто; git diff --name-only — 6 M (память migrator/auditor, TRACEABILITY, 2 каталога, tasks/README) + 4 ?? (лента, Q95, D98, T-27); docs/analysis/findings-registry.md, tests/docs_journal.rs, канон (.opencode/rules/**, AGENTS.md, migrator.md), src/**, Cargo.toml не тронуты"
+    mode: "полный DoD не запускался (D50) — документы/журнал; src/**, tests/**, Cargo.toml не менялись"
+    tail_data: "P3 (не блокер) — git diff --check: .opencode/memory/migrator.md:529 new blank line at EOF (лишний завершающий перевод); память — не канон, правка одна строка"
+  snapshot: "develop, HEAD 0e5a158 + working tree (service r20 package, uncommitted) (2026-10-03)"
+  at: "2026-10-03"
+
 - task: service-b0-roster
   iteration: 1
   verdict: accepted

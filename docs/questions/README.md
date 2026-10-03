@@ -114,3 +114,4 @@
 | [Q92](Q92.md) | Фаза E — открытие: дизайн process-MCP | [D95](../decisions/D95-phase-e-mcp-design.md) |
 | [Q93](Q93.md) | C6: метрики из состояния без ручной сборки | [D96](../decisions/D96-state-metrics.md) |
 | [Q94](Q94.md) | C8: кандидаты B0 → C/D/E/F (развязка §4) | [D97](../decisions/D97-c8-b0-roster.md) |
+| [Q95](Q95.md) | реестр находок: место (`docs/registry/`) и раскол открытые/закрытые | [D98](../decisions/D98-findings-registry-relocation.md) |
