@@ -1,0 +1,13 @@
+{
+  "name": "credo-hygiene",
+  "version": "1.0.0",
+  "contextFileName": "KODA.md",
+  "excludeTools": [
+    "run_shell_command(git push --force)",
+    "run_shell_command(git push -f)",
+    "run_shell_command(git reset --hard)",
+    "run_shell_command(rm -rf)",
+    "run_shell_command(Remove-Item -Recurse -Force)",
+    "read_file(.env)"
+  ]
+}

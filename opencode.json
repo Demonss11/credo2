@@ -38,7 +38,7 @@
     "servers": {
       "rust-analyzer": {
         "type": "local",
-        "command": ["rust-analyzer-mcp", "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2"],
+        "command": ["rust-analyzer-mcp", "C:/Users/Demon/pytechnotes/dar/credo2"],
         "environment": {
           "RUST_BACKTRACE": "1"
         }
@@ -46,9 +46,9 @@
       "credo": {
         "type": "local",
         "command": [
-          "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2/target/release/credo2.exe",
+          "C:/Users/Demon/pytechnotes/dar/credo2/target/release/credo2.exe",
           "--workspace",
-          "D:/pyTechNotes/dar/dar7/dar/dar/prototypes/credo2"
+          "C:/Users/Demon/pytechnotes/dar/credo2"
         ],
         "environment": {
           "RUST_BACKTRACE": "1",

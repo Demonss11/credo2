@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "credo": {
+      "command": "C:\\Users\\Demon\\pytechnotes\\dar\\credo2\\target\\release\\credo2.exe",
+      "args": [
+        "--workspace",
+        "C:\\Users\\Demon\\pytechnotes\\dar\\credo2"
+      ],
+      "trust": true
+    },
+    "rust-analyzer": {
+      "command": "C:\\Users\\Demon\\.cargo\\bin\\rust-analyzer-mcp.exe",
+      "args": [
+        "C:/Users/Demon/pytechnotes/dar/credo2"
+      ]
+    }
+  },
+  "extensions": {
+    "disabled": []
+  }
+}

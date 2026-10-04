@@ -125,3 +125,4 @@
 | [D96](D96-state-metrics.md) | C6 — метрики из состояния (скрипт `state-metrics.mjs`) | [Q93](../questions/Q93.md) | 2026-10-03 | accepted |
 | [D97](D97-c8-b0-roster.md) | C8 — развязка кандидатов B0 (фазы C/D/E/F) | [Q94](../questions/Q94.md) | 2026-10-03 | accepted |
 | [D98](D98-findings-registry-relocation.md) | Реестр находок — переезд в `docs/registry/` и раскол открытые/закрытые | [Q95](../questions/Q95.md) | 2026-10-03 | accepted |
+| [D99](D99-koda-mcp-adapter.md) | Адаптер Koda CLI — проектный `.kodacli/settings.json` вместо второй памяти | [Q96](../questions/Q96.md) | 2026-10-04 | accepted |

@@ -29,6 +29,7 @@
 | `.opencode/skills/rust-skills/` | skill по Rust для роли `rust-expert` |
 | `target/release/credo2.exe` | бинарник MCP/REST |
 | `.credo/` | данные CREDO: песочница и bare-git публикаций (вне git) |
+| `.kodacli/settings.json` | MCP-клиент Koda CLI: проектный конфиг сервера `credo` (D99) |
 
 ## Рабочая группа агентов
 
@@ -193,6 +194,9 @@ Shell-команды давай одиночными (без `;`, пайпов �
 ```sh
 opencode mcp list
 # ожидаем: ✓ credo  connected
+
+koda mcp list
+# ожидаем: ✓ credo ... (stdio) - Connected (конфиг `.kodacli/settings.json`)
 ```
 
 ## Как вызывать инструменты CREDO
